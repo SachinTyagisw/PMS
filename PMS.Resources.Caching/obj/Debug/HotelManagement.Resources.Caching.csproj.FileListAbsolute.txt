@@ -1,0 +1,11 @@
+D:\HotelManagement\HotelManagement.Resources.Caching\bin\Debug\HotelManagement.Resources.Caching.dll
+D:\HotelManagement\HotelManagement.Resources.Caching\bin\Debug\HotelManagement.Resources.Caching.pdb
+D:\HotelManagement\HotelManagement.Resources.Caching\bin\Debug\HotelManagement.Resources.Common.dll
+D:\HotelManagement\HotelManagement.Resources.Caching\bin\Debug\RestSharp.dll
+D:\HotelManagement\HotelManagement.Resources.Caching\bin\Debug\Newtonsoft.Json.dll
+D:\HotelManagement\HotelManagement.Resources.Caching\bin\Debug\HotelManagement.Resources.Common.pdb
+D:\HotelManagement\HotelManagement.Resources.Caching\bin\Debug\RestSharp.xml
+D:\HotelManagement\HotelManagement.Resources.Caching\bin\Debug\Newtonsoft.Json.xml
+D:\HotelManagement\HotelManagement.Resources.Caching\obj\Debug\HotelManagement.Resources.Caching.csprojResolveAssemblyReference.cache
+D:\HotelManagement\HotelManagement.Resources.Caching\obj\Debug\HotelManagement.Resources.Caching.dll
+D:\HotelManagement\HotelManagement.Resources.Caching\obj\Debug\HotelManagement.Resources.Caching.pdb

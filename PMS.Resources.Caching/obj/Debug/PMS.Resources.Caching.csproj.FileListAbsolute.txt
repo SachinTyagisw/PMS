@@ -1,0 +1,11 @@
+D:\PMS\PMS.Resources.Caching\bin\Debug\PMS.Resources.Caching.dll
+D:\PMS\PMS.Resources.Caching\bin\Debug\PMS.Resources.Caching.pdb
+D:\PMS\PMS.Resources.Caching\bin\Debug\PMS.Resources.Common.dll
+D:\PMS\PMS.Resources.Caching\bin\Debug\RestSharp.dll
+D:\PMS\PMS.Resources.Caching\bin\Debug\Newtonsoft.Json.dll
+D:\PMS\PMS.Resources.Caching\bin\Debug\PMS.Resources.Common.pdb
+D:\PMS\PMS.Resources.Caching\bin\Debug\RestSharp.xml
+D:\PMS\PMS.Resources.Caching\bin\Debug\Newtonsoft.Json.xml
+D:\PMS\PMS.Resources.Caching\obj\Debug\PMS.Resources.Caching.csprojResolveAssemblyReference.cache
+D:\PMS\PMS.Resources.Caching\obj\Debug\PMS.Resources.Caching.dll
+D:\PMS\PMS.Resources.Caching\obj\Debug\PMS.Resources.Caching.pdb

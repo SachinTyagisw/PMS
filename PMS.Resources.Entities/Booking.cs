@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PMS.Resources.Entities
+{
+    public class Booking
+    {
+        public int Id { get; set; }        
+        public Nullable<System.DateTime> CheckinTime { get; set; }
+        public Nullable<System.DateTime> CheckoutTime { get; set; }
+        public Nullable<int> NoOfAdult { get; set; }
+        public Nullable<int> NoOfChild { get; set; }
+        public string GuestRemarks { get; set; }
+        public string TransactionRemarks { get; set; }
+        public Nullable<bool> IsActive { get; set; }
+        public string CreatedBy { get; set; }
+        public Nullable<System.DateTime> CreatedOn { get; set; }
+        public string LastUpdatedBy { get; set; }
+        public Nullable<System.DateTime> LastUpdatedOn { get; set; }
+        public Property Property { get; set; }        
+        public List<Invoice> Invoices { get; set; }        
+        public List<RoomBooking> RoomBookings { get; set; }
+        public List<Guest> Guests { get; set; }
+        //public Dictionary<Guest, List<RoomBooking>> BookingDetails { get; set; }
+    }
+}

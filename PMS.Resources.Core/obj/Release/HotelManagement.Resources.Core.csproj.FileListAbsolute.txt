@@ -1,0 +1,16 @@
+D:\HotelManagement\HotelManagement.Resources.Core\bin\Release\HotelManagement.Resources.Core.dll
+D:\HotelManagement\HotelManagement.Resources.Core\bin\Release\HotelManagement.Resources.Core.pdb
+D:\HotelManagement\HotelManagement.Resources.Core\bin\Release\Microsoft.Practices.EnterpriseLibrary.Caching.dll
+D:\HotelManagement\HotelManagement.Resources.Core\bin\Release\Microsoft.Practices.ServiceLocation.dll
+D:\HotelManagement\HotelManagement.Resources.Core\bin\Release\Microsoft.Practices.Unity.Configuration.dll
+D:\HotelManagement\HotelManagement.Resources.Core\bin\Release\Microsoft.Practices.Unity.Interception.Configuration.dll
+D:\HotelManagement\HotelManagement.Resources.Core\bin\Release\Microsoft.Practices.Unity.Interception.dll
+D:\HotelManagement\HotelManagement.Resources.Core\bin\Release\System.Web.Http.dll
+D:\HotelManagement\HotelManagement.Resources.Core\bin\Release\System.Web.Http.SelfHost.dll
+D:\HotelManagement\HotelManagement.Resources.Core\bin\Release\System.Web.Http.WebHost.dll
+D:\HotelManagement\HotelManagement.Resources.Core\bin\Release\Microsoft.Practices.EnterpriseLibrary.Common.dll
+D:\HotelManagement\HotelManagement.Resources.Core\bin\Release\System.Web.Http.xml
+D:\HotelManagement\HotelManagement.Resources.Core\bin\Release\System.Web.Http.SelfHost.xml
+D:\HotelManagement\HotelManagement.Resources.Core\bin\Release\System.Web.Http.WebHost.xml
+D:\HotelManagement\HotelManagement.Resources.Core\obj\Release\HotelManagement.Resources.Core.dll
+D:\HotelManagement\HotelManagement.Resources.Core\obj\Release\HotelManagement.Resources.Core.pdb

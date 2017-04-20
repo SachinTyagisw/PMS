@@ -1,0 +1,15 @@
+D:\PMS\PMS.Resources.Common\bin\Debug\PMS.Resources.Common.dll
+D:\PMS\PMS.Resources.Common\bin\Debug\PMS.Resources.Common.pdb
+D:\PMS\PMS.Resources.Common\bin\Debug\Newtonsoft.Json.dll
+D:\PMS\PMS.Resources.Common\bin\Debug\RestSharp.dll
+D:\PMS\PMS.Resources.Common\bin\Debug\System.Net.Http.Formatting.dll
+D:\PMS\PMS.Resources.Common\bin\Debug\System.Web.Http.dll
+D:\PMS\PMS.Resources.Common\bin\Debug\System.Web.Http.WebHost.dll
+D:\PMS\PMS.Resources.Common\bin\Debug\Newtonsoft.Json.xml
+D:\PMS\PMS.Resources.Common\bin\Debug\RestSharp.xml
+D:\PMS\PMS.Resources.Common\bin\Debug\System.Net.Http.Formatting.xml
+D:\PMS\PMS.Resources.Common\bin\Debug\System.Web.Http.xml
+D:\PMS\PMS.Resources.Common\bin\Debug\System.Web.Http.WebHost.xml
+D:\PMS\PMS.Resources.Common\obj\Debug\PMS.Resources.Common.csprojResolveAssemblyReference.cache
+D:\PMS\PMS.Resources.Common\obj\Debug\PMS.Resources.Common.dll
+D:\PMS\PMS.Resources.Common\obj\Debug\PMS.Resources.Common.pdb

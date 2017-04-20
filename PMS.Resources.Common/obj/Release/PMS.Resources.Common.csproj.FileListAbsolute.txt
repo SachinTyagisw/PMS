@@ -1,0 +1,15 @@
+D:\PMS\PMS.Resources.Common\bin\Release\PMS.Resources.Common.dll
+D:\PMS\PMS.Resources.Common\bin\Release\PMS.Resources.Common.pdb
+D:\PMS\PMS.Resources.Common\bin\Release\Newtonsoft.Json.dll
+D:\PMS\PMS.Resources.Common\bin\Release\RestSharp.dll
+D:\PMS\PMS.Resources.Common\bin\Release\System.Net.Http.Formatting.dll
+D:\PMS\PMS.Resources.Common\bin\Release\System.Web.Http.dll
+D:\PMS\PMS.Resources.Common\bin\Release\System.Web.Http.WebHost.dll
+D:\PMS\PMS.Resources.Common\bin\Release\Newtonsoft.Json.xml
+D:\PMS\PMS.Resources.Common\bin\Release\RestSharp.xml
+D:\PMS\PMS.Resources.Common\bin\Release\System.Net.Http.Formatting.xml
+D:\PMS\PMS.Resources.Common\bin\Release\System.Web.Http.xml
+D:\PMS\PMS.Resources.Common\bin\Release\System.Web.Http.WebHost.xml
+D:\PMS\PMS.Resources.Common\obj\Release\PMS.Resources.Common.csprojResolveAssemblyReference.cache
+D:\PMS\PMS.Resources.Common\obj\Release\PMS.Resources.Common.dll
+D:\PMS\PMS.Resources.Common\obj\Release\PMS.Resources.Common.pdb

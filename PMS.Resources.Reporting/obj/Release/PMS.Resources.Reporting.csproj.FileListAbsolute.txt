@@ -1,0 +1,5 @@
+D:\PMS\PMS.Resources.Reporting\bin\Release\PMS.Resources.Reporting.dll
+D:\PMS\PMS.Resources.Reporting\bin\Release\PMS.Resources.Reporting.pdb
+D:\PMS\PMS.Resources.Reporting\obj\Release\PMS.Resources.Reporting.dll
+D:\PMS\PMS.Resources.Reporting\obj\Release\PMS.Resources.Reporting.pdb
+D:\PMS\PMS.Resources.Reporting\obj\Release\PMS.Resources.Reporting.csprojResolveAssemblyReference.cache

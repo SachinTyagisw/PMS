@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{97EF062E-AB76-4C69-946D-DA62C2758C23}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PMS.Resources.DTO</RootNamespace>
+    <AssemblyName>PMS.Resources.DTO</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Request\AddBookingRequestDto.cs" />
+    <Compile Include="Request\AddPropertyRequestDto.cs" />
+    <Compile Include="Request\AddPropertyTypeRequestDto.cs" />
+    <Compile Include="Request\AddRateTypeRequestDto.cs" />
+    <Compile Include="Request\AddRewardRequestDto.cs" />
+    <Compile Include="Request\AddRewardCategoryRequestDto.cs" />
+    <Compile Include="Request\AddRoomPriceRequestDto.cs" />
+    <Compile Include="Request\AddRoomRequestDto.cs" />
+    <Compile Include="Request\AddRoomStatusRequestDto.cs" />
+    <Compile Include="Request\AddRoomTypeRequestDto.cs" />
+    <Compile Include="Request\UpdatePropertyRequestDto.cs" />
+    <Compile Include="Request\UpdatePropertyTypeRequestDto.cs" />
+    <Compile Include="Request\UpdateRateTypeRequestDto.cs" />
+    <Compile Include="Request\UpdateRewardRequestDto.cs" />
+    <Compile Include="Request\UpdateRewardCategoryRequestDto.cs" />
+    <Compile Include="Request\UpdateRoomPriceRequestDto.cs" />
+    <Compile Include="Request\UpdateRoomStatusRequestDto.cs" />
+    <Compile Include="Request\UpdateRoomTypeRequestDto.cs" />
+    <Compile Include="Response\GetExpenseResponseDto.cs" />
+    <Compile Include="Response\GetGuestResponseDto.cs" />
+    <Compile Include="Response\GetGuestRewardResponseDto.cs" />
+    <Compile Include="Response\GetNotificationResponseDto.cs" />
+    <Compile Include="Response\GetPropertyResponseDto.cs" />
+    <Compile Include="Response\GetPropertyTypeResponseDto.cs" />
+    <Compile Include="Response\GetRewardResponseDto.cs" />
+    <Compile Include="Response\GetRewardCategoryResponseDto.cs" />
+    <Compile Include="Response\GetRoomResponseDto.cs" />
+    <Compile Include="Request\UpdateRoomRequestDto.cs" />
+    <Compile Include="Response\GetRateTypeResponseDto.cs" />
+    <Compile Include="Response\GetRoomStatusResponseDto.cs" />
+    <Compile Include="Response\GetRoomTypeResponseDto.cs" />
+    <Compile Include="Response\PmsResponseDto.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PMS.Resources.Entities\PMS.Resources.Entities.csproj">
+      <Project>{5636fad2-5bd2-4036-b6e6-210d78f189dc}</Project>
+      <Name>PMS.Resources.Entities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

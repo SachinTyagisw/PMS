@@ -1,0 +1,14 @@
+D:\HotelManagement\HotelManagement.Resources.Common\bin\Release\HotelManagement.Resources.Common.dll
+D:\HotelManagement\HotelManagement.Resources.Common\bin\Release\HotelManagement.Resources.Common.pdb
+D:\HotelManagement\HotelManagement.Resources.Common\bin\Release\Newtonsoft.Json.dll
+D:\HotelManagement\HotelManagement.Resources.Common\bin\Release\RestSharp.dll
+D:\HotelManagement\HotelManagement.Resources.Common\bin\Release\System.Net.Http.Formatting.dll
+D:\HotelManagement\HotelManagement.Resources.Common\bin\Release\System.Web.Http.dll
+D:\HotelManagement\HotelManagement.Resources.Common\bin\Release\System.Web.Http.WebHost.dll
+D:\HotelManagement\HotelManagement.Resources.Common\bin\Release\Newtonsoft.Json.xml
+D:\HotelManagement\HotelManagement.Resources.Common\bin\Release\RestSharp.xml
+D:\HotelManagement\HotelManagement.Resources.Common\bin\Release\System.Net.Http.Formatting.xml
+D:\HotelManagement\HotelManagement.Resources.Common\bin\Release\System.Web.Http.xml
+D:\HotelManagement\HotelManagement.Resources.Common\bin\Release\System.Web.Http.WebHost.xml
+D:\HotelManagement\HotelManagement.Resources.Common\obj\Release\HotelManagement.Resources.Common.dll
+D:\HotelManagement\HotelManagement.Resources.Common\obj\Release\HotelManagement.Resources.Common.pdb

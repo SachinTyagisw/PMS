@@ -1,0 +1,5 @@
+D:\PMS\PMS.Resources.Reporting\bin\Debug\PMS.Resources.Reporting.dll
+D:\PMS\PMS.Resources.Reporting\bin\Debug\PMS.Resources.Reporting.pdb
+D:\PMS\PMS.Resources.Reporting\obj\Debug\PMS.Resources.Reporting.csprojResolveAssemblyReference.cache
+D:\PMS\PMS.Resources.Reporting\obj\Debug\PMS.Resources.Reporting.dll
+D:\PMS\PMS.Resources.Reporting\obj\Debug\PMS.Resources.Reporting.pdb

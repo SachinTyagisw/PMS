@@ -1,0 +1,4 @@
+D:\HotelManagement\HotelManagement.Resources.Reporting\bin\Debug\HotelManagement.Resources.Reporting.dll
+D:\HotelManagement\HotelManagement.Resources.Reporting\bin\Debug\HotelManagement.Resources.Reporting.pdb
+D:\HotelManagement\HotelManagement.Resources.Reporting\obj\Debug\HotelManagement.Resources.Reporting.dll
+D:\HotelManagement\HotelManagement.Resources.Reporting\obj\Debug\HotelManagement.Resources.Reporting.pdb

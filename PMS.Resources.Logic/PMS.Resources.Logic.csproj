@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{722EF163-D305-48AD-AF7A-310F50492E98}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PMS.Resources.Logic</RootNamespace>
+    <AssemblyName>PMS.Resources.Logic</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PmsLogic.cs" />
+    <Compile Include="IPmsLogic.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PMS.Resources.Caching\PMS.Resources.Caching.csproj">
+      <Project>{b6f2a9da-edf5-4969-a05c-14574765cd39}</Project>
+      <Name>PMS.Resources.Caching</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PMS.Resources.Common\PMS.Resources.Common.csproj">
+      <Project>{ece8aa94-ea36-4851-acc4-5952f66bbfc1}</Project>
+      <Name>PMS.Resources.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PMS.Resources.DAL\PMS.Resources.DAL.csproj">
+      <Project>{9af6b5d8-313d-4ad3-9c4d-3f14d8372582}</Project>
+      <Name>PMS.Resources.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PMS.Resources.DTO\PMS.Resources.DTO.csproj">
+      <Project>{97ef062e-ab76-4c69-946d-da62c2758c23}</Project>
+      <Name>PMS.Resources.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PMS.Resources.Entities\PMS.Resources.Entities.csproj">
+      <Project>{5636fad2-5bd2-4036-b6e6-210d78f189dc}</Project>
+      <Name>PMS.Resources.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PMS.Resources.Logging\PMS.Resources.Logging.csproj">
+      <Project>{d34d8f1d-e740-4411-a7a4-755e18ed587a}</Project>
+      <Name>PMS.Resources.Logging</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
