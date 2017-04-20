@@ -2,11 +2,13 @@
 using PMS.Resources.Core;
 using PMS.Resources.DTO.Request;
 using PMS.Resources.DTO.Response;
+using PMS.Resources.Entities;
 using PMS.Resources.Logging.CustomException;
 using PMS.Resources.Logic;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -47,6 +49,12 @@ namespace PMS.Api.Controllers
              "api/v1/Booking/AddBooking",
              new { controller = "Booking", action = "AddBooking" }
              );
+
+            config.Routes.MapHttpRoute(
+             "GetBooking",
+             "api/v1/Booking/GetBooking",
+             new { controller = "Booking", action = "GetBooking" }
+             );
         }
 
         [HttpPost, ActionName("AddBooking")]
@@ -65,6 +73,100 @@ namespace PMS.Api.Controllers
                 response.ResponseStatus = PmsApiStatus.Failure;
                 response.StatusDescription = "Booking is failed.Contact administrator.";
             }
+
+            return response;
+        }
+
+        [HttpGet, ActionName("GetBooking")]
+        public GetBookingResponseDto GetBooking()
+        {
+            var queryParams = Request.GetQueryNameValuePairs();
+            var startDate = queryParams.FirstOrDefault(x => x.Key == "startdate").Value;
+            var endDate = queryParams.FirstOrDefault(x => x.Key == "enddate").Value;
+            var dtFormats = new[] { "dd/MM/yyyy", "yyyy-MM-dd" , "dd/M/yyyy", "dd/MM/yyyy"};
+            DateTime dtStart;
+            DateTime dtEnd;
+
+            if (!DateTime.TryParseExact(startDate, dtFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out dtStart))
+            {
+                throw new PmsException("Incorrect booking start date");
+            }
+            
+            if (!DateTime.TryParseExact(endDate, dtFormats, CultureInfo.InvariantCulture, DateTimeStyles.None , out dtEnd))
+            {
+                throw new PmsException("Incorrect booking end date");
+            }
+
+            //test data
+            var response = new GetBookingResponseDto()
+            {
+                Bookings = new List<Resources.Entities.Booking>
+                {
+                   new Booking 
+                   {
+                       CheckinTime = DateTime.Now,
+                       CheckoutTime = DateTime.Now.AddDays(1),
+                       RoomBookings = new List<RoomBooking>
+                       {
+                          new RoomBooking
+                          {
+                             Room = new Room
+                             {
+                                 Id = 1,
+                                 Number = "Room B"
+                             },
+                             Guest = new Guest
+                             {
+                                 Id = 11,
+                                 FirstName = "Tyagi"
+                             }                            
+                             
+                          },
+                          new RoomBooking
+                          {
+                             Room = new Room
+                             {
+                                 Id = 2,
+                                 Number = "Room C"
+                             },
+                             Guest = new Guest
+                             {
+                                 Id = 22,
+                                 FirstName = "Sharma"
+                             }    
+                          },
+                          new RoomBooking
+                          {
+                             Room = new Room
+                             {
+                                 Id = 3,
+                                 Number = "Room D"
+                             },
+                             Guest = new Guest
+                             {
+                                 Id = 33,
+                                 FirstName = "Deepak"
+                             }    
+                          },
+                          new RoomBooking
+                          {
+                             Room = new Room
+                             {
+                                 Id = 4,
+                                 Number = "Room E"
+                             },
+                             Guest = new Guest
+                             {
+                                 Id = 44,
+                                 FirstName = "Sharma123"
+                             }    
+                          }
+                       }
+                   }
+                  
+                   
+                }
+            };
 
             return response;
         }

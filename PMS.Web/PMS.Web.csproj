@@ -203,6 +203,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Config\PmsServiceUrl.config" />
     <None Include="Properties\PublishProfiles\PMSWeb.pubxml" />
+    <Content Include="Images\loader.gif" />
     <Content Include="Scripts\Angular\angular-resource.min.js" />
     <Content Include="Scripts\Angular\angular-route.min.js" />
     <Content Include="Scripts\Angular\angular.min.js" />
@@ -236,8 +237,7 @@
     <Content Include="Scripts\calendarController.js" />
     <Content Include="Scripts\calendarModule.js" />
     <Content Include="Scripts\messageModalService.js" />
-    <Content Include="Scripts\productController.js" />
-    <Content Include="Scripts\productService.js" />
+    <Content Include="Scripts\calendarService.js" />
     <Content Include="Scripts\redirectionService.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />

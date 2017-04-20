@@ -32,7 +32,20 @@
 
                         </div>
                 </div>
-</script> 
+
+                <div>
+                    <script type="text/ng-template" id="messageModalContent.html">
+                        <div class="modal-header">
+                            <h3 class="modal-title">{{modalMessage}}</h3>
+                        </div>
+                        <div class="modal-body">
+                            <div class="text-center">
+                                <img src="Images/loader.gif" alt="Loading icon" />
+                            </div>
+                        </div>
+                    </script>
+                 </div>
+     </script> 
 
     @*<div ng-app="calendarApp" ng-controller="calCtrl">
     <daypilot-calendar id="dp" config="config" events="events"></daypilot-calendar>

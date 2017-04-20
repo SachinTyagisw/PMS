@@ -59,6 +59,7 @@
     <Compile Include="Request\UpdateRoomPriceRequestDto.cs" />
     <Compile Include="Request\UpdateRoomStatusRequestDto.cs" />
     <Compile Include="Request\UpdateRoomTypeRequestDto.cs" />
+    <Compile Include="Response\GetBookingResponseDto.cs" />
     <Compile Include="Response\GetExpenseResponseDto.cs" />
     <Compile Include="Response\GetGuestResponseDto.cs" />
     <Compile Include="Response\GetGuestRewardResponseDto.cs" />

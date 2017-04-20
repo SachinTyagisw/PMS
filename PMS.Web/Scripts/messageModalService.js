@@ -6,7 +6,7 @@ angular.module('calendarApp').service('messageModalSvc', ['$modal', function ($m
                 size: 'sm',
                 templateUrl: 'messageModalContent.html',
                 backdrop: 'static',
-                backdropClass: 'vendor-modal-backdrop',
+                backdropClass: 'pms-modal-backdrop',
                 scope: scope
             });
 
@@ -26,7 +26,7 @@ angular.module('calendarApp').service('messageModalSvc', ['$modal', function ($m
             scope.modalInstance = $modal.open({
                 templateUrl: 'confirmationModalContent.html',
                 backdrop: 'static',
-                backdropClass: 'vendor-modal-backdrop',
+                backdropClass: 'pms-modal-backdrop',
                 scope: scope,
                 controller: function ($scope) {
                     $scope.yes = function () {
