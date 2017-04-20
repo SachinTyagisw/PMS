@@ -1,30 +1,52 @@
 angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$timeout', 'redirectionSvc', 'messageModalSvc', 'calendarSvc', function ($scope, $log, $timeout, redirectionSvc, messageModalSvc, calendarSvc) {
 
+    //dp test data
+    //var dummyBookingData = [
+    //                            {
+    //                                start: new DayPilot.Date("2017-04-20T10:00:00"),
+    //                                end: new DayPilot.Date("2017-04-20T11:00:00"),
+    //                                id: DayPilot.guid(),
+    //                                text: "First Event123",
+    //                                tags: {
+    //                                    status: "confirmed"
+    //                                },
+    //                                resource: 1
+    //                            }
+    //];
+
+    var dpBookingResponseDto = [];
     function convertBookingResponseToDayPilotResponse(bookingResponse) {
-        
+        dpBookingResponseDto = [];
+        for (var i = 0; i < bookingResponse.length; i++) {
+            var booking = bookingResponse[i];
+            if (!booking) continue;
+
+            var data = booking.RoomBookings;
+            for (var j = 0; j < booking.RoomBookings.length; j++) {
+                if (!data[j]) continue;
+                var dpBookingData = {};
+                dpBookingData.tags = {};
+
+                dpBookingData.start = new DayPilot.Date(booking.CheckinTime);
+                dpBookingData.end = new DayPilot.Date(booking.CheckoutTime);
+                dpBookingData.resource = data[j].Room.Id;
+                dpBookingData.text = "This is booked by me" + data[j].Room.Id;
+                dpBookingData.tags.status = "confirmed";
+                dpBookingData.id = DayPilot.guid();
+
+                dpBookingResponseDto.push(dpBookingData);
+            }
+        }
+        return dpBookingResponseDto;        
     }
 
-    var dummyBookingData = [
-                                {
-                                    start: new DayPilot.Date("2017-04-20T10:00:00"),
-                                    end: new DayPilot.Date("2017-04-20T11:00:00"),
-                                    // id: DayPilot.guid(),
-                                    text: "First Event123",
-                                    tags: {
-                                        status: "confirmed"
-                                    },
-                                    resource: 1
-                                }
-    ];
-
     var onGetRoomBookingSuccess = function (response) {
-        var day = getTimeline(DayPilot.Date.today());
-        $scope.schedulerConfig.timeline = day;
+        var day = DayPilot.Date.today();
+        $scope.schedulerConfig.timeline = getTimeline(day);
         $scope.schedulerConfig.scrollTo = day;
         $scope.schedulerConfig.scrollToAnimated = "fast";
         $scope.schedulerConfig.scrollToPosition = "left";
-        convertBookingResponseToDayPilotResponse(response.Bookings);
-        //$scope.events = response;
+        $scope.events = convertBookingResponseToDayPilotResponse(response.Bookings);;
     };
 
     var onGetRoomBookingError = function (reason) {

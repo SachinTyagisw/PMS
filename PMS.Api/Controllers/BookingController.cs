@@ -104,8 +104,8 @@ namespace PMS.Api.Controllers
                 {
                    new Booking 
                    {
-                       CheckinTime = DateTime.Now,
-                       CheckoutTime = DateTime.Now.AddDays(1),
+                       CheckinTime = Convert.ToDateTime(String.Format("{0:s}", DateTime.Now)),
+                       CheckoutTime = Convert.ToDateTime(String.Format("{0:s}", DateTime.Now.AddDays(1))),
                        RoomBookings = new List<RoomBooking>
                        {
                           new RoomBooking
