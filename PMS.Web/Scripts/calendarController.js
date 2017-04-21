@@ -1,4 +1,6 @@
 angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$timeout', 'redirectionSvc', 'messageModalSvc', 'calendarSvc', function ($scope, $log, $timeout, redirectionSvc, messageModalSvc, calendarSvc) {
+    var dpBookingResponseDto = [];
+    var dpRoomsResponseDto = [];
 
     //dp test data
     //var dummyBookingData = [
@@ -14,7 +16,24 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     //                            }
     //];
 
-    var dpBookingResponseDto = [];
+    //dummy data
+    //$scope.config = {
+    //    scale: "Day",
+    //    days: 10,
+    //    startDate: DayPilot.Date.today(),
+    //    timeHeaders: [
+    //        { groupBy: "Month" },
+    //        { groupBy: "Day", format: "d" }
+    //    ],
+    //    resources: [
+    //        { name: "Room B", id: 1 },
+    //        { name: "Room C", id: 2 },
+    //        { name: "Room D", id: 3 },
+    //        { name: "Room E", id: 4 }
+    //    ]
+    //};
+
+    
     function convertBookingResponseToDayPilotResponse(bookingResponse) {
         dpBookingResponseDto = [];
         for (var i = 0; i < bookingResponse.length; i++) {
@@ -39,35 +58,45 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         }
         return dpBookingResponseDto;        
     }
+    
+    function convertRoomResponseToDayPilotResponse(roomsResponse) {
+        dpRoomsResponseDto = [];
+        for (var i = 0; i < roomsResponse.length; i++) {
+            var room = roomsResponse[i];
+            if (!room) continue;
+
+            var dpRoomData = {};
+            dpRoomData.name = room.Number;
+            dpRoomData.id = room.Id;
+
+            dpRoomsResponseDto.push(dpRoomData);
+        }
+        return dpRoomsResponseDto;
+    }
 
     var onGetRoomBookingSuccess = function (response) {
-        var day = DayPilot.Date.today();
+        var day = $scope.day ? $scope.day : DayPilot.Date.today();
         $scope.schedulerConfig.timeline = getTimeline(day);
         $scope.schedulerConfig.scrollTo = day;
         $scope.schedulerConfig.scrollToAnimated = "fast";
         $scope.schedulerConfig.scrollToPosition = "left";
         $scope.events = convertBookingResponseToDayPilotResponse(response.Bookings);;
-    };
+    };   
 
     var onGetRoomBookingError = function (reason) {
         $scope.error = reason;
         $log.error(reason);
     };
 
-    $scope.config = {
-        scale: "Day",
-        days: 10,
-        startDate: DayPilot.Date.today(),
-        timeHeaders: [
-            { groupBy: "Month" },
-            { groupBy: "Day", format: "d" }
-        ],
-        resources: [
-            { name: "Room B", id: 1 },
-            { name: "Room C", id: 2 },
-            { name: "Room D", id: 3 },
-            { name: "Room E", id: 4 }
-        ]   
+    var onGetRoomSuccess = function (response) {
+        var response = convertRoomResponseToDayPilotResponse(response.Rooms)
+        $scope.schedulerConfig.resources = response;
+        $scope.schedulerConfig.visible = true;
+    };
+
+    var onGetRoomError = function (reason) {
+        $scope.error = reason;
+        $log.error(reason);
     };
 
     $scope.add = function () {
@@ -120,6 +149,8 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         showMonths: 3,
         skipMonths: 3,
         onTimeRangeSelected: function (args) {
+            // to scroll calendar to selected date
+            $scope.day = args.day;
             if ($scope.scheduler.visibleStart().getDatePart() <= args.day && args.day < $scope.scheduler.visibleEnd()) {
                 $scope.scheduler.scrollTo(args.day, "fast");  // just scroll
             }
@@ -209,17 +240,17 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
 
     $timeout(function () {
         dp = $scope.scheduler;  // debug
-        loadResources();
+        loadRooms();
         loadEvents(DayPilot.Date.today());
     });
 
     function loadEvents(day) {
         var from = $scope.scheduler.visibleStart();
         var to = $scope.scheduler.visibleEnd();
-        //if (day) {
-        //    from = new DayPilot.Date(day).firstDayOfMonth();
-        //    to = from.addMonths(1);
-        //}
+        if (day) {
+            from = new DayPilot.Date(day).firstDayOfMonth();
+            to = from.addMonths(1);
+        }
 
         var params = {
             start: from.toString(),
@@ -231,18 +262,16 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         calendarSvc.GetRoomBooking(params).then(onGetRoomBookingSuccess, onGetRoomBookingError)['finally'](function () {
             messageModalSvc.CloseMessage(messageModal);
         });       
-
-        //$scope.events = calendarSvc.GetRoomBooking(params);
     }
 
-    function loadResources() {
-        $scope.schedulerConfig.resources = $scope.config.resources;
-        $scope.schedulerConfig.visible = true;
-        //todo
-        //$http.post("backend_resources.php").success(function (data) {
-        //    $scope.schedulerConfig.resources = data;
-        //    $scope.schedulerConfig.visible = true;
-        //});
+    function loadRooms() {
+        //TODO : property id should be dynamic
+        var propertyId = 1;
+        // Show loading message
+        //var messageModal = messageModalSvc.ShowMessage("Loading Calendar...", $scope);
+        calendarSvc.GetRoomByProperty(propertyId).then(onGetRoomSuccess, onGetRoomError)['finally'](function () {
+            messageModalSvc.CloseMessage(messageModal);
+        });
     }
 
     function getTimeline(date) {
@@ -250,6 +279,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         //var start = new DayPilot.Date(date).firstDayOfMonth();
         var start = new DayPilot.Date(date);
         //var days = start.daysInMonth();
+         //TODO : days to be implement on the basis of UI selection
         var days = 7;
 
         var morningShiftStarts = 0;

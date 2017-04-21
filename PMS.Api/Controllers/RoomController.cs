@@ -2,6 +2,7 @@
 using PMS.Resources.Core;
 using PMS.Resources.DTO.Request;
 using PMS.Resources.DTO.Response;
+using PMS.Resources.Entities;
 using PMS.Resources.Logging.CustomException;
 using PMS.Resources.Logic;
 using System;
@@ -140,7 +141,39 @@ namespace PMS.Api.Controllers
         {
             if (propertyId <= 0) throw new PmsException("Property id is not valid.");
 
-            var response = new GetRoomResponseDto();
+            //test data
+            var response = new GetRoomResponseDto()
+            {
+                Rooms = new List<Resources.Entities.Room>
+                {
+                    new Room
+                    {
+                        Id = 1,
+                        Number = "Room AB"
+                    },
+
+                    new Room
+                    {
+                       Id = 2,
+                       Number = "Room AC"
+                    },
+
+                    new Room
+                    {
+                       Id = 3,
+                       Number = "Room AD"
+                    },
+
+                    new Room
+                    {
+                       Id = 4,
+                       Number = "Room AE"
+                    }
+
+
+                }
+            };
+
             return response;
         }
         

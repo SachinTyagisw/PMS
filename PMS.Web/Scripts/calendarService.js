@@ -14,9 +14,18 @@ angular.module('calendarApp').service('calendarSvc', ['$http', '$resource', 'url
       .then(function(response) {
         return response.data;
           });
-  };
+    };
 
-  return {
-      'GetRoomBooking': getRoomBooking
-  };
+    var getRoomByProperty = function (propertyId) {
+        var url = urls.BASE_URL + 'Room/GetRoomByProperty/' + propertyId;
+        return $http.get(url)
+         .then(function (response) {
+             return response.data;
+         });
+    };
+
+      return {
+                'GetRoomBooking': getRoomBooking,
+                'GetRoomByProperty': getRoomByProperty
+      };
 }]);
