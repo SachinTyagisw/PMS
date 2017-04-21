@@ -189,6 +189,8 @@
     <Content Include="Content\Bootstrap\bootstrap.min.css" />
     <Content Include="Content\font-awesome\font-awesome.min.css" />
     <Content Include="Content\fonts\font.css" />
+    <Content Include="Content\icons\fonts\daypiloticons.svg" />
+    <Content Include="Content\icons\style.css" />
     <Content Include="Content\media\custom.css" />
     <Content Include="Content\media\layout.css" />
     <Content Include="Content\media\layout\header-in.png" />
@@ -202,6 +204,9 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Config\PmsServiceUrl.config" />
+    <Content Include="Content\icons\fonts\daypiloticons.eot" />
+    <Content Include="Content\icons\fonts\daypiloticons.ttf" />
+    <Content Include="Content\icons\fonts\daypiloticons.woff" />
     <None Include="Properties\PublishProfiles\PMSWeb.pubxml" />
     <Content Include="Images\loader.gif" />
     <Content Include="Scripts\Angular\angular-resource.min.js" />

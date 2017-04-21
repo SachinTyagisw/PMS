@@ -7,6 +7,15 @@
 
 <div><ng-view></ng-view></div>
     <script type="text/ng-template" id="Calendar.html">
+        <div>
+            Room Filter:
+            <select ng-model="roomType" ng-change="changeRoomType()">
+                <option value="0">All</option>
+                <option value="1">Single</option>
+                <option value="2">Double</option>
+                <option value="4">Family</option>
+            </select>
+        </div>
         <div style="float:left; width:160px">
             <daypilot-navigator id="navigator" daypilot-config="navigatorConfig"></daypilot-navigator>
         </div>
