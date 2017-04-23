@@ -303,7 +303,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         };
 
         // Show loading message
-        //var messageModal = messageModalSvc.ShowMessage("Loading Calendar...", $scope);
+        var messageModal = messageModalSvc.ShowMessage("Loading ...", $scope);
         calendarSvc.GetRoomBooking(params).then(onGetRoomBookingSuccess, onGetRoomBookingError)['finally'](function () {
             messageModalSvc.CloseMessage(messageModal);
         });       
@@ -313,7 +313,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         //TODO : property id should be dynamic
         var propertyId = 1;
         // Show loading message
-        //var messageModal = messageModalSvc.ShowMessage("Loading Calendar...", $scope);
+        var messageModal = messageModalSvc.ShowMessage("Loading...", $scope);
         calendarSvc.GetRoomByProperty(propertyId).then(onGetRoomSuccess, onGetRoomError)['finally'](function () {
             messageModalSvc.CloseMessage(messageModal);
         });
