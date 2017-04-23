@@ -141,24 +141,25 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         eventMoveHandling: "Update",
         eventResizeHandling: "Disabled",
         allowEventOverlap: false,
-        //onEventMoved: function (args) {
-        //    alert(args.start);
-        //    alert(args.end);
-        //    alert(args.resource);
-        //    //$("#msg").html(args.start + " " + args.end + " " + args.resource);
-        //},
-        //onEventMove: function (args) {
-        //    alert(args.start);
-        //    alert(args.end);
-        //    alert(args.resource);
-        //    //$("#msg").html(args.start + " " + args.end + " " + args.resource);
-        //},
-        onEventMoving: function (args) {
-            //alert(args.start);
-            //alert(args.end);
-            //alert(args.resource);
+        onEventMoved: function (args) {
+            alert(args.e.id());
+            //alert(args.newStart);
+            //alert(args.newEnd);
+            //alert(args.newResource);
             //$("#msg").html(args.start + " " + args.end + " " + args.resource);
-        },        
+        },
+        //onEventMove: function (args) {
+        //    //alert(args.start);
+        //    //alert(args.end);
+        //    //alert(args.resource);
+        //    //$("#msg").html(args.start + " " + args.end + " " + args.resource);
+        //},
+        //onEventMoving: function (args) {
+        //    //alert(args.start);
+        //    //alert(args.end);
+        //    //alert(args.resource);
+        //    //$("#msg").html(args.start + " " + args.end + " " + args.resource);
+        //},        
         onBeforeTimeHeaderRender: function (args) {
             args.header.html = args.header.html.replace(" AM", "AM").replace(" PM", "PM");  // shorten the hour header
         },
@@ -265,7 +266,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                 dpBookingData.resource = data[j].Room.Id;
                 dpBookingData.text = "This is booked by me" + data[j].Room.Id;
                 dpBookingData.tags.status = "confirmed";
-                dpBookingData.id = DayPilot.guid();
+                dpBookingData.id = data[j].Id;
 
                 dpBookingResponseDto.push(dpBookingData);
             }

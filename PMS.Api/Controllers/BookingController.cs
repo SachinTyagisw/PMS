@@ -105,11 +105,12 @@ namespace PMS.Api.Controllers
                    new Booking 
                    {
                        CheckinTime = Convert.ToDateTime(String.Format("{0:s}", DateTime.Now)),
-                       CheckoutTime = Convert.ToDateTime(String.Format("{0:s}", DateTime.Now.AddDays(1))),
+                       CheckoutTime = Convert.ToDateTime(String.Format("{0:s}", DateTime.Now.AddHours(3))),
                        RoomBookings = new List<RoomBooking>
                        {
                           new RoomBooking
-                          {
+                          { 
+                             Id = 100,
                              Room = new Room
                              {
                                  Id = 1,
@@ -124,6 +125,7 @@ namespace PMS.Api.Controllers
                           },
                           new RoomBooking
                           {
+                             Id = 200,
                              Room = new Room
                              {
                                  Id = 2,
@@ -137,6 +139,7 @@ namespace PMS.Api.Controllers
                           },
                           new RoomBooking
                           {
+                             Id = 300,
                              Room = new Room
                              {
                                  Id = 3,
@@ -150,6 +153,7 @@ namespace PMS.Api.Controllers
                           },
                           new RoomBooking
                           {
+                             Id = 400,
                              Room = new Room
                              {
                                  Id = 4,
