@@ -46,7 +46,7 @@ namespace PMS.Resources.Logging.ExceptionLogger
             };
 
             //log exception to db
-            logService.LogExceptionDataToDb(additionalExData);
+            //logService.LogExceptionDataToDb(additionalExData);
         }
     }
 }

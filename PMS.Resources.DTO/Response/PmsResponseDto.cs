@@ -14,7 +14,7 @@ namespace PMS.Resources.DTO.Response
     public class PmsResponseDto
     {
         [DataMember]
-        public PmsApiStatus ResponseStatus { get; set; }
+        public string ResponseStatus { get; set; }
 
         [DataMember]
         public object ResponseObject { get; set; }

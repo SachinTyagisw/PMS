@@ -12,5 +12,35 @@ namespace PMS.Resources.DAL
     {
         void LogExceptionToDb(PmsEntity.ExceptionLog additionalExData);
         bool AddBooking(PmsEntity.Booking booking);
+        List<PmsEntity.Booking> GetBooking(DateTime startDate, DateTime endDate);
+        bool AddProperty(PmsEntity.Property property);
+        bool UpdateProperty(PmsEntity.Property property);
+        bool DeleteProperty(int propertyId);
+        List<PmsEntity.Property> GetAllProperty();
+        bool AddPropertyType(PmsEntity.PropertyType propertyType);
+        bool UpdatePropertyType(PmsEntity.PropertyType propertyType);
+        bool DeletePropertyType(int propertyTypeId);
+        List<PmsEntity.PropertyType> GetAllPropertyType();
+        bool AddRoom(PmsEntity.Room room);
+        bool UpdateRoom(PmsEntity.Room room);
+        bool DeleteRoom(int roomId);
+        List<PmsEntity.Room> GetRoomByProperty(int propertyId);
+        bool AddRateType(PmsEntity.RateType rateType);
+        bool UpdateRateType(PmsEntity.RateType rateType);
+        bool DeleteRateType(int rateTypeId);
+        List<PmsEntity.RateType> GetRateTypeByProperty(int propertyId);
+        bool AddRoomType(PmsEntity.RoomType roomType);
+        bool UpdateRoomType(PmsEntity.RoomType roomType);
+        bool DeleteRoomType(int roomTypeId);
+        List<PmsEntity.RoomType> GetRoomTypeByProperty(int propertyId);
+        bool AddRoomPrice(PmsEntity.RoomPricing roomPrice);
+        bool UpdateRoomPrice(PmsEntity.RoomPricing roomPrice);
+        bool DeleteRoomPrice(int priceId);
+        List<PmsEntity.RoomPricing> GetRoomPriceByProperty(int propertyId);
+        bool AddRoomStatus(PmsEntity.RoomStatus roomStatus);
+        bool UpdateRoomStatus(PmsEntity.RoomStatus roomStatus);
+        bool DeleteRoomStatus(int statusId);
+        List<PmsEntity.RoomStatus> GetRoomStatus();
     }
 }
+

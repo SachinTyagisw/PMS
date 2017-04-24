@@ -1,4 +1,5 @@
 ﻿using PMS.Resources.Common.Constants;
+using PMS.Resources.Common.Helper;
 using PMS.Resources.Core;
 using PMS.Resources.DTO.Request;
 using PMS.Resources.DTO.Response;
@@ -38,23 +39,24 @@ namespace PMS.Api.Controllers
              );
 
             config.Routes.MapHttpRoute(
-              "GetRateType",
-              "api/v1/Room/GetRateType",
-              new { controller = "Room", action = "GetRateType" }
+              "GetRateTypeByProperty",
+              "api/v1/Room/GetRateTypeByProperty/{propertyId}",
+              new { controller = "Room", action = "GetRateTypeByProperty" },
+              constraints: new { propertyId = RegExConstants.NumericRegEx }
               );
 
             config.Routes.MapHttpRoute(
               "GetRateTypeById",
-              "api/v1/Room/GetRateTypeById/{typeId}",
+              "api/v1/Room/{propertyId}/GetRateTypeById/{typeId}",
               new { controller = "Room", action = "GetRateTypeById" },
-              constraints: new { typeId = RegExConstants.NumericRegEx }
+              constraints: new { propertyId = RegExConstants.NumericRegEx, typeId = RegExConstants.NumericRegEx }
               );
 
             config.Routes.MapHttpRoute(
              "GetRateTypeByRoomType",
-             "api/v1/Room/GetRateTypeByRoomType/{roomTypeId}",
+             "api/v1/Room/{propertyId}/GetRateTypeByRoomType/{roomTypeId}",
              new { controller = "Room", action = "GetRateTypeByRoomType" },
-             constraints: new { roomTypeId = RegExConstants.NumericRegEx }
+             constraints: new { propertyId = RegExConstants.NumericRegEx, roomTypeId = RegExConstants.NumericRegEx }
              );
         }
 
@@ -64,6 +66,16 @@ namespace PMS.Api.Controllers
             if (request == null || request.RateType == null) throw new PmsException("Rate type can not be added.");
 
             var response = new PmsResponseDto();
+            if (_iPMSLogic.AddRateType(request.RateType))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "New Rate Type Added successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "New Rate Type Addition failed.Contact administrator.";
+            }
             return response;
         }
 
@@ -73,6 +85,16 @@ namespace PMS.Api.Controllers
             if (request == null || request.RateType == null || request.RateType.Id <= 0) throw new PmsException("Rate type can not be updated.");
 
             var response = new PmsResponseDto();
+            if (_iPMSLogic.UpdateRateType(request.RateType))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "Rate Type Updated successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "Rate Type Updation failed.Contact administrator.";
+            }
             return response;
         }
 
@@ -82,35 +104,67 @@ namespace PMS.Api.Controllers
             if (typeId <= 0) throw new PmsException("RateType id is not valid. Hence RateType can not be deleted.");
 
             var response = new PmsResponseDto();
+            if (_iPMSLogic.DeleteRateType(typeId))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "Rate Type Deleted successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "Rate Type Deletion failed.Contact administrator.";
+            }
             return response;
         }
 
-        [HttpGet, ActionName("GetRateType")]
-        public GetRateTypeResponseDto GetRateType()
+        [HttpGet, ActionName("GetRateTypeByProperty")]
+        public GetRateTypeResponseDto GetRateTypeByProperty(int propertyId)
         {
+            if (propertyId <= 0) throw new PmsException("Property id is not valid.");
+
             var response = new GetRateTypeResponseDto();
+            if (!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
+            {
+                response.RateTypes = _iPMSLogic.GetRateTypeByProperty(propertyId);
+            }
+            else
+            {
+                //mock data
+            }
             return response;
         }
 
         [HttpGet, ActionName("GetRateTypeById")]
-        public GetRateTypeResponseDto GetRateTypeById(int typeId)
+        public GetRateTypeResponseDto GetRateTypeById(int propertyId, int typeId)
         {
+            if (propertyId <= 0) throw new PmsException("Property id is not valid.");
+
             var response = new GetRateTypeResponseDto();
             if (typeId <= 0)
             {
                 return response;
             }
+            var rateTypeResponseDto = GetRateTypeByProperty(propertyId);
+            if (rateTypeResponseDto == null || rateTypeResponseDto.RateTypes == null || rateTypeResponseDto.RateTypes.Count <= 0) return response;
+
+            response.RateTypes = rateTypeResponseDto.RateTypes.Where(x => x.Id.Equals(typeId)).ToList();
             return response;
         }
 
         [HttpGet, ActionName("GetRateTypeByRoomType")]
-        public GetRateTypeResponseDto GetRateTypeByRoomType(int roomTypeId)
+        public GetRateTypeResponseDto GetRateTypeByRoomType(int propertyId, int roomTypeId)
         {
+            if (propertyId <= 0) throw new PmsException("Property id is not valid.");
+
             var response = new GetRateTypeResponseDto();
             if (roomTypeId <= 0)
             {
                 return response;
             }
+            var rateTypeResponseDto = GetRateTypeByProperty(propertyId);
+            if (rateTypeResponseDto == null || rateTypeResponseDto.RateTypes == null || rateTypeResponseDto.RateTypes.Count <= 0) return response;
+
+            response.RateTypes = rateTypeResponseDto.RateTypes.Where(x => x.RoomTypeId.Equals(roomTypeId)).ToList();
             return response;
         }    
     }

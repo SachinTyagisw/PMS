@@ -1,4 +1,5 @@
 ﻿using PMS.Resources.Common.Constants;
+using PMS.Resources.Common.Helper;
 using PMS.Resources.Core;
 using PMS.Resources.DTO.Request;
 using PMS.Resources.DTO.Response;
@@ -90,6 +91,16 @@ namespace PMS.Api.Controllers
             if (request == null || request.Property == null) throw new PmsException("Property can not be added.");
 
             var response = new PmsResponseDto();
+            if (_iPMSLogic.AddProperty(request.Property))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "New Property Added successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "New Property Addition failed.Contact administrator.";
+            }
             return response;
         }
 
@@ -99,15 +110,50 @@ namespace PMS.Api.Controllers
             if (request == null || request.Property == null || request.Property.Id <= 0) throw new PmsException("Property can not be updated.");
 
             var response = new PmsResponseDto();
+            if (_iPMSLogic.UpdateProperty(request.Property))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "Property Updated successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "Property Updation failed.Contact administrator.";
+            }
             return response;
         }
 
         [HttpDelete, ActionName("DeleteProperty")]
         public PmsResponseDto DeleteProperty(int propertyId)
         {
-            if (propertyId <= 0) throw new PmsException("Propertyid is not valid. Hence Property can not be deleted.");
+            if (propertyId <= 0) throw new PmsException("PropertyId is not valid. Hence Property can not be deleted.");
 
             var response = new PmsResponseDto();
+            if (_iPMSLogic.DeleteProperty(propertyId))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "Property Deleted successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "Property Deletion failed.Contact administrator.";
+            }
+            return response;
+        }
+
+        [HttpGet, ActionName("GetAllProperty")]
+        public GetPropertyResponseDto GetAllProperty()
+        {
+            var response = new GetPropertyResponseDto();
+            if (!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
+            {
+                response.Properties = _iPMSLogic.GetAllProperty();
+            }
+            else
+            {
+                //mock data
+            }
             return response;
         }
 
@@ -119,16 +165,13 @@ namespace PMS.Api.Controllers
             {
                 return response;
             }
+            var propertyResponseDto = GetAllProperty();
+            if (propertyResponseDto == null || propertyResponseDto.Properties == null || propertyResponseDto.Properties.Count <= 0) return response;
+
+            response.Properties = propertyResponseDto.Properties.Where(x => x.Id.Equals(propertyId)).ToList();
             return response;
         }
-
-        [HttpGet, ActionName("GetAllProperty")]
-        public GetPropertyResponseDto GetAllProperty()
-        {
-            var response = new GetPropertyResponseDto();
-            return response;
-        }
-
+       
         [HttpGet, ActionName("GetPropertyByUserId")]
         public GetPropertyResponseDto GetPropertyByUserId(int userId)
         {
@@ -137,6 +180,11 @@ namespace PMS.Api.Controllers
             {
                 return response;
             }
+
+            var propertyResponseDto = GetAllProperty();
+            if (propertyResponseDto == null || propertyResponseDto.Properties == null || propertyResponseDto.Properties.Count <= 0) return response;
+
+            response.Properties = propertyResponseDto.Properties.Where(x => x.UserId.Equals(userId)).ToList();
             return response;
         }
     }

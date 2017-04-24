@@ -18,5 +18,6 @@ namespace PMS.Resources.Entities
         public Property Property { get; set; }
         public RateType RateType { get; set; }
         public RoomType RoomType { get; set; }
+        public RoomStatus RoomStatus { get; set; }
     }
 }

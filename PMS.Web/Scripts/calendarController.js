@@ -261,8 +261,8 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                 var dpBookingData = {};
                 dpBookingData.tags = {};
 
-                dpBookingData.start = new DayPilot.Date(booking.CheckinTime);
-                dpBookingData.end = new DayPilot.Date(booking.CheckoutTime);
+                dpBookingData.start = booking.CheckinTime;
+                dpBookingData.end = booking.CheckoutTime;
                 dpBookingData.resource = data[j].Room.Id;
                 dpBookingData.text = "This is booked by me" + data[j].Room.Id;
                 dpBookingData.tags.status = "confirmed";
