@@ -41,6 +41,15 @@ namespace PMS.Resources.DAL
         bool UpdateRoomStatus(PmsEntity.RoomStatus roomStatus);
         bool DeleteRoomStatus(int statusId);
         List<PmsEntity.RoomStatus> GetRoomStatus();
+        bool AddReward(PmsEntity.GuestReward reward);
+        bool UpdateReward(PmsEntity.GuestReward reward);
+        bool DeleteReward(int rewardId);
+        List<PmsEntity.GuestReward> GetAllReward();
+        List<PmsEntity.GuestReward> GetRewardByGuestId(int guestId);
+        bool AddRewardCategory(PmsEntity.RewardCategory rewardCategory);
+        bool UpdateRewardCategory(PmsEntity.RewardCategory rewardCategory);
+        bool DeleteRewardCategory(int catId);
+        List<PmsEntity.RewardCategory> GetAllRewardCategory();
     }
 }
 

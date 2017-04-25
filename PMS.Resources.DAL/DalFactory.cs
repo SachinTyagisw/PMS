@@ -166,5 +166,50 @@ namespace PMS.Resources.DAL
             var roomStatus = new List<PmsEntity.RoomStatus>();
             return roomStatus;
         }
+        public bool AddReward(PmsEntity.GuestReward reward)
+        {
+            var isAdded = false;
+            return isAdded;
+        }
+        public bool UpdateReward(PmsEntity.GuestReward reward)
+        {
+            var isUpdated = false;
+            return isUpdated;
+        }
+        public bool DeleteReward(int rewardId)
+        {
+            var isDeleted = false;
+            return isDeleted;
+        }
+        public List<PmsEntity.GuestReward> GetAllReward()
+        {
+            var rewards = new List<PmsEntity.GuestReward>();
+            return rewards;
+        }
+        public List<PmsEntity.GuestReward> GetRewardByGuestId(int guestId)
+        {
+            var rewards = new List<PmsEntity.GuestReward>();
+            return rewards;
+        }
+        public bool AddRewardCategory(PmsEntity.RewardCategory rewardCategory)
+        {
+            var isAdded = false;
+            return isAdded;
+        }
+        public bool UpdateRewardCategory(PmsEntity.RewardCategory rewardCategory)
+        {
+            var isUpdated = false;
+            return isUpdated;
+        }
+        public bool DeleteRewardCategory(int catId)
+        {
+            var isDeleted = false;
+            return isDeleted;
+        }
+        public List<PmsEntity.RewardCategory> GetAllRewardCategory()
+        {
+            var rewardCategory = new List<PmsEntity.RewardCategory>();
+            return rewardCategory;
+        }
     }
 }

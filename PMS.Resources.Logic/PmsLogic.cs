@@ -187,5 +187,50 @@ namespace PMS.Resources.Logic
             var roomStatus = DalFactory.GetRoomStatus();
             return roomStatus;
         }
+        public bool AddReward(PmsEntity.GuestReward reward)
+        {
+            var isAdded = DalFactory.AddReward(reward);
+            return isAdded;
+        }
+        public bool UpdateReward(PmsEntity.GuestReward reward)
+        {
+            var isUpdated = DalFactory.UpdateReward(reward);
+            return isUpdated;
+        }
+        public bool DeleteReward(int rewardId)
+        {
+            var isDeleted = DalFactory.DeleteReward(rewardId);
+            return isDeleted;
+        }
+        public List<PmsEntity.GuestReward> GetAllReward()
+        {
+            var rewards = DalFactory.GetAllReward();
+            return rewards;
+        }
+        public List<PmsEntity.GuestReward> GetRewardByGuestId(int guestId)
+        {
+            var rewards = DalFactory.GetRewardByGuestId(guestId);
+            return rewards;
+        }
+        public bool AddRewardCategory(PmsEntity.RewardCategory rewardCategory)
+        {
+            var isAdded = DalFactory.AddRewardCategory(rewardCategory);
+            return isAdded;
+        }
+        public bool UpdateRewardCategory(PmsEntity.RewardCategory rewardCategory)
+        {
+            var isUpdated = DalFactory.UpdateRewardCategory(rewardCategory);
+            return isUpdated;
+        }
+        public bool DeleteRewardCategory(int catId)
+        {
+            var isDeleted = DalFactory.DeleteRewardCategory(catId);
+            return isDeleted;
+        }
+        public List<PmsEntity.RewardCategory> GetAllRewardCategory()
+        {
+            var rewardCategory = DalFactory.GetAllRewardCategory();
+            return rewardCategory;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using PMS.Resources.Common.Constants;
+using PMS.Resources.Common.Helper;
 using PMS.Resources.Core;
 using PMS.Resources.DTO.Request;
 using PMS.Resources.DTO.Response;
@@ -75,6 +76,13 @@ namespace PMS.Api.Controllers
             new { controller = "Reward", action = "GetRewardById" },
             constraints: new { rewardId = RegExConstants.NumericRegEx }
             );
+
+            config.Routes.MapHttpRoute(
+            "GetRewardByGuestId",
+            "api/v1/Reward/GetRewardByGuestId/{guestId}",
+            new { controller = "Reward", action = "GetRewardByGuestId" },
+            constraints: new { guestId = RegExConstants.NumericRegEx }
+            );
         }
 
         [HttpPost, ActionName("AddReward")]
@@ -83,6 +91,16 @@ namespace PMS.Api.Controllers
             if (request == null || request.Reward == null) throw new PmsException("Reward can not be added.");
 
             var response = new PmsResponseDto();
+            if (_iPMSLogic.AddReward(request.Reward))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "Reward Added successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "Reward Addition failed.Contact administrator.";
+            }
             return response;
         }
 
@@ -92,6 +110,16 @@ namespace PMS.Api.Controllers
             if (request == null || request.Reward == null || request.Reward.Id <= 0) throw new PmsException("Reward can not be updated.");
 
             var response = new PmsResponseDto();
+            if (_iPMSLogic.UpdateReward(request.Reward))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "Reward Updated successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "Reward Updation failed.Contact administrator.";
+            }
             return response;
         }
 
@@ -101,6 +129,16 @@ namespace PMS.Api.Controllers
             if (rewardId <= 0) throw new PmsException("Reward id is not valid. Hence Reward can not be deleted.");
 
             var response = new PmsResponseDto();
+            if (_iPMSLogic.DeleteReward(rewardId))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "Reward Deleted successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "Reward Deletion failed.Contact administrator.";
+            }
             return response;
         }
 
@@ -112,6 +150,10 @@ namespace PMS.Api.Controllers
             {
                 return response;
             }
+            var rewardResponseDto = GetAllReward();
+            if (rewardResponseDto == null || rewardResponseDto.Rewards == null || rewardResponseDto.Rewards.Count <= 0) return response;
+
+            response.Rewards = rewardResponseDto.Rewards.Where(x => x.Id.Equals(rewardId)).ToList();
             return response;
         }
 
@@ -119,6 +161,31 @@ namespace PMS.Api.Controllers
         public GetRewardResponseDto GetAllReward()
         {
             var response = new GetRewardResponseDto();
+            if (!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
+            {
+                response.Rewards = _iPMSLogic.GetAllReward();
+            }
+            else
+            {
+                //mock data
+            }
+            return response;
+        }
+
+        [HttpGet, ActionName("GetRewardByGuestId")]
+        public GetRewardResponseDto GetRewardByGuestId(int guestId)
+        {
+            if (guestId <= 0) throw new PmsException("Invalid Guest Id.");
+
+            var response = new GetRewardResponseDto();
+            if (!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
+            {
+                response.Rewards = _iPMSLogic.GetRewardByGuestId(guestId);
+            }
+            else
+            {
+                //mock data
+            }
             return response;
         }
     }
