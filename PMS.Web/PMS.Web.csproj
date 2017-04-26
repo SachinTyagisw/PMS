@@ -218,6 +218,7 @@
     <Content Include="Scripts\Bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\Bootstrap\ui-bootstrap-tpls.min.js" />
     <Content Include="Scripts\daypilot\daypilot-all.min.js" />
+    <Content Include="Scripts\GuestCheckinManager.js" />
     <Content Include="Scripts\index.js" />
     <Content Include="Scripts\Jquery\easyResponsiveTabs.js" />
     <Content Include="Scripts\Jquery\jquery-1.11.2.min.js" />

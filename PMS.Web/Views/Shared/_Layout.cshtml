@@ -15,22 +15,14 @@
 
         window.baseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["BaseUrl"].ToString())';
         jQuery(document).ready(function ($) {
-            var service = new window.PmsService();
-            var args = {};
-            args.propertyId = 1;
-            var data = service.GetRoomByProperty(args);
-            service.Handlers.OnGetRoomByPropertySuccess = function (data) {
-               
-            };
-            service.Handlers.OnGetRoomByPropertyFailure = function () {
-
-            };
+            window.GuestCheckinManager.Initialize();
         });
 
     </script>
-        
+    
     <script src="~/Scripts/PmsAjaxQueue.js" ></script>
     <script src="~/Scripts/PmsService.js" ></script>
+    <script src="~/Scripts/GuestCheckinManager.js"></script>
     <script src="~/Scripts/calendarModule.js"></script>
     <script src="~/Scripts/index.js"></script>
     <script src="~/Scripts/messageModalService.js"></script>
