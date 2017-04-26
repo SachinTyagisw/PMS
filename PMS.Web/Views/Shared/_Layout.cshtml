@@ -11,6 +11,26 @@
     <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/angular")"></script>
     <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/bootstrap")"></script>
 
+    <script type="text/javascript">
+
+        window.baseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["BaseUrl"].ToString())';
+        jQuery(document).ready(function ($) {
+            var service = new window.PmsService();
+            var args = {};
+            args.propertyId = 1;
+            var data = service.GetRoomByProperty(args);
+            service.Handlers.OnGetRoomByPropertySuccess = function (data) {
+               
+            };
+            service.Handlers.OnGetRoomByPropertyFailure = function () {
+
+            };
+        });
+
+    </script>
+        
+    <script src="~/Scripts/PmsAjaxQueue.js" ></script>
+    <script src="~/Scripts/PmsService.js" ></script>
     <script src="~/Scripts/calendarModule.js"></script>
     <script src="~/Scripts/index.js"></script>
     <script src="~/Scripts/messageModalService.js"></script>

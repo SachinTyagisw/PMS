@@ -244,6 +244,8 @@
     <Content Include="Scripts\calendarModule.js" />
     <Content Include="Scripts\messageModalService.js" />
     <Content Include="Scripts\calendarService.js" />
+    <Content Include="Scripts\PmsAjaxQueue.js" />
+    <Content Include="Scripts\PmsService.js" />
     <Content Include="Scripts\redirectionService.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
