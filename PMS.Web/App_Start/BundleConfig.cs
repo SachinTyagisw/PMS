@@ -57,9 +57,9 @@ namespace PMS.Web
                 //.Include("~/Css/ionicons/ionicons.min.css")
                 // .Include("~/Content/jvectormap/jquery-jvectormap.min.css"));
 
-            bundles.Add(new StyleBundle("~/bundles/media/css").Include("~/Content/media/layout.css"));
-                       //.Include("~/Content/media/custom.css")
-                       //.Include("~/Content/media/modal.css"));
+            bundles.Add(new StyleBundle("~/bundles/daypilotmedia/css").Include("~/Content/daypilot-media/layout.css")
+            .Include("~/Content/daypilot-media/custom.css")
+            .Include("~/Content/daypilot-media/modal.css"));
 
             //bundles.Add(new StyleBundle("~/bundles/css/angular").Include("~/Content/Angular/ng-grid.min.css"));
         }
