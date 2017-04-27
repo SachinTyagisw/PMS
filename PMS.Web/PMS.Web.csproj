@@ -389,6 +389,7 @@
     <Content Include="Scripts\calendarService.js" />
     <Content Include="Scripts\PmsAjaxQueue.js" />
     <Content Include="Scripts\PmsService.js" />
+    <Content Include="Scripts\PmsSession.js" />
     <Content Include="Scripts\redirectionService.js" />
     <Content Include="Scripts\scripts.js" />
     <Content Include="Scripts\_references.js" />

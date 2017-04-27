@@ -12,7 +12,7 @@
         },
 
         Initialize: function () {
-            var pmsService = new window.PmsService();
+            var pmsService = new window.PmsService();            
             var args = {};
             args.propertyId = this.GetPropertyId();
 
@@ -20,7 +20,7 @@
             var data = pmsService.GetRoomByProperty(args);
 
             pmsService.Handlers.OnGetRoomByPropertySuccess = function (data) {
-
+                window.PmsSession.SetItem("Roomdata", JSON.stringify(data.Rooms));
             };
             pmsService.Handlers.OnGetRoomByPropertyFailure = function () {
 
