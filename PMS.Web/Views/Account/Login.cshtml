@@ -1,5 +1,7 @@
-﻿
+﻿@using PMS.Web.Models
+@model LoginViewModel
 @{
+    ViewBag.Title = "Log in";
     Layout = null;
 }
 <!DOCTYPE html>
@@ -30,25 +32,33 @@
 
 <body class="login-section">
     <div class="container">
-        <section class="content login">
-            <form action="">
-                <h1>Login Form</h1>
-                <div>
-                    <input type="text" placeholder="Username" required="" id="username" />
-                </div>
-                <div>
-                    <input type="password" placeholder="Password" required="" id="password" />
-                </div>
-                <div class="link-login">
-                    <ul>
-                        <li><input type="submit" value="Log in" /></li>
-                        <li>
-                            <a href="#" class="forgot-pwd-btn">Lost your password?</a>
-                            <a href="#" class="register-btn">Register</a>
-                        </li>
-                    </ul>
-                </div>
-            </form><!-- form -->
+        <section id="loginForm" class="content login">
+
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <form action="">
+                    <h1>Login Form</h1>
+                    <div>
+                        @Html.TextBoxFor(m => m.Email, new { @placeholder = "Email" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+                    <div>
+                        @Html.PasswordFor(m => m.Password, new { @placeholder = "Password" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="link-login">
+                        <ul>
+                            <li><input type="submit" value="Log in" /></li>
+                            <li>
+                                <a href="#" class="forgot-pwd-btn">Lost your password?</a>
+                                <a href="#" class="register-btn">Register</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            }
+            <!-- form -->
             <div class="button">
                 <a href="#">Property Management System</a>
             </div><!-- button -->

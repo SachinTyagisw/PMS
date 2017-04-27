@@ -68,6 +68,9 @@ namespace PMS.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+            //todo: validate user credentials from db
+            return RedirectToAction("Checkin", "Booking");
+
             if (!ModelState.IsValid)
             {
                 return View(model);
