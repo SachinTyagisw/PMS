@@ -430,6 +430,10 @@
     <Content Include="Views\Booking\Checkin.cshtml" />
     <Content Include="Views\Room\DashBoard.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Shared\_RoomDetails.cshtml" />
+    <Content Include="Views\Shared\_GuestDetails.cshtml" />
+    <Content Include="Views\Shared\_GuestHistory.cshtml" />
+    <Content Include="Views\Shared\_PaymentSummary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
