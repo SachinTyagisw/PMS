@@ -156,6 +156,12 @@ namespace PMS.Api.Controllers
                         Id = 4,
                         Name = "Holiday Standard",
                         RoomTypeId = 1
+                    },
+                    new PmsEntity.RateType
+                    {
+                        Id = 5,
+                        Name = "My Weekend Standard",
+                        RoomTypeId = 4
                     }
                 };
             }

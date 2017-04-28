@@ -8,12 +8,18 @@
         this.Handlers = {
             OnGetRoomTypeByPropertySuccess: null,
             OnGetRoomTypeByPropertyFailure: null,
+            OnGetRateTypeByPropertySuccess: null,
+            OnGetRateTypeByPropertyFailure: null,
             OnGetRoomByPropertySuccess: null,
             OnGetRoomByPropertyFailure: null,
         };
 
         this.GetRoomTypeByProperty = function (args) {
             makeAjaxRequestGet(args, "GetRoomTypeByProperty", this, "api/v1/Room/GetRoomTypeByProperty/" + args.propertyId);
+        };
+
+        this.GetRateTypeByProperty = function (args) {
+            makeAjaxRequestGet(args, "GetRateTypeByProperty", this, "api/v1/Room/GetRateTypeByProperty/" + args.propertyId);
         };
 
         this.GetRoomByProperty = function (args) {

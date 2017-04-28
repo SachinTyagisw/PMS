@@ -10,6 +10,7 @@
 
             ajaxHandlers();
             getRoomTypes();
+            getRoomRateTypes();
             getRooms();
         },
 
@@ -22,25 +23,46 @@
         },
 
         BindRoomDdl: function (roomRateId) {
-            var ddlRoomId = $('#roomddl');
+            var ddlRoom = $('#roomddl');
             var roomData = pmsSession.GetItem("roomdata");
             var rooms = $.parseJSON(roomData);
         },
 
         BindRoomTypeDdl: function () {
-            var ddlRoomTypeId = $('#roomTypeDdl');
+            var ddlRoomType = $('#roomTypeDdl');
             var roomTypeData = pmsSession.GetItem("roomtypedata");
-            if (!ddlRoomTypeId || !roomTypeData) return;
+            if (!ddlRoomType || !roomTypeData) return;
 
             var roomTypes = $.parseJSON(roomTypeData);
             if (!roomTypes || roomTypes.length <= 0) return;
 
-            ddlRoomTypeId.empty();
-            //ddlRoomTypeId.append(new Option("Select Roomtype", "-1"));
+            ddlRoomType.empty();
+            ddlRoomType.append(new Option("Select Type", "-1"));
             for (var i = 0; i < roomTypes.length; i++) {
-                ddlRoomTypeId.append(new Option(roomTypes[i].Name, roomTypes[i].Id));
+                ddlRoomType.append(new Option(roomTypes[i].Name, roomTypes[i].Id));
             }
-        },        
+        },
+
+        BindRateTypeDdl: function () {
+            var ddlRateType = $('#rateTypeDdl');
+            var ddlRoomType = $('#roomTypeDdl');
+            var rateTypeData = pmsSession.GetItem("roomratetypedata");
+            if (!ddlRateType || !ddlRoomType || !rateTypeData) return;
+
+            var rateTypes = $.parseJSON(rateTypeData);
+            if (!rateTypes || rateTypes.length <= 0) return;
+
+            ddlRateType.empty();
+            ddlRateType.append(new Option("Select Type", "-1"));
+            var roomTypeId = parseInt(ddlRoomType.val());
+            if (roomTypeId > -1) {
+                for (var i = 0; i < rateTypes.length; i++) {
+                    if (rateTypes[i].RoomTypeId !== roomTypeId) continue;
+
+                    ddlRateType.append(new Option(rateTypes[i].Name, rateTypes[i].Id));
+                }
+            }
+        }
     };
 
     function getRoomTypes() {
@@ -54,6 +76,15 @@
         }
     }
 
+    function getRoomRateTypes() {
+        args.propertyId = window.GuestCheckinManager.GetPropertyId();
+        var roomRateTypeData = pmsSession.GetItem("roomratetypedata");
+        if (!roomRateTypeData) {
+            // get room rate types by api calling  
+            pmsService.GetRateTypeByProperty(args);
+        }
+    }
+    
     function getRooms(){
         args.propertyId = window.GuestCheckinManager.GetPropertyId();
         var roomData = pmsSession.GetItem("roomdata");
@@ -77,6 +108,15 @@
             console.log("Get Room type call failed");
         };
 
+        pmsService.Handlers.OnGetRateTypeByPropertySuccess = function (data) {
+            //storing room rate type data into session storage
+            pmsSession.SetItem("roomratetypedata", JSON.stringify(data.RateTypes));
+        };
+        pmsService.Handlers.OnGetRateTypeByPropertyFailure = function () {
+            // show error log
+            console.log("Get Room rate type call failed");
+        };
+        
         pmsService.Handlers.OnGetRoomByPropertySuccess = function (data) {
             //storing room data into session storage
             pmsSession.SetItem("roomdata", JSON.stringify(data.Rooms));

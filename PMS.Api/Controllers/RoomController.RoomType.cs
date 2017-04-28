@@ -144,8 +144,8 @@ namespace PMS.Api.Controllers
                     },
                     new PmsEntity.RoomType
                     {
-                        Id = 1,
-                        Name = "King-Smoking"
+                        Id = 4,
+                        Name = "Test King-Smoking"
                     }
                 };
             }
