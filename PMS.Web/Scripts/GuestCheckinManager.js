@@ -22,10 +22,25 @@
             return this.propertyId;
         },
 
-        BindRoomDdl: function (roomRateId) {
+        BindRoomDdl: function () {
             var ddlRoom = $('#roomddl');
+            var ddlRateType = $('#rateTypeDdl');
             var roomData = pmsSession.GetItem("roomdata");
+            if (!ddlRoom || !ddlRateType || !roomData) return;
+
             var rooms = $.parseJSON(roomData);
+            if (!rooms || rooms.length <= 0) return;
+
+            ddlRoom.empty();
+            ddlRoom.append(new Option("Select Room", "-1"));
+            var rateTypeId = parseInt(ddlRateType.val());
+            if (rateTypeId > -1) {
+                for (var i = 0; i < rooms.length; i++) {
+                    if (rooms[i].RateType.Id !== rateTypeId) continue;
+
+                    ddlRoom.append(new Option(rooms[i].Number, rooms[i].Id));
+                }
+            }
         },
 
         BindRoomTypeDdl: function () {
