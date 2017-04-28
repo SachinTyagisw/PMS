@@ -1,6 +1,7 @@
 ﻿using PMS.Resources.Common.Constants;
 using PMS.Resources.Common.Helper;
 using PMS.Resources.Core;
+using PMS.Resources.DAL;
 using PMS.Resources.DTO.Request;
 using PMS.Resources.DTO.Response;
 using PMS.Resources.Logging.CustomException;
@@ -12,6 +13,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using PmsEntity = PMS.Resources.Entities;
 
 namespace PMS.Api.Controllers
 {
@@ -123,6 +125,29 @@ namespace PMS.Api.Controllers
             else
             {
                 //mock data
+                response.RoomTypes = new List<Resources.Entities.RoomType>
+                {
+                    new PmsEntity.RoomType
+                    {
+                        Id = 1,
+                        Name = "King-Smoking",
+                    },
+                    new PmsEntity.RoomType
+                    {
+                        Id = 2,
+                        Name = "King-NonSmoking"
+                    },
+                    new PmsEntity.RoomType
+                    {
+                        Id = 3,
+                        Name = "Queen-Smoking"
+                    },
+                    new PmsEntity.RoomType
+                    {
+                        Id = 1,
+                        Name = "King-Smoking"
+                    }
+                };
             }
             return response;
         }

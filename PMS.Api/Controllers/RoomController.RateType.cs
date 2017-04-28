@@ -12,6 +12,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using PmsEntity = PMS.Resources.Entities;
 
 namespace PMS.Api.Controllers
 {
@@ -130,6 +131,33 @@ namespace PMS.Api.Controllers
             else
             {
                 //mock data
+                response.RateTypes = new List<Resources.Entities.RateType>
+                {
+                    new PmsEntity.RateType
+                    {
+                        Id = 1,
+                        Name = "Apartment Standard Test",
+                        RoomTypeId = 2
+                    },
+                    new PmsEntity.RateType
+                    {
+                        Id = 2,
+                        Name = "Apartment Standard",
+                        RoomTypeId = 1
+                    },
+                    new PmsEntity.RateType
+                    {
+                        Id = 3,
+                        Name = "Queen Standard",
+                        RoomTypeId = 3
+                    },
+                    new PmsEntity.RateType
+                    {
+                        Id = 4,
+                        Name = "Holiday Standard",
+                        RoomTypeId = 1
+                    }
+                };
             }
             return response;
         }

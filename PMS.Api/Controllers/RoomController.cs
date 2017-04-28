@@ -185,25 +185,65 @@ namespace PMS.Api.Controllers
                     new Room
                     {
                         Id = 1,
-                        Number = "Room AB"
+                        Number = "Room AB",
+                        RoomType = new RoomType
+                        {
+                            Id = 1,
+                            Name = "King-Smoking"
+                        },
+                        RateType = new RateType
+                        {
+                            Id = 2,
+                            Name = "Apartment Standard"
+                        }
                     },
 
                     new Room
                     {
                         Id = 2,
-                        Number = "Room AC"
+                        Number = "Room AC",
+                        RoomType = new RoomType
+                        {
+                            Id = 2,
+                            Name = "King-NonSmoking"
+                        },
+                        RateType = new RateType
+                        {
+                            Id = 1,
+                            Name = "Apartment Standard Test"
+                        }
                     },
 
                     new Room
                     {
                         Id = 3,
-                        Number = "Room AD"
+                        Number = "Room AD",
+                        RoomType = new RoomType
+                        {
+                            Id = 3,
+                            Name = "Queen-Smoking"
+                        },
+                        RateType = new RateType
+                        {
+                            Id = 3,
+                            Name = "Queen Standard"
+                        }
                     },
 
                     new Room
                     {
                         Id = 4,
-                        Number = "Room AE"
+                        Number = "Room AE",
+                        RoomType = new RoomType
+                        {
+                            Id = 1,
+                            Name = "King-Smoking"
+                        },
+                        RateType = new RateType
+                        {
+                            Id = 4,
+                            Name = "Holiday Standard"
+                        }
                     }
                 };
             }
