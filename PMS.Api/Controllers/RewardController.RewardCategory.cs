@@ -1,4 +1,5 @@
 ﻿using PMS.Resources.Common.Constants;
+using PMS.Resources.Common.Helper;
 using PMS.Resources.Core;
 using PMS.Resources.DTO.Request;
 using PMS.Resources.DTO.Response;
@@ -57,6 +58,16 @@ namespace PMS.Api.Controllers
             if (request == null || request.RewardCategory == null) throw new PmsException("RewardCategory can not be added.");
 
             var response = new PmsResponseDto();
+            if (_iPMSLogic.AddRewardCategory(request.RewardCategory))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "Reward Category Added successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "Reward Category Addition failed.Contact administrator.";
+            }
             return response;
         }
 
@@ -66,6 +77,16 @@ namespace PMS.Api.Controllers
             if (request == null || request.RewardCategory == null || request.RewardCategory.Id <= 0) throw new PmsException("Reward type can not be updated.");
 
             var response = new PmsResponseDto();
+            if (_iPMSLogic.UpdateRewardCategory(request.RewardCategory))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "Reward Category Updated successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "Reward Category Updation failed.Contact administrator.";
+            }
             return response;
         }
 
@@ -75,6 +96,16 @@ namespace PMS.Api.Controllers
             if (catId <= 0) throw new PmsException("RewardCategory id is not valid. Hence RewardCategory can not be deleted.");
 
             var response = new PmsResponseDto();
+            if (_iPMSLogic.DeleteRewardCategory(catId))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "Reward Category Deleted successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "Reward Category Deletion failed.Contact administrator.";
+            }
             return response;
         }
 
@@ -86,6 +117,10 @@ namespace PMS.Api.Controllers
             {
                 return response;
             }
+            var rewardCategoryResponseDto = GetAllRewardCategory();
+            if (rewardCategoryResponseDto == null || rewardCategoryResponseDto.RewardCategories == null || rewardCategoryResponseDto.RewardCategories.Count <= 0) return response;
+
+            response.RewardCategories = rewardCategoryResponseDto.RewardCategories.Where(x => x.Id.Equals(catId)).ToList();
             return response;
         }
 
@@ -93,6 +128,14 @@ namespace PMS.Api.Controllers
         public GetRewardCategoryResponseDto GetAllRewardCategory()
         {
             var response = new GetRewardCategoryResponseDto();
+            if (!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
+            {
+                response.RewardCategories = _iPMSLogic.GetAllRewardCategory();
+            }
+            else
+            {
+                //mock data
+            }
             return response;
         }
     }

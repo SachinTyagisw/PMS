@@ -1,4 +1,5 @@
 ﻿using PMS.Resources.Common.Constants;
+using PMS.Resources.Common.Helper;
 using PMS.Resources.Core;
 using PMS.Resources.DTO.Request;
 using PMS.Resources.DTO.Response;
@@ -57,6 +58,16 @@ namespace PMS.Api.Controllers
             if (request == null || request.PropertyType == null) throw new PmsException("Property type can not be added.");
 
             var response = new PmsResponseDto();
+            if (_iPMSLogic.AddPropertyType(request.PropertyType))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "New Property Type Added successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "New Property Type Addition failed.Contact administrator.";
+            }
             return response;
         }
 
@@ -66,6 +77,16 @@ namespace PMS.Api.Controllers
             if (request == null || request.PropertyType == null || request.PropertyType.Id <= 0) throw new PmsException("Property type can not be updated.");
 
             var response = new PmsResponseDto();
+            if (_iPMSLogic.UpdatePropertyType(request.PropertyType))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "Property Type Updated successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "Property Type Updation failed.Contact administrator.";
+            }
             return response;
         }
 
@@ -75,6 +96,31 @@ namespace PMS.Api.Controllers
             if (typeId <= 0) throw new PmsException("PropertyType id is not valid. Hence PropertyType can not be deleted.");
 
             var response = new PmsResponseDto();
+            if (_iPMSLogic.DeletePropertyType(typeId))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "Property Type Deleted successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "Property Type Deletion failed.Contact administrator.";
+            }
+            return response;
+        }
+
+        [HttpGet, ActionName("GetAllPropertyType")]
+        public GetPropertyTypeResponseDto GetAllPropertyType()
+        {
+            var response = new GetPropertyTypeResponseDto();
+            if (!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
+            {
+                response.PropertyTypes = _iPMSLogic.GetAllPropertyType();
+            }
+            else
+            {
+                //mock data
+            }
             return response;
         }
 
@@ -86,13 +132,10 @@ namespace PMS.Api.Controllers
             {
                 return response;
             }
-            return response;
-        }
+            var propertyTypeResponseDto = GetAllPropertyType();
+            if (propertyTypeResponseDto == null || propertyTypeResponseDto.PropertyTypes == null || propertyTypeResponseDto.PropertyTypes.Count <= 0) return response;
 
-        [HttpGet, ActionName("GetAllPropertyType")]
-        public GetPropertyTypeResponseDto GetAllPropertyType()
-        {
-            var response = new GetPropertyTypeResponseDto();
+            response.PropertyTypes = propertyTypeResponseDto.PropertyTypes.Where(x => x.Id.Equals(typeId)).ToList();
             return response;
         }
     }

@@ -26,7 +26,7 @@ namespace PMS.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult RoomBook()
+        public ActionResult Checkin()
         {
             //var request = new AddBookingRequestDto()
             //{

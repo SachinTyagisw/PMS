@@ -1,4 +1,5 @@
 ﻿using PMS.Resources.Common.Constants;
+using PMS.Resources.Common.Helper;
 using PMS.Resources.Core;
 using PMS.Resources.DTO.Request;
 using PMS.Resources.DTO.Response;
@@ -65,12 +66,12 @@ namespace PMS.Api.Controllers
             var response = new PmsResponseDto();
             if(_iPMSLogic.AddBooking(request.Booking))
             {
-                response.ResponseStatus = PmsApiStatus.Success;
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Booking is done successfully.";
             }
             else
             {
-                response.ResponseStatus = PmsApiStatus.Failure;
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
                 response.StatusDescription = "Booking is failed.Contact administrator.";
             }
 
@@ -97,77 +98,85 @@ namespace PMS.Api.Controllers
                 throw new PmsException("Incorrect booking end date");
             }
 
-            //test data
-            var response = new GetBookingResponseDto()
-            {
-                Bookings = new List<Resources.Entities.Booking>
-                {
-                   new Booking 
-                   {
-                       CheckinTime = Convert.ToDateTime(String.Format("{0:s}", DateTime.Now)),
-                       CheckoutTime = Convert.ToDateTime(String.Format("{0:s}", DateTime.Now.AddDays(1))),
-                       RoomBookings = new List<RoomBooking>
-                       {
-                          new RoomBooking
-                          {
-                             Room = new Room
-                             {
-                                 Id = 1,
-                                 Number = "Room B"
-                             },
-                             Guest = new Guest
-                             {
-                                 Id = 11,
-                                 FirstName = "Tyagi"
-                             }                            
-                             
-                          },
-                          new RoomBooking
-                          {
-                             Room = new Room
-                             {
-                                 Id = 2,
-                                 Number = "Room C"
-                             },
-                             Guest = new Guest
-                             {
-                                 Id = 22,
-                                 FirstName = "Sharma"
-                             }    
-                          },
-                          new RoomBooking
-                          {
-                             Room = new Room
-                             {
-                                 Id = 3,
-                                 Number = "Room D"
-                             },
-                             Guest = new Guest
-                             {
-                                 Id = 33,
-                                 FirstName = "Deepak"
-                             }    
-                          },
-                          new RoomBooking
-                          {
-                             Room = new Room
-                             {
-                                 Id = 4,
-                                 Number = "Room E"
-                             },
-                             Guest = new Guest
-                             {
-                                 Id = 44,
-                                 FirstName = "Sharma123"
-                             }    
-                          }
-                       }
-                   }
-                  
-                   
-                }
-            };
+            var response = new GetBookingResponseDto();
 
+            if(!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
+            {
+                response.Bookings = _iPMSLogic.GetBooking(dtStart, dtEnd);
+            }
+            else
+            {
+                //mock data
+                response.Bookings = new List<Resources.Entities.Booking>
+                {
+                    new Booking 
+                    {
+                        CheckinTime = Convert.ToDateTime(String.Format("{0:s}", DateTime.Now)),
+                        CheckoutTime = Convert.ToDateTime(String.Format("{0:s}", DateTime.Now.AddHours(3))),
+                        RoomBookings = new List<RoomBooking>
+                        {
+                            new RoomBooking
+                            { 
+                                Id = 100,
+                                Room = new Room
+                                {
+                                    Id = 1,
+                                    Number = "Room B"
+                                },
+                                Guest = new Guest
+                                {
+                                    Id = 11,
+                                    FirstName = "Tyagi"
+                                }                            
+                             
+                            },
+                            new RoomBooking
+                            {
+                                Id = 200,
+                                Room = new Room
+                                {
+                                    Id = 2,
+                                    Number = "Room C"
+                                },
+                                Guest = new Guest
+                                {
+                                    Id = 22,
+                                    FirstName = "Sharma"
+                                }    
+                            },
+                            new RoomBooking
+                            {
+                                Id = 300,
+                                Room = new Room
+                                {
+                                    Id = 3,
+                                    Number = "Room D"
+                                },
+                                Guest = new Guest
+                                {
+                                    Id = 33,
+                                    FirstName = "Deepak"
+                                }    
+                            },
+                            new RoomBooking
+                            {
+                                Id = 400,
+                                Room = new Room
+                                {
+                                    Id = 4,
+                                    Number = "Room E"
+                                },
+                                Guest = new Guest
+                                {
+                                    Id = 44,
+                                    FirstName = "Sharma123"
+                                }    
+                            }
+                    }
+                }
+                  
+            };
+          }
             return response;
         }
     }

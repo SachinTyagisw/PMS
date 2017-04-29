@@ -28,5 +28,10 @@ namespace PMS.Resources.Common.Constants
         /// </summary>
         public const string BaseUrl = "BaseUrl";
 
+        /// <summary>
+        /// MockEnabled
+        /// </summary>
+        public const string MockEnabled = "MockEnabled";
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using PMS.Resources.Common.Constants;
+using PMS.Resources.Common.Helper;
 using PMS.Resources.Core;
 using PMS.Resources.DTO.Request;
 using PMS.Resources.DTO.Response;
@@ -75,23 +76,23 @@ namespace PMS.Api.Controllers
 
             config.Routes.MapHttpRoute(
               "GetRoomByRateType",
-              "api/v1/Room/GetRoomByRateType/{rateTypeId}",
+              "api/v1/Room/{propertyId}/GetRoomByRateType/{rateTypeId}",
               new { controller = "Room", action = "GetRoomByRateType" },
-              constraints: new { rateTypeId = RegExConstants.NumericRegEx }
+              constraints: new { propertyId = RegExConstants.NumericRegEx, rateTypeId = RegExConstants.NumericRegEx }
               );
 
             config.Routes.MapHttpRoute(
             "GetRoomById",
-            "api/v1/Room/GetRoomById/{roomId}",
+            "api/v1/Room/{propertyId}/GetRoomById/{roomId}",
             new { controller = "Room", action = "GetRoomById" },
-            constraints: new { roomId = RegExConstants.NumericRegEx }
+            constraints: new { propertyId = RegExConstants.NumericRegEx, roomId = RegExConstants.NumericRegEx }
             );
            
             config.Routes.MapHttpRoute(
             "GetRoomByRoomType",
-            "api/v1/Room/GetRoomByRoomType/{typeId}",
+            "api/v1/Room/{propertyId}/GetRoomByRoomType/{typeId}",
             new { controller = "Room", action = "GetRoomByRoomType" },
-            constraints: new { typeId = RegExConstants.NumericRegEx }
+            constraints: new { propertyId = RegExConstants.NumericRegEx, typeId = RegExConstants.NumericRegEx }
             );
 
             config.Routes.MapHttpRoute(
@@ -115,6 +116,16 @@ namespace PMS.Api.Controllers
             if (request == null || request.Room == null) throw new PmsException("Room can not be added.");
 
             var response = new PmsResponseDto();
+            if (_iPMSLogic.AddRoom(request.Room))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "New Room Added successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "New Room Addition failed.Contact administrator.";
+            }
             return response;
         }
 
@@ -124,6 +135,16 @@ namespace PMS.Api.Controllers
             if (request == null || request.Room == null || request.Room.Id <= 0) throw new PmsException("Room can not be updated.");
 
             var response = new PmsResponseDto();
+            if (_iPMSLogic.UpdateRoom(request.Room))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "Room Updated successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "Room Updation failed.Contact administrator.";
+            }
             return response;
         }
 
@@ -133,6 +154,16 @@ namespace PMS.Api.Controllers
             if (roomId <= 0) throw new PmsException("Roomid is not valid. Hence Room can not be deleted.");
 
             var response = new PmsResponseDto();
+            if (_iPMSLogic.DeleteRoom(roomId))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "Room Deleted successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "Room Deletion failed.Contact administrator.";
+            }
             return response;
         }
 
@@ -141,50 +172,98 @@ namespace PMS.Api.Controllers
         {
             if (propertyId <= 0) throw new PmsException("Property id is not valid.");
 
-            //test data
-            var response = new GetRoomResponseDto()
+            var response = new GetRoomResponseDto();
+            if (!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
             {
-                Rooms = new List<Resources.Entities.Room>
+                response.Rooms = _iPMSLogic.GetRoomByProperty(propertyId);
+            }
+            else
+            {
+                //mock data
+                response.Rooms = new List<Resources.Entities.Room>
                 {
                     new Room
                     {
                         Id = 1,
-                        Number = "Room AB"
+                        Number = "Room AB",
+                        RoomType = new RoomType
+                        {
+                            Id = 1,
+                            Name = "King-Smoking"
+                        },
+                        RateType = new RateType
+                        {
+                            Id = 2,
+                            Name = "Apartment Standard"
+                        }
                     },
 
                     new Room
                     {
-                       Id = 2,
-                       Number = "Room AC"
+                        Id = 2,
+                        Number = "Room AC",
+                        RoomType = new RoomType
+                        {
+                            Id = 2,
+                            Name = "King-NonSmoking"
+                        },
+                        RateType = new RateType
+                        {
+                            Id = 1,
+                            Name = "Apartment Standard Test"
+                        }
                     },
 
                     new Room
                     {
-                       Id = 3,
-                       Number = "Room AD"
+                        Id = 3,
+                        Number = "Room AD",
+                        RoomType = new RoomType
+                        {
+                            Id = 3,
+                            Name = "Queen-Smoking"
+                        },
+                        RateType = new RateType
+                        {
+                            Id = 3,
+                            Name = "Queen Standard"
+                        }
                     },
 
                     new Room
                     {
-                       Id = 4,
-                       Number = "Room AE"
+                        Id = 4,
+                        Number = "Room AE",
+                        RoomType = new RoomType
+                        {
+                            Id = 1,
+                            Name = "King-Smoking"
+                        },
+                        RateType = new RateType
+                        {
+                            Id = 4,
+                            Name = "Holiday Standard"
+                        }
                     }
-
-
-                }
-            };
-
+                };
+            }
             return response;
         }
         
         [HttpGet, ActionName("GetRoomById")]
-        public GetRoomResponseDto GetRoomById(int roomId)
+        public GetRoomResponseDto GetRoomById(int propertyId, int roomId)
         {
+            if (propertyId <= 0) throw new PmsException("Property id is not valid.");
+
             var response = new GetRoomResponseDto();
             if (roomId <= 0)
             {
                 return response;
             }
+            var roomResponseDto = GetRoomByProperty(propertyId);
+            if (roomResponseDto == null || roomResponseDto.Rooms == null || roomResponseDto.Rooms.Count <= 0) return response;
+
+            response.Rooms = roomResponseDto.Rooms.Where(x => x.Id.Equals(roomId)).ToList();
             return response;
         }
 
@@ -198,28 +277,44 @@ namespace PMS.Api.Controllers
             {
                 return response;
             }
+            var roomResponseDto = GetRoomByProperty(propertyId);
+            if (roomResponseDto == null || roomResponseDto.Rooms == null || roomResponseDto.Rooms.Count <= 0) return response;
+
+            response.Rooms = roomResponseDto.Rooms.Where(x => x.RoomStatus.Id.Equals(statusId)).ToList();
             return response;
         }
 
         [HttpGet, ActionName("GetRoomByRoomType")]
-        public GetRoomResponseDto GetRoomByRoomType(int typeId)
+        public GetRoomResponseDto GetRoomByRoomType(int propertyId, int typeId)
         {
+            if (propertyId <= 0) throw new PmsException("Property id is not valid.");
+
             var response = new GetRoomResponseDto();
             if (typeId <= 0)
             {
                 return response;
             }
+            var roomResponseDto = GetRoomByProperty(propertyId);
+            if (roomResponseDto == null || roomResponseDto.Rooms == null || roomResponseDto.Rooms.Count <= 0) return response;
+
+            response.Rooms = roomResponseDto.Rooms.Where(x => x.RoomStatus.Id.Equals(typeId)).ToList();
             return response;
         }
 
         [HttpGet, ActionName("GetRoomByRateType")]
-        public GetRoomResponseDto GetRoomByRateType(int rateTypeId)
+        public GetRoomResponseDto GetRoomByRateType(int propertyId, int rateTypeId)
         {
+            if (propertyId <= 0) throw new PmsException("Property id is not valid.");
+
             var response = new GetRoomResponseDto();
             if (rateTypeId <= 0)
             {
                 return response;
             }
+            var roomResponseDto = GetRoomByProperty(propertyId);
+            if (roomResponseDto == null || roomResponseDto.Rooms == null || roomResponseDto.Rooms.Count <= 0) return response;
+
+            response.Rooms = roomResponseDto.Rooms.Where(x => x.RateType.Id.Equals(rateTypeId)).ToList();
             return response;
         }
 
@@ -233,6 +328,10 @@ namespace PMS.Api.Controllers
             {
                 return response;
             }
+            var roomResponseDto = GetRoomByProperty(propertyId);
+            if (roomResponseDto == null || roomResponseDto.Rooms == null || roomResponseDto.Rooms.Count <= 0) return response;
+
+            response.Rooms = roomResponseDto.Rooms.Where(x => x.Number.Equals(roomNumber)).ToList();
             return response;
         }    
     }

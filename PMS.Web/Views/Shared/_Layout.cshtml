@@ -3,48 +3,117 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - PMS Application</title>
     <link rel="stylesheet" href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/css/bootstrap")" />
-    <link rel="stylesheet" href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/media/css")" />
+    <link rel="stylesheet" href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/daypilotmedia/css")" />
     <link type="text/css" rel="stylesheet" href="~/Content/icons/style.css" />
+
+    <!-- ================= Favicon ================== -->
+    <!-- Standard -->
+    <link rel="shortcut icon" href="#">
+    <!-- Retina iPad Touch Icon-->
+    <link rel="apple-touch-icon" sizes="144x144" href="#">
+    <!-- Retina iPhone Touch Icon-->
+    <link rel="apple-touch-icon" sizes="114x114" href="#">
+    <!-- Standard iPad Touch Icon-->
+    <link rel="apple-touch-icon" sizes="72x72" href="#">
+    <!-- Standard iPhone Touch Icon-->
+    <link rel="apple-touch-icon" sizes="57x57" href="#">
+    <!-- Styles -->
+    <link href="~/Content/lib/calendar2/pignose.calendar.min.css" rel="stylesheet">
+    <link href="~/Content/lib/font-awesome.min.css" rel="stylesheet">
+    <link href="~/Content/lib/themify-icons.css" rel="stylesheet">
+    <link href="~/Content/lib/owl.theme.default.min.css" rel="stylesheet" />
+    <link href="~/Content/lib/sidebar.css" rel="stylesheet">
+    <link href="~/Content/lib/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/lib/unix.css" rel="stylesheet">
+    <link href="~/Content/Jquery/jquery-ui.min.css" rel="stylesheet">
+    <link href="~/Content/lib/jquery-ui-timepicker-addon.css" rel="stylesheet">
+    <link href="~/Content/style.css" rel="stylesheet">
+
     <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/jquery")"></script>
     <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/angular")"></script>
     <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/bootstrap")"></script>
 
+    <script type="text/javascript">
+
+        window.baseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["BaseUrl"].ToString())';
+        jQuery(document).ready(function ($) {
+            //set property id on property ddl selection
+            window.GuestCheckinManager.SetPropertyId(3);
+            window.GuestCheckinManager.Initialize();
+        });
+
+    </script>
+    
+    <script src="~/Scripts/PmsSession.js"></script>
+    <script src="~/Scripts/PmsAjaxQueue.js" ></script>
+    <script src="~/Scripts/PmsService.js" ></script>
+    <script src="~/Scripts/GuestCheckinManager.js"></script>
     <script src="~/Scripts/calendarModule.js"></script>
     <script src="~/Scripts/index.js"></script>
     <script src="~/Scripts/messageModalService.js"></script>
     <script src="~/Scripts/redirectionService.js"></script>
     <script src="~/Scripts/calendarService.js"></script>
     <script src="~/Scripts/calendarController.js"></script>
+    
+    <script src="~/Scripts/Jquery/lib/jquery.nanoscroller.min.js"></script><!-- nano scroller --> 
+    <script src="~/Scripts/Jquery/lib/sidebar.js"></script><!-- sidebar -->
+    <script src="~/Scripts/Jquery/lib/jquery-ui/jquery-ui-timepicker-addon.js"></script><!-- bootstrap -->
+    <script src="~/Scripts/scripts.js"></script><!-- scripit init-->
+
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+    <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
+        <div class="nano">
+            <div class="nano-content">
+                <ul>
+                    <li><a href="#"><i class="ti-home"></i> Home </a></li>
+                    <li class="active"><a href="check-in.html"><i class="ti-view-list-alt"></i>Booking</a></li>
+                    <li><a href="#"><i class="ti-files"></i>Dashboard</a></li>
+                    <li><a href="#"><i class="ti-view-list-alt"></i>Reports</a></li>
+                    <li><a href="#"><i class="ti-calendar"></i> Rewards </a></li>
+                    <li><a href="#"><i class="ti-user"></i>Forgot password</a></li>
+                    <li><a><i class="ti-close"></i> Logout</a></li>
                 </ul>
-                @Html.Partial("_LoginPartial")
             </div>
         </div>
+    </div><!-- /# sidebar -->
+
+    <div class="header">
+        <div class="pull-left">
+            <div class="logo"><a href="#"><span><img src="~/Images/logo.png"></span></a></div>
+            <div class="hamburger sidebar-toggle">
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+            </div>
+        </div>
+        <div class="pull-right p-r-15">
+            <ul>
+                <li class="header-icon dib">
+                    <img class="avatar-img" src="~/Images/avatar/profile.png" alt="" /> <span class="user-avatar">Administrator  <i class="ti-angle-down f-s-10"></i></span>
+                    <div class="drop-down dropdown-profile">
+                        <div class="dropdown-content-body">
+                            <ul>
+                                <li><a href="#"><i class="ti-user"></i> <span>Profile</span></a></li>
+                                <li><a href="#"><i class="ti-settings"></i> <span>Setting</span></a></li>
+                                <li><a href="#"><i class="ti-power-off"></i> <span>Logout</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - PMS Application</p>
-        </footer>
+
+     @RenderBody()
+
+    <div class="footer-nav">
+        <div class="">
+            <button type="button" class="btn btn-primary m-b-10 m-l-5">Submit</button>
+            <button type="button" class="btn btn-default m-b-10">Clear</button>
+        </div>
     </div>
 
     @*@Scripts.Render("~/bundles/jquery")

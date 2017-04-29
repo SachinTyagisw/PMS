@@ -138,9 +138,28 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         useEventBoxes: "Never",
         eventDeleteHandling: "Update",
         eventClickHandling: "Disabled",
-        eventMoveHandling: "Disabled",
+        eventMoveHandling: "Update",
         eventResizeHandling: "Disabled",
         allowEventOverlap: false,
+        onEventMoved: function (args) {
+            alert(args.e.id());
+            //alert(args.newStart);
+            //alert(args.newEnd);
+            //alert(args.newResource);
+            //$("#msg").html(args.start + " " + args.end + " " + args.resource);
+        },
+        //onEventMove: function (args) {
+        //    //alert(args.start);
+        //    //alert(args.end);
+        //    //alert(args.resource);
+        //    //$("#msg").html(args.start + " " + args.end + " " + args.resource);
+        //},
+        //onEventMoving: function (args) {
+        //    //alert(args.start);
+        //    //alert(args.end);
+        //    //alert(args.resource);
+        //    //$("#msg").html(args.start + " " + args.end + " " + args.resource);
+        //},        
         onBeforeTimeHeaderRender: function (args) {
             args.header.html = args.header.html.replace(" AM", "AM").replace(" PM", "PM");  // shorten the hour header
         },
@@ -242,12 +261,12 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                 var dpBookingData = {};
                 dpBookingData.tags = {};
 
-                dpBookingData.start = new DayPilot.Date(booking.CheckinTime);
-                dpBookingData.end = new DayPilot.Date(booking.CheckoutTime);
+                dpBookingData.start = booking.CheckinTime;
+                dpBookingData.end = booking.CheckoutTime;
                 dpBookingData.resource = data[j].Room.Id;
                 dpBookingData.text = "This is booked by me" + data[j].Room.Id;
                 dpBookingData.tags.status = "confirmed";
-                dpBookingData.id = DayPilot.guid();
+                dpBookingData.id = data[j].Id;
 
                 dpBookingResponseDto.push(dpBookingData);
             }
@@ -284,7 +303,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         };
 
         // Show loading message
-        //var messageModal = messageModalSvc.ShowMessage("Loading Calendar...", $scope);
+        var messageModal = messageModalSvc.ShowMessage("Loading ...", $scope);
         calendarSvc.GetRoomBooking(params).then(onGetRoomBookingSuccess, onGetRoomBookingError)['finally'](function () {
             messageModalSvc.CloseMessage(messageModal);
         });       
@@ -294,7 +313,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         //TODO : property id should be dynamic
         var propertyId = 1;
         // Show loading message
-        //var messageModal = messageModalSvc.ShowMessage("Loading Calendar...", $scope);
+        var messageModal = messageModalSvc.ShowMessage("Loading...", $scope);
         calendarSvc.GetRoomByProperty(propertyId).then(onGetRoomSuccess, onGetRoomError)['finally'](function () {
             messageModalSvc.CloseMessage(messageModal);
         });
