@@ -4,50 +4,50 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="fca55170e87642d0b6513f71a73ca405" Name="Diagram1">
-        <EntityTypeShape EntityType="PMSModel.Address" Width="1.5" PointX="5.25" PointY="2.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="PMSModel.AddressType" Width="1.5" PointX="3" PointY="2.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="PMSModel.Booking" Width="1.5" PointX="3" PointY="12.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="PMSModel.City" Width="1.5" PointX="12.25" PointY="6.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="PMSModel.Country" Width="1.5" PointX="7.75" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="PMSModel.Guest" Width="1.5" PointX="3" PointY="6.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="PMSModel.GuestMapping" Width="1.5" PointX="10.25" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="PMSModel.GuestReward" Width="1.5" PointX="5.25" PointY="12.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="PMSModel.IDType" Width="1.5" PointX="8" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PMSModel.Invoice" Width="1.5" PointX="8.25" PointY="12.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="PMSModel.InvoiceTaxDetail" Width="1.5" PointX="10.5" PointY="13.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="PMSModel.Property" Width="1.5" PointX="0.75" PointY="14.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="PMSModel.RateType" Width="1.5" PointX="5.25" PointY="18.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="PMSModel.RewardCategory" Width="1.5" PointX="12.75" PointY="2.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="PMSModel.Room" Width="1.5" PointX="7.5" PointY="18.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="PMSModel.RoomBooking" Width="1.5" PointX="5.25" PointY="7.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="PMSModel.RoomPricing" Width="1.5" PointX="10.5" PointY="18" IsExpanded="true" />
-        <EntityTypeShape EntityType="PMSModel.RoomType" Width="1.5" PointX="3" PointY="21.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="PMSModel.State" Width="1.5" PointX="10" PointY="8.625" IsExpanded="true" />
-        <AssociationConnector Association="PMSModel.FK__Address__Address__1920BF5C" ManuallyRouted="false" />
-        <AssociationConnector Association="PMSModel.FK__Address__GuestID__1A14E395" ManuallyRouted="false" />
-        <AssociationConnector Association="PMSModel.FK__Booking__Propert__1273C1CD" ManuallyRouted="false" />
-        <AssociationConnector Association="PMSModel.FK__GuestRewa__Booki__38996AB5" ManuallyRouted="false" />
-        <AssociationConnector Association="PMSModel.FK__Invoice__Booking__3C69FB99" ManuallyRouted="false" />
-        <AssociationConnector Association="PMSModel.FK__RoomBooki__Booki__33D4B598" ManuallyRouted="false" />
-        <AssociationConnector Association="PMSModel.FK__City__CountryID__48CFD27E" ManuallyRouted="false" />
-        <AssociationConnector Association="PMSModel.FK__City__StateID__47DBAE45" ManuallyRouted="false" />
-        <AssociationConnector Association="PMSModel.FK__State__CountryID__44FF419A" ManuallyRouted="false" />
-        <AssociationConnector Association="PMSModel.FK__GuestMapp__GUEST__1FCDBCEB" ManuallyRouted="false" />
-        <AssociationConnector Association="PMSModel.FK__GuestRewa__Guest__398D8EEE" ManuallyRouted="false" />
-        <AssociationConnector Association="PMSModel.FK__Invoice__GuestID__3D5E1FD2" ManuallyRouted="false" />
-        <AssociationConnector Association="PMSModel.FK__RoomBooki__Guest__32E0915F" ManuallyRouted="false" />
-        <AssociationConnector Association="PMSModel.FK__GuestMapp__IDTYP__1ED998B2" ManuallyRouted="false" />
-        <AssociationConnector Association="PMSModel.FK__InvoiceTa__Invoi__403A8C7D" ManuallyRouted="false" />
-        <AssociationConnector Association="PMSModel.FK__RateType__Proper__267ABA7A" ManuallyRouted="false" />
-        <AssociationConnector Association="PMSModel.FK__Room__PropertyID__2F10007B" ManuallyRouted="false" />
-        <AssociationConnector Association="PMSModel.FK__RoomPrici__Prope__2A4B4B5E" ManuallyRouted="false" />
-        <AssociationConnector Association="PMSModel.FK__RoomType__Proper__22AA2996" ManuallyRouted="false" />
-        <AssociationConnector Association="PMSModel.FK__RateType__RoomTy__25869641" ManuallyRouted="false" />
-        <AssociationConnector Association="PMSModel.FK__Room__RateTypeID__300424B4" ManuallyRouted="false" />
-        <AssociationConnector Association="PMSModel.FK__RoomPrici__RateT__2B3F6F97" ManuallyRouted="false" />
-        <AssociationConnector Association="PMSModel.FK__Room__RoomTypeID__2E1BDC42" ManuallyRouted="false" />
-        <AssociationConnector Association="PMSModel.FK__RoomPrici__RoomT__29572725" ManuallyRouted="false" />
+      <Diagram DiagramId="3d3e97f4c53c448a8a035141a035c0ba" Name="Diagram1">
+        <EntityTypeShape EntityType="PmsModel.Address" Width="1.5" PointX="5.25" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PmsModel.AddressType" Width="1.5" PointX="3" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PmsModel.Booking" Width="1.5" PointX="3" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PmsModel.City" Width="1.5" PointX="12.25" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PmsModel.Country" Width="1.5" PointX="7.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PmsModel.Guest" Width="1.5" PointX="3" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PmsModel.GuestMapping" Width="1.5" PointX="10.25" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PmsModel.GuestReward" Width="1.5" PointX="5.25" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PmsModel.IDType" Width="1.5" PointX="8" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PmsModel.Invoice" Width="1.5" PointX="8.25" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PmsModel.InvoiceTaxDetail" Width="1.5" PointX="10.5" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PmsModel.Property" Width="1.5" PointX="0.75" PointY="14.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PmsModel.RateType" Width="1.5" PointX="5.25" PointY="18.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PmsModel.RewardCategory" Width="1.5" PointX="12.75" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PmsModel.Room" Width="1.5" PointX="7.5" PointY="18.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PmsModel.RoomBooking" Width="1.5" PointX="5.25" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PmsModel.RoomPricing" Width="1.5" PointX="10.5" PointY="18.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PmsModel.RoomType" Width="1.5" PointX="3" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PmsModel.State" Width="1.5" PointX="10" PointY="8.625" IsExpanded="true" />
+        <AssociationConnector Association="PmsModel.FK__Address__Address__1920BF5C" ManuallyRouted="false" />
+        <AssociationConnector Association="PmsModel.FK__Address__GuestID__1A14E395" ManuallyRouted="false" />
+        <AssociationConnector Association="PmsModel.FK__Booking__Propert__1273C1CD" ManuallyRouted="false" />
+        <AssociationConnector Association="PmsModel.FK__GuestRewa__Booki__38996AB5" ManuallyRouted="false" />
+        <AssociationConnector Association="PmsModel.FK__Invoice__Booking__3C69FB99" ManuallyRouted="false" />
+        <AssociationConnector Association="PmsModel.FK__RoomBooki__Booki__33D4B598" ManuallyRouted="false" />
+        <AssociationConnector Association="PmsModel.FK__City__CountryID__48CFD27E" ManuallyRouted="false" />
+        <AssociationConnector Association="PmsModel.FK__City__StateID__47DBAE45" ManuallyRouted="false" />
+        <AssociationConnector Association="PmsModel.FK__State__CountryID__44FF419A" ManuallyRouted="false" />
+        <AssociationConnector Association="PmsModel.FK__GuestMapp__GUEST__1FCDBCEB" ManuallyRouted="false" />
+        <AssociationConnector Association="PmsModel.FK__GuestRewa__Guest__398D8EEE" ManuallyRouted="false" />
+        <AssociationConnector Association="PmsModel.FK__Invoice__GuestID__3D5E1FD2" ManuallyRouted="false" />
+        <AssociationConnector Association="PmsModel.FK__RoomBooki__Guest__32E0915F" ManuallyRouted="false" />
+        <AssociationConnector Association="PmsModel.FK__GuestMapp__IDTYP__1ED998B2" ManuallyRouted="false" />
+        <AssociationConnector Association="PmsModel.FK__InvoiceTa__Invoi__403A8C7D" ManuallyRouted="false" />
+        <AssociationConnector Association="PmsModel.FK__RateType__Proper__267ABA7A" ManuallyRouted="false" />
+        <AssociationConnector Association="PmsModel.FK__Room__PropertyID__2F10007B" ManuallyRouted="false" />
+        <AssociationConnector Association="PmsModel.FK__RoomPrici__Prope__2A4B4B5E" ManuallyRouted="false" />
+        <AssociationConnector Association="PmsModel.FK__RoomType__Proper__22AA2996" ManuallyRouted="false" />
+        <AssociationConnector Association="PmsModel.FK__RateType__RoomTy__25869641" ManuallyRouted="false" />
+        <AssociationConnector Association="PmsModel.FK__Room__RateTypeID__300424B4" ManuallyRouted="false" />
+        <AssociationConnector Association="PmsModel.FK__RoomPrici__RateT__2B3F6F97" ManuallyRouted="false" />
+        <AssociationConnector Association="PmsModel.FK__Room__RoomTypeID__2E1BDC42" ManuallyRouted="false" />
+        <AssociationConnector Association="PmsModel.FK__RoomPrici__RoomT__29572725" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

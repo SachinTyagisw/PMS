@@ -66,6 +66,9 @@
       <DependentUpon>PMSModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DalFactory.cs" />
+    <Compile Include="GETALLBOOKINGS_Result.cs">
+      <DependentUpon>PMSModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Guest.cs">
       <DependentUpon>PMSModel.tt</DependentUpon>
     </Compile>
@@ -138,11 +141,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
     <EntityDeploy Include="PMSModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>PMSModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="packages.config" />
     <None Include="PMSModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>PMSModel.edmx</DependentUpon>

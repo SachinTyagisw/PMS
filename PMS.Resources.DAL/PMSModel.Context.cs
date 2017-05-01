@@ -12,11 +12,13 @@ namespace PMS.Resources.DAL
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
-    public partial class PMSEntities : DbContext
+    public partial class PmsEntities : DbContext
     {
-        public PMSEntities()
-            : base("name=PMSEntities")
+        public PmsEntities()
+            : base("name=PmsEntities")
         {
         }
     
@@ -44,5 +46,35 @@ namespace PMS.Resources.DAL
         public virtual DbSet<RoomPricing> RoomPricings { get; set; }
         public virtual DbSet<RoomType> RoomTypes { get; set; }
         public virtual DbSet<State> States { get; set; }
+    
+        public virtual ObjectResult<GETALLBOOKINGS_Result> GETALLBOOKINGS(Nullable<int> pROPERTYID, Nullable<System.DateTime> cHECKINTIME, Nullable<System.DateTime> cHECKOUTDATE)
+        {
+            var pROPERTYIDParameter = pROPERTYID.HasValue ?
+                new ObjectParameter("PROPERTYID", pROPERTYID) :
+                new ObjectParameter("PROPERTYID", typeof(int));
+    
+            var cHECKINTIMEParameter = cHECKINTIME.HasValue ?
+                new ObjectParameter("CHECKINTIME", cHECKINTIME) :
+                new ObjectParameter("CHECKINTIME", typeof(System.DateTime));
+    
+            var cHECKOUTDATEParameter = cHECKOUTDATE.HasValue ?
+                new ObjectParameter("CHECKOUTDATE", cHECKOUTDATE) :
+                new ObjectParameter("CHECKOUTDATE", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GETALLBOOKINGS_Result>("GETALLBOOKINGS", pROPERTYIDParameter, cHECKINTIMEParameter, cHECKOUTDATEParameter);
+        }
+    
+        public virtual int InsertBooking(Nullable<int> propertyID, string bookingXML)
+        {
+            var propertyIDParameter = propertyID.HasValue ?
+                new ObjectParameter("propertyID", propertyID) :
+                new ObjectParameter("propertyID", typeof(int));
+    
+            var bookingXMLParameter = bookingXML != null ?
+                new ObjectParameter("bookingXML", bookingXML) :
+                new ObjectParameter("bookingXML", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertBooking", propertyIDParameter, bookingXMLParameter);
+        }
     }
 }
