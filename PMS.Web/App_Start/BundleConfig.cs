@@ -50,16 +50,23 @@ namespace PMS.Web
             //bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
             //            "~/Scripts/modernizr-*"));
 
-            bundles.Add(new StyleBundle("~/bundles/css/bootstrap")
-                       .Include("~/Content/Bootstrap/bootstrap.min.css"));
-                       //.Include("~/Content/fonts/font.css"));
-                //.Include("~/Css/font-awesome/font-awesome.min.css")
-                //.Include("~/Css/ionicons/ionicons.min.css")
-                // .Include("~/Content/jvectormap/jquery-jvectormap.min.css"));
+            //bundles.Add(new StyleBundle("~/bundles/css/bootstrap")
+            //           .Include("~/Content/Bootstrap/bootstrap.min.css"));
+
+            bundles.Add(new StyleBundle("~/bundles/css/lib")
+                       .Include("~/Content/lib/calendar2/pignose.calendar.min.css")
+                       .Include("~/Content/lib/font-awesome.min.css")
+                       .Include("~/Content/lib/themify-icons.css")
+                       .Include("~/Content/lib/owl.theme.default.min.css")
+                       .Include("~/Content/lib/sidebar.css")
+                       .Include("~/Content/lib/bootstrap.min.css")
+                       .Include("~/Content/lib/unix.css")
+                       .Include("~/Content/Jquery/jquery-ui.min.css")
+                       .Include("~/Content/lib/jquery-ui-timepicker-addon.css"));
 
             bundles.Add(new StyleBundle("~/bundles/daypilotmedia/css").Include("~/Content/daypilot-media/layout.css")
-            .Include("~/Content/daypilot-media/custom.css")
-            .Include("~/Content/daypilot-media/modal.css"));
+                       .Include("~/Content/daypilot-media/custom.css")
+                       .Include("~/Content/daypilot-media/modal.css"));
 
             //bundles.Add(new StyleBundle("~/bundles/css/angular").Include("~/Content/Angular/ng-grid.min.css"));
         }
