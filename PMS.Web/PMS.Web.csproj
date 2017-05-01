@@ -20,6 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -205,6 +206,12 @@
     <Content Include="Content\daypilot-media\layout\main.png" />
     <Content Include="Content\daypilot-media\layout\shadow.png" />
     <Content Include="Content\daypilot-media\modal.css" />
+    <Content Include="Content\Jquery\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\Jquery\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\Jquery\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\Jquery\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\Jquery\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\Jquery\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\Jquery\jquery-ui.min.css" />
     <Content Include="Content\lib\bootstrap.min.css" />
     <Content Include="Content\lib\calendar2\pignose.calendar.min.css" />

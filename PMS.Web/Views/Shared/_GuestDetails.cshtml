@@ -1,20 +1,17 @@
 ﻿<div class="row1">
-    <div class="col-lg-12">
+    <div class="col-lg-6 p-r-0">
         <div class="card alert card-section">
             <div class="card-body">
                 <div class="user-profile">
                     <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card-header">
-                                <h4>Guest Details</h4>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-8">
                             <!-- <ul class="nav nav-tabs" role="tablist">
                               <li role="presentation" class="active"><a href="#1" aria-controls="1" role="tab" data-toggle="tab">BASIC DETAILS</a></li>
                               <li role="presentation" class=""><a href="#2" aria-controls="2" role="tab" data-toggle="tab">ID PROOF</a></li>
                             </ul> -->
-
+                            <div class="card-header">
+                                <h4>Guest Details</h4>
+                            </div>
 
                             <div class="col-lg-3">
                                 <div class="form-group">
@@ -74,7 +71,18 @@
                                     </div>
                                 </div>
                                 <div class="zipcode-content">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <select class="form-control">
+                                                <option selected="">Country</option>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
                                         <div class="form-group">
                                             <input type="text" placeholder="ZipCode" class="form-control" name="example-input-normal" id="example-input-normal">
                                         </div>
@@ -91,7 +99,10 @@
 
                         </div>
                         <div class="col-lg-4">
-                            <div class="col-lg-6">
+                            <div class="card-header">
+                                <h4>ID Details</h4>
+                            </div>
+                            <div class="col-lg-12">
                                 <div class="form-group">
                                     <select class="form-control">
                                         <option selected="">Type of ID</option>
@@ -101,12 +112,12 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-12">
                                 <div class="form-group">
                                     <input type="text" placeholder="Id Number" class="form-control" name="example-input-normal" id="example-input-normal">
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-12">
                                 <div class="form-group">
                                     <select class="form-control">
                                         <option selected="">State</option>
@@ -117,7 +128,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-12">
                                 <div class="form-group">
                                     <select class="form-control">
                                         <option selected="">Country</option>
@@ -128,13 +139,13 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-12">
                                 <div class="form-group">
                                     <input type="text" class="form-control" placeholder="ID Expiry Date" id="id-expiry">
                                     <span class="ti-calendar form-control-feedback booking-system-feedback cal-pos"></span>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-12">
                                 <div class="form-group">
                                     <input type="text" class="form-control" placeholder="DOB" id="dob">
                                     <span class="ti-calendar form-control-feedback booking-system-feedback cal-pos"></span>
@@ -144,17 +155,21 @@
                                 <button type="button" class="btn btn-link btn-flat btn-addon"><i class="ti-plus"></i>Additional Guest Details</button>
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="user-photo m-b-30 photo_submit-container">
-                                <label class="photo_submit js-photo_submit1">
-                                    <input class="photo_submit-input js-photo_submit-input" type="file" accept="image/*">
-                                    <span class="photo_submit-plus"></span>
-                                    <span class="photo_submit-uploadLabel">Upload photo</span>
-                                    <span class="photo_submit-delete"></span>
-                                </label>
+                        <div class="col-lg-12">
+                            <div class="col-lg-6">
+                                <div class="user-photo m-b-30 photo_submit-container">
+                                    <label class="photo_submit js-photo_submit1">
+                                        <input class="photo_submit-input js-photo_submit-input" type="file" accept="image/*">
+                                        <span class="photo_submit-plus"></span>
+                                        <span class="photo_submit-uploadLabel">Upload photo</span>
+                                        <span class="photo_submit-delete"></span>
+                                    </label>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <textarea class="form-control" rows="6" placeholder="Guest Comments"></textarea>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <textarea class="form-control" rows="6" placeholder="Guest Comments"></textarea>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -2415,7 +2415,14 @@ ul {
   border-radius: 3px;
 }
 .card-section {
-  min-height: 485px;
+  min-height: 714px;
+}
+textarea.form-control {
+    min-height: 150px;
+}
+.user-profile .card-header {
+    border-bottom: 1px solid #e7e7e7;
+    margin-bottom: 24px;
 }
 .main-content .col-lg-6.p-l-0 {
   padding-left: 0;
@@ -3529,7 +3536,7 @@ button:hover {
 }
 .footer-nav > div {
   margin: 10px auto;
-  width: 17.5%;
+  width: 20%;
   height: 100%;
 }
 .footer-nav > div button {
@@ -3777,7 +3784,7 @@ body.login-section {
   display: block;
 }
 .container-fluid {
-    padding: 0 5px;
+    padding: 0 10px;
 }
 @media screen and (max-width: 768px) {
   .main-content .col-lg-6.p-l-0-tab {
