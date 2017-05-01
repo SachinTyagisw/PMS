@@ -133,7 +133,7 @@ namespace PMS.Resources.DAL
             var rateTypes = new List<PmsEntity.RateType>();
             using (var pmsContext = new PmsEntities())
             {
-                rateTypes = pmsContext.RoomTypes.Where(x => x.IsActive && x.PropertyID == propertyId)
+                rateTypes = pmsContext.RateTypes.Where(x => x.IsActive && x.PropertyID == propertyId)
                                                  .Select(x => new PmsEntity.RateType
                                                  {
                                                      Description = x.Description,
@@ -143,7 +143,8 @@ namespace PMS.Resources.DAL
                                                      LastUpdatedBy = x.LastUpdatedBy,
                                                      LastUpdatedOn = x.LastUpdatedOn,
                                                      Id = x.ID,
-                                                     PropertyId = x.PropertyID
+                                                     PropertyId = x.PropertyID,
+                                                     RoomTypeId = x.RoomTypeID
                                                  }).ToList();
 
             }
