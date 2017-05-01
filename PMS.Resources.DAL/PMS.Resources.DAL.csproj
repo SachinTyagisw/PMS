@@ -51,82 +51,82 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Address.cs">
-      <DependentUpon>PMSModel.tt</DependentUpon>
+      <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="AddressType.cs">
-      <DependentUpon>PMSModel.tt</DependentUpon>
+      <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Booking.cs">
-      <DependentUpon>PMSModel.tt</DependentUpon>
+      <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="City.cs">
-      <DependentUpon>PMSModel.tt</DependentUpon>
+      <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Country.cs">
-      <DependentUpon>PMSModel.tt</DependentUpon>
+      <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DalFactory.cs" />
     <Compile Include="GETALLBOOKINGS_Result.cs">
-      <DependentUpon>PMSModel.tt</DependentUpon>
+      <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Guest.cs">
-      <DependentUpon>PMSModel.tt</DependentUpon>
+      <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="GuestMapping.cs">
-      <DependentUpon>PMSModel.tt</DependentUpon>
+      <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="GuestReward.cs">
-      <DependentUpon>PMSModel.tt</DependentUpon>
+      <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="IDalFactory.cs" />
     <Compile Include="IDType.cs">
-      <DependentUpon>PMSModel.tt</DependentUpon>
+      <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Invoice.cs">
-      <DependentUpon>PMSModel.tt</DependentUpon>
+      <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="InvoiceTaxDetail.cs">
-      <DependentUpon>PMSModel.tt</DependentUpon>
+      <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="PMSModel.Context.cs">
+    <Compile Include="PmsModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PMSModel.Context.tt</DependentUpon>
+      <DependentUpon>PmsModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="PMSModel.cs">
+    <Compile Include="PmsModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PMSModel.tt</DependentUpon>
+      <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="PMSModel.Designer.cs">
+    <Compile Include="PmsModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PMSModel.edmx</DependentUpon>
+      <DependentUpon>PmsModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Property.cs">
-      <DependentUpon>PMSModel.tt</DependentUpon>
+      <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="RateType.cs">
-      <DependentUpon>PMSModel.tt</DependentUpon>
+      <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="RewardCategory.cs">
-      <DependentUpon>PMSModel.tt</DependentUpon>
+      <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Room.cs">
-      <DependentUpon>PMSModel.tt</DependentUpon>
+      <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="RoomBooking.cs">
-      <DependentUpon>PMSModel.tt</DependentUpon>
+      <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="RoomPricing.cs">
-      <DependentUpon>PMSModel.tt</DependentUpon>
+      <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="RoomType.cs">
-      <DependentUpon>PMSModel.tt</DependentUpon>
+      <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="State.cs">
-      <DependentUpon>PMSModel.tt</DependentUpon>
+      <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -142,22 +142,22 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <EntityDeploy Include="PMSModel.edmx">
+    <EntityDeploy Include="PmsModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>PMSModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>PmsModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="PMSModel.Context.tt">
+    <None Include="PmsModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>PMSModel.edmx</DependentUpon>
-      <LastGenOutput>PMSModel.Context.cs</LastGenOutput>
+      <DependentUpon>PmsModel.edmx</DependentUpon>
+      <LastGenOutput>PmsModel.Context.cs</LastGenOutput>
     </None>
-    <None Include="PMSModel.edmx.diagram">
-      <DependentUpon>PMSModel.edmx</DependentUpon>
+    <None Include="PmsModel.edmx.diagram">
+      <DependentUpon>PmsModel.edmx</DependentUpon>
     </None>
-    <None Include="PMSModel.tt">
+    <None Include="PmsModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>PMSModel.edmx</DependentUpon>
-      <LastGenOutput>PMSModel.cs</LastGenOutput>
+      <DependentUpon>PmsModel.edmx</DependentUpon>
+      <LastGenOutput>PmsModel.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

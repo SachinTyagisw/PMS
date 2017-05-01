@@ -19,7 +19,7 @@ namespace PMS.Resources.DAL
         public int RoomTypeID { get; set; }
         public int RateTypeID { get; set; }
         public string Number { get; set; }
-        public Nullable<bool> IsActive { get; set; }
+        public bool IsActive { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string LastUpdatedBy { get; set; }

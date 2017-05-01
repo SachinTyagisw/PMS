@@ -221,7 +221,7 @@
           <Property Name="RoomTypeID" Type="int" Nullable="false" />
           <Property Name="RateTypeID" Type="int" Nullable="false" />
           <Property Name="Number" Type="nvarchar" MaxLength="200" />
-          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
@@ -956,7 +956,7 @@
           <Property Name="RoomTypeID" Type="Int32" Nullable="false" />
           <Property Name="RateTypeID" Type="Int32" Nullable="false" />
           <Property Name="Number" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />

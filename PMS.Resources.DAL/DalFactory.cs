@@ -84,6 +84,33 @@ namespace PMS.Resources.DAL
         public List<PmsEntity.Room> GetRoomByProperty(int propertyId)
         {
             var rooms = new List<PmsEntity.Room>();
+            using (var pmsContext = new PmsEntities())
+            {
+                rooms = pmsContext.Rooms.Where(x => x.IsActive && x.PropertyID == propertyId)
+                                                 .Select(x => new PmsEntity.Room
+                                                 {
+                                                     CreatedOn = x.CreatedOn,
+                                                     Number = x.Number,
+                                                     CreatedBy = x.CreatedBy,
+                                                     LastUpdatedBy = x.LastUpdatedBy,
+                                                     LastUpdatedOn = x.LastUpdatedOn,
+                                                     Id = x.ID,
+                                                     Property = new PmsEntity.Property
+                                                     {
+                                                         Id = x.PropertyID
+                                                     },
+                                                     IsActive = x.IsActive,
+                                                     RateType = new PmsEntity.RateType
+                                                     {
+                                                         Id = x.RateTypeID 
+                                                     },
+                                                     RoomType = new PmsEntity.RoomType
+                                                     {
+                                                         Id = x.RoomTypeID
+                                                     }
+                                                 }).ToList();
+
+            }
             return rooms;
         }
         public bool AddRateType(PmsEntity.RateType rateType)
@@ -104,6 +131,22 @@ namespace PMS.Resources.DAL
         public List<PmsEntity.RateType> GetRateTypeByProperty(int propertyId)
         {
             var rateTypes = new List<PmsEntity.RateType>();
+            using (var pmsContext = new PmsEntities())
+            {
+                rateTypes = pmsContext.RoomTypes.Where(x => x.IsActive && x.PropertyID == propertyId)
+                                                 .Select(x => new PmsEntity.RateType
+                                                 {
+                                                     Description = x.Description,
+                                                     CreatedOn = x.CreatedOn,
+                                                     Name = x.Name,
+                                                     CreatedBy = x.CreatedBy,
+                                                     LastUpdatedBy = x.LastUpdatedBy,
+                                                     LastUpdatedOn = x.LastUpdatedOn,
+                                                     Id = x.ID,
+                                                     PropertyId = x.PropertyID
+                                                 }).ToList();
+
+            }
             return rateTypes;
         }
         public bool AddRoomType(PmsEntity.RoomType roomType)
@@ -124,6 +167,23 @@ namespace PMS.Resources.DAL
         public List<PmsEntity.RoomType> GetRoomTypeByProperty(int propertyId)
         {
             var roomTypes = new List<PmsEntity.RoomType>();
+            using (var pmsContext = new PmsEntities())
+            {
+                roomTypes = pmsContext.RoomTypes.Where(x => x.IsActive && x.PropertyID == propertyId)
+                                                 .Select(x => new PmsEntity.RoomType
+                                                 {
+                                                     Description = x.Description,
+                                                     CreatedOn = x.CreatedOn,
+                                                     Name = x.Name,
+                                                     CreatedBy = x.CreatedBy,
+                                                     LastUpdatedBy = x.LastUpdatedBy,
+                                                     LastUpdatedOn = x.LastUpdatedOn,
+                                                     Id = x.ID,
+                                                     PropertyId = x.PropertyID
+                                                 }).ToList();
+               
+            }
+
             return roomTypes;
         }
         public bool AddRoomPrice(PmsEntity.RoomPricing roomPrice)
