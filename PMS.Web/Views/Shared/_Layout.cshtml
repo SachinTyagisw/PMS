@@ -29,24 +29,27 @@
     <link href="~/Content/lib/unix.css" rel="stylesheet">
     <link href="~/Content/Jquery/jquery-ui.min.css" rel="stylesheet">
     <link href="~/Content/lib/jquery-ui-timepicker-addon.css" rel="stylesheet">
-    <link href="~/Content/style.css" rel="stylesheet">
+    <link href="~/Content/style.css" rel="stylesheet">    
 
+    <!--comment below bundling js logic to unbundle js files -->
     <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/jquery")"></script>
-    <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/angular")"></script>
+    <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/angular")"></script>    
     <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/bootstrap")"></script>
-
-    <script type="text/javascript">
-
-        window.baseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["BaseUrl"].ToString())';
-        jQuery(document).ready(function ($) {
-            //set property id on property ddl selection
-            window.GuestCheckinManager.SetPropertyId(1);
-            window.GuestCheckinManager.Initialize();
-        });
-
-    </script>
     
-    <script src="~/Scripts/PmsSession.js"></script>
+    <script type="text/javascript">
+    window.baseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["BaseUrl"].ToString())';
+    jQuery(document).ready(function ($) {
+        //set property id on property ddl selection
+        window.GuestCheckinManager.SetPropertyId(1);
+        window.GuestCheckinManager.Initialize();
+    });
+    </script>
+
+    <!--comment below bundling js logic to unbundle js files -->
+    <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/custom")"></script>
+
+    <!--uncomment below js files to unbundle them -->
+    @*<script src="~/Scripts/PmsSession.js"></script>
     <script src="~/Scripts/PmsAjaxQueue.js" ></script>
     <script src="~/Scripts/PmsService.js" ></script>
     <script src="~/Scripts/GuestCheckinManager.js"></script>
@@ -55,13 +58,7 @@
     <script src="~/Scripts/messageModalService.js"></script>
     <script src="~/Scripts/redirectionService.js"></script>
     <script src="~/Scripts/calendarService.js"></script>
-    <script src="~/Scripts/calendarController.js"></script>
-    
-    <script src="~/Scripts/Jquery/lib/jquery.nanoscroller.min.js"></script><!-- nano scroller --> 
-    <script src="~/Scripts/Jquery/lib/sidebar.js"></script><!-- sidebar -->
-    <script src="~/Scripts/Jquery/lib/jquery-ui/jquery-ui-timepicker-addon.js"></script><!-- bootstrap -->
-    <script src="~/Scripts/scripts.js"></script><!-- scripit init-->
-
+    <script src="~/Scripts/calendarController.js"></script>*@
 </head>
 <body>
     <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
@@ -109,21 +106,17 @@
 
      @RenderBody()
 
-    <div class="footer-nav">
-        <div class="">
-            <button type="button" class="btn btn-primary m-b-10 m-l-5">Submit</button>
-            <button type="button" class="btn btn-default m-b-10">Clear</button>
-        </div>
-    </div>
-
-
-
-    <script src="~/Scripts/Jquery/lib/jquery.min.js"></script><!-- jquery vendor -->
-    <script src="~/Scripts/Jquery/lib/jquery.nanoscroller.min.js"></script><!-- nano scroller -->
-    <script src="~/Scripts/Jquery/lib/sidebar.js"></script><!-- sidebar -->
-    <script src="~/Scripts/Jquery/lib/bootstrap.min.js"></script><!-- bootstrap -->
+    <!--comment below bundling js logic to unbundle js files -->
+    <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/jquery/lib")"></script>
+    
+    <!--uncomment below js files to unbundle them -->
+    @*<script src="~/Scripts/Jquery/lib/jquery.min.js"></script><!-- jquery vendor -->
     <script src="~/Scripts/Jquery/lib/jquery-ui/jquery-ui.min.js"></script><!-- bootstrap -->
+    <script src="~/Scripts/Jquery/lib/jquery.nanoscroller.min.js"></script><!-- nano scroller -->
     <script src="~/Scripts/Jquery/lib/jquery-ui/jquery-ui-timepicker-addon.js"></script><!-- bootstrap -->
-    <script src="~/Scripts/scripts.js"></script>
+    <script src="~/Scripts/Jquery/lib/bootstrap.min.js"></script><!-- bootstrap -->
+    <script src="~/Scripts/Jquery/lib/sidebar.js"></script><!-- sidebar -->
+    <script src="~/Scripts/scripts.js"></script>*@
+
 </body>
 </html>
