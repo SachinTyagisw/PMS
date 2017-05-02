@@ -3,7 +3,7 @@
     var propertyId = null;
     var pmsService = new window.PmsService();
     var pmsSession = window.PmsSession;
-    var args = {};
+    var args = {};    
     var guestCheckinManager = {
         
         Initialize: function () {                       
@@ -77,8 +77,46 @@
                     ddlRateType.append(new Option(rateTypes[i].Name, rateTypes[i].Id));
                 }
             }
-        }
+        },
+
+        AddBooking: function () {
+            var booking = {};
+            
+            if (!$('#dateFrom') || !$('#dateTo')
+               || !$('#ddlAdults') || !$('#ddlChild')) return;
+
+            booking.CheckinTime = $('#dateFrom').val();
+            booking.CheckoutTime = $('#dateTo').val();
+            booking.NoOfAdult = $('#ddlAdults').val();
+            booking.NoOfChild = $('#ddlChild').val();
+            booking.PropertyId = window.GuestCheckinManager.GetPropertyId();
+            booking.RoomBookings = prepareRoomBookingDto();
+            booking.GuestRemarks = "hello";
+            // add booking by api calling  
+            pmsService.AddBooking(booking);
+
+            var fname = $('#fName').val();
+        }        
     };
+
+    function prepareRoomBookingDto() {
+
+        if (!$('#rateTypeDdl') || !$('#roomTypeDdl')
+             || !$('#roomddl')) return;
+
+        var roomBookings = [];
+        var roomBooking = {};
+        roomBooking.Room = {};
+        roomBooking.Room.RateType = {};
+        roomBooking.Room.RoomType = {};
+
+        roomBooking.Room.RateType.Id = $('#rateTypeDdl').val();
+        roomBooking.Room.RoomType.Id = $('#roomTypeDdl').val();
+        roomBooking.Room.Id = $('#roomddl').val();
+        roomBookings.push(roomBooking);
+
+        return roomBookings;
+    }
 
     function getRoomTypes() {
         args.propertyId = window.GuestCheckinManager.GetPropertyId();
@@ -112,6 +150,15 @@
     function ajaxHandlers() {
 
         // ajax handlers start
+
+        pmsService.Handlers.OnRoomBookingSuccess = function (data) {
+            alert('hi');
+        };
+
+        pmsService.Handlers.OnRoomBookingFailure = function () {
+            // show error log
+            console.log("Room Booking is failed");
+        };
 
         pmsService.Handlers.OnGetRoomTypeByPropertySuccess = function (data) {
             //storing room type data into session storage

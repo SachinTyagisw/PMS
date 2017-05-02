@@ -12,6 +12,12 @@
             OnGetRateTypeByPropertyFailure: null,
             OnGetRoomByPropertySuccess: null,
             OnGetRoomByPropertyFailure: null,
+            OnRoomBookingSuccess: null,
+            OnRoomBookingFailure: null,
+        };
+
+        this.AddBooking = function (args) {
+            makeAjaxRequestPost(args, "AddBooking", this, "api/v1/Booking/AddBooking");
         };
 
         this.GetRoomTypeByProperty = function (args) {

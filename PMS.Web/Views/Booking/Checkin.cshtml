@@ -1,7 +1,22 @@
 ﻿@{
     ViewBag.Title = "Guest Checkin";
 }
+<script type='text/javascript'>
+    var gcm = window.GuestCheckinManager;
+    function OnRoomTypeChange() {
+        gcm.BindRateTypeDdl();
+    }
+    function OnRateTypeChange() {
+        gcm.BindRoomDdl();
+    }
 
+    $(document).ready(function () {
+        $("#btnBooking").click(function () {
+            gcm.AddBooking();
+        });
+    });
+
+</script>
 <div class="content-wrap">
     <div class="main controls">
         <div class="container-fluid">
@@ -21,7 +36,7 @@
 </div><!-- /# main -->
 <div class="footer-nav">
     <div class="">
-        <button type="button" class="btn btn-primary m-b-10 m-l-5">Submit</button>
-        <button type="button" class="btn btn-default m-b-10">Clear</button>
+        <input id="btnBooking" type="button" class="btn btn-primary m-b-10 m-l-5" value="Submit" />
+        <input type="button" class="btn btn-default m-b-10" value="Clear" />
     </div>
 </div>
