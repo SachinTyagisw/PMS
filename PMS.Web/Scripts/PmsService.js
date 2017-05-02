@@ -12,8 +12,8 @@
             OnGetRateTypeByPropertyFailure: null,
             OnGetRoomByPropertySuccess: null,
             OnGetRoomByPropertyFailure: null,
-            OnRoomBookingSuccess: null,
-            OnRoomBookingFailure: null,
+            OnAddBookingSuccess: null,
+            OnAddBookingFailure: null,
         };
 
         this.AddBooking = function (args) {

@@ -1,25 +1,14 @@
 ﻿(function (win) {
-
-    var propertyId = null;
     var pmsService = new window.PmsService();
     var pmsSession = window.PmsSession;
     var args = {};    
     var guestCheckinManager = {
         
         Initialize: function () {                       
-
             ajaxHandlers();
             getRoomTypes();
             getRoomRateTypes();
             getRooms();
-        },
-
-        SetPropertyId: function (id) {
-            this.propertyId = id;
-        },
-
-        GetPropertyId: function () {
-            return this.propertyId;
         },
 
         BindRoomDdl: function () {
@@ -80,6 +69,8 @@
         },
 
         AddBooking: function () {
+            var bookingRequestDto = {};
+            bookingRequestDto.Booking = {};
             var booking = {};
             
             if (!$('#dateFrom') || !$('#dateTo')
@@ -89,11 +80,13 @@
             booking.CheckoutTime = $('#dateTo').val();
             booking.NoOfAdult = $('#ddlAdults').val();
             booking.NoOfChild = $('#ddlChild').val();
-            booking.PropertyId = window.GuestCheckinManager.GetPropertyId();
+            booking.PropertyId = pmsSession.GetItem("propertyid");
             booking.RoomBookings = prepareRoomBookingDto();
             booking.GuestRemarks = "hello";
+
+            bookingRequestDto.Booking = booking;
             // add booking by api calling  
-            pmsService.AddBooking(booking);
+            pmsService.AddBooking(bookingRequestDto);
 
             var fname = $('#fName').val();
         }        
@@ -119,7 +112,7 @@
     }
 
     function getRoomTypes() {
-        args.propertyId = window.GuestCheckinManager.GetPropertyId();
+        args.propertyId = pmsSession.GetItem("propertyid");;
         var roomTypeData = pmsSession.GetItem("roomtypedata");
         if (!roomTypeData) {
             // get room types by api calling  
@@ -130,7 +123,7 @@
     }
 
     function getRoomRateTypes() {
-        args.propertyId = window.GuestCheckinManager.GetPropertyId();
+        args.propertyId = pmsSession.GetItem("propertyid");;
         var roomRateTypeData = pmsSession.GetItem("roomratetypedata");
         if (!roomRateTypeData) {
             // get room rate types by api calling  
@@ -139,7 +132,7 @@
     }
     
     function getRooms(){
-        args.propertyId = window.GuestCheckinManager.GetPropertyId();
+        args.propertyId = pmsSession.GetItem("propertyid");;
         var roomData = pmsSession.GetItem("roomdata");
         if (!roomData) {
             // get room by api calling  
@@ -151,11 +144,11 @@
 
         // ajax handlers start
 
-        pmsService.Handlers.OnRoomBookingSuccess = function (data) {
+        pmsService.Handlers.OnAddBookingSuccess = function (data) {
             alert('hi');
         };
 
-        pmsService.Handlers.OnRoomBookingFailure = function () {
+        pmsService.Handlers.OnAddBookingFailure = function () {
             // show error log
             console.log("Room Booking is failed");
         };
