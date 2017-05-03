@@ -38,7 +38,7 @@
     
     <script type="text/javascript">
     window.baseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["BaseUrl"].ToString())';
-    jQuery(document).ready(function ($) {
+        jQuery(document).ready(function ($) {            
         //set property id on property ddl selection
         window.PmsSession.SetItem("propertyid", 1);
         window.GuestCheckinManager.Initialize();
@@ -111,11 +111,11 @@
 
         <!--uncomment below js files to unbundle them -->
         @*<script src="~/Scripts/Jquery/lib/jquery.min.js"></script><!-- jquery vendor -->
-        <script src="~/Scripts/Jquery/lib/jquery-ui/jquery-ui.min.js"></script><!-- bootstrap -->
         <script src="~/Scripts/Jquery/lib/jquery.nanoscroller.min.js"></script><!-- nano scroller -->
-        <script src="~/Scripts/Jquery/lib/jquery-ui/jquery-ui-timepicker-addon.js"></script><!-- bootstrap -->
-        <script src="~/Scripts/Jquery/lib/bootstrap.min.js"></script><!-- bootstrap -->
         <script src="~/Scripts/Jquery/lib/sidebar.js"></script><!-- sidebar -->
+        <script src="~/Scripts/Jquery/lib/bootstrap.min.js"></script><!-- bootstrap -->
+        <script src="~/Scripts/Jquery/lib/jquery-ui/jquery-ui.min.js"></script><!-- bootstrap -->
+        <script src="~/Scripts/Jquery/lib/jquery-ui/jquery-ui-timepicker-addon.js"></script><!-- bootstrap -->
         <script src="~/Scripts/scripts.js"></script>*@
 
 </body>

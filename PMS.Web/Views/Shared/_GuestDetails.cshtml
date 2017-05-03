@@ -15,11 +15,11 @@
 
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <select class="form-control">
-                                        <option>Mr</option>
-                                        <option>Ms</option>
-                                        <option>Mrs</option>
-                                        <option>Master</option>
+                                    <select id ="ddlInitials" class="form-control">
+                                        <option value="M">Mr.</option>
+                                        <option value="F">Ms.</option>
+                                        <option value="F">Mrs.</option>
+                                        <option value="M">Master</option>
                                     </select>
                                 </div>
                             </div>
@@ -30,27 +30,27 @@
                             </div>
                             <div class="col-lg-5">
                                 <div class="form-group">
-                                    <input type="text" placeholder="Last Name" class="form-control" name="example-input-normal" id="example-input-normal">
+                                    <input type="text" placeholder="Last Name" class="form-control" name="example-input-normal" id="lName">
                                 </div>
                             </div>
                             <div class="contact-information">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <input type="text" placeholder="Phone" class="form-control" name="example-input-normal" id="example-input-normal">
+                                        <input type="text" placeholder="Phone" class="form-control" name="example-input-normal" id="phone">
                                     </div>
                                 </div>
                                 <div class="address-content">
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <textarea class="form-control" rows="3" placeholder="Address"></textarea>
+                                            <textarea id="address" class="form-control" rows="3" placeholder="Address"></textarea>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="state-content">
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <select class="form-control">
-                                                <option selected="">City</option>
+                                            <select id="ddlCity" class="form-control">
+                                                <option selected="">Select City</option>
                                                 <option>1</option>
                                                 <option>2</option>
                                                 <option>3</option>
@@ -60,8 +60,8 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <select class="form-control">
-                                                <option selected="">State</option>
+                                            <select id ="ddlState" class="form-control">
+                                                <option selected="">Select State</option>
                                                 <option>1</option>
                                                 <option>2</option>
                                                 <option>3</option>
@@ -73,8 +73,8 @@
                                 <div class="zipcode-content">
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <select class="form-control">
-                                                <option selected="">Country</option>
+                                            <select id="ddlCountry" class="form-control">
+                                                <option selected="">Select Country</option>
                                                 <option>1</option>
                                                 <option>2</option>
                                                 <option>3</option>
@@ -84,14 +84,14 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <input type="text" placeholder="ZipCode" class="form-control" name="example-input-normal" id="example-input-normal">
+                                            <input type="text" placeholder="ZipCode" class="form-control" name="example-input-normal" id="zipCode">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="email-content">
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <input type="text" placeholder="Email" class="form-control" name="example-input-normal" id="example-input-normal">
+                                            <input type="text" placeholder="Email" class="form-control" name="example-input-normal" id="email">
                                         </div>
                                     </div>
                                 </div>
@@ -104,7 +104,7 @@
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <select class="form-control">
+                                    <select id="ddlIdType"class="form-control">
                                         <option selected="">Type of ID</option>
                                         <option>Passport</option>
                                         <option>PAN</option>
@@ -114,13 +114,13 @@
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <input type="text" placeholder="Id Number" class="form-control" name="example-input-normal" id="example-input-normal">
+                                    <input type="text" placeholder="Id Number" class="form-control" name="example-input-normal" id="idnumber">
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <select class="form-control">
-                                        <option selected="">State</option>
+                                    <select id="ddlIdState"class="form-control">
+                                        <option selected="">Select State</option>
                                         <option>1</option>
                                         <option>2</option>
                                         <option>3</option>
@@ -130,8 +130,8 @@
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <select class="form-control">
-                                        <option selected="">Country</option>
+                                    <select id="ddlIdCountry" class="form-control">
+                                        <option selected="">Select Country</option>
                                         <option>1</option>
                                         <option>2</option>
                                         <option>3</option>
@@ -141,7 +141,7 @@
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="ID Expiry Date" id="id-expiry">
+                                    <input type="text" class="form-control" placeholder="ID Expiry Date" id="idexpiry">
                                     <span class="ti-calendar form-control-feedback booking-system-feedback cal-pos"></span>
                                 </div>
                             </div>
@@ -159,7 +159,7 @@
                             <div class="col-lg-6">
                                 <div class="user-photo m-b-30 photo_submit-container">
                                     <label class="photo_submit js-photo_submit1">
-                                        <input class="photo_submit-input js-photo_submit-input" type="file" accept="image/*">
+                                        <input id="uploadPhoto" class="photo_submit-input js-photo_submit-input" type="file" accept="image/*">
                                         <span class="photo_submit-plus"></span>
                                         <span class="photo_submit-uploadLabel">Upload photo</span>
                                         <span class="photo_submit-delete"></span>
@@ -168,7 +168,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <textarea class="form-control" rows="6" placeholder="Guest Comments"></textarea>
+                                    <textarea id="guestComments" class="form-control" rows="6" placeholder="Guest Comments"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -178,3 +178,4 @@
         </div>
     </div><!-- /# column -->
 </div>
+<input type="hidden" id="hdnGuestId" value=""/>

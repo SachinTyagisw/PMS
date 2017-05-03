@@ -9,5 +9,6 @@ namespace PMS.Resources.Entities
     public class User
     {
         public int UserId { get; set; }
+        public bool IsActive { get; set; }
     }
 }

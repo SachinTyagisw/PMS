@@ -15,7 +15,7 @@ namespace PMS.Resources.Entities
         public Nullable<int> NoOfChild { get; set; }
         public string GuestRemarks { get; set; }
         public string TransactionRemarks { get; set; }
-        public Nullable<bool> IsActive { get; set; }
+        public bool IsActive { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string LastUpdatedBy { get; set; }

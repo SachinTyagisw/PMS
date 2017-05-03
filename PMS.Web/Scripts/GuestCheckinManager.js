@@ -81,21 +81,103 @@
             booking.NoOfAdult = $('#ddlAdults').val();
             booking.NoOfChild = $('#ddlChild').val();
             booking.PropertyId = pmsSession.GetItem("propertyid");
+            booking.GuestRemarks = $('#guestComments').val();
+            booking.TransactionRemarks = "trans remark";
+
             booking.RoomBookings = prepareRoomBookingDto();
-            booking.GuestRemarks = "hello";
+            booking.Guests = prepareGuestDto();
+            booking.Addresses = prepareAddressDto();
+            
+            if (!booking.RoomBookings || !booking.Guests || !booking.Addresses) {
+                console.error('Room Booking can not be done.');
+                alert("Room Booking can not be done.");
+                return;
+            }
 
             bookingRequestDto.Booking = booking;
             // add booking by api calling  
-            pmsService.AddBooking(bookingRequestDto);
-
-            var fname = $('#fName').val();
+            pmsService.AddBooking(bookingRequestDto);           
         }        
     };
+    
+    function prepareAddressDto() {
+        var addresses = [];
+        var address = {};
+
+        addresses.push(address);
+        return addresses;
+    }
+        
+    function prepareGuestDto() {
+        if (!$('#ddlInitials') || !$('#fName') || !$('#lName')
+            || !$('#phone') || !$('#address') || !$('#lName')
+            || !$('#ddlCity') || !$('#ddlState') || !$('#ddlCountry')
+            || !$('#zipCode') || !$('#email') || !$('#ddlIdType')
+            || !$('#idnumber') || !$('#ddlIdState') || !$('#ddlIdCountry')
+            || !$('#idexpiry') || !$('#dob')) return;
+
+        var guests = [];
+        var guest = {};
+        var additionalGuest = {};
+        guest.AdditionalGuests = [];
+        guest.GuestMappings = [];
+
+        // for new guest guestid should be -1 else guestid
+        guest.Id = $('#hdnGuestId').val() == '' ? -1 : $('#hdnGuestId').val();
+        guest.FirstName = $('#fName').val();
+        guest.LastName = $('#lName').val();
+        guest.MobileNumber = $('#phone').val();
+        guest.EmailAddress = $('#email').val();
+        guest.DOB = $('#dob').val();
+        guest.Gender = $('#ddlInitials').val();
+        guest.PhotoPath = $('#uploadPhoto').val();
+        
+        if (guest.FirstName === '' || guest.LastName === '' || guest.EmailAddress === '') return null;
+
+        guest.AdditionalGuests = prepareAdditionalGuestDto();
+        guest.GuestMappings = prepareGuestIdDetailsDto();
+        if (!guest.GuestMappings) {
+            console.error('Guest Id details are missing.');
+            alert("Guest Id details are missing.");
+            return;
+        }
+
+        guests.push(guest);
+        return guests;
+    }
+
+    function prepareGuestIdDetailsDto() {
+        var guestMapping = {};
+        var guestMappings = [];
+
+        guestMapping.IdTypeId = 1;
+        guestMapping.IdDetails = 1;
+        guestMapping.IdExpiryDate = 2;
+        guestMapping.IdIssueState = 2;
+        guestMapping.IdIssueCountry = 2;
+
+        guestMappings.push(guestMapping);
+        return guestMappings;
+    }
+
+    function prepareAdditionalGuestDto() {
+        var additionalGuest = {};
+        var additionalGuests = [];
+
+        //TODO:reading additonal guest info from grid 
+        additionalGuest.FirstName = "Additional Fname";
+        additionalGuest.LastName = "Additional Lname";
+        additionalGuest.PhotoPath = "phhotopath";
+        additionalGuest.IdDetails = "MYTT9000";
+        additionalGuest.IdTypeId = 1;
+        additionalGuest.Gender = "M";
+
+        additionalGuests.push(additionalGuest);
+        return additionalGuests;
+    }
 
     function prepareRoomBookingDto() {
-
-        if (!$('#rateTypeDdl') || !$('#roomTypeDdl')
-             || !$('#roomddl')) return;
+        if (!$('#rateTypeDdl') || !$('#roomTypeDdl') || !$('#roomddl')) return;
 
         var roomBookings = [];
         var roomBooking = {};
@@ -106,8 +188,10 @@
         roomBooking.Room.RateType.Id = $('#rateTypeDdl').val();
         roomBooking.Room.RoomType.Id = $('#roomTypeDdl').val();
         roomBooking.Room.Id = $('#roomddl').val();
-        roomBookings.push(roomBooking);
+        
+        if (roomBooking.Room.RateType.Id === '-1' || roomBooking.Room.RoomType.Id === '-1' || roomBooking.Room.Id === '-1') return null;
 
+        roomBookings.push(roomBooking);
         return roomBookings;
     }
 
@@ -139,18 +223,32 @@
             pmsService.GetRoomByProperty(args);
         }
     }
+    
+    function getCurrentDate() {
+        // date format yyyy/mm/dd
+        var dt = new Date();
+        var month = dt.getMonth() + 1;
+        var day = dt.getDate();
+        var dateOutput = dt.getFullYear() + '/' +
+            (month < 10 ? '0' : '') + month + '/' +
+            (day < 10 ? '0' : '') + day;
+
+        var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+        return dateOutput + time;
+    }
 
     function ajaxHandlers() {
 
         // ajax handlers start
 
         pmsService.Handlers.OnAddBookingSuccess = function (data) {
-            alert('hi');
+            console.log(data.StatusDescription);
+            alert(data.StatusDescription);
         };
 
         pmsService.Handlers.OnAddBookingFailure = function () {
             // show error log
-            console.log("Room Booking is failed");
+            console.error("Room Booking is failed");
         };
 
         pmsService.Handlers.OnGetRoomTypeByPropertySuccess = function (data) {
@@ -160,7 +258,7 @@
         };
         pmsService.Handlers.OnGetRoomTypeByPropertyFailure = function () {
             // show error log
-            console.log("Get Room type call failed");
+            console.error("Get Room type call failed");
         };
 
         pmsService.Handlers.OnGetRateTypeByPropertySuccess = function (data) {
@@ -169,7 +267,7 @@
         };
         pmsService.Handlers.OnGetRateTypeByPropertyFailure = function () {
             // show error log
-            console.log("Get Room rate type call failed");
+            console.error("Get Room rate type call failed");
         };
         
         pmsService.Handlers.OnGetRoomByPropertySuccess = function (data) {
@@ -178,7 +276,7 @@
         };
         pmsService.Handlers.OnGetRoomByPropertyFailure = function () {
             // show error log
-            console.log("Get Room call failed");
+            console.error("Get Room call failed");
         };
 
         // ajax handlers end

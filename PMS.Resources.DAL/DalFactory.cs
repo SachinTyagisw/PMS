@@ -17,6 +17,8 @@ namespace PMS.Resources.DAL
         public bool AddBooking(PmsEntity.Booking booking)
         {
             var isAdded = false;
+            booking.CreatedBy = "vipul";
+            booking.CreatedOn = DateTime.Now;
             var xml = PmsConverter.SerializeObjectToXmlString(booking);
             return isAdded;
         }
@@ -136,7 +138,6 @@ namespace PMS.Resources.DAL
                 rateTypes = pmsContext.RateTypes.Where(x => x.IsActive && x.PropertyID == propertyId)
                                                  .Select(x => new PmsEntity.RateType
                                                  {
-                                                     Description = x.Description,
                                                      CreatedOn = x.CreatedOn,
                                                      Name = x.Name,
                                                      CreatedBy = x.CreatedBy,
@@ -173,7 +174,6 @@ namespace PMS.Resources.DAL
                 roomTypes = pmsContext.RoomTypes.Where(x => x.IsActive && x.PropertyID == propertyId)
                                                  .Select(x => new PmsEntity.RoomType
                                                  {
-                                                     Description = x.Description,
                                                      CreatedOn = x.CreatedOn,
                                                      Name = x.Name,
                                                      CreatedBy = x.CreatedBy,
