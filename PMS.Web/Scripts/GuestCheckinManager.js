@@ -82,7 +82,7 @@
             booking.NoOfChild = $('#ddlChild').val();
             booking.PropertyId = pmsSession.GetItem("propertyid");
             booking.GuestRemarks = $('#guestComments').val();
-            booking.TransactionRemarks = "trans remark";
+            booking.TransactionRemarks = "transaction";
 
             booking.RoomBookings = prepareRoomBookingDto();
             booking.Guests = prepareGuestDto();
@@ -101,8 +101,26 @@
     };
     
     function prepareAddressDto() {
+        if (!$('#ddlCity') || !$('#ddlState') || !$('#ddlCountry')
+            || !$('#zipCode') || !$('#address'))  return;
+
         var addresses = [];
         var address = {};
+
+        address.City = $('#ddlCity').val();
+        address.State = $('#ddlState').val();
+        address.Country = $('#ddlCountry').val();
+        address.ZipCode = $('#zipCode').val();
+        address.Address1 = $('#address').val();
+        address.GuestId = $('#hdnGuestId').val() == '' ? -1 : $('#hdnGuestId').val();
+        //TODO: addresstype to be selected from address type ddl
+        address.AddressTypeId = 1;
+
+        if (address.AddressTypeId === '-1' || address.Address1 === '' || address.ZipCode === '' || address.City === '-1' || address.State === '-1' || address.Country === '-1') {
+            console.error('Address details are missing.');
+            alert("Address details are missing.");
+            return null;
+        }
 
         addresses.push(address);
         return addresses;
@@ -132,14 +150,19 @@
         guest.Gender = $('#ddlInitials').val();
         guest.PhotoPath = $('#uploadPhoto').val();
         
-        if (guest.FirstName === '' || guest.LastName === '' || guest.EmailAddress === '') return null;
+        if (guest.FirstName === '' || guest.LastName === '' || guest.EmailAddress === '') {
+            console.error('Guest details are missing.');
+            alert("Guest details are missing.");
+            return null;
+        } 
 
         guest.AdditionalGuests = prepareAdditionalGuestDto();
         guest.GuestMappings = prepareGuestIdDetailsDto();
+
         if (!guest.GuestMappings) {
-            console.error('Guest Id details are missing.');
+            console.error('Guest Identification details are missing.');
             alert("Guest Id details are missing.");
-            return;
+            return null;
         }
 
         guests.push(guest);
@@ -147,14 +170,19 @@
     }
 
     function prepareGuestIdDetailsDto() {
+        if (!$('#ddlIdType') || !$('#idDetails') || !$('#ddlIdState')
+            || !$('#ddlIdCountry') || !$('#idExpiry') || !$('#ddlIdType')) return;
+
         var guestMapping = {};
         var guestMappings = [];
 
-        guestMapping.IdTypeId = 1;
-        guestMapping.IdDetails = 1;
-        guestMapping.IdExpiryDate = 2;
-        guestMapping.IdIssueState = 2;
-        guestMapping.IdIssueCountry = 2;
+        guestMapping.IdTypeId = $('#ddlIdType').val();
+        guestMapping.IdDetails = $('#idDetails').val();
+        guestMapping.IdExpiryDate = $('#idExpiry').val();
+        guestMapping.IdIssueState = $('#ddlIdState').val();
+        guestMapping.IdIssueCountry = $('#ddlIdCountry').val();
+
+        if (guestMapping.IdTypeId === '-1' || guestMapping.IdDetails === '' || guestMapping.IdExpiryDate === '') return null;
 
         guestMappings.push(guestMapping);
         return guestMappings;
@@ -182,6 +210,7 @@
         var roomBookings = [];
         var roomBooking = {};
         roomBooking.Room = {};
+        roomBooking.Guest = {};
         roomBooking.Room.RateType = {};
         roomBooking.Room.RoomType = {};
 
@@ -190,6 +219,8 @@
         roomBooking.Room.Id = $('#roomddl').val();
         
         if (roomBooking.Room.RateType.Id === '-1' || roomBooking.Room.RoomType.Id === '-1' || roomBooking.Room.Id === '-1') return null;
+
+        roomBooking.Guest.Id = $('#hdnGuestId').val() == '' ? -1 : $('#hdnGuestId').val();
 
         roomBookings.push(roomBooking);
         return roomBookings;
