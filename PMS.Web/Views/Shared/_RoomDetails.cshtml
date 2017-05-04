@@ -8,6 +8,20 @@
                 <form>
                     <div class="row">
                         <div class="col-md-2">
+                            <div class="form-group hourCheckin">
+                                <label>Hour CheckIn</label>
+                                <input type="checkbox" class="form-control hour-input" placeholder="Hour Checkin" id="hourCheckin">
+                                <select id="hours" class="form-control hour-dd" disabled>
+                                    <option>0</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <label>Check in</label>
                                 <input type="text" class="form-control calendar" placeholder="Check in" id="dateFrom">
@@ -21,7 +35,7 @@
                                 <span class="ti-calendar form-control-feedback booking-system-feedback"></span>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-1 p-r-0">
                             <div class="form-group">
                                 <label>Room Type</label>
                                 <select id="roomTypeDdl" onchange="OnRoomTypeChange();" class="form-control"></select>

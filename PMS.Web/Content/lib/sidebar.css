@@ -30,6 +30,7 @@
     transform: translateZ(0);
     transition: width 300ms ease-in-out;
     padding-top: 30px;
+    box-shadow: 4px 0 5px 0 #555;
 }
 
 .sidebar.sidebar-static {
@@ -237,7 +238,7 @@ body {
 .sidebar-hide .sidebar.sidebar-hide-to-small,
 .sidebar-hide .sidebar.sidebar-hide-to-small .nano,
 .sidebar-hide .sidebar.sidebar-hide-to-small .nano-content {
-    overflow: visible;
+    /*overflow: visible;*/
     background: #3B3F51;
 }
 
@@ -322,7 +323,7 @@ body {
 /* Show with Shrink content */
 
 .sidebar.sidebar-shrink ~ .content-wrap {
-    margin-left: 250px;
+    margin-left: 0;
     padding-top: 55px;
     margin-bottom: 52px;
     transition: margin-left 300ms ease-in-out;

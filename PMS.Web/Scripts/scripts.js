@@ -153,10 +153,15 @@ $( "#dateTo" ).datetimepicker({
     showMinute: false
 });
 
-$('#id-expiry, #dob').datepicker({
+$('#idexpiry, #dob').datepicker({
 	changeMonth: true,
 	changeYear: true
 });
+
+
+document.querySelector(".hour-input").onchange = function () {
+    document.querySelector('.hour-dd').disabled = !this.checked;
+};
 
 class PhotoSubmission {
     constructor() {
