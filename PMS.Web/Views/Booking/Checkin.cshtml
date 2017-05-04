@@ -1,36 +1,40 @@
-﻿@{
-    ViewBag.Title = "Guest Checkin";
-}
-<script type='text/javascript'>
-    var gcm = window.GuestCheckinManager;
-    function OnRoomTypeChange() {
-        gcm.BindRateTypeDdl();
+﻿    @{
+        ViewBag.Title = "Guest Checkin";
     }
-    function OnRateTypeChange() {
-        gcm.BindRoomDdl();
-    }
-
-    function previewImage(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $('#imgPhoto').attr('src', e.target.result);
-            }
-            reader.readAsDataURL(input.files[0]);
+    <script type='text/javascript'>
+        var gcm = window.GuestCheckinManager;
+        function OnRoomTypeChange() {
+            gcm.BindRateTypeDdl();
         }
-    }
+        function OnRateTypeChange() {
+            gcm.BindRoomDdl();
+        }
 
-    $(document).ready(function () {
-        $("#btnBooking").click(function () {            
-            gcm.AddBooking();
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imgPhoto').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $(document).ready(function () {
+            $("#btnBooking").click(function () {
+                gcm.AddBooking();
+            });
+
+            $("#uploadPhoto").change(function () {
+                previewImage(this);
+            });
         });
 
-        $("#uploadPhoto").change(function () {
-            previewImage(this);
-        });
-    });    
+    </script>
+<% using (Html.BeginForm("uploadPhoto", "Booking/UploadImage",
+                    FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {%>
 
-</script>
     <div class="content-wrap">
         <div class="main controls">
             <div class="container-fluid">
@@ -54,3 +58,4 @@
             <input type="button" class="btn btn-default m-b-10" value="Clear" />
         </div>
     </div>
+<%} %>

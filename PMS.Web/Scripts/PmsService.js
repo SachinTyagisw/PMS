@@ -65,7 +65,7 @@
         }
 
         function makeAjaxRequestForImage(args, operationName, e, uri) {
-            var url = e.Config.BaseUrl + uri;
+            var url = "http://localhost:50059/Booking/UploadImage";
             var successCallback = makeSuccessHandler(operationName, e);
             var failureCallback = makeFailureHandler(operationName, e);
             var completeCallback = makeCompleteHandler(operationName, e);
