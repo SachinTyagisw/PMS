@@ -153,7 +153,7 @@ $( "#dateTo" ).datetimepicker({
     showMinute: false
 });
 
-$('#idexpiry, #dob').datepicker({
+$('#idExpiry, #dob').datepicker({
 	changeMonth: true,
 	changeYear: true
 });
