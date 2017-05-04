@@ -209,18 +209,17 @@
 
         var roomBookings = [];
         var roomBooking = {};
-        roomBooking.Room = {};
-        roomBooking.Guest = {};
-        roomBooking.Room.RateType = {};
-        roomBooking.Room.RoomType = {};
 
-        roomBooking.Room.RateType.Id = $('#rateTypeDdl').val();
-        roomBooking.Room.RoomType.Id = $('#roomTypeDdl').val();
-        roomBooking.Room.Id = $('#roomddl').val();
+        var rateType = $('#rateTypeDdl').val();
+        var roomType = $('#roomTypeDdl').val();
+        roomBooking.RoomId = $('#roomddl').val();
         
-        if (roomBooking.Room.RateType.Id === '-1' || roomBooking.Room.RoomType.Id === '-1' || roomBooking.Room.Id === '-1') return null;
+        if (rateType === '-1' || roomType === '-1' || roomBooking.RoomId === '-1') return null;
 
-        roomBooking.Guest.Id = $('#hdnGuestId').val() == '' ? -1 : $('#hdnGuestId').val();
+        roomBooking.GuestID = $('#hdnGuestId').val() == '' ? -1 : $('#hdnGuestId').val();
+
+        // for new booking id = -1
+        roomBooking.BookingId = -1
 
         roomBookings.push(roomBooking);
         return roomBookings;

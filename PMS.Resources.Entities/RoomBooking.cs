@@ -19,5 +19,8 @@ namespace PMS.Resources.Entities
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
         public Room Room { get; set; }
         public Guest Guest { get; set; }
+        public int GuestID { get; set; }
+        public int RoomId { get; set; }
+        public int BookingId { get; set; }
     }
 }

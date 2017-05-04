@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using PMS.Resources.Logging.Logger;
 
 namespace PMS.Resources.Logic
 {
