@@ -14,12 +14,12 @@
             OnGetRoomByPropertyFailure: null,
             OnAddBookingSuccess: null,
             OnAddBookingFailure: null,
-            OnUploadImageSuccess: null,
-            OnUploadImageFailure: null,
+            OnImageUploadSuccess: null,
+            OnImageUploadFailure: null,
         };
 
-        this.UploadImage = function (args) {
-            makeAjaxRequestForImage(args, "UploadImage", this, "api/v1/Image/UploadImage");
+        this.ImageUpload = function (args) {
+            makeAjaxRequestForImage(args, "ImageUpload", this, "api/v1/Image/ImageUpload");
         };
 
         this.AddBooking = function (args) {
@@ -65,20 +65,20 @@
         }
 
         function makeAjaxRequestForImage(args, operationName, e, uri) {
-            var url = "http://localhost:50059/Booking/UploadImage";
+            var url = e.Config.BaseUrl + uri;
             var successCallback = makeSuccessHandler(operationName, e);
             var failureCallback = makeFailureHandler(operationName, e);
             var completeCallback = makeCompleteHandler(operationName, e);
 
-            if (win.PmsAjaxQueue != null) {
-                win.PmsAjaxQueue.AddToQueue(url, successCallback, failureCallback, completeCallback, args);
-                return;
-            }
+            //if (win.PmsAjaxQueue != null) {
+            //    win.PmsAjaxQueue.AddToQueue(url, successCallback, failureCallback, completeCallback, args);
+            //    return;
+            //}
 
-            if (e.AjaxRequestInProgress) {
-                alert("An Ajax request is already in progress cannot start another one. Please wait and try again later");
-                return;
-            }
+            //if (e.AjaxRequestInProgress) {
+            //    alert("An Ajax request is already in progress cannot start another one. Please wait and try again later");
+            //    return;
+            //}
 
             $.ajax({
                 url: url,

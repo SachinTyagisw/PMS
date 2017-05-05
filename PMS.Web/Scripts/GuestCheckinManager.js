@@ -68,7 +68,7 @@
             }
         },
 
-        AddBooking: function () {
+        AddBooking: function () {           
             var bookingRequestDto = {};
             bookingRequestDto.Booking = {};
             var booking = {};
@@ -296,16 +296,17 @@
 
         pmsService.Handlers.OnAddBookingSuccess = function (data) {
             console.log(data.StatusDescription);
-            //if (window.FormData !== undefined) {
-            //    // if success upload image of guest
-            //    var data = new FormData();
-            //    var files = $("#uploadPhoto").get(0).files;
-            //    // Add the uploaded image content to the form data collection
-            //    if (files.length > 0) {
-            //        data.append("UploadedImage", files[0]);
-            //    }
-            //    pmsService.UploadImage(data);
-            //}
+            // if booking is successful then upload image
+            if (window.FormData !== undefined) {
+                // if success upload image of guest
+                var data = new FormData();
+                var files = $("#uploadPhoto").get(0).files;
+                // Add the uploaded image content to the form data collection
+                if (files.length > 0) {
+                    data.append("UploadedImage", files[0]);
+                }
+                pmsService.ImageUpload(data);
+            }
             alert(data.StatusDescription);
         };
 
@@ -342,10 +343,10 @@
             console.error("Get Room call failed");
         };
 
-        pmsService.Handlers.OnUploadImageSuccess = function (data) {
+        pmsService.Handlers.OnImageUploadSuccess = function (data) {
             console.log("Image upload success");
         };
-        pmsService.Handlers.OnUploadImageFailure = function () {
+        pmsService.Handlers.OnImageUploadFailure = function () {
             // show error log
             console.error("Image upload failed");
         };

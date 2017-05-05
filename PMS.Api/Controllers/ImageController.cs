@@ -36,23 +36,20 @@ namespace PMS.Api.Controllers
         private void MapHttpRoutesForImage(HttpConfiguration config)
         {
             config.Routes.MapHttpRoute(
-             "UploadImage",
-             "api/v1/Image/UploadImage",
-             new { controller = "Image", action = "UploadImage" }
+             "ImageUpload",
+             "api/v1/Image/ImageUpload",
+             new { controller = "Image", action = "ImageUpload" }
              );
         }
 
         [HttpPost]
-        public void UploadImage()
+        public void ImageUpload()
         {
             var logService = LoggingManager.GetLogInstance();
-            logService.LogInformation("upload started");
-            logService.LogInformation("count" + HttpContext.Current.Request.Files.Count);
             if (HttpContext.Current.Request.Files.AllKeys.Any())
             {
                 // Get the uploaded image from the Files collection
                 var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
-
                 if (httpPostedFile != null)
                 {
                     // Validate the uploaded image(optional)
