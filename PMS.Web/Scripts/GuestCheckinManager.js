@@ -83,6 +83,11 @@
             booking.PropertyId = pmsSession.GetItem("propertyid");
             booking.GuestRemarks = $('#guestComments').val();
             booking.TransactionRemarks = "transaction";
+            booking.CreatedOn = getCurrentDate();
+            //TODO : remove hardcoded value
+            booking.CreatedBy = "vipul";
+            // for new booking Id = -1 
+            booking.Id = -1
 
             booking.RoomBookings = prepareRoomBookingDto();
             booking.Guests = prepareGuestDto();
@@ -107,16 +112,22 @@
         var addresses = [];
         var address = {};
 
+        address.Id = -1;
         address.City = $('#ddlCity').val();
         address.State = $('#ddlState').val();
         address.Country = $('#ddlCountry').val();
         address.ZipCode = $('#zipCode').val();
         address.Address1 = $('#address').val();
-        address.GuestId = $('#hdnGuestId').val() == '' ? -1 : $('#hdnGuestId').val();
+        //TODO : update with address2 field
+        address.Address2 = $('#address').val();
+        address.GuestID = $('#hdnGuestId').val() == '' ? -1 : $('#hdnGuestId').val();
+        address.CreatedOn = getCurrentDate();
+        //TODO : remove hardcoded value
+        address.CreatedBy = "vipul";
         //TODO: addresstype to be selected from address type ddl
-        address.AddressTypeId = 1;
+        address.AddressTypeID = 1;
 
-        if (address.AddressTypeId === '-1' || address.Address1 === '' || address.ZipCode === '' || address.City === '-1' || address.State === '-1' || address.Country === '-1') {
+        if (address.AddressTypeID === '-1' || address.Address1 === '' || address.ZipCode === '' || address.City === '-1' || address.State === '-1' || address.Country === '-1') {
             console.error('Address details are missing.');
             alert("Address details are missing.");
             return null;
@@ -149,6 +160,9 @@
         guest.DOB = $('#dob').val();
         guest.Gender = $('#ddlInitials').val();
         guest.PhotoPath = "UploadedImage\\" + $("#uploadPhoto").get(0).files[0].name;
+        guest.CreatedOn = getCurrentDate();
+        //TODO : remove hardcoded value
+        guest.CreatedBy = "vipul";
         
         if (guest.FirstName === '' || guest.LastName === '' || guest.EmailAddress === '') {
             console.error('Guest details are missing.');
@@ -193,8 +207,8 @@
         var additionalGuests = [];
 
         //TODO:reading additonal guest info from grid 
-        additionalGuest.FirstName = "Additional Fname";
-        additionalGuest.LastName = "Additional Lname";
+        additionalGuest.FirstName = $('#adFName').val();
+        additionalGuest.LastName = $('#adLName').val();
         additionalGuest.PhotoPath = "phhotopath";
         additionalGuest.IdDetails = "MYTT9000";
         additionalGuest.IdTypeId = 1;
@@ -220,6 +234,15 @@
 
         // for new booking id = -1
         roomBooking.BookingId = -1
+        roomBooking.Id = -1
+        roomBooking.CreatedOn = getCurrentDate();
+        
+
+        //TODO : remove hardcoded value
+        roomBooking.CreatedBy = "vipul";
+        roomBooking.IsExtra = false;
+        roomBooking.Discount = 2.0;
+        roomBooking.RoomCharges = 12.0;
 
         roomBookings.push(roomBooking);
         return roomBookings;
@@ -264,7 +287,7 @@
             (day < 10 ? '0' : '') + day;
 
         var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
-        return dateOutput + time;
+        return dateOutput + ' ' + time;
     }
 
     function ajaxHandlers() {
@@ -273,16 +296,16 @@
 
         pmsService.Handlers.OnAddBookingSuccess = function (data) {
             console.log(data.StatusDescription);
-            if (window.FormData !== undefined) {
-                // if success upload image of guest
-                var data = new FormData();
-                var files = $("#uploadPhoto").get(0).files;
-                // Add the uploaded image content to the form data collection
-                if (files.length > 0) {
-                    data.append("UploadedImage", files[0]);
-                }
-                pmsService.UploadImage(data);
-            }
+            //if (window.FormData !== undefined) {
+            //    // if success upload image of guest
+            //    var data = new FormData();
+            //    var files = $("#uploadPhoto").get(0).files;
+            //    // Add the uploaded image content to the form data collection
+            //    if (files.length > 0) {
+            //        data.append("UploadedImage", files[0]);
+            //    }
+            //    pmsService.UploadImage(data);
+            //}
             alert(data.StatusDescription);
         };
 

@@ -113,7 +113,7 @@
                 success: successCallback,
                 type: "POST",
                 contentType: "application/json",
-                data: $.toJSON(args),
+                data: JSON.stringify(args),
                 error: failureCallback,
                 complete: completeCallback
             });

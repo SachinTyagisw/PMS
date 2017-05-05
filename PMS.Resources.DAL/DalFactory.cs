@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PMS.Resources.Common.Converter;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace PMS.Resources.DAL
 {
@@ -17,12 +19,39 @@ namespace PMS.Resources.DAL
         public bool AddBooking(PmsEntity.Booking booking)
         {
             var isAdded = false;
-            booking.CreatedBy = "vipul";
-            booking.CreatedOn = DateTime.Now;
-            var xml = PmsConverter.SerializeObjectToXmlString(booking);
+            var bookingXml = PmsConverter.SerializeObjectToXmlString(booking);
+            if (string.IsNullOrWhiteSpace(bookingXml)) return false;
+            bookingXml = RemoveXmlDefaultNode(bookingXml);
+            using (var pmsContext = new PmsEntities())
+            {
+                var propertyId = new SqlParameter
+                {
+                    ParameterName = "propertyID",
+                    DbType = DbType.Int32,
+                    Value = booking.PropertyId
+                };
+
+                var roomBookingXml = new SqlParameter
+                {
+                    ParameterName = "bookingXML",
+                    DbType = DbType.Xml,
+                    Value = bookingXml
+                };
+
+                var result = pmsContext.Database.ExecuteSqlCommand("InsertBooking @propertyID, @bookingXML", propertyId, roomBookingXml);
+                isAdded = true;
+            }
             return isAdded;
         }
 
+        private string RemoveXmlDefaultNode(string xml)
+        {
+            var idxStartNode = xml.IndexOf("<?");
+            var idxEndNode = xml.IndexOf("?>");
+            var length = idxEndNode - idxStartNode + 2;
+            xml = xml.Remove(idxStartNode, length);
+            return xml;
+        }
         public List<PmsEntity.Booking> GetBooking(DateTime startDate, DateTime endDate)
         {
             var bookings = new List<PmsEntity.Booking>();
