@@ -64,6 +64,27 @@ namespace PMS.Resources.DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GETALLBOOKINGS_Result>("GETALLBOOKINGS", pROPERTYIDParameter, cHECKINTIMEParameter, cHECKOUTDATEParameter);
         }
     
+        public virtual ObjectResult<GETROOMSTATUS_Result> GETROOMSTATUS(Nullable<int> pROPERTYID, Nullable<System.DateTime> cHECKINTIME, Nullable<System.DateTime> cHECKOUTDATE, Nullable<int> rOOMTYPEID)
+        {
+            var pROPERTYIDParameter = pROPERTYID.HasValue ?
+                new ObjectParameter("PROPERTYID", pROPERTYID) :
+                new ObjectParameter("PROPERTYID", typeof(int));
+    
+            var cHECKINTIMEParameter = cHECKINTIME.HasValue ?
+                new ObjectParameter("CHECKINTIME", cHECKINTIME) :
+                new ObjectParameter("CHECKINTIME", typeof(System.DateTime));
+    
+            var cHECKOUTDATEParameter = cHECKOUTDATE.HasValue ?
+                new ObjectParameter("CHECKOUTDATE", cHECKOUTDATE) :
+                new ObjectParameter("CHECKOUTDATE", typeof(System.DateTime));
+    
+            var rOOMTYPEIDParameter = rOOMTYPEID.HasValue ?
+                new ObjectParameter("ROOMTYPEID", rOOMTYPEID) :
+                new ObjectParameter("ROOMTYPEID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GETROOMSTATUS_Result>("GETROOMSTATUS", pROPERTYIDParameter, cHECKINTIMEParameter, cHECKOUTDATEParameter, rOOMTYPEIDParameter);
+        }
+    
         public virtual int InsertBooking(Nullable<int> propertyID, string bookingXML)
         {
             var propertyIDParameter = propertyID.HasValue ?

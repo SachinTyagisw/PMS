@@ -108,6 +108,12 @@ namespace PMS.Api.Controllers
             new { controller = "Room", action = "GetRoomByRoomNumber" },
             constraints: new { propertyId = RegExConstants.NumericRegEx, roomNumber = RegExConstants.AlphaNumericRegEx }
             );
+
+            config.Routes.MapHttpRoute(
+            "GetRoomByDate",
+            "api/v1/Room/GetRoomByDate",
+            new { controller = "Room", action = "GetRoomByDate" }
+            );
         }
 
         [HttpPost, ActionName("AddRoom")]
@@ -333,6 +339,18 @@ namespace PMS.Api.Controllers
 
             response.Rooms = roomResponseDto.Rooms.Where(x => x.Number.Equals(roomNumber)).ToList();
             return response;
-        }    
+        }
+
+
+        [HttpPost, ActionName("GetRoomByDate")]
+        public GetRoomResponseDto GetRoomByDate([FromBody] GetRoomByDateRequestDto request)
+        {
+            if (request == null || request.PropertyId <= 0 || request.RoomTypeId <= 0 || request.CheckinDate == null || request.CheckoutDate == null) throw new PmsException("Room details can not be fetch.");
+            var response = new GetRoomResponseDto();
+
+            response.Rooms = _iPMSLogic.GetRoomByDate(request);
+
+            return response;
+        }
     }
 }

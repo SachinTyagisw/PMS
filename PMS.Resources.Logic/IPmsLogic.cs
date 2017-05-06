@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using PMS.Resources.DTO.Request;
 
 namespace PMS.Resources.Logic
 {
@@ -49,5 +50,6 @@ namespace PMS.Resources.Logic
         bool UpdateRewardCategory(PmsEntity.RewardCategory rewardCategory);
         bool DeleteRewardCategory(int catId);
         List<PmsEntity.RewardCategory> GetAllRewardCategory();
+        List<PmsEntity.Room> GetRoomByDate(GetRoomByDateRequestDto request);
     }
 }

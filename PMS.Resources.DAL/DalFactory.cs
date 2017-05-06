@@ -42,16 +42,7 @@ namespace PMS.Resources.DAL
                 isAdded = true;
             }
             return isAdded;
-        }
-
-        private string RemoveXmlDefaultNode(string xml)
-        {
-            var idxStartNode = xml.IndexOf("<?");
-            var idxEndNode = xml.IndexOf("?>");
-            var length = idxEndNode - idxStartNode + 2;
-            xml = xml.Remove(idxStartNode, length);
-            return xml;
-        }
+        }        
         public List<PmsEntity.Booking> GetBooking(DateTime startDate, DateTime endDate)
         {
             var bookings = new List<PmsEntity.Booking>();
@@ -300,6 +291,36 @@ namespace PMS.Resources.DAL
         {
             var rewardCategory = new List<PmsEntity.RewardCategory>();
             return rewardCategory;
+        }
+        public List<PmsEntity.Room> GetRoomByDate(int propertyId, int roomTypeId, DateTime checkinDate, DateTime checkoutDate)
+        {
+            var rooms = new List<PmsEntity.Room>();
+            using (var pmsContext = new PmsEntities())
+            {
+                var resultSet = pmsContext.GETROOMSTATUS(propertyId, checkinDate, checkoutDate, roomTypeId);
+                if (resultSet == null) return rooms;
+                foreach(var result in resultSet)
+                {
+                    var room = new PmsEntity.Room();
+                    room.RoomType = new PmsEntity.RoomType();
+                    room.RoomStatus = new PmsEntity.RoomStatus();
+                    room.Id = result.ID;
+                    room.Number = result.NUMBER;
+                    room.RoomType.Id = result.ROOMTypeID;
+                    room.RoomStatus.Name = result.ROOMSTATUS;
+                 
+                    rooms.Add(room);
+                }
+            }
+            return rooms;
+        }
+        private string RemoveXmlDefaultNode(string xml)
+        {
+            var idxStartNode = xml.IndexOf("<?");
+            var idxEndNode = xml.IndexOf("?>");
+            var length = idxEndNode - idxStartNode + 2;
+            xml = xml.Remove(idxStartNode, length);
+            return xml;
         }
     }
 }
