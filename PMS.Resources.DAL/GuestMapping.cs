@@ -18,11 +18,14 @@ namespace PMS.Resources.DAL
         public int IDTYPEID { get; set; }
         public int GUESTID { get; set; }
         public string IDDETAILS { get; set; }
-        public Nullable<bool> IsActive { get; set; }
+        public bool IsActive { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string LastUpdatedBy { get; set; }
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
+        public System.DateTime IdExpiryDate { get; set; }
+        public string IdIssueState { get; set; }
+        public string IdIssueCountry { get; set; }
     
         public virtual Guest Guest { get; set; }
         public virtual IDType IDType { get; set; }

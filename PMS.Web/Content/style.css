@@ -2415,7 +2415,14 @@ ul {
   border-radius: 3px;
 }
 .card-section {
-  min-height: 528px;
+  min-height: 714px;
+}
+textarea.form-control {
+    min-height: 150px;
+}
+.user-profile .card-header {
+    border-bottom: 1px solid #e7e7e7;
+    margin-bottom: 24px;
 }
 .main-content .col-lg-6.p-l-0 {
   padding-left: 0;
@@ -3282,7 +3289,7 @@ p {
   display: -ms-flexbox;
   display: flex;
   max-width: 800px;
-  margin: 0 auto;
+
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
@@ -3309,7 +3316,7 @@ p {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  width: 300px;
+  width: 100%;
   height: 150px;
   background: #fff;
   border-radius: 8px;
@@ -3529,7 +3536,7 @@ button:hover {
 }
 .footer-nav > div {
   margin: 10px auto;
-  width: 17.5%;
+  width: 20%;
   height: 100%;
 }
 .footer-nav > div button {
@@ -3776,6 +3783,108 @@ body.login-section {
 .login-section .content.login {
   display: block;
 }
+.container-fluid {
+    padding: 0 10px;
+}
+.hourCheckin label {
+    float:left;
+    margin-bottom: 6px;
+}
+.hourCheckin .hour-input {
+    width:16px;
+    height: 18px;
+}
+.hourCheckin .hour-input:focus {
+    outline-width: 0;
+}
+.hourCheckin .hour-dd {
+
+}
+
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+}
+.add-details {
+    padding:4px;
+    border: 1px dashed #dadada;
+    margin-bottom: 6px;
+}
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    width: 208px;
+}
+.it .btn-new, .it .btn-next
+{
+	margin: 30px 0px;
+	border-radius: 0px;
+	background-color: #333;
+	color: #f5f5f5;
+	font-size: 16px;
+	width: 155px;
+}
+.it .btn-next
+{
+	background-color: #ff4d0d;
+	color: #fff;
+}
+.it .btn-check
+{
+  cursor:pointer;
+  line-height:54px;
+  color:red;
+}
+.it .uploadDoc
+{
+	margin-bottom: 20px;
+}
+.it .uploadDoc
+{
+	margin-bottom: 20px;
+}
+.it .btn-orange img {
+    width: 30px;
+}
+p
+{
+  font-size:16px;
+  text-align:center;
+  margin:30px 0px;
+}
+.it #uploader .docErr
+{
+	position: absolute;
+    right:auto;
+    left: 10px;
+    top: -56px;
+    padding: 10px;
+    font-size: 15px;
+    background-color: #fff;
+    color: red;
+    box-shadow: 0px 0px 7px 2px rgba(0,0,0,0.2);
+    display: none;
+}
+.it #uploader .docErr:after
+{
+	content: '\f0d7';
+	display: inline-block;
+	font-family: FontAwesome;
+	font-size: 50px;
+	color: #fff;
+	position: absolute;
+	left: 30px;
+	bottom: -40px;
+	text-shadow: 0px 3px 6px rgba(0,0,0,0.2);
+}
+
 @media screen and (max-width: 768px) {
   .main-content .col-lg-6.p-l-0-tab {
     padding-left: 15px;

@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - PMS Application</title>
-    <link rel="stylesheet" href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/css/bootstrap")" />
+    @*<link rel="stylesheet" href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/css/lib")" />*@
     <link rel="stylesheet" href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/daypilotmedia/css")" />
-    <link type="text/css" rel="stylesheet" href="~/Content/icons/style.css" />
+    @*<link type="text/css" rel="stylesheet" href="~/Content/icons/style.css" />*@
 
     <!-- ================= Favicon ================== -->
     <!-- Standard -->
@@ -29,23 +29,26 @@
     <link href="~/Content/lib/unix.css" rel="stylesheet">
     <link href="~/Content/Jquery/jquery-ui.min.css" rel="stylesheet">
     <link href="~/Content/lib/jquery-ui-timepicker-addon.css" rel="stylesheet">
-    <link href="~/Content/style.css" rel="stylesheet">
+    <link href="~/Content/style.css" rel="stylesheet">    
 
+    <!--comment below bundling js logic to unbundle js files -->
     <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/jquery")"></script>
-    <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/angular")"></script>
+    <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/angular")"></script>    
     <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/bootstrap")"></script>
-
-    <script type="text/javascript">
-
-        window.baseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["BaseUrl"].ToString())';
-        jQuery(document).ready(function ($) {
-            //set property id on property ddl selection
-            window.GuestCheckinManager.SetPropertyId(3);
-            window.GuestCheckinManager.Initialize();
-        });
-
-    </script>
     
+    <script type="text/javascript">
+    window.baseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["BaseUrl"].ToString())';
+        jQuery(document).ready(function ($) {            
+        //set property id on property ddl selection
+        window.PmsSession.SetItem("propertyid", 1);
+        window.GuestCheckinManager.Initialize();
+    });
+    </script>
+
+    <!--comment below bundling js logic to unbundle js files -->
+    @*<script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/custom")"></script>*@
+
+    <!--uncomment below js files to unbundle them -->
     <script src="~/Scripts/PmsSession.js"></script>
     <script src="~/Scripts/PmsAjaxQueue.js" ></script>
     <script src="~/Scripts/PmsService.js" ></script>
@@ -56,68 +59,64 @@
     <script src="~/Scripts/redirectionService.js"></script>
     <script src="~/Scripts/calendarService.js"></script>
     <script src="~/Scripts/calendarController.js"></script>
-    
-    <script src="~/Scripts/Jquery/lib/jquery.nanoscroller.min.js"></script><!-- nano scroller --> 
-    <script src="~/Scripts/Jquery/lib/sidebar.js"></script><!-- sidebar -->
-    <script src="~/Scripts/Jquery/lib/jquery-ui/jquery-ui-timepicker-addon.js"></script><!-- bootstrap -->
-    <script src="~/Scripts/scripts.js"></script><!-- scripit init-->
+    </head>
+    <body class="sidebar-hide">
+        <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
+            <div class="nano">
+                <div class="nano-content">
+                    <ul>
+                        <li><a href="#"><i class="ti-home"></i> Home </a></li>
+                        <li class="active"><a href="check-in.html"><i class="ti-view-list-alt"></i>Booking</a></li>
+                        <li><a href="#"><i class="ti-files"></i>Dashboard</a></li>
+                        <li><a href="#"><i class="ti-view-list-alt"></i>Reports</a></li>
+                        <li><a href="#"><i class="ti-calendar"></i> Rewards </a></li>
+                        <li><a href="#"><i class="ti-user"></i>Forgot password</a></li>
+                        <li><a><i class="ti-close"></i> Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div><!-- /# sidebar -->
 
-</head>
-<body>
-    <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
-        <div class="nano">
-            <div class="nano-content">
+        <div class="header">
+            <div class="pull-left">
+                <div class="logo"><a href="#"><span><img src="~/Images/logo.png"></span></a></div>
+                <div class="hamburger sidebar-toggle is-active">
+                    <span class="line"></span>
+                    <span class="line"></span>
+                    <span class="line"></span>
+                </div>
+            </div>
+            <div class="pull-right p-r-15">
                 <ul>
-                    <li><a href="#"><i class="ti-home"></i> Home </a></li>
-                    <li class="active"><a href="check-in.html"><i class="ti-view-list-alt"></i>Booking</a></li>
-                    <li><a href="#"><i class="ti-files"></i>Dashboard</a></li>
-                    <li><a href="#"><i class="ti-view-list-alt"></i>Reports</a></li>
-                    <li><a href="#"><i class="ti-calendar"></i> Rewards </a></li>
-                    <li><a href="#"><i class="ti-user"></i>Forgot password</a></li>
-                    <li><a><i class="ti-close"></i> Logout</a></li>
+                    <li class="header-icon dib">
+                        <img class="avatar-img" src="~/Images/avatar/profile.png" alt="" /> <span class="user-avatar">Administrator  <i class="ti-angle-down f-s-10"></i></span>
+                        <div class="drop-down dropdown-profile">
+                            <div class="dropdown-content-body">
+                                <ul>
+                                    <li><a href="#"><i class="ti-user"></i> <span>Profile</span></a></li>
+                                    <li><a href="#"><i class="ti-settings"></i> <span>Setting</span></a></li>
+                                    <li><a href="#"><i class="ti-power-off"></i> <span>Logout</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
-    </div><!-- /# sidebar -->
 
-    <div class="header">
-        <div class="pull-left">
-            <div class="logo"><a href="#"><span><img src="~/Images/logo.png"></span></a></div>
-            <div class="hamburger sidebar-toggle">
-                <span class="line"></span>
-                <span class="line"></span>
-                <span class="line"></span>
-            </div>
-        </div>
-        <div class="pull-right p-r-15">
-            <ul>
-                <li class="header-icon dib">
-                    <img class="avatar-img" src="~/Images/avatar/profile.png" alt="" /> <span class="user-avatar">Administrator  <i class="ti-angle-down f-s-10"></i></span>
-                    <div class="drop-down dropdown-profile">
-                        <div class="dropdown-content-body">
-                            <ul>
-                                <li><a href="#"><i class="ti-user"></i> <span>Profile</span></a></li>
-                                <li><a href="#"><i class="ti-settings"></i> <span>Setting</span></a></li>
-                                <li><a href="#"><i class="ti-power-off"></i> <span>Logout</span></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
+         @RenderBody()
 
-     @RenderBody()
+        <!--comment below bundling js logic to unbundle js files -->
+        <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/jquery/lib")"></script>
 
-    <div class="footer-nav">
-        <div class="">
-            <button type="button" class="btn btn-primary m-b-10 m-l-5">Submit</button>
-            <button type="button" class="btn btn-default m-b-10">Clear</button>
-        </div>
-    </div>
+        <!--uncomment below js files to unbundle them -->
+        @*<script src="~/Scripts/Jquery/lib/jquery.min.js"></script><!-- jquery vendor -->
+        <script src="~/Scripts/Jquery/lib/jquery.nanoscroller.min.js"></script><!-- nano scroller -->
+        <script src="~/Scripts/Jquery/lib/sidebar.js"></script><!-- sidebar -->
+        <script src="~/Scripts/Jquery/lib/bootstrap.min.js"></script><!-- bootstrap -->
+        <script src="~/Scripts/Jquery/lib/jquery-ui/jquery-ui.min.js"></script><!-- bootstrap -->
+        <script src="~/Scripts/Jquery/lib/jquery-ui/jquery-ui-timepicker-addon.js"></script><!-- bootstrap -->
+        <script src="~/Scripts/scripts.js"></script>*@
 
-    @*@Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")*@
-    @RenderSection("scripts", required: false)
 </body>
 </html>

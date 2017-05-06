@@ -12,6 +12,18 @@
             OnGetRateTypeByPropertyFailure: null,
             OnGetRoomByPropertySuccess: null,
             OnGetRoomByPropertyFailure: null,
+            OnAddBookingSuccess: null,
+            OnAddBookingFailure: null,
+            OnImageUploadSuccess: null,
+            OnImageUploadFailure: null,
+        };
+
+        this.ImageUpload = function (args) {
+            makeAjaxRequestForImage(args, "ImageUpload", this, "api/v1/Image/ImageUpload");
+        };
+
+        this.AddBooking = function (args) {
+            makeAjaxRequestPost(args, "AddBooking", this, "api/v1/Booking/AddBooking");
         };
 
         this.GetRoomTypeByProperty = function (args) {
@@ -52,6 +64,34 @@
             });
         }
 
+        function makeAjaxRequestForImage(args, operationName, e, uri) {
+            var url = e.Config.BaseUrl + uri;
+            var successCallback = makeSuccessHandler(operationName, e);
+            var failureCallback = makeFailureHandler(operationName, e);
+            var completeCallback = makeCompleteHandler(operationName, e);
+
+            //if (win.PmsAjaxQueue != null) {
+            //    win.PmsAjaxQueue.AddToQueue(url, successCallback, failureCallback, completeCallback, args);
+            //    return;
+            //}
+
+            //if (e.AjaxRequestInProgress) {
+            //    alert("An Ajax request is already in progress cannot start another one. Please wait and try again later");
+            //    return;
+            //}
+
+            $.ajax({
+                url: url,
+                success: successCallback,
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: args,
+                error: failureCallback,
+                complete: completeCallback
+            });
+        }
+
         function makeAjaxRequestPost(args, operationName, e, uri) {
             var url = e.Config.BaseUrl + uri;
             var successCallback = makeSuccessHandler(operationName, e);
@@ -73,7 +113,7 @@
                 success: successCallback,
                 type: "POST",
                 contentType: "application/json",
-                data: $.toJSON(args),
+                data: JSON.stringify(args),
                 error: failureCallback,
                 complete: completeCallback
             });

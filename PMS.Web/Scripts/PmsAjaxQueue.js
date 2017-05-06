@@ -40,7 +40,7 @@
                 success: request.successCallback,
                 type: "POST",
                 contentType: "application/json",
-                data: $.toJSON(request.postedData),
+                data: JSON.stringify(request.postedData),
                 error: request.failureCallback,
                 complete: function () {
                     if (typeof request.completeCallback == 'function') {

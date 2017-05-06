@@ -3,6 +3,7 @@ using PMS.Resources.DTO.Response;
 using PMS.Resources.Services.Interface;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -22,6 +23,18 @@ namespace PMS.Web.Controllers
         // GET: Booking
         public ActionResult Index()
         {
+            return View();
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult UploadImage(HttpPostedFileBase uploadPhoto)
+        {
+            if (uploadPhoto.ContentLength > 0)
+            {
+                string filePath = Path.Combine(HttpContext.Server.MapPath("../Uploads"),
+                                               Path.GetFileName(uploadPhoto.FileName));
+                uploadPhoto.SaveAs(filePath);
+            }
             return View();
         }
 

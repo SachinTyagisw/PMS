@@ -310,13 +310,24 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     }
 
     function loadRooms() {
-        //TODO : property id should be dynamic
-        var propertyId = 1;
+        var pmsSession = window.PmsSession;
+        var propertyId = pmsSession.GetItem("propertyid");;
         // Show loading message
-        var messageModal = messageModalSvc.ShowMessage("Loading...", $scope);
-        calendarSvc.GetRoomByProperty(propertyId).then(onGetRoomSuccess, onGetRoomError)['finally'](function () {
-            messageModalSvc.CloseMessage(messageModal);
-        });
+        var roomData = pmsSession.GetItem("roomdata");
+        //if room data is not in session storage then make ajax call
+        if (!roomData) {
+            var messageModal = messageModalSvc.ShowMessage("Loading...", $scope);
+            calendarSvc.GetRoomByProperty(propertyId).then(onGetRoomSuccess, onGetRoomError)['finally'](function () {
+                messageModalSvc.CloseMessage(messageModal);
+            });
+        }
+        else {
+            var response = {};
+            response.Rooms = {};
+            response.Rooms = JSON.parse(roomData);
+            onGetRoomSuccess(response);
+        }
+       
     }
 
     function getTimeline(date) {

@@ -1,20 +1,56 @@
-﻿@{
-    ViewBag.Title = "Guest Checkin";
-}
+﻿    @{
+        ViewBag.Title = "Guest Checkin";
+    }
+    <script type='text/javascript'>
+        var gcm = window.GuestCheckinManager;
+        function OnRoomTypeChange() {
+            gcm.BindRateTypeDdl();
+        }
+        function OnRateTypeChange() {
+            gcm.BindRoomDdl();
+        }
 
-<div class="content-wrap">
-    <div class="main controls">
-        <div class="container-fluid">
-            <div class="main-content">
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imgPhoto').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $(document).ready(function () {
+            $("#btnBooking").click(function () {
+                gcm.AddBooking();
+            });
+
+            $("#uploadPhoto").change(function () {
+                previewImage(this);
+            });
+        });
+
+    </script>
+    <div class="content-wrap">
+        <div class="main controls">
+            <div class="container-fluid">
+                <div class="main-content">
+                    <div class="row">
+                        @Html.Partial("_RoomDetails")<!-- /# column -->
+                        @Html.Partial("_GuestDetails")
+                        @Html.Partial("_PaymentSummary")
+                    </div><!-- /# column -->
+                </div>
                 <div class="row">
-                    @Html.Partial("_RoomDetails")<!-- /# column -->
-                    @Html.Partial("_GuestDetails")
-                </div><!-- /# column -->
-            </div>
-            <div class="row">
-                @Html.Partial("_GuestHistory")<!-- /# column -->
-                @Html.Partial("_PaymentSummary")
-            </div><!-- /# row -->
-        </div><!-- /# main content -->
-    </div><!-- /# container-fluid -->
-</div><!-- /# main -->
+                    @Html.Partial("_GuestHistory")<!-- /# column -->
+
+                </div><!-- /# row -->
+            </div><!-- /# main content -->
+        </div><!-- /# container-fluid -->
+    </div><!-- /# main -->
+    <div class="footer-nav">
+        <div class="">
+            <input id="btnBooking" type="button" class="btn btn-primary m-b-10 m-l-5" value="Submit" />
+            <input type="button" class="btn btn-default m-b-10" value="Clear" />
+        </div>
+    </div>

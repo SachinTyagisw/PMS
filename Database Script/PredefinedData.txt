@@ -1,0 +1,25 @@
+
+insert into property values('Sachin Hotel', 1, 'sachin', getdate(), 'sachin', GETDATE())
+insert into property values('Hotel2', 1, 'sachin', getdate(), 'sachin', GETDATE())
+insert into property values('PMS Hotel', 1, 'sachin', getdate(), 'sachin', GETDATE())
+
+insert into RoomType values(1,'King-Smoking desc', 1, 'sachin', GETDATE(), 'sachin', GETDATE(), 'King-Smoking')
+insert into RoomType values(1,'King-NonSmoking desc', 1, 'sachin', GETDATE(), 'sachin', GETDATE(), 'King-NonSmoking')
+insert into RoomType values(1,'Queen-Smoking desc', 1, 'sachin', GETDATE(), 'sachin', GETDATE(), 'Queen-Smoking')
+insert into RoomType values(1,'Test King-Smoking desc', 1, 'sachin', GETDATE(), 'sachin', GETDATE(), 'Test King-Smoking')
+
+insert into RateType values(2,1,'Apartment Standard desc', 1, 'sachin', GETDATE(), 'sachin', GETDATE(), 'Apartment Standard Test')
+insert into RateType values(1,1,'Apartment Standard desc', 1, 'sachin', GETDATE(), 'sachin', GETDATE(),'Apartment Standard')
+insert into RateType values(3,1,'Queen Standard desc', 1, 'sachin', GETDATE(), 'sachin', GETDATE(),'Queen Standard')
+insert into RateType values(1,1,'Holiday Standard desc', 1, 'sachin', GETDATE(), 'sachin', GETDATE(), 'Holiday Standard')
+insert into RateType values(4,1,'My Weekend Standard desc', 1, 'sachin', GETDATE(), 'sachin', GETDATE() ,'My Weekend Standard')
+
+insert into RateType values(2,2,'Apartment Standard desc', 1, 'sachin', GETDATE(), 'sachin', GETDATE(), '2Apartment Standard Test')
+insert into RateType values(1,2,'Apartment Standard desc', 1, 'sachin', GETDATE(), 'sachin', GETDATE(),'2Apartment Standard')
+insert into RateType values(3,2,'Queen Standard desc', 1, 'sachin', GETDATE(), 'sachin', GETDATE(),'2Queen Standard')
+
+
+insert into addresstype values('AddressType1', 1, 'sachin', GETDATE(), 'tyagi', GETDATE(), 'Official Address')
+insert into addresstype values('AddressType2', 1, 'sachin', GETDATE(), 'tyagi', GETDATE(), 'Correspondence Address')
+insert into addresstype values('AddressType3', 1, 'sachin', GETDATE(), 'tyagi', GETDATE(), 'Permanenent Address')
+insert into addresstype values('AddressType4', 1, 'sachin', GETDATE(), 'tyagi', GETDATE(), 'Temporary Address')
