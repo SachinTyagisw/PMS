@@ -68,7 +68,7 @@
             }
         },
 
-        AddBooking: function () {           
+        AddBooking: function () {
             var bookingRequestDto = {};
             bookingRequestDto.Booking = {};
             var booking = {};
@@ -304,8 +304,8 @@
                 // Add the uploaded image content to the form data collection
                 if (files.length > 0) {
                     data.append("UploadedImage", files[0]);
+                    pmsService.ImageUpload(data);
                 }
-                pmsService.ImageUpload(data);
             }
             alert(data.StatusDescription);
         };
@@ -344,7 +344,7 @@
         };
 
         pmsService.Handlers.OnImageUploadSuccess = function (data) {
-            console.log("Image upload success");
+            console.log(data[0]);
         };
         pmsService.Handlers.OnImageUploadFailure = function () {
             // show error log
