@@ -122,10 +122,6 @@ namespace PMS.Resources.DAL
                                                          Id = x.PropertyID
                                                      },
                                                      IsActive = x.IsActive,
-                                                     RateType = new PmsEntity.RateType
-                                                     {
-                                                         Id = x.RateTypeID 
-                                                     },
                                                      RoomType = new PmsEntity.RoomType
                                                      {
                                                          Id = x.RoomTypeID
@@ -164,8 +160,7 @@ namespace PMS.Resources.DAL
                                                      LastUpdatedBy = x.LastUpdatedBy,
                                                      LastUpdatedOn = x.LastUpdatedOn,
                                                      Id = x.ID,
-                                                     PropertyId = x.PropertyID,
-                                                     RoomTypeId = x.RoomTypeID
+                                                     PropertyId = x.PropertyID
                                                  }).ToList();
 
             }
@@ -297,19 +292,17 @@ namespace PMS.Resources.DAL
             var rooms = new List<PmsEntity.Room>();
             using (var pmsContext = new PmsEntities())
             {
-                var resultSet = pmsContext.GETROOMSTATUS(propertyId, checkinDate, checkoutDate, 0);
+                var resultSet = pmsContext.GETROOMSTATUS(propertyId, checkinDate, checkoutDate);
                 if (resultSet == null) return rooms;
                 foreach(var result in resultSet)
                 {
                     var room = new PmsEntity.Room();
                     room.RoomType = new PmsEntity.RoomType();
-                    room.RateType = new PmsEntity.RateType();
                     room.RoomStatus = new PmsEntity.RoomStatus();
                     room.Id = result.ID;
                     room.Number = result.NUMBER;
                     room.RoomType.Id = result.ROOMTypeID;
                     room.RoomStatus.Name = result.ROOMSTATUS;
-                    room.RateType.Id = result.RateTypeID;
                  
                     rooms.Add(room);
                 }

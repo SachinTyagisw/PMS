@@ -16,7 +16,6 @@ namespace PMS.Resources.DAL
     {
         public RoomType()
         {
-            this.RateTypes = new HashSet<RateType>();
             this.Rooms = new HashSet<Room>();
             this.RoomPricings = new HashSet<RoomPricing>();
         }
@@ -31,7 +30,6 @@ namespace PMS.Resources.DAL
         public string Name { get; set; }
     
         public virtual Property Property { get; set; }
-        public virtual ICollection<RateType> RateTypes { get; set; }
         public virtual ICollection<Room> Rooms { get; set; }
         public virtual ICollection<RoomPricing> RoomPricings { get; set; }
     }

@@ -20,7 +20,8 @@ namespace PMS.Resources.Entities
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string LastUpdatedBy { get; set; }
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
-        public int PropertyId { get; set; }        
+        public int PropertyId { get; set; }
+        public string Status { get; set; }     
         public List<Invoice> Invoices { get; set; }        
         public List<RoomBooking> RoomBookings { get; set; }
         public List<Guest> Guests { get; set; }

@@ -53,6 +53,7 @@
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
           <Property Name="LastUpdatedOn" Type="datetime" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="City">
           <Key>
@@ -190,7 +191,6 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="RoomTypeID" Type="int" />
           <Property Name="PropertyID" Type="int" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
@@ -220,7 +220,6 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PropertyID" Type="int" Nullable="false" />
           <Property Name="RoomTypeID" Type="int" Nullable="false" />
-          <Property Name="RateTypeID" Type="int" Nullable="false" />
           <Property Name="Number" Type="nvarchar" MaxLength="200" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
@@ -443,18 +442,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__RateType__RoomTy__25869641">
-          <End Role="RoomType" Type="Self.RoomType" Multiplicity="0..1" />
-          <End Role="RateType" Type="Self.RateType" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RoomType">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="RateType">
-              <PropertyRef Name="RoomTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Room__PropertyID__2F10007B">
           <End Role="Property" Type="Self.Property" Multiplicity="1" />
           <End Role="Room" Type="Self.Room" Multiplicity="*" />
@@ -464,18 +451,6 @@
             </Principal>
             <Dependent Role="Room">
               <PropertyRef Name="PropertyID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Room__RateTypeID__300424B4">
-          <End Role="RateType" Type="Self.RateType" Multiplicity="1" />
-          <End Role="Room" Type="Self.Room" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RateType">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Room">
-              <PropertyRef Name="RateTypeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -584,7 +559,6 @@
           <Parameter Name="PROPERTYID" Type="int" Mode="In" />
           <Parameter Name="CHECKINTIME" Type="datetime" Mode="In" />
           <Parameter Name="CHECKOUTDATE" Type="datetime" Mode="In" />
-          <Parameter Name="ROOMTYPEID" Type="int" Mode="In" />
         </Function>
         <Function Name="InsertBooking" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="propertyID" Type="int" Mode="In" />
@@ -662,16 +636,8 @@
             <End Role="Property" EntitySet="Property" />
             <End Role="RateType" EntitySet="RateType" />
           </AssociationSet>
-          <AssociationSet Name="FK__RateType__RoomTy__25869641" Association="Self.FK__RateType__RoomTy__25869641">
-            <End Role="RoomType" EntitySet="RoomType" />
-            <End Role="RateType" EntitySet="RateType" />
-          </AssociationSet>
           <AssociationSet Name="FK__Room__PropertyID__2F10007B" Association="Self.FK__Room__PropertyID__2F10007B">
             <End Role="Property" EntitySet="Property" />
-            <End Role="Room" EntitySet="Room" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Room__RateTypeID__300424B4" Association="Self.FK__Room__RateTypeID__300424B4">
-            <End Role="RateType" EntitySet="RateType" />
             <End Role="Room" EntitySet="Room" />
           </AssociationSet>
           <AssociationSet Name="FK__Room__RoomTypeID__2E1BDC42" Association="Self.FK__Room__RoomTypeID__2E1BDC42">
@@ -763,6 +729,7 @@
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Property" Relationship="Self.FK__Booking__Propert__1273C1CD" FromRole="Booking" ToRole="Property" />
           <NavigationProperty Name="GuestRewards" Relationship="Self.FK__GuestRewa__Booki__38996AB5" FromRole="Booking" ToRole="GuestReward" />
           <NavigationProperty Name="Invoices" Relationship="Self.FK__Invoice__Booking__3C69FB99" FromRole="Booking" ToRole="Invoice" />
@@ -927,7 +894,6 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RoomTypeID" Type="Int32" />
           <Property Name="PropertyID" Type="Int32" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
@@ -936,8 +902,6 @@
           <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Property" Relationship="Self.FK__RateType__Proper__267ABA7A" FromRole="RateType" ToRole="Property" />
-          <NavigationProperty Name="RoomType" Relationship="Self.FK__RateType__RoomTy__25869641" FromRole="RateType" ToRole="RoomType" />
-          <NavigationProperty Name="Rooms" Relationship="Self.FK__Room__RateTypeID__300424B4" FromRole="RateType" ToRole="Room" />
           <NavigationProperty Name="RoomPricings" Relationship="Self.FK__RoomPrici__RateT__2B3F6F97" FromRole="RateType" ToRole="RoomPricing" />
         </EntityType>
         <EntityType Name="RewardCategory">
@@ -961,7 +925,6 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PropertyID" Type="Int32" Nullable="false" />
           <Property Name="RoomTypeID" Type="Int32" Nullable="false" />
-          <Property Name="RateTypeID" Type="Int32" Nullable="false" />
           <Property Name="Number" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
@@ -969,7 +932,6 @@
           <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Property" Relationship="Self.FK__Room__PropertyID__2F10007B" FromRole="Room" ToRole="Property" />
-          <NavigationProperty Name="RateType" Relationship="Self.FK__Room__RateTypeID__300424B4" FromRole="Room" ToRole="RateType" />
           <NavigationProperty Name="RoomType" Relationship="Self.FK__Room__RoomTypeID__2E1BDC42" FromRole="Room" ToRole="RoomType" />
         </EntityType>
         <EntityType Name="RoomBooking">
@@ -1023,7 +985,6 @@
           <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Property" Relationship="Self.FK__RoomType__Proper__22AA2996" FromRole="RoomType" ToRole="Property" />
-          <NavigationProperty Name="RateTypes" Relationship="Self.FK__RateType__RoomTy__25869641" FromRole="RoomType" ToRole="RateType" />
           <NavigationProperty Name="Rooms" Relationship="Self.FK__Room__RoomTypeID__2E1BDC42" FromRole="RoomType" ToRole="Room" />
           <NavigationProperty Name="RoomPricings" Relationship="Self.FK__RoomPrici__RoomT__29572725" FromRole="RoomType" ToRole="RoomPricing" />
         </EntityType>
@@ -1270,30 +1231,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__RateType__RoomTy__25869641">
-          <End Role="RoomType" Type="Self.RoomType" Multiplicity="0..1" />
-          <End Role="RateType" Type="Self.RateType" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RoomType">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="RateType">
-              <PropertyRef Name="RoomTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Room__RateTypeID__300424B4">
-          <End Role="RateType" Type="Self.RateType" Multiplicity="1" />
-          <End Role="Room" Type="Self.Room" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RateType">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Room">
-              <PropertyRef Name="RateTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__RoomPrici__RateT__2B3F6F97">
           <End Role="RateType" Type="Self.RateType" Multiplicity="1" />
           <End Role="RoomPricing" Type="Self.RoomPricing" Multiplicity="*" />
@@ -1426,14 +1363,6 @@
             <End Role="Property" EntitySet="Properties" />
             <End Role="RoomType" EntitySet="RoomTypes" />
           </AssociationSet>
-          <AssociationSet Name="FK__RateType__RoomTy__25869641" Association="Self.FK__RateType__RoomTy__25869641">
-            <End Role="RoomType" EntitySet="RoomTypes" />
-            <End Role="RateType" EntitySet="RateTypes" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Room__RateTypeID__300424B4" Association="Self.FK__Room__RateTypeID__300424B4">
-            <End Role="RateType" EntitySet="RateTypes" />
-            <End Role="Room" EntitySet="Rooms" />
-          </AssociationSet>
           <AssociationSet Name="FK__RoomPrici__RateT__2B3F6F97" Association="Self.FK__RoomPrici__RateT__2B3F6F97">
             <End Role="RateType" EntitySet="RateTypes" />
             <End Role="RoomPricing" EntitySet="RoomPricings" />
@@ -1455,7 +1384,6 @@
             <Parameter Name="PROPERTYID" Mode="In" Type="Int32" />
             <Parameter Name="CHECKINTIME" Mode="In" Type="DateTime" />
             <Parameter Name="CHECKOUTDATE" Mode="In" Type="DateTime" />
-            <Parameter Name="ROOMTYPEID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="InsertBooking">
             <Parameter Name="propertyID" Mode="In" Type="Int32" />
@@ -1473,7 +1401,6 @@
         <ComplexType Name="GETROOMSTATUS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="Int32" Name="ROOMTypeID" Nullable="false" />
-          <Property Type="Int32" Name="RateTypeID" Nullable="false" />
           <Property Type="String" Name="NUMBER" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="ROOMSTATUS" Nullable="false" MaxLength="9" />
         </ComplexType>
@@ -1532,6 +1459,7 @@
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
                 <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1679,7 +1607,6 @@
             <EntityTypeMapping TypeName="PmsModel.RateType">
               <MappingFragment StoreEntitySet="RateType">
                 <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="RoomTypeID" ColumnName="RoomTypeID" />
                 <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
@@ -1711,7 +1638,6 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
                 <ScalarProperty Name="RoomTypeID" ColumnName="RoomTypeID" />
-                <ScalarProperty Name="RateTypeID" ColumnName="RateTypeID" />
                 <ScalarProperty Name="Number" ColumnName="Number" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
@@ -1801,7 +1727,6 @@
               <ComplexTypeMapping TypeName="PmsModel.GETROOMSTATUS_Result">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ROOMTypeID" ColumnName="ROOMTypeID" />
-                <ScalarProperty Name="RateTypeID" ColumnName="RateTypeID" />
                 <ScalarProperty Name="NUMBER" ColumnName="NUMBER" />
                 <ScalarProperty Name="ROOMSTATUS" ColumnName="ROOMSTATUS" />
               </ComplexTypeMapping>

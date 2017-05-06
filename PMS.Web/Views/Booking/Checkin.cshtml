@@ -3,11 +3,14 @@
     }
     <script type='text/javascript'>
         var gcm = window.GuestCheckinManager;
+        var pmsSession = window.PmsSession;
         function OnRoomTypeChange() {
-            gcm.BindRateTypeDdl();
-        }
-        function OnRateTypeChange() {
-            gcm.BindRoomDdl();
+            var roomData = pmsSession.GetItem("roomdata");
+            if (!roomData) {
+                gcm.GetRoomByDate();
+            } else {
+                gcm.BindRoomDdl();
+            }
         }
 
         function previewImage(input) {
@@ -30,7 +33,7 @@
             }); 
 
             $("#dateFrom").change(function () {
-                //alert('aa');
+               alert('aa');
             });
         });
 

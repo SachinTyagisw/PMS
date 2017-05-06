@@ -34,6 +34,7 @@ namespace PMS.Resources.DAL
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string LastUpdatedBy { get; set; }
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
+        public string Status { get; set; }
     
         public virtual Property Property { get; set; }
         public virtual ICollection<GuestReward> GuestRewards { get; set; }

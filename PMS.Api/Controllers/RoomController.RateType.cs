@@ -52,13 +52,6 @@ namespace PMS.Api.Controllers
               new { controller = "Room", action = "GetRateTypeById" },
               constraints: new { propertyId = RegExConstants.NumericRegEx, typeId = RegExConstants.NumericRegEx }
               );
-
-            config.Routes.MapHttpRoute(
-             "GetRateTypeByRoomType",
-             "api/v1/Room/{propertyId}/GetRateTypeByRoomType/{roomTypeId}",
-             new { controller = "Room", action = "GetRateTypeByRoomType" },
-             constraints: new { propertyId = RegExConstants.NumericRegEx, roomTypeId = RegExConstants.NumericRegEx }
-             );
         }
 
         [HttpPost, ActionName("AddRateType")]
@@ -136,32 +129,27 @@ namespace PMS.Api.Controllers
                     new PmsEntity.RateType
                     {
                         Id = 1,
-                        Name = "Apartment Standard Test",
-                        RoomTypeId = 2
+                        Name = "Apartment Standard Test"
                     },
                     new PmsEntity.RateType
                     {
                         Id = 2,
-                        Name = "Apartment Standard",
-                        RoomTypeId = 1
+                        Name = "Apartment Standard"
                     },
                     new PmsEntity.RateType
                     {
                         Id = 3,
-                        Name = "Queen Standard",
-                        RoomTypeId = 3
+                        Name = "Queen Standard"
                     },
                     new PmsEntity.RateType
                     {
                         Id = 4,
-                        Name = "Holiday Standard",
-                        RoomTypeId = 1
+                        Name = "Holiday Standard"
                     },
                     new PmsEntity.RateType
                     {
                         Id = 5,
-                        Name = "My Weekend Standard",
-                        RoomTypeId = 4
+                        Name = "My Weekend Standard"
                     }
                 };
             }
@@ -184,22 +172,5 @@ namespace PMS.Api.Controllers
             response.RateTypes = rateTypeResponseDto.RateTypes.Where(x => x.Id.Equals(typeId)).ToList();
             return response;
         }
-
-        [HttpGet, ActionName("GetRateTypeByRoomType")]
-        public GetRateTypeResponseDto GetRateTypeByRoomType(int propertyId, int roomTypeId)
-        {
-            if (propertyId <= 0) throw new PmsException("Property id is not valid.");
-
-            var response = new GetRateTypeResponseDto();
-            if (roomTypeId <= 0)
-            {
-                return response;
-            }
-            var rateTypeResponseDto = GetRateTypeByProperty(propertyId);
-            if (rateTypeResponseDto == null || rateTypeResponseDto.RateTypes == null || rateTypeResponseDto.RateTypes.Count <= 0) return response;
-
-            response.RateTypes = rateTypeResponseDto.RateTypes.Where(x => x.RoomTypeId.Equals(roomTypeId)).ToList();
-            return response;
-        }    
     }
 }

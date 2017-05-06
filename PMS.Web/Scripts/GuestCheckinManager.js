@@ -13,19 +13,19 @@
 
         BindRoomDdl: function () {
             var ddlRoom = $('#roomddl');
-            var ddlRateType = $('#rateTypeDdl');
+            var ddlRoomType = $('#roomTypeDdl');
             var roomData = pmsSession.GetItem("roomdata");
-            if (!ddlRoom || !ddlRateType || !roomData) return;
+            if (!ddlRoom || !ddlRoomType || !roomData) return;
 
             var rooms = $.parseJSON(roomData);
             if (!rooms || rooms.length <= 0) return;
 
             ddlRoom.empty();
             ddlRoom.append(new Option("Select Room", "-1"));
-            var rateTypeId = parseInt(ddlRateType.val());
-            if (rateTypeId > -1) {
+            var roomTypeId = parseInt(ddlRoomType.val());
+            if (roomTypeId > -1) {
                 for (var i = 0; i < rooms.length; i++) {
-                    if (rooms[i].RateType.Id !== rateTypeId) continue;
+                    if (rooms[i].RoomType.Id !== roomTypeId) continue;
 
                     ddlRoom.append(new Option(rooms[i].Number, rooms[i].Id));
                 }
@@ -49,37 +49,18 @@
 
         BindRateTypeDdl: function () {
             var ddlRateType = $('#rateTypeDdl');
-            var ddlRoomType = $('#roomTypeDdl');
-            var rateTypeData = pmsSession.GetItem("roomratetypedata");
-            if (!ddlRateType || !ddlRoomType || !rateTypeData) return;
+            var rateTypeData = pmsSession.GetItem("ratetypedata");
+            if (!ddlRateType || !rateTypeData) return;
 
             var rateTypes = $.parseJSON(rateTypeData);
             if (!rateTypes || rateTypes.length <= 0) return;
 
             ddlRateType.empty();
             ddlRateType.append(new Option("Select Type", "-1"));
-            var roomTypeId = parseInt(ddlRoomType.val());
-            if (roomTypeId > -1) {
-                for (var i = 0; i < rateTypes.length; i++) {
-                    if (rateTypes[i].RoomTypeId !== roomTypeId) continue;
-
-                    ddlRateType.append(new Option(rateTypes[i].Name, rateTypes[i].Id));
-                }
+            for (var i = 0; i < rateTypes.length; i++) {
+                ddlRateType.append(new Option(rateTypes[i].Name, rateTypes[i].Id));
             }
-        },
-
-        GetRoomByDate: function () {
-            if (!$('#dateFrom') || !$('#dateTo')
-            || $('#dateFrom').val() === '' || $('#dateTo').val() === '') return null;
-        
-            var getRoomByDateRequestDto = {};
-            getRoomByDateRequestDto.CheckinDate = $('#dateFrom').val();
-            getRoomByDateRequestDto.CheckoutDate = $('#dateTo').val();
-            getRoomByDateRequestDto.PropertyId = pmsSession.GetItem("propertyid");
-
-            // get room by api calling  
-            pmsService.GetRoomByDate(getRoomByDateRequestDto);
-        },
+        },       
 
         AddBooking: function () {
             var bookingRequestDto = {};
@@ -97,6 +78,7 @@
             booking.GuestRemarks = $('#guestComments').val();
             booking.TransactionRemarks = "transaction";
             booking.CreatedOn = getCurrentDate();
+            booking.Status = "Confirmed";
             //TODO : remove hardcoded value
             booking.CreatedBy = "vipul";
             // for new booking Id = -1 
@@ -115,7 +97,20 @@
             bookingRequestDto.Booking = booking;
             // add booking by api calling  
             pmsService.AddBooking(bookingRequestDto);           
-        }        
+        },
+
+        GetRoomByDate: function () {
+            if (!$('#dateFrom') || !$('#dateTo')
+            || $('#dateFrom').val() === '' || $('#dateTo').val() === '') return null;
+
+            var getRoomByDateRequestDto = {};
+            getRoomByDateRequestDto.CheckinDate = $('#dateFrom').val();
+            getRoomByDateRequestDto.CheckoutDate = $('#dateTo').val();
+            getRoomByDateRequestDto.PropertyId = pmsSession.GetItem("propertyid");
+
+            // get room by api calling  
+            pmsService.GetRoomByDate(getRoomByDateRequestDto);
+        }
     };
     
     function prepareAddressDto() {
@@ -279,10 +274,13 @@
 
     function getRoomRateTypes() {
         args.propertyId = pmsSession.GetItem("propertyid");;
-        var roomRateTypeData = pmsSession.GetItem("roomratetypedata");
-        if (!roomRateTypeData) {
+        var rateTypeData = pmsSession.GetItem("ratetypedata");
+        if (!rateTypeData) {
             // get room rate types by api calling  
             pmsService.GetRateTypeByProperty(args);
+        }
+        else {
+            window.GuestCheckinManager.BindRateTypeDdl();
         }
     }
     
@@ -345,7 +343,8 @@
 
         pmsService.Handlers.OnGetRateTypeByPropertySuccess = function (data) {
             //storing room rate type data into session storage
-            pmsSession.SetItem("roomratetypedata", JSON.stringify(data.RateTypes));
+            pmsSession.SetItem("ratetypedata", JSON.stringify(data.RateTypes));
+            window.GuestCheckinManager.BindRateTypeDdl();
         };
         pmsService.Handlers.OnGetRateTypeByPropertyFailure = function () {
             // show error log
@@ -371,6 +370,8 @@
 
         pmsService.Handlers.OnGetRoomByDateSuccess = function (data) {
             console.log(data);
+            pmsSession.SetItem("roomdata", JSON.stringify(data.Rooms));
+            window.GuestCheckinManager.BindRoomDdl();
         };
         pmsService.Handlers.OnGetRoomByDateFailure = function () {
             // show error log

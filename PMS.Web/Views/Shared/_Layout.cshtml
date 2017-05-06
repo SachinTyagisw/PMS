@@ -32,7 +32,15 @@
     <link href="~/Content/style.css" rel="stylesheet">    
 
     <!--comment below bundling js logic to unbundle js files -->
-    <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/jquery")"></script>
+    @*<script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/jquery")"></script>*@
+
+    <!--uncomment below js files to unbundle them -->
+    <script src="~/Scripts/Jquery/jquery-2.2.3.min.js"></script>
+    <script src="~/Scripts/Jquery/jquery-ui.min.js"></script>
+    <script src="~/Scripts/Jquery/lib/jquery.nanoscroller.min.js"></script>
+    <script src="~/Scripts/Jquery/lib/jquery-ui/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Scripts/Jquery/jquery.tmpl.js"></script>
+
     <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/angular")"></script>    
     <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/bootstrap")"></script>
     
