@@ -13,8 +13,6 @@ namespace PMS.Resources.DTO.Request
     public class GetRoomByDateRequestDto
     {
         [DataMember]
-        public int RoomTypeId { get; set; }
-        [DataMember]
         public DateTime CheckinDate { get; set; }
         [DataMember]
         public DateTime CheckoutDate { get; set; }

@@ -16,6 +16,12 @@
             OnAddBookingFailure: null,
             OnImageUploadSuccess: null,
             OnImageUploadFailure: null,
+            OnGetRoomByDateSuccess: null,
+            OnGetRoomByDateFailure: null,
+        };
+
+        this.GetRoomByDate = function (args) {
+            makeAjaxRequestPost(args, "GetRoomByDate", this, "api/v1/Room/GetRoomByDate");
         };
 
         this.ImageUpload = function (args) {

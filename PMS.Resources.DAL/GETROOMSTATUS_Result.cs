@@ -15,6 +15,7 @@ namespace PMS.Resources.DAL
     {
         public int ID { get; set; }
         public int ROOMTypeID { get; set; }
+        public int RateTypeID { get; set; }
         public string NUMBER { get; set; }
         public string ROOMSTATUS { get; set; }
     }

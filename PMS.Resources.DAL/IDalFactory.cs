@@ -50,7 +50,7 @@ namespace PMS.Resources.DAL
         bool UpdateRewardCategory(PmsEntity.RewardCategory rewardCategory);
         bool DeleteRewardCategory(int catId);
         List<PmsEntity.RewardCategory> GetAllRewardCategory();
-        List<PmsEntity.Room> GetRoomByDate(int propertyId, int roomTypeId , DateTime checkinDate , DateTime checkoutDate);
+        List<PmsEntity.Room> GetRoomByDate(int propertyId, DateTime checkinDate , DateTime checkoutDate);
     }
 }
 

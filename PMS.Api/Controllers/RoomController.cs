@@ -345,7 +345,7 @@ namespace PMS.Api.Controllers
         [HttpPost, ActionName("GetRoomByDate")]
         public GetRoomResponseDto GetRoomByDate([FromBody] GetRoomByDateRequestDto request)
         {
-            if (request == null || request.PropertyId <= 0 || request.RoomTypeId <= 0 || request.CheckinDate == null || request.CheckoutDate == null) throw new PmsException("Room details can not be fetch.");
+            if (request == null || request.PropertyId <= 0 || request.CheckinDate == null || request.CheckoutDate == null) throw new PmsException("Room details can not be fetch.");
             var response = new GetRoomResponseDto();
 
             response.Rooms = _iPMSLogic.GetRoomByDate(request);

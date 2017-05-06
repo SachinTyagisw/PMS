@@ -8,7 +8,7 @@
             ajaxHandlers();
             getRoomTypes();
             getRoomRateTypes();
-            getRooms();
+            //getRooms();
         },
 
         BindRoomDdl: function () {
@@ -66,6 +66,19 @@
                     ddlRateType.append(new Option(rateTypes[i].Name, rateTypes[i].Id));
                 }
             }
+        },
+
+        GetRoomByDate: function () {
+            if (!$('#dateFrom') || !$('#dateTo')
+            || $('#dateFrom').val() === '' || $('#dateTo').val() === '') return null;
+        
+            var getRoomByDateRequestDto = {};
+            getRoomByDateRequestDto.CheckinDate = $('#dateFrom').val();
+            getRoomByDateRequestDto.CheckoutDate = $('#dateTo').val();
+            getRoomByDateRequestDto.PropertyId = pmsSession.GetItem("propertyid");
+
+            // get room by api calling  
+            pmsService.GetRoomByDate(getRoomByDateRequestDto);
         },
 
         AddBooking: function () {
@@ -159,7 +172,12 @@
         guest.EmailAddress = $('#email').val();
         guest.DOB = $('#dob').val();
         guest.Gender = $('#ddlInitials').val();
-        guest.PhotoPath = "UploadedImage\\" + $("#uploadPhoto").get(0).files[0].name;
+
+        var files = $("#uploadPhoto").get(0).files;
+        if (files.length > 0) {
+            guest.PhotoPath = "D:\\PMSHosted\\PMSApi\\UploadedFiles\\" + files[0].name;
+        }
+        
         guest.CreatedOn = getCurrentDate();
         //TODO : remove hardcoded value
         guest.CreatedBy = "vipul";
@@ -275,8 +293,8 @@
             // get room by api calling  
             pmsService.GetRoomByProperty(args);
         }
-    }
-    
+    }     
+
     function getCurrentDate() {
         // date format yyyy/mm/dd
         var dt = new Date();
@@ -350,6 +368,15 @@
             // show error log
             console.error("Image upload failed");
         };
+
+        pmsService.Handlers.OnGetRoomByDateSuccess = function (data) {
+            console.log(data);
+        };
+        pmsService.Handlers.OnGetRoomByDateFailure = function () {
+            // show error log
+            console.error("get room call failed");
+        };
+
         // ajax handlers end
     }
 

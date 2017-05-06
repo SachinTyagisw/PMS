@@ -292,22 +292,24 @@ namespace PMS.Resources.DAL
             var rewardCategory = new List<PmsEntity.RewardCategory>();
             return rewardCategory;
         }
-        public List<PmsEntity.Room> GetRoomByDate(int propertyId, int roomTypeId, DateTime checkinDate, DateTime checkoutDate)
+        public List<PmsEntity.Room> GetRoomByDate(int propertyId, DateTime checkinDate, DateTime checkoutDate)
         {
             var rooms = new List<PmsEntity.Room>();
             using (var pmsContext = new PmsEntities())
             {
-                var resultSet = pmsContext.GETROOMSTATUS(propertyId, checkinDate, checkoutDate, roomTypeId);
+                var resultSet = pmsContext.GETROOMSTATUS(propertyId, checkinDate, checkoutDate, 0);
                 if (resultSet == null) return rooms;
                 foreach(var result in resultSet)
                 {
                     var room = new PmsEntity.Room();
                     room.RoomType = new PmsEntity.RoomType();
+                    room.RateType = new PmsEntity.RateType();
                     room.RoomStatus = new PmsEntity.RoomStatus();
                     room.Id = result.ID;
                     room.Number = result.NUMBER;
                     room.RoomType.Id = result.ROOMTypeID;
                     room.RoomStatus.Name = result.ROOMSTATUS;
+                    room.RateType.Id = result.RateTypeID;
                  
                     rooms.Add(room);
                 }
