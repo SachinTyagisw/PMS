@@ -26,18 +26,6 @@ namespace PMS.Web.Controllers
             return View();
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult UploadImage(HttpPostedFileBase uploadPhoto)
-        {
-            if (uploadPhoto.ContentLength > 0)
-            {
-                string filePath = Path.Combine(HttpContext.Server.MapPath("../Uploads"),
-                                               Path.GetFileName(uploadPhoto.FileName));
-                uploadPhoto.SaveAs(filePath);
-            }
-            return View();
-        }
-
         [HttpGet]
         public ActionResult Checkin()
         {
