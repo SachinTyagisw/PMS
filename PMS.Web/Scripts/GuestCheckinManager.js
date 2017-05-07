@@ -63,6 +63,9 @@
         },       
 
         AddBooking: function () {
+
+            if (!validateInputs()) return;
+
             var bookingRequestDto = {};
             bookingRequestDto.Booking = {};
             var booking = {};
@@ -304,6 +307,23 @@
 
         var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
         return dateOutput + ' ' + time;
+    }
+
+    function validateInputs() {
+        var fname = $("#fName").val();
+        var lname = $("#lName").val();
+        // check first name 
+        if (fname.length <= 0) {
+            alert("Please enter the first name");
+            $('#fName').focus();
+            return false;
+        }
+        // check last name 
+        if (lname.length <= 0) {
+            alert("Please enter the last name");
+            $('#lName').focus();
+            return false;
+        }
     }
 
     function ajaxHandlers() {
