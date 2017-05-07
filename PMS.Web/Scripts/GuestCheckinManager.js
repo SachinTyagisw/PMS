@@ -312,6 +312,7 @@
     function validateInputs() {
         var fname = $("#fName").val();
         var lname = $("#lName").val();
+        var phNumber = $("#phone").val();
         // check first name 
         if (fname.length <= 0) {
             alert("Please enter the first name");
@@ -322,6 +323,28 @@
         if (lname.length <= 0) {
             alert("Please enter the last name");
             $('#lName').focus();
+            return false;
+        }
+        // check phone number
+        if (phNumber.length <= 0) {
+            alert("Please enter phone number");
+            $('#phone').focus();
+            return false;
+        }
+
+        var emailId = $("#email").val();
+        var validEmailIdRegex = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/);
+        /// check email 
+        if (emailId.length > 0) {
+            var testname = validEmailIdRegex.test(emailId);
+            if (testname !== true) {
+                alert("Please enter valid email format.");
+                $('#email').focus();
+                return false;
+            }             
+        } else {
+            alert("Please enter valid email format.");
+            $('#email').focus();
             return false;
         }
     }

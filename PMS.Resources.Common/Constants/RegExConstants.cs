@@ -16,7 +16,7 @@ namespace PMS.Resources.Common.Constants
         public const string UnsignedByteRegEx = @"^([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$";
         public const string AlphabetRegEx = @"^[a-zA-Z]+$";
         public const string AlphaNumericStartWithAlphabetRegEx = "^([a-zA-Z][0-9a-zA-Z]*)$";
-        public const string EmailRegEx = @"^[a-zA-Z0-9]+[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.(?:[a-zA-Z](?:[a-zA-Z]{0,61}[a-zA-Z])?)+)+$";
+        public const string EmailRegEx = @"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
         public const string ExactlyFourDigitRegex = @"^\d{4}$";
         public const string ExactlyFiveDigitRegex = @"^\d{5}$";
         public const string ExactlyTenDigitRegex = @"^\d{10}$";
