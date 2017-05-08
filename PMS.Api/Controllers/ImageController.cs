@@ -1,4 +1,5 @@
-﻿using PMS.Resources.Common.Constants;
+﻿using PMS.Api.CustomStreamProvider;
+using PMS.Resources.Common.Constants;
 using PMS.Resources.Common.Helper;
 using PMS.Resources.Core;
 using PMS.Resources.DTO.Request;
@@ -15,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 
@@ -36,38 +38,48 @@ namespace PMS.Api.Controllers
         private void MapHttpRoutesForImage(HttpConfiguration config)
         {
             config.Routes.MapHttpRoute(
-             "UploadImage",
-             "api/v1/Image/UploadImage",
-             new { controller = "Image", action = "UploadImage" }
+             "ImageUpload",
+             "api/v1/Image/ImageUpload",
+             new { controller = "Image", action = "ImageUpload" }
              );
         }
 
         [HttpPost]
-        public void UploadImage()
+        public Task<IEnumerable<string>> ImageUpload()
         {
             var logService = LoggingManager.GetLogInstance();
-            logService.LogInformation("upload started");
-            logService.LogInformation("count" + HttpContext.Current.Request.Files.Count);
-            if (HttpContext.Current.Request.Files.AllKeys.Any())
-            {
-                // Get the uploaded image from the Files collection
-                var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
+            if (!HttpContext.Current.Request.Files.AllKeys.Any()) throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotAcceptable, "Invalid Request!"));  
+            
+            // Get the uploaded image from the Files collection
+            var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
+            if (httpPostedFile == null || !Request.Content.IsMimeMultipartContent()) throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotAcceptable, "Invalid Request!"));  
 
-                if (httpPostedFile != null)
-                {
-                    // Validate the uploaded image(optional)
+            /*Simulate large file upload*/  
+            //System.Threading.Thread.Sleep(5000);
 
-                    // Get the complete file path
-                    var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/UploadedFiles"), httpPostedFile.FileName);
-                    logService.LogInformation("file path :" + fileSavePath);
-                    // Save the uploaded file to "UploadedFiles" folder
-                    httpPostedFile.SaveAs(fileSavePath);
-                }
-                else
-                {
-                    logService.LogInformation("NO file path");
-                }
-            }
+            string fullPath = HttpContext.Current.Server.MapPath("~/UploadedFiles");  
+            CustomMultipartFormDataStreamProvider streamProvider = new CustomMultipartFormDataStreamProvider(fullPath);  
+            var task = Request.Content.ReadAsMultipartAsync(streamProvider).ContinueWith(t =>  
+            {  
+                if (t.IsFaulted || t.IsCanceled)  
+                    throw new HttpResponseException(HttpStatusCode.InternalServerError);  
+  
+                var fileInfo = streamProvider.FileData.Select(i =>  
+                {  
+                    var info = new FileInfo(i.LocalFileName);  
+                    return "File saved as "  + info.FullName  + " (" +  info.Length +  ")";  
+                });  
+                return fileInfo;  
+            });  
+            return task;  
+                    
+            //// Validate the uploaded image(optional)
+
+            //// Get the complete file path
+            //var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/UploadedFiles"), httpPostedFile.FileName);
+            //logService.LogInformation("file path :" + fileSavePath);
+            //// Save the uploaded file to "UploadedFiles" folder
+            //httpPostedFile.SaveAs(fileSavePath);
         }
 
     }

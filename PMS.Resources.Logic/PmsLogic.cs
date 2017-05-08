@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using PMS.Resources.Logging.Logger;
+using PMS.Resources.DTO.Request;
 
 namespace PMS.Resources.Logic
 {
@@ -232,6 +233,11 @@ namespace PMS.Resources.Logic
         {
             var rewardCategory = DalFactory.GetAllRewardCategory();
             return rewardCategory;
+        }
+        public List<PmsEntity.Room> GetRoomByDate(GetRoomByDateRequestDto request)
+        {
+            var rooms = DalFactory.GetRoomByDate(request.PropertyId, request.CheckinDate, request.CheckoutDate);
+            return rooms;
         }
     }
 }

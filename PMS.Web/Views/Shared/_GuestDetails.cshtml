@@ -24,18 +24,18 @@
                             </div>
                             <div class="col-lg-5 p-r-0">
                                 <div class="form-group">
-                                    <input type="text" placeholder="First Name" class="form-control" name="example-input-normal" id="fName">
+                                    <input id="fName" type="text" onkeyup="this.value= this.value.replace(/[^A-z ]/g,'');" placeholder="First Name" class="form-control" name="example-input-normal">
                                 </div>
                             </div>
                             <div class="col-lg-5 p-r-0">
                                 <div class="form-group">
-                                    <input type="text" placeholder="Last Name" class="form-control" name="example-input-normal" id="lName">
+                                    <input id="lName" type="text" onkeyup="this.value= this.value.replace(/[^A-z ]/g,'');" placeholder="Last Name" class="form-control" name="example-input-normal">
                                 </div>
                             </div>
                             <div class="contact-information">
                                 <div class="col-lg-12 p-r-0 p-l-0">
                                     <div class="form-group">
-                                        <input type="text" placeholder="Phone" class="form-control" name="example-input-normal" id="phone">
+                                        <input id="phone" type="text" maxlength="10" placeholder="Phone" class="form-control" name="example-input-normal">
                                     </div>
                                 </div>
                                 <div class="address-content">
@@ -182,12 +182,12 @@
                                 <div class="col-lg-12 add-details p-r-0 p-l-0">
                                     <div class="col-lg-6 p-r-5 p-l-0">
                                         <div class="form-group">
-                                            <input type="text" placeholder="First Name" class="form-control" name="example-input-normal" id="fName">
+                                            <input type="text" placeholder="First Name" class="form-control" name="example-input-normal" id="adFName">
                                         </div>
                                     </div>
                                     <div class="col-lg-6 p-r-0 p-l-0">
                                         <div class="form-group">
-                                            <input type="text" placeholder="Last Name" class="form-control" name="example-input-normal" id="lName">
+                                            <input type="text" placeholder="Last Name" class="form-control" name="example-input-normal" id="adLName">
                                         </div>
                                     </div>
                                     <div class="col-lg-12 p-r-0 p-l-0">

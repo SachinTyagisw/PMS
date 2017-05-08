@@ -3,11 +3,14 @@
     }
     <script type='text/javascript'>
         var gcm = window.GuestCheckinManager;
+        var pmsSession = window.PmsSession;
         function OnRoomTypeChange() {
-            gcm.BindRateTypeDdl();
-        }
-        function OnRateTypeChange() {
-            gcm.BindRoomDdl();
+            var roomData = pmsSession.GetItem("roomdata");
+            if (!roomData) {
+                gcm.GetRoomByDate();
+            } else {
+                gcm.BindRoomDdl();
+            }
         }
 
         function previewImage(input) {
@@ -27,14 +30,25 @@
 
             $("#uploadPhoto").change(function () {
                 previewImage(this);
+            }); 
+
+            $("#dateFrom").change(function () {
+               //alert('aa');
+            });
+
+            $('#phone').keydown(function (e) {
+                if (e.shiftKey || e.ctrlKey || e.altKey) {
+                    e.preventDefault();
+                } else {
+                    var key = e.keyCode;
+                    if (!((key == 8) || (key == 46) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+                        e.preventDefault();
+                    }
+                }
             });
         });
 
     </script>
-<% using (Html.BeginForm("uploadPhoto", "Booking/UploadImage",
-                    FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {%>
-
     <div class="content-wrap">
         <div class="main controls">
             <div class="container-fluid">
@@ -58,4 +72,3 @@
             <input type="button" class="btn btn-default m-b-10" value="Clear" />
         </div>
     </div>
-<%} %>

@@ -51,6 +51,7 @@
     <Compile Include="Request\AddRoomRequestDto.cs" />
     <Compile Include="Request\AddRoomStatusRequestDto.cs" />
     <Compile Include="Request\AddRoomTypeRequestDto.cs" />
+    <Compile Include="Request\GetRoomByDateRequestDto.cs" />
     <Compile Include="Request\UpdatePropertyRequestDto.cs" />
     <Compile Include="Request\UpdatePropertyTypeRequestDto.cs" />
     <Compile Include="Request\UpdateRateTypeRequestDto.cs" />

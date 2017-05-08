@@ -75,13 +75,6 @@ namespace PMS.Api.Controllers
               );
 
             config.Routes.MapHttpRoute(
-              "GetRoomByRateType",
-              "api/v1/Room/{propertyId}/GetRoomByRateType/{rateTypeId}",
-              new { controller = "Room", action = "GetRoomByRateType" },
-              constraints: new { propertyId = RegExConstants.NumericRegEx, rateTypeId = RegExConstants.NumericRegEx }
-              );
-
-            config.Routes.MapHttpRoute(
             "GetRoomById",
             "api/v1/Room/{propertyId}/GetRoomById/{roomId}",
             new { controller = "Room", action = "GetRoomById" },
@@ -107,6 +100,12 @@ namespace PMS.Api.Controllers
             "api/v1/Room/{propertyId}/GetRoomByRoomNumber/{roomNumber}",
             new { controller = "Room", action = "GetRoomByRoomNumber" },
             constraints: new { propertyId = RegExConstants.NumericRegEx, roomNumber = RegExConstants.AlphaNumericRegEx }
+            );
+
+            config.Routes.MapHttpRoute(
+            "GetRoomByDate",
+            "api/v1/Room/GetRoomByDate",
+            new { controller = "Room", action = "GetRoomByDate" }
             );
         }
 
@@ -190,11 +189,6 @@ namespace PMS.Api.Controllers
                         {
                             Id = 1,
                             Name = "King-Smoking"
-                        },
-                        RateType = new RateType
-                        {
-                            Id = 2,
-                            Name = "Apartment Standard"
                         }
                     },
 
@@ -206,11 +200,6 @@ namespace PMS.Api.Controllers
                         {
                             Id = 2,
                             Name = "King-NonSmoking"
-                        },
-                        RateType = new RateType
-                        {
-                            Id = 1,
-                            Name = "Apartment Standard Test"
                         }
                     },
 
@@ -222,11 +211,6 @@ namespace PMS.Api.Controllers
                         {
                             Id = 3,
                             Name = "Queen-Smoking"
-                        },
-                        RateType = new RateType
-                        {
-                            Id = 3,
-                            Name = "Queen Standard"
                         }
                     },
 
@@ -238,11 +222,6 @@ namespace PMS.Api.Controllers
                         {
                             Id = 1,
                             Name = "King-Smoking"
-                        },
-                        RateType = new RateType
-                        {
-                            Id = 4,
-                            Name = "Holiday Standard"
                         }
                     }
                 };
@@ -300,24 +279,7 @@ namespace PMS.Api.Controllers
             response.Rooms = roomResponseDto.Rooms.Where(x => x.RoomStatus.Id.Equals(typeId)).ToList();
             return response;
         }
-
-        [HttpGet, ActionName("GetRoomByRateType")]
-        public GetRoomResponseDto GetRoomByRateType(int propertyId, int rateTypeId)
-        {
-            if (propertyId <= 0) throw new PmsException("Property id is not valid.");
-
-            var response = new GetRoomResponseDto();
-            if (rateTypeId <= 0)
-            {
-                return response;
-            }
-            var roomResponseDto = GetRoomByProperty(propertyId);
-            if (roomResponseDto == null || roomResponseDto.Rooms == null || roomResponseDto.Rooms.Count <= 0) return response;
-
-            response.Rooms = roomResponseDto.Rooms.Where(x => x.RateType.Id.Equals(rateTypeId)).ToList();
-            return response;
-        }
-
+        
         [HttpGet, ActionName("GetRoomByRoomNumber")]
         public GetRoomResponseDto GetRoomByRoomNumber(int propertyId, string roomNumber)
         {
@@ -333,6 +295,18 @@ namespace PMS.Api.Controllers
 
             response.Rooms = roomResponseDto.Rooms.Where(x => x.Number.Equals(roomNumber)).ToList();
             return response;
-        }    
+        }
+
+
+        [HttpPost, ActionName("GetRoomByDate")]
+        public GetRoomResponseDto GetRoomByDate([FromBody] GetRoomByDateRequestDto request)
+        {
+            if (request == null || request.PropertyId <= 0 || request.CheckinDate == null || request.CheckoutDate == null) throw new PmsException("Room details can not be fetch.");
+            var response = new GetRoomResponseDto();
+
+            response.Rooms = _iPMSLogic.GetRoomByDate(request);
+
+            return response;
+        }
     }
 }

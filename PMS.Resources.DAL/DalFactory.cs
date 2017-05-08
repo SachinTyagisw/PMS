@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PMS.Resources.Common.Converter;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace PMS.Resources.DAL
 {
@@ -17,12 +19,30 @@ namespace PMS.Resources.DAL
         public bool AddBooking(PmsEntity.Booking booking)
         {
             var isAdded = false;
-            booking.CreatedBy = "vipul";
-            booking.CreatedOn = DateTime.Now;
-            var xml = PmsConverter.SerializeObjectToXmlString(booking);
-            return isAdded;
-        }
+            var bookingXml = PmsConverter.SerializeObjectToXmlString(booking);
+            if (string.IsNullOrWhiteSpace(bookingXml)) return false;
+            bookingXml = RemoveXmlDefaultNode(bookingXml);
+            using (var pmsContext = new PmsEntities())
+            {
+                var propertyId = new SqlParameter
+                {
+                    ParameterName = "propertyID",
+                    DbType = DbType.Int32,
+                    Value = booking.PropertyId
+                };
 
+                var roomBookingXml = new SqlParameter
+                {
+                    ParameterName = "bookingXML",
+                    DbType = DbType.Xml,
+                    Value = bookingXml
+                };
+
+                var result = pmsContext.Database.ExecuteSqlCommand("InsertBooking @propertyID, @bookingXML", propertyId, roomBookingXml);
+                isAdded = true;
+            }
+            return isAdded;
+        }        
         public List<PmsEntity.Booking> GetBooking(DateTime startDate, DateTime endDate)
         {
             var bookings = new List<PmsEntity.Booking>();
@@ -102,10 +122,6 @@ namespace PMS.Resources.DAL
                                                          Id = x.PropertyID
                                                      },
                                                      IsActive = x.IsActive,
-                                                     RateType = new PmsEntity.RateType
-                                                     {
-                                                         Id = x.RateTypeID 
-                                                     },
                                                      RoomType = new PmsEntity.RoomType
                                                      {
                                                          Id = x.RoomTypeID
@@ -144,8 +160,7 @@ namespace PMS.Resources.DAL
                                                      LastUpdatedBy = x.LastUpdatedBy,
                                                      LastUpdatedOn = x.LastUpdatedOn,
                                                      Id = x.ID,
-                                                     PropertyId = x.PropertyID,
-                                                     RoomTypeId = x.RoomTypeID
+                                                     PropertyId = x.PropertyID
                                                  }).ToList();
 
             }
@@ -271,6 +286,36 @@ namespace PMS.Resources.DAL
         {
             var rewardCategory = new List<PmsEntity.RewardCategory>();
             return rewardCategory;
+        }
+        public List<PmsEntity.Room> GetRoomByDate(int propertyId, DateTime checkinDate, DateTime checkoutDate)
+        {
+            var rooms = new List<PmsEntity.Room>();
+            using (var pmsContext = new PmsEntities())
+            {
+                var resultSet = pmsContext.GETROOMSTATUS(propertyId, checkinDate, checkoutDate);
+                if (resultSet == null) return rooms;
+                foreach(var result in resultSet)
+                {
+                    var room = new PmsEntity.Room();
+                    room.RoomType = new PmsEntity.RoomType();
+                    room.RoomStatus = new PmsEntity.RoomStatus();
+                    room.Id = result.ID;
+                    room.Number = result.NUMBER;
+                    room.RoomType.Id = result.ROOMTypeID;
+                    room.RoomStatus.Name = result.ROOMSTATUS;
+                 
+                    rooms.Add(room);
+                }
+            }
+            return rooms;
+        }
+        private string RemoveXmlDefaultNode(string xml)
+        {
+            var idxStartNode = xml.IndexOf("<?");
+            var idxEndNode = xml.IndexOf("?>");
+            var length = idxEndNode - idxStartNode + 2;
+            xml = xml.Remove(idxStartNode, length);
+            return xml;
         }
     }
 }
