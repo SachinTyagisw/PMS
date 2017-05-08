@@ -26,6 +26,7 @@ namespace PMS.Resources.Entities
         public List<RoomBooking> RoomBookings { get; set; }
         public List<Guest> Guests { get; set; }
         public List<Address> Addresses { get; set; }
+        public List<GuestMapping> GuestMappings { get; set; }
         //public Dictionary<Guest, List<RoomBooking>> BookingDetails { get; set; }
     }
 }

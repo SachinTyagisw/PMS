@@ -33,7 +33,7 @@
   padding: 13px 20px;
   border: 0px;
   border-radius: 0px;
-  box-shadow: 0 0 0 0.02rem #e7e7e7;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 }
 .card-header h4 {
     display: inline-block;
@@ -637,11 +637,12 @@ a.dt-button.active:not(.disabled) {
 /*    Header
 ---------------*/
 .header {
-  background: #3B3F51;
+  background: #fff;
   position: fixed;
   width: 100%;
   min-height: 50px;
   z-index: 999;
+  box-shadow: 0 0px 9px 4px rgba(0, 0, 0, 0.1), 0 -5px 2px 2px rgba(0, 0, 0, 0.1);
 }
 .logo {
   background: #3B3F51;
@@ -675,7 +676,7 @@ a.dt-button.active:not(.disabled) {
 .header-icon {
   font-size: 18px;
   padding: 14px 15px;
-  color: #ffffff;
+  color: #222533;
   position: relative;
   transition: all 0.4s ease-in-out;
   display: inline-block;
@@ -2418,7 +2419,7 @@ ul {
   min-height: 714px;
 }
 textarea.form-control {
-    min-height: 150px;
+    min-height: 100px;
 }
 .user-profile .card-header {
     border-bottom: 1px solid #e7e7e7;
@@ -3113,7 +3114,7 @@ tbody tr td:last-child {
 }
 body {
   font-family: 'Montserrat', sans-serif;
-  background: #57586f;
+  background: #f0f0f0;
   color: #878787;
 }
 .controls .add-btn button {
@@ -3207,6 +3208,32 @@ p {
 .color-dark {
   color: #252525;
 }
+
+.sidebar .nano-content > ul li > a.green-c {
+    background: #23AE89;
+    color: #fff;
+}
+.sidebar .nano-content > ul li > a.red-c {
+    background: #E94B3B;
+    color: #fff;
+}
+.sidebar .nano-content > ul li > a.blue-c {
+    background: #1C7EBB;
+    color: #fff;
+}
+.sidebar .nano-content > ul li > a.yellow-c {
+    background: #F98E33;
+    color: #fff;
+}
+.sidebar .nano-content > ul li > a.purple-c {
+    background: #6A55C2;
+    color: #fff;
+}
+.sidebar .nano-content > ul li > a.mud-c {
+    background: #c2b055;
+    color: #fff;
+}
+
 /*    Background Mixins
 --------------------------*/
 .bg-primary {
@@ -3413,6 +3440,86 @@ p {
   display: inline-block;
 }
 
+.panel-title a {
+    display:block;
+    width: 100%;
+}
+.panel-default>.panel-heading {
+  color: #333;
+  background-color: #fff;
+  border-color: #e4e5e7;
+  padding: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.panel-default>.panel-heading a {
+  display: block;
+  padding: 10px 15px;
+}
+
+.panel-default>.panel-heading a:after {
+  content: "";
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  float: right;
+  transition: transform .25s linear;
+  -webkit-transition: -webkit-transform .25s linear;
+}
+
+.panel-default>.panel-heading a[aria-expanded="true"] {
+  background-color: #eee;
+}
+
+.panel-default>.panel-heading a[aria-expanded="true"]:after {
+  content: "\2212";
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+.panel-default>.panel-heading a[aria-expanded="false"]:after {
+  content: "\002b";
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+.accordion-option {
+  width: 100%;
+  float: left;
+  clear: both;
+  margin: 15px 0;
+}
+
+.accordion-option .title {
+  font-size: 20px;
+  font-weight: bold;
+  float: left;
+  padding: 0;
+  margin: 0;
+}
+
+.accordion-option .toggle-accordion {
+  float: right;
+  font-size: 16px;
+  color: #6a6c6f;
+}
+
+.accordion-option .toggle-accordion:before {
+  content: "Expand All";
+}
+
+.accordion-option .toggle-accordion.active:before {
+  content: "Collapse All";
+}
 
 .controls input[type="text"],
 .controls input[type="email"],

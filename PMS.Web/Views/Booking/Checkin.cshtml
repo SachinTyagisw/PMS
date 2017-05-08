@@ -5,11 +5,15 @@
         var gcm = window.GuestCheckinManager;
         var pmsSession = window.PmsSession;
         function OnRoomTypeChange() {
-            var roomData = pmsSession.GetItem("roomdata");
-            if (!roomData) {
-                gcm.GetRoomByDate();
+            if ($('#roomTypeDdl').val() !== '-1') {
+                var roomData = pmsSession.GetItem("roomdata");
+                if (!roomData) {
+                    gcm.GetRoomByDate();
+                } else {
+                    gcm.BindRoomDdl();
+                }
             } else {
-                gcm.BindRoomDdl();
+                $('#roomddl').empty();
             }
         }
 
@@ -37,6 +41,17 @@
             });
 
             $('#phone').keydown(function (e) {
+                if (e.shiftKey || e.ctrlKey || e.altKey) {
+                    e.preventDefault();
+                } else {
+                    var key = e.keyCode;
+                    if (!((key == 8) || (key == 46) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+                        e.preventDefault();
+                    }
+                }
+            });
+
+            $('#zipCode').keydown(function (e) {
                 if (e.shiftKey || e.ctrlKey || e.altKey) {
                     e.preventDefault();
                 } else {
