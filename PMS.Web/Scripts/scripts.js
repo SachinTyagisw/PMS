@@ -128,24 +128,24 @@ $("#checkAll").change(function () {
 
 
 
-$( "#dateFrom" ).datetimepicker({
-    minDate: 0,
-    maxDate: "+2Y",
-	timeInput: true,
-	timeFormat: "hh:mm tt",
-	showHour: false,
-	showMinute: false,
-    onSelect: function( selectedDate ) {
-        $( "#dateTo" ).datetimepicker("option", "minDate", selectedDate );
+//$( "#dateFrom" ).datetimepicker({
+//    minDate: 0,
+//    maxDate: "+2Y",
+//	timeInput: true,
+//	timeFormat: "hh:mm tt",
+//	showHour: false,
+//	showMinute: false,
+//    onSelect: function( selectedDate ) {
+//        $( "#dateTo" ).datetimepicker("option", "minDate", selectedDate );
 
-        setTimeout(function(){
-            $( "#dateTo" ).datetimepicker('show');
-            //$( "#dateTo" ).datepicker("option", "showAnim", 'slide');
-        }, 16);
-    }
-});
+//        setTimeout(function(){
+//            $( "#dateTo" ).datetimepicker('show');
+//            //$( "#dateTo" ).datepicker("option", "showAnim", 'slide');
+//        }, 16);
+//    }
+//});
 
-$( "#dateTo" ).datetimepicker({
+$( "#dateFrom, #dateTo" ).datetimepicker({
     maxDate: "+2Y",
     timeInput: true,
     timeFormat: "hh:mm tt",
@@ -180,7 +180,7 @@ class PhotoSubmission {
         const reader = new FileReader();
 
         reader.onload = function (e) {
-            uploadBtn.setAttribute("style", "background-image: url('${e.target.result}');");
+            uploadBtn.setAttribute('style', `background-image: url('${e.target.result}');`);
             uploadBtn.classList.add('photo_submit--image');
             fileInput.setAttribute('disabled', 'disabled');
         };
