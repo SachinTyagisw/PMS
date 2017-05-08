@@ -6,7 +6,8 @@
 -- =============================================
 
   
-Create PROCEDURE [dbo].InsertBooking  
+  
+CREATE PROCEDURE [dbo].InsertBooking  
  @propertyID INT,  
  @bookingXML XML = NULL  
 AS  
@@ -186,7 +187,7 @@ BEGIN
     )  
    OUTPUT [SourceGuest].ID, inserted.ID INTO @SavedGuestIDTable(OldGuestID,NewGuestID);  
    
-   
+      
   MERGE INTO  
   [GuestMapping] AS [TargetGuestMapping]  
   USING   
@@ -195,7 +196,10 @@ BEGIN
       XMLTable.Id,    
       XMLTable.IDTYPEID,    
       GuestID = case when (XMLTable.GuestID < 0) then  GuestIDTable.NewGuestID else XMLTable.GuestID end,
-      XMLTable.IDDETAILS,    
+      XMLTable.IDDETAILS,
+      XMLTable.IdExpiryDate,
+      XMLTable.IdIssueState,
+      XMLTable.IdIssueCountry,    
       XMLTable.IsActive,    
       XMLTable.CreatedBy,    
       XMLTable.CreatedOn,    
@@ -209,6 +213,9 @@ BEGIN
       IDTYPEID int,    
       GUESTID int, 
       IDDETAILS nvarchar(max),   
+      IdExpiryDate DateTime,
+      IdIssueState nvarchar(100),
+      IdIssueCountry nvarchar(100),
       IsActive bit,    
       CreatedBy nvarchar(200),    
       CreatedOn Datetime,    
@@ -225,7 +232,10 @@ BEGIN
    SET   
        [TargetGuestMapping].IDTYPEID = [SourceGuestMapping].IDTYPEID  
       ,[TargetGuestMapping].GUESTID = [SourceGuestMapping].GUESTID    
-      ,[TargetGuestMapping].IDDETAILS = [SourceGuestMapping].IDDETAILS    
+      ,[TargetGuestMapping].IDDETAILS = [SourceGuestMapping].IDDETAILS 
+      ,[TargetGuestMapping].IdExpiryDate = [SourceGuestMapping].IdExpiryDate 
+      ,[TargetGuestMapping].IdIssueState = [SourceGuestMapping].IdIssueState 
+      ,[TargetGuestMapping].IdIssueCountry = [SourceGuestMapping].IdIssueCountry    
       ,[TargetGuestMapping].IsActive = [SourceGuestMapping].IsActive    
       ,[TargetGuestMapping].CreatedBy = [SourceGuestMapping].CreatedBy  
       ,[TargetGuestMapping].CreatedOn = [SourceGuestMapping].CreatedOn   
@@ -235,7 +245,10 @@ BEGIN
   INSERT (      
       IDTYPEID,    
       GUESTID,    
-      IDDETAILS,    
+      IDDETAILS, 
+      IdExpiryDate,
+      IdIssueState,
+      IdIssueCountry,   
       IsActive,    
       CreatedBy,    
       CreatedOn,    
@@ -246,7 +259,10 @@ BEGIN
     (  
       [SourceGuestMapping].IDTYPEID,    
       [SourceGuestMapping].GUESTID,    
-      [SourceGuestMapping].IDDETAILS,    
+      [SourceGuestMapping].IDDETAILS,
+      [SourceGuestMapping].IdExpiryDate,
+      [SourceGuestMapping].IdIssueState,
+      [SourceGuestMapping].IdIssueCountry,    
       [SourceGuestMapping].IsActive,    
       [SourceGuestMapping].CreatedBy,    
       [SourceGuestMapping].CreatedOn,    
@@ -441,9 +457,7 @@ BEGIN
  END CATCH  
       
     SET NOCOUNT OFF  
-END  
-  
-  
+END    
   
   
   
