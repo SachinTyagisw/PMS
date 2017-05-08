@@ -25,7 +25,7 @@
             var roomTypeId = parseInt(ddlRoomType.val());
             if (roomTypeId > -1) {
                 for (var i = 0; i < rooms.length; i++) {
-                    if (rooms[i].RoomType.Id !== roomTypeId) continue;
+                    if (rooms[i].RoomType.Id !== roomTypeId || rooms[i].RoomStatus.Name === 'BOOKED') continue;
 
                     ddlRoom.append(new Option(rooms[i].Number, rooms[i].Id));
                 }
@@ -68,10 +68,7 @@
 
             var bookingRequestDto = {};
             bookingRequestDto.Booking = {};
-            var booking = {};
-            
-            if (!$('#dateFrom') || !$('#dateTo')
-               || !$('#ddlAdults') || !$('#ddlChild')) return;
+            var booking = {};           
 
             booking.CheckinTime = $('#dateFrom').val();
             booking.CheckoutTime = $('#dateTo').val();
@@ -79,7 +76,7 @@
             booking.NoOfChild = $('#ddlChild').val();
             booking.PropertyId = pmsSession.GetItem("propertyid");
             booking.GuestRemarks = $('#guestComments').val();
-            booking.TransactionRemarks = "transaction";
+            booking.TransactionRemarks = $('#transRemarks').val();
             booking.CreatedOn = getCurrentDate();
             booking.Status = "Confirmed";
             //TODO : remove hardcoded value
@@ -89,6 +86,7 @@
 
             booking.RoomBookings = prepareRoomBookingDto();
             booking.Guests = prepareGuestDto();
+            booking.GuestMappings = prepareGuestIdDto();
             booking.Addresses = prepareAddressDto();
             
             if (!booking.RoomBookings || !booking.Guests || !booking.Addresses) {
@@ -137,13 +135,7 @@
         address.CreatedBy = "vipul";
         //TODO: addresstype to be selected from address type ddl
         address.AddressTypeID = 1;
-
-        if (address.AddressTypeID === '-1' || address.Address1 === '' || address.ZipCode === '' || address.City === '-1' || address.State === '-1' || address.Country === '-1') {
-            console.error('Address details are missing.');
-            alert("Address details are missing.");
-            return null;
-        }
-
+        
         addresses.push(address);
         return addresses;
     }
@@ -152,15 +144,12 @@
         if (!$('#ddlInitials') || !$('#fName') || !$('#lName')
             || !$('#phone') || !$('#address') || !$('#lName')
             || !$('#ddlCity') || !$('#ddlState') || !$('#ddlCountry')
-            || !$('#zipCode') || !$('#email') || !$('#ddlIdType')
-            || !$('#idnumber') || !$('#ddlIdState') || !$('#ddlIdCountry')
-            || !$('#idexpiry') || !$('#dob')) return;
+            || !$('#zipCode') || !$('#email') || !$('#dob')) return;
 
         var guests = [];
         var guest = {};
         var additionalGuest = {};
-        guest.AdditionalGuests = [];
-        guest.GuestMappings = [];
+        guest.AdditionalGuests = [];       
 
         // for new guest guestid should be -1 else guestid
         guest.Id = $('#hdnGuestId').val() == '' ? -1 : $('#hdnGuestId').val();
@@ -179,41 +168,30 @@
         guest.CreatedOn = getCurrentDate();
         //TODO : remove hardcoded value
         guest.CreatedBy = "vipul";
-        
-        if (guest.FirstName === '' || guest.LastName === '' || guest.EmailAddress === '') {
-            console.error('Guest details are missing.');
-            alert("Guest details are missing.");
-            return null;
-        } 
 
         guest.AdditionalGuests = prepareAdditionalGuestDto();
-        guest.GuestMappings = prepareGuestIdDetailsDto();
-
-        if (!guest.GuestMappings) {
-            console.error('Guest Identification details are missing.');
-            alert("Guest Id details are missing.");
-            return null;
-        }
 
         guests.push(guest);
         return guests;
     }
 
-    function prepareGuestIdDetailsDto() {
+    function prepareGuestIdDto() {
         if (!$('#ddlIdType') || !$('#idDetails') || !$('#ddlIdState')
-            || !$('#ddlIdCountry') || !$('#idExpiry') || !$('#ddlIdType')) return;
-
+            || !$('#ddlIdCountry') || !$('#idExpiry')) return;
+        
         var guestMapping = {};
         var guestMappings = [];
 
-        guestMapping.IdTypeId = $('#ddlIdType').val();
-        guestMapping.IdDetails = $('#idDetails').val();
+        guestMapping.GUESTID = $('#hdnGuestId').val() == '' ? -1 : $('#hdnGuestId').val();
+        guestMapping.IDTYPEID = $('#ddlIdType').val();
+        guestMapping.IDDETAILS = $('#idDetails').val();
         guestMapping.IdExpiryDate = $('#idExpiry').val();
         guestMapping.IdIssueState = $('#ddlIdState').val();
         guestMapping.IdIssueCountry = $('#ddlIdCountry').val();
-
-        if (guestMapping.IdTypeId === '-1' || guestMapping.IdDetails === '' || guestMapping.IdExpiryDate === '') return null;
-
+        guestMapping.CreatedOn = getCurrentDate();
+        //TODO : remove hardcoded value
+        guestMapping.CreatedBy = "vipul";        
+        
         guestMappings.push(guestMapping);
         return guestMappings;
     }
@@ -235,24 +213,18 @@
     }
 
     function prepareRoomBookingDto() {
-        if (!$('#rateTypeDdl') || !$('#roomTypeDdl') || !$('#roomddl')) return;
+        if (!$('#roomTypeDdl') || !$('#roomddl')) return;
 
         var roomBookings = [];
         var roomBooking = {};
 
-        var rateType = $('#rateTypeDdl').val();
         var roomType = $('#roomTypeDdl').val();
-        roomBooking.RoomId = $('#roomddl').val();
-        
-        if (rateType === '-1' || roomType === '-1' || roomBooking.RoomId === '-1') return null;
-
+        roomBooking.RoomId = $('#roomddl').val();      
         roomBooking.GuestID = $('#hdnGuestId').val() == '' ? -1 : $('#hdnGuestId').val();
-
         // for new booking id = -1
         roomBooking.BookingId = -1
         roomBooking.Id = -1
         roomBooking.CreatedOn = getCurrentDate();
-        
 
         //TODO : remove hardcoded value
         roomBooking.CreatedBy = "vipul";
@@ -313,6 +285,50 @@
         var fname = $("#fName").val();
         var lname = $("#lName").val();
         var phNumber = $("#phone").val();
+        var zipCode = $("#zipCode").val();
+        var idDetails = $("#idDetails").val();
+        var idExpiry = $("#idExpiry").val();
+        var dateFrom = $("#dateFrom").val();
+        var dateTo = $("#dateTo").val();
+        var adult = $("#ddlAdults").val();
+        var child = $("#ddlChild").val();
+        var guestIdType = $("#ddlIdType").val();
+        var roomType = $('#roomTypeDdl').val();
+        var roomId = $('#roomddl').val();
+        var city = $('#ddlCity').val();
+        var state = $('#ddlState').val();
+        var country = $('#ddlCountry').val();
+
+        // check checkin date 
+        if (dateFrom.length <= 0) {
+            alert("Please select checkin date");
+            $('#dateFrom').focus();
+            return false;
+        }
+
+        // check checkin date 
+        if (dateTo.length <= 0) {
+            alert("Please select checkout date");
+            $('#dateTo').focus();
+            return false;
+        }
+
+        if (roomType === '-1') {
+            alert("Select proper room type");
+            return false;
+        }
+
+        if (roomId === '-1') {
+            alert("Select proper room number");
+            return false;
+        }
+
+        // check adult or child value
+        if (adult <= 0 && child <= 0 ) {
+            alert("Please select atleast an adult or child");
+            return false;
+        }
+
         // check first name 
         if (fname.length <= 0) {
             alert("Please enter the first name");
@@ -332,12 +348,52 @@
             return false;
         }
 
+        if (city === '-1') {
+            alert("Select proper city");
+            return false;
+        }
+
+        if (state === '-1') {
+            alert("Select proper state");
+            return false;
+        }
+
+        if (country === '-1') {
+            alert("Select proper country");
+            return false;
+        }
+
+        // check zipcode
+        if (zipCode.length <= 0) {
+            alert("Please enter zip code");
+            $('#zipCode').focus();
+            return false;
+        }
+
+        if (guestIdType === '-1') {
+            alert("Guest Identification type is incorrect.");
+            return false;
+        }
+        // check guest id details
+        if (idDetails.length <= 0) {
+            alert("Please enter guest identification number");
+            $('#idDetails').focus();
+            return false;
+        }
+
+        // check id expiry details 
+        if (idExpiry.length <= 0) {
+            alert("Please enter guest ID expiry details");
+            $('#idExpiry').focus();
+            return false;
+        }
+
         var emailId = $("#email").val();
         var validEmailIdRegex = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/);
         /// check email 
         if (emailId.length > 0) {
-            var testname = validEmailIdRegex.test(emailId);
-            if (testname !== true) {
+            var testemail = validEmailIdRegex.test(emailId);
+            if (testemail !== true) {
                 alert("Please enter valid email format.");
                 $('#email').focus();
                 return false;
@@ -347,6 +403,15 @@
             $('#email').focus();
             return false;
         }
+        return true;
+    }
+    
+    function clearAllFields() {
+        pmsSession.RemoveItem("roomdata");
+        $("#dateFrom").val('');
+        $("#dateTo").val('');
+        $('#roomTypeDdl').val('-1');
+        $('#roomddl').empty();
     }
 
     function ajaxHandlers() {
@@ -354,18 +419,24 @@
         // ajax handlers start
 
         pmsService.Handlers.OnAddBookingSuccess = function (data) {
-            console.log(data.StatusDescription);
-            // if booking is successful then upload image
-            if (window.FormData !== undefined) {
-                // if success upload image of guest
-                var data = new FormData();
-                var files = $("#uploadPhoto").get(0).files;
-                // Add the uploaded image content to the form data collection
-                if (files.length > 0) {
-                    data.append("UploadedImage", files[0]);
-                    pmsService.ImageUpload(data);
+            if (data.StatusDescription.toLowerCase().indexOf("successfully") >= 0) {
+                clearAllFields();
+                console.log(data.StatusDescription);
+                // if booking is successful then upload image
+                if (window.FormData !== undefined) {
+                    // if success upload image of guest
+                    var data = new FormData();
+                    var files = $("#uploadPhoto").get(0).files;
+                    // Add the uploaded image content to the form data collection
+                    if (files.length > 0) {
+                        data.append("UploadedImage", files[0]);
+                        pmsService.ImageUpload(data);
+                    }
                 }
+            } else {
+                console.error(data.StatusDescription);
             }
+          
             alert(data.StatusDescription);
         };
 
@@ -412,7 +483,6 @@
         };
 
         pmsService.Handlers.OnGetRoomByDateSuccess = function (data) {
-            console.log(data);
             pmsSession.SetItem("roomdata", JSON.stringify(data.Rooms));
             window.GuestCheckinManager.BindRoomDdl();
         };

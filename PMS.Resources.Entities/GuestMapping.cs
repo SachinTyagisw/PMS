@@ -9,9 +9,9 @@ namespace PMS.Resources.Entities
     public class GuestMapping
     {
         public int Id { get; set; }
-        public int IdTypeId { get; set; }
-        public int GuestId { get; set; }
-        public string IdDetails { get; set; }
+        public int IDTYPEID { get; set; }
+        public int GUESTID { get; set; }
+        public string IDDETAILS { get; set; }
         public bool IsActive { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
