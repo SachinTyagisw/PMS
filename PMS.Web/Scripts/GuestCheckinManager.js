@@ -182,6 +182,7 @@
         var guestMapping = {};
         var guestMappings = [];
 
+        guestMapping.Id = "-1"
         guestMapping.GUESTID = $('#hdnGuestId').val() == '' ? -1 : $('#hdnGuestId').val();
         guestMapping.IDTYPEID = $('#ddlIdType').val();
         guestMapping.IDDETAILS = $('#idDetails').val();
@@ -407,7 +408,6 @@
     }
     
     function clearAllFields() {
-        pmsSession.RemoveItem("roomdata");
         $("#dateFrom").val('');
         $("#dateTo").val('');
         $('#roomTypeDdl').val('-1');

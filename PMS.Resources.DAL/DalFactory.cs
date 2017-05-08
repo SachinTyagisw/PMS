@@ -16,19 +16,16 @@ namespace PMS.Resources.DAL
         {
             throw new NotImplementedException();
         }
-        public bool AddBooking(PmsEntity.Booking booking)
+        public bool AddBooking(int propertyId, string bookingXml)
         {
             var isAdded = false;
-            var bookingXml = PmsConverter.SerializeObjectToXmlString(booking);
-            if (string.IsNullOrWhiteSpace(bookingXml)) return false;
-            bookingXml = RemoveXmlDefaultNode(bookingXml);
             using (var pmsContext = new PmsEntities())
             {
-                var propertyId = new SqlParameter
+                var propId = new SqlParameter
                 {
                     ParameterName = "propertyID",
                     DbType = DbType.Int32,
-                    Value = booking.PropertyId
+                    Value = propertyId
                 };
 
                 var roomBookingXml = new SqlParameter
@@ -38,7 +35,7 @@ namespace PMS.Resources.DAL
                     Value = bookingXml
                 };
 
-                var result = pmsContext.Database.ExecuteSqlCommand("InsertBooking @propertyID, @bookingXML", propertyId, roomBookingXml);
+                var result = pmsContext.Database.ExecuteSqlCommand("InsertBooking @propertyID, @bookingXML", propId, roomBookingXml);
                 isAdded = true;
             }
             return isAdded;
@@ -308,14 +305,6 @@ namespace PMS.Resources.DAL
                 }
             }
             return rooms;
-        }
-        private string RemoveXmlDefaultNode(string xml)
-        {
-            var idxStartNode = xml.IndexOf("<?");
-            var idxEndNode = xml.IndexOf("?>");
-            var length = idxEndNode - idxStartNode + 2;
-            xml = xml.Remove(idxStartNode, length);
-            return xml;
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web;
 using PMS.Resources.Logging.Logger;
 using PMS.Resources.DTO.Request;
+using PMS.Resources.Common.Converter;
 
 namespace PMS.Resources.Logic
 {
@@ -40,10 +41,18 @@ namespace PMS.Resources.Logic
 
         public bool AddBooking(PmsEntity.Booking booking)
         {
-            var isAdded = DalFactory.AddBooking(booking);
-            return isAdded;
-        }
+            var propertyId = booking.PropertyId;
+            var bookingXml = PmsConverter.SerializeObjectToXmlString(booking);
+            
+            if(string.IsNullOrWhiteSpace(bookingXml)) return false;
+            bookingXml = RemoveXmlDefaultNode(bookingXml);
+            
+            var logService = LoggingManager.GetLogInstance();
+            logService.LogInformation(bookingXml);
 
+            var isAdded = DalFactory.AddBooking(propertyId,bookingXml);
+            return isAdded;
+        }       
         public List<PmsEntity.Booking> GetBooking(DateTime startDate, DateTime endDate)
         {
             var bookings = DalFactory.GetBooking(startDate, endDate);
@@ -239,5 +248,16 @@ namespace PMS.Resources.Logic
             var rooms = DalFactory.GetRoomByDate(request.PropertyId, request.CheckinDate, request.CheckoutDate);
             return rooms;
         }
+
+        #region helper methods 
+        private string RemoveXmlDefaultNode(string xml)
+        {
+            var idxStartNode = xml.IndexOf("<?");
+            var idxEndNode = xml.IndexOf("?>");
+            var length = idxEndNode - idxStartNode + 2;
+            xml = xml.Remove(idxStartNode, length);
+            return xml;
+        }
+        #endregion 
     }
 }
