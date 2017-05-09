@@ -1,7 +1,8 @@
 angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$timeout', 'redirectionSvc', 'messageModalSvc', 'calendarSvc', function ($scope, $log, $timeout, redirectionSvc, messageModalSvc, calendarSvc) {
     var dpBookingResponseDto = [];
     var dpRoomsResponseDto = [];
-
+    var pmsSession = window.PmsSession;
+    var propertyId = pmsSession.GetItem("propertyid");
     //dp test data
     //var dummyBookingData = [
     //                            {
@@ -48,6 +49,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     };
 
     var onGetRoomSuccess = function (response) {
+        pmsSession.SetItem("roomdata", JSON.stringify(response.Rooms));
         //todo: apply roomtype filter if roomtype is > 0
         var roomtype = $scope.roomType;
         var response = convertRoomResponseToDayPilotResponse(response.Rooms)
@@ -264,7 +266,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                 dpBookingData.start = booking.CheckinTime;
                 dpBookingData.end = booking.CheckoutTime;
                 dpBookingData.resource = data[j].Room.Id;
-                dpBookingData.text = "This is booked by me" + data[j].Room.Id;
+                dpBookingData.text = "Booked for : " + data[j].Guest.LastName +", " + data[j].Guest.FirstName;
                 dpBookingData.tags.status = "confirmed";
                 dpBookingData.id = data[j].Id;
 
@@ -304,14 +306,12 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
 
         // Show loading message
         var messageModal = messageModalSvc.ShowMessage("Loading ...", $scope);
-        calendarSvc.GetRoomBooking(params).then(onGetRoomBookingSuccess, onGetRoomBookingError)['finally'](function () {
+        calendarSvc.GetRoomBooking(propertyId, params).then(onGetRoomBookingSuccess, onGetRoomBookingError)['finally'](function () {
             messageModalSvc.CloseMessage(messageModal);
         });       
     }
 
-    function loadRooms() {
-        var pmsSession = window.PmsSession;
-        var propertyId = pmsSession.GetItem("propertyid");;
+    function loadRooms() {                
         // Show loading message
         var roomData = pmsSession.GetItem("roomdata");
         //if room data is not in session storage then make ajax call
