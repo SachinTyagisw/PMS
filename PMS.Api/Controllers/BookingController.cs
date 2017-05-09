@@ -53,8 +53,9 @@ namespace PMS.Api.Controllers
 
             config.Routes.MapHttpRoute(
              "GetBooking",
-             "api/v1/Booking/GetBooking",
-             new { controller = "Booking", action = "GetBooking" }
+             "api/v1/Booking/{propertyId}/GetBooking",
+             new { controller = "Booking", action = "GetBooking" },
+             constraints: new { propertyId = RegExConstants.NumericRegEx }
              );
         }
 
@@ -79,8 +80,10 @@ namespace PMS.Api.Controllers
         }
 
         [HttpGet, ActionName("GetBooking")]
-        public GetBookingResponseDto GetBooking()
+        public GetBookingResponseDto GetBooking(int propertyId)
         {
+            if (propertyId <= 0) throw new PmsException("Get Booking call failed.");
+
             var queryParams = Request.GetQueryNameValuePairs();
             var startDate = queryParams.FirstOrDefault(x => x.Key == "startdate").Value;
             var endDate = queryParams.FirstOrDefault(x => x.Key == "enddate").Value;
@@ -88,12 +91,12 @@ namespace PMS.Api.Controllers
             DateTime dtStart;
             DateTime dtEnd;
 
-            if (!DateTime.TryParseExact(startDate, dtFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out dtStart))
+            if (startDate == null || !DateTime.TryParseExact(startDate, dtFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out dtStart))
             {
                 throw new PmsException("Incorrect booking start date");
             }
             
-            if (!DateTime.TryParseExact(endDate, dtFormats, CultureInfo.InvariantCulture, DateTimeStyles.None , out dtEnd))
+            if (endDate == null || !DateTime.TryParseExact(endDate, dtFormats, CultureInfo.InvariantCulture, DateTimeStyles.None , out dtEnd))
             {
                 throw new PmsException("Incorrect booking end date");
             }
@@ -102,7 +105,7 @@ namespace PMS.Api.Controllers
 
             if(!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
             {
-                response.Bookings = _iPMSLogic.GetBooking(dtStart, dtEnd);
+                response.Bookings = _iPMSLogic.GetBooking(propertyId, dtStart, dtEnd);
             }
             else
             {
@@ -126,7 +129,9 @@ namespace PMS.Api.Controllers
                                 Guest = new Guest
                                 {
                                     Id = 11,
-                                    FirstName = "Tyagi"
+                                    FirstName = "Tyagi",
+                                    LastName = "Sachin"
+
                                 }                            
                              
                             },
@@ -141,7 +146,8 @@ namespace PMS.Api.Controllers
                                 Guest = new Guest
                                 {
                                     Id = 22,
-                                    FirstName = "Sharma"
+                                    FirstName = "Sharma",
+                                    LastName = "Sachin"
                                 }    
                             },
                             new RoomBooking
@@ -155,7 +161,8 @@ namespace PMS.Api.Controllers
                                 Guest = new Guest
                                 {
                                     Id = 33,
-                                    FirstName = "Deepak"
+                                    FirstName = "Deepak",
+                                    LastName = "Sachin"
                                 }    
                             },
                             new RoomBooking
@@ -169,7 +176,8 @@ namespace PMS.Api.Controllers
                                 Guest = new Guest
                                 {
                                     Id = 44,
-                                    FirstName = "Sharma123"
+                                    FirstName = "Sharma123",
+                                    LastName = "Sachin"
                                 }    
                             }
                     }

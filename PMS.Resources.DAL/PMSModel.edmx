@@ -1397,6 +1397,10 @@
           <Property Type="DateTime" Name="CHECKOUTTIME" Nullable="true" Precision="23" />
           <Property Type="String" Name="FIRSTNAME" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="LASTNAME" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="GUESTID" Nullable="false" />
+          <Property Type="Int32" Name="ROOMBOOKINGID" Nullable="false" />
+          <Property Type="Int32" Name="ROOMID" Nullable="false" />
+          <Property Type="String" Name="ROOMNUMBER" Nullable="true" MaxLength="200" />
         </ComplexType>
         <ComplexType Name="GETROOMSTATUS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -1719,6 +1723,10 @@
                 <ScalarProperty Name="CHECKOUTTIME" ColumnName="CHECKOUTTIME" />
                 <ScalarProperty Name="FIRSTNAME" ColumnName="FIRSTNAME" />
                 <ScalarProperty Name="LASTNAME" ColumnName="LASTNAME" />
+                <ScalarProperty Name="GUESTID" ColumnName="GUESTID" />
+                <ScalarProperty Name="ROOMBOOKINGID" ColumnName="ROOMBOOKINGID" />
+                <ScalarProperty Name="ROOMID" ColumnName="ROOMID" />
+                <ScalarProperty Name="ROOMNUMBER" ColumnName="ROOMNUMBER" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

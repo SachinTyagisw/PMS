@@ -19,5 +19,9 @@ namespace PMS.Resources.DAL
         public Nullable<System.DateTime> CHECKOUTTIME { get; set; }
         public string FIRSTNAME { get; set; }
         public string LASTNAME { get; set; }
+        public int GUESTID { get; set; }
+        public int ROOMBOOKINGID { get; set; }
+        public int ROOMID { get; set; }
+        public string ROOMNUMBER { get; set; }
     }
 }

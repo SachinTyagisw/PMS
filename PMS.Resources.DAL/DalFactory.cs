@@ -39,10 +39,43 @@ namespace PMS.Resources.DAL
                 isAdded = true;
             }
             return isAdded;
-        }        
-        public List<PmsEntity.Booking> GetBooking(DateTime startDate, DateTime endDate)
+        }
+        public List<PmsEntity.Booking> GetBooking(int propertyId, DateTime startDate, DateTime endDate)
         {
             var bookings = new List<PmsEntity.Booking>();
+
+            using (var pmsContext = new PmsEntities())
+            {
+                var resultSet = pmsContext.GETALLBOOKINGS(propertyId, startDate, endDate);
+                if (resultSet == null) return bookings;
+                foreach (var result in resultSet)
+                {
+                    var booking = new PmsEntity.Booking();
+                    booking.Id = result.ID;
+                    booking.CheckinTime = result.CHECKINTIME ;
+                    booking.CheckoutTime = result.CHECKOUTTIME;
+
+                    booking.RoomBookings = new List<PmsEntity.RoomBooking>
+                    {
+                        new PmsEntity.RoomBooking
+                        { 
+                            Id = result.ROOMBOOKINGID,
+                            Room = new PmsEntity.Room
+                            {
+                                Id = result.ROOMID,
+                                Number = result.ROOMNUMBER
+                            },
+                            Guest = new PmsEntity.Guest
+                            {
+                                Id = result.GUESTID,
+                                FirstName = result.FIRSTNAME,
+                                LastName = result.LASTNAME
+                            }                            
+                        }
+                    };
+                    bookings.Add(booking);
+                }
+            }
             return bookings;
         }
         public bool AddProperty(PmsEntity.Property property)

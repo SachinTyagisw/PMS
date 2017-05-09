@@ -43,19 +43,16 @@ namespace PMS.Resources.Logic
         {
             var propertyId = booking.PropertyId;
             var bookingXml = PmsConverter.SerializeObjectToXmlString(booking);
-            
             if(string.IsNullOrWhiteSpace(bookingXml)) return false;
+
             bookingXml = RemoveXmlDefaultNode(bookingXml);
             
-            var logService = LoggingManager.GetLogInstance();
-            logService.LogInformation(bookingXml);
-
             var isAdded = DalFactory.AddBooking(propertyId,bookingXml);
             return isAdded;
         }       
-        public List<PmsEntity.Booking> GetBooking(DateTime startDate, DateTime endDate)
+        public List<PmsEntity.Booking> GetBooking(int propertyId, DateTime startDate, DateTime endDate)
         {
-            var bookings = DalFactory.GetBooking(startDate, endDate);
+            var bookings = DalFactory.GetBooking(propertyId, startDate, endDate);
             return bookings;
         }
         public bool AddProperty(PmsEntity.Property property)
