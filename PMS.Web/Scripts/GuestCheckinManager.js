@@ -260,14 +260,14 @@
         }
     }
     
-    function getRooms(){
-        args.propertyId = pmsSession.GetItem("propertyid");;
-        var roomData = pmsSession.GetItem("roomdata");
-        if (!roomData) {
-            // get room by api calling  
-            pmsService.GetRoomByProperty(args);
-        }
-    }     
+    //function getRooms(){
+    //    args.propertyId = pmsSession.GetItem("propertyid");;
+    //    var roomData = pmsSession.GetItem("roomdata");
+    //    if (!roomData) {
+    //        // get room by api calling  
+    //        pmsService.GetRoomByProperty(args);
+    //    }
+    //}     
 
     function getCurrentDate() {
         // date format yyyy/mm/dd
@@ -465,14 +465,14 @@
             console.error("Get Room rate type call failed");
         };
         
-        pmsService.Handlers.OnGetRoomByPropertySuccess = function (data) {
-            //storing room data into session storage
-            pmsSession.SetItem("roomdata", JSON.stringify(data.Rooms));
-        };
-        pmsService.Handlers.OnGetRoomByPropertyFailure = function () {
-            // show error log
-            console.error("Get Room call failed");
-        };
+        //pmsService.Handlers.OnGetRoomByPropertySuccess = function (data) {
+        //    //storing room data into session storage
+        //    pmsSession.SetItem("roomdata", JSON.stringify(data.Rooms));
+        //};
+        //pmsService.Handlers.OnGetRoomByPropertyFailure = function () {
+        //    // show error log
+        //    console.error("Get Room call failed");
+        //};
 
         pmsService.Handlers.OnImageUploadSuccess = function (data) {
             console.log(data[0]);

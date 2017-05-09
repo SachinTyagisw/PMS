@@ -49,7 +49,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     };
 
     var onGetRoomSuccess = function (response) {
-        pmsSession.SetItem("roomdata", JSON.stringify(response.Rooms));
+        pmsSession.SetItem("propertyrooms", JSON.stringify(response.Rooms));
         //todo: apply roomtype filter if roomtype is > 0
         var roomtype = $scope.roomType;
         var response = convertRoomResponseToDayPilotResponse(response.Rooms)
@@ -313,7 +313,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
 
     function loadRooms() {                
         // Show loading message
-        var roomData = pmsSession.GetItem("roomdata");
+        var roomData = pmsSession.GetItem("propertyrooms");
         //if room data is not in session storage then make ajax call
         if (!roomData) {
             var messageModal = messageModalSvc.ShowMessage("Loading...", $scope);
