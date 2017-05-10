@@ -7,7 +7,7 @@
 
 <div class="content-wrap"><ng-view></ng-view></div>
     <script type="text/ng-template" id="Calendar.html">
-        <div>
+        <div class="room-filter">
             Room Filter:
             <select ng-model="roomType" ng-change="changeRoomType()">
                 <option value="0">All</option>
@@ -16,13 +16,13 @@
                 <option value="4">Family</option>
             </select>
         </div>
-        <div style="float:left; width:160px">
+        <div class="cal-left">
             <daypilot-navigator id="navigator" daypilot-config="navigatorConfig"></daypilot-navigator>
         </div>
       
-        <div style="float:right; width:960px">
+        <div class="cal-right">
             @*<daypilot-scheduler id="dp" daypilot-config="config" daypilot-events="events"></daypilot-scheduler>*@
-            <daypilot-scheduler id="scheduler" daypilot-config="schedulerConfig" daypilot-events="events"></daypilot-scheduler>
+            <daypilot-scheduler id="scheduler"  daypilot-config="schedulerConfig" daypilot-events="events"></daypilot-scheduler>
             @*<div>
                 New event:
                 <button ng-click="add()">Add</button>
@@ -51,7 +51,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="text-center">
-                                <img src="Images/loader.gif" alt="Loading icon" />
+                                <span class="loader-img"></span>
                             </div>
                         </div>
                     </script>

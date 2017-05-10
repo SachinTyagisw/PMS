@@ -159,9 +159,9 @@ $('#idExpiry, #dob').datepicker({
 });
 
 
-document.querySelector(".hour-input").onchange = function () {
-    document.querySelector('.hour-dd').disabled = !this.checked;
-};
+//document.querySelector(".hour-input").onchange = function () {
+//    document.querySelector('.hour-dd').disabled = !this.checked;
+//};
 
 class PhotoSubmission {
     constructor() {
