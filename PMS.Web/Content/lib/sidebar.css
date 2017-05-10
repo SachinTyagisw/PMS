@@ -238,8 +238,8 @@ body {
 .sidebar-hide .sidebar.sidebar-hide-to-small,
 .sidebar-hide .sidebar.sidebar-hide-to-small .nano,
 .sidebar-hide .sidebar.sidebar-hide-to-small .nano-content {
-    /*overflow: visible;*/
-    background: #fff;
+    overflow: visible;
+    /*background: #fff;*/
 }
 
 .sidebar-hide .sidebar.sidebar-hide-to-small .nano-content > ul {
@@ -324,7 +324,7 @@ body {
 
 .sidebar.sidebar-shrink ~ .content-wrap {
     margin-left: 0;
-    padding-top: 28px;
+    padding-top: 50px;
     margin-bottom: 52px;
     transition: margin-left 300ms ease-in-out;
 }
