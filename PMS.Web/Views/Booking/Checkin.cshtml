@@ -4,10 +4,11 @@
     <script type='text/javascript'>
         var gcm = window.GuestCheckinManager;
         var pmsSession = window.PmsSession;
+
         function OnRoomTypeChange() {
             if ($('#roomTypeDdl').val() !== '-1') {
                 var roomData = pmsSession.GetItem("roomdata");
-                if (!roomData) {
+                if (!roomData && gcm.ShouldCallGetRoomApi()) {
                     gcm.GetRoomByDate();
                 } else {
                     gcm.BindRoomDdl();
@@ -36,8 +37,35 @@
                 previewImage(this);
             }); 
 
-            $("#dateFrom").change(function () {
-               //alert('aa');
+            $("#dateFrom").focus(function () {                
+                var thisCalendar = $(this);
+                //$('.ui-datepicker-calendar').detach();
+                $('.ui-datepicker-close').click(function () {                    
+                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                    thisCalendar.datepicker('setDate', new Date(year, month, 1));
+
+                    if (gcm.ShouldCallGetRoomApi()) {
+                        pmsSession.RemoveItem("roomdata");
+                        gcm.GetRoomByDate();
+                    }
+                });
+            });
+
+
+            $("#dateTo").focus(function () {
+                var thisCalendar = $(this);
+                //$('.ui-datepicker-calendar').detach();
+                $('.ui-datepicker-close').click(function () {
+                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                    thisCalendar.datepicker('setDate', new Date(year, month, 1));
+
+                    if (gcm.ShouldCallGetRoomApi()) {
+                        pmsSession.RemoveItem("roomdata");
+                        gcm.GetRoomByDate();
+                    }
+                });
             });
 
             $('#phone').keydown(function (e) {

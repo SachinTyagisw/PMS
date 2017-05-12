@@ -11,6 +11,18 @@
             //getRooms();
         },
 
+        ShouldCallGetRoomApi: function () {
+            var roomTypeId = $('#roomTypeDdl').val();
+            var dtFrom = $("#dateFrom").val();
+            var dtTo = $("#dateTo").val();
+
+            if (!roomTypeId || !dtFrom || !dtTo
+                || roomTypeId === -1 || dtFrom.length <= 0 || dtTo.length <= 0) {
+                return false;
+            }
+            return true;
+        },
+
         BindRoomDdl: function () {
             var ddlRoom = $('#roomddl');
             var ddlRoomType = $('#roomTypeDdl');
@@ -101,9 +113,6 @@
         },
 
         GetRoomByDate: function () {
-            if (!$('#dateFrom') || !$('#dateTo')
-            || $('#dateFrom').val() === '' || $('#dateTo').val() === '') return null;
-
             var getRoomByDateRequestDto = {};
             getRoomByDateRequestDto.CheckinDate = $('#dateFrom').val();
             getRoomByDateRequestDto.CheckoutDate = $('#dateTo').val();
@@ -115,9 +124,6 @@
     };
     
     function prepareAddressDto() {
-        if (!$('#ddlCity') || !$('#ddlState') || !$('#ddlCountry')
-            || !$('#zipCode') || !$('#address'))  return;
-
         var addresses = [];
         var address = {};
 
@@ -141,11 +147,6 @@
     }
         
     function prepareGuestDto() {
-        if (!$('#ddlInitials') || !$('#fName') || !$('#lName')
-            || !$('#phone') || !$('#address') || !$('#lName')
-            || !$('#ddlCity') || !$('#ddlState') || !$('#ddlCountry')
-            || !$('#zipCode') || !$('#email') || !$('#dob')) return;
-
         var guests = [];
         var guest = {};
         var additionalGuest = {};
@@ -176,9 +177,6 @@
     }
 
     function prepareGuestIdDto() {
-        if (!$('#ddlIdType') || !$('#idDetails') || !$('#ddlIdState')
-            || !$('#ddlIdCountry') || !$('#idExpiry')) return;
-        
         var guestMapping = {};
         var guestMappings = [];
 
@@ -214,11 +212,8 @@
     }
 
     function prepareRoomBookingDto() {
-        if (!$('#roomTypeDdl') || !$('#roomddl')) return;
-
         var roomBookings = [];
         var roomBooking = {};
-
         var roomType = $('#roomTypeDdl').val();
         roomBooking.RoomId = $('#roomddl').val();      
         roomBooking.GuestID = $('#hdnGuestId').val() == '' ? -1 : $('#hdnGuestId').val();
@@ -301,89 +296,89 @@
         var country = $('#ddlCountry').val();
 
         // check checkin date 
-        if (dateFrom.length <= 0) {
+        if (!dateFrom || dateFrom.length <= 0) {
             alert("Please select checkin date");
             $('#dateFrom').focus();
             return false;
         }
 
         // check checkin date 
-        if (dateTo.length <= 0) {
+        if (!dateTo || dateTo.length <= 0) {
             alert("Please select checkout date");
             $('#dateTo').focus();
             return false;
         }
 
-        if (roomType === '-1') {
+        if (!roomType || roomType === '-1') {
             alert("Select proper room type");
             return false;
         }
 
-        if (roomId === '-1') {
+        if (!roomId || roomId === '-1') {
             alert("Select proper room number");
             return false;
         }
 
         // check adult or child value
-        if (adult <= 0 && child <= 0 ) {
+        if ((!adult || adult <= 0) && (!child || child <= 0 )) {
             alert("Please select atleast an adult or child");
             return false;
         }
 
         // check first name 
-        if (fname.length <= 0) {
+        if (!fname || fname.length <= 0) {
             alert("Please enter the first name");
             $('#fName').focus();
             return false;
         }
         // check last name 
-        if (lname.length <= 0) {
+        if (!lname || lname.length <= 0) {
             alert("Please enter the last name");
             $('#lName').focus();
             return false;
         }
         // check phone number
-        if (phNumber.length <= 0) {
+        if (!phNumber || phNumber.length <= 0) {
             alert("Please enter phone number");
             $('#phone').focus();
             return false;
         }
 
-        if (city === '-1') {
+        if (!city || city === '-1') {
             alert("Select proper city");
             return false;
         }
 
-        if (state === '-1') {
+        if (!state || state === '-1') {
             alert("Select proper state");
             return false;
         }
 
-        if (country === '-1') {
+        if (!country || country === '-1') {
             alert("Select proper country");
             return false;
         }
 
         // check zipcode
-        if (zipCode.length <= 0) {
+        if (!zipCode || zipCode.length <= 0) {
             alert("Please enter zip code");
             $('#zipCode').focus();
             return false;
         }
 
-        if (guestIdType === '-1') {
+        if (!guestIdType || guestIdType === '-1') {
             alert("Guest Identification type is incorrect.");
             return false;
         }
         // check guest id details
-        if (idDetails.length <= 0) {
+        if (!idDetails || idDetails.length <= 0) {
             alert("Please enter guest identification number");
             $('#idDetails').focus();
             return false;
         }
 
         // check id expiry details 
-        if (idExpiry.length <= 0) {
+        if (!idExpiry || idExpiry.length <= 0) {
             alert("Please enter guest ID expiry details");
             $('#idExpiry').focus();
             return false;
@@ -392,7 +387,7 @@
         var emailId = $("#email").val();
         var validEmailIdRegex = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/);
         /// check email 
-        if (emailId.length > 0) {
+        if (!emailId || emailId.length > 0) {
             var testemail = validEmailIdRegex.test(emailId);
             if (testemail !== true) {
                 alert("Please enter valid email format.");
