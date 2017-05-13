@@ -128,9 +128,13 @@
             //for testing purpose
             //args.guestId = 44;
             if (args.guestId != -1) {
-                pmsService.GetGuestHistoryById(args);
+                var data = $.parseJSON(pmsSession.GetItem("guesthistory"));
+                if (!data) {
+                    pmsService.GetGuestHistoryById(args);
+                } else {
+                    bindGuestHistory(data);
+                }
             }
-            
         }
     };
     
@@ -431,6 +435,12 @@
         $('#roomddl').empty();
     }
 
+    function bindGuestHistory(data){
+        var divHistory = $('#divHistory');
+        var historyTemplate = $('#historyTemplate');
+        divHistory.html(historyTemplate.render(data));
+    }
+
     function ajaxHandlers() {
 
         // ajax handlers start
@@ -509,7 +519,9 @@
         };
 
         pmsService.Handlers.OnGetGuestHistoryByIdSuccess = function (data) {
-
+            if (!data || !data.GuestHistory || data.GuestHistory.length <= 0) return;
+            pmsSession.SetItem("guesthistory", JSON.stringify(data));
+            bindGuestHistory(data);
         };
         pmsService.Handlers.OnGetGuestHistoryByIdFailure = function () {
             // show error log

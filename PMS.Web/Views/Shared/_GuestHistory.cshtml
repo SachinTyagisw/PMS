@@ -1,10 +1,11 @@
-﻿    <script type='text/javascript'>
-        var gcm = window.GuestCheckinManager;
-        function OnHistoryClick() {
-            gcm.GetGuestHistory();
-        }
-    </script>
-
+﻿<script type='text/javascript'>
+    var gcm = window.GuestCheckinManager;
+    function OnHistoryClick() {
+        // call api only when expand event is fire
+        if ($('#collapse1').attr('aria-expanded') != 'false') return;
+        gcm.GetGuestHistory();
+    }
+</script>
 <div class="panel-group col-lg-12">
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -14,78 +15,44 @@
             <div class="card-header-right-icon">
                 <ul class="card-option-dropdown dropdown-menu">
                     <li><a href="#"><i class="ti-loop"></i> Property Name</a></li>
-                    <li><a href="#"><i class="ti-menu-alt"></i> Date</a></li>
+                    <li><a href="#"><i class="ti-menu-alt"></i>Checkin Date</a></li>
+                    <li><a href="#"><i class="ti-menu-alt"></i>Checkout Date</a></li>
                     <li><a href="#"><i class="ti-pulse"></i> Room Type</a></li>
                     <li><a href="#"><i class="ti-pulse"></i> Room Rates</a></li>
                     <li><a href="#"><i class="ti-power-off"></i> Amount Paid</a></li>
                 </ul>
             </div>
-            <div class="panel-body">
-                <table class="table table-responsive table-hover ">
-                    <thead>
-                        <tr>
-                            <th>Property Name</th>
-                            <th>Date</th>
-                            <th>Room Type</th>
-                            <th>Room Rates</th>
-                            <th>Amout Paid</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Crystal Inn 1</td>
-                            <td>01/01/2017</td>
-                            <td class="color-success">King Suite</td>
-                            <td>$1200.00</td>
-                            <td>$1400.00</td>
-                        </tr>
-                        <tr>
-                            <td>Crystal Inn 2</td>
-                            <td>12/01/2016</td>
-                            <td class="color-warning">Royal Suite</td>
-                            <td>$1000.00</td>
-                            <td>$1200.00</td>
-                        </tr>
-                        <tr>
-                            <td>Crystal Inn 3</td>
-                            <td>08/05/2016</td>
-                            <td class="color-danger">Delux</td>
-                            <td>$1000.00</td>
-                            <td>$1200.00</td>
-                        </tr>
-                        <tr>
-                            <td>Crystal Inn 4</td>
-                            <td>02/01/2016</td>
-                            <td class="color-warning">Royal Suite</td>
-                            <td>$1000.00</td>
-                            <td>$1200.00</td>
-                        </tr>
-                        <tr>
-                            <td>Crystal Inn 3</td>
-                            <td>08/05/2016</td>
-                            <td class="color-danger">Delux</td>
-                            <td>$1000.00</td>
-                            <td>$1200.00</td>
-                        </tr>
-                        <tr>
-                            <td>Crystal Inn 4</td>
-                            <td>02/01/2016</td>
-                            <td class="color-warning">Royal Suite</td>
-                            <td>$1000.00</td>
-                            <td>$1200.00</td>
-                        </tr>
-                        <tr>
-                            <td>Crystal Inn 3</td>
-                            <td>08/05/2016</td>
-                            <td class="color-danger">Delux</td>
-                            <td>$1000.00</td>
-                            <td>$1200.00</td>
-                        </tr>
-                    </tbody>
-                </table>
-
+            <div id="divHistory">
 
             </div>
         </div>
     </div>
 </div>
+<script type="text/html" id="historyTemplate">
+    <div class="panel-body">
+        <table class="table table-responsive table-hover ">
+            <thead>
+                <tr>
+                    <th>Property Name</th>
+                    <th>Checkin Date</th>
+                    <th>Checkout Date</th>
+                    <th>Room Type</th>
+                    <th>Room Rates</th>
+                    <th>Amount Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{each GuestHistory}}
+                <tr>
+                    <td>${$value.RoomBookings[0].Room.Property.PropertyDetails}</td>
+                    <td>${$value.CheckinTime}</td>
+                    <td>${$value.CheckoutTime}</td>
+                    <td class="color-success">${$value.RoomBookings[0].Room.RoomType.Name}</td>
+                    <td>$1200.00</td>
+                    <td>$1400.00</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</script> 
