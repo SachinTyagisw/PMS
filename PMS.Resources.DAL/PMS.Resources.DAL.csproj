@@ -50,6 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdditionalGuest.cs">
+      <DependentUpon>PmsModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Address.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
@@ -67,6 +70,9 @@
     </Compile>
     <Compile Include="DalFactory.cs" />
     <Compile Include="GETALLBOOKINGS_Result.cs">
+      <DependentUpon>PmsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GETGUESTTRANSACTIONS_Result.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="GETROOMSTATUS_Result.cs">

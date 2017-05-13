@@ -27,6 +27,7 @@ namespace PMS.Resources.DAL
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<AdditionalGuest> AdditionalGuests { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<AddressType> AddressTypes { get; set; }
         public virtual DbSet<Booking> Bookings { get; set; }
@@ -62,6 +63,15 @@ namespace PMS.Resources.DAL
                 new ObjectParameter("CHECKOUTDATE", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GETALLBOOKINGS_Result>("GETALLBOOKINGS", pROPERTYIDParameter, cHECKINTIMEParameter, cHECKOUTDATEParameter);
+        }
+    
+        public virtual ObjectResult<GETGUESTTRANSACTIONS_Result> GETGUESTTRANSACTIONS(Nullable<int> gUESTID)
+        {
+            var gUESTIDParameter = gUESTID.HasValue ?
+                new ObjectParameter("GUESTID", gUESTID) :
+                new ObjectParameter("GUESTID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GETGUESTTRANSACTIONS_Result>("GETGUESTTRANSACTIONS", gUESTIDParameter);
         }
     
         public virtual ObjectResult<GETROOMSTATUS_Result> GETROOMSTATUS(Nullable<int> pROPERTYID, Nullable<System.DateTime> cHECKINTIME, Nullable<System.DateTime> cHECKOUTDATE)

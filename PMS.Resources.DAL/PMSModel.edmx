@@ -5,6 +5,22 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="PmsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AdditionalGuests">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BookingId" Type="int" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="100" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="100" />
+          <Property Name="GUESTIDPath" Type="nvarchar(max)" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="LastUpdatedOn" Type="datetime" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="10" />
+        </EntityType>
         <EntityType Name="Address">
           <Key>
             <PropertyRef Name="ID" />
@@ -286,6 +302,18 @@
           <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
           <Property Name="LastUpdatedOn" Type="datetime" />
         </EntityType>
+        <Association Name="FK__Additiona__Booki__6442E2C9">
+          <End Role="Booking" Type="Self.Booking" Multiplicity="0..1" />
+          <End Role="AdditionalGuests" Type="Self.AdditionalGuests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Booking">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AdditionalGuests">
+              <PropertyRef Name="BookingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Address__Address__1920BF5C">
           <End Role="AddressType" Type="Self.AddressType" Multiplicity="1" />
           <End Role="Address" Type="Self.Address" Multiplicity="*" />
@@ -555,6 +583,9 @@
           <Parameter Name="CHECKINTIME" Type="datetime" Mode="In" />
           <Parameter Name="CHECKOUTDATE" Type="datetime" Mode="In" />
         </Function>
+        <Function Name="GETGUESTTRANSACTIONS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="GUESTID" Type="int" Mode="In" />
+        </Function>
         <Function Name="GETROOMSTATUS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PROPERTYID" Type="int" Mode="In" />
           <Parameter Name="CHECKINTIME" Type="datetime" Mode="In" />
@@ -565,6 +596,7 @@
           <Parameter Name="bookingXML" Type="xml" Mode="In" />
         </Function>
         <EntityContainer Name="PmsModelStoreContainer">
+          <EntitySet Name="AdditionalGuests" EntityType="Self.AdditionalGuests" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AddressType" EntityType="Self.AddressType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Booking" EntityType="Self.Booking" Schema="dbo" store:Type="Tables" />
@@ -584,6 +616,10 @@
           <EntitySet Name="RoomPricing" EntityType="Self.RoomPricing" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RoomType" EntityType="Self.RoomType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="State" EntityType="Self.State" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Additiona__Booki__6442E2C9" Association="Self.FK__Additiona__Booki__6442E2C9">
+            <End Role="Booking" EntitySet="Booking" />
+            <End Role="AdditionalGuests" EntitySet="AdditionalGuests" />
+          </AssociationSet>
           <AssociationSet Name="FK__Address__Address__1920BF5C" Association="Self.FK__Address__Address__1920BF5C">
             <End Role="AddressType" EntitySet="AddressType" />
             <End Role="Address" EntitySet="Address" />
@@ -678,6 +714,23 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PmsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AdditionalGuest">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookingId" Type="Int32" />
+          <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="GUESTIDPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Booking" Relationship="Self.FK__Additiona__Booki__6442E2C9" FromRole="AdditionalGuests" ToRole="Booking" />
+        </EntityType>
         <EntityType Name="Address">
           <Key>
             <PropertyRef Name="ID" />
@@ -730,6 +783,7 @@
           <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AdditionalGuests" Relationship="Self.FK__Additiona__Booki__6442E2C9" FromRole="Booking" ToRole="AdditionalGuests" />
           <NavigationProperty Name="Property" Relationship="Self.FK__Booking__Propert__1273C1CD" FromRole="Booking" ToRole="Property" />
           <NavigationProperty Name="GuestRewards" Relationship="Self.FK__GuestRewa__Booki__38996AB5" FromRole="Booking" ToRole="GuestReward" />
           <NavigationProperty Name="Invoices" Relationship="Self.FK__Invoice__Booking__3C69FB99" FromRole="Booking" ToRole="Invoice" />
@@ -1003,6 +1057,18 @@
           <NavigationProperty Name="Cities" Relationship="Self.FK__City__StateID__47DBAE45" FromRole="State" ToRole="City" />
           <NavigationProperty Name="Country" Relationship="Self.FK__State__CountryID__44FF419A" FromRole="State" ToRole="Country" />
         </EntityType>
+        <Association Name="FK__Additiona__Booki__6442E2C9">
+          <End Role="Booking" Type="Self.Booking" Multiplicity="0..1" />
+          <End Role="AdditionalGuests" Type="Self.AdditionalGuest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Booking">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AdditionalGuests">
+              <PropertyRef Name="BookingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Address__Address__1920BF5C">
           <End Role="AddressType" Type="Self.AddressType" Multiplicity="1" />
           <End Role="Address" Type="Self.Address" Multiplicity="*" />
@@ -1268,6 +1334,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="PmsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AdditionalGuests" EntityType="Self.AdditionalGuest" />
           <EntitySet Name="Addresses" EntityType="Self.Address" />
           <EntitySet Name="AddressTypes" EntityType="Self.AddressType" />
           <EntitySet Name="Bookings" EntityType="Self.Booking" />
@@ -1287,6 +1354,10 @@
           <EntitySet Name="RoomPricings" EntityType="Self.RoomPricing" />
           <EntitySet Name="RoomTypes" EntityType="Self.RoomType" />
           <EntitySet Name="States" EntityType="Self.State" />
+          <AssociationSet Name="FK__Additiona__Booki__6442E2C9" Association="Self.FK__Additiona__Booki__6442E2C9">
+            <End Role="Booking" EntitySet="Bookings" />
+            <End Role="AdditionalGuests" EntitySet="AdditionalGuests" />
+          </AssociationSet>
           <AssociationSet Name="FK__Address__Address__1920BF5C" Association="Self.FK__Address__Address__1920BF5C">
             <End Role="AddressType" EntitySet="AddressTypes" />
             <End Role="Address" EntitySet="Addresses" />
@@ -1380,6 +1451,9 @@
             <Parameter Name="CHECKINTIME" Mode="In" Type="DateTime" />
             <Parameter Name="CHECKOUTDATE" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="GETGUESTTRANSACTIONS" ReturnType="Collection(PmsModel.GETGUESTTRANSACTIONS_Result)">
+            <Parameter Name="GUESTID" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="GETROOMSTATUS" ReturnType="Collection(PmsModel.GETROOMSTATUS_Result)">
             <Parameter Name="PROPERTYID" Mode="In" Type="Int32" />
             <Parameter Name="CHECKINTIME" Mode="In" Type="DateTime" />
@@ -1402,6 +1476,13 @@
           <Property Type="Int32" Name="ROOMID" Nullable="false" />
           <Property Type="String" Name="ROOMNUMBER" Nullable="true" MaxLength="200" />
         </ComplexType>
+        <ComplexType Name="GETGUESTTRANSACTIONS_Result">
+          <Property Type="String" Name="PROPERTY" Nullable="true" />
+          <Property Type="DateTime" Name="CheckinTime" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="CheckoutTime" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ROOMTYPE" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ROOMNUMBER" Nullable="true" MaxLength="200" />
+        </ComplexType>
         <ComplexType Name="GETROOMSTATUS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="Int32" Name="ROOMTypeID" Nullable="false" />
@@ -1414,6 +1495,23 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="PmsModelStoreContainer" CdmEntityContainer="PmsEntities">
+          <EntitySetMapping Name="AdditionalGuests">
+            <EntityTypeMapping TypeName="PmsModel.AdditionalGuest">
+              <MappingFragment StoreEntitySet="AdditionalGuests">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="BookingId" ColumnName="BookingId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="GUESTIDPath" ColumnName="GUESTIDPath" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Addresses">
             <EntityTypeMapping TypeName="PmsModel.Address">
               <MappingFragment StoreEntitySet="Address">
@@ -1726,6 +1824,17 @@
                 <ScalarProperty Name="GUESTID" ColumnName="GUESTID" />
                 <ScalarProperty Name="ROOMBOOKINGID" ColumnName="ROOMBOOKINGID" />
                 <ScalarProperty Name="ROOMID" ColumnName="ROOMID" />
+                <ScalarProperty Name="ROOMNUMBER" ColumnName="ROOMNUMBER" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GETGUESTTRANSACTIONS" FunctionName="PmsModel.Store.GETGUESTTRANSACTIONS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PmsModel.GETGUESTTRANSACTIONS_Result">
+                <ScalarProperty Name="PROPERTY" ColumnName="PROPERTY" />
+                <ScalarProperty Name="CheckinTime" ColumnName="CheckinTime" />
+                <ScalarProperty Name="CheckoutTime" ColumnName="CheckoutTime" />
+                <ScalarProperty Name="ROOMTYPE" ColumnName="ROOMTYPE" />
                 <ScalarProperty Name="ROOMNUMBER" ColumnName="ROOMNUMBER" />
               </ComplexTypeMapping>
             </ResultMapping>

@@ -16,6 +16,7 @@ namespace PMS.Resources.DAL
     {
         public Booking()
         {
+            this.AdditionalGuests = new HashSet<AdditionalGuest>();
             this.GuestRewards = new HashSet<GuestReward>();
             this.Invoices = new HashSet<Invoice>();
             this.RoomBookings = new HashSet<RoomBooking>();
@@ -36,6 +37,7 @@ namespace PMS.Resources.DAL
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
         public string Status { get; set; }
     
+        public virtual ICollection<AdditionalGuest> AdditionalGuests { get; set; }
         public virtual Property Property { get; set; }
         public virtual ICollection<GuestReward> GuestRewards { get; set; }
         public virtual ICollection<Invoice> Invoices { get; set; }

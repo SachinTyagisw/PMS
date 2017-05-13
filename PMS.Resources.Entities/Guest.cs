@@ -21,8 +21,7 @@ namespace PMS.Resources.Entities
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string LastUpdatedBy { get; set; }
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }                     
-        public List<GuestReward> GuestRewards { get; set; }
-        public List<AdditionalGuest> AdditionalGuests { get; set; }
+        public List<GuestReward> GuestRewards { get; set; }        
         //public List<Invoice> Invoices { get; set; }
     }
 }

@@ -100,6 +100,7 @@
             booking.Guests = prepareGuestDto();
             booking.GuestMappings = prepareGuestIdDto();
             booking.Addresses = prepareAddressDto();
+            booking.AdditionalGuests = prepareAdditionalGuestDto();
             
             if (!booking.RoomBookings || !booking.Guests || !booking.Addresses) {
                 console.error('Room Booking can not be done.');
@@ -149,9 +150,7 @@
     function prepareGuestDto() {
         var guests = [];
         var guest = {};
-        var additionalGuest = {};
-        guest.AdditionalGuests = [];       
-
+        
         // for new guest guestid should be -1 else guestid
         guest.Id = $('#hdnGuestId').val() == '' ? -1 : $('#hdnGuestId').val();
         guest.FirstName = $('#fName').val();
@@ -164,13 +163,13 @@
         var files = $("#uploadPhoto").get(0).files;
         if (files.length > 0) {
             guest.PhotoPath = "D:\\PMSHosted\\PMSApi\\UploadedFiles\\" + files[0].name;
+        } else {
+            guest.PhotoPath = "No Image Available";
         }
         
         guest.CreatedOn = getCurrentDate();
         //TODO : remove hardcoded value
-        guest.CreatedBy = "vipul";
-
-        guest.AdditionalGuests = prepareAdditionalGuestDto();
+        guest.CreatedBy = "vipul";        
 
         guests.push(guest);
         return guests;
@@ -199,13 +198,26 @@
         var additionalGuest = {};
         var additionalGuests = [];
 
+        additionalGuest.Id = -1;
+        additionalGuest.BookingId = -1;
         //TODO:reading additonal guest info from grid 
         additionalGuest.FirstName = $('#adFName').val();
         additionalGuest.LastName = $('#adLName').val();
-        additionalGuest.PhotoPath = "phhotopath";
-        additionalGuest.IdDetails = "MYTT9000";
-        additionalGuest.IdTypeId = 1;
+
+        //TODO: get value from new upload
+        var files = $("#uploadPhoto").get(0).files;
+        if (files.length > 0) {
+            additionalGuest.GUESTIDPath = "D:\\PMSHosted\\PMSApi\\UploadedFiles\\" + files[0].name;
+        } else {
+            additionalGuest.GUESTIDPath = "No Image Available";
+        }
+
+        //TODO: get value from initial selection eg: mr,ms,mrs
         additionalGuest.Gender = "M";
+        additionalGuest.CreatedOn = getCurrentDate();
+
+        //TODO : remove hardcoded value
+        additionalGuest.CreatedBy = "vipul";
 
         additionalGuests.push(additionalGuest);
         return additionalGuests;
