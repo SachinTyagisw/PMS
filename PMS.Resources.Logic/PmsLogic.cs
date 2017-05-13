@@ -47,8 +47,8 @@ namespace PMS.Resources.Logic
 
             bookingXml = RemoveXmlDefaultNode(bookingXml);
 
-            var logService = LoggingManager.GetLogInstance();
-            logService.LogInformation("xml:" + bookingXml);
+            //var logService = LoggingManager.GetLogInstance();
+            //logService.LogInformation("xml:" + bookingXml);
 
             var isAdded = DalFactory.AddBooking(propertyId,bookingXml);
             return isAdded;
