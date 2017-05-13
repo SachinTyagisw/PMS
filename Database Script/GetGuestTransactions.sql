@@ -1,0 +1,46 @@
+-- =============================================    
+-- Author:  Sachin Tyagi    
+-- Create date: MAY 13, 2017    
+-- Description: This stored procedure shall return the histroy of guest transaction
+-- =============================================    
+CREATE PROCEDURE [DBO].GETGUESTTRANSACTIONS
+	@GUESTID INT    
+ AS    
+BEGIN    
+  
+WITH ROOMBOOKING_CTE(ROOMBOOKINGID, BOOKINGID, ROOMID, PropertyID)  
+AS  
+(  
+SELECT   
+ ROOMBOOKING.ID,   
+ BOOKING.ID,
+ ROOMID,
+ BOOKING.PROPERTYID
+FROM ROOMBOOKING  
+  
+INNER JOIN   
+BOOKING ON  
+BOOKING.ID = ROOMBOOKING.BOOKINGID   
+WHERE  ROOMBOOKING.GUESTID = @GUESTID 
+) 
+ 
+SELECT DISTINCT  
+PROPERTY.PROPERTYDETAILS AS PROPERTY,
+Booking.CheckinTime,
+Booking.CheckoutTime,  
+RoomType.Name AS ROOMTYPE,
+Room.Number AS ROOMNUMBER
+FROM PROPERTY  
+Inner join 
+ROOMBOOKING_CTE ON  
+ROOMBOOKING_CTE.PropertyID = PROPERTY.ID
+INNER JOIN
+BOOKING ON 
+ROOMBOOKING_CTE.BOOKINGID = BOOKING.ID
+INNER JOIN
+ROOM ON
+ROOM.ID = ROOMBOOKING_CTE.ROOMID
+INNER JOIN
+RoomType ON
+ROOM.ROOMTYPEID = RoomType.ID
+END  
