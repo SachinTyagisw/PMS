@@ -121,6 +121,16 @@
 
             // get room by api calling  
             pmsService.GetRoomByDate(getRoomByDateRequestDto);
+        },
+        
+        GetGuestHistory: function () {
+            args.guestId = $('#hdnGuestId').val() == '' ? -1 : $('#hdnGuestId').val();
+            //for testing purpose
+            //args.guestId = 44;
+            if (args.guestId != -1) {
+                pmsService.GetGuestHistoryById(args);
+            }
+            
         }
     };
     
@@ -245,7 +255,7 @@
     }
 
     function getRoomTypes() {
-        args.propertyId = pmsSession.GetItem("propertyid");;
+        args.propertyId = pmsSession.GetItem("propertyid");
         var roomTypeData = pmsSession.GetItem("roomtypedata");
         if (!roomTypeData) {
             // get room types by api calling  
@@ -256,7 +266,7 @@
     }
 
     function getRoomRateTypes() {
-        args.propertyId = pmsSession.GetItem("propertyid");;
+        args.propertyId = pmsSession.GetItem("propertyid");
         var rateTypeData = pmsSession.GetItem("ratetypedata");
         if (!rateTypeData) {
             // get room rate types by api calling  
@@ -268,7 +278,7 @@
     }
     
     //function getRooms(){
-    //    args.propertyId = pmsSession.GetItem("propertyid");;
+    //    args.propertyId = pmsSession.GetItem("propertyid");
     //    var roomData = pmsSession.GetItem("roomdata");
     //    if (!roomData) {
     //        // get room by api calling  
@@ -496,6 +506,14 @@
         pmsService.Handlers.OnGetRoomByDateFailure = function () {
             // show error log
             console.error("get room call failed");
+        };
+
+        pmsService.Handlers.OnGetGuestHistoryByIdSuccess = function (data) {
+
+        };
+        pmsService.Handlers.OnGetGuestHistoryByIdFailure = function () {
+            // show error log
+            console.error("Guest History failed");
         };
 
         // ajax handlers end

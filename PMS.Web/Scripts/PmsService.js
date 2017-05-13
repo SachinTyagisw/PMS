@@ -18,6 +18,13 @@
             OnImageUploadFailure: null,
             OnGetRoomByDateSuccess: null,
             OnGetRoomByDateFailure: null,
+            OnGetGuestHistoryByIdSuccess: null,
+            OnGetGuestHistoryByIdFailure: null,
+        };
+
+
+        this.GetGuestHistoryById = function (args) {
+            makeAjaxRequestGet(args, "GetGuestHistoryById", this, "api/v1/Guest/GetGuestHistoryById/" + args.guestId);
         };
 
         this.GetRoomByDate = function (args) {

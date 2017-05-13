@@ -51,5 +51,6 @@ namespace PMS.Resources.Logic
         bool DeleteRewardCategory(int catId);
         List<PmsEntity.RewardCategory> GetAllRewardCategory();
         List<PmsEntity.Room> GetRoomByDate(GetRoomByDateRequestDto request);
+        List<PmsEntity.Booking> GetGuestHistory(int guestId);
     }
 }

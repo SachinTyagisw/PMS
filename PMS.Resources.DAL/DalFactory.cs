@@ -339,5 +339,41 @@ namespace PMS.Resources.DAL
             }
             return rooms;
         }
+        public List<PmsEntity.Booking> GetGuestHistory(int guestId)
+        {
+            var bookings = new List<PmsEntity.Booking>();
+
+            using (var pmsContext = new PmsEntities())
+            {
+                var resultSet = pmsContext.GETGUESTTRANSACTIONS(guestId);
+                if (resultSet == null) return bookings;
+                foreach (var result in resultSet)
+                {
+                    var booking = new PmsEntity.Booking();
+                    booking.CheckinTime = result.CheckinTime;
+                    booking.CheckoutTime = result.CheckoutTime;
+                    booking.RoomBookings = new List<PmsEntity.RoomBooking>
+                    {
+                        new PmsEntity.RoomBooking
+                        { 
+                            Room = new PmsEntity.Room
+                            {
+                                Number = result.ROOMNUMBER,
+                                RoomType = new PmsEntity.RoomType
+                                {
+                                    Name = result.ROOMTYPE
+                                },
+                                Property = new PmsEntity.Property
+                                {
+                                   PropertyDetails = result.PROPERTY
+                                }
+                            }
+                        }
+                    };
+                    bookings.Add(booking);
+                }
+            }
+            return bookings;
+        }
     }
 }

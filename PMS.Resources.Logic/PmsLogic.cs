@@ -248,6 +248,11 @@ namespace PMS.Resources.Logic
             var rooms = DalFactory.GetRoomByDate(request.PropertyId, request.CheckinDate, request.CheckoutDate);
             return rooms;
         }
+        public List<PmsEntity.Booking> GetGuestHistory(int guestId)
+        {
+            var bookingHistory = DalFactory.GetGuestHistory(guestId);
+            return bookingHistory;
+        }
 
         #region helper methods 
         private string RemoveXmlDefaultNode(string xml)

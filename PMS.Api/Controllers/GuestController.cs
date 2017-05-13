@@ -65,6 +65,13 @@ namespace PMS.Api.Controllers
           constraints: new { idType = RegExConstants.AlphabetRegEx, idNumber = RegExConstants.AlphaNumericRegEx }
           );
 
+          config.Routes.MapHttpRoute(
+          "GetGuestHistoryById",
+          "api/v1/Guest/GetGuestHistoryById/{guestId}",
+          new { controller = "Guest", action = "GetGuestHistoryById" },
+          constraints: new { guestId = RegExConstants.NumericRegEx }
+          );
+
         }
 
         [HttpGet, ActionName("GetGuestById")]
@@ -99,6 +106,16 @@ namespace PMS.Api.Controllers
 
             var response = new GetGuestResponseDto();
             return response;
-        }   
+        }
+
+        [HttpGet, ActionName("GetGuestHistoryById")]
+        public GetGuestHistoryResponseDto GetGuestHistoryById(int guestId)
+        {
+            var response = new GetGuestHistoryResponseDto();
+            if (guestId <= 0) return response;
+
+            response.GuestHistory = _iPMSLogic.GetGuestHistory(guestId);
+            return response;
+        }
     }
 }
