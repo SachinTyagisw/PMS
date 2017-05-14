@@ -34,6 +34,15 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     //    ]
     //};    
 
+    var onUpdateBookingSuccess = function (response) {
+
+    };
+
+    var onUpdateBookingError = function (reason) {
+        $scope.error = reason;
+        $log.error(reason);
+    };
+
     var onGetRoomBookingSuccess = function (response) {
         var day = $scope.day ? $scope.day : DayPilot.Date.today();
         $scope.schedulerConfig.timeline = getTimeline(day);
@@ -144,10 +153,25 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         eventResizeHandling: "Disabled",
         allowEventOverlap: false,
         onEventMoved: function (args) {
-            alert(args.e.id());
-            //alert(args.newStart);
-            //alert(args.newEnd);
-            //alert(args.newResource);
+            var bookingRequestDto = {};
+            bookingRequestDto.Booking = {};
+            var booking = {};
+            var roomBookings = [];
+            var roomBooking = {};
+
+            booking.Id = args.e.id();
+            booking.CheckinTime = args.newStart.value;
+            booking.CheckoutTime = args.newEnd.value;
+
+            roomBooking.RoomId = args.newResource;
+            roomBookings.push(roomBooking);
+
+            booking.RoomBookings = roomBookings;
+            bookingRequestDto.Booking = booking;
+
+            calendarSvc.UpdateBooking(bookingRequestDto).then(onUpdateBookingSuccess, onUpdateBookingError)['finally'](function () {
+                messageModalSvc.CloseMessage(messageModal);
+            });
             //$("#msg").html(args.start + " " + args.end + " " + args.resource);
         },
         //onEventMove: function (args) {

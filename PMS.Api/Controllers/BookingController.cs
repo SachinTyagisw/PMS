@@ -68,7 +68,7 @@ namespace PMS.Api.Controllers
         [HttpPut, ActionName("UpdateBooking")]
         public PmsResponseDto UpdateBooking([FromBody] AddBookingRequestDto request)
         {
-            if (request == null || request.Booking == null || request.Booking.PropertyId <= 0) throw new PmsException("Room Booking can not be done.");
+            if (request == null || request.Booking == null) throw new PmsException("Room Booking can not be done.");
 
             var response = new PmsResponseDto();
             if (_iPmsLogic.UpdateBooking(request.Booking))
