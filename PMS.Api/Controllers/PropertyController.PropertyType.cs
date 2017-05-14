@@ -58,7 +58,7 @@ namespace PMS.Api.Controllers
             if (request == null || request.PropertyType == null) throw new PmsException("Property type can not be added.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.AddPropertyType(request.PropertyType))
+            if (_iPmsLogic.AddPropertyType(request.PropertyType))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "New Property Type Added successfully.";
@@ -77,7 +77,7 @@ namespace PMS.Api.Controllers
             if (request == null || request.PropertyType == null || request.PropertyType.Id <= 0) throw new PmsException("Property type can not be updated.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.UpdatePropertyType(request.PropertyType))
+            if (_iPmsLogic.UpdatePropertyType(request.PropertyType))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Property Type Updated successfully.";
@@ -96,7 +96,7 @@ namespace PMS.Api.Controllers
             if (typeId <= 0) throw new PmsException("PropertyType id is not valid. Hence PropertyType can not be deleted.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.DeletePropertyType(typeId))
+            if (_iPmsLogic.DeletePropertyType(typeId))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Property Type Deleted successfully.";
@@ -115,7 +115,7 @@ namespace PMS.Api.Controllers
             var response = new GetPropertyTypeResponseDto();
             if (!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
             {
-                response.PropertyTypes = _iPMSLogic.GetAllPropertyType();
+                response.PropertyTypes = _iPmsLogic.GetAllPropertyType();
             }
             else
             {

@@ -19,7 +19,7 @@ namespace PMS.Api.Controllers
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public partial class PropertyController : ApiController, IRestController
     {
-       private readonly IPmsLogic _iPMSLogic = null;
+       private readonly IPmsLogic _iPmsLogic = null;
 
         public PropertyController()
             : this(ServiceLocator.Current.GetInstance<IPmsLogic>())
@@ -27,9 +27,9 @@ namespace PMS.Api.Controllers
             
         }
 
-        public PropertyController(IPmsLogic iPMSLogic)
+        public PropertyController(IPmsLogic iPmsLogic)
         {
-            _iPMSLogic = iPMSLogic;
+            _iPmsLogic = iPmsLogic;
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace PMS.Api.Controllers
             if (request == null || request.Property == null) throw new PmsException("Property can not be added.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.AddProperty(request.Property))
+            if (_iPmsLogic.AddProperty(request.Property))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "New Property Added successfully.";
@@ -110,7 +110,7 @@ namespace PMS.Api.Controllers
             if (request == null || request.Property == null || request.Property.Id <= 0) throw new PmsException("Property can not be updated.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.UpdateProperty(request.Property))
+            if (_iPmsLogic.UpdateProperty(request.Property))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Property Updated successfully.";
@@ -129,7 +129,7 @@ namespace PMS.Api.Controllers
             if (propertyId <= 0) throw new PmsException("PropertyId is not valid. Hence Property can not be deleted.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.DeleteProperty(propertyId))
+            if (_iPmsLogic.DeleteProperty(propertyId))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Property Deleted successfully.";
@@ -148,7 +148,7 @@ namespace PMS.Api.Controllers
             var response = new GetPropertyResponseDto();
             if (!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
             {
-                response.Properties = _iPMSLogic.GetAllProperty();
+                response.Properties = _iPmsLogic.GetAllProperty();
             }
             else
             {

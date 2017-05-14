@@ -19,7 +19,7 @@ namespace PMS.Api.Controllers
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public partial class RewardController : ApiController, IRestController
     {
-        private readonly IPmsLogic _iPMSLogic = null;
+        private readonly IPmsLogic _iPmsLogic = null;
 
         public RewardController()
             : this(ServiceLocator.Current.GetInstance<IPmsLogic>())
@@ -27,9 +27,9 @@ namespace PMS.Api.Controllers
             
         }
 
-        public RewardController(IPmsLogic iPMSLogic)
+        public RewardController(IPmsLogic iPmsLogic)
         {
-            _iPMSLogic = iPMSLogic;
+            _iPmsLogic = iPmsLogic;
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace PMS.Api.Controllers
             if (request == null || request.Reward == null) throw new PmsException("Reward can not be added.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.AddReward(request.Reward))
+            if (_iPmsLogic.AddReward(request.Reward))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Reward Added successfully.";
@@ -110,7 +110,7 @@ namespace PMS.Api.Controllers
             if (request == null || request.Reward == null || request.Reward.Id <= 0) throw new PmsException("Reward can not be updated.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.UpdateReward(request.Reward))
+            if (_iPmsLogic.UpdateReward(request.Reward))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Reward Updated successfully.";
@@ -129,7 +129,7 @@ namespace PMS.Api.Controllers
             if (rewardId <= 0) throw new PmsException("Reward id is not valid. Hence Reward can not be deleted.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.DeleteReward(rewardId))
+            if (_iPmsLogic.DeleteReward(rewardId))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Reward Deleted successfully.";
@@ -163,7 +163,7 @@ namespace PMS.Api.Controllers
             var response = new GetRewardResponseDto();
             if (!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
             {
-                response.Rewards = _iPMSLogic.GetAllReward();
+                response.Rewards = _iPmsLogic.GetAllReward();
             }
             else
             {
@@ -180,7 +180,7 @@ namespace PMS.Api.Controllers
             var response = new GetRewardResponseDto();
             if (!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
             {
-                response.Rewards = _iPMSLogic.GetRewardByGuestId(guestId);
+                response.Rewards = _iPmsLogic.GetRewardByGuestId(guestId);
             }
             else
             {

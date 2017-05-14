@@ -58,7 +58,7 @@ namespace PMS.Api.Controllers
             if (request == null || request.RewardCategory == null) throw new PmsException("RewardCategory can not be added.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.AddRewardCategory(request.RewardCategory))
+            if (_iPmsLogic.AddRewardCategory(request.RewardCategory))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Reward Category Added successfully.";
@@ -77,7 +77,7 @@ namespace PMS.Api.Controllers
             if (request == null || request.RewardCategory == null || request.RewardCategory.Id <= 0) throw new PmsException("Reward type can not be updated.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.UpdateRewardCategory(request.RewardCategory))
+            if (_iPmsLogic.UpdateRewardCategory(request.RewardCategory))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Reward Category Updated successfully.";
@@ -96,7 +96,7 @@ namespace PMS.Api.Controllers
             if (catId <= 0) throw new PmsException("RewardCategory id is not valid. Hence RewardCategory can not be deleted.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.DeleteRewardCategory(catId))
+            if (_iPmsLogic.DeleteRewardCategory(catId))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Reward Category Deleted successfully.";
@@ -130,7 +130,7 @@ namespace PMS.Api.Controllers
             var response = new GetRewardCategoryResponseDto();
             if (!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
             {
-                response.RewardCategories = _iPMSLogic.GetAllRewardCategory();
+                response.RewardCategories = _iPmsLogic.GetAllRewardCategory();
             }
             else
             {

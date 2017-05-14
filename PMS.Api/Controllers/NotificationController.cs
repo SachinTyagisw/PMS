@@ -18,7 +18,7 @@ namespace PMS.Api.Controllers
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public partial class NotificationController : ApiController, IRestController
     {
-        private readonly IPmsLogic _iPMSLogic = null;
+        private readonly IPmsLogic _iPmsLogic = null;
 
         public NotificationController()
             : this(ServiceLocator.Current.GetInstance<IPmsLogic>())
@@ -26,9 +26,9 @@ namespace PMS.Api.Controllers
             
         }
 
-        public NotificationController(IPmsLogic iPMSLogic)
+        public NotificationController(IPmsLogic iPmsLogic)
         {
-            _iPMSLogic = iPMSLogic;
+            _iPmsLogic = iPmsLogic;
         }
 
         /// <summary>

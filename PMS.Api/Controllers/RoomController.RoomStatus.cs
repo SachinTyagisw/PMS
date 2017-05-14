@@ -58,7 +58,7 @@ namespace PMS.Api.Controllers
             if (request == null || request.RoomStatus == null) throw new PmsException("Room status can not be added.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.AddRoomStatus(request.RoomStatus))
+            if (_iPmsLogic.AddRoomStatus(request.RoomStatus))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "New Room Status Added successfully.";
@@ -77,7 +77,7 @@ namespace PMS.Api.Controllers
             if (request == null || request.RoomStatus == null || request.RoomStatus.Id <= 0) throw new PmsException("Room status can not be updated.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.UpdateRoomStatus(request.RoomStatus))
+            if (_iPmsLogic.UpdateRoomStatus(request.RoomStatus))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Room Status Updated successfully.";
@@ -96,7 +96,7 @@ namespace PMS.Api.Controllers
             if (statusId <= 0) throw new PmsException("RoomStatus Id is not valid. Hence Roomstatus can not be deleted.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.DeleteRoomStatus(statusId))
+            if (_iPmsLogic.DeleteRoomStatus(statusId))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Room Status Deleted successfully.";
@@ -115,7 +115,7 @@ namespace PMS.Api.Controllers
             var response = new GetRoomStatusResponseDto();
             if (!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
             {
-                response.RoomStatuses = _iPMSLogic.GetRoomStatus();
+                response.RoomStatuses = _iPmsLogic.GetRoomStatus();
             }
             else
             {

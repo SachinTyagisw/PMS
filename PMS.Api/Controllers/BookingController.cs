@@ -21,16 +21,16 @@ namespace PMS.Api.Controllers
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public partial class BookingController : ApiController, IRestController
     {
-        private readonly IPmsLogic _iPMSLogic = null;
+        private readonly IPmsLogic _iPmsLogic = null;
         public BookingController()
             : this(ServiceLocator.Current.GetInstance<IPmsLogic>())
         {
             
         }
 
-        public BookingController(IPmsLogic iPMSLogic)
+        public BookingController(IPmsLogic iPmsLogic)
         {
-            _iPMSLogic = iPMSLogic;
+            _iPmsLogic = iPmsLogic;
         }
 
         /// <summary>
@@ -57,6 +57,32 @@ namespace PMS.Api.Controllers
              new { controller = "Booking", action = "GetBooking" },
              constraints: new { propertyId = RegExConstants.NumericRegEx }
              );
+
+            config.Routes.MapHttpRoute(
+             "UpdateBooking",
+             "api/v1/Booking/UpdateBooking",
+             new { controller = "Booking", action = "UpdateBooking" }
+             );
+        }
+
+        [HttpPut, ActionName("UpdateBooking")]
+        public PmsResponseDto UpdateBooking([FromBody] AddBookingRequestDto request)
+        {
+            if (request == null || request.Booking == null || request.Booking.PropertyId <= 0) throw new PmsException("Room Booking can not be done.");
+
+            var response = new PmsResponseDto();
+            if (_iPmsLogic.UpdateBooking(request.Booking))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "Booking is updated successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "Booking is failed.Contact administrator.";
+            }
+
+            return response;
         }
 
         [HttpPost, ActionName("AddBooking")]
@@ -65,7 +91,7 @@ namespace PMS.Api.Controllers
             if (request == null || request.Booking == null || request.Booking.PropertyId <= 0) throw new PmsException("Room Booking can not be done.");
             
             var response = new PmsResponseDto();
-            if(_iPMSLogic.AddBooking(request.Booking))
+            if(_iPmsLogic.AddBooking(request.Booking))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Booking is done successfully.";
@@ -105,7 +131,7 @@ namespace PMS.Api.Controllers
 
             if(!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
             {
-                response.Bookings = _iPMSLogic.GetBooking(propertyId, dtStart, dtEnd);
+                response.Bookings = _iPmsLogic.GetBooking(propertyId, dtStart, dtEnd);
             }
             else
             {

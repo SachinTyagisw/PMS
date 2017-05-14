@@ -268,7 +268,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                 dpBookingData.resource = data[j].Room.Id;
                 dpBookingData.text = "Booked for : " + data[j].Guest.LastName +", " + data[j].Guest.FirstName;
                 dpBookingData.tags.status = "confirmed";
-                dpBookingData.id = data[j].Id;
+                dpBookingData.id = booking.Id;
 
                 dpBookingResponseDto.push(dpBookingData);
             }

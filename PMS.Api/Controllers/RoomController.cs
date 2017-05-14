@@ -20,16 +20,16 @@ namespace PMS.Api.Controllers
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public partial class RoomController : ApiController, IRestController
     {
-        private readonly IPmsLogic _iPMSLogic = null;
+        private readonly IPmsLogic _iPmsLogic = null;
         public RoomController()
             : this(ServiceLocator.Current.GetInstance<IPmsLogic>())
         {
             
         }
 
-        public RoomController(IPmsLogic iPMSLogic)
+        public RoomController(IPmsLogic iPmsLogic)
         {
-            _iPMSLogic = iPMSLogic;
+            _iPmsLogic = iPmsLogic;
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace PMS.Api.Controllers
             if (request == null || request.Room == null) throw new PmsException("Room can not be added.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.AddRoom(request.Room))
+            if (_iPmsLogic.AddRoom(request.Room))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "New Room Added successfully.";
@@ -134,7 +134,7 @@ namespace PMS.Api.Controllers
             if (request == null || request.Room == null || request.Room.Id <= 0) throw new PmsException("Room can not be updated.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.UpdateRoom(request.Room))
+            if (_iPmsLogic.UpdateRoom(request.Room))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Room Updated successfully.";
@@ -153,7 +153,7 @@ namespace PMS.Api.Controllers
             if (roomId <= 0) throw new PmsException("Roomid is not valid. Hence Room can not be deleted.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.DeleteRoom(roomId))
+            if (_iPmsLogic.DeleteRoom(roomId))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Room Deleted successfully.";
@@ -174,7 +174,7 @@ namespace PMS.Api.Controllers
             var response = new GetRoomResponseDto();
             if (!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
             {
-                response.Rooms = _iPMSLogic.GetRoomByProperty(propertyId);
+                response.Rooms = _iPmsLogic.GetRoomByProperty(propertyId);
             }
             else
             {
@@ -304,7 +304,7 @@ namespace PMS.Api.Controllers
             if (request == null || request.PropertyId <= 0 || request.CheckinDate == null || request.CheckoutDate == null) throw new PmsException("Room details can not be fetch.");
             var response = new GetRoomResponseDto();
 
-            response.Rooms = _iPMSLogic.GetRoomByDate(request);
+            response.Rooms = _iPmsLogic.GetRoomByDate(request);
 
             return response;
         }

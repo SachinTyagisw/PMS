@@ -60,7 +60,7 @@ namespace PMS.Api.Controllers
             if (request == null || request.RateType == null) throw new PmsException("Rate type can not be added.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.AddRateType(request.RateType))
+            if (_iPmsLogic.AddRateType(request.RateType))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "New Rate Type Added successfully.";
@@ -79,7 +79,7 @@ namespace PMS.Api.Controllers
             if (request == null || request.RateType == null || request.RateType.Id <= 0) throw new PmsException("Rate type can not be updated.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.UpdateRateType(request.RateType))
+            if (_iPmsLogic.UpdateRateType(request.RateType))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Rate Type Updated successfully.";
@@ -98,7 +98,7 @@ namespace PMS.Api.Controllers
             if (typeId <= 0) throw new PmsException("RateType id is not valid. Hence RateType can not be deleted.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.DeleteRateType(typeId))
+            if (_iPmsLogic.DeleteRateType(typeId))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Rate Type Deleted successfully.";
@@ -119,7 +119,7 @@ namespace PMS.Api.Controllers
             var response = new GetRateTypeResponseDto();
             if (!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
             {
-                response.RateTypes = _iPMSLogic.GetRateTypeByProperty(propertyId);
+                response.RateTypes = _iPmsLogic.GetRateTypeByProperty(propertyId);
             }
             else
             {

@@ -18,7 +18,7 @@ namespace PMS.Api.Controllers
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public partial class ExpenseController : ApiController, IRestController
     {
-        private readonly IPmsLogic _iPMSLogic = null;
+        private readonly IPmsLogic _iPmsLogic = null;
 
         public ExpenseController()
             : this(ServiceLocator.Current.GetInstance<IPmsLogic>())
@@ -26,9 +26,9 @@ namespace PMS.Api.Controllers
             
         }
 
-        public ExpenseController(IPmsLogic iPMSLogic)
+        public ExpenseController(IPmsLogic iPmsLogic)
         {
-            _iPMSLogic = iPMSLogic;
+            _iPmsLogic = iPmsLogic;
         }
 
         /// <summary>

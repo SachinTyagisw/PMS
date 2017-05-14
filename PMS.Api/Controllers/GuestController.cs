@@ -18,7 +18,7 @@ namespace PMS.Api.Controllers
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public partial class GuestController : ApiController, IRestController
     {
-        private readonly IPmsLogic _iPMSLogic = null;
+        private readonly IPmsLogic _iPmsLogic = null;
 
         public GuestController()
             : this(ServiceLocator.Current.GetInstance<IPmsLogic>())
@@ -26,9 +26,9 @@ namespace PMS.Api.Controllers
             
         }
 
-        public GuestController(IPmsLogic iPMSLogic)
+        public GuestController(IPmsLogic iPmsLogic)
         {
-            _iPMSLogic = iPMSLogic;
+            _iPmsLogic = iPmsLogic;
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace PMS.Api.Controllers
             var response = new GetGuestHistoryResponseDto();
             if (guestId <= 0) return response;
 
-            response.GuestHistory = _iPMSLogic.GetGuestHistory(guestId);
+            response.GuestHistory = _iPmsLogic.GetGuestHistory(guestId);
             return response;
         }
     }

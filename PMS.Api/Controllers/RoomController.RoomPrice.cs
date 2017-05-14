@@ -66,7 +66,7 @@ namespace PMS.Api.Controllers
             if (request == null || request.RoomPricing == null) throw new PmsException("Room price can not be added.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.AddRoomPrice(request.RoomPricing))
+            if (_iPmsLogic.AddRoomPrice(request.RoomPricing))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "New Room Price Added successfully.";
@@ -85,7 +85,7 @@ namespace PMS.Api.Controllers
             if (request == null || request.RoomPricing == null || request.RoomPricing.Id <= 0) throw new PmsException("Room price can not be updated.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.UpdateRoomPrice(request.RoomPricing))
+            if (_iPmsLogic.UpdateRoomPrice(request.RoomPricing))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Room Price Updated successfully.";
@@ -104,7 +104,7 @@ namespace PMS.Api.Controllers
             if (priceId <= 0) throw new PmsException("Room price id is not valid. Hence Room price can not be deleted.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.DeleteRoomPrice(priceId))
+            if (_iPmsLogic.DeleteRoomPrice(priceId))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Room Price Deleted successfully.";
@@ -125,7 +125,7 @@ namespace PMS.Api.Controllers
             var response = new GetRoomPriceResponseDto();
             if (!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
             {
-                response.RoomPricing = _iPMSLogic.GetRoomPriceByProperty(propertyId);
+                response.RoomPricing = _iPmsLogic.GetRoomPriceByProperty(propertyId);
             }
             else
             {

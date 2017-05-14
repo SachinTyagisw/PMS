@@ -375,5 +375,10 @@ namespace PMS.Resources.DAL
             }
             return bookings;
         }
+        public bool UpdateBooking(PmsEntity.Booking booking)
+        {
+            var isUpdated = false;
+            return isUpdated;
+        }
     }
 }

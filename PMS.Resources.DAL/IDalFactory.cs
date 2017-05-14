@@ -52,6 +52,7 @@ namespace PMS.Resources.DAL
         List<PmsEntity.RewardCategory> GetAllRewardCategory();
         List<PmsEntity.Room> GetRoomByDate(int propertyId, DateTime checkinDate , DateTime checkoutDate);
         List<PmsEntity.Booking> GetGuestHistory(int guestId);
+        bool UpdateBooking(PmsEntity.Booking booking);
     }
 }
 

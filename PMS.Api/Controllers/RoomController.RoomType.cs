@@ -61,7 +61,7 @@ namespace PMS.Api.Controllers
             if (request == null || request.RoomType == null) throw new PmsException("Room type can not be added.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.AddRoomType(request.RoomType))
+            if (_iPmsLogic.AddRoomType(request.RoomType))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "New Room Type Added successfully.";
@@ -80,7 +80,7 @@ namespace PMS.Api.Controllers
             if (request == null || request.RoomType == null || request.RoomType.Id <= 0) throw new PmsException("Room type can not be updated.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.UpdateRoomType(request.RoomType))
+            if (_iPmsLogic.UpdateRoomType(request.RoomType))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Room Type Updated successfully.";
@@ -99,7 +99,7 @@ namespace PMS.Api.Controllers
             if (typeId <= 0) throw new PmsException("RoomType id is not valid. Hence Roomtype can not be deleted.");
 
             var response = new PmsResponseDto();
-            if (_iPMSLogic.DeleteRoomType(typeId))
+            if (_iPmsLogic.DeleteRoomType(typeId))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Room Type Deleted successfully.";
@@ -120,7 +120,7 @@ namespace PMS.Api.Controllers
             var response = new GetRoomTypeResponseDto();
             if (!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
             {
-                response.RoomTypes = _iPMSLogic.GetRoomTypeByProperty(propertyId);
+                response.RoomTypes = _iPmsLogic.GetRoomTypeByProperty(propertyId);
             }
             else
             {

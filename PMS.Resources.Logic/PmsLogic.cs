@@ -50,208 +50,172 @@ namespace PMS.Resources.Logic
             //var logService = LoggingManager.GetLogInstance();
             //logService.LogInformation("xml:" + bookingXml);
 
-            var isAdded = DalFactory.AddBooking(propertyId,bookingXml);
-            return isAdded;
+            return DalFactory.AddBooking(propertyId,bookingXml);
         }       
         public List<PmsEntity.Booking> GetBooking(int propertyId, DateTime startDate, DateTime endDate)
         {
-            var bookings = DalFactory.GetBooking(propertyId, startDate, endDate);
-            return bookings;
+            return DalFactory.GetBooking(propertyId, startDate, endDate);
         }
         public bool AddProperty(PmsEntity.Property property)
         {
-            var isAdded = DalFactory.AddProperty(property);
-            return isAdded;
+            return DalFactory.AddProperty(property);
         }
         public bool UpdateProperty(PmsEntity.Property property)
         {
-            var isUpdated = DalFactory.UpdateProperty(property);
-            return isUpdated;
+            return DalFactory.UpdateProperty(property);
         }
         public bool DeleteProperty(int propertyId)
         {
-            var isDeleted = DalFactory.DeleteProperty(propertyId);
-            return isDeleted;
+            return DalFactory.DeleteProperty(propertyId);
         }
         public List<PmsEntity.Property> GetAllProperty()
         {
-            var properties = DalFactory.GetAllProperty();
-            return properties;
+            return DalFactory.GetAllProperty();
         }
         public bool AddPropertyType(PmsEntity.PropertyType propertyType)
         {
-            var isAdded = DalFactory.AddPropertyType(propertyType);
-            return isAdded;
+            return DalFactory.AddPropertyType(propertyType);
         }
         public bool UpdatePropertyType(PmsEntity.PropertyType propertyType)
         {
-            var isUpdated = DalFactory.UpdatePropertyType(propertyType);
-            return isUpdated;
+            return DalFactory.UpdatePropertyType(propertyType);
         }
         public bool DeletePropertyType(int propertyTypeId)
         {
-            var isDeleted = DalFactory.DeletePropertyType(propertyTypeId);
-            return isDeleted;
+            return DalFactory.DeletePropertyType(propertyTypeId);
         }
         public List<PmsEntity.PropertyType> GetAllPropertyType()
         {
-            var propertyTypes = DalFactory.GetAllPropertyType();
-            return propertyTypes;
+            return DalFactory.GetAllPropertyType();
         }
         public bool AddRoom(PmsEntity.Room room)
         {
-            var isAdded = DalFactory.AddRoom(room);
-            return isAdded;
+            return DalFactory.AddRoom(room);
         }
         public bool UpdateRoom(PmsEntity.Room room)
         {
-            var isUpdated = DalFactory.UpdateRoom(room);
-            return isUpdated;
+            return DalFactory.UpdateRoom(room);
         }
         public bool DeleteRoom(int roomId)
         {
-            var isDeleted = DalFactory.DeleteRoom(roomId);
-            return isDeleted;
+            return DalFactory.DeleteRoom(roomId);
         }
         public List<PmsEntity.Room> GetRoomByProperty(int propertyId)
         {
-            var rooms = DalFactory.GetRoomByProperty(propertyId);
-            return rooms;
+            return DalFactory.GetRoomByProperty(propertyId);
         }
         public bool AddRateType(PmsEntity.RateType rateType)
         {
-            var isAdded = DalFactory.AddRateType(rateType);
-            return isAdded;
+            return DalFactory.AddRateType(rateType);
         }
         public bool UpdateRateType(PmsEntity.RateType rateType)
         {
-            var isUpdated = DalFactory.UpdateRateType(rateType);
-            return isUpdated;
+            return DalFactory.UpdateRateType(rateType);
         }
         public bool DeleteRateType(int rateTypeId)
         {
-            var isDeleted = DalFactory.DeleteRateType(rateTypeId);
-            return isDeleted;
+            return DalFactory.DeleteRateType(rateTypeId);
         }
         public List<PmsEntity.RateType> GetRateTypeByProperty(int propertyId)
         {
-            var rateTypes = DalFactory.GetRateTypeByProperty(propertyId);
-            return rateTypes;
+            return DalFactory.GetRateTypeByProperty(propertyId);
         }
         public bool AddRoomType(PmsEntity.RoomType roomType)
         {
-            var isAdded = DalFactory.AddRoomType(roomType);
-            return isAdded;
+            return DalFactory.AddRoomType(roomType);
         }
         public bool UpdateRoomType(PmsEntity.RoomType roomType)
         {
-            var isUpdated = DalFactory.UpdateRoomType(roomType);
-            return isUpdated;
+            return DalFactory.UpdateRoomType(roomType);
         }
         public bool DeleteRoomType(int roomTypeId)
         {
-            var isDeleted = DalFactory.DeleteRoomType(roomTypeId);
-            return isDeleted;
+            return DalFactory.DeleteRoomType(roomTypeId);
         }
         public List<PmsEntity.RoomType> GetRoomTypeByProperty(int propertyId)
         {
-            var roomTypes = DalFactory.GetRoomTypeByProperty(propertyId);
-            return roomTypes;
+            return DalFactory.GetRoomTypeByProperty(propertyId);
         }
         public bool AddRoomPrice(PmsEntity.RoomPricing roomPrice)
         {
-            var isAdded = DalFactory.AddRoomPrice(roomPrice);
-            return isAdded;
+            return DalFactory.AddRoomPrice(roomPrice);
         }
         public bool UpdateRoomPrice(PmsEntity.RoomPricing roomPrice)
         {
-            var isUpdated = DalFactory.UpdateRoomPrice(roomPrice);
-            return isUpdated;
+            return DalFactory.UpdateRoomPrice(roomPrice);
         }
         public bool DeleteRoomPrice(int priceId)
         {
-            var isDeleted = DalFactory.DeleteRoomPrice(priceId);
-            return isDeleted;
+            return DalFactory.DeleteRoomPrice(priceId);
         }
         public List<PmsEntity.RoomPricing> GetRoomPriceByProperty(int propertyId)
         {
-            var roomPricing = DalFactory.GetRoomPriceByProperty(propertyId);
-            return roomPricing;
+            return DalFactory.GetRoomPriceByProperty(propertyId);
         }
         public bool AddRoomStatus(PmsEntity.RoomStatus roomStatus)
         {
-            var isAdded = DalFactory.AddRoomStatus(roomStatus);
-            return isAdded;
+            return DalFactory.AddRoomStatus(roomStatus);
         }
         public bool UpdateRoomStatus(PmsEntity.RoomStatus roomStatus)
         {
-            var isUpdated = DalFactory.UpdateRoomStatus(roomStatus);
-            return isUpdated;
+            return DalFactory.UpdateRoomStatus(roomStatus);
         }
         public bool DeleteRoomStatus(int statusId)
         {
-            var isDeleted = DalFactory.DeleteRoomStatus(statusId);
-            return isDeleted;
+            return DalFactory.DeleteRoomStatus(statusId);
         }
         public List<PmsEntity.RoomStatus> GetRoomStatus()
         {
-            var roomStatus = DalFactory.GetRoomStatus();
-            return roomStatus;
+            return DalFactory.GetRoomStatus();
         }
         public bool AddReward(PmsEntity.GuestReward reward)
         {
-            var isAdded = DalFactory.AddReward(reward);
-            return isAdded;
+            return DalFactory.AddReward(reward);
         }
         public bool UpdateReward(PmsEntity.GuestReward reward)
         {
-            var isUpdated = DalFactory.UpdateReward(reward);
-            return isUpdated;
+            return DalFactory.UpdateReward(reward);
         }
         public bool DeleteReward(int rewardId)
         {
-            var isDeleted = DalFactory.DeleteReward(rewardId);
-            return isDeleted;
+            return DalFactory.DeleteReward(rewardId);
         }
         public List<PmsEntity.GuestReward> GetAllReward()
         {
-            var rewards = DalFactory.GetAllReward();
-            return rewards;
+            return DalFactory.GetAllReward();
         }
         public List<PmsEntity.GuestReward> GetRewardByGuestId(int guestId)
         {
-            var rewards = DalFactory.GetRewardByGuestId(guestId);
-            return rewards;
+            return DalFactory.GetRewardByGuestId(guestId);
         }
         public bool AddRewardCategory(PmsEntity.RewardCategory rewardCategory)
         {
-            var isAdded = DalFactory.AddRewardCategory(rewardCategory);
-            return isAdded;
+            return DalFactory.AddRewardCategory(rewardCategory);
         }
         public bool UpdateRewardCategory(PmsEntity.RewardCategory rewardCategory)
         {
-            var isUpdated = DalFactory.UpdateRewardCategory(rewardCategory);
-            return isUpdated;
+            return DalFactory.UpdateRewardCategory(rewardCategory);
         }
         public bool DeleteRewardCategory(int catId)
         {
-            var isDeleted = DalFactory.DeleteRewardCategory(catId);
-            return isDeleted;
+            return DalFactory.DeleteRewardCategory(catId);
         }
         public List<PmsEntity.RewardCategory> GetAllRewardCategory()
         {
-            var rewardCategory = DalFactory.GetAllRewardCategory();
-            return rewardCategory;
+            return DalFactory.GetAllRewardCategory();
         }
         public List<PmsEntity.Room> GetRoomByDate(GetRoomByDateRequestDto request)
         {
-            var rooms = DalFactory.GetRoomByDate(request.PropertyId, request.CheckinDate, request.CheckoutDate);
-            return rooms;
+            return DalFactory.GetRoomByDate(request.PropertyId, request.CheckinDate, request.CheckoutDate);
         }
         public List<PmsEntity.Booking> GetGuestHistory(int guestId)
         {
-            var bookingHistory = DalFactory.GetGuestHistory(guestId);
-            return bookingHistory;
+            return DalFactory.GetGuestHistory(guestId);
+        }
+
+        public bool UpdateBooking(PmsEntity.Booking booking)
+        {
+            return DalFactory.UpdateBooking(booking);
         }
 
         #region helper methods 
