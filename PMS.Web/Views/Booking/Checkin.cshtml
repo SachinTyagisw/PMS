@@ -37,36 +37,36 @@
                 previewImage(this);
             }); 
 
-            $("#dateFrom").focus(function () {                
-                var thisCalendar = $(this);
-                //$('.ui-datepicker-calendar').detach();
-                $('.ui-datepicker-close').click(function () {                    
-                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-                    thisCalendar.datepicker('setDate', new Date(year, month, 1));
+            //$("#dateFrom").focus(function () {                
+            //    var thisCalendar = $(this);
+            //    //$('.ui-datepicker-calendar').detach();
+            //    $('.ui-datepicker-close').click(function () {                    
+            //        var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+            //        var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+            //        thisCalendar.datepicker('setDate', new Date(year, month, 1));
 
-                    if (gcm.ShouldCallGetRoomApi()) {
-                        pmsSession.RemoveItem("roomdata");
-                        gcm.GetRoomByDate();
-                    }
-                });
-            });
+            //        if (gcm.ShouldCallGetRoomApi()) {
+            //            pmsSession.RemoveItem("roomdata");
+            //            gcm.GetRoomByDate();
+            //        }
+            //    });
+            //});
 
 
-            $("#dateTo").focus(function () {
-                var thisCalendar = $(this);
-                //$('.ui-datepicker-calendar').detach();
-                $('.ui-datepicker-close').click(function () {
-                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-                    thisCalendar.datepicker('setDate', new Date(year, month, 1));
+            //$("#dateTo").focus(function () {
+            //    var thisCalendar = $(this);
+            //    //$('.ui-datepicker-calendar').detach();
+            //    $('.ui-datepicker-close').click(function () {
+            //        var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+            //        var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+            //        thisCalendar.datepicker('setDate', new Date(year, month, 1));
 
-                    if (gcm.ShouldCallGetRoomApi()) {
-                        pmsSession.RemoveItem("roomdata");
-                        gcm.GetRoomByDate();
-                    }
-                });
-            });
+            //        if (gcm.ShouldCallGetRoomApi()) {
+            //            pmsSession.RemoveItem("roomdata");
+            //            gcm.GetRoomByDate();
+            //        }
+            //    });
+            //});
 
             $('#phone').keydown(function (e) {
                 if (e.shiftKey || e.ctrlKey || e.altKey) {
