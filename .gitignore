@@ -1,7 +1,6 @@
 ################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
-
 /PMS.Api/obj/Release/Package/PackageTmp/Views/Shared/_Layout.cshtml
 /PMS.Api/obj/Release/Package/PackageTmp/Areas/HelpPage
 /PMS.Api/obj/Release/Package/PackageTmp
