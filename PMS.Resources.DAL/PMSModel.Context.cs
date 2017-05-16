@@ -103,5 +103,26 @@ namespace PMS.Resources.DAL
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertBooking", propertyIDParameter, bookingXMLParameter);
         }
+    
+        public virtual int UpdateBooking(Nullable<int> bOOKINGID, Nullable<System.DateTime> cHECKINTIME, Nullable<System.DateTime> cHECKOUTTIME, Nullable<int> roomID)
+        {
+            var bOOKINGIDParameter = bOOKINGID.HasValue ?
+                new ObjectParameter("BOOKINGID", bOOKINGID) :
+                new ObjectParameter("BOOKINGID", typeof(int));
+    
+            var cHECKINTIMEParameter = cHECKINTIME.HasValue ?
+                new ObjectParameter("CHECKINTIME", cHECKINTIME) :
+                new ObjectParameter("CHECKINTIME", typeof(System.DateTime));
+    
+            var cHECKOUTTIMEParameter = cHECKOUTTIME.HasValue ?
+                new ObjectParameter("CHECKOUTTIME", cHECKOUTTIME) :
+                new ObjectParameter("CHECKOUTTIME", typeof(System.DateTime));
+    
+            var roomIDParameter = roomID.HasValue ?
+                new ObjectParameter("RoomID", roomID) :
+                new ObjectParameter("RoomID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateBooking", bOOKINGIDParameter, cHECKINTIMEParameter, cHECKOUTTIMEParameter, roomIDParameter);
+        }
     }
 }

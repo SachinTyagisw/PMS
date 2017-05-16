@@ -35,7 +35,9 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     //};    
 
     var onUpdateBookingSuccess = function (response) {
-
+        if (response && response.data && response.data.ResponseStatus){
+            $scope.message = response.data.StatusDescription;
+        }        
     };
 
     var onUpdateBookingError = function (reason) {
