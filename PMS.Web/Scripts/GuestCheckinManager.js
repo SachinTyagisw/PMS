@@ -91,6 +91,7 @@
             booking.TransactionRemarks = $('#transRemarks').val();
             booking.CreatedOn = getCurrentDate();
             booking.Status = "Confirmed";
+            booking.IsActive = true;
             //TODO : remove hardcoded value
             booking.CreatedBy = "vipul";
             // for new booking Id = -1 
@@ -152,6 +153,7 @@
         address.Address2 = $('#address').val();
         address.GuestID = $('#hdnGuestId').val() == '' ? -1 : $('#hdnGuestId').val();
         address.CreatedOn = getCurrentDate();
+        address.IsActive = true;
         //TODO : remove hardcoded value
         address.CreatedBy = "vipul";
         //TODO: addresstype to be selected from address type ddl
@@ -181,6 +183,7 @@
             guest.PhotoPath = "No Image Available";
         }
         
+        guest.IsActive = true;
         guest.CreatedOn = getCurrentDate();
         //TODO : remove hardcoded value
         guest.CreatedBy = "vipul";        
@@ -201,6 +204,7 @@
         guestMapping.IdIssueState = $('#ddlIdState').val();
         guestMapping.IdIssueCountry = $('#ddlIdCountry').val();
         guestMapping.CreatedOn = getCurrentDate();
+        guestMapping.IsActive = true;
         //TODO : remove hardcoded value
         guestMapping.CreatedBy = "vipul";        
         
@@ -217,7 +221,7 @@
         //TODO:reading additonal guest info from grid 
         additionalGuest.FirstName = $('#adFName').val();
         additionalGuest.LastName = $('#adLName').val();
-
+        additionalGuest.IsActive = true;
         //TODO: get value from new upload
         var files = $("#uploadPhoto").get(0).files;
         if (files.length > 0) {
@@ -247,6 +251,7 @@
         roomBooking.BookingId = -1
         roomBooking.Id = -1
         roomBooking.CreatedOn = getCurrentDate();
+        roomBooking.IsActive = true;
 
         //TODO : remove hardcoded value
         roomBooking.CreatedBy = "vipul";
@@ -411,9 +416,9 @@
         }
 
         var emailId = $("#email").val();
-        var validEmailIdRegex = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/);
-        /// check email 
-        if (!emailId || emailId.length > 0) {
+        var validEmailIdRegex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+        // check email 
+        if (emailId && emailId.length > 0) {
             var testemail = validEmailIdRegex.test(emailId);
             if (testemail !== true) {
                 alert("Please enter valid email format.");
@@ -446,9 +451,10 @@
         // ajax handlers start
 
         pmsService.Handlers.OnAddBookingSuccess = function (data) {
-            if (data.StatusDescription.toLowerCase().indexOf("successfully") >= 0) {
+            var status = data.StatusDescription.toLowerCase();
+            if (status.indexOf("successfully") >= 0) {
                 clearAllFields();
-                console.log(data.StatusDescription);
+                console.log(status);
                 // if booking is successful then upload image
                 if (window.FormData !== undefined) {
                     // if success upload image of guest
@@ -461,10 +467,9 @@
                     }
                 }
             } else {
-                console.error(data.StatusDescription);
+                console.error(status);
             }
-          
-            alert(data.StatusDescription);
+            alert(status);
         };
 
         pmsService.Handlers.OnAddBookingFailure = function () {
