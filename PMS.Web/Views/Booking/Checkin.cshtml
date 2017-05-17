@@ -29,6 +29,16 @@
         }
 
         $(document).ready(function () {
+            //if user is navigated to checkin screen from dashboard screen
+            if (pmsSession.GetItem("dtcheckin") && pmsSession.GetItem("dtcheckout")) {
+                $("#dateFrom").val(pmsSession.GetItem("dtcheckin"));
+                $("#dateTo").val(pmsSession.GetItem("dtcheckout"));
+            }
+
+            //once value is set in input date then clear sessionstorage
+            pmsSession.RemoveItem("dtcheckin");
+            pmsSession.RemoveItem("dtcheckout");
+
             $("#btnBooking").click(function () {
                 gcm.AddBooking();
             });

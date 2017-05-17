@@ -223,38 +223,20 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         },
         
         onTimeRangeSelected: function (args) {
-            
-            //todo: if booking needs to be done by double click
-            var modal = new DayPilot.Modal();
-            modal.top = 100;
-            //modal.right = 4;
-            modal.height = 524;
-            modal.width = 724;
-            modal.css = "icon icon-edit";
-            //modal.onClosed = function (args) {
-            //    loadResources();
-            //};
-            modal.showUrl("localhost:7070");
-
-            var dp = $scope.scheduler;
-
             var params = {
-                start: args.start.toString(),
-                end: args.end.toString(),
+                start: new DayPilot.Date(args.start).toString("MM/dd/yyyy h:mm tt"),
+                end: new DayPilot.Date(args.end).toString("MM/dd/yyyy h:mm tt"),
                 resource: args.resource,
                 scale: $scope.scale
             };
             
-            //todo
-            //$http.post("backend_create.php", params).success(function (data) {
-            //    loadEvents();
-            //    dp.message(data.message);
-            //});
-            loadEvents();
-            dp.message('test data');
+            pmsSession.RemoveItem("dtcheckin");
+            pmsSession.RemoveItem("dtcheckout");
 
-            dp.clearSelection();
+            pmsSession.SetItem("dtcheckin", params.start);
+            pmsSession.SetItem("dtcheckout", params.end);
 
+            redirectionSvc.RedirectToCheckin();
         },
     };
 
