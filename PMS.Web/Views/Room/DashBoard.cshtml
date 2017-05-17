@@ -19,6 +19,27 @@
         </div>
       
         <div class="cal-right">
+            <div class="tab-section">
+                <div class="col-lg-3 p-r-0 p-l-0 form-group">
+                    <input id="searchRoom" type="text" onkeyup="this.value= this.value.replace(/[^A-z ]/g,'');" placeholder="Search Room..." class="form-control" name="example-input-normal">
+                </div>
+                <div class="col-lg-9 p-r-0">
+
+                    <div class="c-tabs">
+                        <input id="c-tab-6" name="c-tabs-2" type="radio" checked>
+                        <label for="c-tab-6">Current</label>
+                        <input id="c-tab-7" name="c-tabs-2" type="radio">
+                        <label for="c-tab-7">Hourly</label>
+                        <input id="c-tab-8" name="c-tabs-2" type="radio">
+                        <label for="c-tab-8">Daily</label>
+                        <input id="c-tab-9" name="c-tabs-2" type="radio">
+                        <label for="c-tab-9">Weekly</label>
+                        <input id="c-tab-10" name="c-tabs-2" type="radio">
+                        <label for="c-tab-10">Monthly</label>
+                    </div>
+
+                </div>
+            </div>
             @*<daypilot-scheduler id="dp" daypilot-config="config" daypilot-events="events"></daypilot-scheduler>*@
             <daypilot-scheduler id="scheduler"  daypilot-config="schedulerConfig" daypilot-events="events"></daypilot-scheduler>
             @*<div>
