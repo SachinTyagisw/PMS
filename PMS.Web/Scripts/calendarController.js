@@ -79,6 +79,10 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         loadRooms();
     });
     
+    $scope.filterRoom = function () {        
+        loadRooms();
+    };
+
     $scope.setCalendarView = function(duration) {
         $scope.duration = duration;
         loadEvents(DayPilot.Date.today());
@@ -291,10 +295,11 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     }
 
     function convertRoomResponseToDayPilotResponse(roomsResponse) {
-        dpRoomsResponseDto = [];
+        var searchvalue = $('#searchRoom').val();
+        dpRoomsResponseDto = [];        
         for (var i = 0; i < roomsResponse.length; i++) {
             var room = roomsResponse[i];
-            if (!room) continue;
+            if (!room || (searchvalue && searchvalue.length > 0 && room.Number.toLowerCase().indexOf(searchvalue.toLowerCase()) < 0)) continue;
 
             var dpRoomData = {};
             dpRoomData.name = room.Number;

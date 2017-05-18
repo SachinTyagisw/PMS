@@ -21,7 +21,7 @@
         <div class="cal-right">
             <div class="tab-section">
                 <div class="col-lg-3 p-r-0 p-l-0 form-group">
-                    <input id="searchRoom" type="text" onkeyup="this.value= this.value.replace(/[^A-z ]/g,'');" placeholder="Search Room..." class="form-control" name="example-input-normal">
+                    <input id="searchRoom" type="text" ng-keyup="filterRoom()" placeholder="Search Room..." class="form-control" name="example-input-normal">
                 </div>
                 <div class="col-lg-9 p-r-0">
 
