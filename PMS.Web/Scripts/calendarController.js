@@ -3,6 +3,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     var dpRoomsResponseDto = [];
     var pmsSession = window.PmsSession;
     var propertyId = pmsSession.GetItem("propertyid");
+    $scope.duration = 'current';
     //dp test data
     //var dummyBookingData = [
     //                            {
@@ -78,6 +79,11 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         loadRooms();
     });
     
+    $scope.setCalendarView = function(duration) {
+        $scope.duration = duration;
+        loadEvents(DayPilot.Date.today());
+    };
+
     $scope.changeRoomType = function () {
         loadRooms();
     };
@@ -240,18 +246,18 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         },
     };
 
-    $scope.clear = function () {
-        var dp = $scope.scheduler;
-        var params = {
-            start: dp.visibleStart(),
-            end: dp.visibleEnd()
-        };
-        //todo
-        $http.post("backend_clear.php", params).success(function (data) {
-            dp.message(data.message);
-            loadEvents();
-        });
-    };
+    //$scope.clear = function () {
+    //    var dp = $scope.scheduler;
+    //    var params = {
+    //        start: dp.visibleStart(),
+    //        end: dp.visibleEnd()
+    //    };
+    //    //todo
+    //    $http.post("backend_clear.php", params).success(function (data) {
+    //        dp.message(data.message);
+    //        loadEvents();
+    //    });
+    //};
 
     $timeout(function () {
         dp = $scope.scheduler;  // debug
@@ -300,13 +306,13 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     }
 
     function loadEvents(day) {
-        var from = $scope.scheduler.visibleStart();
-        var to = $scope.scheduler.visibleEnd();
-        if (day) {
-            from = new DayPilot.Date(day).firstDayOfMonth();
-            to = from.addMonths(1);
+        var duration = getDaysBasedOnDuration();
+        var from = new DayPilot.Date(day);
+        //var to = $scope.scheduler.visibleEnd();
+        if (!day) {
+            from = $scope.scheduler.visibleStart();            
         }
-
+        var to = from.addDays(duration);
         var params = {
             start: from.toString(),
             end: to.toString()
@@ -335,16 +341,22 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
             response.Rooms = JSON.parse(roomData);
             onGetRoomSuccess(response);
         }
-       
+    }    
+
+    function getDaysBasedOnDuration() {
+        if ($scope.duration === 'current') return 1;
+        if ($scope.duration === 'hourly') return 1;
+        if ($scope.duration === 'daily') return 1;
+        if ($scope.duration === 'weekly') return 7;
+        if ($scope.duration === 'monthly') return 30;
     }
 
     function getTimeline(date) {
         var date = date || DayPilot.Date.today();
         //var start = new DayPilot.Date(date).firstDayOfMonth();
         var start = new DayPilot.Date(date);
-        //var days = start.daysInMonth();
-         //TODO : days to be implement on the basis of UI selection
-        var days = 7;
+        //days on the basis of UI selection
+        var days = getDaysBasedOnDuration();
         var morningShiftStarts = 0;
         var morningShiftEnds = 24;
         var afternoonShiftStarts = 12;
