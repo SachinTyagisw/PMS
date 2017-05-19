@@ -26,10 +26,8 @@
                 <div class="col-lg-9 p-r-0">
 
                     <div class="c-tabs">
-                        <input id="c-tab-6" ng-click="setCalendarView('current')" name="c-tabs-2" type="radio" checked>
-                        <label for="c-tab-6">Current</label>
-                        <input id="c-tab-7" ng-click="setCalendarView('hourly')" name="c-tabs-2" type="radio">
-                        <label for="c-tab-7">Hourly</label>
+                        <input id="c-tab-6" ng-click="setCalendarView('today')" name="c-tabs-2" type="radio" checked>
+                        <label for="c-tab-6">Today</label>
                         <input id="c-tab-8" ng-click="setCalendarView('daily')" name="c-tabs-2" type="radio">
                         <label for="c-tab-8">Daily</label>
                         <input id="c-tab-9" ng-click="setCalendarView('weekly')" name="c-tabs-2" type="radio">
@@ -41,7 +39,7 @@
                 </div>
             </div>
             @*<daypilot-scheduler id="dp" daypilot-config="config" daypilot-events="events"></daypilot-scheduler>*@
-            <daypilot-scheduler id="scheduler"  daypilot-config="schedulerConfig" daypilot-events="events"></daypilot-scheduler>
+            <daypilot-scheduler cellwidthspec="Auto" id="scheduler" daypilot-config="schedulerConfig" daypilot-events="events"></daypilot-scheduler>
             @*<div>
                 New event:
                 <button ng-click="add()">Add</button>
