@@ -217,6 +217,15 @@ namespace PMS.Resources.Logic
         {
             return DalFactory.UpdateBooking(booking);
         }
+        public List<PmsEntity.State> GetStateByCountry(int id)
+        {
+            return DalFactory.GetStateByCountry(id);
+        }
+
+        public List<PmsEntity.City> GetCityByState(int id)
+        {
+            return DalFactory.GetCityByState(id);
+        }
 
         #region helper methods 
         private string RemoveXmlDefaultNode(string xml)

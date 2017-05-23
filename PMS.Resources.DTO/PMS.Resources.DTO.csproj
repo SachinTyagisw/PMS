@@ -61,6 +61,7 @@
     <Compile Include="Request\UpdateRoomStatusRequestDto.cs" />
     <Compile Include="Request\UpdateRoomTypeRequestDto.cs" />
     <Compile Include="Response\GetBookingResponseDto.cs" />
+    <Compile Include="Response\GetCityResponseDto.cs" />
     <Compile Include="Response\GetExpenseResponseDto.cs" />
     <Compile Include="Response\GetGuestHistoryResponseDto.cs" />
     <Compile Include="Response\GetGuestResponseDto.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Response\GetRateTypeResponseDto.cs" />
     <Compile Include="Response\GetRoomStatusResponseDto.cs" />
     <Compile Include="Response\GetRoomTypeResponseDto.cs" />
+    <Compile Include="Response\GetStateResponseDto.cs" />
     <Compile Include="Response\PmsResponseDto.cs" />
   </ItemGroup>
   <ItemGroup>

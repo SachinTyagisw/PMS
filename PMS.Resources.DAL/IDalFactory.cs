@@ -53,6 +53,8 @@ namespace PMS.Resources.DAL
         List<PmsEntity.Room> GetRoomByDate(int propertyId, DateTime checkinDate , DateTime checkoutDate);
         List<PmsEntity.Booking> GetGuestHistory(int guestId);
         bool UpdateBooking(PmsEntity.Booking booking);
+        List<PmsEntity.State> GetStateByCountry(int id);
+        List<PmsEntity.City> GetCityByState(int id);
     }
 }
 
