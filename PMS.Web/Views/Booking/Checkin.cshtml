@@ -5,6 +5,33 @@
         var gcm = window.GuestCheckinManager;
         var pmsSession = window.PmsSession;
 
+        function OnCountryChange() {
+            //if ($('#ddlCountry').val() !== '-1') {
+            //    var stateData = pmsSession.GetItem("statedata");
+            //    if (!stateData) {
+            //        gcm.GetStateByCountry();
+            //    } else {
+            //        gcm.BindStateDdl();
+            //    }
+            //} else {
+            //    $('#ddlState').empty();
+            //    $('#ddlCity').empty();
+            //}
+        }
+
+        function OnCountryChange() {
+            //if ($('#ddlIdCountry').val() !== '-1') {
+            //    var stateData = pmsSession.GetItem("statedata");
+            //    if (!stateData) {
+            //        gcm.GetStateByCountry();
+            //    } else {
+            //        gcm.BindStateDdl();
+            //    }
+            //} else {
+            //    $('#ddlIdState').empty();
+            //}
+        }
+
         function OnRoomTypeChange() {
             if ($('#roomTypeDdl').val() !== '-1') {
                 var roomData = pmsSession.GetItem("roomdata");
