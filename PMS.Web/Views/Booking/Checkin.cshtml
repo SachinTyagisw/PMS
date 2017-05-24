@@ -7,7 +7,8 @@
 
         function OnCountryChange() {
             $('#ddlState').empty();
-            $('#ddlCity').empty();
+            //TODO: remove this check later
+            //$('#ddlCity').empty();
             if ($('#ddlCountry').val() !== '-1') {
                 var stateData = pmsSession.GetItem("statedata");
                 if (!stateData) {
@@ -19,15 +20,15 @@
         }
 
         function OnCountryIdChange() {
-            $('#ddlIdState').empty();
-            if ($('#ddlIdCountry').val() !== '-1') {
-                var stateData = pmsSession.GetItem("statedata");
-                if (!stateData) {
-                    gcm.GetStateByCountry();
-                } else {
-                    gcm.BindStateDdl();
-                }
-            }
+            //$('#ddlIdState').empty();
+            //if ($('#ddlIdCountry').val() !== '-1') {
+            //    var stateData = pmsSession.GetItem("statedata");
+            //    if (!stateData) {
+            //        gcm.GetStateByCountry();
+            //    } else {
+            //        gcm.BindStateDdl();
+            //    }
+            //}
         }
 
         function OnRoomTypeChange() {
