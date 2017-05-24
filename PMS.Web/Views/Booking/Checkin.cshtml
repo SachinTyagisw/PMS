@@ -6,6 +6,8 @@
         var pmsSession = window.PmsSession;
 
         function OnCountryChange() {
+            $('#ddlState').empty();
+            $('#ddlCity').empty();
             if ($('#ddlCountry').val() !== '-1') {
                 var stateData = pmsSession.GetItem("statedata");
                 if (!stateData) {
@@ -13,13 +15,11 @@
                 } else {
                     gcm.BindStateDdl();
                 }
-            } else {
-                $('#ddlState').empty();
-                $('#ddlCity').empty();
             }
         }
 
-        function OnCountryChange() {
+        function OnCountryIdChange() {
+            $('#ddlIdState').empty();
             if ($('#ddlIdCountry').val() !== '-1') {
                 var stateData = pmsSession.GetItem("statedata");
                 if (!stateData) {
@@ -27,8 +27,6 @@
                 } else {
                     gcm.BindStateDdl();
                 }
-            } else {
-                $('#ddlIdState').empty();
             }
         }
 

@@ -8,6 +8,7 @@
             ajaxHandlers();
             getRoomTypes();
             getRoomRateTypes();
+            getCountry();
             //getRooms();
         },
 
@@ -72,7 +73,42 @@
             for (var i = 0; i < rateTypes.length; i++) {
                 ddlRateType.append(new Option(rateTypes[i].Name, rateTypes[i].Id));
             }
-        },       
+        },
+
+        BindStateDdl: function () {
+            var ddlCountry = $('#ddlCountry');
+            var ddlState = $('#ddlState');
+            var stateData = pmsSession.GetItem("statedata");
+            if (!ddlCountry || !ddlState  || !stateData) return;
+
+            var state = $.parseJSON(stateData);
+            if (!state || state.length <= 0) return;
+
+            ddlState.empty();
+            ddlState.append(new Option("Select State", "-1"));
+            for (var i = 0; i < state.length; i++) {
+                ddlState.append(new Option(state[i].Name, state[i].ID));
+            }
+        },
+
+        BindCountryDdl: function () {
+            var ddlCountry = $('#ddlCountry');
+            var ddlIdCountry = $('#ddlIdCountry');
+            var countryData = pmsSession.GetItem("countrydata");
+            if (!ddlIdCountry || !ddlCountry || !countryData) return;
+
+            var country = $.parseJSON(countryData);
+            if (!country || country.length <= 0) return;
+
+            ddlCountry.empty();
+            ddlIdCountry.empty();
+            ddlCountry.append(new Option("Select Country", "-1"));
+            ddlIdCountry.append(new Option("Select Country", "-1"));
+            for (var i = 0; i < country.length; i++) {
+                ddlCountry.append(new Option(country[i].Name, country[i].Id));
+                ddlIdCountry.append(new Option(country[i].Name, country[i].Id));
+            }
+        },
 
         AddBooking: function () {
 
@@ -136,6 +172,12 @@
                     bindGuestHistory(data);
                 }
             }
+        },
+
+        GetStateByCountry: function () {
+            args.Id = $('#ddlCountry').val();
+            // get state by api calling  
+            pmsService.GetStateByCountry(args);
         }
     };
     
@@ -271,6 +313,16 @@
             pmsService.GetRoomTypeByProperty(args);
         } else {
             window.GuestCheckinManager.BindRoomTypeDdl();
+        }
+    }
+
+    function getCountry() {
+        var countryData = pmsSession.GetItem("countrydata");
+        if (!countryData) {
+            // get country by api calling  
+            pmsService.GetCountry(args);
+        } else {
+            window.GuestCheckinManager.BindCountryDdl();
         }
     }
 
@@ -531,6 +583,28 @@
         pmsService.Handlers.OnGetGuestHistoryByIdFailure = function () {
             // show error log
             console.error("Guest History failed");
+        };
+
+        pmsService.Handlers.OnGetCountrySuccess = function (data) {
+            if (!data || !data.Country || data.Country.length <= 0) return;
+
+            pmsSession.SetItem("countrydata", JSON.stringify(data.Country));
+            window.GuestCheckinManager.BindCountryDdl();
+        };
+        pmsService.Handlers.OnGetCountryFailure = function () {
+            // show error log
+            console.error("get country call failed");
+        };
+
+        pmsService.Handlers.OnGetStateByCountrySuccess = function (data) {
+            if (!data || !data.States || data.States.length <= 0) return;
+
+            pmsSession.SetItem("statedata", JSON.stringify(data.States));
+            window.GuestCheckinManager.BindStateDdl();
+        };
+        pmsService.Handlers.OnGetStateByCountryFailure = function () {
+            // show error log
+            console.error("get state call failed");
         };
 
         // ajax handlers end
