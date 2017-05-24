@@ -436,7 +436,6 @@ namespace PMS.Resources.DAL
         public List<PmsEntity.City> GetCityByState(int id)
         {
             var city = new List<PmsEntity.City>();
-
             using (var pmsContext = new PmsEntities())
             {
                 city = pmsContext.Cities.Where(x => x.IsActive && x.StateID == id)
@@ -449,8 +448,23 @@ namespace PMS.Resources.DAL
                            }).ToList();
 
             }
-
             return city;
+        }
+
+        public List<PmsEntity.Country> GetCountry()
+        {
+            var country = new List<PmsEntity.Country>();
+            using (var pmsContext = new PmsEntities())
+            {
+                country = pmsContext.Countries.Where(x => x.IsActive)
+                           .Select(x => new PmsEntity.Country
+                           {
+                               Id = x.ID,
+                               Name = x.Name
+                           }).ToList();
+
+            }
+            return country;
         }
     }
 }

@@ -55,6 +55,7 @@ namespace PMS.Resources.DAL
         bool UpdateBooking(PmsEntity.Booking booking);
         List<PmsEntity.State> GetStateByCountry(int id);
         List<PmsEntity.City> GetCityByState(int id);
+        List<PmsEntity.Country> GetCountry();
     }
 }
 

@@ -227,6 +227,11 @@ namespace PMS.Resources.Logic
             return DalFactory.GetCityByState(id);
         }
 
+        public List<PmsEntity.Country> GetCountry()
+        {
+            return DalFactory.GetCountry();
+        }
+
         #region helper methods 
         private string RemoveXmlDefaultNode(string xml)
         {

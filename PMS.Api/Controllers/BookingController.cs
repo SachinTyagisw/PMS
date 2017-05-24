@@ -75,6 +75,12 @@ namespace PMS.Api.Controllers
              "api/v1/Booking/GetCityByState",
              new { controller = "Booking", action = "GetCityByState" }
              );
+
+            config.Routes.MapHttpRoute(
+             "GetCountry",
+             "api/v1/Booking/GetCountry",
+             new { controller = "Booking", action = "GetCountry" }
+             );
         }
 
         [HttpPut, ActionName("UpdateBooking")]
@@ -259,5 +265,13 @@ namespace PMS.Api.Controllers
             response.City = _iPmsLogic.GetCityByState(id);
             return response;
         }
+
+        [HttpGet, ActionName("GetCountry")]
+        public GetCountryResponseDto GetCountry()
+        {
+            var response = new GetCountryResponseDto();
+            response.Country = _iPmsLogic.GetCountry();
+            return response;
+        }        
     }
 }
