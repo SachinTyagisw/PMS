@@ -378,7 +378,93 @@ namespace PMS.Resources.DAL
         public bool UpdateBooking(PmsEntity.Booking booking)
         {
             var isUpdated = false;
+            using (var pmsContext = new PmsEntities())
+            {
+                var bookingId = new SqlParameter
+                {
+                    ParameterName = "BOOKINGID",
+                    DbType = DbType.Int32,
+                    Value = booking.Id
+                };
+
+                var dtCheckin = new SqlParameter
+                {
+                    ParameterName = "CHECKINTIME",
+                    DbType = DbType.DateTime,
+                    Value = booking.CheckinTime
+                };
+
+                var dtCheckout = new SqlParameter
+                {
+                    ParameterName = "CHECKOUTTIME",
+                    DbType = DbType.DateTime,
+                    Value = booking.CheckoutTime
+                };
+
+                var roomId = new SqlParameter
+                {
+                    ParameterName = "RoomID",
+                    DbType = DbType.Int32,
+                    Value = booking.RoomBookings[0].RoomId
+                };
+
+                var result = pmsContext.Database.ExecuteSqlCommand("UpdateBooking @BOOKINGID, @CHECKINTIME, @CHECKOUTTIME, @RoomID", bookingId, dtCheckin, dtCheckout, roomId);
+                isUpdated = true;
+            }
             return isUpdated;
+        }
+
+        public List<PmsEntity.State> GetStateByCountry(int id)
+        {
+            var states = new List<PmsEntity.State>();
+
+            using (var pmsContext = new PmsEntities())
+            {
+                states = pmsContext.States.Where(x => x.IsActive && x.CountryID == id)
+                           .Select(x => new PmsEntity.State
+                           {
+                               ID = x.ID,
+                               Name = x.Name,
+                               CountryId = x.CountryID.Value
+                           }).ToList();
+                    
+            }
+
+            return states;
+        }
+
+        public List<PmsEntity.City> GetCityByState(int id)
+        {
+            var city = new List<PmsEntity.City>();
+            using (var pmsContext = new PmsEntities())
+            {
+                city = pmsContext.Cities.Where(x => x.IsActive && x.StateID == id)
+                           .Select(x => new PmsEntity.City
+                           {
+                               Id = x.ID,
+                               Name = x.Name,
+                               StateId = x.StateID,
+                               CountryId = x.CountryID
+                           }).ToList();
+
+            }
+            return city;
+        }
+
+        public List<PmsEntity.Country> GetCountry()
+        {
+            var country = new List<PmsEntity.Country>();
+            using (var pmsContext = new PmsEntities())
+            {
+                country = pmsContext.Countries.Where(x => x.IsActive)
+                           .Select(x => new PmsEntity.Country
+                           {
+                               Id = x.ID,
+                               Name = x.Name
+                           }).ToList();
+
+            }
+            return country;
         }
     }
 }

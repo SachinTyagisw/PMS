@@ -20,8 +20,20 @@
             OnGetRoomByDateFailure: null,
             OnGetGuestHistoryByIdSuccess: null,
             OnGetGuestHistoryByIdFailure: null,
+            OnGetCountryFailure: null,
+            OnGetCountrySuccess: null,
+            OnGetStateByCountryFailure: null,
+            OnGetStateByCountrySuccess: null,
         };
 
+
+        this.GetStateByCountry = function (args) {
+            makeAjaxRequestGet(args, "GetStateByCountry", this, "api/v1/Booking/GetStateByCountry?id=" + args.Id);
+        };
+
+        this.GetCountry = function (args) {
+            makeAjaxRequestGet(args, "GetCountry", this, "api/v1/Booking/GetCountry");
+        };
 
         this.GetGuestHistoryById = function (args) {
             makeAjaxRequestGet(args, "GetGuestHistoryById", this, "api/v1/Guest/GetGuestHistoryById/" + args.guestId);

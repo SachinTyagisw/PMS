@@ -3,8 +3,6 @@
     ViewBag.Title = "DashBoard";
 }
 
-
-
 <div class="content-wrap"><ng-view></ng-view></div>
     <script type="text/ng-template" id="Calendar.html">
         <div class="room-filter">
@@ -21,8 +19,27 @@
         </div>
       
         <div class="cal-right">
+            <div class="tab-section">
+                <div class="col-lg-3 p-r-0 p-l-0 form-group">
+                    <input id="searchRoom" type="text" ng-keyup="filterRoom()" placeholder="Search Room..." class="form-control" name="example-input-normal">
+                </div>
+                <div class="col-lg-9 p-r-0">
+
+                    <div class="c-tabs">
+                        <input id="c-tab-6" ng-click="setCalendarView('today')" name="c-tabs-2" type="radio" checked>
+                        <label for="c-tab-6">Today</label>
+                        <input id="c-tab-8" ng-click="setCalendarView('daily')" name="c-tabs-2" type="radio">
+                        <label for="c-tab-8">Daily</label>
+                        <input id="c-tab-9" ng-click="setCalendarView('weekly')" name="c-tabs-2" type="radio">
+                        <label for="c-tab-9">Weekly</label>
+                        <input id="c-tab-10" ng-click="setCalendarView('monthly')" name="c-tabs-2" type="radio">
+                        <label for="c-tab-10">Monthly</label>
+                    </div>
+
+                </div>
+            </div>
             @*<daypilot-scheduler id="dp" daypilot-config="config" daypilot-events="events"></daypilot-scheduler>*@
-            <daypilot-scheduler id="scheduler"  daypilot-config="schedulerConfig" daypilot-events="events"></daypilot-scheduler>
+            <daypilot-scheduler cellwidthspec="Auto" id="scheduler" daypilot-config="schedulerConfig" daypilot-events="events"></daypilot-scheduler>
             @*<div>
                 New event:
                 <button ng-click="add()">Add</button>

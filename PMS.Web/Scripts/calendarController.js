@@ -3,39 +3,14 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     var dpRoomsResponseDto = [];
     var pmsSession = window.PmsSession;
     var propertyId = pmsSession.GetItem("propertyid");
-    //dp test data
-    //var dummyBookingData = [
-    //                            {
-    //                                start: new DayPilot.Date("2017-04-20T10:00:00"),
-    //                                end: new DayPilot.Date("2017-04-20T11:00:00"),
-    //                                id: DayPilot.guid(),
-    //                                text: "First Event123",
-    //                                tags: {
-    //                                    status: "confirmed"
-    //                                },
-    //                                resource: 1
-    //                            }
-    //];
-
-    //dummy data
-    //$scope.config = {
-    //    scale: "Day",
-    //    days: 10,
-    //    startDate: DayPilot.Date.today(),
-    //    timeHeaders: [
-    //        { groupBy: "Month" },
-    //        { groupBy: "Day", format: "d" }
-    //    ],
-    //    resources: [
-    //        { name: "Room B", id: 1 },
-    //        { name: "Room C", id: 2 },
-    //        { name: "Room D", id: 3 },
-    //        { name: "Room E", id: 4 }
-    //    ]
-    //};    
-
+    $scope.duration = 'today';
+    $scope.roomType = 0;
+    $scope.scale = "hour";
+    $scope.cellWidthSpec = '200';
     var onUpdateBookingSuccess = function (response) {
-
+        if (response && response.data && response.data.ResponseStatus){
+            $scope.message = response.data.StatusDescription;
+        }        
     };
 
     var onUpdateBookingError = function (reason) {
@@ -70,12 +45,21 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         $scope.error = reason;
         $log.error(reason);
     };
-
-    $scope.roomType = 0;
+    
     $scope.$watch("roomType", function () {
         loadRooms();
     });
     
+    $scope.filterRoom = function () {        
+        loadRooms();
+    };
+
+    $scope.setCalendarView = function(duration) {
+        $scope.duration = duration;
+        setSchedulerScale(duration);
+        loadEvents(DayPilot.Date.today());
+    };
+
     $scope.changeRoomType = function () {
         loadRooms();
     };
@@ -107,21 +91,12 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
 
     $scope.message = function () {
         $scope.scheduler.message("Hi");
-    };
-  
-    $scope.scale = "hours";
-    $scope.businessOnly = true;
+    };  
 
     $scope.$watch("scale", function () {
         $scope.schedulerConfig.timeline = getTimeline($scope.scheduler.visibleStart());
         $scope.schedulerConfig.timeHeaders = getTimeHeaders();
         $scope.schedulerConfig.scrollToAnimated = "fast";
-        $scope.schedulerConfig.scrollTo = $scope.scheduler.getViewPort().start;  // keep the scrollbar position/by date
-    });
-
-    $scope.$watch("businessOnly", function () {
-        $scope.schedulerConfig.timeline = getTimeline($scope.scheduler.visibleStart());
-        $scope.schedulerConfig.scrollToAnimated = false;
         $scope.schedulerConfig.scrollTo = $scope.scheduler.getViewPort().start;  // keep the scrollbar position/by date
     });
 
@@ -143,7 +118,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
 
     $scope.schedulerConfig = {
         visible: false, // will be displayed after loading the resources
-        scale: "Manual",
+        scale: "Manual",      
         timeline: getTimeline(),
         timeHeaders: getTimeHeaders(),
         useEventBoxes: "Never",
@@ -221,53 +196,33 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         },
         
         onTimeRangeSelected: function (args) {
-            
-            //todo: if booking needs to be done by double click
-            var modal = new DayPilot.Modal();
-            modal.top = 100;
-            //modal.right = 4;
-            modal.height = 524;
-            modal.width = 724;
-            modal.css = "icon icon-edit";
-            //modal.onClosed = function (args) {
-            //    loadResources();
-            //};
-            modal.showUrl("localhost:7070");
-
-            var dp = $scope.scheduler;
-
             var params = {
-                start: args.start.toString(),
-                end: args.end.toString(),
+                start: new DayPilot.Date(args.start).toString("MM/dd/yyyy h:mm tt"),
+                end: new DayPilot.Date(args.end).toString("MM/dd/yyyy h:mm tt"),
                 resource: args.resource,
                 scale: $scope.scale
             };
             
-            //todo
-            //$http.post("backend_create.php", params).success(function (data) {
-            //    loadEvents();
-            //    dp.message(data.message);
-            //});
-            loadEvents();
-            dp.message('test data');
-
-            dp.clearSelection();
-
+            pmsSession.RemoveItem("dtcheckin");
+            pmsSession.RemoveItem("dtcheckout");
+            pmsSession.SetItem("dtcheckin", params.start);
+            pmsSession.SetItem("dtcheckout", params.end);
+            redirectionSvc.RedirectToCheckin();
         },
     };
 
-    $scope.clear = function () {
-        var dp = $scope.scheduler;
-        var params = {
-            start: dp.visibleStart(),
-            end: dp.visibleEnd()
-        };
-        //todo
-        $http.post("backend_clear.php", params).success(function (data) {
-            dp.message(data.message);
-            loadEvents();
-        });
-    };
+    //$scope.clear = function () {
+    //    var dp = $scope.scheduler;
+    //    var params = {
+    //        start: dp.visibleStart(),
+    //        end: dp.visibleEnd()
+    //    };
+    //    //todo
+    //    $http.post("backend_clear.php", params).success(function (data) {
+    //        dp.message(data.message);
+    //        loadEvents();
+    //    });
+    //};
 
     $timeout(function () {
         dp = $scope.scheduler;  // debug
@@ -301,10 +256,11 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     }
 
     function convertRoomResponseToDayPilotResponse(roomsResponse) {
-        dpRoomsResponseDto = [];
+        var searchvalue = $('#searchRoom').val();
+        dpRoomsResponseDto = [];        
         for (var i = 0; i < roomsResponse.length; i++) {
             var room = roomsResponse[i];
-            if (!room) continue;
+            if (!room || (searchvalue && searchvalue.length > 0 && room.Number.toLowerCase().indexOf(searchvalue.toLowerCase()) < 0)) continue;
 
             var dpRoomData = {};
             dpRoomData.name = room.Number;
@@ -316,13 +272,13 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     }
 
     function loadEvents(day) {
-        var from = $scope.scheduler.visibleStart();
-        var to = $scope.scheduler.visibleEnd();
-        if (day) {
-            from = new DayPilot.Date(day).firstDayOfMonth();
-            to = from.addMonths(1);
+        var duration = getDaysBasedOnDuration();
+        var from = new DayPilot.Date(day);
+        //var to = $scope.scheduler.visibleEnd();
+        if (!day) {
+            from = $scope.scheduler.visibleStart();            
         }
-
+        var to = from.addDays(duration);
         var params = {
             start: from.toString(),
             end: to.toString()
@@ -351,66 +307,112 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
             response.Rooms = JSON.parse(roomData);
             onGetRoomSuccess(response);
         }
-       
+    }    
+
+    function getDaysBasedOnDuration() {        
+        if ($scope.duration === 'daily') return 1;
+        if ($scope.duration === 'weekly') return 7;
+        if ($scope.duration === 'monthly') return 30;
+        else return 1;
     }
 
-    function getTimeline(date) {
-        var date = date || DayPilot.Date.today();
+    function setSchedulerScale(duration) {
+        if (duration === 'today') $scope.scale = "hour";
+        if (duration === 'daily') $scope.scale = "hour";
+        if (duration === 'weekly') $scope.scale = "week";
+        if (duration === 'monthly') $scope.scale = "month";
+    }
+
+    function getTimeline(selecteddate) {
+        var date = null;
+        if ($scope.duration === 'today') {
+            date = DayPilot.Date.today();
+        } else {
+            date = selecteddate || DayPilot.Date.today();
+        }
+         
         //var start = new DayPilot.Date(date).firstDayOfMonth();
         var start = new DayPilot.Date(date);
-        //var days = start.daysInMonth();
-         //TODO : days to be implement on the basis of UI selection
-        var days = 7;
+        //days on the basis of UI selection
+        var days = getDaysBasedOnDuration();
         var morningShiftStarts = 0;
         var morningShiftEnds = 24;
         var afternoonShiftStarts = 12;
         var afternoonShiftEnds = 24;
-
-        //if (!$scope.businessOnly) {
-        //    var morningShiftStarts = 0;
-        //    var morningShiftEnds = 12;
-        //    var afternoonShiftStarts = 12;
-        //    var afternoonShiftEnds = 24;
-        //}
-
         var timeline = [];
         var increaseMorning;  // in hours
         var increaseAfternoon;  // in hours
         switch ($scope.scale) {
-            case "hours":
+            case "hour":
                 increaseMorning = 1;
                 increaseAfternoon = 1;
                 break;
-            case "shifts":
-                increaseMorning = morningShiftEnds - morningShiftStarts;
-                increaseAfternoon = afternoonShiftEnds - afternoonShiftStarts;
+            case "week":
+                increaseMorning = 1;
+                increaseAfternoon = 1;
                 break;
             default:
                 throw "Invalid scale value";
         }
 
-        for (var i = 0; i < days; i++) {
-            var day = start.addDays(i);
-
-            for (var x = morningShiftStarts; x < morningShiftEnds; x += increaseMorning) {
-                timeline.push({ start: day.addHours(x), end: day.addHours(x + increaseMorning) });
+        if (days === 1) {
+            for (var i = 0; i < days; i++) {
+                var day = start.addDays(i);
+                for (var x = morningShiftStarts; x < morningShiftEnds; x += increaseMorning) {
+                    timeline.push({ start: day.addHours(x), end: day.addHours(x + increaseMorning) });
+                }
             }
-            //for (var x = afternoonShiftStarts; x < afternoonShiftEnds; x += increaseAfternoon) {
-            //    timeline.push({ start: day.addHours(x), end: day.addHours(x + increaseAfternoon) });
-            //}
+        } else {
+            for (var i = 0; i < days; i++) {
+                var day = start.addDays(i);
+                timeline.push({ start: day, end: day.addDays(1) });
+            }
         }
         return timeline;
     }
 
     function getTimeHeaders() {
         switch ($scope.scale) {
-            case "hours":
+            case "hour":
                 return [{ groupBy: "Month" }, { groupBy: "Day", format: "dddd dd" }, { groupBy: "Hour", format: "h tt" }];
                 break;
-            case "shifts":
-                return [{ groupBy: "Month" }, { groupBy: "Day", format: "dddd d" }, { groupBy: "Cell", format: "tt" }];
+            case "month":
+                return [{ groupBy: "Month" }, { groupBy: "Day", format: "dddd d" }];
+                break;
+            case "week":
+                return [{ groupBy: "Month" }, { groupBy: "Day", format: "dddd d" }];
                 break;
         }
     }
-
 }]);
+
+//dp test data
+//var dummyBookingData = [
+//                            {
+//                                start: new DayPilot.Date("2017-04-20T10:00:00"),
+//                                end: new DayPilot.Date("2017-04-20T11:00:00"),
+//                                id: DayPilot.guid(),
+//                                text: "First Event123",
+//                                tags: {
+//                                    status: "confirmed"
+//                                },
+//                                resource: 1
+//                            }
+//];
+
+//dummy data
+//$scope.config = {
+//    scale: "Day",
+//    days: 10,
+//    startDate: DayPilot.Date.today(),
+//    timeHeaders: [
+//        { groupBy: "Month" },
+//        { groupBy: "Day", format: "d" }
+//    ],
+//    resources: [
+//        { name: "Room B", id: 1 },
+//        { name: "Room C", id: 2 },
+//        { name: "Room D", id: 3 },
+//        { name: "Room E", id: 4 }
+//    ]
+//};    

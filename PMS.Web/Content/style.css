@@ -37,7 +37,8 @@
 }
 .card-header h4 {
     display: inline-block;
-    padding: 3px 8px 1px;
+    padding: 3px 8px 1px 0px;
+    font-size: 15px;
 
 }
 .card-header p {
@@ -691,7 +692,7 @@ a.dt-button.active:not(.disabled) {
 .header-icon:hover,
 .header-icon:focus,
 .header-icon.active {
-  background: #3B3F51;
+  background: #fff;
 }
 .header-icon.active .drop-down {
   visibility: visible;
@@ -760,8 +761,8 @@ a.dt-button.active:not(.disabled) {
 }
 .user-avatar {
   margin-left: 10px;
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 100;
 }
 .notification-text {
   font-size: 12px;
@@ -812,11 +813,12 @@ a.dt-button.active:not(.disabled) {
 }
 .dropdown-profile li a span {
   font-family: 'Montserrat', sans-serif;
-  font-size: 14px;
+  font-size: 12px;
+  font-weight:100;
 }
 .dropdown-profile li a i {
   margin-right: 5px;
-  font-size: 14px;
+  font-size: 12px;
 }
 .dropdown-profile li:last-child {
   padding: 7px 15px;
@@ -1392,7 +1394,7 @@ footer p {
   font-size: 12px;
 }
 #invoice-table h2 {
-  font-size: 18px;
+  font-size: 12px;
 }
 .tabletitle {
   padding: 5px;
@@ -1667,10 +1669,11 @@ footer p {
 /*    Input Style
 ------------------------*/
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 .form-control {
-  height: 38px;
+  height: 30px;
+  font-size:12px;
   min-width: 56px;
   border-radius: 3px;
   box-shadow: none;
@@ -2416,7 +2419,7 @@ ul {
   border-radius: 3px;
 }
 .card-section {
-  min-height: 735px;
+  min-height: 680px;
 }
 textarea.form-control {
     min-height: 100px;
@@ -2997,12 +3000,13 @@ tbody tr td:last-child {
   color: #444444;
 }
 .booking-system-feedback {
-  bottom: 5px !important;
+  bottom: -2px;
   right: 15px;
   top: inherit;
 }
 .cal-pos {
-  top: 0;
+  top: -2px;
+  right: 0;
 }
 .booking-system-top {
   padding-top: 15px;
@@ -3114,8 +3118,10 @@ tbody tr td:last-child {
 }
 body {
   font-family: 'Montserrat', sans-serif;
+  font-size:12px;
   background: #f0f0f0;
   color: #878787;
+  height: 100%;
 }
 .controls .add-btn button {
   border: 0 none;
@@ -3991,6 +3997,205 @@ p
 	bottom: -40px;
 	text-shadow: 0px 3px 6px rgba(0,0,0,0.2);
 }
+
+.room-filter {
+    width: 97.7%;
+    box-shadow: rgba(0, 0, 0, 0.26) 0px 2px 5px 0px;
+    margin: 14px 0px 10px 20px;
+    background: rgb(255, 255, 255);
+    padding: 10px;
+}
+.room-filter select {
+    width: 200px;
+    height: 38px;
+    min-width: 56px;
+    box-shadow: none;
+    color: rgb(59, 63, 81);
+    font-family: MontserratLight, sans-serif;
+    background-color: rgb(255, 255, 255);
+    border-radius: 3px;
+    padding: 6px 2px 6px 4px;
+    border-color: rgb(59, 63, 81);
+}
+.cal-left {
+    width: 182px;
+    display: inline-block;
+    margin-left: 20px;
+    margin-right: 6px;
+    box-shadow: rgba(0, 0, 0, 0.26) 0px 2px 5px 0px;
+    background: rgb(255, 255, 255);
+    padding: 20px;
+}
+#navigator {
+    width: 142px;
+}
+.navigator_default_main {
+    background-color: white;
+    color: rgb(0, 0, 0);
+    border-left: 1px solid rgb(160, 160, 160);
+    border-right: 1px solid rgb(160, 160, 160);
+    border-bottom: 1px solid rgb(160, 160, 160);
+}
+.cal-right {
+    width: 82.9%;
+    display: inline-block;
+    vertical-align: top;
+    box-shadow: rgba(0, 0, 0, 0.26) 0px 2px 5px 0px;
+    background: rgb(255, 255, 255);
+    padding: 20px;
+}
+.scheduler_default_main {
+    box-sizing: content-box;
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(170, 170, 170);
+    border-image: initial;
+}
+/*-- Tabs CSS --*/
+.room-filter {
+    width: 97.7%;
+    box-shadow: rgba(0, 0, 0, 0.26) 0px 2px 5px 0px;
+    margin: 14px 0px 10px 20px;
+    background: rgb(255, 255, 255);
+    padding: 10px;
+}
+.room-filter select {
+    width: 200px;
+    height: 30px;
+    min-width: 56px;
+    box-shadow: none;
+    color: rgb(59, 63, 81);
+    font-family: MontserratLight, sans-serif;
+    background-color: rgb(255, 255, 255);
+    border-radius: 3px;
+    padding: 6px 2px 6px 4px;
+    border-color: rgb(59, 63, 81);
+}
+.cal-left {
+    width: 182px;
+    display: inline-block;
+    margin-left: 20px;
+    margin-right: 6px;
+    box-shadow: rgba(0, 0, 0, 0.26) 0px 2px 5px 0px;
+    background: rgb(255, 255, 255);
+    padding: 20px;
+}
+#navigator {
+    width: 142px!important;
+}
+.navigator_default_main {
+    background-color: white;
+    color: rgb(0, 0, 0);
+    border-left: 1px solid rgb(160, 160, 160);
+    border-right: 1px solid rgb(160, 160, 160);
+    border-bottom: 1px solid rgb(160, 160, 160);
+}
+.cal-right {
+    width: 82.9%;
+    display: inline-block;
+    vertical-align: top;
+    box-shadow: rgba(0, 0, 0, 0.26) 0px 2px 5px 0px;
+    background: rgb(255, 255, 255);
+    padding: 20px;
+}
+.scheduler_default_main {
+    box-sizing: content-box;
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(170, 170, 170);
+    border-image: initial;
+}
+
+.tab-section {
+    height: 40px;
+    margin-bottom:10px;
+}
+.c-tabs {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.c-tabs [id*='-tab-content-'] {
+  display: none;
+}
+
+.c-tabs input[type='checkbox'],
+.c-tabs input[type='radio'] {
+  display: none;
+}
+
+.c-tabs label {
+  flex: 1;
+  padding: 6px 0;
+  text-align: center;
+  color: #59d;
+  border: 1px solid #59d;
+  border-left-width: 0;
+}
+
+.c-tabs label:nth-child(2) {
+  border-left-width: 1px;
+}
+
+.c-tabs input:checked + label {
+  color: #fff;
+  background: #59d;
+}
+
+
+
+/***************************************
+ *
+ * Helper Classes
+ *
+ */
+
+
+
+.c-tabs-content label {
+  border: 0;
+}
+
+.c-tabs-minimal label {
+  flex: none;
+  padding: 10px;
+}
+
+
+
+/***************************************
+ *
+ * Content
+ *
+ */
+
+
+
+.c-content {
+  display: none;
+  width: 100%;
+  padding: 15px;
+  background: #eee;
+}
+
+#c-tab-11:checked ~ #c-content-11,
+#c-tab-12:checked ~ #c-content-12,
+#c-tab-13:checked ~ #c-content-13,
+#c-tab-14:checked ~ #c-content-14,
+#c-tab-15:checked ~ #c-content-15,
+#c-tab-16:checked ~ #c-content-16,
+#c-tab-17:checked ~ #c-content-17,
+#c-tab-18:checked ~ #c-content-18,
+#c-tab-19:checked ~ #c-content-19,
+#c-tab-20:checked ~ #c-content-20 {
+  display: block;
+}
+
 
 @media screen and (max-width: 768px) {
   .main-content .col-lg-6.p-l-0-tab {

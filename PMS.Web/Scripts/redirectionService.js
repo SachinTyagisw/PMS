@@ -1,11 +1,8 @@
 angular.module('calendarApp')
-    .service('redirectionSvc', ['$location', function ($location) {
+    .service('redirectionSvc', ['$location', '$window', function ($location, $window) {
         return {
-            'RedirectToHome': function () {
-                $location.url("/view/Home");
-            },
-            'RedirectToProduct': function () {
-                $location.url("/view/Product");
+            'RedirectToCheckin': function () {
+                $window.location.href = '/PMSWeb/Booking/Checkin';
             },
             'RedirectToLogin': function () {
                 $location.url("/");

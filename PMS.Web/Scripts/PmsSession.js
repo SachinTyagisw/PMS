@@ -1,5 +1,8 @@
-﻿(function (win) {
+﻿(function (win) {    
+
     var pmsSession = {
+
+        CountrySessionKey : [],
 
         SetItem: function (key, value) {
             if (typeof (Storage) !== "undefined") {

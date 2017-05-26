@@ -595,6 +595,12 @@
           <Parameter Name="propertyID" Type="int" Mode="In" />
           <Parameter Name="bookingXML" Type="xml" Mode="In" />
         </Function>
+        <Function Name="UpdateBooking" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="BOOKINGID" Type="int" Mode="In" />
+          <Parameter Name="CHECKINTIME" Type="datetime" Mode="In" />
+          <Parameter Name="CHECKOUTTIME" Type="datetime" Mode="In" />
+          <Parameter Name="RoomID" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="PmsModelStoreContainer">
           <EntitySet Name="AdditionalGuests" EntityType="Self.AdditionalGuests" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
@@ -1463,6 +1469,12 @@
             <Parameter Name="propertyID" Mode="In" Type="Int32" />
             <Parameter Name="bookingXML" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="UpdateBooking">
+            <Parameter Name="BOOKINGID" Mode="In" Type="Int32" />
+            <Parameter Name="CHECKINTIME" Mode="In" Type="DateTime" />
+            <Parameter Name="CHECKOUTTIME" Mode="In" Type="DateTime" />
+            <Parameter Name="RoomID" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="GETALLBOOKINGS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -1850,6 +1862,7 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="InsertBooking" FunctionName="PmsModel.Store.InsertBooking" />
+          <FunctionImportMapping FunctionImportName="UpdateBooking" FunctionName="PmsModel.Store.UpdateBooking" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
