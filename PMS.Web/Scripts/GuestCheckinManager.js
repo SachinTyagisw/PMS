@@ -1,7 +1,8 @@
 ﻿(function (win) {
     var pmsService = new window.PmsService();
     var pmsSession = window.PmsSession;
-    var args = {};    
+    var args = {};
+    var isDdlCountryChange = null;
     var guestCheckinManager = {
         
         Initialize: function () {                       
@@ -75,19 +76,21 @@
             }
         },
 
-        BindStateDdl: function () {
-            var ddlCountry = $('#ddlCountry');
-            var ddlState = $('#ddlState');
+        BindStateDdl: function (idx) {
+
+            var ddlCountry = isDdlCountryChange ? $('#ddlCountry') : $('#ddlIdCountry');
+            var ddlState = isDdlCountryChange ? $('#ddlState') : $('#ddlIdState');
             var stateData = pmsSession.GetItem("statedata");
             if (!ddlCountry || !ddlState  || !stateData) return;
 
-            var state = $.parseJSON(stateData);
-            if (!state || state.length <= 0) return;
+            var stateSessionData = $.parseJSON(stateData);
+            if (!stateSessionData || stateSessionData.length <= 0) return;
+            var stateValue = stateSessionData[idx].statevalue;
 
             ddlState.empty();
             ddlState.append(new Option("Select State", "-1"));
-            for (var i = 0; i < state.length; i++) {
-                ddlState.append(new Option(state[i].Name, state[i].ID));
+            for (var i = 0; i < stateValue.length; i++) {
+                ddlState.append(new Option(stateValue[i].Name, stateValue[i].ID));
             }
         },
 
@@ -174,10 +177,24 @@
             }
         },
 
-        GetStateByCountry: function () {
-            args.Id = $('#ddlCountry').val();
+        GetStateByCountry: function (ddlCountryChange) {
+            isDdlCountryChange = ddlCountryChange
+            args.Id = isDdlCountryChange ? $('#ddlCountry').val() : $('#ddlIdCountry').val();
             // get state by api calling  
             pmsService.GetStateByCountry(args);
+        },
+
+        CheckIfKeyPresent: function (key, object) {
+            var idx = -1;
+            var found = false;
+            if (object.length <= 0) return idx;
+
+            for (var i = 0; i < object.length; i++) {
+                if (!object[i] || !object[i].countrykey || object[i].countrykey !== key) continue;
+                idx = i;
+                break;
+            }
+            return idx;
         }
     };
     
@@ -598,9 +615,22 @@
 
         pmsService.Handlers.OnGetStateByCountrySuccess = function (data) {
             if (!data || !data.States || data.States.length <= 0) return;
-
-            pmsSession.SetItem("statedata", JSON.stringify(data.States));
-            window.GuestCheckinManager.BindStateDdl();
+            
+            var countryId = isDdlCountryChange ? $('#ddlCountry').val() : $('#ddlIdCountry').val();
+            
+            var idx = gcm.CheckIfKeyPresent(countryId, pmsSession.CountrySessionKey);
+            // store state data in session storage only when country key is not present
+            if (idx === -1) {
+                pmsSession.CountrySessionKey.push({
+                    countrykey: countryId,
+                    statevalue: data.States
+                });
+                pmsSession.SetItem("statedata", JSON.stringify(pmsSession.CountrySessionKey));
+                //calculating the index of the statedata added in session above
+                idx = pmsSession.CountrySessionKey.length - 1;
+            }
+            
+            window.GuestCheckinManager.BindStateDdl(idx);
         };
         pmsService.Handlers.OnGetStateByCountryFailure = function () {
             // show error log
