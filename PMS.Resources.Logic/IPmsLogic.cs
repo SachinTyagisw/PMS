@@ -53,5 +53,8 @@ namespace PMS.Resources.Logic
         List<PmsEntity.RewardCategory> GetAllRewardCategory();
         List<PmsEntity.Room> GetRoomByDate(GetRoomByDateRequestDto request);
         List<PmsEntity.Booking> GetGuestHistory(int guestId);
+        List<PmsEntity.State> GetStateByCountry(int id);
+        List<PmsEntity.City> GetCityByState(int id);
+        List<PmsEntity.Country> GetCountry();
     }
 }

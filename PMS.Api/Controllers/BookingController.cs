@@ -63,6 +63,24 @@ namespace PMS.Api.Controllers
              "api/v1/Booking/UpdateBooking",
              new { controller = "Booking", action = "UpdateBooking" }
              );
+
+            config.Routes.MapHttpRoute(
+             "GetStateByCountry",
+             "api/v1/Booking/GetStateByCountry",
+             new { controller = "Booking", action = "GetStateByCountry" }
+             );
+
+            config.Routes.MapHttpRoute(
+             "GetCityByState",
+             "api/v1/Booking/GetCityByState",
+             new { controller = "Booking", action = "GetCityByState" }
+             );
+
+            config.Routes.MapHttpRoute(
+             "GetCountry",
+             "api/v1/Booking/GetCountry",
+             new { controller = "Booking", action = "GetCountry" }
+             );
         }
 
         [HttpPut, ActionName("UpdateBooking")]
@@ -213,5 +231,47 @@ namespace PMS.Api.Controllers
           }
             return response;
         }
+
+        [HttpGet, ActionName("GetStateByCountry")]
+        public GetStateResponseDto GetStateByCountry()
+        {
+            var response = new GetStateResponseDto();
+            var queryParams = Request.GetQueryNameValuePairs();
+            var countryId = queryParams.FirstOrDefault(x => x.Key == "id").Value;
+            int id;
+            
+            if (!int.TryParse(countryId, out id) || id <= 0)
+            {
+                throw new PmsException("Incorrect country id");
+            }
+         
+            response.States = _iPmsLogic.GetStateByCountry(id);
+            return response;
+        }
+
+        [HttpGet, ActionName("GetCityByState")]
+        public GetCityResponseDto GetCityByState()
+        {
+            var response = new GetCityResponseDto();
+            var queryParams = Request.GetQueryNameValuePairs();
+            var stateId = queryParams.FirstOrDefault(x => x.Key == "id").Value;
+            int id;
+
+            if (!int.TryParse(stateId, out id) || id <= 0)
+            {
+                throw new PmsException("Incorrect state id");
+            }
+
+            response.City = _iPmsLogic.GetCityByState(id);
+            return response;
+        }
+
+        [HttpGet, ActionName("GetCountry")]
+        public GetCountryResponseDto GetCountry()
+        {
+            var response = new GetCountryResponseDto();
+            response.Country = _iPmsLogic.GetCountry();
+            return response;
+        }        
     }
 }
