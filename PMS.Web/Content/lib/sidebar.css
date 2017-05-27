@@ -18,11 +18,11 @@
 
 .sidebar {
     position: fixed;
-    top: 24px;
+    top: 14px;
     left: 0;
     bottom: 0;
     width: 250px;
-    background: #fff;
+    background: #57666d;
     font-size: 14px;
     z-index: 100;
     overflow: auto;
@@ -89,7 +89,7 @@
 .sidebar .nano-content > ul li > a {
     display: block;
     cursor: pointer;
-    color: #878787;
+    color: #fff;
     padding: 10px;
     line-height: 20px;
     border-bottom: none;
@@ -231,7 +231,7 @@ body {
 
 .sidebar-hide .sidebar.sidebar-hide-to-small {
     position: absolute;
-    width: 60px;
+    width: 46px;
     left: 0;
 }
 
@@ -243,7 +243,7 @@ body {
 }
 
 .sidebar-hide .sidebar.sidebar-hide-to-small .nano-content > ul {
-    width: 60px;
+    width: 46px;
 }
 
 .sidebar-hide .sidebar.sidebar-hide-to-small .nano-content > ul .label,
@@ -324,7 +324,7 @@ body {
 
 .sidebar.sidebar-shrink ~ .content-wrap {
     margin-left: 0;
-    padding-top: 50px;
+    padding-top: 40px;
     margin-bottom: 52px;
     transition: margin-left 300ms ease-in-out;
 }
@@ -334,7 +334,7 @@ body {
 }
 
 .sidebar-hide .sidebar.sidebar-shrink.sidebar-hide-to-small ~ .content-wrap {
-    margin-left: 60px;
+    margin-left: 46px;
 }
 
 
@@ -616,7 +616,8 @@ html.rtl .sidebar-hide .sidebar.sidebar-shrink.sidebar-hide-to-small ~ .content-
 
 
 .hamburger .line {
-    background-color: #222533;
+    /*background-color: #222533;*/
+    background-color: #fff;
     display: block;
     height: 3px;
     margin: 4px auto;

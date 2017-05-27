@@ -40,13 +40,13 @@
     _this.$nano.nanoScroller({ preventPageScrolling: true });
 
     // sidebar toggle
-    $('.sidebar-toggle').on( 'click', function(e) {
+    $('.sidebar-toggle').on('mouseover', function (e) {
       e.preventDefault();
       _this.togglesidebar();
     });
 
     // hide sidebar when push content overlay
-    _this.$content.on( 'click', function() {
+    _this.$content.on('mouseover', function () {
       if( _this.isHideOnContentClick() ) {
         _this.hidesidebar();
       }
