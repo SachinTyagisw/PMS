@@ -231,6 +231,11 @@ namespace PMS.Resources.Logic
         {
             return DalFactory.GetCountry();
         }
+        public List<PmsEntity.Guest> GetAllGuest()
+        {
+            return DalFactory.GetAllGuest();
+        }
+
 
         #region helper methods 
         private string RemoveXmlDefaultNode(string xml)

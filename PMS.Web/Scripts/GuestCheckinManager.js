@@ -10,6 +10,7 @@
             getRoomTypes();
             getRoomRateTypes();
             getCountry();
+            getAllGuest();
             //getRooms();
         },
 
@@ -332,6 +333,14 @@
             window.GuestCheckinManager.BindRoomTypeDdl();
         }
     }
+        
+    function getAllGuest() {
+        var guestData = pmsSession.GetItem("guestinfo");
+        if (!guestData) {
+            // get guest by api calling  
+            pmsService.GetGuest(args);
+        }
+    }
 
     function getCountry() {
         var countryData = pmsSession.GetItem("countrydata");
@@ -635,6 +644,15 @@
         pmsService.Handlers.OnGetStateByCountryFailure = function () {
             // show error log
             console.error("get state call failed");
+        };
+
+        pmsService.Handlers.OnGetGuestSuccess = function (data) {
+            if (!data || !data.Guest || data.Guest.length <= 0) return;
+            pmsSession.SetItem("guestinfo", JSON.stringify(data.Guest));
+        };
+        pmsService.Handlers.OnGetGuestFailure = function () {
+            // show error log
+            console.error("get guest call failed");
         };
 
         // ajax handlers end

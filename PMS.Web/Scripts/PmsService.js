@@ -24,8 +24,13 @@
             OnGetCountrySuccess: null,
             OnGetStateByCountryFailure: null,
             OnGetStateByCountrySuccess: null,
+            OnGetGuestFailure: null,
+            OnGetGuestSuccess: null,            
         };
 
+        this.GetGuest = function (args) {
+            makeAjaxRequestGet(args, "GetGuest", this, "api/v1/Guest/GetAllGuest");
+        };
 
         this.GetStateByCountry = function (args) {
             makeAjaxRequestGet(args, "GetStateByCountry", this, "api/v1/Booking/GetStateByCountry?id=" + args.Id);
