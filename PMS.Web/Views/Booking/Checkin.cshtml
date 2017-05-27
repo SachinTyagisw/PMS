@@ -2,8 +2,29 @@
         ViewBag.Title = "Guest Checkin";
     }
     <script type='text/javascript'>
+
         var gcm = window.GuestCheckinManager;
         var pmsSession = window.PmsSession;
+        
+
+        function OnHourlyCheckInChange() {
+            var cmbHours = document.getElementById("hoursComboBox");
+            var chkHours = document.getElementById('hourCheckin');
+            var checkOutDate = document.getElementById('dateTo');
+            var checkInDate = document.getElementById('dateFrom');
+
+            var dt = new Date($('#dateFrom').val());
+            dt.setHours(dt.getHours() + 4);
+            alert(dt);
+
+            checkOutDate.value = dt;
+            
+            //alert(checkInDate.nodeValue);
+
+            cmbHours.disabled = hourCheckin.checked ? false : true;
+            checkOutDate.disabled = hourCheckin.checked ? true : false;
+        };
+        
 
         function OnCountryChange(isDdlCountryChange) {
             var idx = -1;
