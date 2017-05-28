@@ -1,12 +1,4 @@
-﻿<script type='text/javascript'>
-    var gcm = window.GuestCheckinManager;
-    function OnHistoryClick() {
-        // call api only when expand event is fire
-        if ($('#collapse1').attr('aria-expanded') != 'false') return;
-        gcm.GetGuestHistory();
-    }
-</script>
-<div class="panel-group col-lg-12">
+﻿<div class="panel-group col-lg-12">
     <div class="panel panel-default">
         <div class="panel-heading">
             <h4 class="panel-title"><a id="history" onclick="OnHistoryClick();" data-toggle="collapse" href="#collapse1" class="collapsed" aria-expanded="false">Guest History</a></h4>

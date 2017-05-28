@@ -166,8 +166,6 @@
         
         GetGuestHistory: function () {
             args.guestId = $('#hdnGuestId').val() == '' ? -1 : $('#hdnGuestId').val();
-            //for testing purpose
-            //args.guestId = 44;
             if (args.guestId != -1) {
                 var data = $.parseJSON(pmsSession.GetItem("guesthistory"));
                 if (!data) {
@@ -202,9 +200,35 @@
                     idx = i;
                     break;
                 }
-            }
-            
+            }            
             return idx;
+        },
+
+        SearchGuest: function () {
+            var data = $.parseJSON(pmsSession.GetItem("guestinfo"));
+            // if no guest info found in session storage then return null
+            if (!data || data.length <= 0) return data;
+            var filtereGuestdata = [];
+            var searchText = $('#searchGuest').val().toLowerCase();
+            for (var i = 0; i < data.length; i++) {
+                // lookup for fname,lname,guestid,email,mobile#
+                if (!data[i] || (data[i].FirstName.toLowerCase().indexOf(searchText) < 0 && data[i].LastName.toLowerCase().indexOf(searchText) < 0
+                    && data[i].EmailAddress.toLowerCase().indexOf(searchText) < 0 && data[i].MobileNumber.toString().indexOf(searchText) < 0) && data[i].Id.toString().indexOf(searchText) < 0 ) continue;
+
+                    filtereGuestdata.push(data[i]);
+            }
+
+            if (filtereGuestdata.length <= 0) {
+                $('#fName').val('');
+                $('#lName').val('');
+                $('#phone').val('');
+                $('#email').val('');
+                $('#hdnGuestId').val('');
+                // clear guest history if guest id is not present
+                // TODO turn divHistory collapse
+                $('#divHistory').html('');
+            }
+            return filtereGuestdata;
         }
     };
     
@@ -525,6 +549,10 @@
         $("#dateTo").val('');
         $('#roomTypeDdl').val('-1');
         $('#roomddl').empty();
+        $("#searchGuest").val('');
+        $('#hdnGuestId').val('');
+        // TODO turn divHistory collapse
+        $('#divHistory').html('');
     }
 
     function bindGuestHistory(data){
