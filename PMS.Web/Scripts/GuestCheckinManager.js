@@ -77,10 +77,10 @@
             }
         },
 
-        BindStateDdl: function (idx) {
+        BindStateDdl: function (idx, ddlCountryChange) {
 
-            var ddlCountry = isDdlCountryChange ? $('#ddlCountry') : $('#ddlIdCountry');
-            var ddlState = isDdlCountryChange ? $('#ddlState') : $('#ddlIdState');
+            var ddlCountry = ddlCountryChange ? $('#ddlCountry') : $('#ddlIdCountry');
+            var ddlState = ddlCountryChange ? $('#ddlState') : $('#ddlIdState');
             var stateData = pmsSession.GetItem("statedata");
             if (!ddlCountry || !ddlState  || !stateData) return;
 
@@ -185,16 +185,25 @@
             pmsService.GetStateByCountry(args);
         },
 
-        CheckIfKeyPresent: function (key, object) {
+        CheckIfKeyPresent: function (key, object, shouldCheckCountryKey) {
             var idx = -1;
             var found = false;
             if (object.length <= 0) return idx;
 
-            for (var i = 0; i < object.length; i++) {
-                if (!object[i] || !object[i].countrykey || object[i].countrykey !== key) continue;
-                idx = i;
-                break;
+            if (shouldCheckCountryKey) {
+                for (var i = 0; i < object.length; i++) {
+                    if (!object[i] || !object[i].countrykey || object[i].countrykey !== key) continue;
+                    idx = i;
+                    break;
+                }
+            } else {
+                for (var i = 0; i < object.length; i++) {
+                    if (!object[i] || !object[i].Id || object[i].Id !== key) continue;
+                    idx = i;
+                    break;
+                }
             }
+            
             return idx;
         }
     };
@@ -627,7 +636,7 @@
             
             var countryId = isDdlCountryChange ? $('#ddlCountry').val() : $('#ddlIdCountry').val();
             
-            var idx = gcm.CheckIfKeyPresent(countryId, pmsSession.CountrySessionKey);
+            var idx = gcm.CheckIfKeyPresent(countryId, pmsSession.CountrySessionKey,true);
             // store state data in session storage only when country key is not present
             if (idx === -1) {
                 pmsSession.CountrySessionKey.push({
@@ -639,7 +648,7 @@
                 idx = pmsSession.CountrySessionKey.length - 1;
             }
             
-            window.GuestCheckinManager.BindStateDdl(idx);
+            window.GuestCheckinManager.BindStateDdl(idx, isDdlCountryChange);
         };
         pmsService.Handlers.OnGetStateByCountryFailure = function () {
             // show error log

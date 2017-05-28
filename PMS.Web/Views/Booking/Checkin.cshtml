@@ -5,7 +5,6 @@
 
         var gcm = window.GuestCheckinManager;
         var pmsSession = window.PmsSession;
-        
 
         function OnHourlyCheckInChange() {
             var cmbHours = document.getElementById("hoursComboBox");
@@ -39,12 +38,12 @@
                 var stateData = pmsSession.GetItem("statedata");
                 if (stateData) {
                     var stateSessionData = $.parseJSON(stateData);
-                    idx = gcm.CheckIfKeyPresent(ddlCountry.val(), stateSessionData);
+                    idx = gcm.CheckIfKeyPresent(ddlCountry.val(), stateSessionData, true);
                 }
                 if (idx === -1) {
                     gcm.GetStateByCountry(isDdlCountryChange);
                 } else {
-                    gcm.BindStateDdl(idx);
+                    gcm.BindStateDdl(idx, isDdlCountryChange);
                 }
             }
         }
@@ -121,6 +120,27 @@
             //        }
             //    });
             //});
+            
+            $('#searchGuest').autocomplete({
+                //This shows the min length of charcters that must be typed 
+                //before the autocomplete looks for a match.
+                minLength: 4,
+                source: function (request, response) {
+                    response($.map($.parseJSON(pmsSession.GetItem("guestinfo")), function (value, key) {
+                        return {
+                            label: value.LastName + "," + value.FirstName,
+                            value: value.Id
+                        }
+                    }));
+                },
+                select: function (event, ui) {
+                    var data = $.parseJSON(pmsSession.GetItem("guestinfo"));
+                    idx = gcm.CheckIfKeyPresent(ui.item.value, data, false);
+                    var selectedGuestObject = data[idx];
+                    $('#searchGuest').val(ui.item.label);
+                    return false;
+                }
+            });
 
             $('#phone').keydown(function (e) {
                 if (e.shiftKey || e.ctrlKey || e.altKey) {
