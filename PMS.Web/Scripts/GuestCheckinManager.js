@@ -551,8 +551,9 @@
         $('#roomddl').empty();
         $("#searchGuest").val('');
         $('#hdnGuestId').val('');
-        // TODO turn divHistory collapse
         $('#divHistory').html('');
+        $('#collapse1').attr('aria-expanded', "false");
+        $("#collapse1").attr("class", "panel-collapse collapse");
     }
 
     function bindGuestHistory(data){

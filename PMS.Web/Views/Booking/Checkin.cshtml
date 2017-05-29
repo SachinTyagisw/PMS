@@ -85,6 +85,8 @@
             $('#email').val(data.EmailAddress);
             // clear guest history if guest id is not present
             $('#divHistory').html('');
+            $('#collapse1').attr('aria-expanded', "false");
+            $("#collapse1").attr("class", "panel-collapse collapse");
         }
 
         $(document).ready(function () {
