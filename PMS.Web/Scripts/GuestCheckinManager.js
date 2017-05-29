@@ -10,6 +10,7 @@
             getRoomTypes();
             getRoomRateTypes();
             getCountry();
+            getAllGuest();
             //getRooms();
         },
 
@@ -76,10 +77,10 @@
             }
         },
 
-        BindStateDdl: function (idx) {
+        BindStateDdl: function (idx, ddlCountryChange) {
 
-            var ddlCountry = isDdlCountryChange ? $('#ddlCountry') : $('#ddlIdCountry');
-            var ddlState = isDdlCountryChange ? $('#ddlState') : $('#ddlIdState');
+            var ddlCountry = ddlCountryChange ? $('#ddlCountry') : $('#ddlIdCountry');
+            var ddlState = ddlCountryChange ? $('#ddlState') : $('#ddlIdState');
             var stateData = pmsSession.GetItem("statedata");
             if (!ddlCountry || !ddlState  || !stateData) return;
 
@@ -165,8 +166,6 @@
         
         GetGuestHistory: function () {
             args.guestId = $('#hdnGuestId').val() == '' ? -1 : $('#hdnGuestId').val();
-            //for testing purpose
-            //args.guestId = 44;
             if (args.guestId != -1) {
                 var data = $.parseJSON(pmsSession.GetItem("guesthistory"));
                 if (!data) {
@@ -184,17 +183,52 @@
             pmsService.GetStateByCountry(args);
         },
 
-        CheckIfKeyPresent: function (key, object) {
+        CheckIfKeyPresent: function (key, object, shouldCheckCountryKey) {
             var idx = -1;
             var found = false;
             if (object.length <= 0) return idx;
 
-            for (var i = 0; i < object.length; i++) {
-                if (!object[i] || !object[i].countrykey || object[i].countrykey !== key) continue;
-                idx = i;
-                break;
-            }
+            if (shouldCheckCountryKey) {
+                for (var i = 0; i < object.length; i++) {
+                    if (!object[i] || !object[i].countrykey || object[i].countrykey !== key) continue;
+                    idx = i;
+                    break;
+                }
+            } else {
+                for (var i = 0; i < object.length; i++) {
+                    if (!object[i] || !object[i].Id || object[i].Id !== key) continue;
+                    idx = i;
+                    break;
+                }
+            }            
             return idx;
+        },
+
+        SearchGuest: function () {
+            var data = $.parseJSON(pmsSession.GetItem("guestinfo"));
+            // if no guest info found in session storage then return null
+            if (!data || data.length <= 0) return data;
+            var filtereGuestdata = [];
+            var searchText = $('#searchGuest').val().toLowerCase();
+            for (var i = 0; i < data.length; i++) {
+                // lookup for fname,lname,guestid,email,mobile#
+                if (!data[i] || (data[i].FirstName.toLowerCase().indexOf(searchText) < 0 && data[i].LastName.toLowerCase().indexOf(searchText) < 0
+                    && data[i].EmailAddress.toLowerCase().indexOf(searchText) < 0 && data[i].MobileNumber.toString().indexOf(searchText) < 0) && data[i].Id.toString().indexOf(searchText) < 0 ) continue;
+
+                    filtereGuestdata.push(data[i]);
+            }
+
+            if (filtereGuestdata.length <= 0) {
+                $('#fName').val('');
+                $('#lName').val('');
+                $('#phone').val('');
+                $('#email').val('');
+                $('#hdnGuestId').val('');
+                // clear guest history if guest id is not present
+                // TODO turn divHistory collapse
+                $('#divHistory').html('');
+            }
+            return filtereGuestdata;
         }
     };
     
@@ -330,6 +364,14 @@
             pmsService.GetRoomTypeByProperty(args);
         } else {
             window.GuestCheckinManager.BindRoomTypeDdl();
+        }
+    }
+        
+    function getAllGuest() {
+        var guestData = pmsSession.GetItem("guestinfo");
+        if (!guestData) {
+            // get guest by api calling  
+            pmsService.GetGuest(args);
         }
     }
 
@@ -507,6 +549,11 @@
         $("#dateTo").val('');
         $('#roomTypeDdl').val('-1');
         $('#roomddl').empty();
+        $("#searchGuest").val('');
+        $('#hdnGuestId').val('');
+        $('#divHistory').html('');
+        $('#collapse1').attr('aria-expanded', "false");
+        $("#collapse1").attr("class", "panel-collapse collapse");
     }
 
     function bindGuestHistory(data){
@@ -618,7 +665,7 @@
             
             var countryId = isDdlCountryChange ? $('#ddlCountry').val() : $('#ddlIdCountry').val();
             
-            var idx = gcm.CheckIfKeyPresent(countryId, pmsSession.CountrySessionKey);
+            var idx = gcm.CheckIfKeyPresent(countryId, pmsSession.CountrySessionKey,true);
             // store state data in session storage only when country key is not present
             if (idx === -1) {
                 pmsSession.CountrySessionKey.push({
@@ -630,11 +677,20 @@
                 idx = pmsSession.CountrySessionKey.length - 1;
             }
             
-            window.GuestCheckinManager.BindStateDdl(idx);
+            window.GuestCheckinManager.BindStateDdl(idx, isDdlCountryChange);
         };
         pmsService.Handlers.OnGetStateByCountryFailure = function () {
             // show error log
             console.error("get state call failed");
+        };
+
+        pmsService.Handlers.OnGetGuestSuccess = function (data) {
+            if (!data || !data.Guest || data.Guest.length <= 0) return;
+            pmsSession.SetItem("guestinfo", JSON.stringify(data.Guest));
+        };
+        pmsService.Handlers.OnGetGuestFailure = function () {
+            // show error log
+            console.error("get guest call failed");
         };
 
         // ajax handlers end

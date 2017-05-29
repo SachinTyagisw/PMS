@@ -3,15 +3,15 @@
         <div class="card-header">
             <h4>Room Details</h4>
         </div>
-        <div class="card-body">
+        <div class="card-body room-details">
             <div class="basic-elements">
                 <form>
                     <div class="row">
                         <div class="col-md-2">
                             <div class="form-group hourCheckin">
                                 <label>Hour CheckIn</label>
-                                <input type="checkbox" class="form-control hour-input" placeholder="Hour Checkin" id="hourCheckin">
-                                <select id="hours" class="form-control hour-dd" disabled>
+                                <input type="checkbox" class="form-control hour-input" onclick="OnHourlyCheckInChange();" placeholder="Hour Checkin" id="hourCheckin">
+                                <select id="hoursComboBox" class="form-control hour-dd" disabled>
                                     <option>1</option>
                                     <option>2</option>
                                     <option>4</option>

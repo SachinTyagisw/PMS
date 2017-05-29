@@ -44,6 +44,13 @@ namespace PMS.Api.Controllers
 
         private void MapHttpRoutesForGuest(HttpConfiguration config)
         {
+
+           config.Routes.MapHttpRoute(
+           "GetAllGuest",
+           "api/v1/Guest/GetAllGuest",
+           new { controller = "Guest", action = "GetAllGuest" }
+           );
+
            config.Routes.MapHttpRoute(
            "GetGuestById",
            "api/v1/Guest/GetGuestById/{guestId}",
@@ -72,6 +79,14 @@ namespace PMS.Api.Controllers
           constraints: new { guestId = RegExConstants.NumericRegEx }
           );
 
+        }
+
+        [HttpGet, ActionName("GetAllGuest")]
+        public GetGuestResponseDto GetAllGuest()
+        {
+            var response = new GetGuestResponseDto();
+            response.Guest = _iPmsLogic.GetAllGuest();
+            return response;
         }
 
         [HttpGet, ActionName("GetGuestById")]

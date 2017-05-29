@@ -466,5 +466,26 @@ namespace PMS.Resources.DAL
             }
             return country;
         }
+        public List<PmsEntity.Guest> GetAllGuest()
+        {
+            var guest = new List<PmsEntity.Guest>();
+            using (var pmsContext = new PmsEntities())
+            {
+                guest = pmsContext.Guests.Where(x => x.IsActive)
+                           .Select(x => new PmsEntity.Guest
+                           {
+                               Id = x.ID,
+                               DOB = x.DOB,
+                               EmailAddress = x.EmailAddress,
+                               FirstName = x.FirstName,
+                               Gender = x.Gender,
+                               LastName = x.LastName,
+                               MobileNumber = x.MobileNumber,
+                               PhotoPath = x.PhotoPath                               
+                           }).ToList();
+
+            }
+            return guest;
+        }
     }
 }

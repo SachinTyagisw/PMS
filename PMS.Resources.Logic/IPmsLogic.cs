@@ -56,5 +56,6 @@ namespace PMS.Resources.Logic
         List<PmsEntity.State> GetStateByCountry(int id);
         List<PmsEntity.City> GetCityByState(int id);
         List<PmsEntity.Country> GetCountry();
+        List<PmsEntity.Guest>  GetAllGuest();
     }
 }

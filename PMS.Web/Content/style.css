@@ -1,5 +1,3 @@
-@import 'https://fonts.googleapis.com/css?family=Montserrat:400,700';
-
 /*    Font Variable
 ----------------------*/
 /*    Color Variable
@@ -9,6 +7,7 @@
 /*    Brand color
 ----------------------*/
 /*----------------font-------------------*/
+@import 'https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700';
 @font-face {
   font-family: 'MontserratLight';
   src: url('../fonts/MontserratLight.eot');
@@ -27,19 +26,41 @@
 .card-body {
   background: transparent;
 }
+.card-body.room-details {
+    margin-top: 20px;
+}
 .card {
   background: #ffffff;
   margin: 10px 0px 0px 0px;
-  padding: 13px 20px;
+  padding: 10px 14px 5px;
   border: 0px;
   border-radius: 0px;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  /*box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);*/
+    background: #fff;
+    box-shadow: none;
+    position: relative;
+    transition: .5s;
+    border-radius: 0;
 }
+.card:hover {
+    box-shadow: 0 1px 5px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.2);
+    transition: all 150ms linear;
+}
+.card-header {
+    background: #57666d;
+    margin: -10px -14px 0;
+    padding: 7px 12px 0px;
+}
+
 .card-header h4 {
     display: inline-block;
     padding: 3px 8px 1px 0px;
     font-size: 15px;
-
+    color:#fff;
+  text-transform: uppercase;
+}
+.right-card-expand + .right-card-top-spacing {
+    margin-top: 53px;
 }
 .card-header p {
   font-family: 'MontserratLight', sans-serif;
@@ -416,7 +437,7 @@ a.dt-button.active:not(.disabled) {
 }
 .panel {
   border-radius: 0;
-  margin: 15px 0;
+  margin: 10px 0;
 }
 .panel-body {
   font-family: 'MontserratLight', sans-serif;
@@ -638,17 +659,17 @@ a.dt-button.active:not(.disabled) {
 /*    Header
 ---------------*/
 .header {
-  background: #fff;
+  background: #57666d;
   position: fixed;
   width: 100%;
-  min-height: 50px;
+  min-height: 45px;
   z-index: 999;
   box-shadow: 0 0px 9px 4px rgba(0, 0, 0, 0.1), 0 -5px 2px 2px rgba(0, 0, 0, 0.1);
 }
 .logo {
-  background: #3B3F51;
+  background: #57666d;
   display: inline-block;
-  padding: 16px 0;
+  padding: 9px 0;
   text-align: center;
   width: 250px;
   transition: width 300ms ease-in-out;
@@ -676,8 +697,8 @@ a.dt-button.active:not(.disabled) {
 }
 .header-icon {
   font-size: 18px;
-  padding: 14px 15px;
-  color: #222533;
+  padding: 9px 15px;
+  color: #fff;
   position: relative;
   transition: all 0.4s ease-in-out;
   display: inline-block;
@@ -692,7 +713,7 @@ a.dt-button.active:not(.disabled) {
 .header-icon:hover,
 .header-icon:focus,
 .header-icon.active {
-  background: #fff;
+  background: transparent;
 }
 .header-icon.active .drop-down {
   visibility: visible;
@@ -700,14 +721,14 @@ a.dt-button.active:not(.disabled) {
   transform: translateY(0px);
 }
 .drop-down {
-  background: #ffffff;
-  color: #252525;
+  background: #57666d;
+  color: #fff;
   visibility: hidden;
   opacity: 0;
   width: 320px;
   position: absolute;
   right: 0;
-  top: 55px;
+  top: 40px;
   transform: translateY(50px);
   transition: all 0.4s ease-in-out;
   border-top: 0px;
@@ -792,7 +813,7 @@ a.dt-button.active:not(.disabled) {
   display: inline-block;
 }
 .dropdown-profile {
-  width: 200px;
+  width: 160px;
 }
 .dropdown-profile .trial-day {
   font-size: 11px;
@@ -804,7 +825,7 @@ a.dt-button.active:not(.disabled) {
 }
 .dropdown-profile li a {
   display: block;
-  color: #878787;
+  color: #fff;
 }
 .dropdown-profile li a:hover,
 .dropdown-profile li a:focus,
@@ -1406,6 +1427,9 @@ footer p {
 .table-item {
   width: 50%;
 }
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    border: 0 none;
+}
 .itemtext {
   font-size: .9em;
 }
@@ -1675,7 +1699,7 @@ footer p {
   height: 30px;
   font-size:12px;
   min-width: 56px;
-  border-radius: 3px;
+  border-radius: 0;
   box-shadow: none;
   padding: 6px 2px 6px 4px;
   color: #3B3F51;
@@ -1849,6 +1873,11 @@ label {
   font-weight: 400;
   margin-bottom: 10px;
   color: #878787;
+}
+.form-group label {
+    line-height: 1;
+    margin-bottom: 4px;
+    float: left;
 }
 /*    Form Horizontal
 ----------------------*/
@@ -2419,11 +2448,9 @@ ul {
   border-radius: 3px;
 }
 .card-section {
-  min-height: 680px;
+  min-height: 520px;
 }
-textarea.form-control {
-    min-height: 100px;
-}
+
 .user-profile .card-header {
     border-bottom: 1px solid #e7e7e7;
     margin-bottom: 24px;
@@ -3119,7 +3146,7 @@ tbody tr td:last-child {
 body {
   font-family: 'Montserrat', sans-serif;
   font-size:12px;
-  background: #f0f0f0;
+  background: #e3e8ea;
   color: #878787;
   height: 100%;
 }
@@ -3177,10 +3204,7 @@ p {
 .main-content {
   padding: 0;
 }
-.alert h4 {
-  color: #3B3F51;
-  text-transform: uppercase;
-}
+
 .m-b-10 {
   margin-bottom: 10px;
 }
@@ -3352,7 +3376,7 @@ p {
   width: 100%;
   height: 150px;
   background: #fff;
-  border-radius: 8px;
+  border-radius: 0;
   border: 0.02rem solid #3B3F51;
 }
 .photo_submit:hover {
@@ -3533,12 +3557,48 @@ p {
 .controls input[type="date"],
 .controls input[type="tel"],
 .controls textarea,
-.controls button,
 .controls select {
-
-  border: 0.02rem solid #3B3F51;
-  width: 100%;
-
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 4px;
+    font-size: 12px;
+    line-height: 1.428571;
+    color: #758494;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #c1c8d0;
+    border-radius: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+}
+.control button, button {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 400;
+    border-color: none;
+    border-radius: 0!important;
+    text-align: center;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571;
+    border-radius: 0;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 .controls .form-control:hover {
   box-shadow: none;
@@ -3559,7 +3619,12 @@ button:hover {
 .table-hover>tbody>tr:hover {
     background-color: transparent;
 }
-
+textarea.form-control {
+    height: 60px;
+}
+.table {
+    margin-bottom: 0;
+}
 
 /* Calendar --*/
 #ui-datepicker-div {
@@ -3900,18 +3965,22 @@ body.login-section {
     padding: 0 10px;
 }
 .hourCheckin label {
-    float:left;
-    margin-bottom: 6px;
+    float: left;
+    /* margin-bottom: 6px; */
+    display: inline-block;
+    margin-top: 0px;
 }
 .hourCheckin .hour-input {
-    width:16px;
-    height: 18px;
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    margin: 0;
 }
 .hourCheckin .hour-input:focus {
     outline-width: 0;
 }
 .hourCheckin .hour-dd {
-
+    margin-top: -1px;
 }
 
 .fileUpload {

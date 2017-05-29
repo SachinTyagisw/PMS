@@ -2,8 +2,34 @@
         ViewBag.Title = "Guest Checkin";
     }
     <script type='text/javascript'>
+
         var gcm = window.GuestCheckinManager;
         var pmsSession = window.PmsSession;
+
+        function OnHistoryClick() {
+            // call api only when expand event is fire
+            if ($('#collapse1').attr('aria-expanded') != 'false') return;
+            gcm.GetGuestHistory();
+        }
+
+        function OnHourlyCheckInChange() {
+            var cmbHours = document.getElementById("hoursComboBox");
+            var chkHours = document.getElementById('hourCheckin');
+            var checkOutDate = document.getElementById('dateTo');
+            var checkInDate = document.getElementById('dateFrom');
+
+            var dt = new Date($('#dateFrom').val());
+            dt.setHours(dt.getHours() + 4);
+            alert(dt);
+
+            checkOutDate.value = dt;
+            
+            //alert(checkInDate.nodeValue);
+
+            cmbHours.disabled = hourCheckin.checked ? false : true;
+            checkOutDate.disabled = hourCheckin.checked ? true : false;
+        };
+        
 
         function OnCountryChange(isDdlCountryChange) {
             var idx = -1;
@@ -18,12 +44,12 @@
                 var stateData = pmsSession.GetItem("statedata");
                 if (stateData) {
                     var stateSessionData = $.parseJSON(stateData);
-                    idx = gcm.CheckIfKeyPresent(ddlCountry.val(), stateSessionData);
+                    idx = gcm.CheckIfKeyPresent(ddlCountry.val(), stateSessionData, true);
                 }
                 if (idx === -1) {
                     gcm.GetStateByCountry(isDdlCountryChange);
                 } else {
-                    gcm.BindStateDdl(idx);
+                    gcm.BindStateDdl(idx, isDdlCountryChange);
                 }
             }
         }
@@ -51,6 +77,18 @@
             }
         }
 
+        function populateGuestUi(data) {
+            // TODO turn divHistory collapse
+            $('#fName').val(data.FirstName);
+            $('#lName').val(data.LastName);
+            $('#phone').val(data.MobileNumber);
+            $('#email').val(data.EmailAddress);
+            // clear guest history if guest id is not present
+            $('#divHistory').html('');
+            $('#collapse1').attr('aria-expanded', "false");
+            $("#collapse1").attr("class", "panel-collapse collapse");
+        }
+
         $(document).ready(function () {
             //if user is navigated to checkin screen from dashboard screen
             if (pmsSession.GetItem("dtcheckin") && pmsSession.GetItem("dtcheckout")) {
@@ -68,8 +106,58 @@
 
             $("#uploadPhoto").change(function () {
                 previewImage(this);
-            }); 
+            });
 
+            var filtereGuestdata = [];           
+            $('#searchGuest').autocomplete({
+                //This shows the min length of charcters that must be typed 
+                //before the autocomplete looks for a match.
+                minLength: 4,
+                source: function (request, response) {
+                    filtereGuestdata = gcm.SearchGuest();
+                    response($.map(filtereGuestdata, function (value, key) {
+                        return {
+                            label: value.LastName + ", " + value.FirstName,
+                            value: value.Id
+                        }
+                    }));
+                },
+                select: function (event, ui) {
+                    var data = filtereGuestdata;
+                    idx = gcm.CheckIfKeyPresent(ui.item.value, data, false);
+                    var selectedGuestObject = data[idx];
+                    if (!selectedGuestObject) return false;
+
+                    $('#searchGuest').val(ui.item.label);
+                    // set hidden field value     
+                    $('#hdnGuestId').val(ui.item.value);
+                    populateGuestUi(selectedGuestObject);
+                    return false;
+                }
+            });
+
+            $('#phone').keydown(function (e) {
+                if (e.shiftKey || e.ctrlKey || e.altKey) {
+                    e.preventDefault();
+                } else {
+                    var key = e.keyCode;
+                    if (!((key == 8) || (key == 46) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+                        e.preventDefault();
+                    }
+                }
+            });
+
+            $('#zipCode').keydown(function (e) {
+                if (e.shiftKey || e.ctrlKey || e.altKey) {
+                    e.preventDefault();
+                } else {
+                    var key = e.keyCode;
+                    if (!((key == 8) || (key == 46) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+                        e.preventDefault();
+                    }
+                }
+            });
+            
             //$("#dateFrom").focus(function () {                
             //    var thisCalendar = $(this);
             //    //$('.ui-datepicker-calendar').detach();
@@ -100,28 +188,6 @@
             //        }
             //    });
             //});
-
-            $('#phone').keydown(function (e) {
-                if (e.shiftKey || e.ctrlKey || e.altKey) {
-                    e.preventDefault();
-                } else {
-                    var key = e.keyCode;
-                    if (!((key == 8) || (key == 46) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
-                        e.preventDefault();
-                    }
-                }
-            });
-
-            $('#zipCode').keydown(function (e) {
-                if (e.shiftKey || e.ctrlKey || e.altKey) {
-                    e.preventDefault();
-                } else {
-                    var key = e.keyCode;
-                    if (!((key == 8) || (key == 46) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
-                        e.preventDefault();
-                    }
-                }
-            });
         });
 
     </script>
