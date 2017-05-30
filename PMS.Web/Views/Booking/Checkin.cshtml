@@ -12,70 +12,118 @@
             gcm.GetGuestHistory();
         }
 
-        function OnHourlyCbChecked() {
-            var cmbHours = $('#hoursComboBox');
-            var chkHours = $('#hourCheckin')[0];
-            var checkOutDate = $('#dateTo');
-            var checkInDate = $('#dateFrom');
+        //function OnHourlyCbChecked() {
+        //    var cmbHours = $('#hoursComboBox');
+        //    var chkHours = $('#hourCheckin')[0];
+        //    var checkOutDate = $('#dateTo');
+        //    var checkInDate = $('#dateFrom');
 
-            cmbHours.prop("disabled", !chkHours.checked);
-            checkOutDate.prop("disabled", chkHours.checked);
+        //    cmbHours.prop("disabled", !chkHours.checked);
+        //    checkOutDate.prop("disabled", chkHours.checked);
 
-            //  hrs checkbox is not checked clear hrs in checkOutDate
-            if (!chkHours.checked) {
-                checkOutDate.val('');
-                return;
-            }
+        //    //  hrs checkbox is not checked clear hrs in checkOutDate
+        //    if (!chkHours.checked) {
+        //        checkOutDate.val('');
+        //        return;
+        //    }
 
-            if (!checkInDate.val() || checkInDate.val().length <= 0) {
-                alert("Please select checkin date");
-                return;
-            }
-        };
+        //    if (!checkInDate.val() || checkInDate.val().length <= 0) {
+        //        alert("Please select checkin date");
+        //        return;
+        //    }
+        //};
 
-        function OnCheckinHourChange() {
-            var chkHours = $('#hourCheckin')[0];
-            var checkOutDate = $('#dateTo');
-            var checkInDate = $('#dateFrom');
-            var cmbHours = $('#hoursComboBox');
+        //function OnCheckinHourChange() {
+        //    var chkHours = $('#hourCheckin')[0];
+        //    var checkOutDate = $('#dateTo');
+        //    var checkInDate = $('#dateFrom');
+        //    var cmbHours = $('#hoursComboBox');
             
-            if (cmbHours.val() === '-1') {
-                alert("Please select checkin hrs");
-                return;
-            }
+        //    if (cmbHours.val() === '-1') {
+        //        alert("Please select checkin hrs");
+        //        return;
+        //    }
 
-            if (!checkInDate.val() || checkInDate.val().length <= 0) {
-                alert("Please select checkin date");
-                return;
-            }
+        //    if (!checkInDate.val() || checkInDate.val().length <= 0) {
+        //        alert("Please select checkin date");
+        //        return;
+        //    }
 
-            // date format mm/dd/yyyy
-            var dt = new Date(checkInDate.val());
-            var month = dt.getMonth() + 1;
-            var day = dt.getDate();
-            var dateOutput = (month < 10 ? '0' : '') + month + '/' +
-                             (day < 10 ? '0' : '') + day + '/' +
-                              dt.getFullYear();
-            var hrsToAdd = parseInt(cmbHours.val());
-            var currentHrs = dt.getHours();
-            var am = null;
-            var hrs = null;
-            if (currentHrs === 0 || currentHrs + hrsToAdd < 12) {
-                hrs = currentHrs + hrsToAdd;
-                am = "am";
-            }
-            else if (currentHrs + hrsToAdd >= 24) {
-                hrs = currentHrs + hrsToAdd - 24 === 0 ? 12 : currentHrs + hrsToAdd - 24;
-                am = "am";
-            }
-            else if (currentHrs + hrsToAdd >= 12 && currentHrs + hrsToAdd < 24) {
-                hrs = currentHrs + hrsToAdd - 12 === 0 ? 12 : currentHrs + hrsToAdd - 12;
-                am = "pm";
-            }
-            var mins = dt.getMinutes() < 10 ? "0" + dt.getMinutes() : dt.getMinutes();
-            var time = hrs + ":" + mins + " " + am;
-            checkOutDate.val(dateOutput + ' ' + time);            
-        };
+        //    // date format mm/dd/yyyy
+        //    var dt = new Date(checkInDate.val());
+        //    var month = dt.getMonth() + 1;
+        //    var day = dt.getDate();
+        //    var dateOutput = (month < 10 ? '0' : '') + month + '/' +
+        //                     (day < 10 ? '0' : '') + day + '/' +
+        //                      dt.getFullYear();
+        //    var hrsToAdd = parseInt(cmbHours.val());
+        //    var currentHrs = dt.getHours();
+        //    var am = null;
+        //    var hrs = null;
+        //    if (currentHrs === 0 || currentHrs + hrsToAdd < 12) {
+        //        hrs = currentHrs + hrsToAdd;
+        //        am = "am";
+        //    }
+        //    else if (currentHrs + hrsToAdd >= 24) {
+        //        hrs = currentHrs + hrsToAdd - 24 === 0 ? 12 : currentHrs + hrsToAdd - 24;
+        //        am = "am";
+        //    }
+        //    else if (currentHrs + hrsToAdd >= 12 && currentHrs + hrsToAdd < 24) {
+        //        hrs = currentHrs + hrsToAdd - 12 === 0 ? 12 : currentHrs + hrsToAdd - 12;
+        //        am = "pm";
+        //    }
+        //    var mins = dt.getMinutes() < 10 ? "0" + dt.getMinutes() : dt.getMinutes();
+        //    var time = hrs + ":" + mins + " " + am;
+        //    checkOutDate.val(dateOutput + ' ' + time);            
+        //};
+
+        function OnCmbHourlyCheckInChange() {
+            var checkOutDate = document.getElementById('dateTo');
+            var checkInDate = document.getElementById('dateFrom');
+            var hrsToAdd = document.getElementById('hoursComboBox').value;
+
+            var dt = new Date($('#dateFrom').val());
+           
+            if ((!dt.toLocaleString().includes("Invalid")) && (hrsToAdd !== '-1'))
+            {
+                //dt.setHours(dt.getHours() + hoursToAdd);
+                //TODO: Needs to change it with  correct code base
+                var month = dt.getMonth() + 1;
+                var day = dt.getDate();
+                var dateOutput = (month < 10 ? '0' : '') + month + '/' +
+                                 (day < 10 ? '0' : '') + day + '/' +
+                                  dt.getFullYear();
+                //var hrsToAdd = parseInt(cmbHours.val());
+                var currentHrs = dt.getHours();
+                var am = null;
+                var hrs = null;
+                if (currentHrs === 0 || currentHrs + hrsToAdd < 12) {
+                    hrs = currentHrs + hrsToAdd;
+                    am = "am";
+                }
+                else if (currentHrs + hrsToAdd >= 24) {
+                    hrs = currentHrs + hrsToAdd - 24 === 0 ? 12 : currentHrs + hrsToAdd - 24;
+                    am = "am";
+                }
+                else if (currentHrs + hrsToAdd >= 12 && currentHrs + hrsToAdd < 24) {
+                    hrs = currentHrs + hrsToAdd - 12 === 0 ? 12 : currentHrs + hrsToAdd - 12;
+                    am = "pm";
+                }
+                var mins = dt.getMinutes() < 10 ? "0" + dt.getMinutes() : dt.getMinutes();
+                var time = hrs + ":" + mins + " " + am;
+                //checkOutDate.val(dateOutput + ' ' + time);            
+                checkOutDate.value = dateOutput + ' ' + time; 
+            };
+                
+         }
+       
+        function OnChkHourlyCheckInChange() {
+            var cmbHours = document.getElementById("hoursComboBox");
+            var chkHours = document.getElementById('hourCheckin');
+            var checkOutDate = document.getElementById('dateTo');
+            cmbHours.disabled = chkHours.checked ? false : true;
+            checkOutDate.disabled = chkHours.checked ? true : false;
+        }
         
         function OnCountryChange(isDdlCountryChange) {
             var idx = -1;
@@ -204,20 +252,22 @@
                 }
             });
             
-            //$("#dateFrom").focus(function () {                
-            //    var thisCalendar = $(this);
-            //    //$('.ui-datepicker-calendar').detach();
-            //    $('.ui-datepicker-close').click(function () {                    
-            //        var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-            //        var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-            //        thisCalendar.datepicker('setDate', new Date(year, month, 1));
+            $("#dateFrom").focus(function () {                
+                var thisCalendar = $(this);
+                //$('.ui-datepicker-calendar').detach();
+                //$('.ui-datepicker-close').click(function () {                    
+                //    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                //    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                //    thisCalendar.datepicker('setDate', new Date(year, month, 1));
 
-            //        if (gcm.ShouldCallGetRoomApi()) {
-            //            pmsSession.RemoveItem("roomdata");
-            //            gcm.GetRoomByDate();
-            //        }
-            //    });
-            //});
+                //    if (gcm.ShouldCallGetRoomApi()) {
+                //        pmsSession.RemoveItem("roomdata");
+                //        gcm.GetRoomByDate();
+                //    }
+                //});
+                OnCmbHourlyCheckInChange();
+               
+            });
 
 
             //$("#dateTo").focus(function () {
