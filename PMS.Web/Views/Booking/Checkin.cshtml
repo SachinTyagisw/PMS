@@ -12,25 +12,71 @@
             gcm.GetGuestHistory();
         }
 
-        function OnHourlyCheckInChange() {
-            var cmbHours = document.getElementById("hoursComboBox");
-            var chkHours = document.getElementById('hourCheckin');
-            var checkOutDate = document.getElementById('dateTo');
-            var checkInDate = document.getElementById('dateFrom');
+        function OnHourlyCbChecked() {
+            var cmbHours = $('#hoursComboBox');
+            var chkHours = $('#hourCheckin')[0];
+            var checkOutDate = $('#dateTo');
+            var checkInDate = $('#dateFrom');
 
-            var dt = new Date($('#dateFrom').val());
-            dt.setHours(dt.getHours() + 4);
-            alert(dt);
+            cmbHours.prop("disabled", !chkHours.checked);
+            checkOutDate.prop("disabled", chkHours.checked);
 
-            checkOutDate.value = dt;
+            //  hrs checkbox is not checked clear hrs in checkOutDate
+            if (!chkHours.checked) {
+                checkOutDate.val('');
+                return;
+            }
+
+            if (!checkInDate.val() || checkInDate.val().length <= 0) {
+                alert("Please select checkin date");
+                return;
+            }
+        };
+
+        function OnCheckinHourChange() {
+            var chkHours = $('#hourCheckin')[0];
+            var checkOutDate = $('#dateTo');
+            var checkInDate = $('#dateFrom');
+            var cmbHours = $('#hoursComboBox');
             
-            //alert(checkInDate.nodeValue);
+            if (cmbHours.val() === '-1') {
+                alert("Please select checkin hrs");
+                return;
+            }
 
-            cmbHours.disabled = hourCheckin.checked ? false : true;
-            checkOutDate.disabled = hourCheckin.checked ? true : false;
+            if (!checkInDate.val() || checkInDate.val().length <= 0) {
+                alert("Please select checkin date");
+                return;
+            }
+
+            // date format mm/dd/yyyy
+            var dt = new Date(checkInDate.val());
+            var month = dt.getMonth() + 1;
+            var day = dt.getDate();
+            var dateOutput = (month < 10 ? '0' : '') + month + '/' +
+                             (day < 10 ? '0' : '') + day + '/' +
+                              dt.getFullYear();
+            var hrsToAdd = parseInt(cmbHours.val());
+            var currentHrs = dt.getHours();
+            var am = null;
+            var hrs = null;
+            if (currentHrs === 0 || currentHrs + hrsToAdd < 12) {
+                hrs = currentHrs + hrsToAdd;
+                am = "am";
+            }
+            else if (currentHrs + hrsToAdd >= 24) {
+                hrs = currentHrs + hrsToAdd - 24 === 0 ? 12 : currentHrs + hrsToAdd - 24;
+                am = "am";
+            }
+            else if (currentHrs + hrsToAdd >= 12 && currentHrs + hrsToAdd < 24) {
+                hrs = currentHrs + hrsToAdd - 12 === 0 ? 12 : currentHrs + hrsToAdd - 12;
+                am = "pm";
+            }
+            var mins = dt.getMinutes() < 10 ? "0" + dt.getMinutes() : dt.getMinutes();
+            var time = hrs + ":" + mins + " " + am;
+            checkOutDate.val(dateOutput + ' ' + time);            
         };
         
-
         function OnCountryChange(isDdlCountryChange) {
             var idx = -1;
             var ddlCountry = isDdlCountryChange ? $('#ddlCountry') : $('#ddlIdCountry');
