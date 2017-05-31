@@ -80,7 +80,7 @@
         function OnCmbHourlyCheckInChange() {
             var checkOutDate = document.getElementById('dateTo');
             var checkInDate = document.getElementById('dateFrom');
-            var hrsToAdd = document.getElementById('hoursComboBox').value;
+            var hrsToAdd = parseInt(document.getElementById('hoursComboBox').value);
 
             var dt = new Date($('#dateFrom').val());
            
@@ -93,7 +93,7 @@
                 var dateOutput = (month < 10 ? '0' : '') + month + '/' +
                                  (day < 10 ? '0' : '') + day + '/' +
                                   dt.getFullYear();
-                //var hrsToAdd = parseInt(cmbHours.val());
+                
                 var currentHrs = dt.getHours();
                 var am = null;
                 var hrs = null;
