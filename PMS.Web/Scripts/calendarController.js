@@ -103,7 +103,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     $scope.navigatorConfig = {
         selectMode: "month",
         showMonths: 3,
-        skipMonths: 3,
+        skipMonths: 3,        
         onTimeRangeSelected: function (args) {
             // to scroll calendar to selected date
             $scope.day = args.day;
@@ -118,7 +118,11 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
 
     $scope.schedulerConfig = {
         visible: false, // will be displayed after loading the resources
-        scale: "Manual",      
+        scale: "Manual",
+        cellWidthSpec: "Auto",
+        //cellWidth: 350,
+        //cellWidthMin: 300,
+        //cellDuration: 1440,
         timeline: getTimeline(),
         timeHeaders: getTimeHeaders(),
         useEventBoxes: "Never",
@@ -127,6 +131,8 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         eventMoveHandling: "Update",
         eventResizeHandling: "Disabled",
         allowEventOverlap: false,
+        //onBeforeCellRender: function (args) {
+        //},
         onEventMoved: function (args) {
             var bookingRequestDto = {};
             bookingRequestDto.Booking = {};
