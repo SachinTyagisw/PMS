@@ -583,6 +583,7 @@
           <Parameter Name="CHECKINTIME" Type="datetime" Mode="In" />
           <Parameter Name="CHECKOUTDATE" Type="datetime" Mode="In" />
         </Function>
+        <Function Name="GETALLGUESTS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GETGUESTTRANSACTIONS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="GUESTID" Type="int" Mode="In" />
         </Function>
@@ -1457,6 +1458,7 @@
             <Parameter Name="CHECKINTIME" Mode="In" Type="DateTime" />
             <Parameter Name="CHECKOUTDATE" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="GETALLGUESTS" ReturnType="Collection(PmsModel.GETALLGUESTS_Result)" />
           <FunctionImport Name="GETGUESTTRANSACTIONS" ReturnType="Collection(PmsModel.GETGUESTTRANSACTIONS_Result)">
             <Parameter Name="GUESTID" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -1487,6 +1489,16 @@
           <Property Type="Int32" Name="ROOMBOOKINGID" Nullable="false" />
           <Property Type="Int32" Name="ROOMID" Nullable="false" />
           <Property Type="String" Name="ROOMNUMBER" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="GETALLGUESTS_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="FIRSTNAME" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="LASTNAME" Nullable="true" MaxLength="200" />
+          <Property Type="Int64" Name="MOBILENUMBER" Nullable="true" />
+          <Property Type="String" Name="EMAILADDRESS" Nullable="true" MaxLength="500" />
+          <Property Type="DateTime" Name="DOB" Nullable="true" />
+          <Property Type="String" Name="GENDER" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="PHOTOPATH" Nullable="true" MaxLength="200" />
         </ComplexType>
         <ComplexType Name="GETGUESTTRANSACTIONS_Result">
           <Property Type="String" Name="PROPERTY" Nullable="true" />
@@ -1837,6 +1849,20 @@
                 <ScalarProperty Name="ROOMBOOKINGID" ColumnName="ROOMBOOKINGID" />
                 <ScalarProperty Name="ROOMID" ColumnName="ROOMID" />
                 <ScalarProperty Name="ROOMNUMBER" ColumnName="ROOMNUMBER" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GETALLGUESTS" FunctionName="PmsModel.Store.GETALLGUESTS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PmsModel.GETALLGUESTS_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FIRSTNAME" ColumnName="FIRSTNAME" />
+                <ScalarProperty Name="LASTNAME" ColumnName="LASTNAME" />
+                <ScalarProperty Name="MOBILENUMBER" ColumnName="MOBILENUMBER" />
+                <ScalarProperty Name="EMAILADDRESS" ColumnName="EMAILADDRESS" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="GENDER" ColumnName="GENDER" />
+                <ScalarProperty Name="PHOTOPATH" ColumnName="PHOTOPATH" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

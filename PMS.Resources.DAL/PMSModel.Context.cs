@@ -65,6 +65,11 @@ namespace PMS.Resources.DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GETALLBOOKINGS_Result>("GETALLBOOKINGS", pROPERTYIDParameter, cHECKINTIMEParameter, cHECKOUTDATEParameter);
         }
     
+        public virtual ObjectResult<GETALLGUESTS_Result> GETALLGUESTS()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GETALLGUESTS_Result>("GETALLGUESTS");
+        }
+    
         public virtual ObjectResult<GETGUESTTRANSACTIONS_Result> GETGUESTTRANSACTIONS(Nullable<int> gUESTID)
         {
             var gUESTIDParameter = gUESTID.HasValue ?
