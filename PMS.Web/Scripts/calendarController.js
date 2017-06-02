@@ -6,7 +6,6 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     $scope.duration = 'today';
     $scope.roomType = 0;
     $scope.scale = "hour";
-    $scope.cellWidthSpec = '200';
     var onUpdateBookingSuccess = function (response) {
         if (response && response.data && response.data.ResponseStatus){
             $scope.message = response.data.StatusDescription;
@@ -24,7 +23,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         $scope.schedulerConfig.scrollTo = day;
         $scope.schedulerConfig.scrollToAnimated = "fast";
         $scope.schedulerConfig.scrollToPosition = "left";
-        $scope.events = convertBookingResponseToDayPilotResponse(response.Bookings);;
+        $scope.events = convertBookingResponseToDayPilotResponse(response.Bookings);
     };   
 
     var onGetRoomBookingError = function (reason) {
@@ -98,6 +97,12 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         $scope.schedulerConfig.timeHeaders = getTimeHeaders();
         $scope.schedulerConfig.scrollToAnimated = "fast";
         $scope.schedulerConfig.scrollTo = $scope.scheduler.getViewPort().start;  // keep the scrollbar position/by date
+        if ($scope.scale === "month") {
+            $scope.schedulerConfig.cellWidth = 100;
+            $scope.schedulerConfig.cellWidthSpec = 'Fixed';
+        } else {
+            $scope.schedulerConfig.cellWidthSpec = 'Auto';
+        }
     });
 
     $scope.navigatorConfig = {
@@ -119,10 +124,6 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     $scope.schedulerConfig = {
         visible: false, // will be displayed after loading the resources
         scale: "Manual",
-        cellWidthSpec: "Auto",
-        //cellWidth: 350,
-        //cellWidthMin: 300,
-        //cellDuration: 1440,
         timeline: getTimeline(),
         timeHeaders: getTimeHeaders(),
         useEventBoxes: "Never",
@@ -353,12 +354,6 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                 increaseMorning = 1;
                 increaseAfternoon = 1;
                 break;
-            case "week":
-                increaseMorning = 1;
-                increaseAfternoon = 1;
-                break;
-            default:
-                throw "Invalid scale value";
         }
 
         if (days === 1) {
