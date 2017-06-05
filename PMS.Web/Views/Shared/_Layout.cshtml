@@ -133,6 +133,19 @@
         <script src="~/Scripts/Jquery/lib/jquery-ui/jquery-ui.min.js"></script><!-- bootstrap -->
         <script src="~/Scripts/Jquery/lib/jquery-ui/jquery-ui-timepicker-addon.js"></script><!-- bootstrap -->
         <script src="~/Scripts/scripts.js"></script>*@
-
-</body>
-</html>
+        <script type='text/javascript'>
+            $(document).on({
+                ajaxStart: function ()
+                {
+                    $('.loader').css('display', 'block');
+                },
+                ajaxStop: function ()
+                {
+                    $('.loader').css('display', 'none');
+                }
+            });
+            
+        </script>
+    
+    </body>
+    </html>

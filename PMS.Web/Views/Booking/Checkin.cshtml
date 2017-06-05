@@ -4,7 +4,7 @@
     <script type='text/javascript'>
 
         var gcm = window.GuestCheckinManager;
-        var pmsSession = window.PmsSession;
+        var pmsSession = window.PmsSession;        
 
         function OnHistoryClick() {
             // call api only when expand event is fire
@@ -290,6 +290,9 @@
     <div class="content-wrap">
         <div class="main controls">
             <div class="container-fluid">
+                <div class="bg-overlay">
+                    <div class="loader"></div>
+                </div>
                 <div class="main-content">
                     <div class="row">
                         @Html.Partial("_RoomDetails")<!-- /# column -->
@@ -300,7 +303,7 @@
                 <div class="row">
                     @Html.Partial("_GuestHistory")<!-- /# column -->
 
-                </div><!-- /# row -->
+                </div><!-- /# row -->                
             </div><!-- /# main content -->
         </div><!-- /# container-fluid -->
     </div><!-- /# main -->
