@@ -2,7 +2,8 @@
 
     var pmsSession = {
 
-        CountrySessionKey : [],
+        CountrySessionKey: [],
+        GuestSessionKey: [],
 
         SetItem: function (key, value) {
             if (typeof (Storage) !== "undefined") {

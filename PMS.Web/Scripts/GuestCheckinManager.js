@@ -167,12 +167,27 @@
         GetGuestHistory: function () {
             args.guestId = $('#hdnGuestId').val() == '' ? -1 : $('#hdnGuestId').val();
             if (args.guestId != -1) {
-                var data = $.parseJSON(pmsSession.GetItem("guesthistory"));
-                if (!data) {
+
+                var guestData = pmsSession.GetItem("guesthistory");
+                if (!guestData) {
                     pmsService.GetGuestHistoryById(args);
-                } else {
-                    bindGuestHistory(data);
+                    return;
                 }
+                var guestSessionData = $.parseJSON(guestData);
+                if (!guestSessionData || guestSessionData.length <= 0) return;
+                var idx = gcm.CheckIfKeyPresent(args.guestId, guestSessionData, false);
+                // guestid does not exists in session then call api 
+                if (idx < 0) {
+                    pmsService.GetGuestHistoryById(args);
+                    return;
+                }
+                
+                // when guest id already in session
+                var guestHistoryResponseDto = {};
+                guestHistoryResponseDto.GuestHistory = {};
+                guestHistoryResponseDto.GuestHistory = guestSessionData[idx].guesthistory;
+
+                bindGuestHistory(guestHistoryResponseDto);
             }
         },
 
@@ -225,10 +240,17 @@
                 $('#email').val('');
                 $('#hdnGuestId').val('');
                 // clear guest history if guest id is not present
-                // TODO turn divHistory collapse
-                $('#divHistory').html('');
+                window.GuestCheckinManager.AutoCollapseGuestHistory();
             }
             return filtereGuestdata;
+        },
+
+        AutoCollapseGuestHistory: function () {
+            $('#divHistory').html('');
+            $('#history').attr('aria-expanded', "false");
+            $("#history").attr("class", "collapsed");
+            $('#collapse1').attr('aria-expanded', "false");
+            $("#collapse1").attr("class", "panel-collapse collapse");
         }
     };
     
@@ -551,16 +573,14 @@
         $('#roomddl').empty();
         $("#searchGuest").val('');
         $('#hdnGuestId').val('');
-        $('#divHistory').html('');
-        $('#collapse1').attr('aria-expanded', "false");
-        $("#collapse1").attr("class", "panel-collapse collapse");
+        window.GuestCheckinManager.AutoCollapseGuestHistory();
     }
 
     function bindGuestHistory(data){
         var divHistory = $('#divHistory');
         var historyTemplate = $('#historyTemplate');
         divHistory.html(historyTemplate.render(data));
-    }
+    }    
 
     function ajaxHandlers() {
 
@@ -641,7 +661,17 @@
 
         pmsService.Handlers.OnGetGuestHistoryByIdSuccess = function (data) {
             if (!data || !data.GuestHistory || data.GuestHistory.length <= 0) return;
-            pmsSession.SetItem("guesthistory", JSON.stringify(data));
+
+            var guestId = $('#hdnGuestId').val();
+            var idx = gcm.CheckIfKeyPresent(guestId, pmsSession.GuestSessionKey, false);
+            // store guesthistory data in session storage only when guestid is not present in session
+            if (idx === -1) {
+                pmsSession.GuestSessionKey.push({
+                    Id: guestId,
+                    guesthistory: data.GuestHistory
+                });
+                pmsSession.SetItem("guesthistory", JSON.stringify(pmsSession.GuestSessionKey));
+            }
             bindGuestHistory(data);
         };
         pmsService.Handlers.OnGetGuestHistoryByIdFailure = function () {

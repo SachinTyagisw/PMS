@@ -172,15 +172,12 @@
         }
 
         function populateGuestUi(data) {
-            // TODO turn divHistory collapse
             $('#fName').val(data.FirstName);
             $('#lName').val(data.LastName);
             $('#phone').val(data.MobileNumber);
             $('#email').val(data.EmailAddress);
             // clear guest history if guest id is not present
-            $('#divHistory').html('');
-            $('#collapse1').attr('aria-expanded', "false");
-            $("#collapse1").attr("class", "panel-collapse collapse");
+            gcm.AutoCollapseGuestHistory();
         }
 
         $(document).ready(function () {
@@ -291,7 +288,7 @@
         <div class="main controls">
             <div class="container-fluid">
                 <div class="bg-overlay">
-                    <div class="loader"></div>
+                    <div class="loader" style="display:none;"></div>
                 </div>
                 <div class="main-content">
                     <div class="row">
