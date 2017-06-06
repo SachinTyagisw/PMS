@@ -287,9 +287,6 @@
     <div class="content-wrap">
         <div class="main controls">
             <div class="container-fluid">
-                <div class="bg-overlay">
-                    <div class="loader" style="display:none;"></div>
-                </div>
                 <div class="main-content">
                     <div class="row">
                         @Html.Partial("_RoomDetails")<!-- /# column -->
@@ -304,9 +301,20 @@
             </div><!-- /# main content -->
         </div><!-- /# container-fluid -->
     </div><!-- /# main -->
+    </div>
     <div class="footer-nav">
         <div class="">
             <input id="btnBooking" type="button" class="btn btn-primary m-b-10 m-l-5" value="Submit" />
             <input type="button" class="btn btn-default m-b-10" value="Clear" />
         </div>
     </div>
+
+<div class="bg-overlay">
+    <div class="loader" style="display:none;">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+</div>

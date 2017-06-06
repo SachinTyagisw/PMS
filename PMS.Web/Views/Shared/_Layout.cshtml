@@ -137,15 +137,14 @@
             $(document).on({
                 ajaxStart: function ()
                 {
-                    $('.loader').css('display', 'block');
+                    $('.bg-overlay, .loader').css('display', 'block');
                 },
                 ajaxStop: function ()
                 {
-                    $('.loader').css('display', 'none');
+                    $('.bg-overlay, .loader').css('display', 'none');
                 }
             });
             
         </script>
-    
     </body>
     </html>
