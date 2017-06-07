@@ -56,7 +56,8 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     $scope.setCalendarView = function(duration) {
         $scope.duration = duration;
         setSchedulerScale(duration);
-        loadEvents(DayPilot.Date.today());
+        var day = $scope.day ? $scope.day : DayPilot.Date.today();
+        loadEvents(day);
     };
 
     $scope.changeRoomType = function () {
@@ -327,7 +328,11 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     }
 
     function setSchedulerScale(duration) {
-        if (duration === 'today') $scope.scale = "hour";
+        if (duration === 'today') {
+            $scope.scale = "hour";
+            $scope.day = DayPilot.Date.today();
+        }
+            
         if (duration === 'daily') $scope.scale = "hour";
         if (duration === 'weekly') $scope.scale = "week";
         if (duration === 'monthly') $scope.scale = "month";
