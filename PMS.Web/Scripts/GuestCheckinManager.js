@@ -225,6 +225,11 @@
             if (!data || data.length <= 0) return data;
             var filtereGuestdata = [];
             var searchText = $('#searchGuest').val().toLowerCase();
+            // if already autocomplete is performed
+            if (searchText.indexOf(',') > 0) {
+                searchText = searchText.split(',')[0];
+            }
+
             for (var i = 0; i < data.length; i++) {
                 // lookup for fname,lname,guestid,email,mobile#
                 if (!data[i] || (data[i].FirstName.toLowerCase().indexOf(searchText) < 0 && data[i].LastName.toLowerCase().indexOf(searchText) < 0

@@ -176,11 +176,25 @@
             $('#lName').val(data.LastName);
             $('#phone').val(data.MobileNumber);
             $('#email').val(data.EmailAddress);
+            $("#fName").prop("readonly", true);
+            $("#lName").prop("readonly", true);
             // clear guest history if guest id is not present
             gcm.AutoCollapseGuestHistory();
         }
 
-        $(document).ready(function () {
+        function clearGuestUi() {
+            $("#fName").prop("readonly", false);
+            $("#lName").prop("readonly", false);
+            $('#fName').val('');
+            $('#lName').val('');
+            $('#phone').val('');
+            $('#email').val('');
+            $('#hdnGuestId').val('');
+            // clear guest history if guest id is not present
+            gcm.AutoCollapseGuestHistory();
+        }
+
+        function init() {
             //if user is navigated to checkin screen from dashboard screen
             if (pmsSession.GetItem("dtcheckin") && pmsSession.GetItem("dtcheckout")) {
                 $("#dateFrom").val(pmsSession.GetItem("dtcheckin"));
@@ -191,12 +205,26 @@
             pmsSession.RemoveItem("dtcheckin");
             pmsSession.RemoveItem("dtcheckout");
 
+            $("#fName").prop("readonly", false);
+            $("#lName").prop("readonly", false);            
+        }
+
+        $(document).ready(function () {
+
+            init();
+
             $("#btnBooking").click(function () {
                 gcm.AddBooking();
             });
 
             $("#uploadPhoto").change(function () {
                 previewImage(this);
+            });
+
+            $('#searchGuest').keyup(function (e) {
+                if ($('#searchGuest').val() === '') {
+                    clearGuestUi();
+                }
             });
 
             var filtereGuestdata = [];           
