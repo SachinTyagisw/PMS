@@ -132,6 +132,8 @@
             booking.CreatedOn = getCurrentDate();
             booking.Status = "Confirmed";
             booking.IsActive = true;
+            booking.ISHOURLYCHECKIN = $('#hourCheckin')[0].checked ? true : false;
+            booking.HOURSTOSTAY = $('#hourCheckin')[0].checked && $('#hoursComboBox').val() > 0 ? parseInt($('#hoursComboBox').val()) : 0;
             //TODO : remove hardcoded value
             booking.CreatedBy = "vipul";
             // for new booking Id = -1 
@@ -463,7 +465,13 @@
         var city = $('#ddlCity').val();
         var state = $('#ddlState').val();
         var country = $('#ddlCountry').val();
+        var noOfHours = $('#hoursComboBox').val();
 
+        if ($('#hourCheckin')[0].checked && noOfHours === '-1') {
+            alert("Please select proper checkout hours");
+            return false;
+        }
+        
         // check checkin date 
         if (!dateFrom || dateFrom.length <= 0) {
             alert("Please select checkin date");
