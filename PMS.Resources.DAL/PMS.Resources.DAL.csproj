@@ -59,7 +59,13 @@
     <Compile Include="AddressType.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="AllTax.cs">
+      <DependentUpon>PmsModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Booking.cs">
+      <DependentUpon>PmsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ChargableFacility.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="City.cs">
@@ -68,7 +74,13 @@
     <Compile Include="Country.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Currency.cs">
+      <DependentUpon>PmsModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DalFactory.cs" />
+    <Compile Include="ExtraCharge.cs">
+      <DependentUpon>PmsModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="GETALLBOOKINGS_Result.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
@@ -119,6 +131,9 @@
     <Compile Include="Property.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Rate.cs">
+      <DependentUpon>PmsModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="RateType.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
@@ -138,6 +153,9 @@
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="State.cs">
+      <DependentUpon>PmsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Tax.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>

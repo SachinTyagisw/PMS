@@ -12,28 +12,22 @@ namespace PMS.Resources.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class RoomType
+    public partial class AllTax
     {
-        public RoomType()
+        public AllTax()
         {
-            this.Rates = new HashSet<Rate>();
-            this.Rooms = new HashSet<Room>();
-            this.RoomPricings = new HashSet<RoomPricing>();
+            this.Taxes = new HashSet<Tax>();
         }
     
         public int ID { get; set; }
-        public Nullable<int> PropertyID { get; set; }
-        public bool IsActive { get; set; }
+        public string TaxShortName { get; set; }
+        public string Description { get; set; }
+        public Nullable<bool> IsActive { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string LastUpdatedBy { get; set; }
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
-        public string NAME { get; set; }
-        public string ShortName { get; set; }
     
-        public virtual Property Property { get; set; }
-        public virtual ICollection<Rate> Rates { get; set; }
-        public virtual ICollection<Room> Rooms { get; set; }
-        public virtual ICollection<RoomPricing> RoomPricings { get; set; }
+        public virtual ICollection<Tax> Taxes { get; set; }
     }
 }

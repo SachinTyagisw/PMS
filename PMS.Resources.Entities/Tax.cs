@@ -6,17 +6,16 @@ using System.Threading.Tasks;
 
 namespace PMS.Resources.Entities
 {
-    public class RoomType
+    public class Tax
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public bool IsActive { get; set; }
+        public int ID { get; set; }
+        public Nullable<int> PropertyID { get; set; }
+        public Nullable<int> TaxId { get; set; }
+        public Nullable<decimal> Value { get; set; }
+        public Nullable<bool> IsActive { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string LastUpdatedBy { get; set; }
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
-        public Nullable<int> PropertyId { get; set; }
-        public string ShortName { get; set; }
-        public List<Rate> Rates { get; set; }
     }
 }

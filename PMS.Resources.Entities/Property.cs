@@ -17,5 +17,18 @@ namespace PMS.Resources.Entities
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
         public int UserId { get; set; }
         public int PropertyTypeId { get; set; }
+        public string PropertyName { get; set; }
+        public string SecondaryName { get; set; }
+        public string PropertyCode { get; set; }
+        public string FullAddress { get; set; }
+        public string Phone { get; set; }
+        public string Fax { get; set; }
+        public string LogoPath { get; set; }
+        public string WebSiteAddress { get; set; }
+        public string TimeZone { get; set; }
+        public Nullable<int> CurrencyID { get; set; }
+        public Nullable<System.TimeSpan> CheckinTime { get; set; }
+        public Nullable<System.TimeSpan> CheckoutTime { get; set; }
+        public Nullable<System.TimeSpan> CloseOfDayTime { get; set; }
     }
 }

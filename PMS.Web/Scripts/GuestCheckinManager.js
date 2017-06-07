@@ -338,7 +338,7 @@
 
         additionalGuest.Id = -1;
         additionalGuest.BookingId = -1;
-        //TODO:reading additonal guest info from grid 
+        //TODO:reading additional guest info from grid 
         additionalGuest.FirstName = $('#adFName').val();
         additionalGuest.LastName = $('#adLName').val();
         additionalGuest.IsActive = true;
