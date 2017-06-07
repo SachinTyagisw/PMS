@@ -137,10 +137,12 @@
             $(document).on({
                 ajaxStart: function ()
                 {
+                    $('#divLoader').addClass("bg-overlay");
                     $('.bg-overlay, .loader').css('display', 'block');
                 },
                 ajaxStop: function ()
                 {
+                    $('#divLoader').removeClass("bg-overlay");
                     $('.bg-overlay, .loader').css('display', 'none');
                 }
             });

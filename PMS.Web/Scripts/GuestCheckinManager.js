@@ -40,7 +40,7 @@
             var roomTypeId = parseInt(ddlRoomType.val());
             if (roomTypeId > -1) {
                 for (var i = 0; i < rooms.length; i++) {
-                    if (rooms[i].RoomType.Id !== roomTypeId || rooms[i].RoomStatus.Name === 'BOOKED') continue;
+                    if (rooms[i].RoomType.Id !== roomTypeId || rooms[i].RoomStatus.Name.toLowerCase() === 'booked') continue;
 
                     ddlRoom.append(new Option(rooms[i].Number, rooms[i].Id));
                 }
