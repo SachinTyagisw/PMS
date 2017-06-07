@@ -110,6 +110,9 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         showMonths: 3,
         skipMonths: 3,        
         onTimeRangeSelected: function (args) {
+            if ($scope.duration === 'today') {
+                args.day = DayPilot.Date.today();
+            }
             // to scroll calendar to selected date
             $scope.day = args.day;
             if ($scope.scheduler.visibleStart().getDatePart() <= args.day && args.day < $scope.scheduler.visibleEnd()) {
