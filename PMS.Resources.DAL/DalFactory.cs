@@ -185,7 +185,7 @@ namespace PMS.Resources.DAL
                                                  .Select(x => new PmsEntity.RateType
                                                  {
                                                      CreatedOn = x.CreatedOn,
-                                                     Name = x.Name,
+                                                     Name = x.NAME,
                                                      CreatedBy = x.CreatedBy,
                                                      LastUpdatedBy = x.LastUpdatedBy,
                                                      LastUpdatedOn = x.LastUpdatedOn,
@@ -220,7 +220,7 @@ namespace PMS.Resources.DAL
                                                  .Select(x => new PmsEntity.RoomType
                                                  {
                                                      CreatedOn = x.CreatedOn,
-                                                     Name = x.Name,
+                                                     Name = x.NAME,
                                                      CreatedBy = x.CreatedBy,
                                                      LastUpdatedBy = x.LastUpdatedBy,
                                                      LastUpdatedOn = x.LastUpdatedOn,
