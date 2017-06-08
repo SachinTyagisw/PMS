@@ -640,6 +640,8 @@
                         pmsService.ImageUpload(data);
                     }
                 }
+                //clear guesthistory from session storage
+                pmsSession.RemoveItem("guesthistory");
             } else {
                 console.error(status);
                 alert(status);
