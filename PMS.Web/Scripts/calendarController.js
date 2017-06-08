@@ -109,7 +109,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     $scope.navigatorConfig = {
         selectMode: "month",
         showMonths: 3,
-        skipMonths: 3,        
+        skipMonths: 1,        
         onTimeRangeSelected: function (args) {
             if ($scope.duration === 'today') {
                 args.day = DayPilot.Date.today();
