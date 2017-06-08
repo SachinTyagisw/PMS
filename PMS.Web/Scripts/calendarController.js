@@ -99,7 +99,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         $scope.schedulerConfig.scrollToAnimated = "fast";
         $scope.schedulerConfig.scrollTo = $scope.scheduler.getViewPort().start;  // keep the scrollbar position/by date
         if ($scope.scale === "month") {
-            $scope.schedulerConfig.cellWidth = 100;
+            $scope.schedulerConfig.cellWidth = 34;
             $scope.schedulerConfig.cellWidthSpec = 'Fixed';
         } else {
             $scope.schedulerConfig.cellWidthSpec = 'Auto';
@@ -386,7 +386,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                 return [{ groupBy: "Month" }, { groupBy: "Day", format: "dddd dd" }, { groupBy: "Hour", format: "h tt" }];
                 break;
             case "month":
-                return [{ groupBy: "Month" }, { groupBy: "Day", format: "dddd d" }];
+                return [{ groupBy: "Month" }, { groupBy: "Day", format: "ddd d" }];
                 break;
             case "week":
                 return [{ groupBy: "Month" }, { groupBy: "Day", format: "dddd d" }];
