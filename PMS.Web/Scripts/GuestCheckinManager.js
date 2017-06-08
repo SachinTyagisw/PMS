@@ -613,7 +613,20 @@
         var historyTemplate = $('#historyTemplate');
         divHistory.html(historyTemplate.render(data));
     }    
-
+        
+    function uploadImage(source) {
+        if (window.FormData !== undefined) {
+            // if success upload image of guest
+            var data = new FormData();
+            var files = source.get(0).files;
+            // Add the uploaded image content to the form data collection
+            if (files.length > 0) {
+                data.append("UploadedImage", files[0]);
+                pmsService.ImageUpload(data);
+            }
+        }
+    }
+    
     function ajaxHandlers() {
 
         // ajax handlers start
@@ -621,7 +634,7 @@
         pmsService.Handlers.OnAddBookingSuccess = function (data) {
             var status = data.StatusDescription.toLowerCase();
             if (status.indexOf("successfully") >= 0) {
-                //clearAllFields();
+                // clearAllFields();
                 var roomnumber = $('#roomddl').val();
                 var fname = $('#fName').val();
                 var lname = $('#lName').val();
@@ -630,17 +643,8 @@
                 alert(message);
                 console.log(message);
                 // if booking is successful then upload image
-                if (window.FormData !== undefined) {
-                    // if success upload image of guest
-                    var data = new FormData();
-                    var files = $("#uploadPhoto").get(0).files;
-                    // Add the uploaded image content to the form data collection
-                    if (files.length > 0) {
-                        data.append("UploadedImage", files[0]);
-                        pmsService.ImageUpload(data);
-                    }
-                }
-                //clear guesthistory from session storage
+                uploadImage($("#uploadPhoto"));
+                // clear guesthistory from session storage
                 pmsSession.RemoveItem("guesthistory");
             } else {
                 console.error(status);
