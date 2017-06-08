@@ -48,17 +48,27 @@ namespace PMS.Api.Controllers
         public Task<IEnumerable<string>> ImageUpload()
         {
             var logService = LoggingManager.GetLogInstance();
-            if (!HttpContext.Current.Request.Files.AllKeys.Any()) throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotAcceptable, "Invalid Request!"));  
+            if (!HttpContext.Current.Request.Files.AllKeys.Any()) 
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotAcceptable, "Invalid Request!"));  
             
             // Get the uploaded image from the Files collection
             var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
-            if (httpPostedFile == null || !Request.Content.IsMimeMultipartContent()) throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotAcceptable, "Invalid Request!"));  
+            if (httpPostedFile == null || !Request.Content.IsMimeMultipartContent()) 
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotAcceptable, "Invalid Request!"));  
 
             /*Simulate large file upload*/  
             //System.Threading.Thread.Sleep(5000);
-
-            string fullPath = HttpContext.Current.Server.MapPath("~/UploadedFiles");  
-            CustomMultipartFormDataStreamProvider streamProvider = new CustomMultipartFormDataStreamProvider(fullPath);  
+            var rootPath = HttpContext.Current.Server.MapPath("~/");
+            var uploadDirectory = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["UploadDirectory"]);
+            var fullPath = rootPath + uploadDirectory;
+            
+            if (!Directory.Exists(fullPath))
+            {
+                var di = Directory.CreateDirectory(fullPath);
+                logService.LogInformation(uploadDirectory + " Directory Creation Time:" + Directory.GetCreationTime(fullPath));
+            }
+            
+            var streamProvider = new CustomMultipartFormDataStreamProvider(fullPath);  
             var task = Request.Content.ReadAsMultipartAsync(streamProvider).ContinueWith(t =>  
             {  
                 if (t.IsFaulted || t.IsCanceled)  
