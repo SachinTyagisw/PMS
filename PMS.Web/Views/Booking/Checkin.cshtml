@@ -178,17 +178,27 @@
             $('#email').val(data.EmailAddress);
             $("#fName").prop("readonly", true);
             $("#lName").prop("readonly", true);
+            $("#ddlInitials [value=" + data.Gender + "]").attr("selected", "true");
+            $('#ddlInitials').attr("disabled", true);
+            $('#idDetails').val(data.GuestMappings[0].IDDETAILS);
+            $("#idDetails").prop("readonly", true);
+            $("#ddlIdType [value=" + data.GuestMappings[0].IdType.ID + "]").attr("selected", "true");
+            $('#ddlIdType').attr("disabled", true);
             // clear guest history if guest id is not present
             gcm.AutoCollapseGuestHistory();
         }
 
         function clearGuestUi() {
+            $('#ddlIdType').attr("disabled", false);
+            $("#idDetails").prop("readonly", false);
             $("#fName").prop("readonly", false);
             $("#lName").prop("readonly", false);
+            $('#ddlInitials').attr("disabled", false);
             $('#fName').val('');
             $('#lName').val('');
             $('#phone').val('');
             $('#email').val('');
+            $('#idDetails').val('');
             $('#hdnGuestId').val('');
             // clear guest history if guest id is not present
             gcm.AutoCollapseGuestHistory();

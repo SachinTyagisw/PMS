@@ -471,19 +471,33 @@ namespace PMS.Resources.DAL
             var guest = new List<PmsEntity.Guest>();
             using (var pmsContext = new PmsEntities())
             {
-                guest = pmsContext.Guests.Where(x => x.IsActive)
-                           .Select(x => new PmsEntity.Guest
-                           {
-                               Id = x.ID,
-                               DOB = x.DOB,
-                               EmailAddress = x.EmailAddress,
-                               FirstName = x.FirstName,
-                               Gender = x.Gender,
-                               LastName = x.LastName,
-                               MobileNumber = x.MobileNumber,
-                               PhotoPath = x.PhotoPath                               
-                           }).ToList();
+                guest = (from x in pmsContext.Guests
+                         where x.IsActive
+                         select new PmsEntity.Guest
+                         {
+                             Id = x.ID,
+                             DOB = x.DOB,
+                             EmailAddress = x.EmailAddress,
+                             FirstName = x.FirstName,
+                             Gender = x.Gender,
+                             LastName = x.LastName,
+                             MobileNumber = x.MobileNumber,
+                             PhotoPath = x.PhotoPath,
+                             GuestMappings = (from m in pmsContext.GuestMappings                                              
+                                              join i in pmsContext.IDTypes on m.IDTYPEID equals i.ID
+                                              where m.IsActive && m.GUESTID == x.ID
+                                              select new PmsEntity.GuestMapping
+                                              {
+                                                Id = m.ID,
+                                                IDDETAILS = m.IDDETAILS,
+                                                IdType = new PmsEntity.IDType
+                                                {
+                                                    ID = i.ID,
+                                                    Name = i.Name
+                                                }
+                                              }).ToList()                                          
 
+                         }).ToList();
             }
             return guest;
         }

@@ -225,7 +225,7 @@
             var data = $.parseJSON(pmsSession.GetItem("guestinfo"));
             // if no guest info found in session storage then return null
             if (!data || data.length <= 0) return data;
-            var filtereGuestdata = [];
+            var filterGuestdata = [];
             var searchText = $('#searchGuest').val().toLowerCase();
             // if already autocomplete is performed
             if (searchText.indexOf(',') > 0) {
@@ -234,22 +234,41 @@
 
             for (var i = 0; i < data.length; i++) {
                 // lookup for fname,lname,guestid,email,mobile#
-                if (!data[i] || (data[i].FirstName.toLowerCase().indexOf(searchText) < 0 && data[i].LastName.toLowerCase().indexOf(searchText) < 0
-                    && data[i].EmailAddress.toLowerCase().indexOf(searchText) < 0 && data[i].MobileNumber.toString().indexOf(searchText) < 0) && data[i].Id.toString().indexOf(searchText) < 0 ) continue;
+                if (!data[i] || (data[i].FirstName.toLowerCase().indexOf(searchText) < 0
+                    && data[i].LastName.toLowerCase().indexOf(searchText) < 0
+                    && data[i].EmailAddress.toLowerCase().indexOf(searchText) < 0
+                    && data[i].MobileNumber.toString().indexOf(searchText) < 0)
+                    && data[i].Id.toString().indexOf(searchText) < 0) {
 
-                    filtereGuestdata.push(data[i]);
+                    if (!data[i] || !data[i].GuestMappings || data[i].GuestMappings.length <= 0) continue;
+                    // look up for guest id number
+                    for (var j = 0; j < data[i].GuestMappings.length; j++) {
+                        if (!data[i].GuestMappings[j].IDDETAILS
+                        || data[i].GuestMappings[j].IDDETAILS.toLowerCase().indexOf(searchText) < 0) continue;
+
+                        if (data[i]) {
+                            filterGuestdata.push(data[i]);
+                        }
+                    }
+                   
+                } else {
+                    if (data[i]) {
+                        filterGuestdata.push(data[i]);
+                    }
+                }
             }
 
-            if (filtereGuestdata.length <= 0) {
+            if (filterGuestdata.length <= 0) {
                 $('#fName').val('');
                 $('#lName').val('');
                 $('#phone').val('');
                 $('#email').val('');
                 $('#hdnGuestId').val('');
+                $('#idDetails').val('');
                 // clear guest history if guest id is not present
                 window.GuestCheckinManager.AutoCollapseGuestHistory();
             }
-            return filtereGuestdata;
+            return filterGuestdata;
         },
 
         AutoCollapseGuestHistory: function () {
@@ -586,6 +605,7 @@
         $('#roomddl').empty();
         $("#searchGuest").val('');
         $('#hdnGuestId').val('');
+        $('#idDetails').val('');
         window.GuestCheckinManager.AutoCollapseGuestHistory();
     }
 
