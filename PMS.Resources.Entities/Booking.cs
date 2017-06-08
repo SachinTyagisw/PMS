@@ -8,7 +8,8 @@ namespace PMS.Resources.Entities
 {
     public class Booking
     {
-        public int Id { get; set; }        
+        public int Id { get; set; }
+        public double DurationOfStay { get; set; }  
         public Nullable<System.DateTime> CheckinTime { get; set; }
         public Nullable<System.DateTime> CheckoutTime { get; set; }
         public Nullable<int> NoOfAdult { get; set; }

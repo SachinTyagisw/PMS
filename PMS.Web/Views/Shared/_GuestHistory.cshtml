@@ -27,7 +27,7 @@
                 <tr>
                     <th>Property Name</th>
                     <th>Checkin Date</th>
-                    <th>Duration</th>
+                    <th>Duration (in hrs)</th>
                     <th>Room Type</th>
                     <th>Room Rates</th>
                     <th>Amount Paid</th>
@@ -38,7 +38,7 @@
                 <tr>
                     <td>${$value.RoomBookings[0].Room.Property.PropertyDetails}</td>
                     <td>${$value.CheckinTime}</td>
-                    <td>test</td>
+                    <td>${$value.DurationOfStay}</td>
                     <td class="color-success">${$value.RoomBookings[0].Room.RoomType.Name}</td>
                     <td>$1200.00</td>
                     <td>$1400.00</td>
