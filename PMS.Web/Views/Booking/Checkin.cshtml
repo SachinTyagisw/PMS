@@ -223,8 +223,12 @@
 
             init();
 
-            $("#btnBooking").click(function () {
-                gcm.AddBooking();
+            $("#btnCheckin").click(function () {
+                gcm.AddBooking('booked');
+            });
+
+            $("#btnReserved").click(function () {
+                gcm.AddBooking('reserved');
             });
 
             $("#uploadPhoto").change(function () {
@@ -341,8 +345,9 @@
     </div><!-- /# main -->
     <div class="footer-nav">
         <div class="">
-            <input id="btnBooking" type="button" class="btn btn-primary m-b-10 m-l-5" value="Submit" />
-            <input type="button" class="btn btn-default m-b-10" value="Clear" />
+            <input id="btnCheckin" type="button" class="btn btn-primary m-b-10 m-l-5" value="Checkin" />
+            <input id="btnCheckout" type="button" class="btn btn-primary m-b-10 m-l-5" value="Checkout" />
+            <input id="btnReserved" type="button" class="btn btn-primary m-b-10 m-l-5" value="Reservation" />
         </div>
     </div>
 

@@ -114,7 +114,7 @@
             }
         },
 
-        AddBooking: function () {
+        AddBooking: function (status) {
 
             if (!validateInputs()) return;
 
@@ -130,7 +130,7 @@
             booking.GuestRemarks = $('#guestComments').val();
             booking.TransactionRemarks = $('#transRemarks').val();
             booking.CreatedOn = getCurrentDate();
-            booking.Status = "Confirmed";
+            booking.Status = status;
             booking.IsActive = true;
             booking.ISHOURLYCHECKIN = $('#hourCheckin')[0].checked ? true : false;
             booking.HOURSTOSTAY = $('#hourCheckin')[0].checked && $('#hoursComboBox').val() > 0 ? parseInt($('#hoursComboBox').val()) : 0;
@@ -237,8 +237,7 @@
                 if (!data[i] || (data[i].FirstName.toLowerCase().indexOf(searchText) < 0
                     && data[i].LastName.toLowerCase().indexOf(searchText) < 0
                     && data[i].EmailAddress.toLowerCase().indexOf(searchText) < 0
-                    && data[i].MobileNumber.toString().indexOf(searchText) < 0)
-                    && data[i].Id.toString().indexOf(searchText) < 0) {
+                    && data[i].MobileNumber.toString().indexOf(searchText) < 0)){
 
                     if (!data[i] || !data[i].GuestMappings || data[i].GuestMappings.length <= 0) continue;
                     // look up for guest id number
@@ -622,8 +621,14 @@
         pmsService.Handlers.OnAddBookingSuccess = function (data) {
             var status = data.StatusDescription.toLowerCase();
             if (status.indexOf("successfully") >= 0) {
-                clearAllFields();
-                console.log(status);
+                //clearAllFields();
+                var roomnumber = $('#roomddl').val();
+                var fname = $('#fName').val();
+                var lname = $('#lName').val();
+                var initials = $('#ddlInitials').val();
+                var message = 'Roomnumber' + roomnumber + ' has been booked for ' + initials + ' ' + fname + ' ' + lname;
+                alert(message);
+                console.log(message);
                 // if booking is successful then upload image
                 if (window.FormData !== undefined) {
                     // if success upload image of guest
@@ -637,8 +642,8 @@
                 }
             } else {
                 console.error(status);
-            }
-            alert(status);
+                alert(status);
+            }            
         };
 
         pmsService.Handlers.OnAddBookingFailure = function () {
