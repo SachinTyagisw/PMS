@@ -25,7 +25,9 @@
             OnGetStateByCountryFailure: null,
             OnGetStateByCountrySuccess: null,
             OnGetGuestFailure: null,
-            OnGetGuestSuccess: null,            
+            OnGetGuestSuccess: null,
+            OnGetCityByStateFailure: null,
+            OnGetCityByStateSuccess: null,
         };
 
         this.GetGuest = function (args) {
@@ -34,6 +36,10 @@
 
         this.GetStateByCountry = function (args) {
             makeAjaxRequestGet(args, "GetStateByCountry", this, "api/v1/Booking/GetStateByCountry?id=" + args.Id);
+        };
+
+        this.GetCityByState = function (args) {
+            makeAjaxRequestGet(args, "GetCityByState", this, "api/v1/Booking/GetCityByState?id=" + args.Id);
         };
 
         this.GetCountry = function (args) {

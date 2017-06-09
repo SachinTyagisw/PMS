@@ -138,12 +138,31 @@
                 var stateData = pmsSession.GetItem("statedata");
                 if (stateData) {
                     var stateSessionData = $.parseJSON(stateData);
-                    idx = gcm.CheckIfKeyPresent(ddlCountry.val(), stateSessionData, true);
+                    idx = gcm.CheckIfKeyPresent(ddlCountry.val(), stateSessionData);
                 }
                 if (idx === -1) {
                     gcm.GetStateByCountry(isDdlCountryChange);
                 } else {
                     gcm.BindStateDdl(idx, isDdlCountryChange);
+                }
+            }
+        }
+
+        function OnStateChange() {
+            var idx = -1;
+            var ddlState = $('#ddlState');
+            var ddlCity = $('#ddlCity');
+            ddlCity.empty();
+            if (ddlState.val() !== '-1') {
+                var cityData = pmsSession.GetItem("citydata");
+                if (cityData) {
+                    var citySessionData = $.parseJSON(cityData);
+                    idx = gcm.CheckIfKeyPresent(ddlState.val(), citySessionData);
+                }
+                if (idx === -1) {
+                    gcm.GetCityByState();
+                } else {
+                    gcm.BindCityDdl(idx);
                 }
             }
         }
@@ -257,7 +276,7 @@
                 },
                 select: function (event, ui) {
                     var data = filtereGuestdata;
-                    idx = gcm.CheckIfKeyPresent(ui.item.value, data, false);
+                    idx = gcm.CheckIfKeyPresent(ui.item.value, data);
                     var selectedGuestObject = data[idx];
                     if (!selectedGuestObject) return false;
 

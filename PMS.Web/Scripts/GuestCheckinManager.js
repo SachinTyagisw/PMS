@@ -95,6 +95,24 @@
             }
         },
 
+        BindCityDdl: function (idx) {
+
+            var ddlState = $('#ddlState');
+            var ddlCity = $('#ddlCity');
+            var cityData = pmsSession.GetItem("citydata");
+            if (!ddlCity || !ddlState || !cityData) return;
+
+            var citySessionData = $.parseJSON(cityData);
+            if (!citySessionData || citySessionData.length <= 0) return;
+            var cityValue = citySessionData[idx].cityvalue;
+
+            ddlCity.empty();
+            ddlCity.append(new Option("Select City", "-1"));
+            for (var i = 0; i < cityValue.length; i++) {
+                ddlCity.append(new Option(cityValue[i].Name, cityValue[i].Id));
+            }
+        },
+
         BindCountryDdl: function () {
             var ddlCountry = $('#ddlCountry');
             var ddlIdCountry = $('#ddlIdCountry');
@@ -177,7 +195,7 @@
                 }
                 var guestSessionData = $.parseJSON(guestData);
                 if (!guestSessionData || guestSessionData.length <= 0) return;
-                var idx = gcm.CheckIfKeyPresent(args.guestId, guestSessionData, false);
+                var idx = gcm.CheckIfKeyPresent(args.guestId, guestSessionData);
                 // guestid does not exists in session then call api 
                 if (idx < 0) {
                     pmsService.GetGuestHistoryById(args);
@@ -200,24 +218,22 @@
             pmsService.GetStateByCountry(args);
         },
 
-        CheckIfKeyPresent: function (key, object, shouldCheckCountryKey) {
+        GetCityByState: function () {
+            args.Id = $('#ddlState').val();
+            // get city by api calling  
+            pmsService.GetCityByState(args);
+        },
+
+        CheckIfKeyPresent: function (key, object) {
             var idx = -1;
             var found = false;
             if (object.length <= 0) return idx;
 
-            if (shouldCheckCountryKey) {
-                for (var i = 0; i < object.length; i++) {
-                    if (!object[i] || !object[i].countrykey || object[i].countrykey !== key) continue;
-                    idx = i;
-                    break;
-                }
-            } else {
-                for (var i = 0; i < object.length; i++) {
-                    if (!object[i] || !object[i].Id || object[i].Id !== key) continue;
-                    idx = i;
-                    break;
-                }
-            }            
+            for (var i = 0; i < object.length; i++) {
+                if (!object[i] || !object[i].Id || object[i].Id !== key) continue;
+                idx = i;
+                break;
+            }
             return idx;
         },
 
@@ -707,7 +723,7 @@
             if (!data || !data.GuestHistory || data.GuestHistory.length <= 0) return;
 
             var guestId = $('#hdnGuestId').val();
-            var idx = gcm.CheckIfKeyPresent(guestId, pmsSession.GuestSessionKey, false);
+            var idx = gcm.CheckIfKeyPresent(guestId, pmsSession.GuestSessionKey);
             // store guesthistory data in session storage only when guestid is not present in session
             if (idx === -1) {
                 pmsSession.GuestSessionKey.push({
@@ -739,11 +755,11 @@
             
             var countryId = isDdlCountryChange ? $('#ddlCountry').val() : $('#ddlIdCountry').val();
             
-            var idx = gcm.CheckIfKeyPresent(countryId, pmsSession.CountrySessionKey,true);
+            var idx = gcm.CheckIfKeyPresent(countryId, pmsSession.CountrySessionKey);
             // store state data in session storage only when country key is not present
             if (idx === -1) {
                 pmsSession.CountrySessionKey.push({
-                    countrykey: countryId,
+                    Id: countryId,
                     statevalue: data.States
                 });
                 pmsSession.SetItem("statedata", JSON.stringify(pmsSession.CountrySessionKey));
@@ -767,6 +783,29 @@
             console.error("get guest call failed");
         };
 
+        pmsService.Handlers.OnGetCityByStateSuccess = function (data) {
+            if (!data || !data.City || data.City.length <= 0) return;
+
+            var stateId = $('#ddlState').val();
+
+            var idx = gcm.CheckIfKeyPresent(stateId, pmsSession.StateSessionKey);
+            // store city data in session storage only when state key is not present
+            if (idx === -1) {
+                pmsSession.StateSessionKey.push({
+                    Id: stateId,
+                    cityvalue: data.City
+                });
+                pmsSession.SetItem("citydata", JSON.stringify(pmsSession.StateSessionKey));
+                //calculating the index of the citydata added in session above
+                idx = pmsSession.StateSessionKey.length - 1;
+            }
+
+            window.GuestCheckinManager.BindCityDdl(idx);
+        };
+        pmsService.Handlers.OnGetCityByStateFailure = function () {
+            // show error log
+            console.error("get city call failed");
+        };
         // ajax handlers end
     }
 
