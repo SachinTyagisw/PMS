@@ -18,7 +18,7 @@ namespace PMS.Resources.DAL
         public Nullable<int> PropertyID { get; set; }
         public Nullable<int> TaxId { get; set; }
         public Nullable<decimal> Value { get; set; }
-        public Nullable<bool> IsActive { get; set; }
+        public bool IsActive { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string LastUpdatedBy { get; set; }

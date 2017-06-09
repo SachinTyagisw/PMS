@@ -236,6 +236,10 @@ namespace PMS.Resources.Logic
             return DalFactory.GetAllGuest();
         }
 
+        public List<PmsEntity.Tax> GetPayment(PmsEntity.Payment payment)
+        {
+            return DalFactory.GetPayment(payment);
+        }
 
         #region helper methods 
         private string RemoveXmlDefaultNode(string xml)

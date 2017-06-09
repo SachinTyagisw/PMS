@@ -31,5 +31,6 @@ namespace PMS.Resources.Entities
         public List<Address> Addresses { get; set; }
         public List<GuestMapping> GuestMappings { get; set; }
         public List<AdditionalGuest> AdditionalGuests { get; set; }
+        public Payment Payment { get; set; }
     }
 }

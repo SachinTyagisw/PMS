@@ -503,5 +503,21 @@ namespace PMS.Resources.DAL
             }
             return guest;
         }
+
+        public List<PmsEntity.Tax> GetPayment(PmsEntity.Payment payment)
+        {
+            var tax = new List<PmsEntity.Tax>();
+            using (var pmsContext = new PmsEntities())
+            {
+                TimeSpan? ts = payment.CheckoutTime - payment.CheckinTime;
+                var noOfDays = ts.HasValue ? Convert.ToInt32(ts.Value.TotalDays) : 1;
+                var resultSet = pmsContext.GETBOOKINGAMOUNT(payment.PropertyId, payment.RoomTypeId, payment.RateTypeId, Convert.ToInt32(payment.NoOfHours), noOfDays, payment.IsHourly);
+                if (resultSet == null) return tax;
+                //foreach (var result in resultSet)
+                //{
+                //}
+            }
+            return tax;
+        }
     }
 }

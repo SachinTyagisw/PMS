@@ -59,7 +59,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TaxShortName" Type="nvarchar" MaxLength="100" />
           <Property Name="Description" Type="nvarchar(max)" />
-          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
@@ -93,7 +93,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FacilityShortName" Type="nvarchar" MaxLength="100" />
           <Property Name="Description" Type="nvarchar(max)" />
-          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
@@ -146,7 +146,7 @@
           <Property Name="PropertyID" Type="int" />
           <Property Name="FacilityKey" Type="int" />
           <Property Name="Value" Type="money" />
-          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
@@ -281,7 +281,7 @@
           <Property Name="RoomTypeID" Type="int" />
           <Property Name="InputKeyHours" Type="int" />
           <Property Name="Value" Type="money" />
-          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
@@ -398,7 +398,7 @@
           <Property Name="PropertyID" Type="int" />
           <Property Name="TaxId" Type="int" />
           <Property Name="Value" Type="money" />
-          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
@@ -783,7 +783,7 @@
         </Function>
         <Function Name="GETALLGUESTS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GETBOOKINGAMOUNT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="PROPERTYD" Type="int" Mode="In" />
+          <Parameter Name="PROPERTYID" Type="int" Mode="In" />
           <Parameter Name="ROOMTYPEID" Type="int" Mode="In" />
           <Parameter Name="RATETYPEID" Type="int" Mode="In" />
           <Parameter Name="NOOFHOURS" Type="int" Mode="In" />
@@ -1023,7 +1023,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TaxShortName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
@@ -1063,7 +1063,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FacilityShortName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
@@ -1121,7 +1121,7 @@
           <Property Name="PropertyID" Type="Int32" />
           <Property Name="FacilityKey" Type="Int32" />
           <Property Name="Value" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
@@ -1281,7 +1281,7 @@
           <Property Name="RoomTypeID" Type="Int32" />
           <Property Name="InputKeyHours" Type="Int32" />
           <Property Name="Value" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
@@ -1418,7 +1418,7 @@
           <Property Name="PropertyID" Type="Int32" />
           <Property Name="TaxId" Type="Int32" />
           <Property Name="Value" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
@@ -1956,7 +1956,7 @@
           </FunctionImport>
           <FunctionImport Name="GETALLGUESTS" ReturnType="Collection(PmsModel.GETALLGUESTS_Result)" />
           <FunctionImport Name="GETBOOKINGAMOUNT">
-            <Parameter Name="PROPERTYD" Mode="In" Type="Int32" />
+            <Parameter Name="PROPERTYID" Mode="In" Type="Int32" />
             <Parameter Name="ROOMTYPEID" Mode="In" Type="Int32" />
             <Parameter Name="RATETYPEID" Mode="In" Type="Int32" />
             <Parameter Name="NOOFHOURS" Mode="In" Type="Int32" />
