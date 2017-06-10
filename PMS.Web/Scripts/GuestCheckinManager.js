@@ -299,15 +299,41 @@
         PopulateInvoice: function (data) {
             var divInvoice = $('#divInvoice');
             var invoiceTemplate = $('#invoiceTemplate');
-            //TODO: calculate total room charge based on base room charge
-            var tax = {};
-            tax.Value = 500;
-            tax.TaxName = 'TotalRoomCharge';
-            data.Tax.push(tax);
+            data = calculateTotalRoomCharge(data)
             divInvoice.html(invoiceTemplate.render(data));
+        },
+
+        IsNumeric: function (e) {
+            if (e.shiftKey || e.ctrlKey || e.altKey) {
+                e.preventDefault();
+                return false;
+            } else {
+                var key = e.keyCode;
+                if (!((key == 8) || (key == 46) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+                    e.preventDefault();
+                    return false;
+                }
+            }
+            return true;
         }
     };
     
+    function calculateTotalRoomCharge(data) {
+        if (!data) return data;
+        //calculate total room charge based on base room charge
+        var stayDays = data.StayDays ? data.StayDays : 1;
+        var tax = {};
+        for (var i = 0; i < data.Tax.length; i++) {
+            if (!data.Tax[i] || data.Tax[i].TaxName !== 'Base Room Charge') continue;
+            tax.Value = parseInt(data.Tax[i].Value) * 3;
+            break;
+        }
+
+        tax.TaxName = 'Total Room Charge';
+        data.Tax.push(tax);
+        return data;
+    }
+
     function prepareAddressDto() {
         var addresses = [];
         var address = {};

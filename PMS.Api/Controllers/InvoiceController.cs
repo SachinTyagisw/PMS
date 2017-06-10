@@ -58,8 +58,11 @@ namespace PMS.Api.Controllers
             if (request.Invoice == null || request.Invoice.PropertyId <=0
                 || request.Invoice.RateTypeId <= 0 || request.Invoice.RoomTypeId <= 0 
                 ) throw new PmsException("Get Invoice call failed.");
-            
+
             var response = new GetInvoiceResponseDto();
+            TimeSpan? ts = request.Invoice.CheckoutTime - request.Invoice.CheckinTime;
+            response.StayDays = ts.HasValue ? Convert.ToInt32(ts.Value.TotalDays) : 1;
+            
             var mock = true;
             if(mock)
             {
@@ -91,7 +94,7 @@ namespace PMS.Api.Controllers
                        Value = 30
                     }
                 };
-                response.Tax.OrderBy(x => x.TaxName);
+                response.Tax.OrderBy(x => x.TaxName);                
                 return response;
             }
             
