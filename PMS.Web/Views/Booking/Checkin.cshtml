@@ -15,7 +15,17 @@
         function OnTaxValChange(e, htmlElement) {
             if (isNaN(htmlElement.value)) {
                 htmlElement.value = '';
+                if (htmlElement.name && htmlElement.name === 'BaseRoomCharge') {
+                    $('#totalRoomCharge')[0].innerText = 0;
+                }
                 return;
+            } else {
+                if (htmlElement.name && htmlElement.name === 'BaseRoomCharge') {
+                    //TODO: get stayDays value
+                    var stayDays = 2;                    
+                    var baseRoomCharge = htmlElement.value ? parseFloat(htmlElement.value, 10).toFixed(2) : 0;
+                    $('#totalRoomCharge')[0].innerText = baseRoomCharge * stayDays;
+                }
             }
         }
 

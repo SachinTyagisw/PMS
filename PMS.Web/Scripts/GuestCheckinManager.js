@@ -324,12 +324,13 @@
         var stayDays = data.StayDays ? data.StayDays : 1;
         var tax = {};
         for (var i = 0; i < data.Tax.length; i++) {
-            if (!data.Tax[i] || data.Tax[i].TaxName !== 'Base Room Charge') continue;
-            tax.Value = parseInt(data.Tax[i].Value) * 3;
+            if (!data.Tax[i] || data.Tax[i].TaxName !== 'BaseRoomCharge') continue;
+            tax.Value = parseInt(data.Tax[i].Value) * stayDays;
             break;
         }
 
-        tax.TaxName = 'Total Room Charge';
+        tax.TaxName = 'TotalRoomCharge';
+        tax.Description = 'Total Room Charge';
         data.Tax.push(tax);
         return data;
     }

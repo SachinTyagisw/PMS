@@ -18,5 +18,6 @@ namespace PMS.Resources.Entities
         public string LastUpdatedBy { get; set; }
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
         public string TaxName { get; set; }
+        public string Description { get; set; }
     }
 }
