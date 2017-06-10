@@ -6,20 +6,16 @@ using System.Threading.Tasks;
 
 namespace PMS.Resources.Entities
 {
-    public partial class Invoice
+    public class Invoice
     {
-        public int ID { get; set; }
-        public Nullable<bool> IsPaid { get; set; }
-        public string FolioNumber { get; set; }
-        public Nullable<decimal> ExtraCharges { get; set; }
-        public bool IsActive { get; set; }
-        public string CreatedBy { get; set; }
-        public Nullable<System.DateTime> CreatedOn { get; set; }
-        public string LastUpdatedBy { get; set; }
-        public Nullable<System.DateTime> LastUpdatedOn { get; set; }
-
-        public Booking Booking { get; set; }
-        public Guest Guest { get; set; }
-        public List<InvoiceTaxDetail> InvoiceTaxDetails { get; set; }
+        public int? BookingId { get; set; }
+        public int? PropertyId { get; set; }
+        public int? RoomTypeId { get; set; }
+        public int? RateTypeId { get; set; }
+        public decimal? NoOfHours { get; set; }
+        public Nullable<System.DateTime> CheckinTime { get; set; }
+        public Nullable<System.DateTime> CheckoutTime { get; set; }
+        public Nullable<bool> IsHourly { get; set; }
+        public List<Tax> Tax { get; set; }
     }
 }

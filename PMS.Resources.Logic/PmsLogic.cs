@@ -236,9 +236,9 @@ namespace PMS.Resources.Logic
             return DalFactory.GetAllGuest();
         }
 
-        public List<PmsEntity.Tax> GetPayment(PmsEntity.Payment payment)
+        public List<PmsEntity.Tax> GetInvoice(PmsEntity.Invoice invoice)
         {
-            return DalFactory.GetPayment(payment);
+            return DalFactory.GetInvoice(invoice);
         }
 
         #region helper methods 

@@ -28,6 +28,12 @@
             OnGetGuestSuccess: null,
             OnGetCityByStateFailure: null,
             OnGetCityByStateSuccess: null,
+            OnGetInvoiceFailure: null,
+            OnGetInvoiceSuccess: null,
+        };
+
+        this.GetInvoice = function (args) {
+            makeAjaxRequestPost(args, "GetInvoice", this, "api/v1/Invoice/GetInvoice");
         };
 
         this.GetGuest = function (args) {

@@ -10,7 +10,7 @@
             getRoomTypes();
             getRoomRateTypes();
             getCountry();
-            getAllGuest();
+            getAllGuest();            
             //getRooms();
         },
 
@@ -151,7 +151,8 @@
             booking.Status = status;
             booking.IsActive = true;
             booking.ISHOURLYCHECKIN = $('#hourCheckin')[0].checked ? true : false;
-            booking.HOURSTOSTAY = $('#hourCheckin')[0].checked && $('#hoursComboBox').val() > 0 ? parseInt($('#hoursComboBox').val()) : 0;
+            var noOfHours = $('#hoursComboBox').val();
+            booking.HOURSTOSTAY = $('#hourCheckin')[0].checked && parseInt(noOfHours) > 0 ? parseInt(noOfHours) : 0;
             //TODO : remove hardcoded value
             booking.CreatedBy = "vipul";
             // for new booking Id = -1 
@@ -292,6 +293,12 @@
             $("#history").attr("class", "collapsed");
             $('#collapse1').attr('aria-expanded', "false");
             $("#collapse1").attr("class", "panel-collapse collapse");
+        },
+        
+        PopulateInvoice: function (data) {
+            alert('success');
+            var dta = data;
+            
         }
     };
     
@@ -438,6 +445,59 @@
         }
     }
 
+    function getInvoice() {
+        // get invoice details by api calling 
+        var invoiceRequestDto = {};
+        invoiceRequestDto.Invoice = {};
+        var invoice = {};
+        invoice.PropertyId = pmsSession.GetItem("propertyid");
+        
+        var dateFrom = $('#dateFrom').val();
+        var dateTo = $('#dateTo').val();
+        var roomType = $('#roomTypeDdl').val();
+        var rateType = $('#rateTypeDdl').val();
+        var noOfHours = $('#hoursComboBox').val();
+
+        // check checkin date 
+        if (!dateFrom || dateFrom.length <= 0) {
+            alert("Please select checkin date");
+            $('#dateFrom').focus();
+            return false;
+        }
+
+        // check checkout date 
+        if (!dateTo || dateTo.length <= 0) {
+            alert("Please select checkout date");
+            $('#dateTo').focus();
+            return false;
+        }
+
+        if (!roomType || roomType === '-1') {
+            alert("Select proper room type");
+            return false;
+        }
+
+        if (!rateType || rateType === '-1') {
+            alert("Select proper rate type");
+            return false;
+        }
+
+        if ($('#hourCheckin')[0].checked && noOfHours === '-1') {
+            alert("Please select proper checkout hours");
+            return false;
+        }
+
+        invoice.CheckinTime = dateFrom;
+        invoice.CheckoutTime = dateTo;
+        invoice.RoomTypeId = roomType
+        invoice.RateTypeId = rateType
+        invoice.IsHourly = $('#hourCheckin')[0].checked ? true : false;
+        invoice.NoOfHours = $('#hourCheckin')[0].checked && parseInt(noOfHours) > 0 ? parseInt(noOfHours) : 0;
+        
+        invoiceRequestDto.Invoice = invoice;
+        pmsService.GetInvoice(invoiceRequestDto);
+    }    
+
     function getCountry() {
         var countryData = pmsSession.GetItem("countrydata");
         if (!countryData) {
@@ -513,7 +573,7 @@
             return false;
         }
 
-        // check checkin date 
+        // check checkout date 
         if (!dateTo || dateTo.length <= 0) {
             alert("Please select checkout date");
             $('#dateTo').focus();
@@ -806,6 +866,17 @@
             // show error log
             console.error("get city call failed");
         };
+
+        pmsService.Handlers.OnGetInvoiceSuccess = function (data) {
+            if (!data || !data.Tax || data.Tax.length <= 0) return;
+
+            window.GuestCheckinManager.PopulateInvoice(data);
+        };
+        pmsService.Handlers.OnGetInvoiceFailure = function () {
+            // show error log
+            console.error("get Invoice call failed");
+        };
+
         // ajax handlers end
     }
 

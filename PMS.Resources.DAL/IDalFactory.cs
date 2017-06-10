@@ -57,7 +57,7 @@ namespace PMS.Resources.DAL
         List<PmsEntity.City> GetCityByState(int id);
         List<PmsEntity.Country> GetCountry();
         List<PmsEntity.Guest> GetAllGuest();
-        List<PmsEntity.Tax> GetPayment(PmsEntity.Payment payment);
+        List<PmsEntity.Tax> GetInvoice(PmsEntity.Invoice invoice);
     }
 }
 
