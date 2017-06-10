@@ -1,96 +1,82 @@
-﻿<div class="col-lg-4">
-    <div class="card alert card-section">
-        <div class="card-header">
-            <h4>Payment Summary</h4>
-        </div>
-        <div id="invoice-bot">
-            <div id="invoice-table">
-                <table class="table table-responsive">
-                    <tbody>
-                        <tr class="tabletitle">
-                            <td class="table-item">
-                                <b>Item Description</b>
-                            </td>
-                            <td class="subtotal">
-                                <b>Sub-total</b>
-                            </td>
-                        </tr>
-
-                        <tr class="service">
-                            <td class="tableitem">
-                                Total Room Charge
-                            </td>
-                            <td class="tableitem">
-                                $2800.00
-                            </td>
-                        </tr>
-
-                        <tr class="service">
-                            <td class="tableitem">
-                                Extra Service
-                            </td>
-                            <td class="tableitem">
-                                $0.00
-                            </td>
-                        </tr>
-                        <tr class="service">
-                            <td class="tableitem">
-                                Extra Service
-                            </td>
-                            <td class="tableitem">
-                                $0.00
-                            </td>
-                        </tr>
-                        <tr class="service">
-                            <td class="tableitem">
-                                TAX1
-                            </td>
-                            <td class="tableitem">
-                                $75.00
-                            </td>
-                        </tr>
-                        <tr class="service">
-                            <td class="tableitem">
-                                TAX2
-                            </td>
-                            <td class="tableitem">
-                                $75.00
-                            </td>
-                        </tr>
-                        <tr class="service">
-                            <td class="tableitem">
-                                TAX3
-                            </td>
-                            <td class="tableitem">
-                                $75.00
-                            </td>
-                        </tr>
-
-                        <tr class="service">
-                            <td class="tableitem">
-                                <span class="color-danger">Discount</span>
-                            </td>
-                            <td class="tableitem">
-                                <span class="color-danger">- $200.00</span>
-                            </td>
-                        </tr>
-
-                        <tr class="tabletitle">
-
-                            <td class="Rate">
-                                <b>Total</b>
-                            </td>
-                            <td class="payment">
-                                <b class="">$2,675.00</b>
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </table>
+﻿<script type='text/javascript'>
+    function OnTaxValChange(e) {
+        if (e.shiftKey || e.ctrlKey || e.altKey) {            
+            $('#taxVal').val('');
+            e.preventDefault();
+        } else {
+            var key = e.keyCode;
+            if (!((key == 8) || (key == 46) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+                $('#taxVal').val('');
+                e.preventDefault();
+            }
+        }
+    }
+</script>
+    <div class="col-lg-4">
+        <div class="card alert card-section">
+            <div class="card-header">
+                <h4>Payment Summary</h4>
             </div>
-            <!--End Table-->
-            <button type="button" class="btn btn-primary m-l-5 m-t-15">Print Receipt</button>
-            <button type="button" class="btn btn-primary m-l-5 m-t-15">Print Folio</button>
+            <div id="invoice-bot">
+                <div id="invoice-table">
+                    <div id="divInvoice">
+
+                    </div>
+                </div>
+                <!--End Table-->
+                <button type="button" class="btn btn-primary m-l-5 m-t-15">Print Receipt</button>
+                <button type="button" class="btn btn-primary m-l-5 m-t-15">Print Folio</button>
+            </div>
         </div>
     </div>
-</div>    
+    <script type="text/html" id="invoiceTemplate">
+        <table class="table table-responsive">
+            <tbody>
+                <tr class="tabletitle">
+                    <td class="table-item">
+                        <b>Item Description</b>
+                    </td>
+                    <td class="subtotal">
+                        <b>Sub-total</b>
+                    </td>
+                </tr>
+    {{each Tax}}
+    {{if $value.TaxName === 'TotalRoomCharge' }}
+    <tr class="service">
+        <td class="tableitem">
+            Total Room Charge
+        </td>
+        <td class="tableitem">
+            $2800.00
+        </td>
+    </tr>
+    {{else}}
+    <tr class="service">
+        <td class="tableitem">${$value.TaxName}</td>
+        <td class="tableitem">
+            <input id="taxVal" onkeyup="OnTaxValChange(event)" value="${$value.Value}" />
+        </td>
+    </tr>
+    {{/if}}
+        {{/each}}
+        <tr class="service">
+            <td class="tableitem">
+                <span class="color-danger">Discount</span>
+            </td>
+            <td class="tableitem">
+                <input id="discount" class="color-danger" value="$200.00" />
+            </td>
+        </tr>
+        <tr class="tabletitle">
+
+            <td class="Rate">
+                <b>Total</b>
+            </td>
+            <td class="payment">
+                <b class="">$2,675.00</b>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</script>
+

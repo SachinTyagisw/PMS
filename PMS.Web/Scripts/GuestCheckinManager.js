@@ -10,7 +10,8 @@
             getRoomTypes();
             getRoomRateTypes();
             getCountry();
-            getAllGuest();            
+            getAllGuest();
+            getInvoice();
             //getRooms();
         },
 
@@ -133,7 +134,7 @@
         },
 
         AddBooking: function (status) {
-
+            
             if (!validateInputs()) return;
 
             var bookingRequestDto = {};
@@ -296,9 +297,14 @@
         },
         
         PopulateInvoice: function (data) {
-            alert('success');
-            var dta = data;
-            
+            var divInvoice = $('#divInvoice');
+            var invoiceTemplate = $('#invoiceTemplate');
+            //TODO: calculate total room charge based on base room charge
+            var tax = {};
+            tax.Value = 500;
+            tax.TaxName = 'TotalRoomCharge';
+            data.Tax.push(tax);
+            divInvoice.html(invoiceTemplate.render(data));
         }
     };
     
@@ -457,6 +463,12 @@
         var roomType = $('#roomTypeDdl').val();
         var rateType = $('#rateTypeDdl').val();
         var noOfHours = $('#hoursComboBox').val();
+        
+        // TODO: remove hardcoded value
+        dateFrom = "06/12/2017 12:00 am";
+        dateTo = "06/12/2017 2:00 am";
+        roomType = 1;
+        rateType = 1;
 
         // check checkin date 
         if (!dateFrom || dateFrom.length <= 0) {

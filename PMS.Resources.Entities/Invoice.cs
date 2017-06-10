@@ -12,7 +12,7 @@ namespace PMS.Resources.Entities
         public int? PropertyId { get; set; }
         public int? RoomTypeId { get; set; }
         public int? RateTypeId { get; set; }
-        public decimal? NoOfHours { get; set; }
+        public int? NoOfHours { get; set; }
         public Nullable<System.DateTime> CheckinTime { get; set; }
         public Nullable<System.DateTime> CheckoutTime { get; set; }
         public Nullable<bool> IsHourly { get; set; }

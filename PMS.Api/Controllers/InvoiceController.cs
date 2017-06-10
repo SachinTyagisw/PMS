@@ -68,6 +68,12 @@ namespace PMS.Api.Controllers
                 {
                     new Tax 
                     {
+                       TaxName = "Base Room Charge",
+                       TaxId = 4,
+                       Value = 11
+                    },
+                    new Tax 
+                    {
                        TaxName = "VAT",
                        TaxId = 1,
                        Value = 10
@@ -85,6 +91,7 @@ namespace PMS.Api.Controllers
                        Value = 30
                     }
                 };
+                response.Tax.OrderBy(x => x.TaxName);
                 return response;
             }
             

@@ -511,7 +511,7 @@ namespace PMS.Resources.DAL
             {
                 TimeSpan? ts = invoice.CheckoutTime - invoice.CheckinTime;
                 var noOfDays = ts.HasValue ? Convert.ToInt32(ts.Value.TotalDays) : 1;
-                var resultSet = pmsContext.GETBOOKINGAMOUNT(invoice.PropertyId, invoice.RoomTypeId, invoice.RateTypeId, Convert.ToInt32(invoice.NoOfHours), noOfDays, invoice.IsHourly);
+                var resultSet = pmsContext.GETBOOKINGAMOUNT(invoice.PropertyId, invoice.RoomTypeId, invoice.RateTypeId, invoice.NoOfHours, noOfDays, invoice.IsHourly);
                 if (resultSet == null) return tax;
                 //foreach (var result in resultSet)
                 //{
