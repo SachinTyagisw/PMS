@@ -27,24 +27,17 @@
                     </td>
                 </tr>
     {{each Tax}}
-    {{if $value.TaxName !== 'TotalRoomCharge' }}
                 <tr class="service">
-                    <td class="tableitem">${$value.Description}</td>
+                    <td class="tableitem">${$value.TaxName}</td>
                     <td class="tableitem">
+                        {{if $value.IsEnabled }}
                         $<input id="taxVal" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
+                        {{else}}
+                        $<input id="taxVal" disabled="disabled" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
+                        {{/if}}
+                        
                     </td>
                 </tr>
-    
-    {{else}}
-                <tr class="service">
-                    <td class="tableitem">
-                        ${$value.Description}
-                    </td>
-                    <td id="totalRoomCharge" class="tableitem">
-                       ${$value.Value}
-                    </td>
-                </tr>
-    {{/if}}
     {{/each}}
         <tr class="service">
             <td class="tableitem">

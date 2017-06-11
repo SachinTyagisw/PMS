@@ -61,7 +61,7 @@ namespace PMS.Api.Controllers
 
             var response = new GetInvoiceResponseDto();
             TimeSpan? ts = request.Invoice.CheckoutTime - request.Invoice.CheckinTime;
-            response.StayDays = ts.HasValue ? Convert.ToInt32(ts.Value.TotalDays) : 1;
+            response.StayDays = !ts.HasValue || Convert.ToBoolean(request.Invoice.IsHourly) ? 1 : Convert.ToInt32(ts.Value.TotalDays);
             
             var mock = true;
             if(mock)
@@ -72,30 +72,30 @@ namespace PMS.Api.Controllers
                     new Tax 
                     {
                        TaxName = "BaseRoomCharge",
-                       Description = "Base Room Charge",
                        TaxId = 4,
-                       Value = 11
+                       Value = 11,
+                       IsEnabled = true
                     },
                     new Tax 
                     {
                        TaxName = "VAT",
-                       Description = "VAT",
                        TaxId = 1,
-                       Value = 10
+                       Value = 10,
+                       IsEnabled = true
                     },
                     new Tax 
                     {
                        TaxName = "ServiceTax",
-                       Description = "Service Tax",
                        TaxId = 2,
-                       Value = 20
+                       Value = 20,
+                       IsEnabled = true
                     },
                     new Tax 
                     {
                        TaxName = "Misc Tax",
-                       Description = "MiscTax",
                        TaxId = 3,
-                       Value = 30
+                       Value = 30,
+                       IsEnabled = true
                     }
                 };
                 response.Tax.OrderBy(x => x.TaxName);                

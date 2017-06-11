@@ -134,7 +134,7 @@
         },
 
         AddBooking: function (status) {
-            
+
             if (!validateInputs()) return;
 
             var bookingRequestDto = {};
@@ -326,13 +326,37 @@
                 if (!htmlElementCol[i] || !htmlElementCol[i].value || !htmlElementCol[i].name || htmlElementCol[i].name === 'BaseRoomCharge') continue;
                 totalCharge = (parseFloat(totalCharge) + parseFloat(htmlElementCol[i].value, 10)).toFixed(2);
             }
-            var totalRoomCharge = $('#totalRoomCharge')[0].innerText;
-            totalRoomCharge = !totalRoomCharge || isNaN(totalRoomCharge) ? 0 : parseFloat(totalRoomCharge, 10).toFixed(2);
-            totalCharge = (parseFloat(totalCharge) + parseFloat(totalRoomCharge)).toFixed(2);
+            
             totalCharge = applyDiscount(totalCharge);
             $('#total')[0].innerText = totalCharge;
             return totalCharge;
+        },
+        
+        GetTotalRoomChargeElement: function(){
+            var htmlElementCol = $("input[name*='TotalRoomCharge']");
+            if (!htmlElementCol || htmlElementCol.length <= 0) return null;
+            return htmlElementCol[0];
         }
+        
+        //DateDiff: function () {
+        //    //var dateFrom = $('#dateFrom').val();
+        //    //var dateTo = $('#dateTo').val();
+        //    //alert(dateFrom);
+
+        //    var start_actual_time = "01/17/2012 11:20";
+        //    var end_actual_time = "01/18/2012 12:25";
+
+        //    start_actual_time = new Date(start_actual_time);
+        //    end_actual_time = new Date(end_actual_time);
+
+        //    var diff = end_actual_time - start_actual_time;
+
+        //    var diffSeconds = diff / 1000;
+        //    var HH = Math.floor(diffSeconds / 3600);
+        //    var MM = Math.floor(diffSeconds % 3600) / 60;
+        //    alert(HH);
+
+        //}
     };
     
     function applyDiscount(totalCharge) {
@@ -355,7 +379,7 @@
         }
 
         tax.TaxName = 'TotalRoomCharge';
-        tax.Description = 'Total Room Charge';
+        tax.IsEnabled = false;
         data.Tax.push(tax);
         return data;
     }

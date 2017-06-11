@@ -10,20 +10,26 @@
             // call api only when expand event is fire
             if ($('#collapse1').attr('aria-expanded') != 'false') return;
             gcm.GetGuestHistory();
-        }
+        }      
 
         function OnTaxValChange(e, htmlElement) {
             if (!htmlElement.value || isNaN(htmlElement.value)) {
                 htmlElement.value = '';
                 if (htmlElement.name && htmlElement.name === 'BaseRoomCharge') {
-                    $('#totalRoomCharge')[0].innerText = 0;
+                    var totalRoomChargeElement = window.GuestCheckinManager.GetTotalRoomChargeElement();
+                    if (totalRoomChargeElement) {
+                        totalRoomChargeElement.value = 0;
+                    }
                 }
             } else {
                 if (htmlElement.name && htmlElement.name === 'BaseRoomCharge') {
                     //TODO: get stayDays value
                     var stayDays = 2;                    
                     var baseRoomCharge = htmlElement.value ? parseFloat(htmlElement.value, 10).toFixed(2) : 0;
-                    $('#totalRoomCharge')[0].innerText = baseRoomCharge * stayDays;
+                    var totalRoomChargeElement = window.GuestCheckinManager.GetTotalRoomChargeElement();
+                    if (totalRoomChargeElement) {
+                        totalRoomChargeElement.value = baseRoomCharge * stayDays;
+                    }
                 }                
             }
             gcm.CalculateTotalCharge();

@@ -19,5 +19,6 @@ namespace PMS.Resources.Entities
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
         public string TaxName { get; set; }
         public string Description { get; set; }
+        public bool IsEnabled { get; set; }
     }
 }
