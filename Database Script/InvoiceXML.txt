@@ -1,0 +1,50 @@
+<Invoice xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Id>-1</Id>
+<BookingId></BookingId>
+<GuestId></GuestId>
+<IsPaid></IsPaid>
+<TotalAmount></TotalAmount>
+<FolioNumber></FolioNumber>
+<Discount></Discount>
+<IsActive>true</IsActive>
+<CreatedBy>vipul</CreatedBy>
+<CreatedOn>2017-06-07T23:00:41</CreatedOn>
+<LastUpdatedOn xsi:nil="true" />
+<InvoiceItems>
+<InvoiceItem>
+<Id></Id>
+<InvoiceId></InvoiceId>
+<ItemName></ItemName>
+<ItemValue></ItemValue>
+<IsActive>true</IsActive>
+<CreatedBy>vipul</CreatedBy>
+<CreatedOn>2017-06-07T23:00:41</CreatedOn>
+<LastUpdatedOn xsi:nil="true" />
+</InvoiceItem>
+</InvoiceItems>
+<InvoiceTaxDetails>
+<TaxDetail>
+<Id></Id>
+<InvoiceId></InvoiceId>
+<TaxShortName></TaxShortName>
+<TaxAmount></TaxAmount>
+<IsActive>true</IsActive>
+<CreatedBy>vipul</CreatedBy>
+<CreatedOn>2017-06-07T23:00:41</CreatedOn>
+<LastUpdatedOn xsi:nil="true" />
+</TaxDetail>
+</InvoiceTaxDetails>
+<InvoicePaymentDetails>
+<InvoicePayment>
+<Id></Id>
+<InvoiceId></InvoiceId>
+<PaymentMode></PaymentMode>
+<PaymentDetails></PaymentDetails>
+<IsActive>true</IsActive>
+<CreatedBy>vipul</CreatedBy>
+<CreatedOn>2017-06-07T23:00:41</CreatedOn>
+<LastUpdatedOn xsi:nil="true" />
+</InvoicePayment>
+</InvoicePaymentDetails>
+</Invoice>
+
