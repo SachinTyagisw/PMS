@@ -31,7 +31,7 @@
                 <tr class="service">
                     <td class="tableitem">${$value.Description}</td>
                     <td class="tableitem">
-                        <input id="taxVal" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
+                        $<input id="taxVal" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
                     </td>
                 </tr>
     
@@ -41,7 +41,7 @@
                         ${$value.Description}
                     </td>
                     <td id="totalRoomCharge" class="tableitem">
-                        ${$value.Value}
+                       ${$value.Value}
                     </td>
                 </tr>
     {{/if}}
@@ -51,16 +51,15 @@
                 <span class="color-danger">Discount</span>
             </td>
             <td class="tableitem">
-                <input id="discount" class="color-danger" value="$200.00" />
+                $<input id="discount" onkeyup="OnTaxValChange(event, this)" class="color-danger" value="" />
             </td>
         </tr>
         <tr class="tabletitle">
-
             <td class="Rate">
                 <b>Total</b>
             </td>
-            <td class="payment">
-                <b class="">$2,675.00</b>
+            <td id="total" class="payment">
+                <b class=""></b>
             </td>
         </tr>
     </tbody>

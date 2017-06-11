@@ -301,6 +301,7 @@
             var invoiceTemplate = $('#invoiceTemplate');
             data = calculateTotalRoomCharge(data)
             divInvoice.html(invoiceTemplate.render(data));
+            window.GuestCheckinManager.CalculateTotalCharge();
         },
 
         IsNumeric: function (e) {
@@ -315,9 +316,33 @@
                 }
             }
             return true;
+        },
+
+        CalculateTotalCharge: function () {
+            var totalCharge = 0;
+            var htmlElementCol = $("input[id*='taxVal']");
+            if (!htmlElementCol || htmlElementCol.length <= 0) return totalCharge;
+            for (var i = 0; i < htmlElementCol.length; i++) {
+                if (!htmlElementCol[i] || !htmlElementCol[i].value || !htmlElementCol[i].name || htmlElementCol[i].name === 'BaseRoomCharge') continue;
+                totalCharge = (parseFloat(totalCharge) + parseFloat(htmlElementCol[i].value, 10)).toFixed(2);
+            }
+            var totalRoomCharge = $('#totalRoomCharge')[0].innerText;
+            totalRoomCharge = !totalRoomCharge || isNaN(totalRoomCharge) ? 0 : parseFloat(totalRoomCharge, 10).toFixed(2);
+            totalCharge = (parseFloat(totalCharge) + parseFloat(totalRoomCharge)).toFixed(2);
+            totalCharge = applyDiscount(totalCharge);
+            $('#total')[0].innerText = totalCharge;
+            return totalCharge;
         }
     };
     
+    function applyDiscount(totalCharge) {
+        if (!totalCharge || isNaN(totalCharge)) return 0;
+        var discount = $('#discount')[0].value;
+        discount = !discount || isNaN(discount) ? 0 : parseFloat(discount, 10).toFixed(2);
+        totalCharge = (parseFloat(totalCharge) - parseFloat(discount)).toFixed(2);
+        return totalCharge;    
+    }
+
     function calculateTotalRoomCharge(data) {
         if (!data) return data;
         //calculate total room charge based on base room charge
