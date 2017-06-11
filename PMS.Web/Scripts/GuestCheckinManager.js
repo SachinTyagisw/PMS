@@ -13,7 +13,7 @@
             getCountry();
             getAllGuest();
             //TODO: call getInvoice on demand
-            getInvoice();
+            //getInvoice();
             //getRooms();
         },
 
@@ -161,6 +161,7 @@
             // for new booking Id = -1 
             booking.Id = -1
 
+            booking.Invoice = prepareInvoiceDto();
             booking.RoomBookings = prepareRoomBookingDto();
             booking.Guests = prepareGuestDto();
             booking.GuestMappings = prepareGuestIdDto();
@@ -487,7 +488,30 @@
         additionalGuests.push(additionalGuest);
         return additionalGuests;
     }
-
+    
+    function prepareInvoiceDto() {
+        var invoice = {};
+        invoice.Tax = [];
+        var htmlElementCol = $("input[id*='taxVal']");
+        if (!htmlElementCol || htmlElementCol.length <= 0) return invoice;
+        for (var i = 0; i < htmlElementCol.length; i++) {
+            if (!htmlElementCol[i] || !htmlElementCol[i].name) continue;
+            var tax = {};
+            var taxName = htmlElementCol[i].name;
+            var taxValue = !htmlElementCol[i].value || isNaN(htmlElementCol[i].value) ? 0 : parseFloat(htmlElementCol[i].value, 10).toFixed(2);
+            tax.TaxName = taxName;
+            tax.Value = taxValue;
+            invoice.Tax.push(tax);
+        }
+        // for new booking id = -1
+        invoice.BookingId = -1;
+        return invoice;
+        //TODO add additional tax info
+        //$('#total')[0].innerText = totalCharge;
+        //discount
+        //dynamic field
+    }
+        
     function prepareRoomBookingDto() {
         var roomBookings = [];
         var roomBooking = {};
@@ -543,10 +567,10 @@
         var noOfHours = $('#hoursComboBox').val();
         
         // TODO: remove hardcoded value
-        dateFrom = "06/12/2017 12:00 am";
-        dateTo = "06/13/2017 2:00 am";
-        roomType = 1;
-        rateType = 1;
+        //dateFrom = "06/12/2017 12:00 am";
+        //dateTo = "06/13/2017 2:00 am";
+        //roomType = 1;
+        //rateType = 1;
 
         // check checkin date 
         if (!dateFrom || dateFrom.length <= 0) {
@@ -804,7 +828,7 @@
                 var roomnumber = $('#roomddl').val();
                 var fname = $('#fName').val();
                 var lname = $('#lName').val();
-                var initials = $('#ddlInitials').val();
+                var initials = $('#ddlInitials')[0].selectedOptions[0].innerText;
                 var message = 'Roomnumber' + roomnumber + ' has been booked for ' + initials + ' ' + fname + ' ' + lname;
                 alert(message);
                 console.log(message);
