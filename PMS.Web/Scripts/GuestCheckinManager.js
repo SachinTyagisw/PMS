@@ -568,7 +568,7 @@
         
         // TODO: remove hardcoded value
         //dateFrom = "06/12/2017 12:00 am";
-        //dateTo = "06/13/2017 2:00 am";
+        //dateTo = "06/16/2017 2:00 am";
         //roomType = 1;
         //rateType = 1;
 
@@ -674,6 +674,19 @@
         var state = $('#ddlState').val();
         var country = $('#ddlCountry').val();
         var noOfHours = $('#hoursComboBox').val();
+
+        var htmlElementCol = $("input[id*='taxVal']");
+        if (!htmlElementCol || htmlElementCol.length <= 0) {
+            alert('Please check payment summary section.');
+        } else {
+            for (var i = 0; i < htmlElementCol.length; i++) {
+                if (htmlElementCol[i] && htmlElementCol[i].name && htmlElementCol[i].name === 'ROOM CHARGES' && !htmlElementCol[i].value ) {
+                    alert('Base room charge can not be blank.');
+                    htmlElementCol[i].focus();
+                    return false;
+                }
+            }
+        }
 
         if ($('#hourCheckin')[0].checked && noOfHours === '-1') {
             alert("Please select proper checkout hours");
