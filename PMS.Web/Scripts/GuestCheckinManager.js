@@ -3,6 +3,7 @@
     var pmsSession = window.PmsSession;
     var args = {};
     var isDdlCountryChange = null;
+    var InvoiceData = {};
     var guestCheckinManager = {
         
         Initialize: function () {                       
@@ -958,7 +959,7 @@
 
         pmsService.Handlers.OnGetInvoiceSuccess = function (data) {
             if (!data || !data.Tax || data.Tax.length <= 0) return;
-
+            window.GuestCheckinManager.InvoiceData = data;
             window.GuestCheckinManager.PopulateInvoice(data);
         };
         pmsService.Handlers.OnGetInvoiceFailure = function () {

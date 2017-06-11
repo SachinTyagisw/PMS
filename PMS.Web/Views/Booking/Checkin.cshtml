@@ -23,8 +23,7 @@
                 }
             } else {
                 if (htmlElement.name && htmlElement.name === 'ROOM CHARGES') {
-                    //TODO: get stayDays value
-                    var stayDays = 2;                    
+                    var stayDays = window.GuestCheckinManager.InvoiceData.StayDays;
                     var baseRoomCharge = htmlElement.value ? parseFloat(htmlElement.value, 10).toFixed(2) : 0;
                     var totalRoomChargeElement = window.GuestCheckinManager.GetTotalRoomChargeElement();
                     if (totalRoomChargeElement) {
