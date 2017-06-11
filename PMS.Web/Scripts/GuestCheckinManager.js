@@ -11,6 +11,7 @@
             getRoomRateTypes();
             getCountry();
             getAllGuest();
+            //TODO: call getInvoice on demand
             getInvoice();
             //getRooms();
         },
@@ -323,7 +324,7 @@
             var htmlElementCol = $("input[id*='taxVal']");
             if (!htmlElementCol || htmlElementCol.length <= 0) return totalCharge;
             for (var i = 0; i < htmlElementCol.length; i++) {
-                if (!htmlElementCol[i] || !htmlElementCol[i].value || !htmlElementCol[i].name || htmlElementCol[i].name === 'BaseRoomCharge') continue;
+                if (!htmlElementCol[i] || !htmlElementCol[i].value || !htmlElementCol[i].name || htmlElementCol[i].name === 'ROOM CHARGES') continue;
                 totalCharge = (parseFloat(totalCharge) + parseFloat(htmlElementCol[i].value, 10)).toFixed(2);
             }
             
@@ -333,7 +334,7 @@
         },
         
         GetTotalRoomChargeElement: function(){
-            var htmlElementCol = $("input[name*='TotalRoomCharge']");
+            var htmlElementCol = $("input[name*='Total Room Charge']");
             if (!htmlElementCol || htmlElementCol.length <= 0) return null;
             return htmlElementCol[0];
         }
@@ -373,12 +374,12 @@
         var stayDays = data.StayDays ? data.StayDays : 1;
         var tax = {};
         for (var i = 0; i < data.Tax.length; i++) {
-            if (!data.Tax[i] || data.Tax[i].TaxName !== 'BaseRoomCharge') continue;
+            if (!data.Tax[i] || data.Tax[i].TaxName !== 'ROOM CHARGES') continue;
             tax.Value = parseInt(data.Tax[i].Value) * stayDays;
             break;
         }
 
-        tax.TaxName = 'TotalRoomCharge';
+        tax.TaxName = 'Total Room Charge';
         tax.IsEnabled = false;
         data.Tax.push(tax);
         return data;
@@ -542,7 +543,7 @@
         
         // TODO: remove hardcoded value
         dateFrom = "06/12/2017 12:00 am";
-        dateTo = "06/12/2017 2:00 am";
+        dateTo = "06/13/2017 2:00 am";
         roomType = 1;
         rateType = 1;
 

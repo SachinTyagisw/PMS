@@ -506,18 +506,24 @@ namespace PMS.Resources.DAL
 
         public List<PmsEntity.Tax> GetInvoice(PmsEntity.Invoice invoice)
         {
-            var tax = new List<PmsEntity.Tax>();
+            var taxes = new List<PmsEntity.Tax>();
             using (var pmsContext = new PmsEntities())
             {
                 TimeSpan? ts = invoice.CheckoutTime - invoice.CheckinTime;
-                var noOfDays = ts.HasValue ? Convert.ToInt32(ts.Value.TotalDays) : 1;
+                var noOfDays= !ts.HasValue || Convert.ToBoolean(invoice.IsHourly) ? 1 : Convert.ToInt32(ts.Value.TotalDays);
                 var resultSet = pmsContext.GETBOOKINGAMOUNT(invoice.PropertyId, invoice.RoomTypeId, invoice.RateTypeId, invoice.NoOfHours, noOfDays, invoice.IsHourly);
-                if (resultSet == null) return tax;
-                //foreach (var result in resultSet)
-                //{
-                //}
+                if (resultSet == null) return taxes;
+                foreach (var result in resultSet.OrderBy(x => x.OrderBy))
+                {
+                    var tax = new PmsEntity.Tax();
+                    tax.TaxName = result.ITEM;
+                    tax.Value = result.ITEMAMOUNT;
+                    tax.IsEnabled = true;
+
+                    taxes.Add(tax);
+                }
             }
-            return tax;
+            return taxes;
         }
     }
 }

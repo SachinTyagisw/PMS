@@ -1955,7 +1955,7 @@
             <Parameter Name="CHECKOUTDATE" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="GETALLGUESTS" ReturnType="Collection(PmsModel.GETALLGUESTS_Result)" />
-          <FunctionImport Name="GETBOOKINGAMOUNT">
+          <FunctionImport Name="GETBOOKINGAMOUNT" ReturnType="Collection(PmsModel.GETBOOKINGAMOUNT_Result)">
             <Parameter Name="PROPERTYID" Mode="In" Type="Int32" />
             <Parameter Name="ROOMTYPEID" Mode="In" Type="Int32" />
             <Parameter Name="RATETYPEID" Mode="In" Type="Int32" />
@@ -2003,6 +2003,11 @@
           <Property Type="DateTime" Name="DOB" Nullable="true" />
           <Property Type="String" Name="GENDER" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="PHOTOPATH" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="GETBOOKINGAMOUNT_Result">
+          <Property Type="String" Name="ITEM" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="ITEMAMOUNT" Nullable="true" Precision="19" />
+          <Property Type="Int32" Name="OrderBy" Nullable="false" />
         </ComplexType>
         <ComplexType Name="GETGUESTTRANSACTIONS_Result">
           <Property Type="String" Name="PROPERTY" Nullable="true" />
@@ -2478,7 +2483,15 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GETBOOKINGAMOUNT" FunctionName="PmsModel.Store.GETBOOKINGAMOUNT" />
+          <FunctionImportMapping FunctionImportName="GETBOOKINGAMOUNT" FunctionName="PmsModel.Store.GETBOOKINGAMOUNT">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PmsModel.GETBOOKINGAMOUNT_Result">
+                <ScalarProperty Name="ITEM" ColumnName="ITEM" />
+                <ScalarProperty Name="ITEMAMOUNT" ColumnName="ITEMAMOUNT" />
+                <ScalarProperty Name="OrderBy" ColumnName="OrderBy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GETGUESTTRANSACTIONS" FunctionName="PmsModel.Store.GETGUESTTRANSACTIONS">
             <ResultMapping>
               <ComplexTypeMapping TypeName="PmsModel.GETGUESTTRANSACTIONS_Result">

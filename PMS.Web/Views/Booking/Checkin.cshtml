@@ -15,14 +15,14 @@
         function OnTaxValChange(e, htmlElement) {
             if (!htmlElement.value || isNaN(htmlElement.value)) {
                 htmlElement.value = '';
-                if (htmlElement.name && htmlElement.name === 'BaseRoomCharge') {
+                if (htmlElement.name && htmlElement.name === 'ROOM CHARGES') {
                     var totalRoomChargeElement = window.GuestCheckinManager.GetTotalRoomChargeElement();
                     if (totalRoomChargeElement) {
                         totalRoomChargeElement.value = 0;
                     }
                 }
             } else {
-                if (htmlElement.name && htmlElement.name === 'BaseRoomCharge') {
+                if (htmlElement.name && htmlElement.name === 'ROOM CHARGES') {
                     //TODO: get stayDays value
                     var stayDays = 2;                    
                     var baseRoomCharge = htmlElement.value ? parseFloat(htmlElement.value, 10).toFixed(2) : 0;
