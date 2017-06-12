@@ -325,7 +325,6 @@ body {
 .sidebar.sidebar-shrink ~ .content-wrap {
     margin-left: 0;
     padding-top: 40px;
-    margin-bottom: 52px;
     transition: margin-left 300ms ease-in-out;
 }
 

@@ -1,4 +1,4 @@
-﻿<div class="col-lg-12">
+﻿<div class="col-lg-12 p-r-0 p-l-0">
     <div class="card alert">
         <div class="card-header">
             <h4>Room Details</h4>
@@ -7,8 +7,8 @@
             <div class="basic-elements">
                 <form>
                     <div class="row">
-                        <div class="col-md-2">
-                            <div class="form-group hourCheckin">
+                        <div class="col-md-3 p-r-0">
+                            <div class="form-group hourCheckin" style="margin-bottom:8px;">
                                 <label>Hour CheckIn</label>
                                 <input type="checkbox"  id="hourCheckin"  class="form-control hour-input" onclick="OnChkHourlyCheckInChange();" placeholder="Hour Checkin">
                                 <select id="hoursComboBox" class="form-control hour-dd" onchange="OnCmbHourlyCheckInChange();" disabled>
@@ -20,40 +20,40 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3 p-r-0">
                             <div class="form-group">
                                 <label>Check in</label>
                                 <input id="dateFrom" type="text" class="form-control calendar" placeholder="Check in">
                                 <span class="ti-calendar form-control-feedback booking-system-feedback"></span>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3 p-r-0">
                             <div class="form-group">
                                 <label>Check out</label>
                                 <input id="dateTo" type="text" class="form-control calendar" placeholder="Check out">
                                 <span class="ti-calendar form-control-feedback booking-system-feedback"></span>
                             </div>
                         </div>
-                        <div class="col-md-1 p-r-0">
+                        <div class="col-md-2 p-r-0">
                             <div class="form-group">
                                 <label>Room Type</label>
                                 <select id="roomTypeDdl" onchange="OnRoomTypeChange();" class="form-control"></select>
                             </div>
                         </div>
-                        <div class="col-md-1 p-r-0">
+                        <div class="col-md-3 p-r-0">
                             <div class="form-group">
                                 <label>Rate Type</label>
                                 <select id="rateTypeDdl" class="form-control"></select>
                             </div>
                         </div>
-                        <div class="col-md-1 p-r-0">
+                        <div class="col-md-2 p-r-0">
                             <div class="form-group">
                                 <label>Room No</label>
                                 <select id ="roomddl" class="form-control">
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-1 p-r-0">
+                        <div class="col-md-2 p-r-0">
                             <div class="form-group">
                                 <label>Adults</label>
                                 <select id ="ddlAdults" class="form-control">
@@ -66,7 +66,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-1 p-r-0">
+                        <div class="col-md-2 p-r-0">
                             <div class="form-group">
                                 <label>Children</label>
                                 <select id="ddlChild" class="form-control">

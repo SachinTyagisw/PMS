@@ -13,7 +13,7 @@
             getCountry();
             getAllGuest();
             //TODO: call getInvoice on demand
-            //getInvoice();
+            getInvoice();
             //getRooms();
         },
 
@@ -567,10 +567,10 @@
         var noOfHours = $('#hoursComboBox').val();
         
         // TODO: remove hardcoded value
-        //dateFrom = "06/12/2017 12:00 am";
-        //dateTo = "06/16/2017 2:00 am";
-        //roomType = 1;
-        //rateType = 1;
+        dateFrom = "06/12/2017 12:00 am";
+        dateTo = "06/16/2017 2:00 am";
+        roomType = 1;
+        rateType = 1;
 
         // check checkin date 
         if (!dateFrom || dateFrom.length <= 0) {

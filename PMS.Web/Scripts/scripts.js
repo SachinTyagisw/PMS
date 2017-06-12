@@ -202,34 +202,34 @@ new PhotoSubmission;
 
 })(jQuery);
 
-$(function(){
-  $(window).scroll(function() {
-  	function footer()
-      {
-          var scroll = $(window).scrollTop();
-          if(scroll > 20)
-          {
-              $(".footer-nav").fadeIn("slow").addClass("show");
-          }
-          else
-          {
-              $(".footer-nav").fadeOut("slow").removeClass("show");
-          }
+//$(function(){
+//  $(window).scroll(function() {
+//  	function footer()
+//      {
+//          var scroll = $(window).scrollTop();
+//          if(scroll > 20)
+//          {
+//              $(".footer-nav").fadeIn("slow").addClass("show");
+//          }
+//          else
+//          {
+//              $(".footer-nav").fadeOut("slow").removeClass("show");
+//          }
 
-          clearTimeout($.data(this, 'scrollTimer'));
-          $.data(this, 'scrollTimer', setTimeout(function() {
-              if ($('.footer-nav').is(':hover')) {
-  	        	footer();
-      		}
-          else
-          {
-          	$(".footer-nav").fadeOut("slow").removeClass("show");
-          }
-  		}, 2000));
-      }
-      footer();
-  });
+//          clearTimeout($.data(this, 'scrollTimer'));
+//          $.data(this, 'scrollTimer', setTimeout(function() {
+//              if ($('.footer-nav').is(':hover')) {
+//  	        	footer();
+//      		}
+//          else
+//          {
+//          	$(".footer-nav").fadeOut("slow").removeClass("show");
+//          }
+//  		}, 2000));
+//      }
+//      footer();
+//  });
 
-});
+//});
 
 

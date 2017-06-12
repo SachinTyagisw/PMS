@@ -1,187 +1,186 @@
-﻿<div class="row1">
-    <div class="col-lg-8 p-r-0">
-        <div class="card alert card-section">
-            <div class="card-body">
-                <div class="user-profile">
-                    <div class="row">
-                        <div class="col-lg-5">
-                            <!-- <ul class="nav nav-tabs" role="tablist">
-                              <li role="presentation" class="active"><a href="#1" aria-controls="1" role="tab" data-toggle="tab">BASIC DETAILS</a></li>
-                              <li role="presentation" class=""><a href="#2" aria-controls="2" role="tab" data-toggle="tab">ID PROOF</a></li>
-                            </ul> -->
-                            <div class="card-header">
-                                <h4>Guest Details</h4>
-                            </div>
-                            <div>
-                                <div class="form-group">
-                                    <input id="searchGuest" type="text" placeholder="Search by fName,lName,email,Id Number,mobile#" class="form-control" name="example-input-normal">
-                                </div>
-                            </div>
-                            <div class="col-lg-2 p-r-0 p-l-0">
-                                <div class="form-group">
-                                    <select id ="ddlInitials" class="form-control">
-                                        <option value="M">Mr.</option>
-                                        <option value="F">Ms.</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-5 p-r-0">
-                                <div class="form-group">
-                                    <input id="fName" type="text" onkeyup="this.value= this.value.replace(/[^A-z ]/g,'');" placeholder="First Name" class="form-control" name="example-input-normal">
-                                </div>
-                            </div>
-                            <div class="col-lg-5 p-r-0">
-                                <div class="form-group">
-                                    <input id="lName" type="text" onkeyup="this.value= this.value.replace(/[^A-z ]/g,'');" placeholder="Last Name" class="form-control" name="example-input-normal">
-                                </div>
-                            </div>
-                            <div class="contact-information">
-                                <div class="col-lg-12 p-r-0 p-l-0">
-                                    <div class="form-group">
-                                        <input id="phone" type="text" maxlength="10" placeholder="Phone" class="form-control" name="example-input-normal">
-                                    </div>
-                                </div>
-                                <div class="address-content">
-                                    <div class="col-lg-12 p-r-0 p-l-0">
-                                        <div class="form-group">
-                                            <textarea id="address" class="form-control" rows="3" placeholder="Address"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="state-content">
-                                    <div class="col-lg-6 p-r-0 p-l-0">
-                                        <div class="form-group">
-                                            <select id="ddlCountry" onchange="OnCountryChange(true);" class="form-control"></select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 p-r-0">
-                                        <div class="form-group">
-                                            <select id="ddlState" onchange="OnStateChange();" class="form-control"></select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="zipcode-content">                                    
-                                    <div class="col-lg-6 p-r-0 p-l-0">
-                                        <div class="form-group">
-                                            <select id="ddlCity" class="form-control">
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 p-r-0">
-                                        <div class="form-group">
-                                            <input type="text" id="zipCode" maxlength="6" placeholder="ZipCode" class="form-control" name="example-input-normal">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="email-content">
-                                    <div class="col-lg-12 p-r-0 p-l-0">
-                                        <div class="form-group">
-                                            <input type="text" placeholder="Email" class="form-control" name="example-input-normal" id="email">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 p-r-0 p-l-0">
-                                    <div class="form-group">
-                                        <textarea id="transRemarks" class="form-control" rows="3" placeholder="Transaction Remarks"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 p-r-0 p-l-0">
-                                    <div class="form-group">
-                                        <textarea id="guestComments" class="form-control" rows="3" placeholder="Guest Comments"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-
+﻿<div class="col-lg-12 p-r-0 p-l-0">
+    <div class="card alert card-section">
+        <div class="card-body">
+            <div class="user-profile">
+                <div class="row">
+                    <div class="col-lg-5">
+                        <!-- <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#1" aria-controls="1" role="tab" data-toggle="tab">BASIC DETAILS</a></li>
+                            <li role="presentation" class=""><a href="#2" aria-controls="2" role="tab" data-toggle="tab">ID PROOF</a></li>
+                        </ul> -->
+                        <div class="card-header">
+                            <h4>Guest Details</h4>
                         </div>
-                        <div class="col-lg-7">
-                            <div class="card-header">
-                                <h4>ID Details</h4>
+                        <div>
+                            <div class="form-group">
+                                <input id="searchGuest" type="text" placeholder="Search by fName,lName,email,Id Number,mobile#" class="form-control" name="example-input-normal">
                             </div>
-                            <div class="col-lg-5 p-r-0 p-l-0">
-                                <div class="col-lg-12 p-r-0 p-l-0 right-card-top-spacing">
+                        </div>
+                        <div class="col-lg-2 p-r-0 p-l-0">
+                            <div class="form-group">
+                                <select id ="ddlInitials" class="form-control">
+                                    <option value="M">Mr.</option>
+                                    <option value="F">Ms.</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 p-r-0">
+                            <div class="form-group">
+                                <input id="fName" type="text" onkeyup="this.value= this.value.replace(/[^A-z ]/g,'');" placeholder="First Name" class="form-control" name="example-input-normal">
+                            </div>
+                        </div>
+                        <div class="col-lg-5 p-r-0">
+                            <div class="form-group">
+                                <input id="lName" type="text" onkeyup="this.value= this.value.replace(/[^A-z ]/g,'');" placeholder="Last Name" class="form-control" name="example-input-normal">
+                            </div>
+                        </div>
+                        <div class="contact-information">
+                            <div class="address-content">
+                                <div class="col-lg-12 p-r-0 p-l-0">
                                     <div class="form-group">
-                                        <select id="ddlIdType" class="form-control">
-                                            <option value="-1" selected="">Type of ID</option>
-                                            <option value="1">Passport</option>
-                                            <option value="2">PAN</option>
-                                            <option value="3">Govt Approved ID</option>
+                                        <textarea id="address" class="form-control" rows="3" placeholder="Address"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="state-content">
+                                <div class="col-lg-6 p-l-0">
+                                    <div class="form-group">
+                                        <select id="ddlCountry" onchange="OnCountryChange(true);" class="form-control"></select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 p-r-0 p-l-0">
+                                    <div class="form-group">
+                                        <select id="ddlState" onchange="OnStateChange();" class="form-control"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="zipcode-content">                                    
+                                <div class="col-lg-6 p-l-0">
+                                    <div class="form-group">
+                                        <select id="ddlCity" class="form-control">
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-12 p-r-0 p-l-0">
+                                <div class="col-lg-6 p-r-0 p-l-0">
                                     <div class="form-group">
-                                        <input type="text" placeholder="Id Number" class="form-control" name="example-input-normal" id="idDetails">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 p-r-0 p-l-0">
-                                    <div class="form-group">
-                                        <select id="ddlIdCountry" onchange="OnCountryChange(false);" class="form-control"></select>
-                                    </div>
-                                    
-                                </div>
-                                <div class="col-lg-12 p-r-0 p-l-0">
-                                    <div class="form-group">
-                                        <select id="ddlIdState" class="form-control"></select>
-                                    </div>
-                                    <div class="col-lg-12 p-r-0 p-l-0">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="ID Expiry Date" id="idExpiry">
-                                            <span class="ti-calendar form-control-feedback booking-system-feedback cal-pos"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 p-r-0 p-l-0">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="DOB" id="dob">
-                                            <span class="ti-calendar form-control-feedback booking-system-feedback cal-pos"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                        </div>
-                            <div class="col-lg-7">
-                                <div class="col-lg-12 p-r-0 p-l-0">
-                                    <div class="user-photo m-b-30 photo_submit-container">
-                                        <label class="photo_submit js-photo_submit1">
-                                            <input id="uploadPhoto" class="photo_submit-input js-photo_submit-input" type="file" accept="image/*">
-                                            @*<img id="imgPhoto" class="photo_submit js-photo_submit1" src="#" alt="your image" />*@
-                                            <span class="photo_submit-plus"></span>
-                                            <span class="photo_submit-uploadLabel">Upload photo</span>
-                                            <span class="photo_submit-delete"></span>
-                                        </label>
-
-                                    </div>
-
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="card-header">
-                                        <h4>Additional Details</h4>
-                                    </div>
-                                    <div class="col-lg-12 add-details p-r-0 p-l-0">
-                                        <div class="col-lg-6 p-r-5 p-l-0">
-                                            <div class="form-group">
-                                                <input type="text" placeholder="First Name" class="form-control" name="example-input-normal" id="adFName">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 p-r-0 p-l-0">
-                                            <div class="form-group">
-                                                <input type="text" placeholder="Last Name" class="form-control" name="example-input-normal" id="adLName">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12 p-r-0 p-l-0">
-                                            <div class="fileUpload btn1 btn-orange">
-                                                <img src="https://image.flaticon.com/icons/svg/136/136549.svg" class="icon" style="max-width:20px;">
-                                                <span class="upl" id="upload">Upload document</span>
-                                                <input type="file" class="upload up" id="up" onchange="readURL(this);">
-                                            </div><!-- btn-orange -->
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 add-btn p-r-0 p-l-0">
-                                        <button type="button" class="btn btn-link btn-flat btn-addon"><i class="ti-plus"></i>Additional Guest Details</button>
+                                        <input type="text" id="zipCode" maxlength="6" placeholder="ZipCode" class="form-control" name="example-input-normal">
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-lg-6 p-l-0">
+                                <div class="form-group">
+                                    <input id="phone" type="text" maxlength="10" placeholder="Phone" class="form-control" name="example-input-normal">
+                                </div>
+                            </div>
+                            <div class="email-content">
+                                <div class="col-lg-6 p-r-0 p-l-0">
+                                    <div class="form-group">
+                                        <input type="text" placeholder="Email" class="form-control" name="example-input-normal" id="email">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 p-l-0">
+                                <div class="form-group">
+                                    <textarea id="transRemarks" class="form-control" rows="3" placeholder="Transaction Remarks"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 p-r-0 p-l-0">
+                                <div class="form-group">
+                                    <textarea id="guestComments" class="form-control" rows="3" placeholder="Guest Comments"></textarea>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
+                    <div class="col-lg-7">
+                        <div class="card-header">
+                            <h4>ID Details</h4>
+                        </div>
+                        <div class="col-lg-5 p-r-0 p-l-0">
+                            <div class="col-lg-12 p-r-0 p-l-0 right-card-top-spacing">
+                                <div class="form-group">
+                                    <select id="ddlIdType" class="form-control">
+                                        <option value="-1" selected="">Type of ID</option>
+                                        <option value="1">Passport</option>
+                                        <option value="2">PAN</option>
+                                        <option value="3">Govt Approved ID</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 p-r-0 p-l-0">
+                                <div class="form-group">
+                                    <input type="text" placeholder="Id Number" class="form-control" name="example-input-normal" id="idDetails">
+                                </div>
+                            </div>
+                            <div class="col-lg-12 p-r-0 p-l-0">
+                                <div class="form-group">
+                                    <select id="ddlIdCountry" onchange="OnCountryChange(false);" class="form-control"></select>
+                                </div>
+                                    
+                            </div>
+                            <div class="col-lg-12 p-r-0 p-l-0">
+                                <div class="form-group">
+                                    <select id="ddlIdState" class="form-control"></select>
+                                </div>
+                                <div class="col-lg-12 p-r-0 p-l-0">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="ID Expiry Date" id="idExpiry">
+                                        <span class="ti-calendar form-control-feedback booking-system-feedback cal-pos"></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 p-r-0 p-l-0">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="DOB" id="dob">
+                                        <span class="ti-calendar form-control-feedback booking-system-feedback cal-pos"></span>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                        <div class="col-lg-7">
+                            <div class="col-lg-12 p-r-0 p-l-0">
+                                <div class="user-photo m-b-30 photo_submit-container">
+                                    <label class="photo_submit js-photo_submit1">
+                                        <input id="uploadPhoto" class="photo_submit-input js-photo_submit-input" type="file" accept="image/*">
+                                        @*<img id="imgPhoto" class="photo_submit js-photo_submit1" src="#" alt="your image" />*@
+                                        <span class="photo_submit-plus"></span>
+                                        <span class="photo_submit-uploadLabel">Upload photo</span>
+                                        <span class="photo_submit-delete"></span>
+                                    </label>
+
+                                </div>
+
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="card-header">
+                                    <h4>Additional Details</h4>
+                                </div>
+                                <div class="col-lg-12 add-details p-r-0 p-l-0">
+                                    <div class="col-lg-6 p-r-5 p-l-0">
+                                        <div class="form-group">
+                                            <input type="text" placeholder="First Name" class="form-control" name="example-input-normal" id="adFName">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 p-r-0 p-l-0">
+                                        <div class="form-group">
+                                            <input type="text" placeholder="Last Name" class="form-control" name="example-input-normal" id="adLName">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 p-r-0 p-l-0">
+                                        <div class="fileUpload btn1 btn-orange">
+                                            <img src="https://image.flaticon.com/icons/svg/136/136549.svg" class="icon" style="max-width:20px;">
+                                            <span class="upl" id="upload">Upload document</span>
+                                            <input type="file" class="upload up" id="up" onchange="readURL(this);">
+                                        </div><!-- btn-orange -->
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 add-btn p-r-0 p-l-0">
+                                    <button type="button" class="btn btn-link btn-flat btn-addon"><i class="ti-plus"></i>Additional Guest Details</button>
+                                </div>
+                            </div>
+                        </div>
+
                 </div>
+            </div>
             </div>
         </div>
     </div><!-- /# column -->
