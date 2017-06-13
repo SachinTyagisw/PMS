@@ -1141,7 +1141,7 @@ a.dt-button.active:not(.disabled) {
 }
 [contenteditable]:hover,
 [contenteditable]:focus {
-  background: #ff7b88;
+  background: #dadada;
 }
 .control-bar {
   position: relative;
@@ -4126,6 +4126,64 @@ p
     border-color: rgb(170, 170, 170);
     border-image: initial;
 }
+/*-- Table Layout --*/
+#invoice-table table {
+  position: relative;
+}
+#invoice-table .glyphicon {
+  font-size: 15px;
+}
+
+.tableRow-remove {
+  color: #795548;
+  cursor: pointer;
+}
+.tableRow-remove:hover {
+  color: #f00;
+}
+
+.table-up, .table-down {
+  color: #795548;
+  cursor: pointer;
+}
+.table-up:hover, .table-down:hover {
+  color: #00f;
+}
+
+.table-add {
+  color: #00796B;
+  cursor: pointer;
+}
+.table-add:hover {
+  color: #00ac98;
+}
+
+#invoice-table input{
+    padding: 0 2px;
+    border:none;
+    width: 80px;
+}
+#invoice-table .remove {
+    display: none;
+}
+#invoice-table thead {
+    display: table;
+    width: 100%;
+}
+#invoice-table tbody {
+    display: block;
+    height: 410px;
+    overflow-y: auto;
+    width: 100%;
+}
+#invoice-table tr.sortActive {
+    width: 100%;
+    display: inline-table;
+}
+#invoice-table tr.sortActive td:nth-child(2) {
+    width: 36%;
+}
+
 /*-- Tabs CSS --*/
 .room-filter {
     width: 97.7%;

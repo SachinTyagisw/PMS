@@ -16,46 +16,59 @@
         </div>
     </div>
     <script type="text/html" id="invoiceTemplate">
-        <table class="table table-responsive">
-            <tbody>
-                <tr class="tabletitle">
-                    <td class="table-item">
-                        <b>Item Description</b>
-                    </td>
-                    <td class="subtotal">
-                        <b>Sub-total</b>
-                    </td>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Item Description</th>
+                    <th>Sub-total</th>
+                    <th></th>
+                    <th><span class="table-add glyphicon glyphicon-plus"></span></th>
                 </tr>
-    {{each Tax}}
-                <tr class="service">
-                    <td class="tableitem">${$value.TaxName}</td>
-                    <td class="tableitem">
+            </thead>
+            <tbody id="sortableTable">
+                {{each Tax}}
+                <tr class="sortActive">
+                    <td> <span class="glyphicon glyphicon-th-list"></span></td>
+                    <td>${$value.TaxName}</td>
+                    <td>
                         {{if $value.IsEnabled }}
                         $<input id="taxVal" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
                         {{else}}
                         $<input id="taxVal" disabled="disabled" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
                         {{/if}}
-                        
+
                     </td>
+                    <td></td>
+                    <td><span class="tableRow-remove glyphicon glyphicon-trash"></span></td>
                 </tr>
-    {{/each}}
-        <tr class="service">
-            <td class="tableitem">
-                <span class="color-danger">Discount</span>
-            </td>
-            <td class="tableitem">
-                $<input id="discount" onkeyup="OnTaxValChange(event, this)" class="color-danger" value="" />
-            </td>
-        </tr>
-        <tr class="tabletitle">
-            <td class="Rate">
-                <b>Total</b>
-            </td>
-            <td id="total" class="payment">
-                <b class=""></b>
-            </td>
-        </tr>
-    </tbody>
-</table>
+                {{/each}}
+                <tr class="sortActive remove">
+                    <td><span class="glyphicon glyphicon-th-list"></span></td>
+                    <td contenteditable="true">label</td>
+                    <td>$<input id="" value="0.0" /></td>
+                    <td></td>
+                    <td><span class="tableRow-remove glyphicon glyphicon-trash"></span></td>
+                </tr>
+                <tr class="sortActive">
+                    <td><span class="glyphicon glyphicon-th-list"></span></td>
+                    <td>Discount</td>
+                    <td>$<input id="discount" onkeyup="OnTaxValChange(event, this)" class="color-danger" value="0.0" /></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="sortActive tabletitle">
+                    <td> </td>
+                    <td class="Rate">
+                        <b>Total</b>
+                    </td>
+                    <td id="total" class="payment">
+                        <b class=""></b>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
 </script>
 
