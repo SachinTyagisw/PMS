@@ -31,7 +31,7 @@
 }
 .card {
   background: #ffffff;
-  margin: 10px 0px 0px 0px;
+  margin: 5px 0px 0px 0px;
   padding: 10px 14px 5px;
   border: 0px;
   border-radius: 0px;
@@ -437,7 +437,7 @@ a.dt-button.active:not(.disabled) {
 }
 .panel {
   border-radius: 0;
-  margin: 10px 0;
+  margin: 5px 0;
 }
 .panel-body {
   font-family: 'MontserratLight', sans-serif;
@@ -2448,10 +2448,10 @@ ul {
   border-radius: 3px;
 }
 .card-section {
-  min-height: 400px;
+  min-height: 344px;
 }
 .card-section-payment {
-    min-height: 574px;
+    height: 505px;
 }
 .user-profile .card-header {
     border-bottom: 1px solid #e7e7e7;
@@ -3565,7 +3565,7 @@ p {
 .controls select {
     display: block;
     width: 100%;
-    height: 32px;
+    height: 28px;
     padding: 6px 4px;
     font-size: 12px;
     line-height: 1.428571;
@@ -3625,7 +3625,7 @@ button:hover {
     background-color: transparent;
 }
 textarea.form-control {
-    height: 60px;
+    height: 42px;
 }
 .table {
     margin-bottom: 0;
@@ -4172,7 +4172,7 @@ p
 }
 #invoice-table tbody {
     display: block;
-    height: 410px;
+    height: 372px;
     overflow-y: auto;
     width: 100%;
 }
@@ -4181,9 +4181,11 @@ p
     display: inline-table;
 }
 #invoice-table tr.sortActive td:nth-child(2) {
-    width: 36%;
+    width: 50%;
 }
-
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    padding: 7px;
+}
 /*-- Tabs CSS --*/
 .room-filter {
     width: 97.7%;

@@ -1,5 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="PMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+<Schema Namespace="PmsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="AdditionalGuests">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BookingId" Type="int" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="100" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="100" />
+    <Property Name="GUESTIDPath" Type="nvarchar(max)" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
+    <Property Name="LastUpdatedOn" Type="datetime" />
+    <Property Name="Gender" Type="nvarchar" MaxLength="10" />
+  </EntityType>
   <EntityType Name="Address">
     <Key>
       <PropertyRef Name="ID" />
@@ -13,7 +29,7 @@
     <Property Name="State" Type="nvarchar" MaxLength="200" />
     <Property Name="ZipCode" Type="nvarchar" MaxLength="40" />
     <Property Name="Country" Type="nvarchar" MaxLength="200" />
-    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="CreatedOn" Type="datetime" />
     <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
@@ -24,8 +40,21 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Description" Type="nvarchar" MaxLength="200" />
-    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
+    <Property Name="LastUpdatedOn" Type="datetime" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AllTaxes">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TaxShortName" Type="nvarchar" MaxLength="100" />
+    <Property Name="Description" Type="nvarchar(max)" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="CreatedOn" Type="datetime" />
     <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
@@ -43,7 +72,23 @@
     <Property Name="NoOfChild" Type="int" />
     <Property Name="GuestRemarks" Type="nvarchar" MaxLength="200" />
     <Property Name="TransactionRemarks" Type="nvarchar" MaxLength="200" />
-    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
+    <Property Name="LastUpdatedOn" Type="datetime" />
+    <Property Name="Status" Type="nvarchar" MaxLength="50" />
+    <Property Name="ISHOURLYCHECKIN" Type="bit" />
+    <Property Name="HOURSTOSTAY" Type="int" />
+  </EntityType>
+  <EntityType Name="ChargableFacility">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FacilityShortName" Type="nvarchar" MaxLength="100" />
+    <Property Name="Description" Type="nvarchar(max)" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="CreatedOn" Type="datetime" />
     <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
@@ -57,7 +102,7 @@
     <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
     <Property Name="StateID" Type="int" />
     <Property Name="CountryID" Type="int" />
-    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="CreatedOn" Type="datetime" />
     <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
@@ -69,7 +114,34 @@
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
+    <Property Name="LastUpdatedOn" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Currency">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" MaxLength="100" />
+    <Property Name="Description" Type="nvarchar(max)" />
     <Property Name="IsActive" Type="bit" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
+    <Property Name="LastUpdatedOn" Type="datetime" />
+  </EntityType>
+  <EntityType Name="ExtraCharges">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PropertyID" Type="int" />
+    <Property Name="FacilityKey" Type="int" />
+    <Property Name="Value" Type="money" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="CreatedOn" Type="datetime" />
     <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
@@ -87,7 +159,7 @@
     <Property Name="DOB" Type="date" />
     <Property Name="Gender" Type="nvarchar" MaxLength="10" />
     <Property Name="PhotoPath" Type="nvarchar" MaxLength="200" />
-    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="CreatedOn" Type="datetime" />
     <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
@@ -101,11 +173,14 @@
     <Property Name="IDTYPEID" Type="int" Nullable="false" />
     <Property Name="GUESTID" Type="int" Nullable="false" />
     <Property Name="IDDETAILS" Type="nvarchar(max)" />
-    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="CreatedOn" Type="datetime" />
     <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="LastUpdatedOn" Type="datetime" />
+    <Property Name="IdExpiryDate" Type="datetime" Nullable="false" />
+    <Property Name="IdIssueState" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="IdIssueCountry" Type="nvarchar" MaxLength="50" Nullable="false" />
   </EntityType>
   <EntityType Name="GuestReward">
     <Key>
@@ -118,7 +193,7 @@
     <Property Name="ExpirationDate" Type="datetime" />
     <Property Name="NoOfPoints" Type="int" />
     <Property Name="Decription" Type="nvarchar(max)" />
-    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="CreatedOn" Type="datetime" />
     <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
@@ -129,8 +204,8 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Description" Type="nvarchar(max)" />
-    <Property Name="IsActive" Type="bit" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="CreatedOn" Type="datetime" />
     <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
@@ -144,9 +219,39 @@
     <Property Name="GuestID" Type="int" Nullable="false" />
     <Property Name="BookingID" Type="int" Nullable="false" />
     <Property Name="IsPaid" Type="bit" />
+    <Property Name="TotalAmount" Type="money" />
     <Property Name="FolioNumber" Type="nvarchar" MaxLength="200" />
-    <Property Name="ExtraCharges" Type="decimal" Precision="7" Scale="2" />
-    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
+    <Property Name="LastUpdatedOn" Type="datetime" />
+    <Property Name="DISCOUNT" Type="money" />
+  </EntityType>
+  <EntityType Name="InvoiceItems">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvoiceID" Type="int" Nullable="false" />
+    <Property Name="ItemName" Type="nvarchar(max)" />
+    <Property Name="ItemValue" Type="money" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
+    <Property Name="LastUpdatedOn" Type="datetime" />
+  </EntityType>
+  <EntityType Name="InvoicePaymentDetails">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvoiceID" Type="int" Nullable="false" />
+    <Property Name="PaymentMode" Type="nvarchar(max)" />
+    <Property Name="PaymentValue" Type="money" />
+    <Property Name="PaymentDetails" Type="nvarchar(max)" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="CreatedOn" Type="datetime" />
     <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
@@ -158,8 +263,9 @@
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="InvoiceID" Type="int" Nullable="false" />
+    <Property Name="TaxShortName" Type="nvarchar(max)" />
     <Property Name="TaxAmount" Type="decimal" Precision="7" Scale="2" />
-    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="CreatedOn" Type="datetime" />
     <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
@@ -171,7 +277,37 @@
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="PropertyDetails" Type="nvarchar(max)" />
-    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
+    <Property Name="LastUpdatedOn" Type="datetime" />
+    <Property Name="PropertyName" Type="nvarchar" MaxLength="100" />
+    <Property Name="SecondaryName" Type="nvarchar" MaxLength="100" />
+    <Property Name="PropertyCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="FullAddress" Type="nvarchar(max)" />
+    <Property Name="Phone" Type="nvarchar" MaxLength="100" />
+    <Property Name="Fax" Type="nvarchar" MaxLength="100" />
+    <Property Name="LogoPath" Type="nvarchar(max)" />
+    <Property Name="WebSiteAddress" Type="nvarchar" MaxLength="100" />
+    <Property Name="TimeZone" Type="nvarchar" MaxLength="100" />
+    <Property Name="CurrencyID" Type="int" />
+    <Property Name="CheckinTime" Type="time" Precision="7" />
+    <Property Name="CheckoutTime" Type="time" Precision="7" />
+    <Property Name="CloseOfDayTime" Type="time" Precision="7" />
+  </EntityType>
+  <EntityType Name="Rates">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar" MaxLength="20" />
+    <Property Name="PropertyID" Type="int" />
+    <Property Name="RateTypeID" Type="int" />
+    <Property Name="RoomTypeID" Type="int" />
+    <Property Name="InputKeyHours" Type="int" />
+    <Property Name="Value" Type="money" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="CreatedOn" Type="datetime" />
     <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
@@ -182,14 +318,15 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="RoomTypeID" Type="int" />
     <Property Name="PropertyID" Type="int" />
-    <Property Name="Description" Type="nvarchar(max)" />
-    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="CreatedOn" Type="datetime" />
     <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="LastUpdatedOn" Type="datetime" />
+    <Property Name="NAME" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="RoomTypeID" Type="int" />
+    <Property Name="ShortName" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="RewardCategory">
     <Key>
@@ -199,7 +336,7 @@
     <Property Name="RewardCategory" Type="nvarchar" MaxLength="200" Nullable="false" />
     <Property Name="NoOfPoints" Type="int" />
     <Property Name="Benefits" Type="nvarchar(max)" />
-    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="CreatedOn" Type="datetime" />
     <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
@@ -212,9 +349,8 @@
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="PropertyID" Type="int" Nullable="false" />
     <Property Name="RoomTypeID" Type="int" Nullable="false" />
-    <Property Name="RateTypeID" Type="int" Nullable="false" />
     <Property Name="Number" Type="nvarchar" MaxLength="200" />
-    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="CreatedOn" Type="datetime" />
     <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
@@ -231,7 +367,7 @@
     <Property Name="IsExtra" Type="bit" />
     <Property Name="Discount" Type="decimal" Precision="7" Scale="2" />
     <Property Name="RoomCharges" Type="decimal" Precision="7" Scale="2" />
-    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="CreatedOn" Type="datetime" />
     <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
@@ -247,7 +383,7 @@
     <Property Name="RateTypeID" Type="int" Nullable="false" />
     <Property Name="BasePrice" Type="decimal" Precision="8" Scale="2" Nullable="false" />
     <Property Name="ExtraPersonPrice" Type="decimal" Precision="8" Scale="2" />
-    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="CreatedOn" Type="datetime" />
     <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
@@ -259,12 +395,13 @@
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="PropertyID" Type="int" />
-    <Property Name="Description" Type="nvarchar(max)" />
-    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="CreatedOn" Type="datetime" />
     <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="LastUpdatedOn" Type="datetime" />
+    <Property Name="NAME" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ShortName" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="State">
     <Key>
@@ -273,12 +410,38 @@
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="200" />
     <Property Name="CountryID" Type="int" />
-    <Property Name="IsActive" Type="bit" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="CreatedOn" Type="datetime" />
     <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="LastUpdatedOn" Type="datetime" />
   </EntityType>
+  <EntityType Name="Taxes">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PropertyID" Type="int" />
+    <Property Name="TaxId" Type="int" />
+    <Property Name="Value" Type="money" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
+    <Property Name="LastUpdatedOn" Type="datetime" />
+  </EntityType>
+  <Association Name="FK__Additiona__Booki__6442E2C9">
+    <End Role="Booking" Type="Self.Booking" Multiplicity="0..1" />
+    <End Role="AdditionalGuests" Type="Self.AdditionalGuests" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Booking">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="AdditionalGuests">
+        <PropertyRef Name="BookingId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__Address__Address__1920BF5C">
     <End Role="AddressType" Type="Self.AddressType" Multiplicity="1" />
     <End Role="Address" Type="Self.Address" Multiplicity="*" />
@@ -336,6 +499,30 @@
       </Principal>
       <Dependent Role="City">
         <PropertyRef Name="StateID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ExtraChar__Facil__2057CCD0">
+    <End Role="ChargableFacility" Type="Self.ChargableFacility" Multiplicity="0..1" />
+    <End Role="ExtraCharges" Type="Self.ExtraCharges" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ChargableFacility">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ExtraCharges">
+        <PropertyRef Name="FacilityKey" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ExtraChar__Prope__214BF109">
+    <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
+    <End Role="ExtraCharges" Type="Self.ExtraCharges" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Property">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ExtraCharges">
+        <PropertyRef Name="PropertyID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -423,6 +610,42 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__Rates__PropertyI__24285DB4">
+    <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
+    <End Role="Rates" Type="Self.Rates" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Property">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Rates">
+        <PropertyRef Name="PropertyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Rates__RateTypeI__251C81ED">
+    <End Role="RateType" Type="Self.RateType" Multiplicity="0..1" />
+    <End Role="Rates" Type="Self.Rates" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RateType">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Rates">
+        <PropertyRef Name="RateTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Rates__RoomTypeI__2610A626">
+    <End Role="RoomType" Type="Self.RoomType" Multiplicity="0..1" />
+    <End Role="Rates" Type="Self.Rates" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RoomType">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Rates">
+        <PropertyRef Name="RoomTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__RateType__Proper__267ABA7A">
     <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
     <End Role="RateType" Type="Self.RateType" Multiplicity="*" />
@@ -435,15 +658,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RateType__RoomTy__25869641">
-    <End Role="RoomType" Type="Self.RoomType" Multiplicity="0..1" />
+  <Association Name="FK__RateType__Proper__27F8EE98">
+    <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
     <End Role="RateType" Type="Self.RateType" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="RoomType">
+      <Principal Role="Property">
         <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="RateType">
-        <PropertyRef Name="RoomTypeID" />
+        <PropertyRef Name="PropertyID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -456,18 +679,6 @@
       </Principal>
       <Dependent Role="Room">
         <PropertyRef Name="PropertyID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__Room__RateTypeID__300424B4">
-    <End Role="RateType" Type="Self.RateType" Multiplicity="1" />
-    <End Role="Room" Type="Self.Room" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="RateType">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="Room">
-        <PropertyRef Name="RateTypeID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -567,19 +778,87 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="PMSModelStoreContainer">
+  <Association Name="FK__Taxes__PropertyI__382F5661">
+    <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
+    <End Role="Taxes" Type="Self.Taxes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Property">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Taxes">
+        <PropertyRef Name="PropertyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Taxes__TaxId__39237A9A">
+    <End Role="AllTaxes" Type="Self.AllTaxes" Multiplicity="0..1" />
+    <End Role="Taxes" Type="Self.Taxes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AllTaxes">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Taxes">
+        <PropertyRef Name="TaxId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="GETALLBOOKINGS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PROPERTYID" Type="int" Mode="In" />
+    <Parameter Name="CHECKINTIME" Type="datetime" Mode="In" />
+    <Parameter Name="CHECKOUTDATE" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="GETALLGUESTS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="GETBOOKINGAMOUNT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PROPERTYID" Type="int" Mode="In" />
+    <Parameter Name="ROOMTYPEID" Type="int" Mode="In" />
+    <Parameter Name="RATETYPEID" Type="int" Mode="In" />
+    <Parameter Name="NOOFHOURS" Type="int" Mode="In" />
+    <Parameter Name="NOOFDAYS" Type="int" Mode="In" />
+    <Parameter Name="ISHOURLY" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="GETGUESTTRANSACTIONS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="GUESTID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="GETROOMSTATUS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PROPERTYID" Type="int" Mode="In" />
+    <Parameter Name="CHECKINTIME" Type="datetime" Mode="In" />
+    <Parameter Name="CHECKOUTDATE" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="InsertBooking" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="propertyID" Type="int" Mode="In" />
+    <Parameter Name="bookingXML" Type="xml" Mode="In" />
+  </Function>
+  <Function Name="InsertInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="propertyID" Type="int" Mode="In" />
+    <Parameter Name="InvoiceXML" Type="xml" Mode="In" />
+  </Function>
+  <Function Name="UpdateBooking" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="BOOKINGID" Type="int" Mode="In" />
+    <Parameter Name="CHECKINTIME" Type="datetime" Mode="In" />
+    <Parameter Name="CHECKOUTTIME" Type="datetime" Mode="In" />
+    <Parameter Name="RoomID" Type="int" Mode="In" />
+  </Function>
+  <EntityContainer Name="PmsModelStoreContainer">
+    <EntitySet Name="AdditionalGuests" EntityType="Self.AdditionalGuests" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AddressType" EntityType="Self.AddressType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AllTaxes" EntityType="Self.AllTaxes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Booking" EntityType="Self.Booking" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ChargableFacility" EntityType="Self.ChargableFacility" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ExtraCharges" EntityType="Self.ExtraCharges" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Guest" EntityType="Self.Guest" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="GuestMapping" EntityType="Self.GuestMapping" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="GuestReward" EntityType="Self.GuestReward" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IDType" EntityType="Self.IDType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Invoice" EntityType="Self.Invoice" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="InvoiceItems" EntityType="Self.InvoiceItems" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="InvoicePaymentDetails" EntityType="Self.InvoicePaymentDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="InvoiceTaxDetail" EntityType="Self.InvoiceTaxDetail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Property" EntityType="Self.Property" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Rates" EntityType="Self.Rates" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="RateType" EntityType="Self.RateType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="RewardCategory" EntityType="Self.RewardCategory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Room" EntityType="Self.Room" Schema="dbo" store:Type="Tables" />
@@ -587,6 +866,11 @@
     <EntitySet Name="RoomPricing" EntityType="Self.RoomPricing" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="RoomType" EntityType="Self.RoomType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="State" EntityType="Self.State" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Taxes" EntityType="Self.Taxes" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Additiona__Booki__6442E2C9" Association="Self.FK__Additiona__Booki__6442E2C9">
+      <End Role="Booking" EntitySet="Booking" />
+      <End Role="AdditionalGuests" EntitySet="AdditionalGuests" />
+    </AssociationSet>
     <AssociationSet Name="FK__Address__Address__1920BF5C" Association="Self.FK__Address__Address__1920BF5C">
       <End Role="AddressType" EntitySet="AddressType" />
       <End Role="Address" EntitySet="Address" />
@@ -606,6 +890,14 @@
     <AssociationSet Name="FK__City__StateID__47DBAE45" Association="Self.FK__City__StateID__47DBAE45">
       <End Role="State" EntitySet="State" />
       <End Role="City" EntitySet="City" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ExtraChar__Facil__2057CCD0" Association="Self.FK__ExtraChar__Facil__2057CCD0">
+      <End Role="ChargableFacility" EntitySet="ChargableFacility" />
+      <End Role="ExtraCharges" EntitySet="ExtraCharges" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ExtraChar__Prope__214BF109" Association="Self.FK__ExtraChar__Prope__214BF109">
+      <End Role="Property" EntitySet="Property" />
+      <End Role="ExtraCharges" EntitySet="ExtraCharges" />
     </AssociationSet>
     <AssociationSet Name="FK__GuestMapp__GUEST__1FCDBCEB" Association="Self.FK__GuestMapp__GUEST__1FCDBCEB">
       <End Role="Guest" EntitySet="Guest" />
@@ -635,20 +927,28 @@
       <End Role="Invoice" EntitySet="Invoice" />
       <End Role="InvoiceTaxDetail" EntitySet="InvoiceTaxDetail" />
     </AssociationSet>
+    <AssociationSet Name="FK__Rates__PropertyI__24285DB4" Association="Self.FK__Rates__PropertyI__24285DB4">
+      <End Role="Property" EntitySet="Property" />
+      <End Role="Rates" EntitySet="Rates" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Rates__RateTypeI__251C81ED" Association="Self.FK__Rates__RateTypeI__251C81ED">
+      <End Role="RateType" EntitySet="RateType" />
+      <End Role="Rates" EntitySet="Rates" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Rates__RoomTypeI__2610A626" Association="Self.FK__Rates__RoomTypeI__2610A626">
+      <End Role="RoomType" EntitySet="RoomType" />
+      <End Role="Rates" EntitySet="Rates" />
+    </AssociationSet>
     <AssociationSet Name="FK__RateType__Proper__267ABA7A" Association="Self.FK__RateType__Proper__267ABA7A">
       <End Role="Property" EntitySet="Property" />
       <End Role="RateType" EntitySet="RateType" />
     </AssociationSet>
-    <AssociationSet Name="FK__RateType__RoomTy__25869641" Association="Self.FK__RateType__RoomTy__25869641">
-      <End Role="RoomType" EntitySet="RoomType" />
+    <AssociationSet Name="FK__RateType__Proper__27F8EE98" Association="Self.FK__RateType__Proper__27F8EE98">
+      <End Role="Property" EntitySet="Property" />
       <End Role="RateType" EntitySet="RateType" />
     </AssociationSet>
     <AssociationSet Name="FK__Room__PropertyID__2F10007B" Association="Self.FK__Room__PropertyID__2F10007B">
       <End Role="Property" EntitySet="Property" />
-      <End Role="Room" EntitySet="Room" />
-    </AssociationSet>
-    <AssociationSet Name="FK__Room__RateTypeID__300424B4" Association="Self.FK__Room__RateTypeID__300424B4">
-      <End Role="RateType" EntitySet="RateType" />
       <End Role="Room" EntitySet="Room" />
     </AssociationSet>
     <AssociationSet Name="FK__Room__RoomTypeID__2E1BDC42" Association="Self.FK__Room__RoomTypeID__2E1BDC42">
@@ -682,6 +982,14 @@
     <AssociationSet Name="FK__State__CountryID__44FF419A" Association="Self.FK__State__CountryID__44FF419A">
       <End Role="Country" EntitySet="Country" />
       <End Role="State" EntitySet="State" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Taxes__PropertyI__382F5661" Association="Self.FK__Taxes__PropertyI__382F5661">
+      <End Role="Property" EntitySet="Property" />
+      <End Role="Taxes" EntitySet="Taxes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Taxes__TaxId__39237A9A" Association="Self.FK__Taxes__TaxId__39237A9A">
+      <End Role="AllTaxes" EntitySet="AllTaxes" />
+      <End Role="Taxes" EntitySet="Taxes" />
     </AssociationSet>
   </EntityContainer>
 </Schema>
