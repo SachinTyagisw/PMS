@@ -15,21 +15,6 @@
         function OnTaxValChange(e, htmlElement) {
             if (!htmlElement.value || isNaN(htmlElement.value)) {
                 htmlElement.value = '';
-                if (htmlElement.name && htmlElement.name === 'ROOM CHARGES') {
-                    var totalRoomChargeElement = window.GuestCheckinManager.GetTotalRoomChargeElement();
-                    if (totalRoomChargeElement) {
-                        totalRoomChargeElement.value = 0;
-                    }
-                }
-            } else {
-                if (htmlElement.name && htmlElement.name === 'ROOM CHARGES') {
-                    var stayDays = window.GuestCheckinManager.InvoiceData.StayDays;
-                    var baseRoomCharge = htmlElement.value ? parseFloat(htmlElement.value, 10).toFixed(2) : 0;
-                    var totalRoomChargeElement = window.GuestCheckinManager.GetTotalRoomChargeElement();
-                    if (totalRoomChargeElement) {
-                        totalRoomChargeElement.value = baseRoomCharge * stayDays;
-                    }
-                }                
             }
             gcm.CalculateTotalCharge();
         }

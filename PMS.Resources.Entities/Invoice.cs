@@ -21,6 +21,7 @@ namespace PMS.Resources.Entities
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
         public Nullable<decimal> DISCOUNT { get; set; }
         public List<InvoiceTaxDetail> InvoiceTaxDetails { get; set; }
-    
+        public List<InvoiceItem> InvoiceItem { get; set; }
+        public InvoicePaymentDetail InvoicePaymentDetail { get; set; }    
     }
 }
