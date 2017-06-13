@@ -54,6 +54,8 @@
     <Compile Include="GuestMapping.cs" />
     <Compile Include="IDType.cs" />
     <Compile Include="Invoice.cs" />
+    <Compile Include="InvoiceItem.cs" />
+    <Compile Include="InvoicePaymentDetail.cs" />
     <Compile Include="InvoiceTaxDetail.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

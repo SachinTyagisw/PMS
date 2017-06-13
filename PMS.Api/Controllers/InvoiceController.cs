@@ -46,26 +46,26 @@ namespace PMS.Api.Controllers
         private void MapHttpRoutesForInvoice(HttpConfiguration config)
         {
             config.Routes.MapHttpRoute(
-             "GetInvoice",
-             "api/v1/Invoice/GetInvoice",
-             new { controller = "Invoice", action = "GetInvoice" }
+             "GetPaymentCharges",
+             "api/v1/Invoice/GetPaymentCharges",
+             new { controller = "Invoice", action = "GetPaymentCharges" }
              );
         }
 
-        [HttpPost, ActionName("GetInvoice")]
-        public GetInvoiceResponseDto GetInvoice([FromBody] GetInvoiceRequestDto request )
+        [HttpPost, ActionName("GetPaymentCharges")]
+        public GetPaymentChargesResponseDto GetPaymentCharges([FromBody] GetPaymentChargesRequestDto request )
         {
-            if (request.Invoice == null || request.Invoice.PropertyId <=0
-                || request.Invoice.RateTypeId <= 0 || request.Invoice.RoomTypeId <= 0 
+            if (request == null || request.PropertyId <=0
+                || request.RateTypeId <= 0 || request.RoomTypeId <= 0 
                 ) throw new PmsException("Get Invoice call failed.");
 
-            var response = new GetInvoiceResponseDto();
-            TimeSpan? ts = request.Invoice.CheckoutTime - request.Invoice.CheckinTime;
-            response.StayDays = !ts.HasValue || Convert.ToBoolean(request.Invoice.IsHourly) ? 1 : Convert.ToInt32(ts.Value.TotalDays);
+            var response = new GetPaymentChargesResponseDto();
+            TimeSpan? ts = request.CheckoutTime - request.CheckinTime;
+            response.StayDays = !ts.HasValue || Convert.ToBoolean(request.IsHourly) ? 1 : Convert.ToInt32(ts.Value.TotalDays);
 
             if (!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
             {
-                response.Tax = _iPmsLogic.GetInvoice(request.Invoice);    
+                response.Tax = _iPmsLogic.GetPaymentCharges(request);    
                 return response;
             }
             

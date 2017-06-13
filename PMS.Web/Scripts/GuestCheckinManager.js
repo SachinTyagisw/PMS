@@ -12,8 +12,8 @@
             getRoomRateTypes();
             getCountry();
             getAllGuest();
-            //TODO: call getInvoice on demand
-            getInvoice();
+            //TODO: call getPaymentCharge on demand
+            getPaymentCharges();
             //getRooms();
         },
 
@@ -299,7 +299,7 @@
             $("#collapse1").attr("class", "panel-collapse collapse");
         },
         
-        PopulateInvoice: function (data) {
+        PopulateCharges: function (data) {
             var divInvoice = $('#divInvoice');
             var invoiceTemplate = $('#invoiceTemplate');
             data = calculateTotalRoomCharge(data)
@@ -553,12 +553,10 @@
         }
     }
 
-    function getInvoice() {
-        // get invoice details by api calling 
-        var invoiceRequestDto = {};
-        invoiceRequestDto.Invoice = {};
-        var invoice = {};
-        invoice.PropertyId = pmsSession.GetItem("propertyid");
+    function getPaymentCharges() {
+        // get paymentCharge details by api calling 
+        var paymentChargeRequestDto = {};
+        paymentChargeRequestDto.PropertyId = pmsSession.GetItem("propertyid");
         
         var dateFrom = $('#dateFrom').val();
         var dateTo = $('#dateTo').val();
@@ -601,15 +599,14 @@
             return false;
         }
 
-        invoice.CheckinTime = dateFrom;
-        invoice.CheckoutTime = dateTo;
-        invoice.RoomTypeId = roomType
-        invoice.RateTypeId = rateType
-        invoice.IsHourly = $('#hourCheckin')[0].checked ? true : false;
-        invoice.NoOfHours = $('#hourCheckin')[0].checked && parseInt(noOfHours) > 0 ? parseInt(noOfHours) : 0;
+        paymentChargeRequestDto.CheckinTime = dateFrom;
+        paymentChargeRequestDto.CheckoutTime = dateTo;
+        paymentChargeRequestDto.RoomTypeId = roomType
+        paymentChargeRequestDto.RateTypeId = rateType
+        paymentChargeRequestDto.IsHourly = $('#hourCheckin')[0].checked ? true : false;
+        paymentChargeRequestDto.NoOfHours = $('#hourCheckin')[0].checked && parseInt(noOfHours) > 0 ? parseInt(noOfHours) : 0;
         
-        invoiceRequestDto.Invoice = invoice;
-        pmsService.GetInvoice(invoiceRequestDto);
+        pmsService.GetPaymentCharges(paymentChargeRequestDto);
     }    
 
     function getCountry() {
@@ -994,14 +991,14 @@
             console.error("get city call failed");
         };
 
-        pmsService.Handlers.OnGetInvoiceSuccess = function (data) {
+        pmsService.Handlers.OnGetPaymentChargesSuccess = function (data) {
             if (!data || !data.Tax || data.Tax.length <= 0) return;
             window.GuestCheckinManager.InvoiceData = data;
-            window.GuestCheckinManager.PopulateInvoice(data);
+            window.GuestCheckinManager.PopulateCharges(data);
         };
-        pmsService.Handlers.OnGetInvoiceFailure = function () {
+        pmsService.Handlers.OnGetPaymentChargesFailure = function () {
             // show error log
-            console.error("get Invoice call failed");
+            console.error("get PaymentCharges call failed");
         };
 
         // ajax handlers end
