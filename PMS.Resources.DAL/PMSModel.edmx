@@ -224,8 +224,38 @@
           <Property Name="GuestID" Type="int" Nullable="false" />
           <Property Name="BookingID" Type="int" Nullable="false" />
           <Property Name="IsPaid" Type="bit" />
+          <Property Name="TotalAmount" Type="money" />
           <Property Name="FolioNumber" Type="nvarchar" MaxLength="200" />
-          <Property Name="ExtraCharges" Type="decimal" Precision="7" Scale="2" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="LastUpdatedOn" Type="datetime" />
+          <Property Name="DISCOUNT" Type="money" />
+        </EntityType>
+        <EntityType Name="InvoiceItems">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InvoiceID" Type="int" Nullable="false" />
+          <Property Name="ItemName" Type="nvarchar(max)" />
+          <Property Name="ItemValue" Type="money" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="LastUpdatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="InvoicePaymentDetails">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InvoiceID" Type="int" Nullable="false" />
+          <Property Name="PaymentMode" Type="nvarchar(max)" />
+          <Property Name="PaymentValue" Type="money" />
+          <Property Name="PaymentDetails" Type="nvarchar(max)" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
           <Property Name="CreatedOn" Type="datetime" />
@@ -238,6 +268,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="InvoiceID" Type="int" Nullable="false" />
+          <Property Name="TaxShortName" Type="nvarchar(max)" />
           <Property Name="TaxAmount" Type="decimal" Precision="7" Scale="2" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
@@ -802,6 +833,10 @@
           <Parameter Name="propertyID" Type="int" Mode="In" />
           <Parameter Name="bookingXML" Type="xml" Mode="In" />
         </Function>
+        <Function Name="InsertInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="propertyID" Type="int" Mode="In" />
+          <Parameter Name="InvoiceXML" Type="xml" Mode="In" />
+        </Function>
         <Function Name="UpdateBooking" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="BOOKINGID" Type="int" Mode="In" />
           <Parameter Name="CHECKINTIME" Type="datetime" Mode="In" />
@@ -824,6 +859,8 @@
           <EntitySet Name="GuestReward" EntityType="Self.GuestReward" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IDType" EntityType="Self.IDType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Invoice" EntityType="Self.Invoice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvoiceItems" EntityType="Self.InvoiceItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvoicePaymentDetails" EntityType="Self.InvoicePaymentDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InvoiceTaxDetail" EntityType="Self.InvoiceTaxDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Property" EntityType="Self.Property" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rates" EntityType="Self.Rates" Schema="dbo" store:Type="Tables" />
@@ -1211,16 +1248,46 @@
           <Property Name="GuestID" Type="Int32" Nullable="false" />
           <Property Name="BookingID" Type="Int32" Nullable="false" />
           <Property Name="IsPaid" Type="Boolean" />
+          <Property Name="TotalAmount" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="FolioNumber" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="ExtraCharges" Type="Decimal" Precision="7" Scale="2" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+          <Property Name="DISCOUNT" Type="Decimal" Precision="19" Scale="4" />
           <NavigationProperty Name="Booking" Relationship="Self.FK__Invoice__Booking__3C69FB99" FromRole="Invoice" ToRole="Booking" />
           <NavigationProperty Name="Guest" Relationship="Self.FK__Invoice__GuestID__3D5E1FD2" FromRole="Invoice" ToRole="Guest" />
           <NavigationProperty Name="InvoiceTaxDetails" Relationship="Self.FK__InvoiceTa__Invoi__403A8C7D" FromRole="Invoice" ToRole="InvoiceTaxDetail" />
+        </EntityType>
+        <EntityType Name="InvoiceItem">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InvoiceID" Type="Int32" Nullable="false" />
+          <Property Name="ItemName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ItemValue" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="InvoicePaymentDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InvoiceID" Type="Int32" Nullable="false" />
+          <Property Name="PaymentMode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentValue" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="PaymentDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="InvoiceTaxDetail">
           <Key>
@@ -1228,6 +1295,7 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="InvoiceID" Type="Int32" Nullable="false" />
+          <Property Name="TaxShortName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TaxAmount" Type="Decimal" Precision="7" Scale="2" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
@@ -1814,6 +1882,8 @@
           <EntitySet Name="GuestRewards" EntityType="Self.GuestReward" />
           <EntitySet Name="IDTypes" EntityType="Self.IDType" />
           <EntitySet Name="Invoices" EntityType="Self.Invoice" />
+          <EntitySet Name="InvoiceItems" EntityType="Self.InvoiceItem" />
+          <EntitySet Name="InvoicePaymentDetails" EntityType="Self.InvoicePaymentDetail" />
           <EntitySet Name="InvoiceTaxDetails" EntityType="Self.InvoiceTaxDetail" />
           <EntitySet Name="Properties" EntityType="Self.Property" />
           <EntitySet Name="Rates" EntityType="Self.Rate" />
@@ -1974,6 +2044,10 @@
           <FunctionImport Name="InsertBooking">
             <Parameter Name="propertyID" Mode="In" Type="Int32" />
             <Parameter Name="bookingXML" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="InsertInvoice">
+            <Parameter Name="propertyID" Mode="In" Type="Int32" />
+            <Parameter Name="InvoiceXML" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UpdateBooking">
             <Parameter Name="BOOKINGID" Mode="In" Type="Int32" />
@@ -2260,8 +2334,40 @@
                 <ScalarProperty Name="GuestID" ColumnName="GuestID" />
                 <ScalarProperty Name="BookingID" ColumnName="BookingID" />
                 <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
                 <ScalarProperty Name="FolioNumber" ColumnName="FolioNumber" />
-                <ScalarProperty Name="ExtraCharges" ColumnName="ExtraCharges" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+                <ScalarProperty Name="DISCOUNT" ColumnName="DISCOUNT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvoiceItems">
+            <EntityTypeMapping TypeName="PmsModel.InvoiceItem">
+              <MappingFragment StoreEntitySet="InvoiceItems">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="ItemValue" ColumnName="ItemValue" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvoicePaymentDetails">
+            <EntityTypeMapping TypeName="PmsModel.InvoicePaymentDetail">
+              <MappingFragment StoreEntitySet="InvoicePaymentDetails">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
+                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
+                <ScalarProperty Name="PaymentValue" ColumnName="PaymentValue" />
+                <ScalarProperty Name="PaymentDetails" ColumnName="PaymentDetails" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
@@ -2275,6 +2381,7 @@
               <MappingFragment StoreEntitySet="InvoiceTaxDetail">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
+                <ScalarProperty Name="TaxShortName" ColumnName="TaxShortName" />
                 <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
@@ -2514,6 +2621,7 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="InsertBooking" FunctionName="PmsModel.Store.InsertBooking" />
+          <FunctionImportMapping FunctionImportName="InsertInvoice" FunctionName="PmsModel.Store.InsertInvoice" />
           <FunctionImportMapping FunctionImportName="UpdateBooking" FunctionName="PmsModel.Store.UpdateBooking" />
         </EntityContainerMapping>
       </Mapping>

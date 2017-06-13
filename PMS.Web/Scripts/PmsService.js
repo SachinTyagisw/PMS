@@ -28,12 +28,12 @@
             OnGetGuestSuccess: null,
             OnGetCityByStateFailure: null,
             OnGetCityByStateSuccess: null,
-            OnGetInvoiceFailure: null,
-            OnGetInvoiceSuccess: null,
+            OnGetPaymentChargesFailure: null,
+            OnGetPaymentChargesSuccess: null,
         };
 
-        this.GetInvoice = function (args) {
-            makeAjaxRequestPost(args, "GetInvoice", this, "api/v1/Invoice/GetInvoice");
+        this.GetPaymentCharges = function (args) {
+            makeAjaxRequestPost(args, "GetPaymentCharges", this, "api/v1/Invoice/GetPaymentCharges");
         };
 
         this.GetGuest = function (args) {

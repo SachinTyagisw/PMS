@@ -6,13 +6,16 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PMS.Resources.DTO.Request
+namespace PMS.Resources.DTO.Response
 {
     [DataContract]
     [Serializable]
-    public class GetInvoiceRequestDto
+    public class GetPaymentChargesResponseDto
     {
         [DataMember]
-        public Invoice Invoice { get; set; }
+        public int StayDays { get; set; }
+
+        [DataMember]
+        public List<Tax> Tax { get; set; }
     }
 }

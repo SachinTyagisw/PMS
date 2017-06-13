@@ -12,8 +12,8 @@
             getRoomRateTypes();
             getCountry();
             getAllGuest();
-            //TODO: call getInvoice on demand
-            getInvoice();
+            //TODO: call getPaymentCharge on demand
+            getPaymentCharges();
             //getRooms();
         },
 
@@ -299,10 +299,10 @@
             $("#collapse1").attr("class", "panel-collapse collapse");
         },
         
-        PopulateInvoice: function (data) {
+        PopulateCharges: function (data) {
             var divInvoice = $('#divInvoice');
             var invoiceTemplate = $('#invoiceTemplate');
-            data = calculateTotalRoomCharge(data)
+            data = appendTotalRoomCharge(data)
             divInvoice.html(invoiceTemplate.render(data));
             window.GuestCheckinManager.CalculateTotalCharge();
         },
@@ -323,22 +323,34 @@
 
         CalculateTotalCharge: function () {
             var totalCharge = 0;
+            var stayDays = window.GuestCheckinManager.InvoiceData.StayDays;
+            var baseRoomCharge = $('#baseRoomCharge');
+            var totalRoomCharge = $('#totalRoomCharge');
             var htmlElementCol = $("input[id*='taxVal']");
-            if (!htmlElementCol || htmlElementCol.length <= 0) return totalCharge;
-            for (var i = 0; i < htmlElementCol.length; i++) {
-                if (!htmlElementCol[i] || !htmlElementCol[i].value || !htmlElementCol[i].name || htmlElementCol[i].name === 'ROOM CHARGES') continue;
-                totalCharge = (parseFloat(totalCharge) + parseFloat(htmlElementCol[i].value, 10)).toFixed(2);
+
+            //  other tax charges calulations
+            if (htmlElementCol && htmlElementCol.length > 0) {
+                for (var i = 0; i < htmlElementCol.length; i++) {
+                    if (!htmlElementCol[i] || !htmlElementCol[i].value || isNaN(htmlElementCol[i].value)) continue;
+                    totalCharge = (parseFloat(totalCharge) + parseFloat(htmlElementCol[i].value, 10)).toFixed(2);
+                }
             }
             
+            //  room base charge calulations
+            var baseCharge = baseRoomCharge && baseRoomCharge.val() && !isNaN(baseRoomCharge.val()) ? parseFloat(baseRoomCharge.val(), 10).toFixed(2) : 0;
+            if (totalRoomCharge) {
+                totalRoomCharge.val(parseFloat(baseCharge).toFixed(2) * stayDays);
+            }
+            
+            //  total room charge calulations
+            if (totalRoomCharge && totalRoomCharge.val() && !isNaN(totalRoomCharge.val())) {
+                totalCharge = (parseFloat(totalCharge) + parseFloat(totalRoomCharge.val(), 10)).toFixed(2);
+            }
+
             totalCharge = applyDiscount(totalCharge);
+
             $('#total')[0].innerText = totalCharge;
             return totalCharge;
-        },
-        
-        GetTotalRoomChargeElement: function(){
-            var htmlElementCol = $("input[name*='Total Room Charge']");
-            if (!htmlElementCol || htmlElementCol.length <= 0) return null;
-            return htmlElementCol[0];
         }
         
         //DateDiff: function () {
@@ -370,17 +382,9 @@
         return totalCharge;    
     }
 
-    function calculateTotalRoomCharge(data) {
+    function appendTotalRoomCharge(data) {
         if (!data) return data;
-        //calculate total room charge based on base room charge
-        var stayDays = data.StayDays ? data.StayDays : 1;
-        var tax = {};
-        for (var i = 0; i < data.Tax.length; i++) {
-            if (!data.Tax[i] || data.Tax[i].TaxName !== 'ROOM CHARGES') continue;
-            tax.Value = parseInt(data.Tax[i].Value) * stayDays;
-            break;
-        }
-
+        var tax = {}; 
         tax.TaxName = 'Total Room Charge';
         tax.IsEnabled = false;
         data.Tax.push(tax);
@@ -490,8 +494,12 @@
     }
     
     function prepareInvoiceDto() {
+
         var invoice = {};
-        invoice.Tax = [];
+        invoice.InvoiceTaxDetails = [];
+        invoice.InvoiceItem = [];
+        invoice.InvoicePaymentDetail = [];
+
         var htmlElementCol = $("input[id*='taxVal']");
         if (!htmlElementCol || htmlElementCol.length <= 0) return invoice;
         for (var i = 0; i < htmlElementCol.length; i++) {
@@ -499,12 +507,21 @@
             var tax = {};
             var taxName = htmlElementCol[i].name;
             var taxValue = !htmlElementCol[i].value || isNaN(htmlElementCol[i].value) ? 0 : parseFloat(htmlElementCol[i].value, 10).toFixed(2);
-            tax.TaxName = taxName;
-            tax.Value = taxValue;
-            invoice.Tax.push(tax);
+            tax.TaxShortName = taxName;
+            tax.TaxAmount = taxValue;
+            invoice.InvoiceTaxDetails.push(tax);
         }
+
         // for new booking id = -1
-        invoice.BookingId = -1;
+        invoice.BookingID = -1;
+        invoice.GuestID = $('#hdnGuestId').val() == '' ? -1 : $('#hdnGuestId').val();
+        invoice.ID = -1;
+        invoice.CreatedOn = getCurrentDate();
+        invoice.IsActive = true;
+
+        //TODO : remove hardcoded value
+        invoice.CreatedBy = "vipul";
+
         return invoice;
         //TODO add additional tax info
         //$('#total')[0].innerText = totalCharge;
@@ -527,8 +544,6 @@
         //TODO : remove hardcoded value
         roomBooking.CreatedBy = "vipul";
         roomBooking.IsExtra = false;
-        roomBooking.Discount = 2.0;
-        roomBooking.RoomCharges = 12.0;
 
         roomBookings.push(roomBooking);
         return roomBookings;
@@ -553,12 +568,10 @@
         }
     }
 
-    function getInvoice() {
-        // get invoice details by api calling 
-        var invoiceRequestDto = {};
-        invoiceRequestDto.Invoice = {};
-        var invoice = {};
-        invoice.PropertyId = pmsSession.GetItem("propertyid");
+    function getPaymentCharges() {
+        // get paymentCharge details by api calling 
+        var paymentChargeRequestDto = {};
+        paymentChargeRequestDto.PropertyId = pmsSession.GetItem("propertyid");
         
         var dateFrom = $('#dateFrom').val();
         var dateTo = $('#dateTo').val();
@@ -601,15 +614,14 @@
             return false;
         }
 
-        invoice.CheckinTime = dateFrom;
-        invoice.CheckoutTime = dateTo;
-        invoice.RoomTypeId = roomType
-        invoice.RateTypeId = rateType
-        invoice.IsHourly = $('#hourCheckin')[0].checked ? true : false;
-        invoice.NoOfHours = $('#hourCheckin')[0].checked && parseInt(noOfHours) > 0 ? parseInt(noOfHours) : 0;
+        paymentChargeRequestDto.CheckinTime = dateFrom;
+        paymentChargeRequestDto.CheckoutTime = dateTo;
+        paymentChargeRequestDto.RoomTypeId = roomType
+        paymentChargeRequestDto.RateTypeId = rateType
+        paymentChargeRequestDto.IsHourly = $('#hourCheckin')[0].checked ? true : false;
+        paymentChargeRequestDto.NoOfHours = $('#hourCheckin')[0].checked && parseInt(noOfHours) > 0 ? parseInt(noOfHours) : 0;
         
-        invoiceRequestDto.Invoice = invoice;
-        pmsService.GetInvoice(invoiceRequestDto);
+        pmsService.GetPaymentCharges(paymentChargeRequestDto);
     }    
 
     function getCountry() {
@@ -674,18 +686,19 @@
         var state = $('#ddlState').val();
         var country = $('#ddlCountry').val();
         var noOfHours = $('#hoursComboBox').val();
+        var baseRoomCharge = $("#baseRoomCharge");
+        var totalRoomCharge = $('#totalRoomCharge');
+        
+        if (!baseRoomCharge || baseRoomCharge.val() <= 0) {
+            alert('Enter valid base room charge.');
+            baseRoomCharge.focus();
+            return false;
+        }
 
-        var htmlElementCol = $("input[id*='taxVal']");
-        if (!htmlElementCol || htmlElementCol.length <= 0) {
-            alert('Please check payment summary section.');
-        } else {
-            for (var i = 0; i < htmlElementCol.length; i++) {
-                if (htmlElementCol[i] && htmlElementCol[i].name && htmlElementCol[i].name === 'ROOM CHARGES' && !htmlElementCol[i].value ) {
-                    alert('Base room charge can not be blank.');
-                    htmlElementCol[i].focus();
-                    return false;
-                }
-            }
+        if (!totalRoomCharge || totalRoomCharge.val() <= 0) {
+            alert('please verify total room charge.');
+            totalRoomCharge.focus();
+            return false;
         }
 
         if ($('#hourCheckin')[0].checked && noOfHours === '-1') {
@@ -994,14 +1007,14 @@
             console.error("get city call failed");
         };
 
-        pmsService.Handlers.OnGetInvoiceSuccess = function (data) {
+        pmsService.Handlers.OnGetPaymentChargesSuccess = function (data) {
             if (!data || !data.Tax || data.Tax.length <= 0) return;
             window.GuestCheckinManager.InvoiceData = data;
-            window.GuestCheckinManager.PopulateInvoice(data);
+            window.GuestCheckinManager.PopulateCharges(data);
         };
-        pmsService.Handlers.OnGetInvoiceFailure = function () {
+        pmsService.Handlers.OnGetPaymentChargesFailure = function () {
             // show error log
-            console.error("get Invoice call failed");
+            console.error("get PaymentCharges call failed");
         };
 
         // ajax handlers end

@@ -33,9 +33,14 @@
                     <td>${$value.TaxName}</td>
                     <td>
                         {{if $value.IsEnabled }}
-                        $<input id="taxVal" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
+                        @*'ROOM CHARGES' is coming from SP and is always be fixed*@
+                            {{if $value.TaxName === 'ROOM CHARGES' }}
+                                $<input id="baseRoomCharge" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
+                            {{else}}
+                                $<input id="taxVal" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
+                            {{/if}}
                         {{else}}
-                        $<input id="taxVal" disabled="disabled" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
+                            $<input id="totalRoomCharge" disabled="disabled" name="${$value.TaxName}" value="${$value.Value}" />
                         {{/if}}
 
                     </td>

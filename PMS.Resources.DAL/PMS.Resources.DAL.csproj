@@ -112,6 +112,12 @@
     <Compile Include="Invoice.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="InvoiceItem.cs">
+      <DependentUpon>PmsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvoicePaymentDetail.cs">
+      <DependentUpon>PmsModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="InvoiceTaxDetail.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>

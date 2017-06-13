@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace PMS.Resources.Entities
 {
-    public class InvoiceTaxDetail
+    public class InvoiceItem
     {
         public int ID { get; set; }
         public int InvoiceID { get; set; }
-        public string TaxShortName { get; set; }
-        public Nullable<decimal> TaxAmount { get; set; }
+        public string ItemName { get; set; }
+        public Nullable<decimal> ItemValue { get; set; }
         public bool IsActive { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }

@@ -42,6 +42,8 @@ namespace PMS.Resources.DAL
         public virtual DbSet<GuestReward> GuestRewards { get; set; }
         public virtual DbSet<IDType> IDTypes { get; set; }
         public virtual DbSet<Invoice> Invoices { get; set; }
+        public virtual DbSet<InvoiceItem> InvoiceItems { get; set; }
+        public virtual DbSet<InvoicePaymentDetail> InvoicePaymentDetails { get; set; }
         public virtual DbSet<InvoiceTaxDetail> InvoiceTaxDetails { get; set; }
         public virtual DbSet<Property> Properties { get; set; }
         public virtual DbSet<Rate> Rates { get; set; }
@@ -142,6 +144,19 @@ namespace PMS.Resources.DAL
                 new ObjectParameter("bookingXML", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertBooking", propertyIDParameter, bookingXMLParameter);
+        }
+    
+        public virtual int InsertInvoice(Nullable<int> propertyID, string invoiceXML)
+        {
+            var propertyIDParameter = propertyID.HasValue ?
+                new ObjectParameter("propertyID", propertyID) :
+                new ObjectParameter("propertyID", typeof(int));
+    
+            var invoiceXMLParameter = invoiceXML != null ?
+                new ObjectParameter("InvoiceXML", invoiceXML) :
+                new ObjectParameter("InvoiceXML", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertInvoice", propertyIDParameter, invoiceXMLParameter);
         }
     
         public virtual int UpdateBooking(Nullable<int> bOOKINGID, Nullable<System.DateTime> cHECKINTIME, Nullable<System.DateTime> cHECKOUTTIME, Nullable<int> roomID)
