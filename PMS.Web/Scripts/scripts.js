@@ -202,19 +202,6 @@ new PhotoSubmission;
 
 })(jQuery);
 
-$(function () {
-    var $TABLE = $('#invoice-table');
-
-    $('#invoice-table').on("click", ".tableRow-remove", function () {
-        $(this).parents('tr').detach();
-    });
-
-    $('#invoice-table').on("click", ".table-add", function (e) {
-        var $clone = $TABLE.find('tr.remove').clone(true).removeClass('remove');
-        $TABLE.find('tr.remove').before($clone);
-        e.stopPropagation();
-    });
-});
 //$(function(){
 //  $(window).scroll(function() {
 //  	function footer()

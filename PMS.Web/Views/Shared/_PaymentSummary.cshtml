@@ -48,17 +48,24 @@
                     <td></td>
                 </tr>
                 {{/each}}
-                <tr class="sortActive remove">
+                <tr id="trOthertax" style="display:none;" class="sortActive remove">
                     <td><span class="glyphicon glyphicon-th-list"></span></td>
-                    <td contenteditable="true">label</td>
-                    <td>$<input id="" value="0.0" /></td>
+                    <td id="otherTaxText" contenteditable="true"></td>
+                    <td>$<input id="otherTaxVal" value="0.0" onkeyup="OnTaxValChange(event, this)" /></td>
                     <td></td>
                     <td><span class="tableRow-remove glyphicon glyphicon-trash"></span></td>
                 </tr>
-                <tr class="sortActive">
+                <tr id="trDiscount" class="sortActive">
                     <td><span class="glyphicon glyphicon-th-list"></span></td>
                     <td>Discount</td>
                     <td>$<input id="discount" onkeyup="OnTaxValChange(event, this)" class="color-danger" value="0.0" /></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr id="trBalance" class="sortActive">
+                    <td><span class="glyphicon glyphicon-th-list"></span></td>
+                    <td>Balance</td>
+                    <td>$<input id="balance" disabled="disabled" value="0.0" /></td>
                     <td></td>
                     <td></td>
                 </tr>

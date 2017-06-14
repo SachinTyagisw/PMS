@@ -326,13 +326,22 @@
             var stayDays = window.GuestCheckinManager.InvoiceData.StayDays;
             var baseRoomCharge = $('#baseRoomCharge');
             var totalRoomCharge = $('#totalRoomCharge');
-            var htmlElementCol = $("input[id*='taxVal']");
+            var taxElementCol = $("input[id*='taxVal']");
+            var otherTaxElementCol = $("input[id*='otherTaxVal']");
 
-            //  other tax charges calulations
-            if (htmlElementCol && htmlElementCol.length > 0) {
-                for (var i = 0; i < htmlElementCol.length; i++) {
-                    if (!htmlElementCol[i] || !htmlElementCol[i].value || isNaN(htmlElementCol[i].value)) continue;
-                    totalCharge = (parseFloat(totalCharge) + parseFloat(htmlElementCol[i].value, 10)).toFixed(2);
+            //  tax charges calulations
+            if (taxElementCol && taxElementCol.length > 0) {
+                for (var i = 0; i < taxElementCol.length; i++) {
+                    if (!taxElementCol[i] || !taxElementCol[i].value || isNaN(taxElementCol[i].value)) continue;
+                    totalCharge = (parseFloat(totalCharge) + parseFloat(taxElementCol[i].value, 10)).toFixed(2);
+                }
+            }
+
+            // other tax charges calulations
+            if (otherTaxElementCol && otherTaxElementCol.length > 0) {
+                for (var i = 0; i < otherTaxElementCol.length; i++) {
+                    if (!otherTaxElementCol[i] || !otherTaxElementCol[i].value || isNaN(otherTaxElementCol[i].value)) continue;
+                    totalCharge = (parseFloat(totalCharge) + parseFloat(otherTaxElementCol[i].value, 10)).toFixed(2);
                 }
             }
             
@@ -494,23 +503,17 @@
     }
     
     function prepareInvoiceDto() {
-
         var invoice = {};
         invoice.InvoiceTaxDetails = [];
         invoice.InvoiceItem = [];
         invoice.InvoicePaymentDetail = [];
+        
+        // predefined tax 
+        invoice.InvoiceTaxDetails = prepareTax();
+        // dynamic tax and other payment charges
+        invoice.InvoiceItem = prepareOtherCharges();
 
-        var htmlElementCol = $("input[id*='taxVal']");
-        if (!htmlElementCol || htmlElementCol.length <= 0) return invoice;
-        for (var i = 0; i < htmlElementCol.length; i++) {
-            if (!htmlElementCol[i] || !htmlElementCol[i].name) continue;
-            var tax = {};
-            var taxName = htmlElementCol[i].name;
-            var taxValue = !htmlElementCol[i].value || isNaN(htmlElementCol[i].value) ? 0 : parseFloat(htmlElementCol[i].value, 10).toFixed(2);
-            tax.TaxShortName = taxName;
-            tax.TaxAmount = taxValue;
-            invoice.InvoiceTaxDetails.push(tax);
-        }
+        invoice.InvoicePaymentDetail = preparePaymentDetail();
 
         // for new booking id = -1
         invoice.BookingID = -1;
@@ -518,17 +521,76 @@
         invoice.ID = -1;
         invoice.CreatedOn = getCurrentDate();
         invoice.IsActive = true;
-
+        invoice.TotalAmount = $('#total')[0].innerText
+        invoice.DISCOUNT = $('#discount')[0].value;
+        invoice.IsPaid = $('#balance') && $('#balance').val() > 0 ? false : true;
         //TODO : remove hardcoded value
         invoice.CreatedBy = "vipul";
 
         return invoice;
-        //TODO add additional tax info
-        //$('#total')[0].innerText = totalCharge;
-        //discount
-        //dynamic field
     }
-        
+
+    function preparePaymentDetail() {
+        var paymentDetail = [];
+        var payment = {};
+
+        // TODO: retrieve it dynamically from UI
+        payment.PaymentMode = "Credit card";
+        payment.PaymentValue = 2000;
+        payment.PaymentDetails = "50% payment is done.";
+
+        paymentDetail.push(payment);
+        return paymentDetail;
+    }
+
+    function prepareOtherCharges() {
+        var invoiceItem = [];
+        var htmlElementCol = $("tr#trOthertax");
+        if (htmlElementCol && htmlElementCol.length > 0) {
+            for (var i = 0; i < htmlElementCol.length; i++) {
+                if (!htmlElementCol[i] || htmlElementCol[i].style.display === 'none'
+                   || !htmlElementCol[i].children[1].innerText || !htmlElementCol[i].children[2].firstElementChild.value
+                   || parseFloat(htmlElementCol[i].children[2].firstElementChild.value, 10).toFixed(2) <= 0) continue;
+
+                var otherTax = {};
+                var name = htmlElementCol[i].children[1].innerText;
+                var value = parseFloat(htmlElementCol[i].children[2].firstElementChild.value, 10).toFixed(2);
+                otherTax.ItemName = name;
+                otherTax.ItemValue = value;
+                invoiceItem.push(otherTax);
+            }
+        }       
+
+        var baseRoomCharge = {};
+        baseRoomCharge.ItemName = $('#baseRoomCharge')[0].name;
+        baseRoomCharge.ItemValue = $("#baseRoomCharge").val();
+        invoiceItem.push(baseRoomCharge);
+
+        var totalRoomCharge = {};
+        totalRoomCharge.ItemName = $('#totalRoomCharge')[0].name;
+        totalRoomCharge.ItemValue = $("#totalRoomCharge").val();
+        invoiceItem.push(totalRoomCharge);
+
+        return invoiceItem;
+    }
+    
+    function prepareTax() {
+        var invoicePaymentDetail = [];
+        var htmlElementCol = $("input[id*='taxVal']");
+        if (!htmlElementCol || htmlElementCol.length <= 0) return invoicePaymentDetail;
+
+        for (var i = 0; i < htmlElementCol.length; i++) {
+            if (!htmlElementCol[i] || !htmlElementCol[i].name) continue;
+            var tax = {};
+            var taxName = htmlElementCol[i].name;
+            var taxValue = !htmlElementCol[i].value || isNaN(htmlElementCol[i].value) ? 0 : parseFloat(htmlElementCol[i].value, 10).toFixed(2);
+            tax.TaxShortName = taxName;
+            tax.TaxAmount = taxValue;
+            invoicePaymentDetail.push(tax);
+        }
+        return invoicePaymentDetail;
+    }
+
     function prepareRoomBookingDto() {
         var roomBookings = [];
         var roomBooking = {};
