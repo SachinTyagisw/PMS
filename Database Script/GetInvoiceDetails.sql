@@ -1,0 +1,23 @@
+-- =============================================    
+-- Author:  Sachin Tyagi    
+-- Create date: June 13, 2017    
+-- Description: This stored procedure shall return the complete information of invoice.
+-- =============================================    
+--Exec GETINVOICEDETAILS 1 
+
+CREATE PROC GETINVOICEDETAILS
+@INVOICEID INT
+AS BEGIN
+SELECT * FROM 
+INVOICE 
+LEFT OUTER JOIN 
+INVOICEITEMS 
+ON INVOICE.ID = INVOICEITEMS.INVOICEID
+LEFT OUTER JOIN
+INVOICETAXDETAIL
+ON INVOICE.ID = INVOICETAXDETAIL.INVOICEID 
+LEFT OUTER JOIN
+INVOICEPAYMENTDETAILS
+ON INVOICE.ID = INVOICEPAYMENTDETAILS.INVOICEID
+WHERE INVOICE.ID= @INVOICEID
+END
