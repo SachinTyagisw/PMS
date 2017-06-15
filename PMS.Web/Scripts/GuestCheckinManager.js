@@ -158,7 +158,7 @@
             invoice.InvoicePaymentDetail = [];
 
             invoice.PropertyId = getPropertyId();
-            invoice.BookingID = 1045;//window.GuestCheckinManager.BookingDto.BookingId ? window.GuestCheckinManager.BookingDto.BookingId : -1;
+            invoice.BookingID = window.GuestCheckinManager.BookingDto.BookingId ? window.GuestCheckinManager.BookingDto.BookingId : -1;
 
             if (invoice.PropertyId <= -1 || invoice.BookingID <= -1) {
                 alert('Invalid bookingid or propertyid.');
