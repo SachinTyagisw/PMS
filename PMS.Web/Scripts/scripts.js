@@ -37,24 +37,24 @@
     ---------------------*/
 
 
-    var open = false;
+    //var open = false;
 
-    var openSidebar = function () {
-        $('.chat-sidebar').addClass('is-active');
-        $('.chat-sidebar-icon').addClass('is-active');
-        open = true;
-    }
-    var closeSidebar = function () {
-        $('.chat-sidebar').removeClass('is-active');
-        $('.chat-sidebar-icon').removeClass('is-active');
-        open = false;
-    }
+    //var openSidebar = function () {
+    //    $('.chat-sidebar').addClass('is-active');
+    //    $('.chat-sidebar-icon').addClass('is-active');
+    //    open = true;
+    //}
+    //var closeSidebar = function () {
+    //    $('.chat-sidebar').removeClass('is-active');
+    //    $('.chat-sidebar-icon').removeClass('is-active');
+    //    open = false;
+    //}
 
-    $('.chat-sidebar-icon').on('click', function (event) {
-        event.stopPropagation();
-        var toggle = open ? closeSidebar : openSidebar;
-        toggle();
-    });
+    //$('.chat-sidebar-icon').on('click', function (event) {
+    //    event.stopPropagation();
+    //    var toggle = open ? closeSidebar : openSidebar;
+    //    toggle();
+    //});
 
 
 
