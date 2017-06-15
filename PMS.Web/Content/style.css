@@ -3395,7 +3395,7 @@ p {
 }
 .photo_submit.photo_submit--image {
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   background-position: center;
 }
 .photo_submit.photo_submit--image:hover {
