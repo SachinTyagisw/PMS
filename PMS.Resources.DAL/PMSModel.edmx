@@ -824,6 +824,9 @@
         <Function Name="GETGUESTTRANSACTIONS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="GUESTID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GETINVOICEDETAILS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="INVOICEID" Type="int" Mode="In" />
+        </Function>
         <Function Name="GETROOMSTATUS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PROPERTYID" Type="int" Mode="In" />
           <Parameter Name="CHECKINTIME" Type="datetime" Mode="In" />
@@ -2036,6 +2039,9 @@
           <FunctionImport Name="GETGUESTTRANSACTIONS" ReturnType="Collection(PmsModel.GETGUESTTRANSACTIONS_Result)">
             <Parameter Name="GUESTID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="GETINVOICEDETAILS" ReturnType="Collection(PmsModel.GETINVOICEDETAILS_Result)">
+            <Parameter Name="INVOICEID" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="GETROOMSTATUS" ReturnType="Collection(PmsModel.GETROOMSTATUS_Result)">
             <Parameter Name="PROPERTYID" Mode="In" Type="Int32" />
             <Parameter Name="CHECKINTIME" Mode="In" Type="DateTime" />
@@ -2089,6 +2095,48 @@
           <Property Type="DateTime" Name="CheckoutTime" Nullable="true" Precision="23" />
           <Property Type="String" Name="ROOMTYPE" Nullable="false" />
           <Property Type="String" Name="ROOMNUMBER" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="GETINVOICEDETAILS_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="GuestID" Nullable="false" />
+          <Property Type="Int32" Name="BookingID" Nullable="false" />
+          <Property Type="Boolean" Name="IsPaid" Nullable="true" />
+          <Property Type="Decimal" Name="TotalAmount" Nullable="true" Precision="19" />
+          <Property Type="String" Name="FolioNumber" Nullable="true" MaxLength="200" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="CreatedOn" Nullable="true" Precision="23" />
+          <Property Type="String" Name="LastUpdatedBy" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="LastUpdatedOn" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="DISCOUNT" Nullable="true" Precision="19" />
+          <Property Type="Int32" Name="ID1" Nullable="true" />
+          <Property Type="Int32" Name="InvoiceID" Nullable="true" />
+          <Property Type="String" Name="ItemName" Nullable="true" />
+          <Property Type="Decimal" Name="ItemValue" Nullable="true" Precision="19" />
+          <Property Type="Boolean" Name="IsActive1" Nullable="true" />
+          <Property Type="String" Name="CreatedBy1" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="CreatedOn1" Nullable="true" Precision="23" />
+          <Property Type="String" Name="LastUpdatedBy1" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="LastUpdatedOn1" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="ID2" Nullable="true" />
+          <Property Type="Int32" Name="InvoiceID1" Nullable="true" />
+          <Property Type="String" Name="TaxShortName" Nullable="true" />
+          <Property Type="Decimal" Name="TaxAmount" Nullable="true" Precision="7" Scale="2" />
+          <Property Type="Boolean" Name="IsActive2" Nullable="true" />
+          <Property Type="String" Name="CreatedBy2" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="CreatedOn2" Nullable="true" Precision="23" />
+          <Property Type="String" Name="LastUpdatedBy2" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="LastUpdatedOn2" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="ID3" Nullable="true" />
+          <Property Type="Int32" Name="InvoiceID2" Nullable="true" />
+          <Property Type="String" Name="PaymentMode" Nullable="true" />
+          <Property Type="Decimal" Name="PaymentValue" Nullable="true" Precision="19" />
+          <Property Type="String" Name="PaymentDetails" Nullable="true" />
+          <Property Type="Boolean" Name="IsActive3" Nullable="true" />
+          <Property Type="String" Name="CreatedBy3" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="CreatedOn3" Nullable="true" Precision="23" />
+          <Property Type="String" Name="LastUpdatedBy3" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="LastUpdatedOn3" Nullable="true" Precision="23" />
         </ComplexType>
         <ComplexType Name="GETROOMSTATUS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -2607,6 +2655,52 @@
                 <ScalarProperty Name="CheckoutTime" ColumnName="CheckoutTime" />
                 <ScalarProperty Name="ROOMTYPE" ColumnName="ROOMTYPE" />
                 <ScalarProperty Name="ROOMNUMBER" ColumnName="ROOMNUMBER" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GETINVOICEDETAILS" FunctionName="PmsModel.Store.GETINVOICEDETAILS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PmsModel.GETINVOICEDETAILS_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="GuestID" ColumnName="GuestID" />
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+                <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="FolioNumber" ColumnName="FolioNumber" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+                <ScalarProperty Name="DISCOUNT" ColumnName="DISCOUNT" />
+                <ScalarProperty Name="ID1" ColumnName="ID1" />
+                <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="ItemValue" ColumnName="ItemValue" />
+                <ScalarProperty Name="IsActive1" ColumnName="IsActive1" />
+                <ScalarProperty Name="CreatedBy1" ColumnName="CreatedBy1" />
+                <ScalarProperty Name="CreatedOn1" ColumnName="CreatedOn1" />
+                <ScalarProperty Name="LastUpdatedBy1" ColumnName="LastUpdatedBy1" />
+                <ScalarProperty Name="LastUpdatedOn1" ColumnName="LastUpdatedOn1" />
+                <ScalarProperty Name="ID2" ColumnName="ID2" />
+                <ScalarProperty Name="InvoiceID1" ColumnName="InvoiceID1" />
+                <ScalarProperty Name="TaxShortName" ColumnName="TaxShortName" />
+                <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
+                <ScalarProperty Name="IsActive2" ColumnName="IsActive2" />
+                <ScalarProperty Name="CreatedBy2" ColumnName="CreatedBy2" />
+                <ScalarProperty Name="CreatedOn2" ColumnName="CreatedOn2" />
+                <ScalarProperty Name="LastUpdatedBy2" ColumnName="LastUpdatedBy2" />
+                <ScalarProperty Name="LastUpdatedOn2" ColumnName="LastUpdatedOn2" />
+                <ScalarProperty Name="ID3" ColumnName="ID3" />
+                <ScalarProperty Name="InvoiceID2" ColumnName="InvoiceID2" />
+                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
+                <ScalarProperty Name="PaymentValue" ColumnName="PaymentValue" />
+                <ScalarProperty Name="PaymentDetails" ColumnName="PaymentDetails" />
+                <ScalarProperty Name="IsActive3" ColumnName="IsActive3" />
+                <ScalarProperty Name="CreatedBy3" ColumnName="CreatedBy3" />
+                <ScalarProperty Name="CreatedOn3" ColumnName="CreatedOn3" />
+                <ScalarProperty Name="LastUpdatedBy3" ColumnName="LastUpdatedBy3" />
+                <ScalarProperty Name="LastUpdatedOn3" ColumnName="LastUpdatedOn3" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

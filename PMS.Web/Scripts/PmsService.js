@@ -30,6 +30,8 @@
             OnGetCityByStateSuccess: null,
             OnGetPaymentChargesFailure: null,
             OnGetPaymentChargesSuccess: null,
+            OnAddInvoiceSuccess: null,
+            OnAddInvoiceFailure: null,
         };
 
         this.GetPaymentCharges = function (args) {
@@ -66,6 +68,10 @@
 
         this.AddBooking = function (args) {
             makeAjaxRequestPost(args, "AddBooking", this, "api/v1/Booking/AddBooking");
+        };
+
+        this.AddInvoice = function (args) {
+            makeAjaxRequestPost(args, "AddInvoice", this, "api/v1/Invoice/AddInvoice");
         };
 
         this.GetRoomTypeByProperty = function (args) {

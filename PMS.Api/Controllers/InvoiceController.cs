@@ -50,6 +50,31 @@ namespace PMS.Api.Controllers
              "api/v1/Invoice/GetPaymentCharges",
              new { controller = "Invoice", action = "GetPaymentCharges" }
              );
+
+            config.Routes.MapHttpRoute(
+             "AddInvoice",
+             "api/v1/Invoice/AddInvoice",
+             new { controller = "Invoice", action = "AddInvoice" }
+             );
+        }
+
+        [HttpPost, ActionName("AddInvoice")]
+        public PmsResponseDto AddInvoice([FromBody] AddInvoiceRequestDto request)
+        {
+            if (request == null || request.Invoice == null || request.Invoice.PropertyId <= 0 || request.Invoice.BookingID <= 0) throw new PmsException("Invoice can not be added.");
+
+            var response = new PmsResponseDto();
+            if (_iPmsLogic.AddInvoice(request.Invoice))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "Invoice is added successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "Invoice is not added.Contact administrator.";
+            }
+            return response;
         }
 
         [HttpPost, ActionName("GetPaymentCharges")]

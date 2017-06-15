@@ -147,6 +147,43 @@
             }
         },
 
+        AddInvoice: function () {
+
+            var invoiceRequestDto = {};
+            invoiceRequestDto.Invoice = {};
+            var invoice = {};
+
+            invoice.InvoiceTaxDetails = [];
+            invoice.InvoiceItem = [];
+            invoice.InvoicePaymentDetail = [];
+
+            invoice.PropertyId = getPropertyId();
+            invoice.BookingID = 1045;//window.GuestCheckinManager.BookingDto.BookingId ? window.GuestCheckinManager.BookingDto.BookingId : -1;
+
+            if (invoice.PropertyId <= -1 || invoice.BookingID <= -1) {
+                alert('Invalid bookingid or propertyid.');
+            }
+
+            invoice.ID = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;            
+            invoice.GuestID = window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;
+            invoice.CreatedOn = getCurrentDate();
+            invoice.IsActive = true;
+            invoice.TotalAmount = $('#total')[0].innerText
+            invoice.DISCOUNT = $('#discount')[0].value;
+            invoice.IsPaid = $('#balance') && $('#balance').val() > 0 ? false : true;
+            invoice.CreatedBy = getCreatedBy();
+
+            // predefined tax 
+            invoice.InvoiceTaxDetails = prepareTax();
+            // dynamic tax and other payment charges
+            invoice.InvoiceItem = prepareOtherCharges();
+            invoice.InvoicePaymentDetail = preparePaymentDetail();
+
+            invoiceRequestDto.Invoice = invoice;
+            // add invoice by api calling  
+            pmsService.AddInvoice(invoiceRequestDto);
+        },
+
         AddBooking: function (status) {        
             
             if (!validateInputs()) return;
@@ -172,7 +209,6 @@
             booking.HOURSTOSTAY = $('#hourCheckin')[0].checked && parseInt(noOfHours) > 0 ? parseInt(noOfHours) : 0;
             booking.CreatedBy = getCreatedBy();            
 
-            //booking.Invoice = prepareInvoice();
             booking.RoomBookings = prepareRoomBooking();
             booking.Guests = prepareGuest();
             booking.GuestMappings = prepareGuestMapping();
@@ -514,31 +550,6 @@
         return additionalGuests;
     }
     
-    function prepareInvoice() {
-        var invoice = {};
-        invoice.InvoiceTaxDetails = [];
-        invoice.InvoiceItem = [];
-        invoice.InvoicePaymentDetail = [];        
-        
-        invoice.ID = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-        invoice.BookingID = window.GuestCheckinManager.BookingDto.BookingId ? window.GuestCheckinManager.BookingDto.BookingId : -1;
-        invoice.GuestID = window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;        
-        invoice.CreatedOn = getCurrentDate();
-        invoice.IsActive = true;
-        invoice.TotalAmount = $('#total')[0].innerText
-        invoice.DISCOUNT = $('#discount')[0].value;
-        invoice.IsPaid = $('#balance') && $('#balance').val() > 0 ? false : true;
-        invoice.CreatedBy = getCreatedBy();
-
-        // predefined tax 
-        invoice.InvoiceTaxDetails = prepareTax();
-        // dynamic tax and other payment charges
-        invoice.InvoiceItem = prepareOtherCharges();
-        invoice.InvoicePaymentDetail = preparePaymentDetail();
-
-        return invoice;
-    }
-
     function preparePaymentDetail() {
         var paymentDetail = [];
         var payment = {};
@@ -1094,6 +1105,21 @@
         pmsService.Handlers.OnGetPaymentChargesFailure = function () {
             // show error log
             console.error("get PaymentCharges call failed");
+        };
+
+        pmsService.Handlers.OnAddInvoiceSuccess = function (data) {
+            var status = data.StatusDescription.toLowerCase();
+            if (status.indexOf("successfully") >= 0) {
+                console.log(status);
+            } else {
+                console.error(status);
+            }
+            alert(status);
+        };
+
+        pmsService.Handlers.OnAddInvoiceFailure = function () {
+            // show error log
+            console.error("Invoice is not added.");
         };
 
         // ajax handlers end

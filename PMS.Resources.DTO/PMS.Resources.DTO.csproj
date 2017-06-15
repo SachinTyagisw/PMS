@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Request\AddInvoiceRequestDto.cs" />
     <Compile Include="Request\AddBookingRequestDto.cs" />
     <Compile Include="Request\AddPropertyRequestDto.cs" />
     <Compile Include="Request\AddPropertyTypeRequestDto.cs" />

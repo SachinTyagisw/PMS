@@ -58,6 +58,7 @@ namespace PMS.Resources.DAL
         List<PmsEntity.Country> GetCountry();
         List<PmsEntity.Guest> GetAllGuest();
         List<PmsEntity.Tax> GetPaymentCharges(int? propertyId, int? roomTypeId, int? rateTypeId, int? noOfHours, bool? IsHourly);
+        bool AddInvoice(int propertyId, string invoiceXml);
     }
 }
 

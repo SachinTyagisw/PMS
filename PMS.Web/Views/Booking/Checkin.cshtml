@@ -261,6 +261,10 @@
                 e.stopPropagation();
             });
 
+            $("#saveInvoice").click(function () {
+                gcm.AddInvoice();
+            });
+
             $("#btnCheckin").click(function () {
                 gcm.AddBooking('booked');
             });

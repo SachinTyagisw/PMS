@@ -10,6 +10,7 @@ namespace PMS.Resources.Entities
     {
         public int ID { get; set; }
         public int GuestID { get; set; }
+        public int PropertyId { get; set; }
         public int BookingID { get; set; }
         public Nullable<bool> IsPaid { get; set; }
         public Nullable<decimal> TotalAmount { get; set; }

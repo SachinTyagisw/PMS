@@ -48,7 +48,7 @@ namespace PMS.Resources.Logic
             bookingXml = RemoveXmlDefaultNode(bookingXml);
 
             //var logService = LoggingManager.GetLogInstance();
-            //logService.LogInformation("xml:" + bookingXml);
+            //logService.LogInformation("booking xml:" + bookingXml);
 
             return DalFactory.AddBooking(propertyId,bookingXml);
         }       
@@ -239,6 +239,22 @@ namespace PMS.Resources.Logic
         public List<PmsEntity.Tax> GetPaymentCharges(GetPaymentChargesRequestDto request)
         {
             return DalFactory.GetPaymentCharges(request.PropertyId, request.RoomTypeId, request.RateTypeId, request.NoOfHours, request.IsHourly);
+        }
+
+        public bool AddInvoice(PmsEntity.Invoice invoice)
+        {
+            var propertyId = invoice.PropertyId;
+            var invoiceXml = PmsConverter.SerializeObjectToXmlString(invoice);
+            
+            if (string.IsNullOrWhiteSpace(invoiceXml)) return false;
+
+            invoiceXml = RemoveXmlDefaultNode(invoiceXml);
+            
+            //var logService = LoggingManager.GetLogInstance();
+            //logService.LogInformation("invoice xml:" + invoiceXml);
+
+            return DalFactory.AddInvoice(propertyId, invoiceXml);
+
         }
 
         #region helper methods 

@@ -523,5 +523,30 @@ namespace PMS.Resources.DAL
             }
             return taxes;
         }
+
+        public bool AddInvoice(int propertyId, string invoiceXml)
+        {
+            var isAdded = false;
+            using (var pmsContext = new PmsEntities())
+            {
+                var propId = new SqlParameter
+                {
+                    ParameterName = "propertyID",
+                    DbType = DbType.Int32,
+                    Value = propertyId
+                };
+
+                var invoicexml = new SqlParameter
+                {
+                    ParameterName = "InvoiceXML",
+                    DbType = DbType.Xml,
+                    Value = invoiceXml
+                };
+
+                var result = pmsContext.Database.ExecuteSqlCommand("InsertInvoice @propertyID, @InvoiceXML", propId, invoicexml);
+                isAdded = true;
+            }
+            return isAdded;
+        }
     }
 }

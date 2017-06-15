@@ -116,6 +116,15 @@ namespace PMS.Resources.DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GETGUESTTRANSACTIONS_Result>("GETGUESTTRANSACTIONS", gUESTIDParameter);
         }
     
+        public virtual ObjectResult<GETINVOICEDETAILS_Result> GETINVOICEDETAILS(Nullable<int> iNVOICEID)
+        {
+            var iNVOICEIDParameter = iNVOICEID.HasValue ?
+                new ObjectParameter("INVOICEID", iNVOICEID) :
+                new ObjectParameter("INVOICEID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GETINVOICEDETAILS_Result>("GETINVOICEDETAILS", iNVOICEIDParameter);
+        }
+    
         public virtual ObjectResult<GETROOMSTATUS_Result> GETROOMSTATUS(Nullable<int> pROPERTYID, Nullable<System.DateTime> cHECKINTIME, Nullable<System.DateTime> cHECKOUTDATE)
         {
             var pROPERTYIDParameter = pROPERTYID.HasValue ?
