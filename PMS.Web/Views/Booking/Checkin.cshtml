@@ -225,7 +225,7 @@
             $('#phone').val('');
             $('#email').val('');
             $('#idDetails').val('');
-            $('#hdnGuestId').val('');
+            window.GuestCheckinManager.BookingDto.GuestId = null;
             // clear guest history if guest id is not present
             gcm.AutoCollapseGuestHistory();
         }
@@ -300,8 +300,7 @@
                     if (!selectedGuestObject) return false;
 
                     $('#searchGuest').val(ui.item.label);
-                    // set hidden field value     
-                    $('#hdnGuestId').val(ui.item.value);
+                    window.GuestCheckinManager.BookingDto.GuestId = ui.item.value;
                     populateGuestUi(selectedGuestObject);
                     return false;
                 }

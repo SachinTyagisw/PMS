@@ -3,10 +3,22 @@
     var pmsSession = window.PmsSession;
     var args = {};
     var isDdlCountryChange = null;
-    var InvoiceData = {};
+    var invoiceData = {};
     var guestCheckinManager = {
-        
-        Initialize: function () {                       
+
+        BookingDto: {
+            PropertyId: null,
+            GuestId: null,
+            BookingId: null,
+            InvoiceId: null,
+            RoomBookingId: null,
+            GuestMappingId: null,
+            AddressId: null,    
+            AddressTypeId: null,
+            AdditionalGuestId: null
+        },
+
+        Initialize: function () {
             ajaxHandlers();
             getRoomTypes();
             getRoomRateTypes();
@@ -135,19 +147,21 @@
             }
         },
 
-        AddBooking: function (status) {
-
+        AddBooking: function (status) {        
+            
             if (!validateInputs()) return;
 
             var bookingRequestDto = {};
             bookingRequestDto.Booking = {};
             var booking = {};           
 
+            // for new booking Id = -1 
+            booking.Id = -1
             booking.CheckinTime = $('#dateFrom').val();
             booking.CheckoutTime = $('#dateTo').val();
             booking.NoOfAdult = $('#ddlAdults').val();
             booking.NoOfChild = $('#ddlChild').val();
-            booking.PropertyId = pmsSession.GetItem("propertyid");
+            booking.PropertyId = getPropertyId();
             booking.GuestRemarks = $('#guestComments').val();
             booking.TransactionRemarks = $('#transRemarks').val();
             booking.CreatedOn = getCurrentDate();
@@ -156,15 +170,12 @@
             booking.ISHOURLYCHECKIN = $('#hourCheckin')[0].checked ? true : false;
             var noOfHours = $('#hoursComboBox').val();
             booking.HOURSTOSTAY = $('#hourCheckin')[0].checked && parseInt(noOfHours) > 0 ? parseInt(noOfHours) : 0;
-            //TODO : remove hardcoded value
-            booking.CreatedBy = "vipul";
-            // for new booking Id = -1 
-            booking.Id = -1
+            booking.CreatedBy = getCreatedBy();            
 
             booking.Invoice = prepareInvoiceDto();
             booking.RoomBookings = prepareRoomBookingDto();
             booking.Guests = prepareGuestDto();
-            booking.GuestMappings = prepareGuestIdDto();
+            booking.GuestMappings = prepareGuestMappingDto();
             booking.Addresses = prepareAddressDto();
             booking.AdditionalGuests = prepareAdditionalGuestDto();
             
@@ -183,14 +194,14 @@
             var getRoomByDateRequestDto = {};
             getRoomByDateRequestDto.CheckinDate = $('#dateFrom').val();
             getRoomByDateRequestDto.CheckoutDate = $('#dateTo').val();
-            getRoomByDateRequestDto.PropertyId = pmsSession.GetItem("propertyid");
+            getRoomByDateRequestDto.PropertyId = getPropertyId();
 
             // get room by api calling  
             pmsService.GetRoomByDate(getRoomByDateRequestDto);
         },
         
         GetGuestHistory: function () {
-            args.guestId = $('#hdnGuestId').val() == '' ? -1 : $('#hdnGuestId').val();
+            args.guestId = window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;
             if (args.guestId != -1) {
 
                 var guestData = pmsSession.GetItem("guesthistory");
@@ -283,7 +294,7 @@
                 $('#lName').val('');
                 $('#phone').val('');
                 $('#email').val('');
-                $('#hdnGuestId').val('');
+                window.GuestCheckinManager.BookingDto.GuestId = null;
                 $('#idDetails').val('');
                 // clear guest history if guest id is not present
                 window.GuestCheckinManager.AutoCollapseGuestHistory();
@@ -323,7 +334,7 @@
 
         CalculateTotalCharge: function () {
             var totalCharge = 0;
-            var stayDays = window.GuestCheckinManager.InvoiceData.StayDays;
+            var stayDays = window.GuestCheckinManager.invoiceData.StayDays;
             var baseRoomCharge = $('#baseRoomCharge');
             var totalRoomCharge = $('#totalRoomCharge');
             var taxElementCol = $("input[id*='taxVal']");
@@ -383,6 +394,11 @@
         //}
     };
     
+    function getPropertyId() {
+        window.GuestCheckinManager.BookingDto.PropertyId = pmsSession.GetItem("propertyid");
+        return window.GuestCheckinManager.BookingDto.PropertyId;
+    }
+
     function applyDiscount(totalCharge) {
         if (!totalCharge || isNaN(totalCharge)) return 0;
         var discount = $('#discount')[0].value;
@@ -412,11 +428,10 @@
         address.Address1 = $('#address').val();
         //TODO : update with address2 field
         address.Address2 = $('#address').val();
-        address.GuestID = $('#hdnGuestId').val() == '' ? -1 : $('#hdnGuestId').val();
+        address.GuestID = window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;
         address.CreatedOn = getCurrentDate();
         address.IsActive = true;
-        //TODO : remove hardcoded value
-        address.CreatedBy = "vipul";
+        address.CreatedBy = getCreatedBy();
         //TODO: addresstype to be selected from address type ddl
         address.AddressTypeID = 1;
         
@@ -429,7 +444,7 @@
         var guest = {};
         
         // for new guest guestid should be -1 else guestid
-        guest.Id = $('#hdnGuestId').val() == '' ? -1 : $('#hdnGuestId').val();
+        guest.Id = window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;
         guest.FirstName = $('#fName').val();
         guest.LastName = $('#lName').val();
         guest.MobileNumber = $('#phone').val();
@@ -446,19 +461,18 @@
         
         guest.IsActive = true;
         guest.CreatedOn = getCurrentDate();
-        //TODO : remove hardcoded value
-        guest.CreatedBy = "vipul";        
+        guest.CreatedBy = getCreatedBy();        
 
         guests.push(guest);
         return guests;
     }
 
-    function prepareGuestIdDto() {
+    function prepareGuestMappingDto() {
         var guestMapping = {};
         var guestMappings = [];
 
-        guestMapping.Id = "-1"
-        guestMapping.GUESTID = $('#hdnGuestId').val() == '' ? -1 : $('#hdnGuestId').val();
+        guestMapping.Id = -1;
+        guestMapping.GUESTID = window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;
         guestMapping.IDTYPEID = $('#ddlIdType').val();
         guestMapping.IDDETAILS = $('#idDetails').val();
         guestMapping.IdExpiryDate = $('#idExpiry').val();
@@ -466,8 +480,7 @@
         guestMapping.IdIssueCountry = $('#ddlIdCountry').val();
         guestMapping.CreatedOn = getCurrentDate();
         guestMapping.IsActive = true;
-        //TODO : remove hardcoded value
-        guestMapping.CreatedBy = "vipul";        
+        guestMapping.CreatedBy = getCreatedBy();        
         
         guestMappings.push(guestMapping);
         return guestMappings;
@@ -494,9 +507,7 @@
         //TODO: get value from initial selection eg: mr,ms,mrs
         additionalGuest.Gender = "M";
         additionalGuest.CreatedOn = getCurrentDate();
-
-        //TODO : remove hardcoded value
-        additionalGuest.CreatedBy = "vipul";
+        additionalGuest.CreatedBy = getCreatedBy();
 
         additionalGuests.push(additionalGuest);
         return additionalGuests;
@@ -517,15 +528,14 @@
 
         // for new booking id = -1
         invoice.BookingID = -1;
-        invoice.GuestID = $('#hdnGuestId').val() == '' ? -1 : $('#hdnGuestId').val();
+        invoice.GuestID = window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;
         invoice.ID = -1;
         invoice.CreatedOn = getCurrentDate();
         invoice.IsActive = true;
         invoice.TotalAmount = $('#total')[0].innerText
         invoice.DISCOUNT = $('#discount')[0].value;
         invoice.IsPaid = $('#balance') && $('#balance').val() > 0 ? false : true;
-        //TODO : remove hardcoded value
-        invoice.CreatedBy = "vipul";
+        invoice.CreatedBy = getCreatedBy();
 
         return invoice;
     }
@@ -596,15 +606,13 @@
         var roomBooking = {};
         var roomType = $('#roomTypeDdl').val();
         roomBooking.RoomId = $('#roomddl').val();      
-        roomBooking.GuestID = $('#hdnGuestId').val() == '' ? -1 : $('#hdnGuestId').val();
+        roomBooking.GuestID = window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;
         // for new booking id = -1
         roomBooking.BookingId = -1
         roomBooking.Id = -1
         roomBooking.CreatedOn = getCurrentDate();
         roomBooking.IsActive = true;
-
-        //TODO : remove hardcoded value
-        roomBooking.CreatedBy = "vipul";
+        roomBooking.CreatedBy = getCreatedBy();
         roomBooking.IsExtra = false;
 
         roomBookings.push(roomBooking);
@@ -612,7 +620,7 @@
     }
 
     function getRoomTypes() {
-        args.propertyId = pmsSession.GetItem("propertyid");
+        args.propertyId = getPropertyId();
         var roomTypeData = pmsSession.GetItem("roomtypedata");
         if (!roomTypeData) {
             // get room types by api calling  
@@ -633,7 +641,7 @@
     function getPaymentCharges() {
         // get paymentCharge details by api calling 
         var paymentChargeRequestDto = {};
-        paymentChargeRequestDto.PropertyId = pmsSession.GetItem("propertyid");
+        paymentChargeRequestDto.PropertyId = getPropertyId();
         
         var dateFrom = $('#dateFrom').val();
         var dateTo = $('#dateTo').val();
@@ -697,7 +705,7 @@
     }
 
     function getRoomRateTypes() {
-        args.propertyId = pmsSession.GetItem("propertyid");
+        args.propertyId = getPropertyId();
         var rateTypeData = pmsSession.GetItem("ratetypedata");
         if (!rateTypeData) {
             // get room rate types by api calling  
@@ -709,13 +717,18 @@
     }
     
     //function getRooms(){
-    //    args.propertyId = pmsSession.GetItem("propertyid");
+    //    args.propertyId = getPropertyId();
     //    var roomData = pmsSession.GetItem("roomdata");
     //    if (!roomData) {
     //        // get room by api calling  
     //        pmsService.GetRoomByProperty(args);
     //    }
     //}     
+
+    function getCreatedBy() {
+        //TODO : get createdby value from user session
+        return "vipul";
+    }
 
     function getCurrentDate() {
         // date format yyyy/mm/dd
@@ -881,7 +894,7 @@
         $('#roomTypeDdl').val('-1');
         $('#roomddl').empty();
         $("#searchGuest").val('');
-        $('#hdnGuestId').val('');
+        window.GuestCheckinManager.BookingDto.GuestId = null;
         $('#idDetails').val('');
         window.GuestCheckinManager.AutoCollapseGuestHistory();
     }
@@ -912,6 +925,9 @@
         pmsService.Handlers.OnAddBookingSuccess = function (data) {
             var status = data.StatusDescription.toLowerCase();
             if (status.indexOf("successfully") >= 0) {
+                //TODO: fill data from success response
+                //$('#hdnBookingId').val(data.BookingId);
+                //window.GuestCheckinManager.BookingDto.GuestId = data.GuestId;
                 // clearAllFields();
                 var roomnumber = $('#roomddl').val();
                 var fname = $('#fName').val();
@@ -984,7 +1000,9 @@
         pmsService.Handlers.OnGetGuestHistoryByIdSuccess = function (data) {
             if (!data || !data.GuestHistory || data.GuestHistory.length <= 0) return;
 
-            var guestId = $('#hdnGuestId').val();
+            var guestId = window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;
+            if (guestId === -1) return;
+
             var idx = gcm.CheckIfKeyPresent(guestId, pmsSession.GuestSessionKey);
             // store guesthistory data in session storage only when guestid is not present in session
             if (idx === -1) {
@@ -1071,7 +1089,7 @@
 
         pmsService.Handlers.OnGetPaymentChargesSuccess = function (data) {
             if (!data || !data.Tax || data.Tax.length <= 0) return;
-            window.GuestCheckinManager.InvoiceData = data;
+            window.GuestCheckinManager.invoiceData = data;
             window.GuestCheckinManager.PopulateCharges(data);
         };
         pmsService.Handlers.OnGetPaymentChargesFailure = function () {
