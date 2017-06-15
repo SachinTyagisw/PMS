@@ -3157,6 +3157,7 @@ body {
   margin-top:10px;
   width:174px;
   float: left;
+  font-size: 1.2rem;
 }
 .controls .add-btn .btn-addon i {
     background:transparent;
@@ -3406,8 +3407,8 @@ p {
 }
 .photo_submit-plus {
   position: relative;
-  width: 45px;
-  height: 45px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   background: cadetblue;
   pointer-events: none;
