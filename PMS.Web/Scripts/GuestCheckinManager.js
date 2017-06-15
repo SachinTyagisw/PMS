@@ -156,7 +156,7 @@
             var booking = {};           
 
             // for new booking Id = -1 
-            booking.Id = -1
+            booking.Id = window.GuestCheckinManager.BookingDto.BookingId ? window.GuestCheckinManager.BookingDto.BookingId : -1;
             booking.CheckinTime = $('#dateFrom').val();
             booking.CheckoutTime = $('#dateTo').val();
             booking.NoOfAdult = $('#ddlAdults').val();
@@ -172,12 +172,12 @@
             booking.HOURSTOSTAY = $('#hourCheckin')[0].checked && parseInt(noOfHours) > 0 ? parseInt(noOfHours) : 0;
             booking.CreatedBy = getCreatedBy();            
 
-            booking.Invoice = prepareInvoiceDto();
-            booking.RoomBookings = prepareRoomBookingDto();
-            booking.Guests = prepareGuestDto();
-            booking.GuestMappings = prepareGuestMappingDto();
-            booking.Addresses = prepareAddressDto();
-            booking.AdditionalGuests = prepareAdditionalGuestDto();
+            //booking.Invoice = prepareInvoice();
+            booking.RoomBookings = prepareRoomBooking();
+            booking.Guests = prepareGuest();
+            booking.GuestMappings = prepareGuestMapping();
+            booking.Addresses = prepareAddress();
+            booking.AdditionalGuests = prepareAdditionalGuest();
             
             if (!booking.RoomBookings || !booking.Guests || !booking.Addresses) {
                 console.error('Room Booking can not be done.');
@@ -416,11 +416,11 @@
         return data;
     }
 
-    function prepareAddressDto() {
+    function prepareAddress() {
         var addresses = [];
         var address = {};
 
-        address.Id = -1;
+        address.Id = window.GuestCheckinManager.BookingDto.AddressId ? window.GuestCheckinManager.BookingDto.AddressId : -1;
         address.City = $('#ddlCity').val();
         address.State = $('#ddlState').val();
         address.Country = $('#ddlCountry').val();
@@ -433,13 +433,14 @@
         address.IsActive = true;
         address.CreatedBy = getCreatedBy();
         //TODO: addresstype to be selected from address type ddl
+        //address.AddressTypeID = window.GuestCheckinManager.BookingDto.AddressTypeId ? window.GuestCheckinManager.BookingDto.AddressTypeId : -1;
         address.AddressTypeID = 1;
         
         addresses.push(address);
         return addresses;
     }
         
-    function prepareGuestDto() {
+    function prepareGuest() {
         var guests = [];
         var guest = {};
         
@@ -467,11 +468,11 @@
         return guests;
     }
 
-    function prepareGuestMappingDto() {
+    function prepareGuestMapping() {
         var guestMapping = {};
         var guestMappings = [];
 
-        guestMapping.Id = -1;
+        guestMapping.Id = window.GuestCheckinManager.BookingDto.GuestMappingId ? window.GuestCheckinManager.BookingDto.GuestMappingId : -1;
         guestMapping.GUESTID = window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;
         guestMapping.IDTYPEID = $('#ddlIdType').val();
         guestMapping.IDDETAILS = $('#idDetails').val();
@@ -486,12 +487,12 @@
         return guestMappings;
     }
 
-    function prepareAdditionalGuestDto() {
+    function prepareAdditionalGuest() {
         var additionalGuest = {};
         var additionalGuests = [];
 
-        additionalGuest.Id = -1;
-        additionalGuest.BookingId = -1;
+        additionalGuest.Id = window.GuestCheckinManager.BookingDto.AdditionalGuestId ? window.GuestCheckinManager.BookingDto.AdditionalGuestId : -1;
+        additionalGuest.BookingId = window.GuestCheckinManager.BookingDto.BookingId ? window.GuestCheckinManager.BookingDto.BookingId : -1;
         //TODO:reading additional guest info from grid 
         additionalGuest.FirstName = $('#adFName').val();
         additionalGuest.LastName = $('#adLName').val();
@@ -513,29 +514,27 @@
         return additionalGuests;
     }
     
-    function prepareInvoiceDto() {
+    function prepareInvoice() {
         var invoice = {};
         invoice.InvoiceTaxDetails = [];
         invoice.InvoiceItem = [];
-        invoice.InvoicePaymentDetail = [];
+        invoice.InvoicePaymentDetail = [];        
         
-        // predefined tax 
-        invoice.InvoiceTaxDetails = prepareTax();
-        // dynamic tax and other payment charges
-        invoice.InvoiceItem = prepareOtherCharges();
-
-        invoice.InvoicePaymentDetail = preparePaymentDetail();
-
-        // for new booking id = -1
-        invoice.BookingID = -1;
-        invoice.GuestID = window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;
-        invoice.ID = -1;
+        invoice.ID = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
+        invoice.BookingID = window.GuestCheckinManager.BookingDto.BookingId ? window.GuestCheckinManager.BookingDto.BookingId : -1;
+        invoice.GuestID = window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;        
         invoice.CreatedOn = getCurrentDate();
         invoice.IsActive = true;
         invoice.TotalAmount = $('#total')[0].innerText
         invoice.DISCOUNT = $('#discount')[0].value;
         invoice.IsPaid = $('#balance') && $('#balance').val() > 0 ? false : true;
         invoice.CreatedBy = getCreatedBy();
+
+        // predefined tax 
+        invoice.InvoiceTaxDetails = prepareTax();
+        // dynamic tax and other payment charges
+        invoice.InvoiceItem = prepareOtherCharges();
+        invoice.InvoicePaymentDetail = preparePaymentDetail();
 
         return invoice;
     }
@@ -601,15 +600,15 @@
         return invoicePaymentDetail;
     }
 
-    function prepareRoomBookingDto() {
+    function prepareRoomBooking() {
         var roomBookings = [];
         var roomBooking = {};
         var roomType = $('#roomTypeDdl').val();
         roomBooking.RoomId = $('#roomddl').val();      
         roomBooking.GuestID = window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;
         // for new booking id = -1
-        roomBooking.BookingId = -1
-        roomBooking.Id = -1
+        roomBooking.BookingId = window.GuestCheckinManager.BookingDto.BookingId ? window.GuestCheckinManager.BookingDto.BookingId : -1;
+        roomBooking.Id = window.GuestCheckinManager.BookingDto.RoomBookingId ? window.GuestCheckinManager.BookingDto.RoomBookingId : -1;
         roomBooking.CreatedOn = getCurrentDate();
         roomBooking.IsActive = true;
         roomBooking.CreatedBy = getCreatedBy();
@@ -926,7 +925,7 @@
             var status = data.StatusDescription.toLowerCase();
             if (status.indexOf("successfully") >= 0) {
                 //TODO: fill data from success response
-                //$('#hdnBookingId').val(data.BookingId);
+                //window.GuestCheckinManager.BookingDto.BookingId = data.ResponseObject;
                 //window.GuestCheckinManager.BookingDto.GuestId = data.GuestId;
                 // clearAllFields();
                 var roomnumber = $('#roomddl').val();
