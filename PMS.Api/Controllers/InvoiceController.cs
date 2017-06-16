@@ -61,7 +61,7 @@ namespace PMS.Api.Controllers
         [HttpPost, ActionName("AddInvoice")]
         public PmsResponseDto AddInvoice([FromBody] AddInvoiceRequestDto request)
         {
-            if (request == null || request.Invoice == null || request.Invoice.PropertyId <= 0 || request.Invoice.BookingID <= 0) throw new PmsException("Invoice can not be added.");
+            if (request == null || request.Invoice == null || request.Invoice.PropertyId <= 0 || request.Invoice.BookingId <= 0) throw new PmsException("Invoice can not be added.");
 
             var response = new PmsResponseDto();
             if (_iPmsLogic.AddInvoice(request.Invoice))

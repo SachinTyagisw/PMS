@@ -8,8 +8,8 @@ namespace PMS.Resources.Entities
 {
     public class InvoicePaymentDetail
     {
-        public int ID { get; set; }
-        public int InvoiceID { get; set; }
+        public int Id { get; set; }
+        public int InvoiceId { get; set; }
         public string PaymentMode { get; set; }
         public Nullable<decimal> PaymentValue { get; set; }
         public string PaymentDetails { get; set; }

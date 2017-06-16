@@ -1,3 +1,10 @@
+USE [PMS]
+GO
+/****** Object:  StoredProcedure [dbo].[InsertInvoice]    Script Date: 6/16/2017 10:45:56 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 
 ALTER PROCEDURE [dbo].[InsertInvoice]              
  @propertyID INT,              
@@ -186,7 +193,7 @@ BEGIN
       XMLTable.LastUpdatedBy,                
       XMLTable.LastUpdatedOn              
     FROM               
-     OPENXML(@hDoc, 'Invoice/InvoiceTaxDetails/TaxDetail',2)              
+     OPENXML(@hDoc, 'Invoice/InvoiceTaxDetails/InvoiceTaxDetail',2)              
      WITH              
      (              
       Id int,
@@ -253,7 +260,7 @@ BEGIN
       XMLTable.LastUpdatedBy,                
       XMLTable.LastUpdatedOn              
     FROM               
-     OPENXML(@hDoc, 'Invoice/InvoicePaymentDetails/InvoicePayment',2)              
+     OPENXML(@hDoc, 'Invoice/InvoicePaymentDetails/InvoicePaymentDetail',2)              
      WITH              
      (              
       Id int,

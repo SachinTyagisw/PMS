@@ -8,8 +8,8 @@ namespace PMS.Resources.Entities
 {
     public class InvoiceTaxDetail
     {
-        public int ID { get; set; }
-        public int InvoiceID { get; set; }
+        public int Id { get; set; }
+        public int InvoiceId { get; set; }
         public string TaxShortName { get; set; }
         public Nullable<decimal> TaxAmount { get; set; }
         public bool IsActive { get; set; }
