@@ -943,7 +943,7 @@
                 var fname = $('#fName').val();
                 var lname = $('#lName').val();
                 var initials = $('#ddlInitials')[0].selectedOptions[0].innerText;
-                var message = 'Roomnumber' + roomnumber + ' has been booked for ' + initials + ' ' + fname + ' ' + lname;
+                var message = 'Roomnumber ' + roomnumber + ' has been booked for ' + initials + ' ' + fname + ' ' + lname;
                 alert(message);
                 console.log(message);
                 // if booking is successful then upload image

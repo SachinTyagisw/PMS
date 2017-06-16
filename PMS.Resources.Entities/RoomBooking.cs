@@ -22,5 +22,13 @@ namespace PMS.Resources.Entities
         public int GuestID { get; set; }
         public int RoomId { get; set; }
         public int BookingId { get; set; }
+        public bool ShouldSerializeDiscount()
+        {
+            return Discount != null;
+        }
+        public bool ShouldSerializeRoomCharges()
+        {
+            return RoomCharges != null;
+        }
     }
 }
