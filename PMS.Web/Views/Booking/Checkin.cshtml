@@ -272,6 +272,10 @@
                 e.stopPropagation();
             });
 
+            $("#loadInvoice").click(function () {
+                gcm.GetPaymentCharges();
+            });
+
             $("#saveInvoice").click(function () {
                 gcm.AddInvoice();
             });

@@ -24,8 +24,6 @@
             getRoomRateTypes();
             getCountry();
             getAllGuest();
-            //TODO: call getPaymentCharge on demand
-            getPaymentCharges();
             //getRooms();
         },
 
@@ -423,7 +421,63 @@
             $('#credit').val(balanceAmt);
 
             return totalCharge;
-        }
+        },
+
+        GetPaymentCharges: function () {
+            // get paymentCharge details by api calling 
+            var paymentChargeRequestDto = {};
+            paymentChargeRequestDto.PropertyId = getPropertyId();
+        
+            var dateFrom = $('#dateFrom').val();
+            var dateTo = $('#dateTo').val();
+            var roomType = $('#roomTypeDdl').val();
+            var rateType = $('#rateTypeDdl').val();
+            var noOfHours = $('#hoursComboBox').val();
+        
+            // TODO: remove hardcoded value
+            dateFrom = "06/12/2017 12:00 am";
+            dateTo = "06/16/2017 2:00 am";
+            roomType = 1;
+            rateType = 1;
+
+            // check checkin date 
+            if (!dateFrom || dateFrom.length <= 0) {
+                alert("Please select checkin date");
+                $('#dateFrom').focus();
+                return false;
+            }
+
+            // check checkout date 
+            if (!dateTo || dateTo.length <= 0) {
+                alert("Please select checkout date");
+                $('#dateTo').focus();
+                return false;
+            }
+
+            if (!roomType || roomType === '-1') {
+                alert("Select proper room type");
+                return false;
+            }
+
+            if (!rateType || rateType === '-1') {
+                alert("Select proper rate type");
+                return false;
+            }
+
+            if ($('#hourCheckin')[0].checked && noOfHours === '-1') {
+                alert("Please select proper checkout hours");
+                return false;
+            }
+
+            paymentChargeRequestDto.CheckinTime = dateFrom;
+            paymentChargeRequestDto.CheckoutTime = dateTo;
+            paymentChargeRequestDto.RoomTypeId = roomType
+            paymentChargeRequestDto.RateTypeId = rateType
+            paymentChargeRequestDto.IsHourly = $('#hourCheckin')[0].checked ? true : false;
+            paymentChargeRequestDto.NoOfHours = $('#hourCheckin')[0].checked && parseInt(noOfHours) > 0 ? parseInt(noOfHours) : 0;
+        
+            pmsService.GetPaymentCharges(paymentChargeRequestDto);
+        }    
         
         //DateDiff: function () {
         //    //var dateFrom = $('#dateFrom').val();
@@ -699,62 +753,6 @@
             // get guest by api calling  
             pmsService.GetGuest(args);
         }
-    }
-
-    function getPaymentCharges() {
-        // get paymentCharge details by api calling 
-        var paymentChargeRequestDto = {};
-        paymentChargeRequestDto.PropertyId = getPropertyId();
-        
-        var dateFrom = $('#dateFrom').val();
-        var dateTo = $('#dateTo').val();
-        var roomType = $('#roomTypeDdl').val();
-        var rateType = $('#rateTypeDdl').val();
-        var noOfHours = $('#hoursComboBox').val();
-        
-        // TODO: remove hardcoded value
-        dateFrom = "06/12/2017 12:00 am";
-        dateTo = "06/16/2017 2:00 am";
-        roomType = 1;
-        rateType = 1;
-
-        // check checkin date 
-        if (!dateFrom || dateFrom.length <= 0) {
-            alert("Please select checkin date");
-            $('#dateFrom').focus();
-            return false;
-        }
-
-        // check checkout date 
-        if (!dateTo || dateTo.length <= 0) {
-            alert("Please select checkout date");
-            $('#dateTo').focus();
-            return false;
-        }
-
-        if (!roomType || roomType === '-1') {
-            alert("Select proper room type");
-            return false;
-        }
-
-        if (!rateType || rateType === '-1') {
-            alert("Select proper rate type");
-            return false;
-        }
-
-        if ($('#hourCheckin')[0].checked && noOfHours === '-1') {
-            alert("Please select proper checkout hours");
-            return false;
-        }
-
-        paymentChargeRequestDto.CheckinTime = dateFrom;
-        paymentChargeRequestDto.CheckoutTime = dateTo;
-        paymentChargeRequestDto.RoomTypeId = roomType
-        paymentChargeRequestDto.RateTypeId = rateType
-        paymentChargeRequestDto.IsHourly = $('#hourCheckin')[0].checked ? true : false;
-        paymentChargeRequestDto.NoOfHours = $('#hourCheckin')[0].checked && parseInt(noOfHours) > 0 ? parseInt(noOfHours) : 0;
-        
-        pmsService.GetPaymentCharges(paymentChargeRequestDto);
     }    
 
     function getCountry() {
@@ -992,6 +990,8 @@
                 //window.GuestCheckinManager.BookingDto.BookingId = data.ResponseObject;
                 //window.GuestCheckinManager.BookingDto.GuestId = data.GuestId;
                 // clearAllFields();
+                // if booking id > 0 then enabled save invoice btn
+                $('#saveInvoice').attr("disabled", false);
                 var roomnumber = $('#roomddl').val();
                 var fname = $('#fName').val();
                 var lname = $('#lName').val();
@@ -1002,7 +1002,11 @@
                 // if booking is successful then upload image
                 uploadImage($("#uploadPhoto"));
                 // clear guesthistory from session storage
+                // TODO : clear only current booked guestid
                 pmsSession.RemoveItem("guesthistory");
+                // to load fresh data
+                window.GuestCheckinManager.AutoCollapseGuestHistory();
+
             } else {
                 console.error(status);
                 alert(status);
