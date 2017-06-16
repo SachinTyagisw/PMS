@@ -371,12 +371,13 @@
 
         CalculateInvoice: function () {
             var totalCharge = 0;
+            var paymentAmt = 0;
             var stayDays = window.GuestCheckinManager.invoiceData.StayDays;
             var baseRoomCharge = $('#baseRoomCharge');
             var totalRoomCharge = $('#totalRoomCharge');
             var taxElementCol = $("input[id*='taxVal']");
             var otherTaxElementCol = $("input[id*='otherTaxVal']");
-            var paymentDone = $('#payment')[0];
+            var paymentElementCol = $("input[id*='paymentVal']");
 
             //  tax charges calulations
             if (taxElementCol && taxElementCol.length > 0) {
@@ -407,9 +408,17 @@
 
             totalCharge = applyDiscount(totalCharge);
             $('#total')[0].innerText = totalCharge;
+            
+            //  payment calulations
+            if (paymentElementCol && paymentElementCol.length > 0) {
+                for (var i = 0; i < paymentElementCol.length; i++) {
+                    if (!paymentElementCol[i] || !paymentElementCol[i].value || isNaN(paymentElementCol[i].value)) continue;
+                    paymentAmt = (parseFloat(paymentAmt) + parseFloat(paymentElementCol[i].value, 10)).toFixed(2);
+                }
+            }
 
-            var paymentAmt = paymentDone && paymentDone.value && !isNaN(paymentDone.value) ? parseFloat(paymentDone.value, 10).toFixed(2) : 0;
             var balanceAmt = totalCharge - paymentAmt;
+            $('#payment').val(paymentAmt);
             $('#balance').val(balanceAmt);
             $('#credit').val(balanceAmt);
 
@@ -517,6 +526,7 @@
 
         guestMapping.Id = window.GuestCheckinManager.BookingDto.GuestMappingId ? window.GuestCheckinManager.BookingDto.GuestMappingId : -1;
         guestMapping.GUESTID = window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;
+        //$( "#ddlIdType option:selected" ).text();
         guestMapping.IDTYPEID = $('#ddlIdType').val();
         guestMapping.IDDETAILS = $('#idDetails').val();
         guestMapping.IdExpiryDate = $('#idExpiry').val();
@@ -560,10 +570,22 @@
     function preparePaymentDetail() {
         var paymentDetail = [];
         var payment = {};
+        var paymentTypeElementCol = $("select[id*='paymentTypeDdl']");
+        var paymentMode = '';
+
+        //  getting paymenttype
+        if (paymentTypeElementCol && paymentTypeElementCol.length > 0) {
+            for (var i = 0; i < paymentTypeElementCol.length; i++) {
+                if (!paymentTypeElementCol[i] || !paymentTypeElementCol[i].options || paymentTypeElementCol[i].options.length <= 0) continue;
+                var selectedIdx = paymentTypeElementCol[i].options.selectedIndex;
+                if (paymentTypeElementCol[i].options[selectedIdx].value <= -1) continue;
+                paymentMode = paymentTypeElementCol[i].options[selectedIdx].text + ',' + paymentMode;
+            }
+        }
 
         // TODO: retrieve it dynamically from UI
-        payment.PaymentMode = "Credit card";
-        payment.PaymentValue = $('#payment')[0].value;
+        payment.PaymentMode = paymentMode;
+        payment.PaymentValue = $('#payment').val();
         payment.PaymentDetails = "50% payment is done.";
         payment.IsActive = true;
         payment.CreatedOn = getCurrentDate();
