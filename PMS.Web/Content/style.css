@@ -4155,6 +4155,12 @@ p
   color: #00796B;
   cursor: pointer;
 }
+
+.table-addpaymenttype {
+  color: #00796B;
+  cursor: pointer;
+}
+
 .table-add:hover {
   color: #00ac98;
 }

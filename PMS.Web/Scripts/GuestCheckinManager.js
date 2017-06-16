@@ -162,6 +162,7 @@
 
             if (invoice.PropertyId <= -1 || invoice.BookingId <= -1) {
                 alert('Invalid bookingid or propertyid.');
+                return;
             }
 
             invoice.Id = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;            
@@ -351,7 +352,7 @@
             var invoiceTemplate = $('#invoiceTemplate');
             data = appendTotalRoomCharge(data)
             divInvoice.html(invoiceTemplate.render(data));
-            window.GuestCheckinManager.CalculateTotalCharge();
+            window.GuestCheckinManager.CalculateInvoice();
         },
 
         IsNumeric: function (e) {
@@ -368,13 +369,14 @@
             return true;
         },
 
-        CalculateTotalCharge: function () {
+        CalculateInvoice: function () {
             var totalCharge = 0;
             var stayDays = window.GuestCheckinManager.invoiceData.StayDays;
             var baseRoomCharge = $('#baseRoomCharge');
             var totalRoomCharge = $('#totalRoomCharge');
             var taxElementCol = $("input[id*='taxVal']");
             var otherTaxElementCol = $("input[id*='otherTaxVal']");
+            var paymentDone = $('#payment')[0];
 
             //  tax charges calulations
             if (taxElementCol && taxElementCol.length > 0) {
@@ -404,8 +406,13 @@
             }
 
             totalCharge = applyDiscount(totalCharge);
-
             $('#total')[0].innerText = totalCharge;
+
+            var paymentAmt = paymentDone && paymentDone.value && !isNaN(paymentDone.value) ? parseFloat(paymentDone.value, 10).toFixed(2) : 0;
+            var balanceAmt = totalCharge - paymentAmt;
+            $('#balance').val(balanceAmt);
+            $('#credit').val(balanceAmt);
+
             return totalCharge;
         }
         
@@ -556,7 +563,7 @@
 
         // TODO: retrieve it dynamically from UI
         payment.PaymentMode = "Credit card";
-        payment.PaymentValue = 2000;
+        payment.PaymentValue = $('#payment')[0].value;
         payment.PaymentDetails = "50% payment is done.";
         payment.IsActive = true;
         payment.CreatedOn = getCurrentDate();

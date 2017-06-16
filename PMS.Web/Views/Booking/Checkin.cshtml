@@ -16,7 +16,7 @@
             if (!htmlElement.value || isNaN(htmlElement.value)) {
                 htmlElement.value = '';
             }
-            gcm.CalculateTotalCharge();
+            gcm.CalculateInvoice();
         }
 
         //function OnHourlyCbChecked() {
@@ -251,13 +251,24 @@
 
             $('#divInvoice').on("click", ".tableRow-remove", function () {
                 $(this).parents('tr').detach();
-                gcm.CalculateTotalCharge();
+                gcm.CalculateInvoice();
             });
 
             $('#divInvoice').on("click", ".table-add", function (e) {
                 var cloneHtmlElement = $('#divInvoice').find('#trOthertax').clone(true).removeClass('remove');
                 cloneHtmlElement[0].style = 'display:block';
                 $('#divInvoice').find('#trDiscount').before(cloneHtmlElement);
+                e.stopPropagation();
+            });
+
+            $('#divInvoice').on("click", ".table-addpaymenttype", function (e) {
+                if ($('#paymentTypeDdl').val() === '-1' || $('#paymentVal').val() <= '0') {
+                    alert('Please select proper payment type or value.');
+                    return;
+                }
+                var cloneHtmlElement = $('#divInvoice').find('#trPaymentTypeOther').clone(true);
+                cloneHtmlElement[0].style = 'display:block';
+                $('#divInvoice').find('#trPayment').before(cloneHtmlElement);
                 e.stopPropagation();
             });
 
