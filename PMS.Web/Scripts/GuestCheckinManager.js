@@ -349,7 +349,7 @@
             var divInvoice = $('#divInvoice');
             var invoiceTemplate = $('#invoiceTemplate');
             // if it is not getinvoice api call
-            if (!data.Invoice.Id || data.Invoice.Id <= 0){
+            if (!data.Invoice || !data.Invoice.Id || data.Invoice.Id <= 0){
                 data = appendTotalRoomCharge(data);
                 divInvoice.html(invoiceTemplate.render(data));
             } else {
@@ -381,10 +381,11 @@
             var taxElementCol = $("input[id*='taxVal']");
             var otherTaxElementCol = $("input[id*='otherTaxVal']");
             var paymentElementCol = $("input[id*='paymentVal']");
+            var invoiceObject = window.GuestCheckinManager.invoiceData.Invoice;
             
-            if (window.GuestCheckinManager.invoiceData.Invoice.Id && window.GuestCheckinManager.invoiceData.Invoice.Id > 0) {
-                // populate fields from data
-                return;
+            if (invoiceObject && invoiceObject.Id && invoiceObject.Id > 0) {
+                //TODO: remove hard coded value calculate staydays on client side
+                stayDays = 4;                
             }
 
             //  tax charges calulations
@@ -450,10 +451,10 @@
             var noOfHours = $('#hoursComboBox').val();
         
             // TODO: remove hardcoded value
-            dateFrom = "06/12/2017 12:00 am";
-            dateTo = "06/16/2017 2:00 am";
-            roomType = 1;
-            rateType = 1;
+            //dateFrom = "06/12/2017 12:00 am";
+            //dateTo = "06/16/2017 2:00 am";
+            //roomType = 1;
+            //rateType = 1;
 
             // check checkin date 
             if (!dateFrom || dateFrom.length <= 0) {
@@ -522,7 +523,7 @@
 
     function applyDiscount(totalCharge) {
         if (!totalCharge || isNaN(totalCharge)) return 0;
-        var discount = $('#discount')[0].value;
+        var discount = $('#discount').val();
         discount = !discount || isNaN(discount) ? 0 : parseFloat(discount, 10).toFixed(2);
         totalCharge = (parseFloat(totalCharge) - parseFloat(discount)).toFixed(2);
         return totalCharge;    

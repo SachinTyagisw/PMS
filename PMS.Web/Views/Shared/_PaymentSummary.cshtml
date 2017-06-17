@@ -66,6 +66,15 @@
                     <td></td>
                     <td><span class="tableRow-remove glyphicon glyphicon-trash"></span></td>
                 </tr>
+                {{if Id > 0 }}
+                <tr id="trDiscount" class="sortActive">
+                    <td><span class="glyphicon glyphicon-th-list"></span></td>
+                    <td>Discount</td>
+                    <td>$<input id="discount" onkeyup="OnTaxValChange(event, this)" class="color-danger" value="${Discount}" /></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                {{else}}
                 <tr id="trDiscount" class="sortActive">
                     <td><span class="glyphicon glyphicon-th-list"></span></td>
                     <td>Discount</td>
@@ -73,6 +82,7 @@
                     <td></td>
                     <td></td>
                 </tr>
+                {{/if}}
                 <tr class="sortActive tabletitle">
                     <td> </td>
                     <td class="Rate">

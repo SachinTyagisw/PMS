@@ -578,8 +578,8 @@ namespace PMS.Resources.DAL
                 var distinctItemValues = resultSet.AsEnumerable()
                         .Select(row => new
                         {
-                            TaxName = row.ItemName,
-                            TaxValue = row.ItemValue
+                            ItemName = row.ItemName,
+                            ItemValue = row.ItemValue
                         })
                         .Distinct().ToList();
 
@@ -588,14 +588,14 @@ namespace PMS.Resources.DAL
                     foreach (var tax in distinctItemValues)
                     {
                         // default charges
-                        if (tax.TaxName.Equals("Total Room Charge") || tax.TaxName.Equals("ROOM CHARGES"))
+                        if (tax.ItemName.Equals("Total Room Charge") || tax.ItemName.Equals("ROOM CHARGES"))
                         {
-                            taxes.Add(new PmsEntity.Tax { TaxName = tax.TaxName, Value = tax.TaxValue, IsDefaultCharges = true });
+                            taxes.Add(new PmsEntity.Tax { TaxName = tax.ItemName, Value = tax.ItemValue, IsDefaultCharges = true });
                         }
                         // user defined charges
                         else
                         {
-                            taxes.Add(new PmsEntity.Tax { TaxName = tax.TaxName, Value = tax.TaxValue, IsDefaultCharges = false });
+                            taxes.Add(new PmsEntity.Tax { TaxName = tax.ItemName, Value = tax.ItemValue, IsDefaultCharges = false });
                         }
                     }
                 }
