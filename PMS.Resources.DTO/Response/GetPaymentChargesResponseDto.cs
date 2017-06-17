@@ -16,9 +16,6 @@ namespace PMS.Resources.DTO.Response
         public int StayDays { get; set; }
 
         [DataMember]
-        public bool IsIncludeDefaultTax { get; set; }
-
-        [DataMember]
         public List<Tax> Tax { get; set; }
     }
 }

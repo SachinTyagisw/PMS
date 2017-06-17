@@ -156,7 +156,7 @@
             invoice.InvoicePaymentDetails = [];
 
             invoice.PropertyId = getPropertyId();
-            invoice.BookingId = window.GuestCheckinManager.BookingDto.BookingId ? window.GuestCheckinManager.BookingDto.BookingId : -1;
+            invoice.BookingId = 1065;//window.GuestCheckinManager.BookingDto.BookingId ? window.GuestCheckinManager.BookingDto.BookingId : -1;
 
             if (invoice.PropertyId <= -1 || invoice.BookingId <= -1) {
                 alert('Invalid bookingid or propertyid.');
@@ -164,11 +164,11 @@
             }
 
             invoice.Id = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;            
-            invoice.GuestId = window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;
+            invoice.GuestId = 1055;//window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;
             invoice.CreatedOn = getCurrentDate();
             invoice.IsActive = true;
-            invoice.TotalAmount = $('#total')[0].innerText
-            invoice.Discount = $('#discount')[0].value;
+            invoice.TotalAmount = $('#total') && $('#total')[0] ? $('#total')[0].innerText : 0;
+            invoice.Discount = $('#discount') && $('#discount')[0] ? $('#discount')[0].value : 0;
             invoice.IsPaid = $('#balance') && $('#balance').val() > 0 ? false : true;
             invoice.CreatedBy = getCreatedBy();
 
@@ -348,7 +348,11 @@
         PopulateCharges: function (data) {
             var divInvoice = $('#divInvoice');
             var invoiceTemplate = $('#invoiceTemplate');
-            data = appendTotalRoomCharge(data)
+            // if it is not getinvoice api call
+            if (!data.Id || data.Id <= 0){
+                data = appendTotalRoomCharge(data);
+            }
+
             divInvoice.html(invoiceTemplate.render(data));
             window.GuestCheckinManager.CalculateInvoice();
         },
@@ -376,6 +380,11 @@
             var taxElementCol = $("input[id*='taxVal']");
             var otherTaxElementCol = $("input[id*='otherTaxVal']");
             var paymentElementCol = $("input[id*='paymentVal']");
+            
+            if (window.GuestCheckinManager.invoiceData.Id && window.GuestCheckinManager.invoiceData > 0) {
+                // populate fields from data
+                return;
+            }
 
             //  tax charges calulations
             if (taxElementCol && taxElementCol.length > 0) {
@@ -517,7 +526,7 @@
         if (!data) return data;
         var tax = {}; 
         tax.TaxName = 'Total Room Charge';
-        tax.IsEnabled = false;
+        tax.IsDefaultCharges = true;
         data.Tax.push(tax);
         return data;
     }

@@ -105,7 +105,6 @@ namespace PMS.Api.Controllers
             var response = new GetPaymentChargesResponseDto();
             TimeSpan? ts = request.CheckoutTime - request.CheckinTime;
             response.StayDays = !ts.HasValue || Convert.ToBoolean(request.IsHourly) ? 1 : Convert.ToInt32(ts.Value.TotalDays);
-            response.IsIncludeDefaultTax = true;
             if (!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
             {
                 response.Tax = _iPmsLogic.GetPaymentCharges(request);    
@@ -120,28 +119,28 @@ namespace PMS.Api.Controllers
                     TaxName = "ROOM CHARGES",
                     TaxId = 4,
                     Value = 11,
-                    IsEnabled = true
+                    IsDefaultCharges = true
                 },
                 new Tax 
                 {
                     TaxName = "VAT",
                     TaxId = 1,
                     Value = 10,
-                    IsEnabled = true
+                    IsDefaultCharges = true
                 },
                 new Tax 
                 {
                     TaxName = "ServiceTax",
                     TaxId = 2,
                     Value = 20,
-                    IsEnabled = true
+                    IsDefaultCharges = true
                 },
                 new Tax 
                 {
                     TaxName = "Misc Tax",
                     TaxId = 3,
                     Value = 30,
-                    IsEnabled = true
+                    IsDefaultCharges = false
                 }
             };
             return response;

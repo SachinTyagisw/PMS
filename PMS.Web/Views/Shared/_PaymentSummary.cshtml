@@ -12,7 +12,7 @@
                 <!--End Table-->
                 <button type="button" class="btn btn-primary m-l-5 m-t-15">Print Receipt</button>
                 <button type="button" class="btn btn-primary m-l-5 m-t-15">Print Folio</button>
-                <button id="saveInvoice" disabled="disabled" type="button" class="btn btn-primary m-l-5 m-t-15">Save</button>
+                <button id="saveInvoice" type="button" class="btn btn-primary m-l-5 m-t-15">Save</button>
                 <button id="loadInvoice" type="button" class="btn btn-primary m-l-5 m-t-15">Load Invoice</button>
             </div>
         </div>
@@ -30,25 +30,34 @@
             </thead>
             <tbody id="sortableTable">
                 {{each Tax}}
-                <tr class="sortActive">
-                    <td> <span class="glyphicon glyphicon-th-list"></span></td>
-                    <td>${$value.TaxName}</td>
-                    <td>
-                        {{if $value.IsEnabled }}
-                        @*'ROOM CHARGES' is coming from SP and is always be fixed*@
-                            {{if $value.TaxName === 'ROOM CHARGES' }}
-                                $<input id="baseRoomCharge" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
-                            {{else}}
-                                $<input id="taxVal" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
-                            {{/if}}
+                    {{if $value.IsDefaultCharges }}
+                            <tr class="sortActive">
+                                <td> <span class="glyphicon glyphicon-th-list"></span></td>
+                                <td>${$value.TaxName}</td>
+                                <td>
+                                    @*'ROOM CHARGES' is coming from SP and is always be fixed*@
+                                    {{if $value.TaxName === 'ROOM CHARGES' }}
+                                        $<input id="baseRoomCharge" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
+                                    {{/if}}
+                                    {{if $value.TaxName === 'Total Room Charge' }}
+                                    $<input id="totalRoomCharge" disabled="disabled" name="${$value.TaxName}" value="${$value.Value}" />
+                                    {{/if}}
+                                    {{if $value.TaxName !== 'Total Room Charge' && $value.TaxName !== 'ROOM CHARGES' }}
+                                    $<input id="taxVal" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
+                                    {{/if}}
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                         {{else}}
-                            $<input id="totalRoomCharge" disabled="disabled" name="${$value.TaxName}" value="${$value.Value}" />
-                        {{/if}}
-
-                    </td>
-                    <td></td>
-                    <td></td>
-                </tr>
+                        <tr id="trOthertax" style="display:block;" class="sortActive">
+                            <td><span class="glyphicon glyphicon-th-list"></span></td>
+                            <td id="otherTaxText" contenteditable="true">${$value.TaxName}</td>
+                            <td>$<input id="otherTaxVal" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" /></td>
+                            <td></td>
+                            <td><span class="tableRow-remove glyphicon glyphicon-trash"></span></td>
+                        </tr>
+                    {{/if}}
                 {{/each}}
                 <tr id="trOthertax" style="display:none;" class="sortActive remove">
                     <td><span class="glyphicon glyphicon-th-list"></span></td>

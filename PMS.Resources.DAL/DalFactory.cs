@@ -516,7 +516,7 @@ namespace PMS.Resources.DAL
                     var tax = new PmsEntity.Tax();
                     tax.TaxName = result.ITEM;
                     tax.Value = result.ITEMAMOUNT;
-                    tax.IsEnabled = true;
+                    tax.IsDefaultCharges = true;
 
                     taxes.Add(tax);
                 }
@@ -571,11 +571,10 @@ namespace PMS.Resources.DAL
                 {
                     foreach (var tax in distinctTaxValues)
                     {
-                        taxes.Add(new PmsEntity.Tax { TaxName = tax.TaxName, Value = tax.TaxValue, IsEnabled = true });
+                        taxes.Add(new PmsEntity.Tax { TaxName = tax.TaxName, Value = tax.TaxValue, IsDefaultCharges = true });
                     }
                 }
                 
-
                 var distinctItemValues = resultSet.AsEnumerable()
                         .Select(row => new
                         {
@@ -588,7 +587,16 @@ namespace PMS.Resources.DAL
                 {
                     foreach (var tax in distinctItemValues)
                     {
-                        taxes.Add(new PmsEntity.Tax { TaxName = tax.TaxName, Value = tax.TaxValue, IsEnabled = true });
+                        // default charges
+                        if (tax.TaxName.Equals("Total Room Charge") || tax.TaxName.Equals("ROOM CHARGES"))
+                        {
+                            taxes.Add(new PmsEntity.Tax { TaxName = tax.TaxName, Value = tax.TaxValue, IsDefaultCharges = true });
+                        }
+                        // user defined charges
+                        else
+                        {
+                            taxes.Add(new PmsEntity.Tax { TaxName = tax.TaxName, Value = tax.TaxValue, IsDefaultCharges = false });
+                        }
                     }
                 }
 
@@ -605,7 +613,7 @@ namespace PMS.Resources.DAL
                 {
                     foreach (var payment in distinctPaymentValues)
                     {
-                        paymentDetails.Add(new PmsEntity.InvoicePaymentDetail { PaymentDetails = payment.Detail, PaymentValue = payment.Value, PaymentMode = payment.Mode,  IsEnabled = true });
+                        paymentDetails.Add(new PmsEntity.InvoicePaymentDetail { PaymentDetails = payment.Detail, PaymentValue = payment.Value, PaymentMode = payment.Mode});
                     }
                 }
 
@@ -614,7 +622,8 @@ namespace PMS.Resources.DAL
                         {
                             Discount = row.DISCOUNT,
                             TotalAmt = row.TotalAmount,
-                            BookingId = row.BookingID
+                            BookingId = row.BookingID,
+                            InvoiceId = row.InvoiceId,
                         })
                         .Distinct().ToList();
 
@@ -625,6 +634,7 @@ namespace PMS.Resources.DAL
                         invoice.Discount = otherCharges.Discount;
                         invoice.TotalAmount = otherCharges.TotalAmt;
                         invoice.BookingId = otherCharges.BookingId;
+                        invoice.Id = otherCharges.InvoiceId;
                     }
                 }
             }
