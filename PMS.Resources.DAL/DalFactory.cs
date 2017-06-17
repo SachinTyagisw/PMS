@@ -557,7 +557,24 @@ namespace PMS.Resources.DAL
             using (var pmsContext = new PmsEntities())
             {
                 var resultSet = pmsContext.GETINVOICEDETAILS(invoiceId).ToList();
-                if (resultSet == null) return invoice;
+                if (resultSet == null) return invoice;                
+
+                var distinctBaseRoomCharge = resultSet.AsEnumerable()
+                       .Select(row => new
+                       {
+                           ItemName = row.ItemName,
+                           ItemValue = row.ItemValue
+                       })
+                       .Where(x => x.ItemName.Equals("ROOM CHARGES"))
+                       .Distinct().ToList();
+
+                if (distinctBaseRoomCharge != null && distinctBaseRoomCharge.Count > 0)
+                {
+                    foreach (var basecharge in distinctBaseRoomCharge)
+                    {
+                        taxes.Add(new PmsEntity.Tax { TaxName = basecharge.ItemName, Value = basecharge.ItemValue, IsDefaultCharges = true });
+                    }
+                }
 
                 var distinctTaxValues = resultSet.AsEnumerable()
                         .Select(row => new
@@ -573,30 +590,41 @@ namespace PMS.Resources.DAL
                     {
                         taxes.Add(new PmsEntity.Tax { TaxName = tax.TaxName, Value = tax.TaxValue, IsDefaultCharges = true });
                     }
+                }               
+
+                // default charges
+                var distinctTotalRoomCharge = resultSet.AsEnumerable()
+                       .Select(row => new
+                       {
+                           ItemName = row.ItemName,
+                           ItemValue = row.ItemValue
+                       })
+                       .Where(x => x.ItemName.Equals("Total Room Charge"))
+                       .Distinct().ToList();
+
+                if (distinctTotalRoomCharge != null && distinctTotalRoomCharge.Count > 0)
+                {
+                    foreach (var totalcharge in distinctTotalRoomCharge)
+                    {
+                        taxes.Add(new PmsEntity.Tax { TaxName = totalcharge.ItemName, Value = totalcharge.ItemValue, IsDefaultCharges = true });
+                    }
                 }
-                
+
                 var distinctItemValues = resultSet.AsEnumerable()
                         .Select(row => new
                         {
-                            TaxName = row.ItemName,
-                            TaxValue = row.ItemValue
+                            ItemName = row.ItemName,
+                            ItemValue = row.ItemValue
                         })
+                        .Where(x => !x.ItemName.Equals("ROOM CHARGES") && !x.ItemName.Equals("Total Room Charge"))
                         .Distinct().ToList();
 
                 if (distinctItemValues != null && distinctItemValues.Count > 0)
                 {
                     foreach (var tax in distinctItemValues)
                     {
-                        // default charges
-                        if (tax.TaxName.Equals("Total Room Charge") || tax.TaxName.Equals("ROOM CHARGES"))
-                        {
-                            taxes.Add(new PmsEntity.Tax { TaxName = tax.TaxName, Value = tax.TaxValue, IsDefaultCharges = true });
-                        }
                         // user defined charges
-                        else
-                        {
-                            taxes.Add(new PmsEntity.Tax { TaxName = tax.TaxName, Value = tax.TaxValue, IsDefaultCharges = false });
-                        }
+                        taxes.Add(new PmsEntity.Tax { TaxName = tax.ItemName, Value = tax.ItemValue, IsDefaultCharges = false });
                     }
                 }
 
