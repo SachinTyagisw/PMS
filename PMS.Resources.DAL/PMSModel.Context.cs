@@ -78,6 +78,15 @@ namespace PMS.Resources.DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GETALLGUESTS_Result>("GETALLGUESTS");
         }
     
+        public virtual ObjectResult<GetBokingDetails_Result> GetBokingDetails(Nullable<int> bookingID)
+        {
+            var bookingIDParameter = bookingID.HasValue ?
+                new ObjectParameter("BookingID", bookingID) :
+                new ObjectParameter("BookingID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetBokingDetails_Result>("GetBokingDetails", bookingIDParameter);
+        }
+    
         public virtual ObjectResult<GETBOOKINGAMOUNT_Result> GETBOOKINGAMOUNT(Nullable<int> pROPERTYID, Nullable<int> rOOMTYPEID, Nullable<int> rATETYPEID, Nullable<int> nOOFHOURS, Nullable<int> nOOFDAYS, Nullable<bool> iSHOURLY)
         {
             var pROPERTYIDParameter = pROPERTYID.HasValue ?

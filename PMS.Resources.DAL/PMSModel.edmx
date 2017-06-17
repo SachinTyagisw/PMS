@@ -813,6 +813,9 @@
           <Parameter Name="CHECKOUTDATE" Type="datetime" Mode="In" />
         </Function>
         <Function Name="GETALLGUESTS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetBokingDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="BookingID" Type="int" Mode="In" />
+        </Function>
         <Function Name="GETBOOKINGAMOUNT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PROPERTYID" Type="int" Mode="In" />
           <Parameter Name="ROOMTYPEID" Type="int" Mode="In" />
@@ -2028,6 +2031,9 @@
             <Parameter Name="CHECKOUTDATE" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="GETALLGUESTS" ReturnType="Collection(PmsModel.GETALLGUESTS_Result)" />
+          <FunctionImport Name="GetBokingDetails" ReturnType="Collection(PmsModel.GetBokingDetails_Result)">
+            <Parameter Name="BookingID" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="GETBOOKINGAMOUNT" ReturnType="Collection(PmsModel.GETBOOKINGAMOUNT_Result)">
             <Parameter Name="PROPERTYID" Mode="In" Type="Int32" />
             <Parameter Name="ROOMTYPEID" Mode="In" Type="Int32" />
@@ -2083,6 +2089,72 @@
           <Property Type="DateTime" Name="DOB" Nullable="true" />
           <Property Type="String" Name="GENDER" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="PHOTOPATH" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="GetBokingDetails_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="PropertyID" Nullable="false" />
+          <Property Type="DateTime" Name="CheckinTime" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="CheckoutTime" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="NoOfAdult" Nullable="true" />
+          <Property Type="Int32" Name="NoOfChild" Nullable="true" />
+          <Property Type="String" Name="GuestRemarks" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="TransactionRemarks" Nullable="true" MaxLength="200" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="CreatedOn" Nullable="true" Precision="23" />
+          <Property Type="String" Name="LastUpdatedBy" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="LastUpdatedOn" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="ISHOURLYCHECKIN" Nullable="true" />
+          <Property Type="Int32" Name="HOURSTOSTAY" Nullable="true" />
+          <Property Type="Int32" Name="Id1" Nullable="true" />
+          <Property Type="Int32" Name="BookingId" Nullable="true" />
+          <Property Type="String" Name="FirstName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="LastName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="GUESTIDPath" Nullable="true" />
+          <Property Type="Boolean" Name="IsActive1" Nullable="true" />
+          <Property Type="String" Name="CreatedBy1" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="CreatedOn1" Nullable="true" Precision="23" />
+          <Property Type="String" Name="LastUpdatedBy1" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="LastUpdatedOn1" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Gender" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="ID2" Nullable="true" />
+          <Property Type="Int32" Name="GuestID" Nullable="true" />
+          <Property Type="Int32" Name="BookingID1" Nullable="true" />
+          <Property Type="Int32" Name="RoomID" Nullable="true" />
+          <Property Type="Boolean" Name="IsExtra" Nullable="true" />
+          <Property Type="Decimal" Name="Discount" Nullable="true" Precision="7" Scale="2" />
+          <Property Type="Decimal" Name="RoomCharges" Nullable="true" Precision="7" Scale="2" />
+          <Property Type="Boolean" Name="IsActive2" Nullable="true" />
+          <Property Type="String" Name="CreatedBy2" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="CreatedOn2" Nullable="true" Precision="23" />
+          <Property Type="String" Name="LastUpdatedBy2" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="LastUpdatedOn2" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="ID3" Nullable="true" />
+          <Property Type="String" Name="FirstName1" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="LastName1" Nullable="true" MaxLength="200" />
+          <Property Type="Int64" Name="MobileNumber" Nullable="true" />
+          <Property Type="String" Name="EmailAddress" Nullable="true" MaxLength="500" />
+          <Property Type="DateTime" Name="DOB" Nullable="true" />
+          <Property Type="String" Name="Gender1" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="PhotoPath" Nullable="true" MaxLength="200" />
+          <Property Type="Boolean" Name="IsActive3" Nullable="true" />
+          <Property Type="String" Name="CreatedBy3" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="CreatedOn3" Nullable="true" Precision="23" />
+          <Property Type="String" Name="LastUpdatedBy3" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="LastUpdatedOn3" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="ID4" Nullable="true" />
+          <Property Type="Int32" Name="IDTYPEID" Nullable="true" />
+          <Property Type="Int32" Name="GUESTID1" Nullable="true" />
+          <Property Type="String" Name="IDDETAILS" Nullable="true" />
+          <Property Type="Boolean" Name="IsActive4" Nullable="true" />
+          <Property Type="String" Name="CreatedBy4" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="CreatedOn4" Nullable="true" Precision="23" />
+          <Property Type="String" Name="LastUpdatedBy4" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="LastUpdatedOn4" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="IdExpiryDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="IdIssueState" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="IdIssueCountry" Nullable="true" MaxLength="50" />
         </ComplexType>
         <ComplexType Name="GETBOOKINGAMOUNT_Result">
           <Property Type="String" Name="ITEM" Nullable="true" MaxLength="100" />
@@ -2614,6 +2686,76 @@
                 <ScalarProperty Name="DOB" ColumnName="DOB" />
                 <ScalarProperty Name="GENDER" ColumnName="GENDER" />
                 <ScalarProperty Name="PHOTOPATH" ColumnName="PHOTOPATH" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetBokingDetails" FunctionName="PmsModel.Store.GetBokingDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PmsModel.GetBokingDetails_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
+                <ScalarProperty Name="CheckinTime" ColumnName="CheckinTime" />
+                <ScalarProperty Name="CheckoutTime" ColumnName="CheckoutTime" />
+                <ScalarProperty Name="NoOfAdult" ColumnName="NoOfAdult" />
+                <ScalarProperty Name="NoOfChild" ColumnName="NoOfChild" />
+                <ScalarProperty Name="GuestRemarks" ColumnName="GuestRemarks" />
+                <ScalarProperty Name="TransactionRemarks" ColumnName="TransactionRemarks" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ISHOURLYCHECKIN" ColumnName="ISHOURLYCHECKIN" />
+                <ScalarProperty Name="HOURSTOSTAY" ColumnName="HOURSTOSTAY" />
+                <ScalarProperty Name="Id1" ColumnName="Id1" />
+                <ScalarProperty Name="BookingId" ColumnName="BookingId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="GUESTIDPath" ColumnName="GUESTIDPath" />
+                <ScalarProperty Name="IsActive1" ColumnName="IsActive1" />
+                <ScalarProperty Name="CreatedBy1" ColumnName="CreatedBy1" />
+                <ScalarProperty Name="CreatedOn1" ColumnName="CreatedOn1" />
+                <ScalarProperty Name="LastUpdatedBy1" ColumnName="LastUpdatedBy1" />
+                <ScalarProperty Name="LastUpdatedOn1" ColumnName="LastUpdatedOn1" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="ID2" ColumnName="ID2" />
+                <ScalarProperty Name="GuestID" ColumnName="GuestID" />
+                <ScalarProperty Name="BookingID1" ColumnName="BookingID1" />
+                <ScalarProperty Name="RoomID" ColumnName="RoomID" />
+                <ScalarProperty Name="IsExtra" ColumnName="IsExtra" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="RoomCharges" ColumnName="RoomCharges" />
+                <ScalarProperty Name="IsActive2" ColumnName="IsActive2" />
+                <ScalarProperty Name="CreatedBy2" ColumnName="CreatedBy2" />
+                <ScalarProperty Name="CreatedOn2" ColumnName="CreatedOn2" />
+                <ScalarProperty Name="LastUpdatedBy2" ColumnName="LastUpdatedBy2" />
+                <ScalarProperty Name="LastUpdatedOn2" ColumnName="LastUpdatedOn2" />
+                <ScalarProperty Name="ID3" ColumnName="ID3" />
+                <ScalarProperty Name="FirstName1" ColumnName="FirstName1" />
+                <ScalarProperty Name="LastName1" ColumnName="LastName1" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="Gender1" ColumnName="Gender1" />
+                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+                <ScalarProperty Name="IsActive3" ColumnName="IsActive3" />
+                <ScalarProperty Name="CreatedBy3" ColumnName="CreatedBy3" />
+                <ScalarProperty Name="CreatedOn3" ColumnName="CreatedOn3" />
+                <ScalarProperty Name="LastUpdatedBy3" ColumnName="LastUpdatedBy3" />
+                <ScalarProperty Name="LastUpdatedOn3" ColumnName="LastUpdatedOn3" />
+                <ScalarProperty Name="ID4" ColumnName="ID4" />
+                <ScalarProperty Name="IDTYPEID" ColumnName="IDTYPEID" />
+                <ScalarProperty Name="GUESTID1" ColumnName="GUESTID1" />
+                <ScalarProperty Name="IDDETAILS" ColumnName="IDDETAILS" />
+                <ScalarProperty Name="IsActive4" ColumnName="IsActive4" />
+                <ScalarProperty Name="CreatedBy4" ColumnName="CreatedBy4" />
+                <ScalarProperty Name="CreatedOn4" ColumnName="CreatedOn4" />
+                <ScalarProperty Name="LastUpdatedBy4" ColumnName="LastUpdatedBy4" />
+                <ScalarProperty Name="LastUpdatedOn4" ColumnName="LastUpdatedOn4" />
+                <ScalarProperty Name="IdExpiryDate" ColumnName="IdExpiryDate" />
+                <ScalarProperty Name="IdIssueState" ColumnName="IdIssueState" />
+                <ScalarProperty Name="IdIssueCountry" ColumnName="IdIssueCountry" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
