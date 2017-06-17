@@ -256,6 +256,10 @@ namespace PMS.Resources.Logic
             return DalFactory.AddInvoice(propertyId, invoiceXml);
 
         }
+        public PmsEntity.Invoice GetInvoiceById(int invoiceId)
+        {
+            return DalFactory.GetInvoiceById(invoiceId);
+        }
 
         #region helper methods 
         private string RemoveXmlDefaultNode(string xml)

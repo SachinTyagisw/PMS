@@ -69,6 +69,7 @@
     <Compile Include="Response\GetGuestHistoryResponseDto.cs" />
     <Compile Include="Response\GetGuestResponseDto.cs" />
     <Compile Include="Response\GetGuestRewardResponseDto.cs" />
+    <Compile Include="Response\GetInvoiceResponseDto.cs" />
     <Compile Include="Response\GetNotificationResponseDto.cs" />
     <Compile Include="Response\GetPaymentChargesResponseDto.cs" />
     <Compile Include="Response\GetPropertyResponseDto.cs" />

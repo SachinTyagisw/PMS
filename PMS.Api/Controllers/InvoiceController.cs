@@ -56,6 +56,24 @@ namespace PMS.Api.Controllers
              "api/v1/Invoice/AddInvoice",
              new { controller = "Invoice", action = "AddInvoice" }
              );
+
+            config.Routes.MapHttpRoute(
+              "GetInvoiceById",
+              "api/v1/Invoice/GetInvoiceById/{invoiceId}",
+              new { controller = "Invoice", action = "GetInvoiceById" },
+              constraints: new { invoiceId = RegExConstants.NumericRegEx }
+              );
+        }
+
+        [HttpGet, ActionName("GetInvoiceById")]
+        public GetInvoiceResponseDto GetInvoiceById(int invoiceId)
+        {
+            if (invoiceId <= 0) throw new PmsException("Invoice id is not valid.");
+
+            var response = new GetInvoiceResponseDto();
+            response.Invoice = _iPmsLogic.GetInvoiceById(invoiceId);
+
+            return response;
         }
 
         [HttpPost, ActionName("AddInvoice")]
@@ -87,7 +105,7 @@ namespace PMS.Api.Controllers
             var response = new GetPaymentChargesResponseDto();
             TimeSpan? ts = request.CheckoutTime - request.CheckinTime;
             response.StayDays = !ts.HasValue || Convert.ToBoolean(request.IsHourly) ? 1 : Convert.ToInt32(ts.Value.TotalDays);
-
+            response.IsIncludeDefaultTax = true;
             if (!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
             {
                 response.Tax = _iPmsLogic.GetPaymentCharges(request);    

@@ -23,6 +23,7 @@ namespace PMS.Resources.Entities
         public Nullable<decimal> Discount { get; set; }
         public List<InvoiceTaxDetail> InvoiceTaxDetails { get; set; }
         public List<InvoiceItem> InvoiceItems { get; set; }
-        public List<InvoicePaymentDetail> InvoicePaymentDetails { get; set; }    
+        public List<InvoicePaymentDetail> InvoicePaymentDetails { get; set; }
+        public List<Tax> Tax { get; set; }
     }
 }

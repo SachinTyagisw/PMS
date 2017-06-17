@@ -10,15 +10,9 @@ namespace PMS.Resources.DTO.Response
 {
     [DataContract]
     [Serializable]
-    public class GetPaymentChargesResponseDto
+    public class GetInvoiceResponseDto
     {
         [DataMember]
-        public int StayDays { get; set; }
-
-        [DataMember]
-        public bool IsIncludeDefaultTax { get; set; }
-
-        [DataMember]
-        public List<Tax> Tax { get; set; }
+        public Invoice Invoice { get; set; }
     }
 }

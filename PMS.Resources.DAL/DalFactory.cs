@@ -548,5 +548,90 @@ namespace PMS.Resources.DAL
             }
             return isAdded;
         }
+
+        public PmsEntity.Invoice GetInvoiceById(int invoiceId)
+        {
+            var invoice = new PmsEntity.Invoice();
+            var taxes = new List<PmsEntity.Tax>();
+            var paymentDetails = new List<PmsEntity.InvoicePaymentDetail>();
+            using (var pmsContext = new PmsEntities())
+            {
+                var resultSet = pmsContext.GETINVOICEDETAILS(invoiceId).ToList();
+                if (resultSet == null) return invoice;
+
+                var distinctTaxValues = resultSet.AsEnumerable()
+                        .Select(row => new
+                        {
+                            TaxName = row.TaxShortName,
+                            TaxValue = row.TaxAmount
+                        })
+                        .Distinct().ToList();
+
+                if (distinctTaxValues != null && distinctTaxValues.Count > 0)
+                {
+                    foreach (var tax in distinctTaxValues)
+                    {
+                        taxes.Add(new PmsEntity.Tax { TaxName = tax.TaxName, Value = tax.TaxValue, IsEnabled = true });
+                    }
+                }
+                
+
+                var distinctItemValues = resultSet.AsEnumerable()
+                        .Select(row => new
+                        {
+                            TaxName = row.ItemName,
+                            TaxValue = row.ItemValue
+                        })
+                        .Distinct().ToList();
+
+                if (distinctItemValues != null && distinctItemValues.Count > 0)
+                {
+                    foreach (var tax in distinctItemValues)
+                    {
+                        taxes.Add(new PmsEntity.Tax { TaxName = tax.TaxName, Value = tax.TaxValue, IsEnabled = true });
+                    }
+                }
+
+                var distinctPaymentValues = resultSet.AsEnumerable()
+                        .Select(row => new
+                        {
+                            Detail = row.PaymentDetails,
+                            Mode = row.PaymentMode,
+                            Value = row.PaymentValue
+                        })
+                        .Distinct().ToList();
+
+                if (distinctPaymentValues != null && distinctPaymentValues.Count > 0)
+                {
+                    foreach (var payment in distinctPaymentValues)
+                    {
+                        paymentDetails.Add(new PmsEntity.InvoicePaymentDetail { PaymentDetails = payment.Detail, PaymentValue = payment.Value, PaymentMode = payment.Mode,  IsEnabled = true });
+                    }
+                }
+
+                var distinctOtherCharges = resultSet.AsEnumerable()
+                        .Select(row => new
+                        {
+                            Discount = row.DISCOUNT,
+                            TotalAmt = row.TotalAmount,
+                            BookingId = row.BookingID
+                        })
+                        .Distinct().ToList();
+
+                if (distinctOtherCharges != null && distinctOtherCharges.Count > 0)
+                {
+                    foreach (var otherCharges in distinctOtherCharges)
+                    {
+                        invoice.Discount = otherCharges.Discount;
+                        invoice.TotalAmount = otherCharges.TotalAmt;
+                        invoice.BookingId = otherCharges.BookingId;
+                    }
+                }
+            }
+
+            invoice.Tax = taxes;
+            invoice.InvoicePaymentDetails = paymentDetails;
+            return invoice;
+        }
     }
 }

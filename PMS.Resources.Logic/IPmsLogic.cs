@@ -59,5 +59,6 @@ namespace PMS.Resources.Logic
         List<PmsEntity.Guest>  GetAllGuest();
         List<PmsEntity.Tax> GetPaymentCharges(GetPaymentChargesRequestDto request);
         bool AddInvoice(PmsEntity.Invoice invoice);
+        PmsEntity.Invoice GetInvoiceById(int invoiceId);
     }
 }

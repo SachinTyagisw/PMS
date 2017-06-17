@@ -13,45 +13,24 @@ namespace PMS.Resources.DAL
     
     public partial class GETINVOICEDETAILS_Result
     {
-        public int ID { get; set; }
+        public int InvoiceId { get; set; }
         public int GuestID { get; set; }
         public int BookingID { get; set; }
         public Nullable<bool> IsPaid { get; set; }
         public Nullable<decimal> TotalAmount { get; set; }
         public string FolioNumber { get; set; }
-        public bool IsActive { get; set; }
+        public bool InvoiceActive { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string LastUpdatedBy { get; set; }
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
         public Nullable<decimal> DISCOUNT { get; set; }
-        public Nullable<int> ID1 { get; set; }
-        public Nullable<int> InvoiceID { get; set; }
         public string ItemName { get; set; }
         public Nullable<decimal> ItemValue { get; set; }
-        public Nullable<bool> IsActive1 { get; set; }
-        public string CreatedBy1 { get; set; }
-        public Nullable<System.DateTime> CreatedOn1 { get; set; }
-        public string LastUpdatedBy1 { get; set; }
-        public Nullable<System.DateTime> LastUpdatedOn1 { get; set; }
-        public Nullable<int> ID2 { get; set; }
-        public Nullable<int> InvoiceID1 { get; set; }
-        public string TaxShortName { get; set; }
-        public Nullable<decimal> TaxAmount { get; set; }
-        public Nullable<bool> IsActive2 { get; set; }
-        public string CreatedBy2 { get; set; }
-        public Nullable<System.DateTime> CreatedOn2 { get; set; }
-        public string LastUpdatedBy2 { get; set; }
-        public Nullable<System.DateTime> LastUpdatedOn2 { get; set; }
-        public Nullable<int> ID3 { get; set; }
-        public Nullable<int> InvoiceID2 { get; set; }
         public string PaymentMode { get; set; }
         public Nullable<decimal> PaymentValue { get; set; }
         public string PaymentDetails { get; set; }
-        public Nullable<bool> IsActive3 { get; set; }
-        public string CreatedBy3 { get; set; }
-        public Nullable<System.DateTime> CreatedOn3 { get; set; }
-        public string LastUpdatedBy3 { get; set; }
-        public Nullable<System.DateTime> LastUpdatedOn3 { get; set; }
+        public string TaxShortName { get; set; }
+        public Nullable<decimal> TaxAmount { get; set; }
     }
 }
