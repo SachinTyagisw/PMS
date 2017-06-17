@@ -32,6 +32,12 @@
             OnGetPaymentChargesSuccess: null,
             OnAddInvoiceSuccess: null,
             OnAddInvoiceFailure: null,
+            OnGetInvoiceByIdSuccess: null,
+            OnGetInvoiceByIdFailure: null,
+        };
+
+        this.GetInvoiceById = function (args) {
+            makeAjaxRequestGet(args, "GetInvoiceById", this, "api/v1/Invoice/GetInvoiceById/" + args.invoiceId);
         };
 
         this.GetPaymentCharges = function (args) {

@@ -349,11 +349,12 @@
             var divInvoice = $('#divInvoice');
             var invoiceTemplate = $('#invoiceTemplate');
             // if it is not getinvoice api call
-            if (!data.Id || data.Id <= 0){
+            if (!data.Invoice.Id || data.Invoice.Id <= 0){
                 data = appendTotalRoomCharge(data);
+                divInvoice.html(invoiceTemplate.render(data));
+            } else {
+                divInvoice.html(invoiceTemplate.render(data.Invoice));
             }
-
-            divInvoice.html(invoiceTemplate.render(data));
             window.GuestCheckinManager.CalculateInvoice();
         },
 
@@ -381,7 +382,7 @@
             var otherTaxElementCol = $("input[id*='otherTaxVal']");
             var paymentElementCol = $("input[id*='paymentVal']");
             
-            if (window.GuestCheckinManager.invoiceData.Id && window.GuestCheckinManager.invoiceData > 0) {
+            if (window.GuestCheckinManager.invoiceData.Invoice.Id && window.GuestCheckinManager.invoiceData.Invoice.Id > 0) {
                 // populate fields from data
                 return;
             }
@@ -430,6 +431,11 @@
             $('#credit').val(balanceAmt);
 
             return totalCharge;
+        },
+
+        GetInvoiceById: function (invoiceId) {
+            args.invoiceId = invoiceId;
+            pmsService.GetInvoiceById(args);
         },
 
         GetPaymentCharges: function () {
@@ -1045,16 +1051,7 @@
         pmsService.Handlers.OnGetRateTypeByPropertyFailure = function () {
             // show error log
             console.error("Get Room rate type call failed");
-        };
-        
-        //pmsService.Handlers.OnGetRoomByPropertySuccess = function (data) {
-        //    //storing room data into session storage
-        //    pmsSession.SetItem("roomdata", JSON.stringify(data.Rooms));
-        //};
-        //pmsService.Handlers.OnGetRoomByPropertyFailure = function () {
-        //    // show error log
-        //    console.error("Get Room call failed");
-        //};
+        };           
 
         pmsService.Handlers.OnImageUploadSuccess = function (data) {
             console.log(data[0]);
@@ -1165,6 +1162,7 @@
 
         pmsService.Handlers.OnGetPaymentChargesSuccess = function (data) {
             if (!data || !data.Tax || data.Tax.length <= 0) return;
+            window.GuestCheckinManager.invoiceData = null;
             window.GuestCheckinManager.invoiceData = data;
             window.GuestCheckinManager.PopulateCharges(data);
         };
@@ -1176,6 +1174,7 @@
         pmsService.Handlers.OnAddInvoiceSuccess = function (data) {
             var status = data.StatusDescription.toLowerCase();
             if (status.indexOf("successfully") >= 0) {
+                //window.GuestCheckinManager.BookingDto.InvoiceId = data.ResponseObject;
                 console.log(status);
             } else {
                 console.error(status);
@@ -1187,6 +1186,26 @@
             // show error log
             console.error("Invoice is not added.");
         };
+
+        pmsService.Handlers.OnGetInvoiceByIdSuccess = function (data) {
+            if (!data || !data.Invoice || !data.Invoice.Tax || data.Invoice.Tax.length <= 0) return;
+            window.GuestCheckinManager.invoiceData = null;
+            window.GuestCheckinManager.invoiceData = data;
+            window.GuestCheckinManager.PopulateCharges(data);
+        };
+        pmsService.Handlers.OnGetInvoiceByIdFailure = function () {
+            // show error log
+            console.error("get invoice call failed");
+        };
+
+        //pmsService.Handlers.OnGetRoomByPropertySuccess = function (data) {
+        //    //storing room data into session storage
+        //    pmsSession.SetItem("roomdata", JSON.stringify(data.Rooms));
+        //};
+        //pmsService.Handlers.OnGetRoomByPropertyFailure = function () {
+        //    // show error log
+        //    console.error("Get Room call failed");
+        //};
 
         // ajax handlers end
     }

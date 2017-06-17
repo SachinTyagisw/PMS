@@ -273,7 +273,13 @@
             });
 
             $("#loadInvoice").click(function () {
-                gcm.GetPaymentCharges();
+                var invoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
+                if (invoiceId === -1) {
+                    gcm.GetPaymentCharges();
+                }
+                else {
+                    gcm.GetInvoiceById(invoiceId);
+                }
             });
 
             $("#saveInvoice").click(function () {
