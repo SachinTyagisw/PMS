@@ -5,7 +5,7 @@
 -- =============================================        
 --Exec GetBokingDetails  1046   
     
-ALTER PROC GetBokingDetails    
+ALTER PROC GetBookingDetails    
 @BookingID INT    
 AS BEGIN    
 SELECT   

@@ -681,124 +681,124 @@ namespace PMS.Resources.DAL
             var guestMappings = new List<PmsEntity.GuestMapping>();
             var additionalGuests = new List<PmsEntity.AdditionalGuest>();
 
-            using (var pmsContext = new PmsEntities())
-            {
-                var resultSet = pmsContext.GetBokingDetails(bookingId).ToList();
-                if (resultSet == null) return booking;
+            //using (var pmsContext = new PmsEntities())
+            //{
+            //    var resultSet = pmsContext.GetBokingDetails(bookingId).ToList();
+            //    if (resultSet == null) return booking;
 
-                //Populate Booking Object
+            //    //Populate Booking Object
 
-                var bookingInformation = resultSet.First();
-                if (bookingInformation != null)
-                {
-                    booking.Id = bookingInformation.ID;
-                    booking.CheckinTime = bookingInformation.CheckinTime;
-                    booking.CheckoutTime = bookingInformation.CheckoutTime;
-                    booking.NoOfAdult = bookingInformation.NoOfAdult;
-                    booking.NoOfChild = bookingInformation.NoOfChild;
-                    booking.GuestRemarks = bookingInformation.GuestRemarks;
-                    booking.TransactionRemarks = bookingInformation.TransactionRemarks;
-                    booking.IsActive = bookingInformation.IsActive;
-                    booking.ISHOURLYCHECKIN = bookingInformation.ISHOURLYCHECKIN;
-                    booking.HOURSTOSTAY = bookingInformation.HOURSTOSTAY;
-                    booking.CreatedBy = bookingInformation.CreatedBy;
-                    booking.CreatedOn = bookingInformation.CreatedOn;
-                    booking.LastUpdatedBy = bookingInformation.LastUpdatedBy;
-                    booking.LastUpdatedOn = bookingInformation.LastUpdatedOn;
-                    booking.Status = bookingInformation.Status;
-                }
-                else
-                {
-                    return null;
-                }
-
-
-                //Populate RoomBooking
-                var distinctRoomBookings = resultSet.AsEnumerable()
-                        .Select(row => new
-                        {
-                            RoomID = row.RoomID.Value,
-                            ID = row.RoomBookingID,
-                            GuestID = row.RoomBookingGuestID
-                        })
-                        .Distinct().ToList();
-
-                if (distinctRoomBookings != null && distinctRoomBookings.Count > 0)
-                {
-                    foreach (var roomBooking in distinctRoomBookings)
-                    {
-                        booking.RoomBookings.Add(new PmsEntity.RoomBooking { RoomId = roomBooking.RoomID, Id = roomBooking.ID, GuestID = roomBooking.GuestID });
-                    }
-                }
+            //    var bookingInformation = resultSet.First();
+            //    if (bookingInformation != null)
+            //    {
+            //        booking.Id = bookingInformation.BookingID;
+            //        booking.CheckinTime = bookingInformation.CheckinTime;
+            //        booking.CheckoutTime = bookingInformation.CheckoutTime;
+            //        booking.NoOfAdult = bookingInformation.NoOfAdult;
+            //        booking.NoOfChild = bookingInformation.NoOfChild;
+            //        booking.GuestRemarks = bookingInformation.GuestRemarks;
+            //        booking.TransactionRemarks = bookingInformation.TransactionRemarks;
+            //        booking.IsActive = bookingInformation.IsActive;
+            //        booking.ISHOURLYCHECKIN = bookingInformation.ISHOURLYCHECKIN;
+            //        booking.HOURSTOSTAY = bookingInformation.HOURSTOSTAY;
+            //        booking.CreatedBy = bookingInformation.CreatedBy;
+            //        booking.CreatedOn = bookingInformation.CreatedOn;
+            //        booking.LastUpdatedBy = bookingInformation.LastUpdatedBy;
+            //        booking.LastUpdatedOn = bookingInformation.LastUpdatedOn;
+            //        booking.Status = bookingInformation.Status;
+            //    }
+            //    else
+            //    {
+            //        return null;
+            //    }
 
 
-                //Populate Additional Guests
-                var distinctAdditionalGuests = resultSet.AsEnumerable()
-                    .Select(row => new
-                    {
-                        FirstName = row.AdditionalGuestFirstName,
-                        LastName = row.AdditionalGuestLastName,
-                        GUESTIDPath = row.AdditionalGuestIDPath,
-                        Gender = row.AdditionalGuestGender,
-                        Id = row.AdditionalGuestID
-                    })
-                    .Distinct().ToList();
+            //    //Populate RoomBooking
+            //    var distinctRoomBookings = resultSet.AsEnumerable()
+            //            .Select(row => new
+            //            {
+            //                RoomID = row.RoomBookingRoomId.Value,
+            //                ID = row.RoomBookingID,
+            //                GuestID = row.RoomBookingGuestID
+            //            })
+            //            .Distinct().ToList();
 
-                if (distinctAdditionalGuests != null && distinctAdditionalGuests.Count > 0)
-                {
-                    foreach (var additionalGuest in distinctAdditionalGuests)
-                    {
-                        booking.AdditionalGuests.Add(new PmsEntity.AdditionalGuest { FirstName = additionalGuest.FirstName, LastName = additionalGuest.LastName, Gender = additionalGuest.Gender, GUESTIDPath = additionalGuest.GUESTIDPath, Id = additionalGuest.Id, BookingId = booking.Id });
-                    }
-                }
+            //    if (distinctRoomBookings != null && distinctRoomBookings.Count > 0)
+            //    {
+            //        foreach (var roomBooking in distinctRoomBookings)
+            //        {
+            //            booking.RoomBookings.Add(new PmsEntity.RoomBooking { RoomId = roomBooking.RoomID, Id = roomBooking.ID, GuestID = roomBooking.GuestID });
+            //        }
+            //    }
 
 
-                //Populate GuestsMapping
-                var distinctGuestsMapping = resultSet.AsEnumerable()
-                    .Select(row => new
-                    {
-                        IDTYPEID = row.IDTYPEID,
-                        GUESTID = row.GuestMappingGuestID,
-                        IDDETAILS = row.GuestMappingIDDETAILS,
-                        IdExpiryDate = row.IDExpiryDate,
-                        IdIssueState = row.IDIssueState,
-                        IdIssueCountry = row.IdIssueCountry,
-                        Id = row.GuestMappingId
-                    }).Distinct().ToList();
+            //    //Populate Additional Guests
+            //    var distinctAdditionalGuests = resultSet.AsEnumerable()
+            //        .Select(row => new
+            //        {
+            //            FirstName = row.AdditionalGuestFirstName,
+            //            LastName = row.AdditionalGuestLastName,
+            //            GUESTIDPath = row.AdditionalGuestIDPath,
+            //            Gender = row.AdditionalGuestGender,
+            //            Id = row.AdditionalGuestID
+            //        })
+            //        .Distinct().ToList();
 
-                if (distinctGuestsMapping != null && distinctGuestsMapping.Count > 0)
-                {
-                    foreach (var guestMapping in distinctGuestsMapping)
-                    {
-                        booking.GuestMappings.Add(new PmsEntity.GuestMapping { Id = guestMapping.Id, IDTYPEID = guestMapping.IDTYPEID, GUESTID = guestMapping.GUESTID, IDDETAILS = guestMapping.IDDETAILS, IdExpiryDate = guestMapping.IdExpiryDate, IdIssueState = guestMapping.IdIssueState, IdIssueCountry = guestMapping.IdIssueCountry });
-                    }
-                }
+            //    if (distinctAdditionalGuests != null && distinctAdditionalGuests.Count > 0)
+            //    {
+            //        foreach (var additionalGuest in distinctAdditionalGuests)
+            //        {
+            //            booking.AdditionalGuests.Add(new PmsEntity.AdditionalGuest { FirstName = additionalGuest.FirstName, LastName = additionalGuest.LastName, Gender = additionalGuest.Gender, GUESTIDPath = additionalGuest.GUESTIDPath, Id = additionalGuest.Id, BookingId = booking.Id });
+            //        }
+            //    }
 
 
-                //Populate Guests
-                var distinctGuests = resultSet.AsEnumerable()
-                    .Select(row => new
-                    {
-                        GuestID = row.GuestID,
-                        FirstName = row.FirstName,
-                        LastName = row.LastName,
-                        MobileNumber = row.MobileNumber,
-                        EmailAddress = row.EmailAddress,
-                        DOB = row.DOB,
-                        PhotoPath = row.PhotoPath,
-                        Gender = row.Gender
-                    }).Distinct().ToList();
+            //    //Populate GuestsMapping
+            //    var distinctGuestsMapping = resultSet.AsEnumerable()
+            //        .Select(row => new
+            //        {
+            //            IDTYPEID = row.IDTYPEID,
+            //            GUESTID = row.GuestMappingGuestID,
+            //            IDDETAILS = row.GuestMappingIDDETAILS,
+            //            IdExpiryDate = row.IDExpiryDate,
+            //            IdIssueState = row.IDIssueState,
+            //            IdIssueCountry = row.IdIssueCountry,
+            //            Id = row.GuestMappingId
+            //        }).Distinct().ToList();
 
-                if (distinctGuests != null && distinctGuests.Count > 0)
-                {
-                    foreach (var guest in distinctGuests)
-                    {
-                        booking.Guests.Add(new PmsEntity.Guest { Id = guest.GuestID, FirstName = guest.FirstName, LastName = guest.LastName, MobileNumber = guest.MobileNumber, EmailAddress = guest.EmailAddress, DOB = guest.DOB, PhotoPath = guest.PhotoPath, Gender = guest.Gender });
-                    }
-                }
+            //    if (distinctGuestsMapping != null && distinctGuestsMapping.Count > 0)
+            //    {
+            //        foreach (var guestMapping in distinctGuestsMapping)
+            //        {
+            //            booking.GuestMappings.Add(new PmsEntity.GuestMapping { Id = guestMapping.Id, IDTYPEID = guestMapping.IDTYPEID, GUESTID = guestMapping.GUESTID, IDDETAILS = guestMapping.IDDETAILS, IdExpiryDate = guestMapping.IdExpiryDate, IdIssueState = guestMapping.IdIssueState, IdIssueCountry = guestMapping.IdIssueCountry });
+            //        }
+            //    }
+
+
+            //    //Populate Guests
+            //    var distinctGuests = resultSet.AsEnumerable()
+            //        .Select(row => new
+            //        {
+            //            GuestID = row.GuestID,
+            //            FirstName = row.FirstName,
+            //            LastName = row.LastName,
+            //            MobileNumber = row.MobileNumber,
+            //            EmailAddress = row.EmailAddress,
+            //            DOB = row.DOB,
+            //            PhotoPath = row.PhotoPath,
+            //            Gender = row.Gender
+            //        }).Distinct().ToList();
+
+            //    if (distinctGuests != null && distinctGuests.Count > 0)
+            //    {
+            //        foreach (var guest in distinctGuests)
+            //        {
+            //            booking.Guests.Add(new PmsEntity.Guest { Id = guest.GuestID, FirstName = guest.FirstName, LastName = guest.LastName, MobileNumber = guest.MobileNumber, EmailAddress = guest.EmailAddress, DOB = guest.DOB, PhotoPath = guest.PhotoPath, Gender = guest.Gender });
+            //        }
+            //    }
 
                 return booking;
-            }
+            //}
         }
     }
 }
