@@ -6,13 +6,14 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using PMS.Resources.DTO.Request;
+using PMS.Resources.DTO.Response;
 
 namespace PMS.Resources.Logic
 {
     public interface IPmsLogic
     {
         bool UpdateBooking(PmsEntity.Booking booking);
-        bool AddBooking(PmsEntity.Booking booking);
+        bool AddBooking(PmsEntity.Booking booking, ref int bookingId, ref int guestId);
         List<PmsEntity.Booking> GetBooking(int propertyId, DateTime startDate, DateTime endDate);
         bool AddProperty(PmsEntity.Property property);
         bool UpdateProperty(PmsEntity.Property property);

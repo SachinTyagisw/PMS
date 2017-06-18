@@ -16,7 +16,7 @@ namespace PMS.Resources.DAL
         {
             throw new NotImplementedException();
         }
-        public bool AddBooking(int propertyId, string bookingXml)
+        public bool AddBooking(int propertyId, string bookingXml, ref int bookingId, ref int guestId)
         {
             var isAdded = false;
             using (var pmsContext = new PmsEntities())
@@ -35,8 +35,28 @@ namespace PMS.Resources.DAL
                     Value = bookingXml
                 };
 
-                var result = pmsContext.Database.ExecuteSqlCommand("InsertBooking @propertyID, @bookingXML", propId, roomBookingXml);
-                isAdded = true;
+                var bookingid = new SqlParameter
+                {
+                    ParameterName = "BOOKINGID",
+                    DbType = DbType.Int32,
+                    Direction = ParameterDirection.Output
+                };
+
+                var guestid = new SqlParameter
+                {
+                    ParameterName = "GUESTID",
+                    DbType = DbType.Int32,
+                    Direction = ParameterDirection.Output
+                };
+
+                var result = pmsContext.Database.ExecuteSqlCommand("InsertBooking @propertyID, @bookingXML, @BOOKINGID OUTPUT, @GUESTID OUTPUT", propId, roomBookingXml, bookingid, guestid);
+
+                bookingId = Convert.ToInt32(bookingid.Value);
+                guestId = Convert.ToInt32(guestid.Value);
+                if (bookingId > 0 && guestId > 0)
+                {
+                    isAdded = true;
+                }
             }
             return isAdded;
         }

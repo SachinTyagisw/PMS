@@ -1016,12 +1016,11 @@
 
         pmsService.Handlers.OnAddBookingSuccess = function (data) {
             var status = data.StatusDescription.toLowerCase();
-            if (status.indexOf("successfully") >= 0) {
-                //TODO: fill data from success response
-                //window.GuestCheckinManager.BookingDto.BookingId = data.ResponseObject;
-                //window.GuestCheckinManager.BookingDto.GuestId = data.GuestId;
+            if (data.BookingId > 0 && data.GuestId > 0) {
+                window.GuestCheckinManager.BookingDto.BookingId = data.BookingId;
+                window.GuestCheckinManager.BookingDto.GuestId = data.GuestId;
                 // clearAllFields();
-                // if booking id > 0 then enabled save invoice btn
+                
                 $('#saveInvoice').attr("disabled", false);
                 var roomnumber = $('#roomddl').val();
                 var fname = $('#fName').val();
@@ -1039,6 +1038,7 @@
                 window.GuestCheckinManager.AutoCollapseGuestHistory();
 
             } else {
+                $('#saveInvoice').attr("disabled", true);
                 console.error(status);
                 alert(status);
             }            
@@ -1189,7 +1189,7 @@
 
         pmsService.Handlers.OnAddInvoiceSuccess = function (data) {
             var status = data.StatusDescription.toLowerCase();
-            if (status.indexOf("successfully") >= 0) {
+            if (data.ResponseObject > 0) {
                 window.GuestCheckinManager.BookingDto.InvoiceId = data.ResponseObject;
                 console.log(status);
             } else {

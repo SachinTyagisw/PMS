@@ -104,20 +104,26 @@ namespace PMS.Api.Controllers
         }
 
         [HttpPost, ActionName("AddBooking")]
-        public PmsResponseDto AddBooking([FromBody] AddBookingRequestDto request)
+        public AddBookingResponseDto AddBooking([FromBody] AddBookingRequestDto request)
         {
             if (request == null || request.Booking == null || request.Booking.PropertyId <= 0) throw new PmsException("Room Booking can not be done.");
-            
-            var response = new PmsResponseDto();
-            if(_iPmsLogic.AddBooking(request.Booking))
+
+            var response = new AddBookingResponseDto();
+            var bookingId = -1;
+            var guestId = -1;
+            if (_iPmsLogic.AddBooking(request.Booking, ref bookingId, ref guestId))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Booking is done successfully.";
+                response.BookingId = bookingId;
+                response.GuestId = guestId;
             }
             else
             {
                 response.ResponseStatus = PmsApiStatus.Failure.ToString();
                 response.StatusDescription = "Booking is failed.Contact administrator.";
+                response.BookingId = -1;
+                response.GuestId = -1;
             }
 
             return response;

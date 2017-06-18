@@ -11,7 +11,7 @@ namespace PMS.Resources.DAL
     public interface IDalFactory
     {
         void LogExceptionToDb(PmsEntity.ExceptionLog additionalExData);
-        bool AddBooking(int propertyId, string bookingXml);
+        bool AddBooking(int propertyId, string bookingXml, ref int bookingId, ref int guestId);
         List<PmsEntity.Booking> GetBooking(int propertyId, DateTime startDate, DateTime endDate);
         bool AddProperty(PmsEntity.Property property);
         bool UpdateProperty(PmsEntity.Property property);

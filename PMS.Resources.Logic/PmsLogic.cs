@@ -11,6 +11,7 @@ using System.Web;
 using PMS.Resources.Logging.Logger;
 using PMS.Resources.DTO.Request;
 using PMS.Resources.Common.Converter;
+using PMS.Resources.DTO.Response;
 
 namespace PMS.Resources.Logic
 {
@@ -39,7 +40,7 @@ namespace PMS.Resources.Logic
             }
         }
 
-        public bool AddBooking(PmsEntity.Booking booking)
+        public bool AddBooking(PmsEntity.Booking booking, ref int bookingId, ref int guestId)
         {
             var propertyId = booking.PropertyId;
             var bookingXml = PmsConverter.SerializeObjectToXmlString(booking);
@@ -50,7 +51,7 @@ namespace PMS.Resources.Logic
             //var logService = LoggingManager.GetLogInstance();
             //logService.LogInformation("booking xml:" + bookingXml);
 
-            return DalFactory.AddBooking(propertyId,bookingXml);
+            return DalFactory.AddBooking(propertyId, bookingXml, ref bookingId, ref guestId);
         }       
         public List<PmsEntity.Booking> GetBooking(int propertyId, DateTime startDate, DateTime endDate)
         {
