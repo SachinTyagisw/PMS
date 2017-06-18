@@ -156,15 +156,16 @@
             invoice.InvoicePaymentDetails = [];
 
             invoice.PropertyId = getPropertyId();
-            invoice.BookingId = 1065;//window.GuestCheckinManager.BookingDto.BookingId ? window.GuestCheckinManager.BookingDto.BookingId : -1;
+            invoice.BookingId = window.GuestCheckinManager.BookingDto.BookingId ? window.GuestCheckinManager.BookingDto.BookingId : -1;
 
             if (invoice.PropertyId <= -1 || invoice.BookingId <= -1) {
+                $('#saveInvoice').attr("disabled", true);
                 alert('Invalid bookingid or propertyid.');
                 return;
             }
 
             invoice.Id = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;            
-            invoice.GuestId = 1055;//window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;
+            invoice.GuestId = window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;
             invoice.CreatedOn = getCurrentDate();
             invoice.IsActive = true;
             invoice.TotalAmount = $('#total') && $('#total')[0] ? $('#total')[0].innerText : 0;

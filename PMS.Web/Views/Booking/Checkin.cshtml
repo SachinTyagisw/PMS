@@ -21,22 +21,22 @@
 
 
 
-        function getDate(date) {
-            var result = new Date(date);
-            result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
-            return result;
-        }
+        //function getDate(date) {
+        //    var result = new Date(date);
+        //    result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
+        //    return result;
+        //}
 
-        function getDays(startDate, endDate) {
-            var millisecondsPerDay = 24 * 60 * 60 * 1000;
-            var result = Math.floor((getDate(endDate) - getDate(startDate)) / millisecondsPerDay);
-            if (result <= 0)
-                result = 1;
+        //function getDays(startDate, endDate) {
+        //    var millisecondsPerDay = 24 * 60 * 60 * 1000;
+        //    var result = Math.floor((getDate(endDate) - getDate(startDate)) / millisecondsPerDay);
+        //    if (result <= 0)
+        //        result = 1;
 
-            return result;
-        }
+        //    return result;
+        //}
 
-        alert(daysBetween($('#first').val(), $('#second').val()));
+        //alert(daysBetween($('#first').val(), $('#second').val()));
 
         //function OnHourlyCbChecked() {
         //    var cmbHours = $('#hoursComboBox');
@@ -292,11 +292,11 @@
             });
 
             $('#divInvoice').on("click", ".table-addpaymenttype", function (e) {
-                if ($('#paymentTypeDdl').val() === '-1' || $('#paymentVal').val() <= '0') {
+                if ($('#paymentTypeDdl').val() === -1 || $('#paymentVal').val() <= 0) {
                     alert('Please select proper payment type or value.');
                     return;
                 }
-                var cloneHtmlElement = $('#divInvoice').find('#trPaymentTypeOther').clone(true);
+                var cloneHtmlElement = $('#divInvoice').find('tr#trPaymentTypeOther:last').clone(true);
                 cloneHtmlElement[0].style = 'display:block';
                 $('#divInvoice').find('#trPayment').before(cloneHtmlElement);
                 e.stopPropagation();
