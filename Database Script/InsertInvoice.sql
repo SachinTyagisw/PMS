@@ -192,7 +192,7 @@ BEGIN
       XMLTable.LastUpdatedBy,                      
       XMLTable.LastUpdatedOn                    
     FROM                     
-     OPENXML(@hDoc, 'Invoice/InvoiceTaxDetails/TaxDetail',2)                    
+     OPENXML(@hDoc, 'Invoice/InvoiceTaxDetails/InvoiceTaxDetail',2)                    
      WITH                    
      (                    
       Id int,      
@@ -262,7 +262,7 @@ BEGIN
       XMLTable.LastUpdatedBy,                      
       XMLTable.LastUpdatedOn                    
     FROM                     
-     OPENXML(@hDoc, 'Invoice/InvoicePaymentDetails/InvoicePayment',2)                    
+     OPENXML(@hDoc, 'Invoice/InvoicePaymentDetails/InvoicePaymentDetail',2)                    
      WITH                    
      (                    
       Id int,      

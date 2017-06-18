@@ -82,15 +82,18 @@ namespace PMS.Api.Controllers
             if (request == null || request.Invoice == null || request.Invoice.PropertyId <= 0 || request.Invoice.BookingId <= 0) throw new PmsException("Invoice can not be added.");
 
             var response = new PmsResponseDto();
-            if (_iPmsLogic.AddInvoice(request.Invoice))
+            var id = _iPmsLogic.AddInvoice(request.Invoice);
+            if (id > 0)
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Invoice is added successfully.";
+                response.ResponseObject = id;
             }
             else
             {
                 response.ResponseStatus = PmsApiStatus.Failure.ToString();
                 response.StatusDescription = "Invoice is not added.Contact administrator.";
+                response.ResponseObject = id;
             }
             return response;
         }

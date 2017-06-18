@@ -813,9 +813,6 @@
           <Parameter Name="CHECKOUTDATE" Type="datetime" Mode="In" />
         </Function>
         <Function Name="GETALLGUESTS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="GetBokingDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="BookingID" Type="int" Mode="In" />
-        </Function>
         <Function Name="GETBOOKINGAMOUNT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PROPERTYID" Type="int" Mode="In" />
           <Parameter Name="ROOMTYPEID" Type="int" Mode="In" />
@@ -823,6 +820,9 @@
           <Parameter Name="NOOFHOURS" Type="int" Mode="In" />
           <Parameter Name="NOOFDAYS" Type="int" Mode="In" />
           <Parameter Name="ISHOURLY" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="GetBookingDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="BookingID" Type="int" Mode="In" />
         </Function>
         <Function Name="GETGUESTTRANSACTIONS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="GUESTID" Type="int" Mode="In" />
@@ -838,10 +838,13 @@
         <Function Name="InsertBooking" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="propertyID" Type="int" Mode="In" />
           <Parameter Name="bookingXML" Type="xml" Mode="In" />
+          <Parameter Name="BOOKINGID" Type="int" Mode="InOut" />
+          <Parameter Name="GUESTID" Type="int" Mode="InOut" />
         </Function>
         <Function Name="InsertInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="propertyID" Type="int" Mode="In" />
           <Parameter Name="InvoiceXML" Type="xml" Mode="In" />
+          <Parameter Name="INVOICEID" Type="int" Mode="InOut" />
         </Function>
         <Function Name="UpdateBooking" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="BOOKINGID" Type="int" Mode="In" />
@@ -2031,9 +2034,6 @@
             <Parameter Name="CHECKOUTDATE" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="GETALLGUESTS" ReturnType="Collection(PmsModel.GETALLGUESTS_Result)" />
-          <FunctionImport Name="GetBokingDetails" ReturnType="Collection(PmsModel.GetBokingDetails_Result)">
-            <Parameter Name="BookingID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="GETBOOKINGAMOUNT" ReturnType="Collection(PmsModel.GETBOOKINGAMOUNT_Result)">
             <Parameter Name="PROPERTYID" Mode="In" Type="Int32" />
             <Parameter Name="ROOMTYPEID" Mode="In" Type="Int32" />
@@ -2041,6 +2041,9 @@
             <Parameter Name="NOOFHOURS" Mode="In" Type="Int32" />
             <Parameter Name="NOOFDAYS" Mode="In" Type="Int32" />
             <Parameter Name="ISHOURLY" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="GetBookingDetails" ReturnType="Collection(PmsModel.GetBookingDetails_Result)">
+            <Parameter Name="BookingID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GETGUESTTRANSACTIONS" ReturnType="Collection(PmsModel.GETGUESTTRANSACTIONS_Result)">
             <Parameter Name="GUESTID" Mode="In" Type="Int32" />
@@ -2053,13 +2056,16 @@
             <Parameter Name="CHECKINTIME" Mode="In" Type="DateTime" />
             <Parameter Name="CHECKOUTDATE" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <FunctionImport Name="InsertBooking">
+          <FunctionImport Name="InsertBooking" ReturnType="Collection(PmsModel.InsertBooking_Result)">
             <Parameter Name="propertyID" Mode="In" Type="Int32" />
             <Parameter Name="bookingXML" Mode="In" Type="String" />
+            <Parameter Name="BOOKINGID" Mode="InOut" Type="Int32" />
+            <Parameter Name="GUESTID" Mode="InOut" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="InsertInvoice">
+          <FunctionImport Name="InsertInvoice" ReturnType="Collection(Int32)">
             <Parameter Name="propertyID" Mode="In" Type="Int32" />
             <Parameter Name="InvoiceXML" Mode="In" Type="String" />
+            <Parameter Name="INVOICEID" Mode="InOut" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="UpdateBooking">
             <Parameter Name="BOOKINGID" Mode="In" Type="Int32" />
@@ -2090,7 +2096,12 @@
           <Property Type="String" Name="GENDER" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="PHOTOPATH" Nullable="true" MaxLength="200" />
         </ComplexType>
-        <ComplexType Name="GetBokingDetails_Result">
+        <ComplexType Name="GETBOOKINGAMOUNT_Result">
+          <Property Type="String" Name="ITEM" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="ITEMAMOUNT" Nullable="true" Precision="19" />
+          <Property Type="Int32" Name="OrderBy" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetBookingDetails_Result">
           <Property Type="Int32" Name="BookingID" Nullable="false" />
           <Property Type="Int32" Name="PropertyID" Nullable="false" />
           <Property Type="DateTime" Name="CheckinTime" Nullable="true" Precision="23" />
@@ -2131,11 +2142,6 @@
           <Property Type="String" Name="Gender" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="PhotoPath" Nullable="true" MaxLength="200" />
         </ComplexType>
-        <ComplexType Name="GETBOOKINGAMOUNT_Result">
-          <Property Type="String" Name="ITEM" Nullable="true" MaxLength="100" />
-          <Property Type="Decimal" Name="ITEMAMOUNT" Nullable="true" Precision="19" />
-          <Property Type="Int32" Name="OrderBy" Nullable="false" />
-        </ComplexType>
         <ComplexType Name="GETGUESTTRANSACTIONS_Result">
           <Property Type="String" Name="PROPERTY" Nullable="true" />
           <Property Type="DateTime" Name="CheckinTime" Nullable="true" Precision="23" />
@@ -2169,6 +2175,10 @@
           <Property Type="Int32" Name="ROOMTypeID" Nullable="false" />
           <Property Type="String" Name="NUMBER" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="ROOMSTATUS" Nullable="false" MaxLength="9" />
+        </ComplexType>
+        <ComplexType Name="InsertBooking_Result">
+          <Property Type="Int32" Name="Column1" Nullable="true" />
+          <Property Type="Int32" Name="Column2" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2664,9 +2674,18 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetBokingDetails" FunctionName="PmsModel.Store.GetBokingDetails">
+          <FunctionImportMapping FunctionImportName="GETBOOKINGAMOUNT" FunctionName="PmsModel.Store.GETBOOKINGAMOUNT">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="PmsModel.GetBokingDetails_Result">
+              <ComplexTypeMapping TypeName="PmsModel.GETBOOKINGAMOUNT_Result">
+                <ScalarProperty Name="ITEM" ColumnName="ITEM" />
+                <ScalarProperty Name="ITEMAMOUNT" ColumnName="ITEMAMOUNT" />
+                <ScalarProperty Name="OrderBy" ColumnName="OrderBy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetBookingDetails" FunctionName="PmsModel.Store.GetBookingDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PmsModel.GetBookingDetails_Result">
                 <ScalarProperty Name="BookingID" ColumnName="BookingID" />
                 <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
                 <ScalarProperty Name="CheckinTime" ColumnName="CheckinTime" />
@@ -2706,15 +2725,6 @@
                 <ScalarProperty Name="DOB" ColumnName="DOB" />
                 <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GETBOOKINGAMOUNT" FunctionName="PmsModel.Store.GETBOOKINGAMOUNT">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="PmsModel.GETBOOKINGAMOUNT_Result">
-                <ScalarProperty Name="ITEM" ColumnName="ITEM" />
-                <ScalarProperty Name="ITEMAMOUNT" ColumnName="ITEMAMOUNT" />
-                <ScalarProperty Name="OrderBy" ColumnName="OrderBy" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -2764,7 +2774,14 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="InsertBooking" FunctionName="PmsModel.Store.InsertBooking" />
+          <FunctionImportMapping FunctionImportName="InsertBooking" FunctionName="PmsModel.Store.InsertBooking">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PmsModel.InsertBooking_Result">
+                <ScalarProperty Name="Column1" ColumnName="Column1" />
+                <ScalarProperty Name="Column2" ColumnName="Column2" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="InsertInvoice" FunctionName="PmsModel.Store.InsertInvoice" />
           <FunctionImportMapping FunctionImportName="UpdateBooking" FunctionName="PmsModel.Store.UpdateBooking" />
         </EntityContainerMapping>

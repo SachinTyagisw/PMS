@@ -11,7 +11,7 @@ namespace PMS.Resources.DAL
 {
     using System;
     
-    public partial class GetBokingDetails_Result
+    public partial class GetBookingDetails_Result
     {
         public int BookingID { get; set; }
         public int PropertyID { get; set; }

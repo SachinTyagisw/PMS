@@ -78,15 +78,6 @@ namespace PMS.Resources.DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GETALLGUESTS_Result>("GETALLGUESTS");
         }
     
-        public virtual ObjectResult<GetBokingDetails_Result> GetBokingDetails(Nullable<int> bookingID)
-        {
-            var bookingIDParameter = bookingID.HasValue ?
-                new ObjectParameter("BookingID", bookingID) :
-                new ObjectParameter("BookingID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetBokingDetails_Result>("GetBokingDetails", bookingIDParameter);
-        }
-    
         public virtual ObjectResult<GETBOOKINGAMOUNT_Result> GETBOOKINGAMOUNT(Nullable<int> pROPERTYID, Nullable<int> rOOMTYPEID, Nullable<int> rATETYPEID, Nullable<int> nOOFHOURS, Nullable<int> nOOFDAYS, Nullable<bool> iSHOURLY)
         {
             var pROPERTYIDParameter = pROPERTYID.HasValue ?
@@ -114,6 +105,15 @@ namespace PMS.Resources.DAL
                 new ObjectParameter("ISHOURLY", typeof(bool));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GETBOOKINGAMOUNT_Result>("GETBOOKINGAMOUNT", pROPERTYIDParameter, rOOMTYPEIDParameter, rATETYPEIDParameter, nOOFHOURSParameter, nOOFDAYSParameter, iSHOURLYParameter);
+        }
+    
+        public virtual ObjectResult<GetBookingDetails_Result> GetBookingDetails(Nullable<int> bookingID)
+        {
+            var bookingIDParameter = bookingID.HasValue ?
+                new ObjectParameter("BookingID", bookingID) :
+                new ObjectParameter("BookingID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetBookingDetails_Result>("GetBookingDetails", bookingIDParameter);
         }
     
         public virtual ObjectResult<GETGUESTTRANSACTIONS_Result> GETGUESTTRANSACTIONS(Nullable<int> gUESTID)
@@ -151,7 +151,7 @@ namespace PMS.Resources.DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GETROOMSTATUS_Result>("GETROOMSTATUS", pROPERTYIDParameter, cHECKINTIMEParameter, cHECKOUTDATEParameter);
         }
     
-        public virtual int InsertBooking(Nullable<int> propertyID, string bookingXML)
+        public virtual ObjectResult<InsertBooking_Result> InsertBooking(Nullable<int> propertyID, string bookingXML, ObjectParameter bOOKINGID, ObjectParameter gUESTID)
         {
             var propertyIDParameter = propertyID.HasValue ?
                 new ObjectParameter("propertyID", propertyID) :
@@ -161,10 +161,10 @@ namespace PMS.Resources.DAL
                 new ObjectParameter("bookingXML", bookingXML) :
                 new ObjectParameter("bookingXML", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertBooking", propertyIDParameter, bookingXMLParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertBooking_Result>("InsertBooking", propertyIDParameter, bookingXMLParameter, bOOKINGID, gUESTID);
         }
     
-        public virtual int InsertInvoice(Nullable<int> propertyID, string invoiceXML)
+        public virtual ObjectResult<Nullable<int>> InsertInvoice(Nullable<int> propertyID, string invoiceXML, ObjectParameter iNVOICEID)
         {
             var propertyIDParameter = propertyID.HasValue ?
                 new ObjectParameter("propertyID", propertyID) :
@@ -174,7 +174,7 @@ namespace PMS.Resources.DAL
                 new ObjectParameter("InvoiceXML", invoiceXML) :
                 new ObjectParameter("InvoiceXML", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertInvoice", propertyIDParameter, invoiceXMLParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("InsertInvoice", propertyIDParameter, invoiceXMLParameter, iNVOICEID);
         }
     
         public virtual int UpdateBooking(Nullable<int> bOOKINGID, Nullable<System.DateTime> cHECKINTIME, Nullable<System.DateTime> cHECKOUTTIME, Nullable<int> roomID)

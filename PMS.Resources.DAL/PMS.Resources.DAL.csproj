@@ -87,10 +87,10 @@
     <Compile Include="GETALLGUESTS_Result.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="GetBokingDetails_Result.cs">
+    <Compile Include="GETBOOKINGAMOUNT_Result.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="GETBOOKINGAMOUNT_Result.cs">
+    <Compile Include="GetBookingDetails_Result.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="GETGUESTTRANSACTIONS_Result.cs">
@@ -113,6 +113,9 @@
     </Compile>
     <Compile Include="IDalFactory.cs" />
     <Compile Include="IDType.cs">
+      <DependentUpon>PmsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InsertBooking_Result.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Invoice.cs">

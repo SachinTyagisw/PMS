@@ -524,9 +524,9 @@ namespace PMS.Resources.DAL
             return taxes;
         }
 
-        public bool AddInvoice(int propertyId, string invoiceXml)
+        public int AddInvoice(int propertyId, string invoiceXml)
         {
-            var isAdded = false;
+            var id = -1;
             using (var pmsContext = new PmsEntities())
             {
                 var propId = new SqlParameter
@@ -543,10 +543,18 @@ namespace PMS.Resources.DAL
                     Value = invoiceXml
                 };
 
-                var result = pmsContext.Database.ExecuteSqlCommand("InsertInvoice @propertyID, @InvoiceXML", propId, invoicexml);
-                isAdded = true;
+                var invoiceId = new SqlParameter
+                {
+                    ParameterName = "INVOICEID",
+                    DbType = DbType.Int32,
+                    Direction = ParameterDirection.Output
+                };
+
+                pmsContext.Database.ExecuteSqlCommand("InsertInvoice @propertyID, @InvoiceXML, @INVOICEID OUTPUT", propId, invoicexml, invoiceId);
+                id = Convert.ToInt32(invoiceId.Value);
+               
             }
-            return isAdded;
+            return id;
         }
 
         public PmsEntity.Invoice GetInvoiceById(int invoiceId)
@@ -683,7 +691,7 @@ namespace PMS.Resources.DAL
 
             using (var pmsContext = new PmsEntities())
             {
-                var resultSet = pmsContext.GetBokingDetails(bookingId).ToList();
+                var resultSet = pmsContext.GetBookingDetails(bookingId).ToList();
                 if (resultSet == null) return booking;
 
                 //Populate Booking Object

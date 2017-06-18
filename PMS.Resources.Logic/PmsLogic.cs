@@ -241,12 +241,12 @@ namespace PMS.Resources.Logic
             return DalFactory.GetPaymentCharges(request.PropertyId, request.RoomTypeId, request.RateTypeId, request.NoOfHours, request.IsHourly);
         }
 
-        public bool AddInvoice(PmsEntity.Invoice invoice)
+        public int AddInvoice(PmsEntity.Invoice invoice)
         {
             var propertyId = invoice.PropertyId;
             var invoiceXml = PmsConverter.SerializeObjectToXmlString(invoice);
             
-            if (string.IsNullOrWhiteSpace(invoiceXml)) return false;
+            if (string.IsNullOrWhiteSpace(invoiceXml)) return -1;
 
             invoiceXml = RemoveXmlDefaultNode(invoiceXml);
             
