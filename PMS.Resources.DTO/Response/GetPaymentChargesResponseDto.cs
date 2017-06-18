@@ -13,9 +13,6 @@ namespace PMS.Resources.DTO.Response
     public class GetPaymentChargesResponseDto
     {
         [DataMember]
-        public int StayDays { get; set; }
-
-        [DataMember]
         public List<Tax> Tax { get; set; }
     }
 }

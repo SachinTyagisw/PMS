@@ -21,10 +21,6 @@ namespace PMS.Resources.DTO.Request
         [DataMember]
         public int? NoOfHours { get; set; }
         [DataMember]
-        public Nullable<System.DateTime> CheckinTime { get; set; }
-        [DataMember]
-        public Nullable<System.DateTime> CheckoutTime { get; set; }
-        [DataMember]
         public Nullable<bool> IsHourly { get; set; }
     }
 }

@@ -106,8 +106,6 @@ namespace PMS.Api.Controllers
                 ) throw new PmsException("Get Invoice call failed.");
 
             var response = new GetPaymentChargesResponseDto();
-            TimeSpan? ts = request.CheckoutTime - request.CheckinTime;
-            response.StayDays = !ts.HasValue || Convert.ToBoolean(request.IsHourly) ? 1 : Convert.ToInt32(ts.Value.TotalDays);
             if (!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
             {
                 response.Tax = _iPmsLogic.GetPaymentCharges(request);    

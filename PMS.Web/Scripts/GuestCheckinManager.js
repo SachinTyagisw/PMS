@@ -453,12 +453,6 @@
             var rateType = $('#rateTypeDdl').val();
             var noOfHours = $('#hoursComboBox').val();
         
-            // TODO: remove hardcoded value
-            //dateFrom = "06/12/2017 12:00 am";
-            //dateTo = "06/16/2017 2:00 am";
-            //roomType = 1;
-            //rateType = 1;
-
             // check checkin date 
             if (!dateFrom || dateFrom.length <= 0) {
                 alert("Please select checkin date");
@@ -488,8 +482,6 @@
                 return false;
             }
 
-            paymentChargeRequestDto.CheckinTime = dateFrom;
-            paymentChargeRequestDto.CheckoutTime = dateTo;
             paymentChargeRequestDto.RoomTypeId = roomType
             paymentChargeRequestDto.RateTypeId = rateType
             paymentChargeRequestDto.IsHourly = $('#hourCheckin')[0].checked ? true : false;
@@ -1198,7 +1190,7 @@
         pmsService.Handlers.OnAddInvoiceSuccess = function (data) {
             var status = data.StatusDescription.toLowerCase();
             if (status.indexOf("successfully") >= 0) {
-                //window.GuestCheckinManager.BookingDto.InvoiceId = data.ResponseObject;
+                window.GuestCheckinManager.BookingDto.InvoiceId = data.ResponseObject;
                 console.log(status);
             } else {
                 console.error(status);
