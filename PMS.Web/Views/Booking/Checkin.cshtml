@@ -255,7 +255,7 @@
             });
 
             $('#divInvoice').on("click", ".table-add", function (e) {
-                var cloneHtmlElement = $('#divInvoice').find('#trOthertax').clone(true).removeClass('remove');
+                var cloneHtmlElement = $('#divInvoice').find('tr#trOthertax:first').clone(true).removeClass('remove');
                 cloneHtmlElement[0].style = 'display:block';
                 $('#divInvoice').find('#trDiscount').before(cloneHtmlElement);
                 e.stopPropagation();

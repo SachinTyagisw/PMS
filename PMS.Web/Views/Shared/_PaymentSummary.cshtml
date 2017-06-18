@@ -29,6 +29,13 @@
                 </tr>
             </thead>
             <tbody id="sortableTable">
+                <tr id="trOthertax" style="display:none;" class="sortActive remove">
+                    <td><span class="glyphicon glyphicon-th-list"></span></td>
+                    <td id="otherTaxText" contenteditable="true"></td>
+                    <td>$<input id="otherTaxVal" value="0.0" onkeyup="OnTaxValChange(event, this)" /></td>
+                    <td></td>
+                    <td><span class="tableRow-remove glyphicon glyphicon-trash"></span></td>
+                </tr>
                 {{each Tax}}
                     {{if $value.IsDefaultCharges }}
                             <tr class="sortActive">
@@ -59,14 +66,7 @@
                         </tr>
                     {{/if}}
                 {{/each}}
-                <tr id="trOthertax" style="display:none;" class="sortActive remove">
-                    <td><span class="glyphicon glyphicon-th-list"></span></td>
-                    <td id="otherTaxText" contenteditable="true"></td>
-                    <td>$<input id="otherTaxVal" value="0.0" onkeyup="OnTaxValChange(event, this)" /></td>
-                    <td></td>
-                    <td><span class="tableRow-remove glyphicon glyphicon-trash"></span></td>
-                </tr>
-                {{if Id > 0 }}
+                {{if typeof Id != "undefined" && Id > 0 }}
                 <tr id="trDiscount" class="sortActive">
                     <td><span class="glyphicon glyphicon-th-list"></span></td>
                     <td>Discount</td>
