@@ -384,8 +384,6 @@
             } else {
                 stayDays = getDays(dateFrom, dateTo)
             }
-            //TODO : remove hard coded value
-            //stayDays = 4;
             var baseRoomCharge = $('#baseRoomCharge');
             var totalRoomCharge = $('#totalRoomCharge');
             var taxElementCol = $("input[id*='taxVal']");
@@ -658,31 +656,36 @@
     }
     
     function preparePaymentDetail() {
-        var paymentDetail = [];
-        var payment = {};
+        var paymentDetail = [];        
         var paymentTypeElementCol = $("select[id*='paymentTypeDdl']");
-        var paymentMode = '';
+        var paymentElementCol = $("input[id*='paymentVal']");
 
-        //  getting paymenttype
-        if (paymentTypeElementCol && paymentTypeElementCol.length > 0) {
-            for (var i = 0; i < paymentTypeElementCol.length; i++) {
-                if (!paymentTypeElementCol[i] || !paymentTypeElementCol[i].options || paymentTypeElementCol[i].options.length <= 0) continue;
+        if (paymentElementCol && paymentElementCol.length > 0) {
+            for (var i = 0; i < paymentElementCol.length; i++) {
+                if (!paymentElementCol[i] || !paymentElementCol[i].value || isNaN(paymentElementCol[i].value)
+                    || !paymentTypeElementCol[i] || !paymentTypeElementCol[i].options || paymentTypeElementCol[i].options.length <= 0) continue;
+
                 var selectedIdx = paymentTypeElementCol[i].options.selectedIndex;
                 if (paymentTypeElementCol[i].options[selectedIdx].value <= -1) continue;
-                paymentMode = paymentTypeElementCol[i].options[selectedIdx].text + ',' + paymentMode;
+
+                var payment = {};
+                var value = paymentElementCol[i].value;
+                var paymentType = paymentTypeElementCol[i].options[selectedIdx].text;
+
+                payment.PaymentMode = paymentType;
+                payment.PaymentValue = value;
+                //TODO : need mechanism for input
+                payment.PaymentDetails = "50% payment is done.";
+                payment.IsActive = true;
+                payment.CreatedOn = getCurrentDate();
+                payment.CreatedBy = getCreatedBy();
+                payment.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
+
+                paymentDetail.push(payment);
+
             }
         }
-
-        // TODO: retrieve it dynamically from UI
-        payment.PaymentMode = paymentMode;
-        payment.PaymentValue = $('#payment').val();
-        payment.PaymentDetails = "50% payment is done.";
-        payment.IsActive = true;
-        payment.CreatedOn = getCurrentDate();
-        payment.CreatedBy = getCreatedBy();
-        payment.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-
-        paymentDetail.push(payment);
+       
         return paymentDetail;
     }
 
