@@ -13,7 +13,7 @@ namespace PMS.Resources.DAL
     
     public partial class GetBokingDetails_Result
     {
-        public int ID { get; set; }
+        public int BookingID { get; set; }
         public int PropertyID { get; set; }
         public Nullable<System.DateTime> CheckinTime { get; set; }
         public Nullable<System.DateTime> CheckoutTime { get; set; }
@@ -29,53 +29,28 @@ namespace PMS.Resources.DAL
         public string Status { get; set; }
         public Nullable<bool> ISHOURLYCHECKIN { get; set; }
         public Nullable<int> HOURSTOSTAY { get; set; }
-        public Nullable<int> Id1 { get; set; }
-        public Nullable<int> BookingId { get; set; }
+        public Nullable<int> AdditionalGuestID { get; set; }
+        public string AdditionalGuestFirstName { get; set; }
+        public string AdditionalGuestLastName { get; set; }
+        public string AdditionalGuestIDPath { get; set; }
+        public string AdditionalGuestGender { get; set; }
+        public Nullable<int> RoomBookingRoomId { get; set; }
+        public Nullable<int> RoomBookingID { get; set; }
+        public Nullable<int> RoomBookingGuestID { get; set; }
+        public Nullable<int> GuestMappingId { get; set; }
+        public Nullable<int> IDTYPEID { get; set; }
+        public Nullable<int> GuestMappingGuestID { get; set; }
+        public string GuestMappingIDDETAILS { get; set; }
+        public Nullable<System.DateTime> IDExpiryDate { get; set; }
+        public string IDIssueState { get; set; }
+        public string IDIssueCountry { get; set; }
+        public Nullable<int> GuestID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string GUESTIDPath { get; set; }
-        public Nullable<bool> IsActive1 { get; set; }
-        public string CreatedBy1 { get; set; }
-        public Nullable<System.DateTime> CreatedOn1 { get; set; }
-        public string LastUpdatedBy1 { get; set; }
-        public Nullable<System.DateTime> LastUpdatedOn1 { get; set; }
-        public string Gender { get; set; }
-        public Nullable<int> ID2 { get; set; }
-        public Nullable<int> GuestID { get; set; }
-        public Nullable<int> BookingID1 { get; set; }
-        public Nullable<int> RoomID { get; set; }
-        public Nullable<bool> IsExtra { get; set; }
-        public Nullable<decimal> Discount { get; set; }
-        public Nullable<decimal> RoomCharges { get; set; }
-        public Nullable<bool> IsActive2 { get; set; }
-        public string CreatedBy2 { get; set; }
-        public Nullable<System.DateTime> CreatedOn2 { get; set; }
-        public string LastUpdatedBy2 { get; set; }
-        public Nullable<System.DateTime> LastUpdatedOn2 { get; set; }
-        public Nullable<int> ID3 { get; set; }
-        public string FirstName1 { get; set; }
-        public string LastName1 { get; set; }
         public Nullable<long> MobileNumber { get; set; }
         public string EmailAddress { get; set; }
         public Nullable<System.DateTime> DOB { get; set; }
-        public string Gender1 { get; set; }
+        public string Gender { get; set; }
         public string PhotoPath { get; set; }
-        public Nullable<bool> IsActive3 { get; set; }
-        public string CreatedBy3 { get; set; }
-        public Nullable<System.DateTime> CreatedOn3 { get; set; }
-        public string LastUpdatedBy3 { get; set; }
-        public Nullable<System.DateTime> LastUpdatedOn3 { get; set; }
-        public Nullable<int> ID4 { get; set; }
-        public Nullable<int> IDTYPEID { get; set; }
-        public Nullable<int> GUESTID1 { get; set; }
-        public string IDDETAILS { get; set; }
-        public Nullable<bool> IsActive4 { get; set; }
-        public string CreatedBy4 { get; set; }
-        public Nullable<System.DateTime> CreatedOn4 { get; set; }
-        public string LastUpdatedBy4 { get; set; }
-        public Nullable<System.DateTime> LastUpdatedOn4 { get; set; }
-        public Nullable<System.DateTime> IdExpiryDate { get; set; }
-        public string IdIssueState { get; set; }
-        public string IdIssueCountry { get; set; }
     }
 }
