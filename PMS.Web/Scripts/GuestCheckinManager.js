@@ -376,7 +376,16 @@
         CalculateInvoice: function () {
             var totalCharge = 0;
             var paymentAmt = 0;
-            var stayDays = window.GuestCheckinManager.invoiceData.StayDays;
+            var stayDays;
+            var dateFrom = $('#dateFrom').val();
+            var dateTo = $('#dateTo').val();
+            if(!dateFrom || !dateTo ){
+                stayDays = 1;
+            } else {
+                stayDays = getDays(dateFrom, dateTo)
+            }
+            //TODO : remove hard coded value
+            //stayDays = 4;
             var baseRoomCharge = $('#baseRoomCharge');
             var totalRoomCharge = $('#totalRoomCharge');
             var taxElementCol = $("input[id*='taxVal']");
@@ -384,11 +393,6 @@
             var paymentElementCol = $("input[id*='paymentVal']");
             var invoiceObject = window.GuestCheckinManager.invoiceData.Invoice;
             
-            if (invoiceObject && invoiceObject.Id && invoiceObject.Id > 0) {
-                //TODO: remove hard coded value calculate staydays on client side
-                stayDays = 4;                
-            }
-
             //  tax charges calulations
             if (taxElementCol && taxElementCol.length > 0) {
                 for (var i = 0; i < taxElementCol.length; i++) {
@@ -516,6 +520,21 @@
 
         //}
     };
+
+    function getDate(date) {
+        var result = new Date(date);
+        result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
+        return result;
+    }
+
+    function getDays(startDate, endDate) {
+        var millisecondsPerDay = 24 * 60 * 60 * 1000;
+        var result = Math.floor((getDate(endDate) - getDate(startDate)) / millisecondsPerDay);
+        if (result <= 0)
+            result = 1;
+
+        return result;
+    }
     
     function getPropertyId() {
         window.GuestCheckinManager.BookingDto.PropertyId = pmsSession.GetItem("propertyid");

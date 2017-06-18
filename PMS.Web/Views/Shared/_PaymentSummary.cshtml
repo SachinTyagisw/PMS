@@ -107,10 +107,10 @@
                     <td id="paymentTypeAdd"><span class="table-addpaymenttype glyphicon glyphicon-plus"></span></td>
                     <td contenteditable="true">
                         <select id="paymentTypeDdl" class="form-control">
-                            <option selected="selected" value="-1">Payment Type</option>
-                            <option value="1">Credit Card</option>
-                            <option value="2">Cash</option>
-                            <option value="3">Coupons</option>
+                            <option {{if $value.PaymentMode !== 'Credit Card' && $value.PaymentMode !== 'Cash' && $value.PaymentMode !== 'Coupons'}} selected {{/if}} value="-1">Payment Type</option>
+                            <option {{if $value.PaymentMode === 'Credit Card'}}selected {{/if}} value="1">Credit Card</option>
+                            <option {{if $value.PaymentMode === 'Cash'}} selected {{/if}} value="2">Cash</option>
+                            <option {{if $value.PaymentMode === 'Coupons'}} selected {{/if}} value="3">Coupons</option>
                         </select>
                     </td>
                     <td>$<input id="paymentVal" value="${$value.PaymentValue}" onkeyup="OnTaxValChange(event, this)" /></td>

@@ -136,6 +136,10 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         eventMoveHandling: "Update",
         eventResizeHandling: "Disabled",
         allowEventOverlap: false,
+        eventDoubleClickHandling : "Enabled",
+        onEventDoubleClick: function (args) {
+            alert("Event with id " + args.e.id() + " was double-clicked");
+        },
         //onBeforeCellRender: function (args) {
         //},
         onEventMoved: function (args) {
