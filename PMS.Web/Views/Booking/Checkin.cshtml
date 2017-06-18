@@ -19,6 +19,25 @@
             gcm.CalculateInvoice();
         }
 
+
+
+        function getDate(date) {
+            var result = new Date(date);
+            result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
+            return result;
+        }
+
+        function getDays(startDate, endDate) {
+            var millisecondsPerDay = 24 * 60 * 60 * 1000;
+            var result = Math.floor((getDate(endDate) - getDate(startDate)) / millisecondsPerDay);
+            if (result <= 0)
+                result = 1;
+
+            return result;
+        }
+
+        alert(daysBetween($('#first').val(), $('#second').val()));
+
         //function OnHourlyCbChecked() {
         //    var cmbHours = $('#hoursComboBox');
         //    var chkHours = $('#hourCheckin')[0];
@@ -131,6 +150,16 @@
             var checkOutDate = document.getElementById('dateTo');
             cmbHours.disabled = chkHours.checked ? false : true;
             checkOutDate.disabled = chkHours.checked ? true : false;
+
+            var checkInDate = document.getElementById('dateFrom');
+
+            var dtStart = new Date($('#dateFrom').val());
+            var dtEnd = new Date($('#dateTo').val());
+
+            if (!dtStart.toLocaleString().includes("Invalid") && !dtEnd.toLocaleString().includes("Invalid"))
+            {
+                alert(getDays(dtStart, dtEnd));
+            }
         }
         
         function OnCountryChange(isDdlCountryChange) {
