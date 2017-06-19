@@ -755,7 +755,7 @@ namespace PMS.Resources.DAL
                 {
                     foreach (var roomBooking in distinctRoomBookings)
                     {
-                        booking.RoomBookings.Add(new PmsEntity.RoomBooking { RoomId = roomBooking.RoomID, Id = roomBooking.ID.Value, GuestID = roomBooking.GuestID.Value });
+                        booking.RoomBookings.Add(new PmsEntity.RoomBooking { RoomId = roomBooking.RoomID, Id = roomBooking.ID, GuestID = roomBooking.GuestID });
                     }
                 }
 
@@ -776,7 +776,7 @@ namespace PMS.Resources.DAL
                 {
                     foreach (var additionalGuest in distinctAdditionalGuests)
                     {
-                        booking.AdditionalGuests.Add(new PmsEntity.AdditionalGuest { FirstName = additionalGuest.FirstName, LastName = additionalGuest.LastName, Gender = additionalGuest.Gender, GUESTIDPath = additionalGuest.GUESTIDPath, Id = additionalGuest.Id.Value, BookingId = booking.Id });
+                        booking.AdditionalGuests.Add(new PmsEntity.AdditionalGuest { FirstName = additionalGuest.FirstName, LastName = additionalGuest.LastName, Gender = additionalGuest.Gender, GUESTIDPath = additionalGuest.GUESTIDPath, Id = additionalGuest.Id, BookingId = booking.Id });
                     }
                 }
 
@@ -798,7 +798,7 @@ namespace PMS.Resources.DAL
                 {
                     foreach (var guestMapping in distinctGuestsMapping)
                     {
-                        booking.GuestMappings.Add(new PmsEntity.GuestMapping { Id = guestMapping.Id.Value, IDTYPEID = guestMapping.IDTYPEID.Value, GUESTID = guestMapping.GUESTID.Value, IDDETAILS = guestMapping.IDDETAILS, IdExpiryDate = guestMapping.IdExpiryDate.Value, IdIssueState = guestMapping.IdIssueState, IdIssueCountry = guestMapping.IdIssueCountry });
+                        booking.GuestMappings.Add(new PmsEntity.GuestMapping { Id = guestMapping.Id, IDTYPEID = guestMapping.IDTYPEID, GUESTID = guestMapping.GUESTID, IDDETAILS = guestMapping.IDDETAILS, IdExpiryDate = guestMapping.IdExpiryDate.Value, IdIssueState = guestMapping.IdIssueState, IdIssueCountry = guestMapping.IdIssueCountry });
                     }
                 }
 
@@ -821,7 +821,7 @@ namespace PMS.Resources.DAL
                 {
                     foreach (var guest in distinctGuests)
                     {
-                        booking.Guests.Add(new PmsEntity.Guest { Id = guest.GuestID.Value, FirstName = guest.FirstName, LastName = guest.LastName, MobileNumber = guest.MobileNumber, EmailAddress = guest.EmailAddress, DOB = guest.DOB, PhotoPath = guest.PhotoPath, Gender = guest.Gender });
+                        booking.Guests.Add(new PmsEntity.Guest { Id = guest.GuestID, FirstName = guest.FirstName, LastName = guest.LastName, MobileNumber = guest.MobileNumber, EmailAddress = guest.EmailAddress, DOB = guest.DOB, PhotoPath = guest.PhotoPath, Gender = guest.Gender });
                     }
                 }
 
