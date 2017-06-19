@@ -262,6 +262,11 @@ namespace PMS.Resources.Logic
             return DalFactory.GetInvoiceById(invoiceId);
         }
 
+        public PmsEntity.Booking GetBookingById(int bookingId)
+        {
+            return DalFactory.GetBookingById(bookingId);
+        }
+
         #region helper methods 
         private string RemoveXmlDefaultNode(string xml)
         {

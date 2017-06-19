@@ -60,6 +60,7 @@ namespace PMS.Resources.DAL
         List<PmsEntity.Tax> GetPaymentCharges(int? propertyId, int? roomTypeId, int? rateTypeId, int? noOfHours, bool? IsHourly);
         int AddInvoice(int propertyId, string invoiceXml);
         PmsEntity.Invoice GetInvoiceById(int invoiceId);
+        PmsEntity.Booking GetBookingById(int bookingId);
     }
 }
 

@@ -745,9 +745,9 @@ namespace PMS.Resources.DAL
                 var distinctRoomBookings = resultSet.AsEnumerable()
                         .Select(row => new
                         {
-                            RoomID = row.RoomBookingRoomId.Value,
-                            ID = row.RoomBookingID,
-                            GuestID = row.RoomBookingGuestID
+                            RoomID = (row.RoomBookingRoomId.HasValue) ? row.RoomBookingRoomId.Value : default(int) ,
+                            ID = (row.RoomBookingID.HasValue)? row.RoomBookingID.Value : default(int),
+                            GuestID = (row.RoomBookingGuestID.HasValue)? row.RoomBookingGuestID.Value : default(int)
                         })
                         .Distinct().ToList();
 
@@ -768,7 +768,7 @@ namespace PMS.Resources.DAL
                         LastName = row.AdditionalGuestLastName,
                         GUESTIDPath = row.AdditionalGuestIDPath,
                         Gender = row.AdditionalGuestGender,
-                        Id = row.AdditionalGuestID
+                        Id = (row.AdditionalGuestID.HasValue)? row.AdditionalGuestID.Value:default(int)
                     })
                     .Distinct().ToList();
 
@@ -785,13 +785,13 @@ namespace PMS.Resources.DAL
                 var distinctGuestsMapping = resultSet.AsEnumerable()
                     .Select(row => new
                     {
-                        IDTYPEID = row.IDTYPEID,
-                        GUESTID = row.GuestMappingGuestID,
+                        IDTYPEID = (row.IDTYPEID.HasValue)? row.IDTYPEID.Value:default(int) ,
+                        GUESTID = (row.GuestMappingGuestID.HasValue) ? row.GuestMappingGuestID.Value : default(int),
                         IDDETAILS = row.GuestMappingIDDETAILS,
                         IdExpiryDate = row.IDExpiryDate,
                         IdIssueState = row.IDIssueState,
                         IdIssueCountry = row.IDIssueCountry,
-                        Id = row.GuestMappingId
+                        Id = (row.GuestMappingId.HasValue)? row.GuestMappingId.Value:default(int)
                     }).Distinct().ToList();
 
                 if (distinctGuestsMapping != null && distinctGuestsMapping.Count > 0)
@@ -807,7 +807,7 @@ namespace PMS.Resources.DAL
                 var distinctGuests = resultSet.AsEnumerable()
                     .Select(row => new
                     {
-                        GuestID = row.GuestID,
+                        GuestID = (row.GuestID.HasValue)? row.GuestID.Value:default(int),
                         FirstName = row.FirstName,
                         LastName = row.LastName,
                         MobileNumber = row.MobileNumber,

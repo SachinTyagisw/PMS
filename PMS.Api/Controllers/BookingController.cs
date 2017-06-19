@@ -238,6 +238,105 @@ namespace PMS.Api.Controllers
             return response;
         }
 
+
+
+        [HttpGet, ActionName("GetBookingById")]
+        public GetBookingResponseDto GetBookingById(int bookingId)
+        {
+            if (bookingId <= 0) throw new PmsException("Get Booking call failed.");
+
+            var queryParams = Request.GetQueryNameValuePairs();
+            
+            var response = new GetBookingResponseDto();
+
+            if (!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
+            {
+                var booking = _iPmsLogic.GetBookingById(bookingId);
+                response.Bookings = new List<Booking>();
+                response.Bookings.Add(booking);
+            }
+            else
+            {
+                //mock data
+                response.Bookings = new List<Resources.Entities.Booking>
+                {
+                    new Booking
+                    {
+                        CheckinTime = Convert.ToDateTime(String.Format("{0:s}", DateTime.Now)),
+                        CheckoutTime = Convert.ToDateTime(String.Format("{0:s}", DateTime.Now.AddHours(3))),
+                        RoomBookings = new List<RoomBooking>
+                        {
+                            new RoomBooking
+                            {
+                                Id = 100,
+                                Room = new Room
+                                {
+                                    Id = 1,
+                                    Number = "Room B"
+                                },
+                                Guest = new Guest
+                                {
+                                    Id = 11,
+                                    FirstName = "Tyagi",
+                                    LastName = "Sachin"
+
+                                }
+
+                            },
+                            new RoomBooking
+                            {
+                                Id = 200,
+                                Room = new Room
+                                {
+                                    Id = 2,
+                                    Number = "Room C"
+                                },
+                                Guest = new Guest
+                                {
+                                    Id = 22,
+                                    FirstName = "Sharma",
+                                    LastName = "Sachin"
+                                }
+                            },
+                            new RoomBooking
+                            {
+                                Id = 300,
+                                Room = new Room
+                                {
+                                    Id = 3,
+                                    Number = "Room D"
+                                },
+                                Guest = new Guest
+                                {
+                                    Id = 33,
+                                    FirstName = "Deepak",
+                                    LastName = "Sachin"
+                                }
+                            },
+                            new RoomBooking
+                            {
+                                Id = 400,
+                                Room = new Room
+                                {
+                                    Id = 4,
+                                    Number = "Room E"
+                                },
+                                Guest = new Guest
+                                {
+                                    Id = 44,
+                                    FirstName = "Sharma123",
+                                    LastName = "Sachin"
+                                }
+                            }
+                    }
+                }
+
+            };
+            }
+            return response;
+        }
+
+
         [HttpGet, ActionName("GetStateByCountry")]
         public GetStateResponseDto GetStateByCountry()
         {
