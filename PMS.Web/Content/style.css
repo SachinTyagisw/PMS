@@ -3479,9 +3479,25 @@ p {
 }
 .img-no-available {
     height: 410px; 
+    position: relative;
 }
-
-
+.img-no-available img {
+    width: 32%;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+.button-section {
+    margin: 0 auto;
+    display: table;
+    text-align: center;
+}
+.button-section .btn {
+    border-radius: 4px!important;
+}
 .panel-title a {
     display:block;
     width: 100%;
