@@ -24,7 +24,6 @@
     <link href="~/Content/lib/font-awesome.min.css" rel="stylesheet">
     <link href="~/Content/lib/themify-icons.css" rel="stylesheet">
     <link href="~/Content/lib/owl.theme.default.min.css" rel="stylesheet" />
-    <link href="~/Content/lib/sidebar.css" rel="stylesheet">
     <link href="~/Content/lib/bootstrap.min.css" rel="stylesheet">
     <link href="~/Content/lib/unix.css" rel="stylesheet">
     <link href="~/Content/Jquery/jquery-ui.min.css" rel="stylesheet">
@@ -47,7 +46,6 @@
     <!--comment below bundling js logic to unbundle js files -->
     @*<script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/jquery/lib")"></script>*@    
     <!--uncomment below js files to unbundle them -->
-    <script src="~/Scripts/Jquery/lib/sidebar.js"></script>
     <script src="~/Scripts/scripts.js"></script>
 
     <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/bootstrap")"></script>
@@ -78,19 +76,67 @@
     </head>
     <body class="sidebar-hide">
         <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
-            <div class="nano">
-                <div class="nano-content">
-                    <ul>
-                        <li><a href="#" class="green-c"><i class="ti-home"></i> Home </a></li>
-                        <li class="active"><a href="check-in.html" class="red-c"><i class="ti-view-list-alt"></i>Booking</a></li>
-                        <li><a href="#" class="blue-c"><i class="ti-files"></i>Dashboard</a></li>
-                        <li><a href="#" class="yellow-c"><i class="ti-view-list-alt"></i>Reports</a></li>
-                        <li><a href="#" class="purple-c"><i class="ti-calendar"></i> Rewards </a></li>
-                        <li><a href="#" class="mud-c"><i class="ti-user"></i>Forgot password</a></li>
-                        <li><a><i class="ti-close"></i> Logout</a></li>
-                    </ul>
-                </div>
-            </div>
+            <div class="area"></div>
+            <nav class="main-menu">
+                <ul>
+                    <li>
+                        <a href="#" class="green-c">
+                            <i class="fa fa-home fa-2x"></i>
+                            <span class="nav-text">
+                                Dashboard
+                            </span>
+                        </a>
+
+                    </li>
+                    <li class="has-subnav">
+                        <a href="#" class="red-c">
+                            <i class="fa fa-table fa-2x"></i>
+                            <span class="nav-text">
+                                Booking
+                            </span>
+                        </a>
+
+                    </li>
+                    <li class="has-subnav">
+                        <a href="#" class="blue-c">
+                            <i class="fa fa-list fa-2x"></i>
+                            <span class="nav-text">
+                                Reports
+                            </span>
+                        </a>
+
+                    </li>
+                    <li class="has-subnav">
+                        <a href="#" class="yellow-c">
+                            <i class="fa fa-laptop fa-2x"></i>
+                            <span class="nav-text">
+                                Rewards
+                            </span>
+                        </a>
+
+                    </li>
+                    <li>
+                        <a href="#" class="purple-c">
+                            <i class="fa fa-font fa-2x"></i>
+                            <span class="nav-text">
+                                Change password
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="logout">
+                    <li>
+                        <a href="#" class="mud-c">
+                            <i class="fa fa-power-off fa-2x"></i>
+                            <span class="nav-text">
+                                Logout
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
         </div><!-- /# sidebar -->
 
         <div class="header">
