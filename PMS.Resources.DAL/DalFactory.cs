@@ -703,6 +703,12 @@ namespace PMS.Resources.DAL
         public PmsEntity.Booking GetBookingById(int bookingId)
         {
             var booking = new PmsEntity.Booking();
+            booking.RoomBookings = new List<PmsEntity.RoomBooking>();
+            booking.Guests = new List<PmsEntity.Guest>();
+            booking.AdditionalGuests = new List<PmsEntity.AdditionalGuest>();
+            booking.Addresses = new List<PmsEntity.Address>();
+            booking.GuestMappings = new List<PmsEntity.GuestMapping>();
+
             var roomBookings = new List<PmsEntity.RoomBooking>();
             var guests = new List<PmsEntity.Guest>();
             var addresses = new List<PmsEntity.Address>();
@@ -712,34 +718,28 @@ namespace PMS.Resources.DAL
             using (var pmsContext = new PmsEntities())
             {
                 var resultSet = pmsContext.GetBookingDetails(bookingId).ToList();
-                if (resultSet == null) return booking;
+                if (resultSet == null || resultSet.Count <= 0) return booking;
 
                 //Populate Booking Object
 
-                var bookingInformation = resultSet.First();
-                if (bookingInformation != null)
-                {
-                    booking.Id = bookingInformation.BookingID;
-                    booking.CheckinTime = bookingInformation.CheckinTime;
-                    booking.CheckoutTime = bookingInformation.CheckoutTime;
-                    booking.NoOfAdult = bookingInformation.NoOfAdult;
-                    booking.NoOfChild = bookingInformation.NoOfChild;
-                    booking.GuestRemarks = bookingInformation.GuestRemarks;
-                    booking.TransactionRemarks = bookingInformation.TransactionRemarks;
-                    booking.IsActive = bookingInformation.IsActive;
-                    booking.ISHOURLYCHECKIN = bookingInformation.ISHOURLYCHECKIN;
-                    booking.HOURSTOSTAY = bookingInformation.HOURSTOSTAY;
-                    booking.CreatedBy = bookingInformation.CreatedBy;
-                    booking.CreatedOn = bookingInformation.CreatedOn;
-                    booking.LastUpdatedBy = bookingInformation.LastUpdatedBy;
-                    booking.LastUpdatedOn = bookingInformation.LastUpdatedOn;
-                    booking.Status = bookingInformation.Status;
-                }
-                else
-                {
-                    return null;
-                }
-
+                var bookingInformation = resultSet.FirstOrDefault();
+                if (bookingInformation == null) return booking;
+                
+                booking.Id = bookingInformation.BookingID;
+                booking.CheckinTime = bookingInformation.CheckinTime;
+                booking.CheckoutTime = bookingInformation.CheckoutTime;
+                booking.NoOfAdult = bookingInformation.NoOfAdult;
+                booking.NoOfChild = bookingInformation.NoOfChild;
+                booking.GuestRemarks = bookingInformation.GuestRemarks;
+                booking.TransactionRemarks = bookingInformation.TransactionRemarks;
+                booking.IsActive = bookingInformation.IsActive;
+                booking.ISHOURLYCHECKIN = bookingInformation.ISHOURLYCHECKIN;
+                booking.HOURSTOSTAY = bookingInformation.HOURSTOSTAY;
+                booking.CreatedBy = bookingInformation.CreatedBy;
+                booking.CreatedOn = bookingInformation.CreatedOn;
+                booking.LastUpdatedBy = bookingInformation.LastUpdatedBy;
+                booking.LastUpdatedOn = bookingInformation.LastUpdatedOn;
+                booking.Status = bookingInformation.Status;
 
                 //Populate RoomBooking
                 var distinctRoomBookings = resultSet.AsEnumerable()

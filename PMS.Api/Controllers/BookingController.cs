@@ -59,6 +59,14 @@ namespace PMS.Api.Controllers
              );
 
             config.Routes.MapHttpRoute(
+             "GetBookingById",
+             "api/v1/Booking/GetBookingById/{bookingId}",
+             new { controller = "Booking", action = "GetBookingById" },
+             constraints: new { bookingId = RegExConstants.NumericRegEx }
+             );
+
+            
+            config.Routes.MapHttpRoute(
              "UpdateBooking",
              "api/v1/Booking/UpdateBooking",
              new { controller = "Booking", action = "UpdateBooking" }
@@ -244,8 +252,6 @@ namespace PMS.Api.Controllers
         public GetBookingResponseDto GetBookingById(int bookingId)
         {
             if (bookingId <= 0) throw new PmsException("Get Booking call failed.");
-
-            var queryParams = Request.GetQueryNameValuePairs();
             
             var response = new GetBookingResponseDto();
 
