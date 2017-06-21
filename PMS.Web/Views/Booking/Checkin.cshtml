@@ -139,7 +139,7 @@
 
             if (!dtStart.toLocaleString().includes("Invalid") && !dtEnd.toLocaleString().includes("Invalid"))
             {
-                alert(getDays(dtStart, dtEnd));
+                //alert(getDays(dtStart, dtEnd));
             }
         }
         
@@ -245,8 +245,8 @@
 
             //if user is navigated to checkin screen from dashboard screen with bookingid in session storage
             if (pmsSession.GetItem("bookingId")) {
-                var bookingId = pmsSession.GetItem("bookingId");
-                alert(bookingId);
+                var bookingId = pmsSession.GetItem("bookingId");                
+                gcm.GetBookingById(bookingId);
             }
 
             //once bookingId is retrive then clear sessionstorage

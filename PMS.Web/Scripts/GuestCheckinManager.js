@@ -488,7 +488,45 @@
             paymentChargeRequestDto.NoOfHours = $('#hourCheckin')[0].checked && parseInt(noOfHours) > 0 ? parseInt(noOfHours) : 0;
         
             pmsService.GetPaymentCharges(paymentChargeRequestDto);
-        }    
+        },
+
+        GetBookingById: function (bookingId) {
+            if (bookingId <= 0) return;
+            args.bookingId = bookingId;
+            window.GuestCheckinManager.BookingDto.BookingId = bookingId;
+            pmsService.GetBookingById(args);
+        },
+
+        PopulateUi: function (data) {
+            var guest = data[0].Guests[0];
+            var invoice = data[0].Invoice;
+            var roombooking = data[0].RoomBookings[0];
+            var address = data[0].Addresses[0];
+            var additionalguest = data[0].AdditionalGuests[0];
+            var guestmapping = data[0].GuestMappings[0];
+
+            window.GuestCheckinManager.BookingDto.GuestId = guest && guest.Id && guest.Id > 0 ? guest.Id : -1;
+            window.GuestCheckinManager.BookingDto.InvoiceId = invoice && invoice.Id && invoice.Id > 0 ? invoice.Id : -1;
+            window.GuestCheckinManager.BookingDto.RoomBookingId = roombooking && roombooking.Id && roombooking.Id > 0 ? roombooking.Id : -1;
+            window.GuestCheckinManager.BookingDto.AddressId = address && address.Id && address.Id > 0 ? address.Id : -1;
+            window.GuestCheckinManager.BookingDto.AdditionalGuestId = additionalguest && additionalguest.Id && additionalguest.Id > 0 ? additionalguest.Id : -1;
+            window.GuestCheckinManager.BookingDto.GuestMappingId = guestmapping && guestmapping.Id && guestmapping.Id > 0 ? guestmapping.Id : -1;
+            window.GuestCheckinManager.BookingDto.PropertyId = getPropertyId();
+
+            populateRoomDetails(data);
+
+            if (guest) {
+                populateGuestDetails(guest);
+            }
+
+            if (guestmapping) {
+                populateGuestMapping(guestmapping);
+            }
+
+            if (additionalguest) {
+                populateAdditionalGuest(additionalguest);
+            }
+        }
         
         //DateDiff: function () {
         //    //var dateFrom = $('#dateFrom').val();
@@ -510,6 +548,42 @@
 
         //}
     };
+
+    function populateAdditionalGuest(additionalguest) {
+        $('#adFName').val(additionalguest.FirstName);
+        $('#adLName').val(additionalguest.LastName);
+    }
+
+    function populateGuestMapping(guestmapping) {
+        $("#ddlIdType").val(guestmapping.IDTYPEID);
+        $("#idDetails").val(guestmapping.IDDETAILS);
+        $("#idExpiry").val(guestmapping.IdExpiryDate);
+    }
+
+    function populateGuestDetails(guest) {
+        //$( "#ddlIdType option:selected" ).text();
+        $('#fName').val(guest.FirstName);
+        $('#lName').val(guest.LastName);
+        $('#phone').val(guest.MobileNumber);
+        $('#email').val(guest.EmailAddress);
+        $('#dob').val(guest.DOB);
+        $('#ddlInitials').val(guest.Gender);
+        //TODO: set upload image
+        //PhotoPath
+    }
+
+    function populateRoomDetails(data) {
+        $('#hourCheckin')[0].checked = data[0].ISHOURLYCHECKIN;
+        $('#hoursComboBox').prop("disabled", !$('#hourCheckin')[0].checked);
+        $('#dateFrom').val(data[0].CheckinTime);
+        $('#dateTo').val(data[0].CheckoutTime);
+        data[0].NoOfAdult > 0 ? $("#ddlAdults").val(data[0].NoOfAdult) : $("#ddlAdults").val(0);
+        data[0].NoOfChild > 0 ? $("#ddlChild").val(data[0].NoOfChild) : $("#ddlChild").val(0);
+        $('#transRemarks').val(data[0].TransactionRemarks);
+        $('#guestComments').val(data[0].GuestRemarks);
+        //$('#roomTypeDdl').val();
+        //$('#roomddl').val();
+    }
 
     function getDate(date) {
         var result = new Date(date);
@@ -1205,6 +1279,7 @@
 
         pmsService.Handlers.OnGetInvoiceByIdSuccess = function (data) {
             if (!data || !data.Invoice || !data.Invoice.Tax || data.Invoice.Tax.length <= 0) return;
+            $('#saveInvoice').attr("disabled", false);
             window.GuestCheckinManager.invoiceData = null;
             window.GuestCheckinManager.invoiceData = data;
             window.GuestCheckinManager.PopulateCharges(data);
@@ -1212,6 +1287,15 @@
         pmsService.Handlers.OnGetInvoiceByIdFailure = function () {
             // show error log
             console.error("get invoice call failed");
+        };
+
+        pmsService.Handlers.OnGetBookingByIdSuccess = function (data) {
+            if (!data || !data.Bookings || data.Bookings.length <= 0) return;            
+            window.GuestCheckinManager.PopulateUi(data.Bookings);
+        };
+        pmsService.Handlers.OnGetBookingByIdFailure = function () {
+            // show error log
+            console.error("get booking call failed");
         };
 
         //pmsService.Handlers.OnGetRoomByPropertySuccess = function (data) {

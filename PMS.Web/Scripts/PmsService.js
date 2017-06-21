@@ -34,6 +34,12 @@
             OnAddInvoiceFailure: null,
             OnGetInvoiceByIdSuccess: null,
             OnGetInvoiceByIdFailure: null,
+            OnGetBookingByIdSuccess: null,
+            OnGetBookingByIdFailure: null,
+        };
+        
+        this.GetBookingById = function (args) {
+            makeAjaxRequestGet(args, "GetBookingById", this, "api/v1/Booking/GetBookingById/" + args.bookingId);
         };
 
         this.GetInvoiceById = function (args) {
