@@ -242,6 +242,16 @@
         }
 
         function init() {
+
+            //if user is navigated to checkin screen from dashboard screen with bookingid in session storage
+            if (pmsSession.GetItem("bookingId")) {
+                var bookingId = pmsSession.GetItem("bookingId");
+                alert(bookingId);
+            }
+
+            //once bookingId is retrive then clear sessionstorage
+            pmsSession.RemoveItem("bookingId");
+
             //if user is navigated to checkin screen from dashboard screen
             if (pmsSession.GetItem("dtcheckin") && pmsSession.GetItem("dtcheckout")) {
                 $("#dateFrom").val(pmsSession.GetItem("dtcheckin"));

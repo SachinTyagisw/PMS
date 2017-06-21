@@ -138,7 +138,9 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         allowEventOverlap: false,
         eventDoubleClickHandling : "Enabled",
         onEventDoubleClick: function (args) {
-            alert("Event with id " + args.e.id() + " was double-clicked");
+            pmsSession.RemoveItem("bookingId");
+            pmsSession.SetItem("bookingId", args.e.id());
+            redirectionSvc.RedirectToCheckin();
         },
         //onBeforeCellRender: function (args) {
         //},
