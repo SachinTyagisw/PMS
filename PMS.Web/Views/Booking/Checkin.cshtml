@@ -294,6 +294,7 @@
             });
 
             $("#loadInvoice").click(function () {
+                $('.img-no-available').hide();
                 var invoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
                 if (invoiceId === -1) {
                     gcm.GetPaymentCharges();

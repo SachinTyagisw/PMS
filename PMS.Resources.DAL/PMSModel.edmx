@@ -2141,6 +2141,20 @@
           <Property Type="DateTime" Name="DOB" Nullable="true" />
           <Property Type="String" Name="Gender" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="PhotoPath" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="InvoiceId" Nullable="true" />
+          <Property Type="Int32" Name="RoomTypeID" Nullable="true" />
+          <Property Type="String" Name="RoomTypeName" Nullable="true" />
+          <Property Type="String" Name="RoomTypeShortName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="RoomID" Nullable="true" />
+          <Property Type="String" Name="RoomNumber" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="AddressID" Nullable="true" />
+          <Property Type="Int32" Name="AddressTypeID" Nullable="true" />
+          <Property Type="String" Name="Address1" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Address2" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="AddressCity" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="AddressState" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="AddressZipCode" Nullable="true" MaxLength="40" />
+          <Property Type="String" Name="AddressCountry" Nullable="true" MaxLength="200" />
         </ComplexType>
         <ComplexType Name="GETGUESTTRANSACTIONS_Result">
           <Property Type="String" Name="PROPERTY" Nullable="true" />
@@ -2725,6 +2739,20 @@
                 <ScalarProperty Name="DOB" ColumnName="DOB" />
                 <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+                <ScalarProperty Name="RoomTypeID" ColumnName="RoomTypeID" />
+                <ScalarProperty Name="RoomTypeName" ColumnName="RoomTypeName" />
+                <ScalarProperty Name="RoomTypeShortName" ColumnName="RoomTypeShortName" />
+                <ScalarProperty Name="RoomID" ColumnName="RoomID" />
+                <ScalarProperty Name="RoomNumber" ColumnName="RoomNumber" />
+                <ScalarProperty Name="AddressID" ColumnName="AddressID" />
+                <ScalarProperty Name="AddressTypeID" ColumnName="AddressTypeID" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="AddressCity" ColumnName="AddressCity" />
+                <ScalarProperty Name="AddressState" ColumnName="AddressState" />
+                <ScalarProperty Name="AddressZipCode" ColumnName="AddressZipCode" />
+                <ScalarProperty Name="AddressCountry" ColumnName="AddressCountry" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

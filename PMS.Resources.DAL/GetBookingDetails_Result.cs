@@ -52,5 +52,19 @@ namespace PMS.Resources.DAL
         public Nullable<System.DateTime> DOB { get; set; }
         public string Gender { get; set; }
         public string PhotoPath { get; set; }
+        public Nullable<int> InvoiceId { get; set; }
+        public Nullable<int> RoomTypeID { get; set; }
+        public string RoomTypeName { get; set; }
+        public string RoomTypeShortName { get; set; }
+        public Nullable<int> RoomID { get; set; }
+        public string RoomNumber { get; set; }
+        public Nullable<int> AddressID { get; set; }
+        public Nullable<int> AddressTypeID { get; set; }
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
+        public string AddressCity { get; set; }
+        public string AddressState { get; set; }
+        public string AddressZipCode { get; set; }
+        public string AddressCountry { get; set; }
     }
 }

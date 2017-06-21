@@ -568,8 +568,7 @@
         $('#email').val(guest.EmailAddress);
         $('#dob').val(guest.DOB);
         $('#ddlInitials').val(guest.Gender);
-        //TODO: set upload image
-        //PhotoPath
+        //$('#uploadPhoto').val(guest.PhotoPath);
     }
 
     function populateRoomDetails(data) {
