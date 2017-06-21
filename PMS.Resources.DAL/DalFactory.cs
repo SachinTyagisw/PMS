@@ -708,6 +708,7 @@ namespace PMS.Resources.DAL
             booking.AdditionalGuests = new List<PmsEntity.AdditionalGuest>();
             booking.Addresses = new List<PmsEntity.Address>();
             booking.GuestMappings = new List<PmsEntity.GuestMapping>();
+            booking.Invoice = new PmsEntity.Invoice();
 
             var roomBookings = new List<PmsEntity.RoomBooking>();
             var guests = new List<PmsEntity.Guest>();
@@ -740,6 +741,7 @@ namespace PMS.Resources.DAL
                 booking.LastUpdatedBy = bookingInformation.LastUpdatedBy;
                 booking.LastUpdatedOn = bookingInformation.LastUpdatedOn;
                 booking.Status = bookingInformation.Status;
+                booking.Invoice.Id = bookingInformation.InvoiceId.HasValue ? Convert.ToInt32(bookingInformation.InvoiceId) : -1;
 
                 //Populate RoomBooking
                 var distinctRoomBookings = resultSet.AsEnumerable()
