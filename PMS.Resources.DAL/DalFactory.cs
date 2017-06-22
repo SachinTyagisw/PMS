@@ -749,7 +749,10 @@ namespace PMS.Resources.DAL
                         {
                             RoomID = (row.RoomBookingRoomId.HasValue) ? row.RoomBookingRoomId.Value : default(int) ,
                             ID = (row.RoomBookingID.HasValue)? row.RoomBookingID.Value : default(int),
-                            GuestID = (row.RoomBookingGuestID.HasValue)? row.RoomBookingGuestID.Value : default(int)
+                            GuestID = (row.RoomBookingGuestID.HasValue)? row.RoomBookingGuestID.Value : default(int),
+                            RoomTypeId = (row.RoomTypeID.HasValue) ? row.RoomTypeID.Value : default(int),
+                            RoomTypeName = row.RoomTypeName,
+                            RoomNumber = row.RoomNumber
                         })
                         .Distinct().ToList();
 
@@ -757,7 +760,7 @@ namespace PMS.Resources.DAL
                 {
                     foreach (var roomBooking in distinctRoomBookings)
                     {
-                        booking.RoomBookings.Add(new PmsEntity.RoomBooking { RoomId = roomBooking.RoomID, Id = roomBooking.ID, GuestID = roomBooking.GuestID });
+                        booking.RoomBookings.Add(new PmsEntity.RoomBooking { Id = roomBooking.ID, GuestID = roomBooking.GuestID, Room = new PmsEntity.Room { Id = roomBooking.RoomID, Number = roomBooking.RoomNumber, RoomType = new PmsEntity.RoomType { Name = roomBooking.RoomTypeName, Id = roomBooking.RoomTypeId } } });
                     }
                 }
 
@@ -824,6 +827,28 @@ namespace PMS.Resources.DAL
                     foreach (var guest in distinctGuests)
                     {
                         booking.Guests.Add(new PmsEntity.Guest { Id = guest.GuestID, FirstName = guest.FirstName, LastName = guest.LastName, MobileNumber = guest.MobileNumber, EmailAddress = guest.EmailAddress, DOB = guest.DOB, PhotoPath = guest.PhotoPath, Gender = guest.Gender });
+                    }
+                }
+
+                //Populate Address
+                var distinctAddress = resultSet.AsEnumerable()
+                    .Select(row => new
+                    {
+                        AddressId = (row.AddressID.HasValue) ? row.AddressID.Value : default(int),
+                        AddressTypeId = (row.AddressTypeID.HasValue) ? row.AddressTypeID.Value : default(int),
+                        Address1 = row.Address1,
+                        Address2 = row.Address2,
+                        City = row.AddressCity,
+                        State = row.AddressState,
+                        Zipcode = row.AddressZipCode,
+                        Country = row.AddressCountry
+                    }).Distinct().ToList();
+
+                if (distinctAddress != null && distinctAddress.Count > 0)
+                {
+                    foreach (var address in distinctAddress)
+                    {
+                        booking.Addresses.Add(new PmsEntity.Address { Id = address.AddressId, Address1 = address.Address1, Address2 = address.Address2, City = address.City , State = address.State, Country = address.Country, ZipCode = address.Zipcode, AddressTypeID = address.AddressTypeId });
                     }
                 }
 
