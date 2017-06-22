@@ -526,7 +526,55 @@
             if (additionalguest) {
                 populateAdditionalGuest(additionalguest);
             }
-        }
+
+            if (address) {
+                populateAddress(address);
+            }
+        },
+
+        ClearAllFields: function () {
+            $("#fName").val('');
+            $("#lName").val('');
+            $("#dateFrom").val('');
+            $("#dateTo").val('');
+            $('#roomTypeDdl').val('-1');
+            $('#rateTypeDdl').val('-1');
+            $('#ddlIdType').val('-1');
+            $('#roomddl').empty();
+            $("#searchGuest").val('');            
+            $('#idDetails').val('');
+            $('#zipCode').val('');
+            $('#phone').val('');
+            $('#email').val('');
+            $('#address').val('');
+            $('#transRemarks').val('');
+            $('#guestComments').val('');
+            $("#ddlAdults").val('0');
+            $("#ddlChild").val('0');
+            $("#dob").val('');
+            $("#idExpiry").val('');
+            $("#adFName").val('');
+            $("#adLName").val('');
+            $('#ddlIdType').val('-1');
+            $('#ddlIdCountry').val('-1');
+            $('#ddlCountry').val('-1');
+            $('#ddlState').empty();
+            $('#ddlIdState').empty();
+            $('#ddlCity').empty();
+            $('#saveInvoice').attr("disabled", true);
+            $('#btnCheckin').attr("disabled", false);
+            $('.img-no-available').show();
+            $('#hourCheckin')[0].checked = false;
+            $('#hoursComboBox').prop("disabled", true);
+            //TODO: clear payment summary
+            window.GuestCheckinManager.BookingDto.GuestId = null;
+            window.GuestCheckinManager.BookingDto.InvoiceId = null;
+            window.GuestCheckinManager.BookingDto.RoomBookingId = null;
+            window.GuestCheckinManager.BookingDto.AddressId = null;
+            window.GuestCheckinManager.BookingDto.AdditionalGuestId = null;
+            window.GuestCheckinManager.BookingDto.GuestMappingId = null;
+            window.GuestCheckinManager.AutoCollapseGuestHistory();
+        },
         
         //DateDiff: function () {
         //    //var dateFrom = $('#dateFrom').val();
@@ -549,6 +597,17 @@
         //}
     };
 
+    function populateAddress(address) {
+        $('#address').val(address.Address1);
+        $('#zipCode').val(address.ZipCode);
+        $('#ddlCountry').empty();
+        $('#ddlState').empty();
+        $('#ddlCity').empty();
+        $('#ddlCountry').append(new Option(address.Country, address.Country));
+        $('#ddlState').append(new Option(address.State, address.State));
+        $('#ddlCity').append(new Option(address.City, address.City));
+    }
+
     function populateAdditionalGuest(additionalguest) {
         $('#adFName').val(additionalguest.FirstName);
         $('#adLName').val(additionalguest.LastName);
@@ -558,10 +617,13 @@
         $("#ddlIdType").val(guestmapping.IDTYPEID);
         $("#idDetails").val(guestmapping.IDDETAILS);
         $("#idExpiry").val(guestmapping.IdExpiryDate);
+        $('#ddlIdCountry').empty();
+        $('#ddlIdState').empty();
+        $('#ddlIdCountry').append(new Option(guestmapping.IdIssueCountry, guestmapping.IdIssueCountry));
+        $('#ddlIdState').append(new Option(guestmapping.IdIssueState, guestmapping.IdIssueState));
     }
 
     function populateGuestDetails(guest) {
-        //$( "#ddlIdType option:selected" ).text();
         $('#fName').val(guest.FirstName);
         $('#lName').val(guest.LastName);
         $('#phone').val(guest.MobileNumber);
@@ -581,8 +643,11 @@
         data[0].NoOfChild > 0 ? $("#ddlChild").val(data[0].NoOfChild) : $("#ddlChild").val(0);
         $('#transRemarks').val(data[0].TransactionRemarks);
         $('#guestComments').val(data[0].GuestRemarks);
-        //$('#roomTypeDdl').val();
-        //$('#roomddl').val();
+        $('#roomTypeDdl').empty();
+        $('#roomddl').empty();
+        $('#rateTypeDdl').val('-1');
+        $('#roomTypeDdl').append(new Option(data[0].RoomBookings[0].Room.RoomType.Name, data[0].RoomBookings[0].Room.RoomType.Id));
+        $('#roomddl').append(new Option(data[0].RoomBookings[0].Room.Number, data[0].RoomBookings[0].Room.Id));
     }
 
     function getDate(date) {
@@ -627,9 +692,9 @@
         var address = {};
 
         address.Id = window.GuestCheckinManager.BookingDto.AddressId ? window.GuestCheckinManager.BookingDto.AddressId : -1;
-        address.City = $('#ddlCity').val();
-        address.State = $('#ddlState').val();
-        address.Country = $('#ddlCountry').val();
+        address.City = $("#ddlCity option:selected").text();
+        address.State = $("#ddlState option:selected").text();
+        address.Country = $("#ddlCountry option:selected").text();
         address.ZipCode = $('#zipCode').val();
         address.Address1 = $('#address').val();
         //TODO : update with address2 field
@@ -680,12 +745,11 @@
 
         guestMapping.Id = window.GuestCheckinManager.BookingDto.GuestMappingId ? window.GuestCheckinManager.BookingDto.GuestMappingId : -1;
         guestMapping.GUESTID = window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;
-        //$( "#ddlIdType option:selected" ).text();
         guestMapping.IDTYPEID = $('#ddlIdType').val();
         guestMapping.IDDETAILS = $('#idDetails').val();
         guestMapping.IdExpiryDate = $('#idExpiry').val();
-        guestMapping.IdIssueState = $('#ddlIdState').val();
-        guestMapping.IdIssueCountry = $('#ddlIdCountry').val();
+        guestMapping.IdIssueState = $("#ddlIdState option:selected").text();
+        guestMapping.IdIssueCountry = $("#ddlIdCountry option:selected").text();
         guestMapping.CreatedOn = getCurrentDate();
         guestMapping.IsActive = true;
         guestMapping.CreatedBy = getCreatedBy();        
@@ -1052,18 +1116,7 @@
             return false;
         }
         return true;
-    }
-    
-    function clearAllFields() {
-        $("#dateFrom").val('');
-        $("#dateTo").val('');
-        $('#roomTypeDdl').val('-1');
-        $('#roomddl').empty();
-        $("#searchGuest").val('');
-        window.GuestCheckinManager.BookingDto.GuestId = null;
-        $('#idDetails').val('');
-        window.GuestCheckinManager.AutoCollapseGuestHistory();
-    }
+    }   
 
     function bindGuestHistory(data){
         var divHistory = $('#divHistory');
@@ -1093,7 +1146,6 @@
             if (data.BookingId > 0 && data.GuestId > 0) {
                 window.GuestCheckinManager.BookingDto.BookingId = data.BookingId;
                 window.GuestCheckinManager.BookingDto.GuestId = data.GuestId;
-                // clearAllFields();
                 
                 $('#saveInvoice').attr("disabled", false);
                 var roomnumber = $('#roomddl').val();
