@@ -3034,8 +3034,8 @@ tbody tr td:last-child {
   color: #444444;
 }
 .booking-system-feedback {
-  bottom: -2px;
-  right: 15px;
+  bottom: -3px;
+  right: 0px;
   top: inherit;
 }
 .cal-pos {
@@ -3481,14 +3481,15 @@ a.mud-c {
     height: 410px; 
     position: relative;
 }
-.img-no-available img {
-    width: 32%;
+.img-no-available span {
+    width: 46%;
     position: absolute;
     margin: auto;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
+    height: 20px;
 }
 .button-section {
     margin: 0 auto;
@@ -3717,7 +3718,7 @@ height: 100%;
     display: block;
     width: 100%;
     height: 28px;
-    padding: 6px 4px;
+    padding: 5px 4px;
     font-size: 12px;
     line-height: 1.428571;
     color: #758494;
@@ -4320,6 +4321,9 @@ p
     border:none;
     width: 80px;
 }
+#invoice-table tbody tr td {
+    display: inline-table;
+}
 #invoice-table .remove {
     display: none;
 }
@@ -4337,8 +4341,20 @@ p
     width: 100%;
     display: inline-table;
 }
+#invoice-table tr.sortActive td:nth-child(1) {
+    width: 5%;
+}
 #invoice-table tr.sortActive td:nth-child(2) {
-    width: 50%;
+    width: 56%;
+    margin: 0 8px;
+}
+#invoice-table tr.sortActive td:nth-child(3) {
+    width: 18%;
+    text-align: left;
+    margin: 2px;
+}
+select#paymentTypeDdl {
+    width: 70%;
 }
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
     padding: 7px;

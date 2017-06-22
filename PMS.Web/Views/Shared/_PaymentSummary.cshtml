@@ -5,7 +5,7 @@
             </div>
             <div id="invoice-bot">
                 <div class="img-no-available">
-                    <img src="~/Images/summaryload.png" />
+                    <span>Click load to get payment summary</span>
                 </div>
                 <div id="invoice-table">
                     <div id="divInvoice">
@@ -37,7 +37,7 @@
                 <tr id="trOthertax" style="display:none;" class="sortActive remove">
                     <td><span class="glyphicon glyphicon-th-list"></span></td>
                     <td id="otherTaxText" contenteditable="true"></td>
-                    <td>$<input id="otherTaxVal" value="0.0" onkeyup="OnTaxValChange(event, this)" /></td>
+                    <td><input id="otherTaxVal" value="0.0" onkeyup="OnTaxValChange(event, this)" /></td>
                     <td></td>
                     <td><span class="tableRow-remove glyphicon glyphicon-trash"></span></td>
                 </tr>
@@ -45,27 +45,26 @@
                 {{if $value.IsDefaultCharges }}
                 <tr class="sortActive">
                     <td> <span class="glyphicon glyphicon-th-list"></span></td>
-                    <td>${$value.TaxName}</td>
+                    <td>{$value.TaxName}</td>
                     <td>
                         @*'ROOM CHARGES' is coming from SP and is always be fixed*@
                         {{if $value.TaxName === 'ROOM CHARGES' }}
-                        $<input id="baseRoomCharge" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
+                        <input id="baseRoomCharge" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
                         {{/if}}
                         {{if $value.TaxName === 'Total Room Charge' }}
-                        $<input id="totalRoomCharge" disabled="disabled" name="${$value.TaxName}" value="${$value.Value}" />
+                        <input id="totalRoomCharge" disabled="disabled" name="${$value.TaxName}" value="${$value.Value}" />
                         {{/if}}
                         {{if $value.TaxName !== 'Total Room Charge' && $value.TaxName !== 'ROOM CHARGES' }}
-                        $<input id="taxVal" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
+                        <input id="taxVal" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
                         {{/if}}
                     </td>
-                    <td></td>
                     <td></td>
                 </tr>
                 {{else}}
                 <tr id="trOthertax" style="display:block;" class="sortActive">
                     <td><span class="glyphicon glyphicon-th-list"></span></td>
                     <td id="otherTaxText" contenteditable="true">${$value.TaxName}</td>
-                    <td>$<input id="otherTaxVal" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" /></td>
+                    <td><input id="otherTaxVal" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" /></td>
                     <td></td>
                     <td><span class="tableRow-remove glyphicon glyphicon-trash"></span></td>
                 </tr>
@@ -74,8 +73,7 @@
                 <tr id="trDiscount" class="sortActive">
                     <td><span class="glyphicon glyphicon-th-list"></span></td>
                     <td>Discount</td>
-                    <td>$<input id="discount" onkeyup="OnTaxValChange(event, this)" class="color-danger" value="${typeof Discount != 'undefined' && Discount > 0 ? Discount : 0 }" /></td>
-                    <td></td>
+                    <td><input id="discount" onkeyup="OnTaxValChange(event, this)" class="color-danger" value="${typeof Discount != 'undefined' && Discount > 0 ? Discount : 0 }" /></td>
                     <td></td>
                 </tr>
                 @*{{if typeof Id != "undefined" && Id > 0 }}
@@ -104,7 +102,6 @@
                         <b class=""></b>
                     </td>
                     <td></td>
-                    <td></td>
                 </tr>
                 {{if typeof InvoicePaymentDetails != "undefined" && InvoicePaymentDetails.length > 0 }}
                 {{each(i,paymentDetail) InvoicePaymentDetails}}
@@ -119,7 +116,7 @@
                                         <option {{if paymentDetail.PaymentMode === 'Coupons'}} selected {{/if}} value="3">Coupons</option>
                                     </select>
                                 </td>
-                                <td>$<input id="paymentVal" value="${paymentDetail.PaymentValue}" onkeyup="OnTaxValChange(event, this)" /></td>
+                                <td><input id="paymentVal" value="${paymentDetail.PaymentValue}" onkeyup="OnTaxValChange(event, this)" /></td>
                                 <td></td>
                             </tr>
                             {{else}}
@@ -133,7 +130,7 @@
                                             <option {{if paymentDetail.PaymentMode === 'Coupons'}} selected {{/if}} value="3">Coupons</option>
                                         </select>
                                     </td>
-                                    <td>$<input id="paymentVal" value="${paymentDetail.PaymentValue}" onkeyup="OnTaxValChange(event, this)" /></td>
+                                    <td><input id="paymentVal" value="${paymentDetail.PaymentValue}" onkeyup="OnTaxValChange(event, this)" /></td>
                                     <td></td>
                                 </tr>
                         {{/if}}
@@ -150,7 +147,7 @@
                                 <option value="3">Coupons</option>
                             </select>
                         </td>
-                        <td>$<input id="paymentVal" value="0.0" onkeyup="OnTaxValChange(event, this)" /></td>
+                        <td><input id="paymentVal" value="0.0" onkeyup="OnTaxValChange(event, this)" /></td>
                         <td></td>
                     </tr>
                     {{/if}}
@@ -158,22 +155,19 @@
                     <tr id="trPayment" class="sortActive">
                         <td><span class="glyphicon glyphicon-th-list"></span></td>
                         <td>Total Payment</td>
-                        <td>$<input id="payment" disabled="disabled" value="0.0" /></td>
-                        <td></td>
+                        <td><input id="payment" disabled="disabled" value="0.0" /></td>
                         <td></td>
                     </tr>
                     <tr id="trBalance" class="sortActive">
                         <td><span class="glyphicon glyphicon-th-list"></span></td>
                         <td>Balance Summary</td>
-                        <td>$<input id="balance" disabled="disabled" value="0.0" /></td>
-                        <td></td>
+                        <td><input id="balance" disabled="disabled" value="0.0" /></td>
                         <td></td>
                     </tr>
                     <tr id="trCredit" class="sortActive">
                         <td><span class="glyphicon glyphicon-th-list"></span></td>
                         <td>Credit Remaining</td>
-                        <td>$<input id="credit" disabled="disabled" value="0.0" /></td>
-                        <td></td>
+                        <td><input id="credit" disabled="disabled" value="0.0" /></td>
                         <td></td>
                     </tr>
                     <tr id="trPaymentTypeOther" class="sortActive remove" style="display: none;">
@@ -186,8 +180,7 @@
                                 <option value="3">Coupons</option>
                             </select>
                         </td>
-                        <td>$<input id="paymentVal" value="0.0" onkeyup="OnTaxValChange(event, this)" /></td>
-                        <td></td>
+                        <td><input id="paymentVal" value="0.0" onkeyup="OnTaxValChange(event, this)" /></td>
                     </tr>
                 </tbody>
             </table>
