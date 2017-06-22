@@ -574,6 +574,7 @@
     function populateRoomDetails(data) {
         $('#hourCheckin')[0].checked = data[0].ISHOURLYCHECKIN;
         $('#hoursComboBox').prop("disabled", !$('#hourCheckin')[0].checked);
+        $('#hourCheckin')[0].checked ? $('#hoursComboBox').val(data[0].HOURSTOSTAY) : $('#hoursComboBox').val(-1);
         $('#dateFrom').val(data[0].CheckinTime);
         $('#dateTo').val(data[0].CheckoutTime);
         data[0].NoOfAdult > 0 ? $("#ddlAdults").val(data[0].NoOfAdult) : $("#ddlAdults").val(0);

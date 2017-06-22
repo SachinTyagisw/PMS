@@ -66,8 +66,8 @@ namespace PMS.Resources.DAL
 
             using (var pmsContext = new PmsEntities())
             {
-                var resultSet = pmsContext.GETALLBOOKINGS(propertyId, startDate, endDate);
-                if (resultSet == null) return bookings;
+                var resultSet = pmsContext.GETALLBOOKINGS(propertyId, startDate, endDate).ToList();
+                if (resultSet == null || resultSet.Count <= 0) return bookings;
                 foreach (var result in resultSet)
                 {
                     var booking = new PmsEntity.Booking();
@@ -342,8 +342,8 @@ namespace PMS.Resources.DAL
             var rooms = new List<PmsEntity.Room>();
             using (var pmsContext = new PmsEntities())
             {
-                var resultSet = pmsContext.GETROOMSTATUS(propertyId, checkinDate, checkoutDate);
-                if (resultSet == null) return rooms;
+                var resultSet = pmsContext.GETROOMSTATUS(propertyId, checkinDate, checkoutDate).ToList();
+                if (resultSet == null || resultSet.Count <= 0) return rooms;
                 foreach(var result in resultSet)
                 {
                     var room = new PmsEntity.Room();
@@ -365,8 +365,8 @@ namespace PMS.Resources.DAL
 
             using (var pmsContext = new PmsEntities())
             {
-                var resultSet = pmsContext.GETGUESTTRANSACTIONS(guestId);
-                if (resultSet == null) return bookings;
+                var resultSet = pmsContext.GETGUESTTRANSACTIONS(guestId).ToList();
+                if (resultSet == null || resultSet.Count <= 0) return bookings;
                 foreach (var result in resultSet)
                 {
                     var booking = new PmsEntity.Booking();
@@ -529,8 +529,8 @@ namespace PMS.Resources.DAL
             var taxes = new List<PmsEntity.Tax>();
             using (var pmsContext = new PmsEntities())
             {
-                var resultSet = pmsContext.GETBOOKINGAMOUNT(propertyId, roomTypeId, rateTypeId, noOfHours, 0, IsHourly);
-                if (resultSet == null) return taxes;
+                var resultSet = pmsContext.GETBOOKINGAMOUNT(propertyId, roomTypeId, rateTypeId, noOfHours, 0, IsHourly).ToList();
+                if (resultSet == null || resultSet.Count <= 0 ) return taxes;
                 foreach (var result in resultSet.OrderBy(x => x.OrderBy))
                 {
                     var tax = new PmsEntity.Tax();
@@ -585,7 +585,7 @@ namespace PMS.Resources.DAL
             using (var pmsContext = new PmsEntities())
             {
                 var resultSet = pmsContext.GETINVOICEDETAILS(invoiceId).ToList();
-                if (resultSet == null) return invoice;                
+                if (resultSet == null || resultSet.Count <= 0) return invoice;                
 
                 var distinctBaseRoomCharge = resultSet.AsEnumerable()
                        .Select(row => new
