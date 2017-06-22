@@ -575,7 +575,7 @@
             window.GuestCheckinManager.BookingDto.AdditionalGuestId = null;
             window.GuestCheckinManager.BookingDto.GuestMappingId = null;
             window.GuestCheckinManager.AutoCollapseGuestHistory();
-        },
+        }
         
         //DateDiff: function () {
         //    //var dateFrom = $('#dateFrom').val();
