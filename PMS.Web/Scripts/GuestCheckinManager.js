@@ -564,6 +564,7 @@
             $('#saveInvoice').attr("disabled", true);
             $('#btnCheckin').attr("disabled", false);
             $('.img-no-available').show();
+            $('#divInvoice').hide();
             $('#hourCheckin')[0].checked = false;
             $('#hoursComboBox').prop("disabled", true);
             //TODO: clear payment summary
