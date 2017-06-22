@@ -245,6 +245,7 @@
 
             //if user is navigated to checkin screen from dashboard screen with bookingid in session storage
             if (pmsSession.GetItem("bookingId")) {
+                $('#btnCheckin').attr("disabled", true);
                 var bookingId = pmsSession.GetItem("bookingId");                
                 gcm.GetBookingById(bookingId);
             }
@@ -306,6 +307,10 @@
 
             $("#saveInvoice").click(function () {
                 gcm.AddInvoice();
+            });
+            
+            $("#btnRefresh").click(function () {
+                gcm.ClearAllFields();
             });
 
             $("#btnCheckin").click(function () {
@@ -429,6 +434,7 @@
     </div><!-- /# main -->
     <div class="footer-nav">
         <div class="show">
+            <input id="btnRefresh" type="button" class="btn btn-primary m-b-10 m-l-5" value="Refresh" />
             <input id="btnCheckin" type="button" class="btn btn-primary m-b-10 m-l-5" value="Checkin" />
             <input id="btnCheckout" type="button" class="btn btn-primary m-b-10 m-l-5" value="Checkout" />
             <input id="btnReserved" type="button" class="btn btn-primary m-b-10 m-l-5" value="Reservation" />
