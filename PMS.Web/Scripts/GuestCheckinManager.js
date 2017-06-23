@@ -561,7 +561,7 @@
             $('#ddlIdType').val('-1');
             $('#ddlIdCountry').val('-1');
             $('#ddlCountry').val('-1');
-            $('#ddlState').empty();
+            $('#ddlState').empty();            
             $('#ddlIdState').empty();
             $('#ddlCity').empty();
             $('#saveInvoice').attr("disabled", true);
@@ -570,7 +570,10 @@
             $('#divInvoice').hide();
             $('#hourCheckin')[0].checked = false;
             $('#hoursComboBox').prop("disabled", true);
-            //TODO: clear payment summary
+            $('#ddlState').append(new Option("Select State", "-1"));
+            $('#ddlIdState').append(new Option("Select State", "-1"));
+            $('#ddlCity').append(new Option("Select City", "-1"));
+            $('#roomddl').append(new Option("Select Room", "-1"));
             window.GuestCheckinManager.BookingDto.GuestId = null;
             window.GuestCheckinManager.BookingDto.InvoiceId = null;
             window.GuestCheckinManager.BookingDto.RoomBookingId = null;
