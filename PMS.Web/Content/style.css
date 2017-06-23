@@ -4321,9 +4321,9 @@ p
     border:none;
     width: 80px;
 }
-#invoice-table tbody tr td {
+/*#invoice-table tbody tr td {
     display: inline-table;
-}
+}*/
 #invoice-table .remove {
     display: none;
 }

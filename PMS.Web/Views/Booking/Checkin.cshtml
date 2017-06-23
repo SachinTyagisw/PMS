@@ -213,24 +213,16 @@
             $('#lName').val(data.LastName);
             $('#phone').val(data.MobileNumber);
             $('#email').val(data.EmailAddress);
-            $("#fName").prop("readonly", true);
-            $("#lName").prop("readonly", true);
             $("#ddlInitials [value=" + data.Gender + "]").attr("selected", "true");
-            $('#ddlInitials').attr("disabled", true);
             $('#idDetails').val(data.GuestMappings[0].IDDETAILS);
-            $("#idDetails").prop("readonly", true);
             $("#ddlIdType [value=" + data.GuestMappings[0].IdType.ID + "]").attr("selected", "true");
-            $('#ddlIdType').attr("disabled", true);
+            gcm.MakeGuestInfoReadOnly(true);
             // clear guest history if guest id is not present
             gcm.AutoCollapseGuestHistory();
         }
 
         function clearGuestUi() {
-            $('#ddlIdType').attr("disabled", false);
-            $("#idDetails").prop("readonly", false);
-            $("#fName").prop("readonly", false);
-            $("#lName").prop("readonly", false);
-            $('#ddlInitials').attr("disabled", false);
+            gcm.MakeGuestInfoReadOnly(false);
             $('#fName').val('');
             $('#lName').val('');
             $('#phone').val('');
@@ -298,6 +290,7 @@
                 $('.img-no-available').hide();
                 var invoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
                 if (invoiceId === -1) {
+                    $('#rateTypeDdl').attr("disabled", false);
                     gcm.GetPaymentCharges();
                 }
                 else {

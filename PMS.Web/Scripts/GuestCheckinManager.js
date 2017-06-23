@@ -530,9 +530,11 @@
             if (address) {
                 populateAddress(address);
             }
+            window.GuestCheckinManager.MakeReadOnly(true);
         },
-
+        
         ClearAllFields: function () {
+            window.GuestCheckinManager.MakeReadOnly(false);
             $("#fName").val('');
             $("#lName").val('');
             $("#dateFrom").val('');
@@ -575,6 +577,45 @@
             window.GuestCheckinManager.BookingDto.AdditionalGuestId = null;
             window.GuestCheckinManager.BookingDto.GuestMappingId = null;
             window.GuestCheckinManager.AutoCollapseGuestHistory();
+        },
+        
+        MakeReadOnly: function (shouldMakeReadOnly) {
+            $("#dateFrom").prop("disabled", shouldMakeReadOnly);
+            $("#dateTo").prop("disabled", shouldMakeReadOnly);
+            $('#roomTypeDdl').attr("disabled", shouldMakeReadOnly);
+            $('#rateTypeDdl').attr("disabled", shouldMakeReadOnly);
+            $('#roomddl').attr("disabled", shouldMakeReadOnly);
+            $('#ddlAdults').attr("disabled", shouldMakeReadOnly);
+            $('#ddlChild').attr("disabled", shouldMakeReadOnly);
+            $("#searchGuest").prop("readonly", shouldMakeReadOnly);
+            $('#zipCode').prop("readonly", shouldMakeReadOnly);
+            $('#phone').prop("readonly", shouldMakeReadOnly);
+            $('#email').prop("readonly", shouldMakeReadOnly);
+            $('#address').prop("readonly", shouldMakeReadOnly);
+            $('#transRemarks').prop("readonly", shouldMakeReadOnly);
+            $('#guestComments').prop("readonly", shouldMakeReadOnly);
+            $("#dob").prop("disabled", shouldMakeReadOnly);
+            $("#idExpiry").prop("disabled", shouldMakeReadOnly);
+            $("#adFName").prop("readonly", shouldMakeReadOnly);
+            $("#adLName").prop("readonly", shouldMakeReadOnly);
+            $('#ddlIdCountry').attr("disabled", shouldMakeReadOnly);
+            $('#ddlCountry').attr("disabled", shouldMakeReadOnly);
+            $('#ddlState').attr("disabled", shouldMakeReadOnly);
+            $('#ddlIdState').attr("disabled", shouldMakeReadOnly);
+            $('#ddlCity').attr("disabled", shouldMakeReadOnly);
+            $('#hoursComboBox').prop("disabled", shouldMakeReadOnly);
+            $('#hourCheckin').prop("disabled", shouldMakeReadOnly);
+            $('#uploadPhoto').attr("disabled", shouldMakeReadOnly);
+            $('#additionalUpload').attr("disabled", shouldMakeReadOnly);            
+            window.GuestCheckinManager.MakeGuestInfoReadOnly(shouldMakeReadOnly);
+        },
+
+        MakeGuestInfoReadOnly: function (shouldMakeReadOnly) {
+            $("#fName").prop("readonly", shouldMakeReadOnly);
+            $("#lName").prop("readonly", shouldMakeReadOnly);
+            $('#ddlInitials').attr("disabled", shouldMakeReadOnly);
+            $("#idDetails").prop("readonly", shouldMakeReadOnly);
+            $('#ddlIdType').attr("disabled", shouldMakeReadOnly);
         }
         
         //DateDiff: function () {
