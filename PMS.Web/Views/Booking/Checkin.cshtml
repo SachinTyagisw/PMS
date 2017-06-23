@@ -150,6 +150,7 @@
             ddlState.empty();
             if (isDdlCountryChange) {
                 $('#ddlCity').empty();
+                $('#ddlCity').append(new Option("Select City", "-1"));
             }
             
             if (ddlCountry.val() !== '-1') {

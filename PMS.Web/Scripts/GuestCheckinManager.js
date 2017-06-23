@@ -534,6 +534,7 @@
         },
         
         ClearAllFields: function () {
+            window.GuestCheckinManager.Initialize();
             window.GuestCheckinManager.MakeReadOnly(false);
             $("#fName").val('');
             $("#lName").val('');
@@ -1346,6 +1347,7 @@
 
         pmsService.Handlers.OnGetPaymentChargesSuccess = function (data) {
             if (!data || !data.Tax || data.Tax.length <= 0) return;
+            $('#saveInvoice').attr("disabled", false);
             window.GuestCheckinManager.invoiceData = null;
             window.GuestCheckinManager.invoiceData = data;
             window.GuestCheckinManager.PopulateCharges(data);
