@@ -3,9 +3,9 @@
 -- Create date: April 29, 2017    
 -- Description: This stored procedure shall get the details of booking based on the checkin and checkoutdate    
 -- =============================================    
---Exec GETALLBOOKINGS 1, '2017-06-01', '2017-06-02'    
+--Exec GETALLBOOKINGS 1, '2017-06-07', '2017-06-07'    
    
-CREATE PROCEDURE [dbo].[GETALLBOOKINGS]    
+ALTER PROCEDURE [dbo].[GETALLBOOKINGS]    
  @PROPERTYID INT,    
  @CHECKINTIME DATETIME = NULL,    
  @CHECKOUTDATE DATETIME = NULL    
@@ -34,5 +34,5 @@ SELECT
  INNER JOIN GUEST    
  ON RB.GUESTID = GUEST.ID    
  WHERE BK.CHECKINTIME >= ISNULL(@CHECKINTIME,'1900-01-01')    
- AND BK.CHECKOUTTIME <= ISNULL(stuff(convert(varchar(19), @CHECKOUTDATE, 126),11,1,' '), GETDATE()) AND BK.ISACTIVE=1    
+ AND BK.CHECKINTIME <= ISNULL(stuff(convert(varchar(19), @CHECKOUTDATE, 126),11,1,' '), GETDATE()) AND BK.ISACTIVE=1    
 END  
