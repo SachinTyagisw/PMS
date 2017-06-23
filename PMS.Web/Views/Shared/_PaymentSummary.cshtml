@@ -45,7 +45,7 @@
                 {{if $value.IsDefaultCharges }}
                 <tr class="sortActive">
                     <td> <span class="glyphicon glyphicon-th-list"></span></td>
-                    <td>{$value.TaxName}</td>
+                    <td>${$value.TaxName}</td>
                     <td>
                         @*'ROOM CHARGES' is coming from SP and is always be fixed*@
                         {{if $value.TaxName === 'ROOM CHARGES' }}
