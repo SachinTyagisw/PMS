@@ -51,10 +51,16 @@
     <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/bootstrap")"></script>
     
     <script type="text/javascript">
-    window.baseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["BaseUrl"].ToString())';
-        jQuery(document).ready(function ($) {            
+        window.apiBaseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["ApiBaseUrl"].ToString())';
+        window.webBaseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["WebBaseUrl"].ToString())';
+        jQuery(document).ready(function ($) {
         //set property id on property ddl selection
-        window.PmsSession.SetItem("propertyid", 1);
+        if (!window.PmsSession.GetItem("propertyid")) {
+            window.PmsSession.SetItem("propertyid", 1);
+        }
+        if (!window.PmsSession.GetItem("username")) {
+            window.PmsSession.SetItem("username", "@ViewBag.UserName");
+        }
         window.GuestCheckinManager.Initialize();
     });
     </script>

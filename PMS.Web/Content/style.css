@@ -3870,7 +3870,7 @@ textarea.form-control {
 }
 .footer-nav > div {
   margin: 8px auto;
-  width: 25%;
+  width: 27%;
   height: 100%;
 }
 .footer-nav > div input {
@@ -4345,7 +4345,7 @@ p
     width: 5%;
 }
 #invoice-table tr.sortActive td:nth-child(2) {
-    width: 56%;
+    width: 52%;
     margin: 0 8px;
 }
 #invoice-table tr.sortActive td:nth-child(3) {

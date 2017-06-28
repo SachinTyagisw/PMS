@@ -2,7 +2,7 @@
     function PmsService() {
 
         this.Config = {
-            BaseUrl: window.baseUrl
+            BaseUrl: window.apiBaseUrl
         };
 
         this.Handlers = {

@@ -94,7 +94,7 @@
             </tr>
             {{/if}}*@
                 <tr class="sortActive tabletitle">
-                    <td> </td>
+                    <td><span class="glyphicon glyphicon-th-list"></span> </td>
                     <td class="Rate">
                         <b>Total Charges</b>
                     </td>
@@ -138,7 +138,8 @@
                  {{/each}}
                     {{else}}
                     <tr id="trPaymentType" class="sortActive remove" style="display: block;">
-                        <td id="paymentTypeAdd"><span class="table-addpaymenttype glyphicon glyphicon-plus"></span></td>
+                        @*<td id="paymentTypeAdd"><span class="table-addpaymenttype glyphicon glyphicon-plus"></span></td>*@
+                        <td id="paymentTypeAdd"><span class="glyphicon glyphicon-th-list"></span></td>
                         <td contenteditable="true">
                             <select id="paymentTypeDdl" class="form-control">
                                 <option selected="selected" value="-1">Payment Type</option>
