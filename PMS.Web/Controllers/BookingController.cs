@@ -29,16 +29,13 @@ namespace PMS.Web.Controllers
         [HttpGet]
         public ActionResult Checkin()
         {
-            //var request = new AddBookingRequestDto()
-            //{
-            //    Booking = new Resources.Entities.Booking
-            //    {
-            //        //PropertyID = 23,
-            //        CheckinTime = DateTime.Now
-            //    }
-            //};
+            var sessionUser = Session["username"].ToString();
+            if (string.IsNullOrWhiteSpace(sessionUser))
+            {
+                return RedirectToAction("Login", "Account");
+            }
             
-            //var response = PmsService.AddBooking(request);
+            ViewBag.UserName = Session["username"].ToString();
             return View();
         }
     }

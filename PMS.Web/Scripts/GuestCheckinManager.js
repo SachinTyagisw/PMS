@@ -19,6 +19,10 @@
         },
 
         Initialize: function () {
+            if (!window.PmsSession.GetItem("username")) {
+                window.location.replace(window.webBaseUrl + "Account/Login");
+                return;
+            }
             ajaxHandlers();
             getRoomTypes();
             getRoomRateTypes();
@@ -1002,8 +1006,7 @@
     //}     
 
     function getCreatedBy() {
-        //TODO : get createdby value from user session
-        return "vipul";
+        return window.PmsSession.GetItem("username");
     }
 
     function getCurrentDate() {

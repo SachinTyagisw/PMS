@@ -9,12 +9,21 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using PMS.Web.Models;
+using System.Collections.Generic;
 
 namespace PMS.Web.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        private Dictionary<string, string> userDict = new Dictionary<string, string>()
+        {
+            {"vsharma" , "Pms$4321" },
+            {"styagi" , "Pms$4321" },  
+            {"jpatel" , "Pms$4321" },
+            {"agoenka" , "Pms$4321" },
+            {"test" , "Pms$4321" }
+        };
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -69,7 +78,25 @@ namespace PMS.Web.Controllers
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             //todo: validate user credentials from db
-            return RedirectToAction("Checkin", "Booking");
+            var validuser = false;
+            foreach (var user in userDict)
+            {
+                if(user.Key.Equals(model.Email) && user.Value.Equals(model.Password))
+                {
+                    validuser = true;
+                    break;
+                }
+            }
+
+            if (validuser)
+            {
+                Session["username"] = model.Email;
+                return RedirectToAction("Checkin", "Booking");
+            }
+            else
+            {
+                return View(model);
+            }
 
             if (!ModelState.IsValid)
             {
@@ -483,6 +510,6 @@ namespace PMS.Web.Controllers
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
         }
-        #endregion
+        #endregion        
     }
 }
