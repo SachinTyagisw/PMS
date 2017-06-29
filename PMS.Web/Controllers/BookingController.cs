@@ -29,13 +29,14 @@ namespace PMS.Web.Controllers
         [HttpGet]
         public ActionResult Checkin()
         {
-            var sessionUser = Session["username"].ToString();
-            if (string.IsNullOrWhiteSpace(sessionUser))
+            if (Session["username"] == null) return RedirectToAction("Login", "Account");
+            var pmsUser = Convert.ToString(Session["username"]);
+            if (string.IsNullOrWhiteSpace(pmsUser))
             {
                 return RedirectToAction("Login", "Account");
             }
-            
-            ViewBag.UserName = Session["username"].ToString();
+
+            ViewBag.UserName = pmsUser;
             return View();
         }
     }
