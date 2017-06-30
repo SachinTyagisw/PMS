@@ -21,6 +21,12 @@ namespace PMS.Web.Controllers
 
 
         [HttpGet]
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public ActionResult DashBoard()
         {
             return View();
