@@ -172,6 +172,7 @@
             var ddlState = $('#ddlState');
             var ddlCity = $('#ddlCity');
             ddlCity.empty();
+            ddlCity.append(new Option("Select City", "-1"));
             if (ddlState.val() !== '-1') {
                 var cityData = pmsSession.GetItem("citydata");
                 if (cityData) {
@@ -239,6 +240,8 @@
             //if user is navigated to checkin screen from dashboard screen with bookingid in session storage
             if (pmsSession.GetItem("bookingId")) {
                 $('#btnCheckin').attr("disabled", true);
+                $('#btnSave').attr("disabled", true);
+                $('#btnCheckout').attr("disabled", false);
                 var bookingId = pmsSession.GetItem("bookingId");                
                 gcm.GetBookingById(bookingId);
             }
@@ -304,10 +307,16 @@
             });
             
             $("#btnRefresh").click(function () {
-                gcm.ClearAllFields();
+                if (confirm("Do you want clear unsaved booking data ?")) {
+                    gcm.ClearAllFields();
+                }                
             });
 
             $("#btnCheckin").click(function () {
+                gcm.AddBooking('booked');
+            });
+
+            $("#btnSave").click(function () {
                 gcm.AddBooking('booked');
             });
 
@@ -430,7 +439,8 @@
         <div class="show">
             <input id="btnRefresh" type="button" class="btn btn-primary m-b-10 m-l-5" value="New Booking" />
             <input id="btnCheckin" type="button" class="btn btn-primary m-b-10 m-l-5" value="Checkin" />
-            <input id="btnCheckout" type="button" class="btn btn-primary m-b-10 m-l-5" value="Checkout" />
+            <input id="btnCheckout" disabled="disabled" type="button" class="btn btn-primary m-b-10 m-l-5" value="Checkout" />
+            <input id="btnSave" disabled="disabled" type="button" class="btn btn-primary m-b-10 m-l-5" value="Save" />
             <input id="btnReserved" type="button" class="btn btn-primary m-b-10 m-l-5" value="Reservation" />
         </div>
     </div>

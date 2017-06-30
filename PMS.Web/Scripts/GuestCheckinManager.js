@@ -569,6 +569,8 @@
             $('#ddlIdState').empty();
             $('#ddlCity').empty();
             $('#saveInvoice').attr("disabled", true);
+            $('#btnSave').attr("disabled", true);
+            $('#btnCheckout').attr("disabled", true);
             $('#btnCheckin').attr("disabled", false);
             $('.img-no-available').show();
             $('#divInvoice').hide();
@@ -1196,6 +1198,9 @@
                 window.GuestCheckinManager.BookingDto.BookingId = data.BookingId;
                 window.GuestCheckinManager.BookingDto.GuestId = data.GuestId;
                 
+                $('#btnSave').attr("disabled", false);
+                $('#btnCheckout').attr("disabled", false);
+                $('#btnCheckin').attr("disabled", true);
                 $('#saveInvoice').attr("disabled", false);
                 var roomnumber = $('#roomddl').val();
                 var fname = $('#fName').val();
@@ -1206,14 +1211,10 @@
                 console.log(message);
                 // if booking is successful then upload image
                 uploadImage($("#uploadPhoto"));
-                // clear guesthistory from session storage
-                // TODO : clear only current booked guestid
-                pmsSession.RemoveItem("guesthistory");
                 // to load fresh data
                 window.GuestCheckinManager.AutoCollapseGuestHistory();
 
             } else {
-                $('#saveInvoice').attr("disabled", true);
                 console.error(status);
                 alert(status);
             }            
