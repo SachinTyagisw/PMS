@@ -120,7 +120,10 @@ namespace PMS.Resources.DAL
                 CheckinTime = property.CheckinTime,
                 CheckoutTime = property.CheckoutTime,
                 CloseOfDayTime = property.CloseOfDayTime,
-                CurrencyId = property.CurrencyID
+                CurrencyId = property.CurrencyID,
+                State = property.State,
+                Country = property.Country,
+                City = property.City
             };
 
             using (var pmsContext = new PmsEntities())
@@ -190,6 +193,37 @@ namespace PMS.Resources.DAL
         public List<PmsEntity.Property> GetAllProperty()
         {
             var properties = new List<PmsEntity.Property>();
+
+            using (var pmsContext = new PmsEntities())
+            {
+                properties = pmsContext.Properties.Where(x => x.IsActive)
+                                                 .Select(x => new PmsEntity.Property
+                                                 {
+                                                     CreatedOn = x.CreatedOn,
+                                                     PropertyName = x.PropertyName,
+                                                     CreatedBy = x.CreatedBy,
+                                                     LastUpdatedBy = x.LastUpdatedBy,
+                                                     LastUpdatedOn = x.LastUpdatedOn,
+                                                     Id = x.ID,                                                     
+                                                     IsActive = x.IsActive,
+                                                     CheckinTime = x.CheckinTime,
+                                                     CheckoutTime = x.CheckoutTime,
+                                                     City = x.City,
+                                                     State = x.State,
+                                                     CloseOfDayTime = x.CloseOfDayTime,
+                                                     Country = x.Country,
+                                                     Fax = x.Fax,
+                                                     FullAddress = x.FullAddress,
+                                                     LogoPath = x.LogoPath,
+                                                     Phone = x.Phone,
+                                                     PropertyCode = x.PropertyCode,
+                                                     PropertyDetails = x.PropertyDetails,
+                                                     SecondaryName = x.SecondaryName,
+                                                     TimeZone = x.TimeZone,
+                                                     WebSiteAddress = x.WebSiteAddress
+                                                 }).ToList();
+
+            }
             return properties;
         }
         public int AddPropertyType(PmsEntity.PropertyType propertyType)
