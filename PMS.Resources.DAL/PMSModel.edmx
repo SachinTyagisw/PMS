@@ -296,7 +296,7 @@
           <Property Name="LogoPath" Type="nvarchar(max)" />
           <Property Name="WebSiteAddress" Type="nvarchar" MaxLength="100" />
           <Property Name="TimeZone" Type="nvarchar" MaxLength="100" />
-          <Property Name="CurrencyID" Type="int" />
+          <Property Name="Currency" Type="nvarchar" MaxLength="10" />
           <Property Name="CheckinTime" Type="time" Precision="7" />
           <Property Name="CheckoutTime" Type="time" Precision="7" />
           <Property Name="CloseOfDayTime" Type="time" Precision="7" />
@@ -1333,7 +1333,7 @@
           <Property Name="LogoPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="WebSiteAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="TimeZone" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="CurrencyID" Type="Int32" />
+          <Property Name="Currency" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="CheckinTime" Type="Time" Precision="7" />
           <Property Name="CheckoutTime" Type="Time" Precision="7" />
           <Property Name="CloseOfDayTime" Type="Time" Precision="7" />
@@ -2508,7 +2508,7 @@
                 <ScalarProperty Name="LogoPath" ColumnName="LogoPath" />
                 <ScalarProperty Name="WebSiteAddress" ColumnName="WebSiteAddress" />
                 <ScalarProperty Name="TimeZone" ColumnName="TimeZone" />
-                <ScalarProperty Name="CurrencyID" ColumnName="CurrencyID" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
                 <ScalarProperty Name="CheckinTime" ColumnName="CheckinTime" />
                 <ScalarProperty Name="CheckoutTime" ColumnName="CheckoutTime" />
                 <ScalarProperty Name="CloseOfDayTime" ColumnName="CloseOfDayTime" />

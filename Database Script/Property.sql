@@ -1,7 +1,7 @@
 USE [PMS]
 GO
 
-/****** Object:  Table [dbo].[Property]    Script Date: 6/8/2017 12:01:45 PM ******/
+/****** Object:  Table [dbo].[Property]    Script Date: 7/1/2017 10:23:33 AM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -25,7 +25,7 @@ CREATE TABLE [dbo].[Property](
 	[LogoPath] [nvarchar](max) NULL,
 	[WebSiteAddress] [nvarchar](100) NULL,
 	[TimeZone] [nvarchar](100) NULL,
-	[CurrencyID] [int] NULL,
+	[Currency] [nvarchar](10) NULL,
 	[CheckinTime] [time](7) NULL,
 	[CheckoutTime] [time](7) NULL,
 	[CloseOfDayTime] [time](7) NULL,
@@ -36,5 +36,4 @@ CREATE TABLE [dbo].[Property](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-
 

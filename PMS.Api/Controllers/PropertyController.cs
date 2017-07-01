@@ -118,7 +118,7 @@ namespace PMS.Api.Controllers
             else
             {
                 response.ResponseStatus = PmsApiStatus.Failure.ToString();
-                response.StatusDescription = "Property Updation failed.Contact administrator.";
+                response.StatusDescription = "Property can not be updated.Contact administrator.";
             }
             return response;
         }

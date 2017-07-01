@@ -43,7 +43,7 @@ namespace PMS.Resources.DAL
         public string LogoPath { get; set; }
         public string WebSiteAddress { get; set; }
         public string TimeZone { get; set; }
-        public Nullable<int> CurrencyID { get; set; }
+        public string Currency { get; set; }
         public Nullable<System.TimeSpan> CheckinTime { get; set; }
         public Nullable<System.TimeSpan> CheckoutTime { get; set; }
         public Nullable<System.TimeSpan> CloseOfDayTime { get; set; }

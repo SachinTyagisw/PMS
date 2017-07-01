@@ -101,16 +101,89 @@ namespace PMS.Resources.DAL
         public bool AddProperty(PmsEntity.Property property)
         {
             var isAdded = false;
+            if (property == null) return isAdded;
+
+            var prop = new DAL.Property
+            {
+                CreatedOn = property.CreatedOn,
+                IsActive = true,
+                CreatedBy = property.CreatedBy,
+                PropertyName = property.PropertyName,
+                SecondaryName = property.SecondaryName,
+                PropertyCode = property.PropertyCode,
+                FullAddress = property.FullAddress,
+                Phone = property.Phone,
+                Fax = property.Fax,
+                LogoPath = property.LogoPath,
+                WebSiteAddress = property.WebSiteAddress,
+                TimeZone = property.TimeZone,                
+                CheckinTime = property.CheckinTime,
+                CheckoutTime = property.CheckoutTime,
+                CloseOfDayTime = property.CloseOfDayTime,
+                Currency = property.Currency
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Properties.Add(prop);
+                var result = pmsContext.SaveChanges();
+                isAdded = result == 1 ? true : false;
+            }
+
             return isAdded;
         }
         public bool UpdateProperty(PmsEntity.Property property)
         {
             var isUpdated = false;
+            if (property == null || property.Id <= 0) return isUpdated;
+
+            var prop = new DAL.Property
+            {
+                LastUpdatedOn = property.LastUpdatedOn,
+                IsActive = property.IsActive,
+                LastUpdatedBy = property.LastUpdatedBy,
+                PropertyName = property.PropertyName,
+                SecondaryName = property.SecondaryName,
+                PropertyCode = property.PropertyCode,
+                FullAddress = property.FullAddress,
+                Phone = property.Phone,
+                Fax = property.Fax,
+                LogoPath = property.LogoPath,
+                WebSiteAddress = property.WebSiteAddress,
+                TimeZone = property.TimeZone,
+                CheckinTime = property.CheckinTime,
+                CheckoutTime = property.CheckoutTime,
+                CloseOfDayTime = property.CloseOfDayTime,
+                Currency = property.Currency,
+                ID = property.Id
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Entry(prop).State = System.Data.Entity.EntityState.Modified;
+                var result = pmsContext.SaveChanges();
+                isUpdated = result == 1 ? true : false;
+            }
             return isUpdated;
         }
         public bool DeleteProperty(int propertyId)
         {
             var isDeleted = false;
+            if (propertyId <= 0) return isDeleted;
+
+            var prop = new DAL.Property
+            {
+                IsActive = false,
+                ID = propertyId
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Properties.Attach(prop);
+                pmsContext.Entry(prop).Property(x => x.IsActive).IsModified = true;
+                var result = pmsContext.SaveChanges();
+                isDeleted = result == 1 ? true : false;
+            }
             return isDeleted;
         }
         public List<PmsEntity.Property> GetAllProperty()
