@@ -215,16 +215,74 @@ namespace PMS.Resources.DAL
         public int AddRoom(PmsEntity.Room room)
         {
             var Id = -1;
+            if (room == null) return Id;
+
+            var roomObj = new DAL.Room
+            {
+                CreatedOn = room.CreatedOn,
+                IsActive = true,
+                CreatedBy = room.CreatedBy,
+                PropertyID = room.Property.Id,
+                Number = room.Number,
+                RoomTypeID = room.RoomType.Id
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Rooms.Add(roomObj);
+                var result = pmsContext.SaveChanges();
+                Id = result == 1 ? roomObj.ID : -1;
+            }
+
             return Id;
         }
         public bool UpdateRoom(PmsEntity.Room room)
         {
             var isUpdated = false;
+
+            if (room == null) return isUpdated;
+
+            var roomObj = new DAL.Room
+            {
+                LastUpdatedOn = room.LastUpdatedOn,
+                IsActive = room.IsActive,
+                LastUpdatedBy = room.LastUpdatedBy,
+                ID = room.Id,
+                CreatedBy = room.CreatedBy,
+                CreatedOn = room.CreatedOn,
+                PropertyID = room.Property.Id,
+                Number = room.Number,
+                RoomTypeID = room.RoomType.Id
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Entry(roomObj).State = System.Data.Entity.EntityState.Modified;
+                var result = pmsContext.SaveChanges();
+                isUpdated = result == 1 ? true : false;
+            }
             return isUpdated;
         }
         public bool DeleteRoom(int roomId)
         {
             var isDeleted = false;
+            if (roomId <= 0) return isDeleted;
+
+            var room = new DAL.Room
+            {
+                IsActive = false,
+                ID = roomId,
+                PropertyID = 0,
+                RoomTypeID = 0
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Rooms.Attach(room);
+                pmsContext.Entry(room).Property(x => x.IsActive).IsModified = true;
+                var result = pmsContext.SaveChanges();
+                isDeleted = result == 1 ? true : false;
+            }
             return isDeleted;
         }
         public List<PmsEntity.Room> GetRoomByProperty(int propertyId)
