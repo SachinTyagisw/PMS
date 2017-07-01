@@ -212,19 +212,19 @@ namespace PMS.Resources.DAL
             var propertyTypes = new List<PmsEntity.PropertyType>();
             return propertyTypes;
         }
-        public int AddRoom(PmsEntity.Room room)
+        public int AddRoom(List<PmsEntity.Room> room)
         {
             var Id = -1;
-            if (room == null) return Id;
+            if (room == null || room.Count <= 0) return Id;
 
             var roomObj = new DAL.Room
             {
-                CreatedOn = room.CreatedOn,
+                CreatedOn = room[0].CreatedOn,
                 IsActive = true,
-                CreatedBy = room.CreatedBy,
-                PropertyID = room.Property.Id,
-                Number = room.Number,
-                RoomTypeID = room.RoomType.Id
+                CreatedBy = room[0].CreatedBy,
+                PropertyID = room[0].Property.Id,
+                Number = room[0].Number,
+                RoomTypeID = room[0].RoomType.Id
             };
 
             using (var pmsContext = new PmsEntities())

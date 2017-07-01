@@ -112,7 +112,7 @@ namespace PMS.Api.Controllers
         [HttpPost, ActionName("AddRoom")]
         public PmsResponseDto AddRoom([FromBody] AddRoomRequestDto request)
         {
-            if (request == null || request.Room == null) throw new PmsException("Room can not be added.");
+            if (request == null || request.Room == null || request.Room.Count <= 0) throw new PmsException("Room can not be added.");
 
             var response = new PmsResponseDto();
             var Id = _iPmsLogic.AddRoom(request.Room);

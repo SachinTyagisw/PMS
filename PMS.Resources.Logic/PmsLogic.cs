@@ -89,7 +89,7 @@ namespace PMS.Resources.Logic
         {
             return DalFactory.GetAllPropertyType();
         }
-        public int AddRoom(PmsEntity.Room room)
+        public int AddRoom(List<PmsEntity.Room> room)
         {
             return DalFactory.AddRoom(room);
         }

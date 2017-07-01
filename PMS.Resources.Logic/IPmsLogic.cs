@@ -23,7 +23,7 @@ namespace PMS.Resources.Logic
         bool UpdatePropertyType(PmsEntity.PropertyType propertyType);
         bool DeletePropertyType(int propertyTypeId);
         List<PmsEntity.PropertyType> GetAllPropertyType();
-        int AddRoom(PmsEntity.Room room);
+        int AddRoom(List<PmsEntity.Room> room);
         bool UpdateRoom(PmsEntity.Room room);
         bool DeleteRoom(int roomId);
         List<PmsEntity.Room> GetRoomByProperty(int propertyId);
