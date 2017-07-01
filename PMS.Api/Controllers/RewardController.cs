@@ -91,10 +91,12 @@ namespace PMS.Api.Controllers
             if (request == null || request.Reward == null) throw new PmsException("Reward can not be added.");
 
             var response = new PmsResponseDto();
-            if (_iPmsLogic.AddReward(request.Reward))
+            var Id = _iPmsLogic.AddReward(request.Reward);
+            if (Id > 0)
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Reward Added successfully.";
+                response.ResponseObject = Id;
             }
             else
             {

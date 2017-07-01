@@ -60,10 +60,12 @@ namespace PMS.Api.Controllers
             if (request == null || request.RateType == null) throw new PmsException("Rate type can not be added.");
 
             var response = new PmsResponseDto();
-            if (_iPmsLogic.AddRateType(request.RateType))
+            var Id = _iPmsLogic.AddRateType(request.RateType);
+            if (Id > 0)
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "New Rate Type Added successfully.";
+                response.ResponseObject = Id;
             }
             else
             {

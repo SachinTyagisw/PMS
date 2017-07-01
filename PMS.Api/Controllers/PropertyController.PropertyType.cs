@@ -58,10 +58,12 @@ namespace PMS.Api.Controllers
             if (request == null || request.PropertyType == null) throw new PmsException("Property type can not be added.");
 
             var response = new PmsResponseDto();
-            if (_iPmsLogic.AddPropertyType(request.PropertyType))
+            var Id = _iPmsLogic.AddPropertyType(request.PropertyType);
+            if (Id > 0)
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "New Property Type Added successfully.";
+                response.ResponseObject = Id;
             }
             else
             {

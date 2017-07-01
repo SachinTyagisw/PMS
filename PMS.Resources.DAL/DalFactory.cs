@@ -72,7 +72,7 @@ namespace PMS.Resources.DAL
                 {
                     var booking = new PmsEntity.Booking();
                     booking.Id = result.ID;
-                    booking.CheckinTime = result.CHECKINTIME ;
+                    booking.CheckinTime = result.CHECKINTIME;
                     booking.CheckoutTime = result.CHECKOUTTIME;
 
                     booking.RoomBookings = new List<PmsEntity.RoomBooking>
@@ -98,19 +98,93 @@ namespace PMS.Resources.DAL
             }
             return bookings;
         }
-        public bool AddProperty(PmsEntity.Property property)
+        public int AddProperty(PmsEntity.Property property)
         {
-            var isAdded = false;
-            return isAdded;
+            var Id = -1;
+            if (property == null) return Id;
+
+            var prop = new DAL.Property
+            {
+                CreatedOn = property.CreatedOn,
+                IsActive = true,
+                CreatedBy = property.CreatedBy,
+                PropertyName = property.PropertyName,
+                SecondaryName = property.SecondaryName,
+                PropertyCode = property.PropertyCode,
+                FullAddress = property.FullAddress,
+                Phone = property.Phone,
+                Fax = property.Fax,
+                LogoPath = property.LogoPath,
+                WebSiteAddress = property.WebSiteAddress,
+                TimeZone = property.TimeZone,
+                CheckinTime = property.CheckinTime,
+                CheckoutTime = property.CheckoutTime,
+                CloseOfDayTime = property.CloseOfDayTime,
+                CurrencyId = property.CurrencyID
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Properties.Add(prop);
+                var result = pmsContext.SaveChanges();
+                Id = result == 1 ? prop.ID : -1;               
+            }
+            return Id;
         }
         public bool UpdateProperty(PmsEntity.Property property)
         {
             var isUpdated = false;
+            if (property == null || property.Id <= 0) return isUpdated;
+
+            var prop = new DAL.Property
+            {
+                LastUpdatedOn = property.LastUpdatedOn,
+                IsActive = property.IsActive,
+                LastUpdatedBy = property.LastUpdatedBy,
+                PropertyName = property.PropertyName,
+                SecondaryName = property.SecondaryName,
+                PropertyCode = property.PropertyCode,
+                FullAddress = property.FullAddress,
+                Phone = property.Phone,
+                Fax = property.Fax,
+                LogoPath = property.LogoPath,
+                WebSiteAddress = property.WebSiteAddress,
+                TimeZone = property.TimeZone,
+                CheckinTime = property.CheckinTime,
+                CheckoutTime = property.CheckoutTime,
+                CloseOfDayTime = property.CloseOfDayTime,
+                CurrencyId = property.CurrencyID,
+                ID = property.Id,
+                CreatedBy = property.CreatedBy,
+                CreatedOn = property.CreatedOn
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Entry(prop).State = System.Data.Entity.EntityState.Modified;
+                var result = pmsContext.SaveChanges();
+                isUpdated = result == 1 ? true : false;
+            }
             return isUpdated;
         }
         public bool DeleteProperty(int propertyId)
         {
             var isDeleted = false;
+            if (propertyId <= 0) return isDeleted;
+
+            var prop = new DAL.Property
+            {
+                IsActive = false,
+                ID = propertyId
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Properties.Attach(prop);
+                pmsContext.Entry(prop).Property(x => x.IsActive).IsModified = true;
+                var result = pmsContext.SaveChanges();
+                isDeleted = result == 1 ? true : false;
+            }
             return isDeleted;
         }
         public List<PmsEntity.Property> GetAllProperty()
@@ -118,10 +192,10 @@ namespace PMS.Resources.DAL
             var properties = new List<PmsEntity.Property>();
             return properties;
         }
-        public bool AddPropertyType(PmsEntity.PropertyType propertyType)
+        public int AddPropertyType(PmsEntity.PropertyType propertyType)
         {
-            var isAdded = false;
-            return isAdded;
+            var Id = -1;
+            return Id;
         }
         public bool UpdatePropertyType(PmsEntity.PropertyType propertyType)
         {
@@ -138,10 +212,10 @@ namespace PMS.Resources.DAL
             var propertyTypes = new List<PmsEntity.PropertyType>();
             return propertyTypes;
         }
-        public bool AddRoom(PmsEntity.Room room)
+        public int AddRoom(PmsEntity.Room room)
         {
-            var isAdded = false;
-            return isAdded;
+            var Id = -1;
+            return Id;
         }
         public bool UpdateRoom(PmsEntity.Room room)
         {
@@ -181,10 +255,10 @@ namespace PMS.Resources.DAL
             }
             return rooms;
         }
-        public bool AddRateType(PmsEntity.RateType rateType)
+        public int AddRateType(PmsEntity.RateType rateType)
         {
-            var isAdded = false;
-            return isAdded;
+            var Id = -1;
+            return Id;
         }
         public bool UpdateRateType(PmsEntity.RateType rateType)
         {
@@ -216,19 +290,75 @@ namespace PMS.Resources.DAL
             }
             return rateTypes;
         }
-        public bool AddRoomType(PmsEntity.RoomType roomType)
+        public int AddRoomType(PmsEntity.RoomType roomType)
         {
-            var isAdded = false;
-            return isAdded;
+            var Id = -1;
+            if (roomType == null) return Id;
+
+            var roomtype = new DAL.RoomType
+            {
+                CreatedOn = roomType.CreatedOn,
+                IsActive = true,
+                CreatedBy = roomType.CreatedBy,
+                PropertyID = roomType.PropertyId,
+                NAME = roomType.Name,
+                ShortName = roomType.ShortName
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.RoomTypes.Add(roomtype);
+                var result = pmsContext.SaveChanges();
+                Id = result == 1 ? roomtype.ID : -1;               
+            }
+
+            return Id;
         }
         public bool UpdateRoomType(PmsEntity.RoomType roomType)
         {
             var isUpdated = false;
+            if (roomType == null) return isUpdated;
+
+            var roomtype = new DAL.RoomType
+            {
+                LastUpdatedOn = roomType.LastUpdatedOn,
+                IsActive = roomType.IsActive,
+                LastUpdatedBy = roomType.LastUpdatedBy,
+                PropertyID = roomType.PropertyId,
+                NAME = roomType.Name,
+                ShortName = roomType.ShortName,
+                ID = roomType.Id,
+                CreatedBy = roomType.CreatedBy,
+                CreatedOn = roomType.CreatedOn
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Entry(roomtype).State = System.Data.Entity.EntityState.Modified;
+                var result = pmsContext.SaveChanges();
+                isUpdated = result == 1 ? true : false;
+            }
+           
             return isUpdated;
         }
         public bool DeleteRoomType(int roomTypeId)
         {
             var isDeleted = false;
+            if (roomTypeId <= 0) return isDeleted;
+
+            var roomtype = new DAL.RoomType
+            {
+                IsActive = false,
+                ID = roomTypeId
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.RoomTypes.Attach(roomtype);
+                pmsContext.Entry(roomtype).Property(x => x.IsActive).IsModified = true;
+                var result = pmsContext.SaveChanges();
+                isDeleted = result == 1 ? true : false;
+            }
             return isDeleted;
         }
         public List<PmsEntity.RoomType> GetRoomTypeByProperty(int propertyId)
@@ -247,15 +377,15 @@ namespace PMS.Resources.DAL
                                                      Id = x.ID,
                                                      PropertyId = x.PropertyID
                                                  }).ToList();
-               
+
             }
 
             return roomTypes;
         }
-        public bool AddRoomPrice(PmsEntity.RoomPricing roomPrice)
+        public int AddRoomPrice(PmsEntity.RoomPricing roomPrice)
         {
-            var isAdded = false;
-            return isAdded;
+            var Id = -1;
+            return Id;
         }
         public bool UpdateRoomPrice(PmsEntity.RoomPricing roomPrice)
         {
@@ -272,10 +402,10 @@ namespace PMS.Resources.DAL
             var roomPricing = new List<PmsEntity.RoomPricing>();
             return roomPricing;
         }
-        public bool AddRoomStatus(PmsEntity.RoomStatus roomStatus)
+        public int AddRoomStatus(PmsEntity.RoomStatus roomStatus)
         {
-            var isAdded = false;
-            return isAdded;
+            var Id = -1;
+            return Id;
         }
         public bool UpdateRoomStatus(PmsEntity.RoomStatus roomStatus)
         {
@@ -292,10 +422,10 @@ namespace PMS.Resources.DAL
             var roomStatus = new List<PmsEntity.RoomStatus>();
             return roomStatus;
         }
-        public bool AddReward(PmsEntity.GuestReward reward)
+        public int AddReward(PmsEntity.GuestReward reward)
         {
-            var isAdded = false;
-            return isAdded;
+            var Id = -1;
+            return Id;
         }
         public bool UpdateReward(PmsEntity.GuestReward reward)
         {
@@ -317,10 +447,10 @@ namespace PMS.Resources.DAL
             var rewards = new List<PmsEntity.GuestReward>();
             return rewards;
         }
-        public bool AddRewardCategory(PmsEntity.RewardCategory rewardCategory)
+        public int AddRewardCategory(PmsEntity.RewardCategory rewardCategory)
         {
-            var isAdded = false;
-            return isAdded;
+            var Id = -1;
+            return Id;
         }
         public bool UpdateRewardCategory(PmsEntity.RewardCategory rewardCategory)
         {
@@ -344,7 +474,7 @@ namespace PMS.Resources.DAL
             {
                 var resultSet = pmsContext.GETROOMSTATUS(propertyId, checkinDate, checkoutDate).ToList();
                 if (resultSet == null || resultSet.Count <= 0) return rooms;
-                foreach(var result in resultSet)
+                foreach (var result in resultSet)
                 {
                     var room = new PmsEntity.Room();
                     room.RoomType = new PmsEntity.RoomType();
@@ -353,7 +483,7 @@ namespace PMS.Resources.DAL
                     room.Number = result.NUMBER;
                     room.RoomType.Id = result.ROOMTypeID;
                     room.RoomStatus.Name = result.ROOMSTATUS;
-                 
+
                     rooms.Add(room);
                 }
             }
@@ -449,7 +579,7 @@ namespace PMS.Resources.DAL
                                Name = x.Name,
                                CountryId = x.CountryID.Value
                            }).ToList();
-                    
+
             }
 
             return states;
@@ -505,19 +635,19 @@ namespace PMS.Resources.DAL
                              LastName = x.LastName,
                              MobileNumber = x.MobileNumber,
                              PhotoPath = x.PhotoPath,
-                             GuestMappings = (from m in pmsContext.GuestMappings                                              
+                             GuestMappings = (from m in pmsContext.GuestMappings
                                               join i in pmsContext.IDTypes on m.IDTYPEID equals i.ID
                                               where m.IsActive && m.GUESTID == x.ID
                                               select new PmsEntity.GuestMapping
                                               {
-                                                Id = m.ID,
-                                                IDDETAILS = m.IDDETAILS,
-                                                IdType = new PmsEntity.IDType
-                                                {
-                                                    ID = i.ID,
-                                                    Name = i.Name
-                                                }
-                                              }).ToList()                                          
+                                                  Id = m.ID,
+                                                  IDDETAILS = m.IDDETAILS,
+                                                  IdType = new PmsEntity.IDType
+                                                  {
+                                                      ID = i.ID,
+                                                      Name = i.Name
+                                                  }
+                                              }).ToList()
 
                          }).ToList();
             }
@@ -530,7 +660,7 @@ namespace PMS.Resources.DAL
             using (var pmsContext = new PmsEntities())
             {
                 var resultSet = pmsContext.GETBOOKINGAMOUNT(propertyId, roomTypeId, rateTypeId, noOfHours, 0, IsHourly).ToList();
-                if (resultSet == null || resultSet.Count <= 0 ) return taxes;
+                if (resultSet == null || resultSet.Count <= 0) return taxes;
                 foreach (var result in resultSet.OrderBy(x => x.OrderBy))
                 {
                     var tax = new PmsEntity.Tax();
@@ -572,7 +702,7 @@ namespace PMS.Resources.DAL
 
                 pmsContext.Database.ExecuteSqlCommand("InsertInvoice @propertyID, @InvoiceXML, @INVOICEID OUTPUT", propId, invoicexml, invoiceId);
                 id = Convert.ToInt32(invoiceId.Value);
-               
+
             }
             return id;
         }
@@ -585,7 +715,7 @@ namespace PMS.Resources.DAL
             using (var pmsContext = new PmsEntities())
             {
                 var resultSet = pmsContext.GETINVOICEDETAILS(invoiceId).ToList();
-                if (resultSet == null || resultSet.Count <= 0) return invoice;                
+                if (resultSet == null || resultSet.Count <= 0) return invoice;
 
                 var distinctBaseRoomCharge = resultSet.AsEnumerable()
                        .Select(row => new
@@ -618,7 +748,7 @@ namespace PMS.Resources.DAL
                     {
                         taxes.Add(new PmsEntity.Tax { TaxName = tax.TaxName, Value = tax.TaxValue, IsDefaultCharges = true });
                     }
-                }               
+                }
 
                 // default charges
                 var distinctTotalRoomCharge = resultSet.AsEnumerable()
@@ -669,7 +799,7 @@ namespace PMS.Resources.DAL
                 {
                     foreach (var payment in distinctPaymentValues)
                     {
-                        paymentDetails.Add(new PmsEntity.InvoicePaymentDetail { PaymentDetails = payment.Detail, PaymentValue = payment.Value, PaymentMode = payment.Mode});
+                        paymentDetails.Add(new PmsEntity.InvoicePaymentDetail { PaymentDetails = payment.Detail, PaymentValue = payment.Value, PaymentMode = payment.Mode });
                     }
                 }
 
@@ -725,7 +855,7 @@ namespace PMS.Resources.DAL
 
                 var bookingInformation = resultSet.FirstOrDefault();
                 if (bookingInformation == null) return booking;
-                
+
                 booking.Id = bookingInformation.BookingID;
                 booking.CheckinTime = bookingInformation.CheckinTime;
                 booking.CheckoutTime = bookingInformation.CheckoutTime;
@@ -747,9 +877,9 @@ namespace PMS.Resources.DAL
                 var distinctRoomBookings = resultSet.AsEnumerable()
                         .Select(row => new
                         {
-                            RoomID = (row.RoomBookingRoomId.HasValue) ? row.RoomBookingRoomId.Value : default(int) ,
-                            ID = (row.RoomBookingID.HasValue)? row.RoomBookingID.Value : default(int),
-                            GuestID = (row.RoomBookingGuestID.HasValue)? row.RoomBookingGuestID.Value : default(int),
+                            RoomID = (row.RoomBookingRoomId.HasValue) ? row.RoomBookingRoomId.Value : default(int),
+                            ID = (row.RoomBookingID.HasValue) ? row.RoomBookingID.Value : default(int),
+                            GuestID = (row.RoomBookingGuestID.HasValue) ? row.RoomBookingGuestID.Value : default(int),
                             RoomTypeId = (row.RoomTypeID.HasValue) ? row.RoomTypeID.Value : default(int),
                             RoomTypeName = row.RoomTypeName,
                             RoomNumber = row.RoomNumber
@@ -773,7 +903,7 @@ namespace PMS.Resources.DAL
                         LastName = row.AdditionalGuestLastName,
                         GUESTIDPath = row.AdditionalGuestIDPath,
                         Gender = row.AdditionalGuestGender,
-                        Id = (row.AdditionalGuestID.HasValue)? row.AdditionalGuestID.Value:default(int)
+                        Id = (row.AdditionalGuestID.HasValue) ? row.AdditionalGuestID.Value : default(int)
                     })
                     .Distinct().ToList();
 
@@ -790,13 +920,13 @@ namespace PMS.Resources.DAL
                 var distinctGuestsMapping = resultSet.AsEnumerable()
                     .Select(row => new
                     {
-                        IDTYPEID = (row.IDTYPEID.HasValue)? row.IDTYPEID.Value:default(int) ,
+                        IDTYPEID = (row.IDTYPEID.HasValue) ? row.IDTYPEID.Value : default(int),
                         GUESTID = (row.GuestMappingGuestID.HasValue) ? row.GuestMappingGuestID.Value : default(int),
                         IDDETAILS = row.GuestMappingIDDETAILS,
                         IdExpiryDate = row.IDExpiryDate,
                         IdIssueState = row.IDIssueState,
                         IdIssueCountry = row.IDIssueCountry,
-                        Id = (row.GuestMappingId.HasValue)? row.GuestMappingId.Value:default(int)
+                        Id = (row.GuestMappingId.HasValue) ? row.GuestMappingId.Value : default(int)
                     }).Distinct().ToList();
 
                 if (distinctGuestsMapping != null && distinctGuestsMapping.Count > 0)
@@ -812,7 +942,7 @@ namespace PMS.Resources.DAL
                 var distinctGuests = resultSet.AsEnumerable()
                     .Select(row => new
                     {
-                        GuestID = (row.GuestID.HasValue)? row.GuestID.Value:default(int),
+                        GuestID = (row.GuestID.HasValue) ? row.GuestID.Value : default(int),
                         FirstName = row.FirstName,
                         LastName = row.LastName,
                         MobileNumber = row.MobileNumber,
@@ -848,7 +978,7 @@ namespace PMS.Resources.DAL
                 {
                     foreach (var address in distinctAddress)
                     {
-                        booking.Addresses.Add(new PmsEntity.Address { Id = address.AddressId, Address1 = address.Address1, Address2 = address.Address2, City = address.City , State = address.State, Country = address.Country, ZipCode = address.Zipcode, AddressTypeID = address.AddressTypeId });
+                        booking.Addresses.Add(new PmsEntity.Address { Id = address.AddressId, Address1 = address.Address1, Address2 = address.Address2, City = address.City, State = address.State, Country = address.Country, ZipCode = address.Zipcode, AddressTypeID = address.AddressTypeId });
                     }
                 }
 

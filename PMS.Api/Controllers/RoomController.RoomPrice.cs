@@ -66,10 +66,12 @@ namespace PMS.Api.Controllers
             if (request == null || request.RoomPricing == null) throw new PmsException("Room price can not be added.");
 
             var response = new PmsResponseDto();
-            if (_iPmsLogic.AddRoomPrice(request.RoomPricing))
+            var Id = _iPmsLogic.AddRoomPrice(request.RoomPricing);
+            if (Id > 0)
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "New Room Price Added successfully.";
+                response.ResponseObject = Id;
             }
             else
             {

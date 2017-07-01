@@ -58,10 +58,12 @@ namespace PMS.Api.Controllers
             if (request == null || request.RoomStatus == null) throw new PmsException("Room status can not be added.");
 
             var response = new PmsResponseDto();
-            if (_iPmsLogic.AddRoomStatus(request.RoomStatus))
+            var Id = _iPmsLogic.AddRoomStatus(request.RoomStatus);
+            if (Id > 0)
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "New Room Status Added successfully.";
+                response.ResponseObject = Id;
             }
             else
             {

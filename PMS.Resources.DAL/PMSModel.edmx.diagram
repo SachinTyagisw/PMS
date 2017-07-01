@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8ee23db0da084942a808fecf045b028c" Name="Diagram1">
+      <Diagram DiagramId="5fa6edc94b114f93a50d9bb7b2c5868c" Name="Diagram1">
         <EntityTypeShape EntityType="PmsModel.AdditionalGuest" Width="1.5" PointX="5.25" PointY="17.875" IsExpanded="true" />
         <EntityTypeShape EntityType="PmsModel.Address" Width="1.5" PointX="8.25" PointY="7.5" IsExpanded="true" />
         <EntityTypeShape EntityType="PmsModel.AddressType" Width="1.5" PointX="6" PointY="9.25" IsExpanded="true" />
@@ -23,13 +23,13 @@
         <EntityTypeShape EntityType="PmsModel.InvoiceItem" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PmsModel.InvoicePaymentDetail" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PmsModel.InvoiceTaxDetail" Width="1.5" PointX="7.5" PointY="13" IsExpanded="true" />
-        <EntityTypeShape EntityType="PmsModel.Property" Width="1.5" PointX="0.75" PointY="20.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="PmsModel.Rate" Width="1.5" PointX="5.25" PointY="30" IsExpanded="true" />
+        <EntityTypeShape EntityType="PmsModel.Property" Width="1.5" PointX="0.75" PointY="20.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PmsModel.Rate" Width="1.5" PointX="5.25" PointY="29.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PmsModel.RateType" Width="1.5" PointX="3" PointY="31.375" IsExpanded="true" />
         <EntityTypeShape EntityType="PmsModel.RewardCategory" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PmsModel.Room" Width="1.5" PointX="5.25" PointY="35.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PmsModel.Room" Width="1.5" PointX="5.25" PointY="35.25" IsExpanded="true" />
         <EntityTypeShape EntityType="PmsModel.RoomBooking" Width="1.5" PointX="5.25" PointY="22.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="PmsModel.RoomPricing" Width="1.5" PointX="8.25" PointY="30" IsExpanded="true" />
+        <EntityTypeShape EntityType="PmsModel.RoomPricing" Width="1.5" PointX="8.25" PointY="29.875" IsExpanded="true" />
         <EntityTypeShape EntityType="PmsModel.RoomType" Width="1.5" PointX="3" PointY="39.625" IsExpanded="true" />
         <EntityTypeShape EntityType="PmsModel.State" Width="1.5" PointX="3" PointY="7" IsExpanded="true" />
         <EntityTypeShape EntityType="PmsModel.Tax" Width="1.5" PointX="3" PointY="27.375" IsExpanded="true" />

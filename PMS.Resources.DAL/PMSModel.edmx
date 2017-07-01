@@ -296,10 +296,13 @@
           <Property Name="LogoPath" Type="nvarchar(max)" />
           <Property Name="WebSiteAddress" Type="nvarchar" MaxLength="100" />
           <Property Name="TimeZone" Type="nvarchar" MaxLength="100" />
-          <Property Name="CurrencyID" Type="int" />
+          <Property Name="CurrencyId" Type="int" />
           <Property Name="CheckinTime" Type="time" Precision="7" />
           <Property Name="CheckoutTime" Type="time" Precision="7" />
           <Property Name="CloseOfDayTime" Type="time" Precision="7" />
+          <Property Name="State" Type="int" />
+          <Property Name="Country" Type="int" />
+          <Property Name="City" Type="int" />
         </EntityType>
         <EntityType Name="Rates">
           <Key>
@@ -329,7 +332,7 @@
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
           <Property Name="LastUpdatedOn" Type="datetime" />
-          <Property Name="NAME" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar(max)" />
           <Property Name="RoomTypeID" Type="int" />
           <Property Name="ShortName" Type="nvarchar" MaxLength="50" />
         </EntityType>
@@ -405,7 +408,7 @@
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
           <Property Name="LastUpdatedOn" Type="datetime" />
-          <Property Name="NAME" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar(max)" />
           <Property Name="ShortName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="State">
@@ -1333,10 +1336,13 @@
           <Property Name="LogoPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="WebSiteAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="TimeZone" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="CurrencyID" Type="Int32" />
+          <Property Name="CurrencyId" Type="Int32" />
           <Property Name="CheckinTime" Type="Time" Precision="7" />
           <Property Name="CheckoutTime" Type="Time" Precision="7" />
           <Property Name="CloseOfDayTime" Type="Time" Precision="7" />
+          <Property Name="State" Type="Int32" />
+          <Property Name="Country" Type="Int32" />
+          <Property Name="City" Type="Int32" />
           <NavigationProperty Name="Bookings" Relationship="Self.FK__Booking__Propert__1273C1CD" FromRole="Property" ToRole="Booking" />
           <NavigationProperty Name="ExtraCharges" Relationship="Self.FK__ExtraChar__Prope__214BF109" FromRole="Property" ToRole="ExtraCharges" />
           <NavigationProperty Name="Rates" Relationship="Self.FK__Rates__PropertyI__24285DB4" FromRole="Property" ToRole="Rates" />
@@ -1378,7 +1384,7 @@
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
-          <Property Name="NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="RoomTypeID" Type="Int32" />
           <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Property" Relationship="Self.FK__RateType__Proper__267ABA7A" FromRole="RateType" ToRole="Property" />
@@ -1465,7 +1471,7 @@
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
-          <Property Name="NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Property" Relationship="Self.FK__RoomType__Proper__22AA2996" FromRole="RoomType" ToRole="Property" />
           <NavigationProperty Name="Rates" Relationship="Self.FK__Rates__RoomTypeI__2610A626" FromRole="RoomType" ToRole="Rates" />
@@ -2160,7 +2166,7 @@
           <Property Type="String" Name="PROPERTY" Nullable="true" />
           <Property Type="DateTime" Name="CheckinTime" Nullable="true" Precision="23" />
           <Property Type="DateTime" Name="CheckoutTime" Nullable="true" Precision="23" />
-          <Property Type="String" Name="ROOMTYPE" Nullable="false" />
+          <Property Type="String" Name="ROOMTYPE" Nullable="true" />
           <Property Type="String" Name="ROOMNUMBER" Nullable="true" MaxLength="200" />
         </ComplexType>
         <ComplexType Name="GETINVOICEDETAILS_Result">
@@ -2508,10 +2514,13 @@
                 <ScalarProperty Name="LogoPath" ColumnName="LogoPath" />
                 <ScalarProperty Name="WebSiteAddress" ColumnName="WebSiteAddress" />
                 <ScalarProperty Name="TimeZone" ColumnName="TimeZone" />
-                <ScalarProperty Name="CurrencyID" ColumnName="CurrencyID" />
+                <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
                 <ScalarProperty Name="CheckinTime" ColumnName="CheckinTime" />
                 <ScalarProperty Name="CheckoutTime" ColumnName="CheckoutTime" />
                 <ScalarProperty Name="CloseOfDayTime" ColumnName="CloseOfDayTime" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="City" ColumnName="City" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

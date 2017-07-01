@@ -61,10 +61,12 @@ namespace PMS.Api.Controllers
             if (request == null || request.RoomType == null) throw new PmsException("Room type can not be added.");
 
             var response = new PmsResponseDto();
-            if (_iPmsLogic.AddRoomType(request.RoomType))
+            var Id = _iPmsLogic.AddRoomType(request.RoomType);
+            if (Id > 0)
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "New Room Type Added successfully.";
+                response.ResponseObject = Id;
             }
             else
             {

@@ -58,10 +58,12 @@ namespace PMS.Api.Controllers
             if (request == null || request.RewardCategory == null) throw new PmsException("RewardCategory can not be added.");
 
             var response = new PmsResponseDto();
-            if (_iPmsLogic.AddRewardCategory(request.RewardCategory))
+            var Id = _iPmsLogic.AddRewardCategory(request.RewardCategory);
+            if (Id > 0)
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Reward Category Added successfully.";
+                response.ResponseObject = Id;
             }
             else
             {

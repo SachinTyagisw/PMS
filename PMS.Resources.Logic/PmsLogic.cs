@@ -57,7 +57,7 @@ namespace PMS.Resources.Logic
         {
             return DalFactory.GetBooking(propertyId, startDate, endDate);
         }
-        public bool AddProperty(PmsEntity.Property property)
+        public int AddProperty(PmsEntity.Property property)
         {
             return DalFactory.AddProperty(property);
         }
@@ -73,7 +73,7 @@ namespace PMS.Resources.Logic
         {
             return DalFactory.GetAllProperty();
         }
-        public bool AddPropertyType(PmsEntity.PropertyType propertyType)
+        public int AddPropertyType(PmsEntity.PropertyType propertyType)
         {
             return DalFactory.AddPropertyType(propertyType);
         }
@@ -89,7 +89,7 @@ namespace PMS.Resources.Logic
         {
             return DalFactory.GetAllPropertyType();
         }
-        public bool AddRoom(PmsEntity.Room room)
+        public int AddRoom(PmsEntity.Room room)
         {
             return DalFactory.AddRoom(room);
         }
@@ -105,7 +105,7 @@ namespace PMS.Resources.Logic
         {
             return DalFactory.GetRoomByProperty(propertyId);
         }
-        public bool AddRateType(PmsEntity.RateType rateType)
+        public int AddRateType(PmsEntity.RateType rateType)
         {
             return DalFactory.AddRateType(rateType);
         }
@@ -121,7 +121,7 @@ namespace PMS.Resources.Logic
         {
             return DalFactory.GetRateTypeByProperty(propertyId);
         }
-        public bool AddRoomType(PmsEntity.RoomType roomType)
+        public int AddRoomType(PmsEntity.RoomType roomType)
         {
             return DalFactory.AddRoomType(roomType);
         }
@@ -137,7 +137,7 @@ namespace PMS.Resources.Logic
         {
             return DalFactory.GetRoomTypeByProperty(propertyId);
         }
-        public bool AddRoomPrice(PmsEntity.RoomPricing roomPrice)
+        public int AddRoomPrice(PmsEntity.RoomPricing roomPrice)
         {
             return DalFactory.AddRoomPrice(roomPrice);
         }
@@ -153,7 +153,7 @@ namespace PMS.Resources.Logic
         {
             return DalFactory.GetRoomPriceByProperty(propertyId);
         }
-        public bool AddRoomStatus(PmsEntity.RoomStatus roomStatus)
+        public int AddRoomStatus(PmsEntity.RoomStatus roomStatus)
         {
             return DalFactory.AddRoomStatus(roomStatus);
         }
@@ -169,7 +169,7 @@ namespace PMS.Resources.Logic
         {
             return DalFactory.GetRoomStatus();
         }
-        public bool AddReward(PmsEntity.GuestReward reward)
+        public int AddReward(PmsEntity.GuestReward reward)
         {
             return DalFactory.AddReward(reward);
         }
@@ -189,7 +189,7 @@ namespace PMS.Resources.Logic
         {
             return DalFactory.GetRewardByGuestId(guestId);
         }
-        public bool AddRewardCategory(PmsEntity.RewardCategory rewardCategory)
+        public int AddRewardCategory(PmsEntity.RewardCategory rewardCategory)
         {
             return DalFactory.AddRewardCategory(rewardCategory);
         }
