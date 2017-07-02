@@ -4564,6 +4564,241 @@ a.animated-button:link, a.animated-button:visited {
   display: block;
 }
 
+/*--- table layout ----*/
+.results tr[visible='false'],
+.no-result{
+  display:none;
+}
+
+.results tr[visible='true']{
+  display:table-row;
+}
+
+.counter{
+  padding:8px; 
+  color:#888;
+}
+.tableContents {
+  min-width: 200px;
+  min-height: 50px;
+  border: 1px solid #707070;
+  overflow: hidden;
+  border-collapse: seperate/*collapse*/
+  ;
+}
+.tableContents th {
+    background: #57666d;
+    color:#fff;
+}
+.table.tableContents thead tr th,
+.table.tableContents tbody tr td {
+  width: auto;
+  min-width: 25px;
+  border-bottom: 1px solid #fff;
+  border-right: 1px solid #fff;
+  text-align: center;
+  padding: 5px 10px;
+  position: relative;
+}
+
+.tableContents tr:last-child td {
+  border-bottom: 0px;
+}
+
+.tableContents th:last-child,
+.tableContents td:last-child {
+  border-right: 0px;
+}
+
+.tableContents th:hover {
+  background-color: #9bc8ff;
+  cursor: default;
+}
+
+.tableContents td:hover {
+  background-color: #dddddd;
+}
+
+.tableContents .finalActionsCol:hover {
+  background-color: #9bc8ff;
+}
+
+
+/*td:last-child:hover{
+  background-color:transparent;
+}*/
+
+.tableContents .actionsCol:hover::after {
+  height: 0px;
+  width: 0px;
+}
+
+.tableContents .actionsCol:hover {
+  background-color: transparent;
+}
+
+.tableContents th:hover::after {
+  content: "";
+  position: absolute;
+  background-color: #e5f6ff;
+  left: 0;
+  top: -5000px;
+  height: 10000px;
+  width: 100%;
+  z-index: -1;
+}
+
+.tableContents .finalActionsCol:hover::after {
+  content: "";
+  position: absolute;
+  background-color: #e5f6ff;
+  top: 0px;
+  left: -5000px;
+  height: 100%;
+  width: 10000px;
+  z-index: -1;
+}
+
+
+/*Buttons*/
+
+.fa {
+  transition: 0.1s;
+  cursor: pointer;
+  padding: 0px 1px;
+}
+
+.fa-plus-circle {
+  color: #008e02;
+}
+
+.fa-minus-circle {
+  color: #d10000;
+}
+
+.fa-pencil-square-o,
+.fa-floppy-o {
+  color: #0073a8;
+}
+
+.fa:hover {
+  transition: 0.1s;
+  color: #404040;
+}
+
+/*-- Modal Popup --*/
+.blur{
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+}
+
+a.btn{
+  width:150px;
+  display:block;
+  margin:-25px 0 0 -75px;
+  padding:1em 0;
+  position:absolute;
+  top:50%; left:50%;
+  font:1.125em 'Arial', sans-serif;
+  font-weight:700;
+  text-align:center;
+  text-decoration:none;
+  color:#fff;
+  border-radius:5px;
+  background:rgba(217,67,86,1);
+}
+
+.modal-wrapper{
+  width:100%;
+  height:100%;
+  position:fixed;
+  top:0; left:0;
+  background:rgba(255,257,153,0.75);
+  visibility:hidden;
+  opacity:0;
+  -webkit-transition: all 0.25s ease-in-out;
+  -moz-transition: all 0.25s ease-in-out;
+  -o-transition: all 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out;
+}
+
+.modal-wrapper.open{
+  opacity:1;
+  visibility:visible;
+}
+
+.modal{
+  width:800px;
+  height:400px;
+  display:block;
+  margin:50% 0 0 -400px;
+  position:relative;
+  top:50%; left:50%;
+  background:#fff;
+  opacity:0;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+
+.modal-wrapper.open .modal{
+  margin-top:-200px;
+  opacity:1;
+}
+
+.head{
+  height:40px;
+  padding:0.5em 2%;
+  overflow:hidden;
+  background:#57666d;
+}
+
+.btn-close{
+  width:26px;
+  height:26px;
+  display:block;
+  float:right;
+}
+
+.btn-close::before, .btn-close::after{
+  content:'';
+  width:24px;
+  height:6px;
+  display:block;
+  background:#fff;
+}
+
+.btn-close::before{
+  margin-top:12px;
+  -webkit-transform:rotate(45deg);
+  -moz-transform:rotate(45deg);
+  -o-transform:rotate(45deg);
+  transform:rotate(45deg);
+}
+
+.btn-close::after{
+  margin-top:-6px;
+  -webkit-transform:rotate(-45deg);
+  -moz-transform:rotate(-45deg);
+  -o-transform:rotate(-45deg);
+  transform:rotate(-45deg);
+}
+
+.content{
+  padding:5%;
+}
+
+.content .contact-information {
+    display:inline-block;
+}
+.label-head {
+    color: #fff;
+    font-size: 1.8rem;
+}
 
 @media screen and (max-width: 768px) {
   .main-content .col-lg-6.p-l-0-tab {

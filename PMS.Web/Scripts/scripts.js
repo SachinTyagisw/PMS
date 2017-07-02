@@ -232,4 +232,79 @@ new PhotoSubmission;
 
 //});
 
+$(function () {
+    $(".search").keyup(function () {
+        var searchTerm = $(".search").val();
+        var listItem = $('.results tbody').children('tr');
+        var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
+    
+      $.extend($.expr[':'], {'containsi': function(elem, i, match, array){
+            return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
+        }
+      });
+    
+      $(".results tbody tr").not(":containsi('" + searchSplit + "')").each(function(e){
+        $(this).attr('visible','false');
+      });
 
+      $(".results tbody tr:containsi('" + searchSplit + "')").each(function(e){
+        $(this).attr('visible','true');
+      });
+
+      var jobCount = $('.results tbody tr[visible="true"]').length;
+        $('.counter').text(jobCount + ' item');
+
+      if(jobCount == '0') {$('.no-result').show();}
+        else {$('.no-result').hide();}
+	});
+
+    $(".tableContents thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
+    $(".tableContents tbody tr").append('<td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+
+    $("table").on("click", ".fa-plus-circle", function () {
+        $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td></tr>');
+    });
+
+    $("#addRow").on("click", function () {
+        $("table").append('<tr><td class="idRow" contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td></tr>');
+    });
+
+    $("table").on("click", ".fa-minus-circle", function () {
+        //if (prompt("Are You Sure You Want to Delete this Row? Type 'yes' to Confirm this") == "yes") {
+            $(this).closest('tr').remove();
+        //} else { }
+    });
+
+    $("table").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {
+        var thisRow = $(this).parent().siblings();
+        var editOn = $(this).hasClass("editMode");
+
+        $('td:last-child').attr('contenteditable', 'false');
+        $('td:last-child').css('background-color', 'transparent');
+
+        if (editOn == false) {
+            $(thisRow).attr('contenteditable', 'true');
+            $(thisRow).css('background-color', '#ffc9c9');
+            $(this).removeClass("fa-pencil-square-o");
+            $(this).addClass("fa-floppy-o editMode");
+        } else if (editOn == true) {
+            $(thisRow).attr('contenteditable', 'false');
+            $(thisRow).css('background-color', 'transparent');
+            $(this).removeClass("fa-floppy-o editMode");
+            $(this).addClass("fa-pencil-square-o");
+        }
+    });
+
+    $('th', this).dblclick(function () {
+        $(this).attr("contenteditable", "true");
+    });
+    $('th', this).mouseout(function () {
+        $(this).attr("contenteditable", "false");
+    });
+
+    $('#createRow, .trigger').click(function () {
+        $('.modal-wrapper').toggleClass('open');
+        $('.page-wrapper').toggleClass('blur');
+        return false;
+    });
+});
