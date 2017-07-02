@@ -4799,6 +4799,32 @@ a.btn{
     color: #fff;
     font-size: 1.8rem;
 }
+h1.table-head {
+  margin: 1em 0;
+  color: #57666d;
+  text-align: center;
+  overflow: hidden;
+  font-size: 2rem;
+}
+h1.table-head span {
+  display: inline-block;
+  position: relative;
+}
+h1.table-head span:before, h1.table-head span:after {
+  content: "";
+  border-bottom: 2px solid #57666d;
+  width: 3em;
+  margin: 0 1.5em;
+  position: absolute;
+  bottom: .5em;
+}
+h1.table-head span:before {
+  right: 100%;
+}
+h1.table-head span:after {
+  left: 100%;
+}
+
 
 @media screen and (max-width: 768px) {
   .main-content .col-lg-6.p-l-0-tab {
