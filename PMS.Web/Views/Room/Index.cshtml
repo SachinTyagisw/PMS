@@ -1,8 +1,186 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    //    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="content-wrap">
+    <div class="main controls">
+        <div class="container-fluid">
+            <div class="main-content">
+                <div class="form-group m-t-10">
+                    <input type="text" class="search form-control" placeholder="Search by Property Name, Owner Name, Country ...">
+                </div>
+                <span class="counter"></span>
+                <table class="table table-hover table-bordered results tableContents">
+                    <thead>
+                        <tr>
+                            <th id="IDCol">ID #</th>
+                            <th id="propertyNameCol" contenteditable="false">Property Name</th>
+                            <th id="ownerCol" contenteditable="false">Owner</th>
+                            <th id="countryCol" contenteditable="false">Country</th>
+                            <th id="stateCol" contenteditable="false">State</th>
+                            <th id="cityCol" contenteditable="false">City</th>
+                            <th id="createdDateCol" contenteditable="false">Created Date</th>
+                            <th id="updatedDateCol" contenteditable="false">Updated Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="idRow" contenteditable="false">1</td>
+                            <td contenteditable="false">Hilton</td>
+                            <td contenteditable="false">A2</td>
+                            <td contenteditable="false">A3</td>
+                            <td contenteditable="false">A4</td>
+                            <td contenteditable="false">A5</td>
+                            <td contenteditable="false">-</td>
+                            <td contenteditable="false">-</td>
+                        </tr>
+                        <tr>
+                            <td class="idRow" contenteditable="false">2</td>
+                            <td contenteditable="false">BayArea</td>
+                            <td contenteditable="false">B2</td>
+                            <td contenteditable="false">B3</td>
+                            <td contenteditable="false">B4</td>
+                            <td contenteditable="false">B5</td>
+                            <td contenteditable="false">-</td>
+                            <td contenteditable="false">-</td>
+                        </tr>
+                        <tr>
+                            <td class="idRow" contenteditable="false">3</td>
+                            <td contenteditable="false">Marriot</td>
+                            <td contenteditable="false">C2</td>
+                            <td contenteditable="false">C3</td>
+                            <td contenteditable="false">C4</td>
+                            <td contenteditable="false">C5</td>
+                            <td contenteditable="false">-</td>
+                            <td contenteditable="false">-</td>
+                        </tr>
+                        <tr id="bottomRow Row4">
+                            <td class="idRow" contenteditable="false">4</td>
+                            <td contenteditable="false">Crystal</td>
+                            <td contenteditable="false">D2</td>
+                            <td contenteditable="false">D3</td>
+                            <td contenteditable="false">D4</td>
+                            <td contenteditable="false">D5</td>
+                            <td contenteditable="false">-</td>
+                            <td contenteditable="false">-</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-wrapper">
+    <div class="modal">
+        <div class="head">
+            <span class="label-head">Create Property</span><a class="btn-close trigger" href="javascript:;"></a>
+        </div>
+        <div class="content">
+            <div class="contact-information">
 
-<h2>Index</h2>
-
+                <div class="state-content">
+                    <div class="col-lg-3 p-l-0">
+                        <div class="form-group">
+                            <input id="property-name" type="text" maxlength="10" placeholder="Property Name" class="form-control" name="example-input-normal">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 p-l-0">
+                        <div class="form-group">
+                            <input id="property-code" type="text" maxlength="10" placeholder="Property Code" class="form-control" name="example-input-normal">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 p-l-0">
+                        <div class="form-group">
+                            <input id="secondry-name" type="text" maxlength="10" placeholder="Secondry Name" class="form-control" name="example-input-normal">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 p-r-0 p-l-0">
+                        <div class="form-group">
+                            <input id="website" type="text" maxlength="10" placeholder="Website Address" class="form-control" name="example-input-normal">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 p-l-0">
+                        <div class="form-group">
+                            <input id="timezone" type="text" maxlength="10" placeholder="Time Zone" class="form-control" name="example-input-normal">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 p-l-0">
+                        <div class="form-group">
+                            <input id="currency" type="text" maxlength="10" placeholder="Currency" class="form-control" name="example-input-normal">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 p-l-0">
+                        <div class="form-group">
+                            <input id="phone" type="text" maxlength="10" placeholder="Phone" class="form-control" name="example-input-normal">
+                        </div>
+                    </div>
+                    <div class="email-content">
+                        <div class="col-lg-3 p-r-0 p-l-0">
+                            <div class="form-group">
+                                <input type="text" placeholder="Email" class="form-control" name="example-input-normal" id="email">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 p-l-0">
+                        <div class="form-group">
+                            <select id="ddlCountry" onchange="OnCountryChange(true);" class="form-control">
+                                <option value="-1">Select Country</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 p-l-0">
+                        <div class="form-group">
+                            <select id="ddlState" onchange="OnStateChange();" class="form-control">
+                                <option value="-1">Select State</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="zipcode-content">
+                    <div class="col-lg-3 p-l-0">
+                        <div class="form-group">
+                            <select id="ddlCity" class="form-control">
+                                <option value="-1">Select City</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 p-r-0 p-l-0">
+                        <div class="form-group">
+                            <input type="text" id="zipCode" maxlength="6" placeholder="ZipCode" class="form-control" name="example-input-normal">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 p-l-0">
+                    <div class="form-group">
+                        <input id="fax" type="text" maxlength="10" placeholder="Fax" class="form-control" name="example-input-normal">
+                    </div>
+                </div>
+                <div class="col-lg-3 p-l-0">
+                    <div class="form-group">
+                        <input id="checkin-time" type="text" maxlength="10" placeholder="Check-In Time" class="form-control" name="example-input-normal">
+                    </div>
+                </div>
+                <div class="col-lg-3 p-l-0">
+                    <div class="form-group">
+                        <input id="checkout-time" type="text" maxlength="10" placeholder="Checkout Time" class="form-control" name="example-input-normal">
+                    </div>
+                </div>
+                <div class="col-lg-3 p-r-0 p-l-0">
+                    <div class="form-group">
+                        <input id="close-of-day-time" type="text" maxlength="10" placeholder="Close of Day Time" class="form-control" name="example-input-normal">
+                    </div>
+                </div>
+                <div class="col-lg-6 p-r-0 p-l-0">
+                    <div class="form-group">
+                        <textarea id="full-address" class="form-control" rows="3" placeholder="Full Address"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="button-section">
+                <button type="button" class="btn btn-primary m-l-5 m-t-15">Cancel</button>
+                <button type="button" class="btn btn-primary m-l-5 m-t-15">Create</button>
+            </div>
+        </div>
+    </div>
+</div>

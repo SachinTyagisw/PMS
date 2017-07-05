@@ -7,7 +7,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-
 namespace PMS.Web.Controllers
 {
     public class PropertyController : Controller
