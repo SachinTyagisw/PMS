@@ -276,6 +276,22 @@
           <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
           <Property Name="LastUpdatedOn" Type="datetime" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'PMS.dbo.PaymentType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="PaymentType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PropertyID" Type="int" />
+          <Property Name="ShortName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="LastUpdatedOn" Type="datetime" />
+        </EntityType>
         <EntityType Name="Property">
           <Key>
             <PropertyRef Name="ID" />
@@ -618,6 +634,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__PaymentTy__Prope__0C1BC9F9">
+          <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
+          <End Role="PaymentType" Type="Self.PaymentType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Property">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PaymentType">
+              <PropertyRef Name="PropertyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Rates__PropertyI__24285DB4">
           <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
           <End Role="Rates" Type="Self.Rates" Multiplicity="*" />
@@ -884,6 +912,19 @@
           <EntitySet Name="RoomType" EntityType="Self.RoomType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="State" EntityType="Self.State" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Taxes" EntityType="Self.Taxes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentType" EntityType="Self.PaymentType" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [PaymentType].[ID] AS [ID], 
+    [PaymentType].[PropertyID] AS [PropertyID], 
+    [PaymentType].[ShortName] AS [ShortName], 
+    [PaymentType].[Description] AS [Description], 
+    [PaymentType].[IsActive] AS [IsActive], 
+    [PaymentType].[CreatedBy] AS [CreatedBy], 
+    [PaymentType].[CreatedOn] AS [CreatedOn], 
+    [PaymentType].[LastUpdatedBy] AS [LastUpdatedBy], 
+    [PaymentType].[LastUpdatedOn] AS [LastUpdatedOn]
+    FROM [dbo].[PaymentType] AS [PaymentType]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK__Additiona__Booki__6442E2C9" Association="Self.FK__Additiona__Booki__6442E2C9">
             <End Role="Booking" EntitySet="Booking" />
             <End Role="AdditionalGuests" EntitySet="AdditionalGuests" />
@@ -943,6 +984,10 @@
           <AssociationSet Name="FK__InvoiceTa__Invoi__403A8C7D" Association="Self.FK__InvoiceTa__Invoi__403A8C7D">
             <End Role="Invoice" EntitySet="Invoice" />
             <End Role="InvoiceTaxDetail" EntitySet="InvoiceTaxDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PaymentTy__Prope__0C1BC9F9" Association="Self.FK__PaymentTy__Prope__0C1BC9F9">
+            <End Role="Property" EntitySet="Property" />
+            <End Role="PaymentType" EntitySet="PaymentType" />
           </AssociationSet>
           <AssociationSet Name="FK__Rates__PropertyI__24285DB4" Association="Self.FK__Rates__PropertyI__24285DB4">
             <End Role="Property" EntitySet="Property" />
@@ -1345,6 +1390,7 @@
           <Property Name="City" Type="Int32" />
           <NavigationProperty Name="Bookings" Relationship="Self.FK__Booking__Propert__1273C1CD" FromRole="Property" ToRole="Booking" />
           <NavigationProperty Name="ExtraCharges" Relationship="Self.FK__ExtraChar__Prope__214BF109" FromRole="Property" ToRole="ExtraCharges" />
+          <NavigationProperty Name="PaymentTypes" Relationship="Self.FK__PaymentTy__Prope__0C1BC9F9" FromRole="Property" ToRole="PaymentType" />
           <NavigationProperty Name="Rates" Relationship="Self.FK__Rates__PropertyI__24285DB4" FromRole="Property" ToRole="Rates" />
           <NavigationProperty Name="RateTypes" Relationship="Self.FK__RateType__Proper__267ABA7A" FromRole="Property" ToRole="RateType" />
           <NavigationProperty Name="RateTypes1" Relationship="Self.FK__RateType__Proper__27F8EE98" FromRole="Property" ToRole="RateType" />
@@ -1508,6 +1554,21 @@
           <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
           <NavigationProperty Name="AllTax" Relationship="Self.FK__Taxes__TaxId__39237A9A" FromRole="Taxes" ToRole="AllTaxes" />
           <NavigationProperty Name="Property" Relationship="Self.FK__Taxes__PropertyI__382F5661" FromRole="Taxes" ToRole="Property" />
+        </EntityType>
+        <EntityType Name="PaymentType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PropertyID" Type="Int32" />
+          <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Property" Relationship="Self.FK__PaymentTy__Prope__0C1BC9F9" FromRole="PaymentType" ToRole="Property" />
         </EntityType>
         <Association Name="FK__Additiona__Booki__6442E2C9">
           <End Role="Booking" Type="Self.Booking" Multiplicity="0..1" />
@@ -1737,6 +1798,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__PaymentTy__Prope__0C1BC9F9">
+          <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
+          <End Role="PaymentType" Type="Self.PaymentType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Property">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PaymentType">
+              <PropertyRef Name="PropertyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Rates__PropertyI__24285DB4">
           <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
           <End Role="Rates" Type="Self.Rate" Multiplicity="*" />
@@ -1910,6 +1983,7 @@
           <EntitySet Name="RoomTypes" EntityType="Self.RoomType" />
           <EntitySet Name="States" EntityType="Self.State" />
           <EntitySet Name="Taxes" EntityType="Self.Tax" />
+          <EntitySet Name="PaymentTypes" EntityType="Self.PaymentType" />
           <AssociationSet Name="FK__Additiona__Booki__6442E2C9" Association="Self.FK__Additiona__Booki__6442E2C9">
             <End Role="Booking" EntitySet="Bookings" />
             <End Role="AdditionalGuests" EntitySet="AdditionalGuests" />
@@ -1985,6 +2059,10 @@
           <AssociationSet Name="FK__InvoiceTa__Invoi__403A8C7D" Association="Self.FK__InvoiceTa__Invoi__403A8C7D">
             <End Role="Invoice" EntitySet="Invoices" />
             <End Role="InvoiceTaxDetail" EntitySet="InvoiceTaxDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PaymentTy__Prope__0C1BC9F9" Association="Self.FK__PaymentTy__Prope__0C1BC9F9">
+            <End Role="Property" EntitySet="Properties" />
+            <End Role="PaymentType" EntitySet="PaymentTypes" />
           </AssociationSet>
           <AssociationSet Name="FK__Rates__PropertyI__24285DB4" Association="Self.FK__Rates__PropertyI__24285DB4">
             <End Role="Property" EntitySet="Properties" />
@@ -2659,6 +2737,21 @@
                 <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
                 <ScalarProperty Name="TaxId" ColumnName="TaxId" />
                 <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentTypes">
+            <EntityTypeMapping TypeName="PmsModel.PaymentType">
+              <MappingFragment StoreEntitySet="PaymentType">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />

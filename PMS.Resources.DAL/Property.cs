@@ -18,6 +18,7 @@ namespace PMS.Resources.DAL
         {
             this.Bookings = new HashSet<Booking>();
             this.ExtraCharges = new HashSet<ExtraCharge>();
+            this.PaymentTypes = new HashSet<PaymentType>();
             this.Rates = new HashSet<Rate>();
             this.RateTypes = new HashSet<RateType>();
             this.RateTypes1 = new HashSet<RateType>();
@@ -53,6 +54,7 @@ namespace PMS.Resources.DAL
     
         public virtual ICollection<Booking> Bookings { get; set; }
         public virtual ICollection<ExtraCharge> ExtraCharges { get; set; }
+        public virtual ICollection<PaymentType> PaymentTypes { get; set; }
         public virtual ICollection<Rate> Rates { get; set; }
         public virtual ICollection<RateType> RateTypes { get; set; }
         public virtual ICollection<RateType> RateTypes1 { get; set; }
