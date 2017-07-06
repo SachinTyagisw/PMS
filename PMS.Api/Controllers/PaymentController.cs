@@ -70,10 +70,67 @@ namespace PMS.Api.Controllers
               );
         }
 
+
         [HttpPost, ActionName("AddPaymentType")]
-        public PmsResponseDto AddPaymentType([FromBody] AddPaymentTypeRequestDto request)
+        public PmsResponseDto AddPaymentType([FromBody] PaymentTypeRequestDto request)
         {
-            throw new NotImplementedException();
+            if (request == null || request.PaymentType == null)
+                throw new PmsException("Payment Type can not be added.");
+
+            var response = new PmsResponseDto();
+            var Id = _iPmsLogic.AddPaymentType(request.PaymentType);
+            if (Id > 0)
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "New Payment Type Added successfully.";
+                response.ResponseObject = Id;
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "New Room Addition failed.Contact administrator.";
+            }
+            return response;
         }
+
+        [HttpPut, ActionName("UpdatePaymentType")]
+        public PmsResponseDto UpdatePaymentType([FromBody] PaymentTypeRequestDto request)
+        {
+            if (request == null || request.PaymentType == null)
+                throw new PmsException("Payment Type can not be updated.");
+
+            var response = new PmsResponseDto();
+            if (_iPmsLogic.UpdatePaymentType(request.PaymentType))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "PaymentType Updated successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "PaymentType Updation failed.Contact administrator.";
+            }
+            return response;
+        }
+
+        [HttpDelete, ActionName("DeletePaymentType")]
+        public PmsResponseDto DeletePaymentType(int paymentTypeId)
+        {
+            if (paymentTypeId <= 0) throw new PmsException("Payment Type is not valid. Hence Payment Type can not be deleted.");
+
+            var response = new PmsResponseDto();
+            if (_iPmsLogic.DeletePaymentType(paymentTypeId))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "Payment Type Deleted successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "Payment Type Deletion failed.Contact administrator.";
+            }
+            return response;
+        }
+
     }
 }

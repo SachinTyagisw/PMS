@@ -10,7 +10,7 @@ namespace PMS.Resources.DTO.Request
 {
     [DataContract]
     [Serializable]
-    public class AddPaymentTypeRequestDto
+    public class PaymentTypeRequestDto
     {
         [DataMember]
         public PaymentType PaymentType { get; set; }

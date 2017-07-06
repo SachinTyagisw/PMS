@@ -29,6 +29,12 @@ namespace PMS.Resources.DAL
         bool UpdateRateType(PmsEntity.RateType rateType);
         bool DeleteRateType(int rateTypeId);
         List<PmsEntity.RateType> GetRateTypeByProperty(int propertyId);
+
+        //Payment Type Methods
+        int AddPaymentType(PmsEntity.PaymentType paymentType);
+        bool UpdatePaymentType(PmsEntity.PaymentType paymentType);
+        bool DeletePaymentType(int paymentTypeId);
+
         int AddRoomType(PmsEntity.RoomType roomType);
         bool UpdateRoomType(PmsEntity.RoomType roomType);
         bool DeleteRoomType(int roomTypeId);

@@ -1077,5 +1077,81 @@ namespace PMS.Resources.DAL
                 return booking;
             }
         }
+
+        public int AddPaymentType(PmsEntity.PaymentType paymentType)
+        {
+            var Id = -1;
+            if (paymentType == null) return Id;
+
+            var paymenttype = new DAL.PaymentType
+            {
+                CreatedOn = paymentType.CreatedOn,
+                IsActive = true,
+                CreatedBy = paymentType.CreatedBy,
+                PropertyID = paymentType.PropertyID,
+                ShortName = paymentType.ShortName,
+                Description = paymentType.Description,
+                LastUpdatedBy = paymentType.CreatedBy,
+                LastUpdatedOn = paymentType.LastUpdatedOn
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.PaymentTypes.Add(paymenttype);
+                var result = pmsContext.SaveChanges();
+                Id = result == 1 ? paymenttype.ID : -1;
+            }
+
+            return Id;
+        }
+
+        public bool UpdatePaymentType(PmsEntity.PaymentType paymentType)
+        {
+            var isUpdated = false;
+            if (paymentType == null) return isUpdated;
+
+            var paymenttype = new DAL.PaymentType
+            {
+                LastUpdatedOn = paymentType.LastUpdatedOn,
+                IsActive = paymentType.IsActive,
+                LastUpdatedBy = paymentType.LastUpdatedBy,
+                PropertyID = paymentType.PropertyID,
+                Description = paymentType.Description,
+                ShortName = paymentType.ShortName,
+                ID = paymentType.ID,
+                CreatedBy = paymentType.CreatedBy,
+                CreatedOn = paymentType.CreatedOn
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Entry(paymenttype).State = System.Data.Entity.EntityState.Modified;
+                var result = pmsContext.SaveChanges();
+                isUpdated = result == 1 ? true : false;
+            }
+
+            return isUpdated;
+        }
+
+        public bool DeletePaymentType(int paymentTypeId)
+        {
+            var isDeleted = false;
+            if (paymentTypeId <= 0) return isDeleted;
+
+            var paymenttype = new DAL.PaymentType
+            {
+                IsActive = false,
+                ID = paymentTypeId
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.PaymentTypes.Attach(paymenttype);
+                pmsContext.Entry(paymenttype).Property(x => x.IsActive).IsModified = true;
+                var result = pmsContext.SaveChanges();
+                isDeleted = result == 1 ? true : false;
+            }
+            return isDeleted;
+        }
     }
 }

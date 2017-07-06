@@ -267,6 +267,21 @@ namespace PMS.Resources.Logic
             return DalFactory.GetBookingById(bookingId);
         }
 
+        public int AddPaymentType(PmsEntity.PaymentType paymentType)
+        {
+            return DalFactory.AddPaymentType(paymentType);
+        }
+
+        public bool UpdatePaymentType(PmsEntity.PaymentType paymentType)
+        {
+            return DalFactory.UpdatePaymentType(paymentType);
+        }
+
+        public bool DeletePaymentType(int paymentTypeId)
+        {
+            return DalFactory.DeletePaymentType(paymentTypeId);
+        }
+
         #region helper methods 
         private string RemoveXmlDefaultNode(string xml)
         {
@@ -276,6 +291,6 @@ namespace PMS.Resources.Logic
             xml = xml.Remove(idxStartNode, length);
             return xml;
         }
-        #endregion 
+        #endregion
     }
 }
