@@ -64,7 +64,7 @@
         if (!window.PmsSession.GetItem("roomtypedata")) {
             window.GuestCheckinManager.Initialize();
         }
-        
+        window.GuestCheckinManager.AjaxHandlers();
     });
     </script>
 
@@ -189,8 +189,7 @@
                     $('#divLoader').removeClass("bg-overlay");
                     $('.bg-overlay, .loader').css('display', 'none');
                 }
-            });
-            
+            });            
         </script>
     </body>
     </html>

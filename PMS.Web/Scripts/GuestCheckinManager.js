@@ -23,7 +23,6 @@
                 window.location.replace(window.webBaseUrl + "Account/Login");
                 return;
             }
-            ajaxHandlers();
             getRoomTypes();
             getRoomRateTypes();
             getCountry();
@@ -626,6 +625,251 @@
             $('#ddlInitials').attr("disabled", shouldMakeReadOnly);
             $("#idDetails").prop("readonly", shouldMakeReadOnly);
             $('#ddlIdType').attr("disabled", shouldMakeReadOnly);
+        },
+        GetAllProperty: function () {
+            // get property by api calling  
+            pmsService.GetAllProperty(args);
+        },
+
+        PopulatePropertyGrid: function (data) {
+            var divProperty = $('#divProperty');
+            var propertyTemplate = $('#propertyTemplate');
+            divProperty.html(propertyTemplate.render(data));
+        },
+        
+        AjaxHandlers: function () {
+            // ajax handlers start
+            pmsService.Handlers.OnAddBookingSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                if (data.BookingId > 0 && data.GuestId > 0) {
+                    window.GuestCheckinManager.BookingDto.BookingId = data.BookingId;
+                    window.GuestCheckinManager.BookingDto.GuestId = data.GuestId;
+
+                    $('#btnSave').attr("disabled", false);
+                    $('#btnCheckout').attr("disabled", false);
+                    $('#btnCheckin').attr("disabled", true);
+                    $('#saveInvoice').attr("disabled", false);
+                    var roomnumber = $('#roomddl').val();
+                    var fname = $('#fName').val();
+                    var lname = $('#lName').val();
+                    var initials = $('#ddlInitials')[0].selectedOptions[0].innerText;
+                    var message = 'Roomnumber ' + roomnumber + ' has been booked for ' + initials + ' ' + fname + ' ' + lname;
+                    alert(message);
+                    console.log(message);
+                    // if booking is successful then upload image
+                    uploadImage($("#uploadPhoto"));
+                    // to load fresh data
+                    window.GuestCheckinManager.AutoCollapseGuestHistory();
+
+                } else {
+                    console.error(status);
+                    alert(status);
+                }
+            };
+
+            pmsService.Handlers.OnAddBookingFailure = function () {
+                // show error log
+                console.error("Room Booking is failed");
+            };
+
+            pmsService.Handlers.OnGetRoomTypeByPropertySuccess = function (data) {
+                //storing room type data into session storage
+                pmsSession.SetItem("roomtypedata", JSON.stringify(data.RoomTypes));
+                window.GuestCheckinManager.BindRoomTypeDdl();
+            };
+
+            pmsService.Handlers.OnGetRoomTypeByPropertyFailure = function () {
+                // show error log
+                console.error("Get Room type call failed");
+            };
+
+            pmsService.Handlers.OnGetRateTypeByPropertySuccess = function (data) {
+                //storing room rate type data into session storage
+                pmsSession.SetItem("ratetypedata", JSON.stringify(data.RateTypes));
+                window.GuestCheckinManager.BindRateTypeDdl();
+            };
+
+            pmsService.Handlers.OnGetRateTypeByPropertyFailure = function () {
+                // show error log
+                console.error("Get Room rate type call failed");
+            };
+
+            pmsService.Handlers.OnImageUploadSuccess = function (data) {
+                console.log(data[0]);
+            };
+
+            pmsService.Handlers.OnImageUploadFailure = function () {
+                // show error log
+                console.error("Image upload failed");
+            };
+
+            pmsService.Handlers.OnGetRoomByDateSuccess = function (data) {
+                pmsSession.SetItem("roomdata", JSON.stringify(data.Rooms));
+                window.GuestCheckinManager.BindRoomDdl();
+            };
+            pmsService.Handlers.OnGetRoomByDateFailure = function () {
+                // show error log
+                console.error("get room call failed");
+            };
+
+            pmsService.Handlers.OnGetGuestHistoryByIdSuccess = function (data) {
+                if (!data || !data.GuestHistory || data.GuestHistory.length <= 0) return;
+
+                var guestId = window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;
+                if (guestId === -1) return;
+
+                var idx = gcm.CheckIfKeyPresent(guestId, pmsSession.GuestSessionKey);
+                // store guesthistory data in session storage only when guestid is not present in session
+                if (idx === -1) {
+                    pmsSession.GuestSessionKey.push({
+                        Id: guestId,
+                        guesthistory: data.GuestHistory
+                    });
+                    pmsSession.SetItem("guesthistory", JSON.stringify(pmsSession.GuestSessionKey));
+                }
+                bindGuestHistory(data);
+            };
+            pmsService.Handlers.OnGetGuestHistoryByIdFailure = function () {
+                // show error log
+                console.error("Guest History failed");
+            };
+
+            pmsService.Handlers.OnGetCountrySuccess = function (data) {
+                if (!data || !data.Country || data.Country.length <= 0) return;
+
+                pmsSession.SetItem("countrydata", JSON.stringify(data.Country));
+                window.GuestCheckinManager.BindCountryDdl();
+            };
+            pmsService.Handlers.OnGetCountryFailure = function () {
+                // show error log
+                console.error("get country call failed");
+            };
+
+            pmsService.Handlers.OnGetStateByCountrySuccess = function (data) {
+                if (!data || !data.States || data.States.length <= 0) return;
+
+                var countryId = isDdlCountryChange ? $('#ddlCountry').val() : $('#ddlIdCountry').val();
+
+                var idx = gcm.CheckIfKeyPresent(countryId, pmsSession.CountrySessionKey);
+                // store state data in session storage only when country key is not present
+                if (idx === -1) {
+                    pmsSession.CountrySessionKey.push({
+                        Id: countryId,
+                        statevalue: data.States
+                    });
+                    pmsSession.SetItem("statedata", JSON.stringify(pmsSession.CountrySessionKey));
+                    //calculating the index of the statedata added in session above
+                    idx = pmsSession.CountrySessionKey.length - 1;
+                }
+
+                window.GuestCheckinManager.BindStateDdl(idx, isDdlCountryChange);
+            };
+            pmsService.Handlers.OnGetStateByCountryFailure = function () {
+                // show error log
+                console.error("get state call failed");
+            };
+
+            pmsService.Handlers.OnGetGuestSuccess = function (data) {
+                if (!data || !data.Guest || data.Guest.length <= 0) return;
+                pmsSession.SetItem("guestinfo", JSON.stringify(data.Guest));
+            };
+            pmsService.Handlers.OnGetGuestFailure = function () {
+                // show error log
+                console.error("get guest call failed");
+            };
+
+            pmsService.Handlers.OnGetCityByStateSuccess = function (data) {
+                if (!data || !data.City || data.City.length <= 0) return;
+
+                var stateId = $('#ddlState').val();
+
+                var idx = gcm.CheckIfKeyPresent(stateId, pmsSession.StateSessionKey);
+                // store city data in session storage only when state key is not present
+                if (idx === -1) {
+                    pmsSession.StateSessionKey.push({
+                        Id: stateId,
+                        cityvalue: data.City
+                    });
+                    pmsSession.SetItem("citydata", JSON.stringify(pmsSession.StateSessionKey));
+                    //calculating the index of the citydata added in session above
+                    idx = pmsSession.StateSessionKey.length - 1;
+                }
+
+                window.GuestCheckinManager.BindCityDdl(idx);
+            };
+            pmsService.Handlers.OnGetCityByStateFailure = function () {
+                // show error log
+                console.error("get city call failed");
+            };
+
+            pmsService.Handlers.OnGetPaymentChargesSuccess = function (data) {
+                if (!data || !data.Tax || data.Tax.length <= 0) return;
+                $('#saveInvoice').attr("disabled", false);
+                window.GuestCheckinManager.invoiceData = null;
+                window.GuestCheckinManager.invoiceData = data;
+                window.GuestCheckinManager.PopulateCharges(data);
+            };
+            pmsService.Handlers.OnGetPaymentChargesFailure = function () {
+                // show error log
+                console.error("get PaymentCharges call failed");
+            };
+
+            pmsService.Handlers.OnAddInvoiceSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                if (data.ResponseObject > 0) {
+                    window.GuestCheckinManager.BookingDto.InvoiceId = data.ResponseObject;
+                    console.log(status);
+                } else {
+                    console.error(status);
+                }
+                alert(status);
+            };
+
+            pmsService.Handlers.OnAddInvoiceFailure = function () {
+                // show error log
+                console.error("Invoice is not added.");
+            };
+
+            pmsService.Handlers.OnGetInvoiceByIdSuccess = function (data) {
+                if (!data || !data.Invoice || !data.Invoice.Tax || data.Invoice.Tax.length <= 0) return;
+                $('#saveInvoice').attr("disabled", false);
+                window.GuestCheckinManager.invoiceData = null;
+                window.GuestCheckinManager.invoiceData = data;
+                window.GuestCheckinManager.PopulateCharges(data);
+            };
+            pmsService.Handlers.OnGetInvoiceByIdFailure = function () {
+                // show error log
+                console.error("get invoice call failed");
+            };
+
+            pmsService.Handlers.OnGetBookingByIdSuccess = function (data) {
+                if (!data || !data.Bookings || data.Bookings.length <= 0) return;
+                window.GuestCheckinManager.PopulateUi(data.Bookings);
+            };
+            pmsService.Handlers.OnGetBookingByIdFailure = function () {
+                // show error log
+                console.error("get booking call failed");
+            };
+
+            pmsService.Handlers.OnGetAllPropertySuccess = function (data) {
+                if (!data || !data.Properties || data.Properties.length <= 0) return;
+                window.GuestCheckinManager.PopulatePropertyGrid(data);
+            };
+            pmsService.Handlers.OnGetAllPropertyFailure = function () {
+                // show error log
+                console.error("get all property call failed");
+            };
+
+            //pmsService.Handlers.OnGetRoomByPropertySuccess = function (data) {
+            //    //storing room data into session storage
+            //    pmsSession.SetItem("roomdata", JSON.stringify(data.Rooms));
+            //};
+            //pmsService.Handlers.OnGetRoomByPropertyFailure = function () {
+            //    // show error log
+            //    console.error("Get Room call failed");
+            //};
+
+            // ajax handlers end
         }
         
         //DateDiff: function () {
@@ -1190,227 +1434,7 @@
     
     function ajaxHandlers() {
 
-        // ajax handlers start
-
-        pmsService.Handlers.OnAddBookingSuccess = function (data) {
-            var status = data.StatusDescription.toLowerCase();
-            if (data.BookingId > 0 && data.GuestId > 0) {
-                window.GuestCheckinManager.BookingDto.BookingId = data.BookingId;
-                window.GuestCheckinManager.BookingDto.GuestId = data.GuestId;
-                
-                $('#btnSave').attr("disabled", false);
-                $('#btnCheckout').attr("disabled", false);
-                $('#btnCheckin').attr("disabled", true);
-                $('#saveInvoice').attr("disabled", false);
-                var roomnumber = $('#roomddl').val();
-                var fname = $('#fName').val();
-                var lname = $('#lName').val();
-                var initials = $('#ddlInitials')[0].selectedOptions[0].innerText;
-                var message = 'Roomnumber ' + roomnumber + ' has been booked for ' + initials + ' ' + fname + ' ' + lname;
-                alert(message);
-                console.log(message);
-                // if booking is successful then upload image
-                uploadImage($("#uploadPhoto"));
-                // to load fresh data
-                window.GuestCheckinManager.AutoCollapseGuestHistory();
-
-            } else {
-                console.error(status);
-                alert(status);
-            }            
-        };
-
-        pmsService.Handlers.OnAddBookingFailure = function () {
-            // show error log
-            console.error("Room Booking is failed");
-        };
-
-        pmsService.Handlers.OnGetRoomTypeByPropertySuccess = function (data) {
-            //storing room type data into session storage
-            pmsSession.SetItem("roomtypedata", JSON.stringify(data.RoomTypes));
-            window.GuestCheckinManager.BindRoomTypeDdl();
-        };
-        pmsService.Handlers.OnGetRoomTypeByPropertyFailure = function () {
-            // show error log
-            console.error("Get Room type call failed");
-        };
-
-        pmsService.Handlers.OnGetRateTypeByPropertySuccess = function (data) {
-            //storing room rate type data into session storage
-            pmsSession.SetItem("ratetypedata", JSON.stringify(data.RateTypes));
-            window.GuestCheckinManager.BindRateTypeDdl();
-        };
-        pmsService.Handlers.OnGetRateTypeByPropertyFailure = function () {
-            // show error log
-            console.error("Get Room rate type call failed");
-        };           
-
-        pmsService.Handlers.OnImageUploadSuccess = function (data) {
-            console.log(data[0]);
-        };
-        pmsService.Handlers.OnImageUploadFailure = function () {
-            // show error log
-            console.error("Image upload failed");
-        };
-
-        pmsService.Handlers.OnGetRoomByDateSuccess = function (data) {
-            pmsSession.SetItem("roomdata", JSON.stringify(data.Rooms));
-            window.GuestCheckinManager.BindRoomDdl();
-        };
-        pmsService.Handlers.OnGetRoomByDateFailure = function () {
-            // show error log
-            console.error("get room call failed");
-        };
-
-        pmsService.Handlers.OnGetGuestHistoryByIdSuccess = function (data) {
-            if (!data || !data.GuestHistory || data.GuestHistory.length <= 0) return;
-
-            var guestId = window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;
-            if (guestId === -1) return;
-
-            var idx = gcm.CheckIfKeyPresent(guestId, pmsSession.GuestSessionKey);
-            // store guesthistory data in session storage only when guestid is not present in session
-            if (idx === -1) {
-                pmsSession.GuestSessionKey.push({
-                    Id: guestId,
-                    guesthistory: data.GuestHistory
-                });
-                pmsSession.SetItem("guesthistory", JSON.stringify(pmsSession.GuestSessionKey));
-            }
-            bindGuestHistory(data);
-        };
-        pmsService.Handlers.OnGetGuestHistoryByIdFailure = function () {
-            // show error log
-            console.error("Guest History failed");
-        };
-
-        pmsService.Handlers.OnGetCountrySuccess = function (data) {
-            if (!data || !data.Country || data.Country.length <= 0) return;
-
-            pmsSession.SetItem("countrydata", JSON.stringify(data.Country));
-            window.GuestCheckinManager.BindCountryDdl();
-        };
-        pmsService.Handlers.OnGetCountryFailure = function () {
-            // show error log
-            console.error("get country call failed");
-        };
-
-        pmsService.Handlers.OnGetStateByCountrySuccess = function (data) {
-            if (!data || !data.States || data.States.length <= 0) return;
-            
-            var countryId = isDdlCountryChange ? $('#ddlCountry').val() : $('#ddlIdCountry').val();
-            
-            var idx = gcm.CheckIfKeyPresent(countryId, pmsSession.CountrySessionKey);
-            // store state data in session storage only when country key is not present
-            if (idx === -1) {
-                pmsSession.CountrySessionKey.push({
-                    Id: countryId,
-                    statevalue: data.States
-                });
-                pmsSession.SetItem("statedata", JSON.stringify(pmsSession.CountrySessionKey));
-                //calculating the index of the statedata added in session above
-                idx = pmsSession.CountrySessionKey.length - 1;
-            }
-            
-            window.GuestCheckinManager.BindStateDdl(idx, isDdlCountryChange);
-        };
-        pmsService.Handlers.OnGetStateByCountryFailure = function () {
-            // show error log
-            console.error("get state call failed");
-        };
-
-        pmsService.Handlers.OnGetGuestSuccess = function (data) {
-            if (!data || !data.Guest || data.Guest.length <= 0) return;
-            pmsSession.SetItem("guestinfo", JSON.stringify(data.Guest));
-        };
-        pmsService.Handlers.OnGetGuestFailure = function () {
-            // show error log
-            console.error("get guest call failed");
-        };
-
-        pmsService.Handlers.OnGetCityByStateSuccess = function (data) {
-            if (!data || !data.City || data.City.length <= 0) return;
-
-            var stateId = $('#ddlState').val();
-
-            var idx = gcm.CheckIfKeyPresent(stateId, pmsSession.StateSessionKey);
-            // store city data in session storage only when state key is not present
-            if (idx === -1) {
-                pmsSession.StateSessionKey.push({
-                    Id: stateId,
-                    cityvalue: data.City
-                });
-                pmsSession.SetItem("citydata", JSON.stringify(pmsSession.StateSessionKey));
-                //calculating the index of the citydata added in session above
-                idx = pmsSession.StateSessionKey.length - 1;
-            }
-
-            window.GuestCheckinManager.BindCityDdl(idx);
-        };
-        pmsService.Handlers.OnGetCityByStateFailure = function () {
-            // show error log
-            console.error("get city call failed");
-        };
-
-        pmsService.Handlers.OnGetPaymentChargesSuccess = function (data) {
-            if (!data || !data.Tax || data.Tax.length <= 0) return;
-            $('#saveInvoice').attr("disabled", false);
-            window.GuestCheckinManager.invoiceData = null;
-            window.GuestCheckinManager.invoiceData = data;
-            window.GuestCheckinManager.PopulateCharges(data);
-        };
-        pmsService.Handlers.OnGetPaymentChargesFailure = function () {
-            // show error log
-            console.error("get PaymentCharges call failed");
-        };
-
-        pmsService.Handlers.OnAddInvoiceSuccess = function (data) {
-            var status = data.StatusDescription.toLowerCase();
-            if (data.ResponseObject > 0) {
-                window.GuestCheckinManager.BookingDto.InvoiceId = data.ResponseObject;
-                console.log(status);
-            } else {
-                console.error(status);
-            }
-            alert(status);
-        };
-
-        pmsService.Handlers.OnAddInvoiceFailure = function () {
-            // show error log
-            console.error("Invoice is not added.");
-        };
-
-        pmsService.Handlers.OnGetInvoiceByIdSuccess = function (data) {
-            if (!data || !data.Invoice || !data.Invoice.Tax || data.Invoice.Tax.length <= 0) return;
-            $('#saveInvoice').attr("disabled", false);
-            window.GuestCheckinManager.invoiceData = null;
-            window.GuestCheckinManager.invoiceData = data;
-            window.GuestCheckinManager.PopulateCharges(data);
-        };
-        pmsService.Handlers.OnGetInvoiceByIdFailure = function () {
-            // show error log
-            console.error("get invoice call failed");
-        };
-
-        pmsService.Handlers.OnGetBookingByIdSuccess = function (data) {
-            if (!data || !data.Bookings || data.Bookings.length <= 0) return;            
-            window.GuestCheckinManager.PopulateUi(data.Bookings);
-        };
-        pmsService.Handlers.OnGetBookingByIdFailure = function () {
-            // show error log
-            console.error("get booking call failed");
-        };
-
-        //pmsService.Handlers.OnGetRoomByPropertySuccess = function (data) {
-        //    //storing room data into session storage
-        //    pmsSession.SetItem("roomdata", JSON.stringify(data.Rooms));
-        //};
-        //pmsService.Handlers.OnGetRoomByPropertyFailure = function () {
-        //    // show error log
-        //    console.error("Get Room call failed");
-        //};
-
-        // ajax handlers end
+       
     }
 
     win.GuestCheckinManager = guestCheckinManager;

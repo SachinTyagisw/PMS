@@ -36,6 +36,12 @@
             OnGetInvoiceByIdFailure: null,
             OnGetBookingByIdSuccess: null,
             OnGetBookingByIdFailure: null,
+            OnGetAllPropertySuccess: null,
+            OnGetAllPropertyFailure: null,
+        };
+
+        this.GetAllProperty = function (args) {
+            makeAjaxRequestGet(args, "GetAllProperty", this, "api/v1/Property/GetAllProperty");
         };
         
         this.GetBookingById = function (args) {
