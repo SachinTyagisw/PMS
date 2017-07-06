@@ -506,7 +506,7 @@ a.dt-button.active:not(.disabled) {
   border-color: #252525;
   color: #252525;
 }
-.btn {
+.button-section .btn {
     display: inline-block;
     padding: 4px 12px;
     margin-bottom: 0;
@@ -4695,7 +4695,7 @@ a.animated-button:link, a.animated-button:visited {
   filter: blur(5px);
 }
 
-a.btn{
+/*a.btn{
   width:150px;
   display:block;
   margin:-25px 0 0 -75px;
@@ -4709,7 +4709,7 @@ a.btn{
   color:#fff;
   border-radius:5px;
   background:rgba(217,67,86,1);
-}
+}*/
 
 .modal-wrapper{
   width:100%;
@@ -4824,7 +4824,22 @@ h1.table-head span:before {
 h1.table-head span:after {
   left: 100%;
 }
-
+.input-group-addon {
+    padding: 5px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    color: #555;
+    text-align: center;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: inline-table;
+    position: absolute;
+    right: 0;
+    z-index: 9;
+    bottom: 0;
+}
 
 @media screen and (max-width: 768px) {
   .main-content .col-lg-6.p-l-0-tab {

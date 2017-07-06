@@ -22,16 +22,34 @@
                         </div>
                         <div class="col-md-3 p-r-0">
                             <div class="form-group">
-                                <label>Check in</label>
-                                <input id="dateFrom" type="text" class="form-control calendar" placeholder="Check in">
-                                <span class="ti-calendar form-control-feedback booking-system-feedback"></span>
+                                <div class='input-group date' id='datetimepicker1'>
+                                    <label>Check in &nbsp;&nbsp;</label>
+                                    <input type='text' class="form-control calendar" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                                <script type="text/javascript">
+                                    $(function () {
+                                        $('#datetimepicker1').datetimepicker();
+                                    });
+                                </script>
                             </div>
                         </div>
                         <div class="col-md-3 p-r-0">
                             <div class="form-group">
-                                <label>Check out</label>
-                                <input id="dateTo" type="text" class="form-control calendar" placeholder="Check out">
-                                <span class="ti-calendar form-control-feedback booking-system-feedback"></span>
+                                <div class='input-group date' id='datetimepicker2'>
+                                    <label>Check Out</label>
+                                    <input type='text' class="form-control calendar" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                                <script type="text/javascript">
+                                    $(function () {
+                                        $('#datetimepicker2').datetimepicker();
+                                    });
+                                </script>
                             </div>
                         </div>
                         <div class="col-md-2 p-r-0">

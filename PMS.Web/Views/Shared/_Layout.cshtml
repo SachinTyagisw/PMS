@@ -20,16 +20,17 @@
     <!-- Standard iPhone Touch Icon-->
     <link rel="apple-touch-icon" sizes="57x57" href="#">
     <!-- Styles -->
-    <link href="~/Content/lib/calendar2/pignose.calendar.min.css" rel="stylesheet">
+    @*<link href="~/Content/lib/calendar2/pignose.calendar.min.css" rel="stylesheet">*@
     <link href="~/Content/lib/font-awesome.min.css" rel="stylesheet">
     <link href="~/Content/lib/themify-icons.css" rel="stylesheet">
     <link href="~/Content/lib/owl.theme.default.min.css" rel="stylesheet" />
     <link href="~/Content/lib/bootstrap.min.css" rel="stylesheet">
     <link href="~/Content/lib/unix.css" rel="stylesheet">
     <link href="~/Content/Jquery/jquery-ui.min.css" rel="stylesheet">
-    <link href="~/Content/lib/jquery-ui-timepicker-addon.css" rel="stylesheet">
-    <link href="~/Content/style.css" rel="stylesheet">    
-
+    @*<link href="~/Content/lib/jquery-ui-timepicker-addon.css" rel="stylesheet">*@
+    <link href="~/Content/Bootstrap/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <link href="~/Content/style.css" rel="stylesheet">
+    
     <!--comment below bundling js logic to unbundle js files -->
     @*<script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/jquery")"></script>*@
 
@@ -38,9 +39,9 @@
     <script src="~/Scripts/Jquery/jquery.validate.min.js"></script>
     <script src="~/Scripts/Jquery/jquery-ui.min.js"></script>
     <script src="~/Scripts/Jquery/lib/jquery.nanoscroller.min.js"></script>
-    <script src="~/Scripts/Jquery/lib/jquery-ui/jquery-ui-timepicker-addon.js"></script>
+    @*<script src="~/Scripts/Jquery/lib/jquery-ui/jquery-ui-timepicker-addon.js"></script>*@
     <script src="~/Scripts/Jquery/jquery.tmpl.js"></script>
-    
+
     <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/angular")"></script>    
     
     <!--comment below bundling js logic to unbundle js files -->
@@ -50,6 +51,8 @@
 
     <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/bootstrap")"></script>
     
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+    <script src="~/Scripts/Bootstrap/datetimepicker.js"></script>
     <script type="text/javascript">
         window.apiBaseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["ApiBaseUrl"].ToString())';
         window.webBaseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["WebBaseUrl"].ToString())';

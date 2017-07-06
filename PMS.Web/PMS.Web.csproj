@@ -193,6 +193,7 @@
     <Content Include="Content\admin\assets\fonts\themify9f24.html" />
     <Content Include="Content\admin\assets\fonts\themifyd41d.html" />
     <Content Include="Content\Angular\ng-grid.min.css" />
+    <Content Include="Content\Bootstrap\bootstrap-datetimepicker.css" />
     <Content Include="Content\Bootstrap\bootstrap.css" />
     <Content Include="Content\Bootstrap\bootstrap.min.css" />
     <Content Include="Content\font-awesome\font-awesome.min.css" />
@@ -293,6 +294,7 @@
     <Content Include="Scripts\Angular\ng-grid-flexible-height.min.js" />
     <Content Include="Scripts\Angular\ng-grid.min.js" />
     <Content Include="Scripts\Bootstrap\bootstrap.min.js" />
+    <Content Include="Scripts\Bootstrap\datetimepicker.js" />
     <Content Include="Scripts\Bootstrap\ui-bootstrap-tpls.min.js" />
     <Content Include="Scripts\daypilot\daypilot-all.min.js" />
     <Content Include="Scripts\GuestCheckinManager.js" />
