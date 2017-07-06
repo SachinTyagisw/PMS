@@ -30,8 +30,8 @@ namespace PMS.Resources.Entities
         public Nullable<System.TimeSpan> CheckinTime { get; set; }
         public Nullable<System.TimeSpan> CheckoutTime { get; set; }
         public Nullable<System.TimeSpan> CloseOfDayTime { get; set; }
-        public Nullable<int> State { get; set; }
-        public Nullable<int> Country { get; set; }
-        public Nullable<int> City { get; set; }
+        public State State { get; set; }
+        public Country Country { get; set; }
+        public City City { get; set; }
     }
 }

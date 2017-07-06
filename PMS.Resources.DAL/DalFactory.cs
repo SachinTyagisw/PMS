@@ -121,9 +121,10 @@ namespace PMS.Resources.DAL
                 CheckoutTime = property.CheckoutTime,
                 CloseOfDayTime = property.CloseOfDayTime,
                 CurrencyId = property.CurrencyID,
-                State = property.State,
-                Country = property.Country,
-                City = property.City
+                State = property.State.ID,
+                Country = property.Country.Id,
+                City = property.City.Id,
+                PropertyDetails = property.PropertyDetails
             };
 
             using (var pmsContext = new PmsEntities())
@@ -196,33 +197,47 @@ namespace PMS.Resources.DAL
 
             using (var pmsContext = new PmsEntities())
             {
-                properties = pmsContext.Properties.Where(x => x.IsActive)
-                                                 .Select(x => new PmsEntity.Property
-                                                 {
-                                                     CreatedOn = x.CreatedOn,
-                                                     PropertyName = x.PropertyName,
-                                                     CreatedBy = x.CreatedBy,
-                                                     LastUpdatedBy = x.LastUpdatedBy,
-                                                     LastUpdatedOn = x.LastUpdatedOn,
-                                                     Id = x.ID,                                                     
-                                                     IsActive = x.IsActive,
-                                                     CheckinTime = x.CheckinTime,
-                                                     CheckoutTime = x.CheckoutTime,
-                                                     City = x.City,
-                                                     State = x.State,
-                                                     CloseOfDayTime = x.CloseOfDayTime,
-                                                     Country = x.Country,
-                                                     Fax = x.Fax,
-                                                     FullAddress = x.FullAddress,
-                                                     LogoPath = x.LogoPath,
-                                                     Phone = x.Phone,
-                                                     PropertyCode = x.PropertyCode,
-                                                     PropertyDetails = x.PropertyDetails,
-                                                     SecondaryName = x.SecondaryName,
-                                                     TimeZone = x.TimeZone,
-                                                     WebSiteAddress = x.WebSiteAddress
-                                                 }).ToList();
-
+                properties = pmsContext.Properties
+                             .Join(pmsContext.Countries, p => p.Country, c => c.ID,
+                             (p, c) => new {p, c})
+                            .Join(pmsContext.Cities, x => x.p.City, ct => ct.ID,
+                            (x, ct) => new {x, ct})
+                            .Join(pmsContext.States, s => s.x.p.State, k => k.ID,
+                            (s, k) => new {s, k}).Where(l => l.s.x.p.IsActive)
+                            .Select(m => new PmsEntity.Property
+                            {
+                                CreatedOn = m.s.x.p.CreatedOn,
+                                PropertyName = m.s.x.p.PropertyName,
+                                CreatedBy = m.s.x.p.CreatedBy,
+                                LastUpdatedBy = m.s.x.p.LastUpdatedBy,
+                                LastUpdatedOn = m.s.x.p.LastUpdatedOn,
+                                Id = m.s.x.p.ID,
+                                IsActive = m.s.x.p.IsActive,
+                                CheckinTime = m.s.x.p.CheckinTime,
+                                CheckoutTime = m.s.x.p.CheckoutTime,
+                                CloseOfDayTime = m.s.x.p.CloseOfDayTime,
+                                Country = new PmsEntity.Country
+                                {
+                                    Name = m.s.x.c.Name
+                                },
+                                City = new PmsEntity.City
+                                {
+                                    Name = m.s.ct.Name
+                                },
+                                State = new PmsEntity.State
+                                {
+                                    Name = m.k.Name
+                                },
+                                Fax = m.s.x.p.Fax,
+                                FullAddress = m.s.x.p.FullAddress,
+                                LogoPath = m.s.x.p.LogoPath,
+                                Phone = m.s.x.p.Phone,
+                                PropertyCode = m.s.x.p.PropertyCode,
+                                PropertyDetails = m.s.x.p.PropertyDetails,
+                                SecondaryName = m.s.x.p.SecondaryName,
+                                TimeZone = m.s.x.p.TimeZone,
+                                WebSiteAddress = m.s.x.p.WebSiteAddress
+                            }).ToList();
             }
             return properties;
         }
