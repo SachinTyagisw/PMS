@@ -55,6 +55,7 @@ namespace PMS.Resources.DAL
         public virtual DbSet<RoomType> RoomTypes { get; set; }
         public virtual DbSet<State> States { get; set; }
         public virtual DbSet<Tax> Taxes { get; set; }
+        public virtual DbSet<PaymentType> PaymentTypes { get; set; }
     
         public virtual ObjectResult<GETALLBOOKINGS_Result> GETALLBOOKINGS(Nullable<int> pROPERTYID, Nullable<System.DateTime> cHECKINTIME, Nullable<System.DateTime> cHECKOUTDATE)
         {

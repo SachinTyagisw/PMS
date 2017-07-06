@@ -43,6 +43,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Request\AddInvoiceRequestDto.cs" />
     <Compile Include="Request\AddBookingRequestDto.cs" />
+    <Compile Include="Request\AddPaymentTypeRequestDto.cs" />
     <Compile Include="Request\AddPropertyRequestDto.cs" />
     <Compile Include="Request\AddPropertyTypeRequestDto.cs" />
     <Compile Include="Request\AddRateTypeRequestDto.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Response\GetInvoiceResponseDto.cs" />
     <Compile Include="Response\GetNotificationResponseDto.cs" />
     <Compile Include="Response\GetPaymentChargesResponseDto.cs" />
+    <Compile Include="Response\GetPaymentTypeResponseDto.cs" />
     <Compile Include="Response\GetPropertyResponseDto.cs" />
     <Compile Include="Response\GetPropertyTypeResponseDto.cs" />
     <Compile Include="Response\GetRewardResponseDto.cs" />

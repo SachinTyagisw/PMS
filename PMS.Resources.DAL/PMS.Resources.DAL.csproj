@@ -130,6 +130,9 @@
     <Compile Include="InvoiceTaxDetail.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="PaymentType.cs">
+      <DependentUpon>PmsModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="PmsModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -188,7 +191,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <EntityDeploy Include="PmsModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
