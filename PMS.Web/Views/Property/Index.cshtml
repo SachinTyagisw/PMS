@@ -1,9 +1,12 @@
 ﻿@{
     ViewBag.Title = "Index";
-    //    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type='text/javascript'>
     var gcm = window.GuestCheckinManager;
+    function makeFieldsNonEditable(rowObject){
+        rowObject.attr('contenteditable', 'false');
+        rowObject.css('background-color', 'transparent');
+    }
     $(document).ready(function () {
 
         gcm.GetAllProperty();
@@ -57,14 +60,22 @@
                 $(thisRow).css('background-color', '#ffc9c9');
                 $(this).removeClass("fa-pencil-square-o");
                 $(this).addClass("fa-floppy-o editMode");
-                //createddate and updated date should not be editable
-                $(thisRow[6]).attr('contenteditable', 'false');
-                $(thisRow[6]).css('background-color', 'transparent');
-                $(thisRow[7]).attr('contenteditable', 'false');
-                $(thisRow[7]).css('background-color', 'transparent');
+                makeFieldsNonEditable($(thisRow[0]));
+                makeFieldsNonEditable($(thisRow[6]));
+                makeFieldsNonEditable($(thisRow[7]));
             } else if (editOn == true) {
                 var propertyId = $(thisRow)[0].innerText;
-                alert(propertyId);
+                if (propertyId <= 0) return;
+                var existingProperty = gcm.FindExistingProperty(propertyId);
+                if (!existingProperty) return;
+                existingProperty.PropertyName = $(thisRow)[1].innerText;
+                existingProperty.PropertyDetails = $(thisRow)[2].innerText;
+                //TODO: remove hardcoded value
+                existingProperty.Country.Id = 3;
+                existingProperty.City.Id = 2;
+                existingProperty.State.ID = 5;
+                gcm.UpdateProperty(existingProperty);
+
                 $(thisRow).attr('contenteditable', 'false');
                 $(thisRow).css('background-color', 'transparent');
                 $(this).removeClass("fa-floppy-o editMode");

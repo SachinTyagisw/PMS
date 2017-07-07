@@ -163,7 +163,10 @@ namespace PMS.Resources.DAL
                 CreatedBy = property.CreatedBy,
                 CreatedOn = property.CreatedOn,
                 PropertyDetails = property.PropertyDetails,
-                Zipcode = property.Zipcode
+                Zipcode = property.Zipcode,
+                City = property.City.Id,
+                Country = property.Country.Id,
+                State = property.State.ID
             };
 
             using (var pmsContext = new PmsEntities())

@@ -710,6 +710,26 @@
             pmsService.DeleteProperty(args);
         },
 
+        UpdateProperty: function (property) {
+            property.LastUpdatedBy = getCreatedBy();
+            property.LastUpdatedOn = getCurrentDate();
+            // UpdateProperty by api calling 
+            var propertyRequestDto = {};
+            propertyRequestDto.Property = {};
+            propertyRequestDto.Property = property;
+            pmsService.UpdateProperty(propertyRequestDto);
+        },
+        
+        FindExistingProperty : function(propertyId){
+            var properties = window.GuestCheckinManager.PropertyResponseDto.Property;
+            if (!properties || properties.length <= 0) return null;
+            for (var i = 0; i < properties.length; i++){
+                if (properties[i].Id !== parseInt(propertyId)) continue;
+                return properties[i];
+            }
+            return null;
+        },
+
         AjaxHandlers: function () {
             // ajax handlers start
             pmsService.Handlers.OnAddBookingSuccess = function (data) {
@@ -958,6 +978,17 @@
             };
 
             pmsService.Handlers.OnDeletePropertySuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                alert(status);
+            };
+
+            pmsService.Handlers.OnUpdatePropertyFailure = function () {
+                // show error log
+                console.error("Property is not updated.");
+            };
+
+            pmsService.Handlers.OnUpdatePropertySuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
                 alert(status);
@@ -1602,10 +1633,5 @@
         }
     }
     
-    function ajaxHandlers() {
-
-       
-    }
-
     win.GuestCheckinManager = guestCheckinManager;
 }(window));

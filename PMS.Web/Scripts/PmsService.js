@@ -42,6 +42,12 @@
             OnAddPropertyFailure: null,
             OnDeletePropertySuccess: null,
             OnDeletePropertyFailure: null,
+            OnUpdatePropertySuccess: null,
+            OnUpdatePropertyFailure: null,
+        };
+
+        this.UpdateProperty = function (args) {
+            makeAjaxRequestPut(args, "UpdateProperty", this, "api/v1/Property/UpdateProperty");
         };
 
         this.DeleteProperty = function (args) {
