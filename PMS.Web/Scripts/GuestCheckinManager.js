@@ -686,7 +686,6 @@
             property.SecondaryName = $('#secondaryName').val();
             property.Phone = $('#phone').val();
             property.Fax = $('#fax').val();
-            property.Email = $('#email').val();
             //property.LogoPath = $('#dateTo').val();
             property.TimeZone = $('#timezone').val();
             property.CurrencyID = $('#currency').val();
@@ -1361,7 +1360,6 @@
         var webSiteAddress = $('#website').val();
         var phone = $('#phone').val();
         var fax = $('#fax').val();
-        var email = $('#email').val();
         //var logoPath = $('#dateTo').val();
         var timeZone = $('#timezone').val();
         var currencyID = $('#currency').val();
@@ -1396,10 +1394,6 @@
         }
         if (!phone || phone.length <= 0) {
             alert("Phone is required");
-            return false;
-        }
-        if (!email || email.length <= 0) {
-            alert("Email is required");
             return false;
         }
         if (!zipCode || zipCode.length <= 0) {

@@ -51,6 +51,7 @@ namespace PMS.Resources.DAL
         public Nullable<int> State { get; set; }
         public Nullable<int> Country { get; set; }
         public Nullable<int> City { get; set; }
+        public string Zipcode { get; set; }
     
         public virtual ICollection<Booking> Bookings { get; set; }
         public virtual ICollection<ExtraCharge> ExtraCharges { get; set; }

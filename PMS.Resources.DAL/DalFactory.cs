@@ -124,7 +124,8 @@ namespace PMS.Resources.DAL
                 State = property.State.ID,
                 Country = property.Country.Id,
                 City = property.City.Id,
-                PropertyDetails = property.PropertyDetails
+                PropertyDetails = property.PropertyDetails,
+                Zipcode = property.Zipcode
             };
 
             using (var pmsContext = new PmsEntities())
@@ -160,7 +161,9 @@ namespace PMS.Resources.DAL
                 CurrencyId = property.CurrencyID,
                 ID = property.Id,
                 CreatedBy = property.CreatedBy,
-                CreatedOn = property.CreatedOn
+                CreatedOn = property.CreatedOn,
+                PropertyDetails = property.PropertyDetails,
+                Zipcode = property.Zipcode
             };
 
             using (var pmsContext = new PmsEntities())
@@ -200,12 +203,12 @@ namespace PMS.Resources.DAL
                 properties = pmsContext.Properties
                              .Join(pmsContext.Countries, p => p.Country, c => c.ID,
                              (p, c) => new {p, c})
-                            .Join(pmsContext.Cities, x => x.p.City, ct => ct.ID,
-                            (x, ct) => new {x, ct})
-                            .Join(pmsContext.States, s => s.x.p.State, k => k.ID,
-                            (s, k) => new {s, k}).Where(l => l.s.x.p.IsActive)
-                            .Select(m => new PmsEntity.Property
-                            {
+                             .Join(pmsContext.Cities, x => x.p.City, ct => ct.ID,
+                             (x, ct) => new {x, ct})
+                             .Join(pmsContext.States, s => s.x.p.State, k => k.ID,
+                             (s, k) => new {s, k}).Where(l => l.s.x.p.IsActive)
+                             .Select(m => new PmsEntity.Property
+                             {
                                 CreatedOn = m.s.x.p.CreatedOn,
                                 PropertyName = m.s.x.p.PropertyName,
                                 CreatedBy = m.s.x.p.CreatedBy,
@@ -216,6 +219,7 @@ namespace PMS.Resources.DAL
                                 CheckinTime = m.s.x.p.CheckinTime,
                                 CheckoutTime = m.s.x.p.CheckoutTime,
                                 CloseOfDayTime = m.s.x.p.CloseOfDayTime,
+                                Zipcode = m.s.x.p.Zipcode,
                                 Country = new PmsEntity.Country
                                 {
                                     Name = m.s.x.c.Name
@@ -237,7 +241,7 @@ namespace PMS.Resources.DAL
                                 SecondaryName = m.s.x.p.SecondaryName,
                                 TimeZone = m.s.x.p.TimeZone,
                                 WebSiteAddress = m.s.x.p.WebSiteAddress
-                            }).ToList();
+                             }).ToList();
             }
             return properties;
         }

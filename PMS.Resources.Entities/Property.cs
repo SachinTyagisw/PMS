@@ -33,7 +33,6 @@ namespace PMS.Resources.Entities
         public State State { get; set; }
         public Country Country { get; set; }
         public City City { get; set; }
-        public string Email { get; set; }
         public string Zipcode { get; set; }
     }
 }
