@@ -152,6 +152,9 @@
     <Compile Include="Property.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="PropertyFloor.cs">
+      <DependentUpon>PmsModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Rate.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>

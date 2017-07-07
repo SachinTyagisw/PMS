@@ -45,7 +45,7 @@
             }           
         });
 
-        $("#divProperty").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {
+        $("#divProperty").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {            
             var thisRow = $(this).parent().siblings();
             var editOn = $(this).hasClass("editMode");
 
@@ -57,7 +57,14 @@
                 $(thisRow).css('background-color', '#ffc9c9');
                 $(this).removeClass("fa-pencil-square-o");
                 $(this).addClass("fa-floppy-o editMode");
+                //createddate and updated date should not be editable
+                $(thisRow[6]).attr('contenteditable', 'false');
+                $(thisRow[6]).css('background-color', 'transparent');
+                $(thisRow[7]).attr('contenteditable', 'false');
+                $(thisRow[7]).css('background-color', 'transparent');
             } else if (editOn == true) {
+                var propertyId = $(thisRow)[0].innerText;
+                alert(propertyId);
                 $(thisRow).attr('contenteditable', 'false');
                 $(thisRow).css('background-color', 'transparent');
                 $(this).removeClass("fa-floppy-o editMode");

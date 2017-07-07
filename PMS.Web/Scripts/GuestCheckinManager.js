@@ -5,6 +5,10 @@
     var isDdlCountryChange = null;
     var invoiceData = {};
     var guestCheckinManager = {
+       
+        PropertyResponseDto: {
+            Property : null
+        },
 
         BookingDto: {
             PropertyId: null,
@@ -922,6 +926,7 @@
 
             pmsService.Handlers.OnGetAllPropertySuccess = function (data) {
                 if (!data || !data.Properties || data.Properties.length <= 0) return;
+                window.GuestCheckinManager.PropertyResponseDto.Property = data.Properties;
                 $('#propmodal').removeClass('open');
                 window.GuestCheckinManager.PopulatePropertyGrid(data);
             };

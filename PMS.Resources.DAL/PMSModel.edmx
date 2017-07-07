@@ -321,6 +321,21 @@ warning 6002: The table/view 'PMS.dbo.PaymentType' does not have a primary key d
           <Property Name="City" Type="int" />
           <Property Name="Zipcode" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'PMS.dbo.PropertyFloor' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="PropertyFloor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="PropertyId" Type="int" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FloorNumber" Type="int" />
+          <Property Name="isActive" Type="bit" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="LastUpdatedOn" Type="datetime" />
+        </EntityType>
         <EntityType Name="Rates">
           <Key>
             <PropertyRef Name="ID" />
@@ -925,6 +940,18 @@ warning 6002: The table/view 'PMS.dbo.PaymentType' does not have a primary key d
     [PaymentType].[LastUpdatedBy] AS [LastUpdatedBy], 
     [PaymentType].[LastUpdatedOn] AS [LastUpdatedOn]
     FROM [dbo].[PaymentType] AS [PaymentType]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="PropertyFloor" EntityType="Self.PropertyFloor" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [PropertyFloor].[PropertyId] AS [PropertyId], 
+    [PropertyFloor].[ID] AS [ID], 
+    [PropertyFloor].[FloorNumber] AS [FloorNumber], 
+    [PropertyFloor].[isActive] AS [isActive], 
+    [PropertyFloor].[CreatedBy] AS [CreatedBy], 
+    [PropertyFloor].[CreatedOn] AS [CreatedOn], 
+    [PropertyFloor].[LastUpdatedBy] AS [LastUpdatedBy], 
+    [PropertyFloor].[LastUpdatedOn] AS [LastUpdatedOn]
+    FROM [dbo].[PropertyFloor] AS [PropertyFloor]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK__Additiona__Booki__6442E2C9" Association="Self.FK__Additiona__Booki__6442E2C9">
             <End Role="Booking" EntitySet="Booking" />
@@ -1572,6 +1599,19 @@ warning 6002: The table/view 'PMS.dbo.PaymentType' does not have a primary key d
           <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Property" Relationship="Self.FK__PaymentTy__Prope__0C1BC9F9" FromRole="PaymentType" ToRole="Property" />
         </EntityType>
+        <EntityType Name="PropertyFloor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="PropertyId" Type="Int32" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FloorNumber" Type="Int32" />
+          <Property Name="isActive" Type="Boolean" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
         <Association Name="FK__Additiona__Booki__6442E2C9">
           <End Role="Booking" Type="Self.Booking" Multiplicity="0..1" />
           <End Role="AdditionalGuests" Type="Self.AdditionalGuest" Multiplicity="*" />
@@ -1986,6 +2026,7 @@ warning 6002: The table/view 'PMS.dbo.PaymentType' does not have a primary key d
           <EntitySet Name="States" EntityType="Self.State" />
           <EntitySet Name="Taxes" EntityType="Self.Tax" />
           <EntitySet Name="PaymentTypes" EntityType="Self.PaymentType" />
+          <EntitySet Name="PropertyFloors" EntityType="Self.PropertyFloor" />
           <AssociationSet Name="FK__Additiona__Booki__6442E2C9" Association="Self.FK__Additiona__Booki__6442E2C9">
             <End Role="Booking" EntitySet="Bookings" />
             <End Role="AdditionalGuests" EntitySet="AdditionalGuests" />
@@ -2756,6 +2797,20 @@ warning 6002: The table/view 'PMS.dbo.PaymentType' does not have a primary key d
                 <ScalarProperty Name="ShortName" ColumnName="ShortName" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PropertyFloors">
+            <EntityTypeMapping TypeName="PmsModel.PropertyFloor">
+              <MappingFragment StoreEntitySet="PropertyFloor">
+                <ScalarProperty Name="PropertyId" ColumnName="PropertyId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FloorNumber" ColumnName="FloorNumber" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
