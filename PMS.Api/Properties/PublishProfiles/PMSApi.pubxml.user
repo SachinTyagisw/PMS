@@ -160,34 +160,34 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/22/2017 18:24:51</publishTime>
     </File>
     <File Include="bin/PMS.Api.dll">
-      <publishTime>07/05/2017 15:25:51</publishTime>
+      <publishTime>07/07/2017 00:22:57</publishTime>
     </File>
     <File Include="bin/PMS.Resources.Caching.dll">
-      <publishTime>07/05/2017 15:25:41</publishTime>
+      <publishTime>07/07/2017 00:22:50</publishTime>
     </File>
     <File Include="bin/PMS.Resources.Common.dll">
-      <publishTime>07/05/2017 15:25:40</publishTime>
+      <publishTime>07/07/2017 00:22:48</publishTime>
     </File>
     <File Include="bin/PMS.Resources.Core.dll">
-      <publishTime>07/05/2017 15:25:41</publishTime>
+      <publishTime>07/07/2017 00:22:50</publishTime>
     </File>
     <File Include="bin/PMS.Resources.DAL.dll">
-      <publishTime>07/05/2017 15:25:42</publishTime>
+      <publishTime>07/07/2017 00:22:50</publishTime>
     </File>
     <File Include="bin/PMS.Resources.DTO.dll">
-      <publishTime>07/05/2017 15:25:40</publishTime>
+      <publishTime>07/07/2017 00:22:49</publishTime>
     </File>
     <File Include="bin/PMS.Resources.Entities.dll">
-      <publishTime>07/05/2017 15:25:39</publishTime>
+      <publishTime>07/07/2017 00:22:47</publishTime>
     </File>
     <File Include="bin/PMS.Resources.Logging.dll">
-      <publishTime>07/05/2017 15:25:44</publishTime>
+      <publishTime>07/07/2017 00:22:51</publishTime>
     </File>
     <File Include="bin/PMS.Resources.Logic.dll">
-      <publishTime>07/05/2017 15:25:46</publishTime>
+      <publishTime>07/07/2017 00:22:52</publishTime>
     </File>
     <File Include="bin/PMS.Resources.Reporting.dll">
-      <publishTime>07/05/2017 15:25:39</publishTime>
+      <publishTime>07/07/2017 00:22:48</publishTime>
     </File>
     <File Include="bin/RestSharp.dll">
       <publishTime>04/22/2017 18:24:52</publishTime>
@@ -319,7 +319,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/22/2017 18:24:21</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>07/05/2017 15:29:40</publishTime>
+      <publishTime>07/07/2017 00:24:12</publishTime>
     </File>
   </ItemGroup>
 </Project>

@@ -635,6 +635,8 @@
             var divProperty = $('#divProperty');
             var propertyTemplate = $('#propertyTemplate');
             divProperty.html(propertyTemplate.render(data));
+            $("#divProperty thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
+            $("#divProperty tbody tr").append('<td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
         },
         
         AjaxHandlers: function () {
@@ -852,7 +854,7 @@
             };
 
             pmsService.Handlers.OnGetAllPropertySuccess = function (data) {
-                if (!data || !data.Properties || data.Properties.length <= 0) return;
+                if (!data || !data.Properties || data.Properties.length <= 0) return;                
                 window.GuestCheckinManager.PopulatePropertyGrid(data);
             };
             pmsService.Handlers.OnGetAllPropertyFailure = function () {

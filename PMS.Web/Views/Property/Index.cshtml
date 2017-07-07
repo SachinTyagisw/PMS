@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "Index";
-//    Layout = "~/Views/Shared/_Layout.cshtml";
+    //    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type='text/javascript'>
     var gcm = window.GuestCheckinManager;
@@ -8,17 +8,17 @@
 
         window.GuestCheckinManager.GetAllProperty();
 
-        $("table").on("click", ".fa-plus-circle", function () {
+        $("#divProperty").on("click", ".fa-plus-circle", function () {
             $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td></tr>');
         });
 
-        $("table").on("click", ".fa-minus-circle", function () {
+        $("#divProperty").on("click", ".fa-minus-circle", function () {
             //if (prompt("Are You Sure You Want to Delete this Row? Type 'yes' to Confirm this") == "yes") {
             $(this).closest('tr').remove();
             //} else { }
         });
 
-        $("table").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {
+        $("#divProperty").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {
             var thisRow = $(this).parent().siblings();
             var editOn = $(this).hasClass("editMode");
 
@@ -55,67 +55,11 @@
                     <input type="text" class="search form-control" placeholder="Search by Property Name, Owner Name, Country ...">
                 </div>
                 <span class="counter"></span>
-                <div id="createProperty">
-                    <table class="table table-hover table-bordered results tableContents">
-                        <thead>
-                            <tr>
-                                <th id="IDCol">ID #</th>
-                                <th id="propertyNameCol" contenteditable="false">Property Name</th>
-                                <th id="ownerCol" contenteditable="false">Owner</th>
-                                <th id="countryCol" contenteditable="false">Country</th>
-                                <th id="stateCol" contenteditable="false">State</th>
-                                <th id="cityCol" contenteditable="false">City</th>
-                                <th id="createdDateCol" contenteditable="false">Created Date</th>
-                                <th id="updatedDateCol" contenteditable="false">Updated Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="idRow" contenteditable="false">1</td>
-                                <td contenteditable="false">Hilton</td>
-                                <td contenteditable="false">A2</td>
-                                <td contenteditable="false">A3</td>
-                                <td contenteditable="false">A4</td>
-                                <td contenteditable="false">A5</td>
-                                <td contenteditable="false">-</td>
-                                <td contenteditable="false">-</td>
-                            </tr>
-                            <tr>
-                                <td class="idRow" contenteditable="false">2</td>
-                                <td contenteditable="false">BayArea</td>
-                                <td contenteditable="false">B2</td>
-                                <td contenteditable="false">B3</td>
-                                <td contenteditable="false">B4</td>
-                                <td contenteditable="false">B5</td>
-                                <td contenteditable="false">-</td>
-                                <td contenteditable="false">-</td>
-                            </tr>
-                            <tr>
-                                <td class="idRow" contenteditable="false">3</td>
-                                <td contenteditable="false">Marriot</td>
-                                <td contenteditable="false">C2</td>
-                                <td contenteditable="false">C3</td>
-                                <td contenteditable="false">C4</td>
-                                <td contenteditable="false">C5</td>
-                                <td contenteditable="false">-</td>
-                                <td contenteditable="false">-</td>
-                            </tr>
-                            <tr id="bottomRow Row4">
-                                <td class="idRow" contenteditable="false">4</td>
-                                <td contenteditable="false">Crystal</td>
-                                <td contenteditable="false">D2</td>
-                                <td contenteditable="false">D3</td>
-                                <td contenteditable="false">D4</td>
-                                <td contenteditable="false">D5</td>
-                                <td contenteditable="false">-</td>
-                                <td contenteditable="false">-</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <br>
-                    <button id="createRow" class="btn btn-primary m-l-5 m-t-15" type="button">Create</button>
-                    <button id="addRow" class="btn btn-primary m-l-5 m-t-15" type="button">Add Row</button>
+                <div id="divProperty">
+
                 </div>
+                <br>
+                <button id="createRow" class="btn btn-primary m-l-5 m-t-15" type="button">Create</button>
             </div>
         </div>
     </div>
@@ -249,17 +193,17 @@
         </thead>
         <tbody>
             {{each Properties}}
-            <tr>
-                <td class="idRow" contenteditable="false">1</td>
+            <tr id="${$value.Id}">
+                <td class="idRow" contenteditable="false">${$value.Id}</td>
                 <td contenteditable="false">${$value.PropertyName}</td>
-                <td contenteditable="false">${$value.PropertyName}</td>
-                <td contenteditable="false">A3</td>
-                <td contenteditable="false">A4</td>
-                <td contenteditable="false">A5</td>
+                <td contenteditable="false">${$value.PropertyDetails}</td>
+                <td contenteditable="false">${$value.Country.Name}</td>
+                <td contenteditable="false">${$value.State.Name}</td>
+                <td contenteditable="false">${$value.City.Name}</td>
                 <td contenteditable="false">${$value.CreatedOn}</td>
-                <td contenteditable="false">-</td>
+                <td contenteditable="false">${$value.LastUpdatedOn}</td>
             </tr>
             {{/each}}
         </tbody>
     </table>
-</script> 
+</script>
