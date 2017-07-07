@@ -282,6 +282,12 @@ namespace PMS.Resources.Logic
             return DalFactory.DeletePaymentType(paymentTypeId);
         }
 
+        public List<PmsEntity.PaymentType> GetPaymentTypeByProperty(int propertyId)
+        {
+            return DalFactory.GetPaymentTypeByProperty(propertyId);
+        }
+         
+
         #region helper methods 
         private string RemoveXmlDefaultNode(string xml)
         {

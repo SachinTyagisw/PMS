@@ -1153,5 +1153,29 @@ namespace PMS.Resources.DAL
             }
             return isDeleted;
         }
+
+        public List<PmsEntity.PaymentType> GetPaymentTypeByProperty(int propertyId)
+        {
+            var paymentTypes = new List<PmsEntity.PaymentType>();
+            using (var pmsContext = new PmsEntities())
+            {
+                paymentTypes = pmsContext.PaymentTypes.Where(x => x.PropertyID == propertyId && (x.IsActive !=null && x.IsActive.Value))
+                                                 .Select(x => new PmsEntity.PaymentType
+                                                 {
+                                                     CreatedOn = x.CreatedOn,
+                                                     Description = x.Description,
+                                                     CreatedBy = x.CreatedBy,
+                                                     LastUpdatedBy = x.LastUpdatedBy,
+                                                     LastUpdatedOn = x.LastUpdatedOn,
+                                                     ID = x.ID,
+                                                     PropertyID = x.PropertyID,
+                                                     ShortName = x.ShortName
+                                                 }).ToList();
+
+            }
+
+            return paymentTypes;
+
+        }
     }
 }

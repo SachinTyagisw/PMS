@@ -132,5 +132,17 @@ namespace PMS.Api.Controllers
             return response;
         }
 
+
+        [HttpGet, ActionName("GetPaymentTypeByProperty")]
+        public GetPaymentTypeResponseDto GetPaymentTypeByProperty(int propertyId)
+        {
+            if (propertyId <= 0) throw new PmsException("Property id is not valid.");
+
+            var response = new GetPaymentTypeResponseDto();
+            response.PaymentTypes = _iPmsLogic.GetPaymentTypeByProperty(propertyId);
+
+            return response;
+        }
+
     }
 }

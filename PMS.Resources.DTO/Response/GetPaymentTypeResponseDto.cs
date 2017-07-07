@@ -12,6 +12,6 @@ namespace PMS.Resources.DTO.Response
     [Serializable]
     public class GetPaymentTypeResponseDto
     {
-        public PaymentType PaymentType {get;set;}
+        public List<PaymentType> PaymentTypes {get;set;}
     }
 }

@@ -40,6 +40,7 @@ namespace PMS.Resources.Logic
         int AddPaymentType(PmsEntity.PaymentType paymentType);
         bool UpdatePaymentType(PmsEntity.PaymentType paymentType);
         bool DeletePaymentType(int paymentTypeId);
+        List<PmsEntity.PaymentType> GetPaymentTypeByProperty(int propertyId);
 
         int AddRoomPrice(PmsEntity.RoomPricing roomPrice);
         bool UpdateRoomPrice(PmsEntity.RoomPricing roomPrice);
