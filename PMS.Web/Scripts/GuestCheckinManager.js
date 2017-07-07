@@ -536,6 +536,28 @@
             window.GuestCheckinManager.MakeReadOnly(true);
         },
         
+        ClearPropertyFields : function () {
+            $('#propertyName').val('');
+            $('#closeofdaytime').val('');
+            $('#checkintime').val('');
+            $('#checkouttime').val('');
+            $('#owner').val('');
+            $('#propertyCode').val('');
+            $('#fulladdress').val('');
+            $('#website').val('');
+            $('#phone').val('');
+            $('#fax').val('');
+            $('#email').val('');
+            //$('#dateTo').val();
+            $('#timezone').val('');
+            $('#currency').val('');
+            $('#ddlState').val('-1');
+            $('#ddlCountry').val('-1');
+            $('#ddlCity').val('-1');
+            $('#zipCode').val('');
+            $('#secondaryName').val('');
+        },
+
         ClearAllFields: function () {
             window.GuestCheckinManager.Initialize();
             window.GuestCheckinManager.MakeReadOnly(false);
@@ -626,6 +648,7 @@
             $("#idDetails").prop("readonly", shouldMakeReadOnly);
             $('#ddlIdType').attr("disabled", shouldMakeReadOnly);
         },
+
         GetAllProperty: function () {
             // get property by api calling  
             pmsService.GetAllProperty(args);
@@ -639,6 +662,45 @@
             $("#divProperty tbody tr").append('<td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
         },
         
+        AddProperty: function () {
+            
+            if (!validatePropertyInputs()) return;
+
+            var propertyRequestDto = {};
+            propertyRequestDto.Property = {};
+            var property = {};
+            property.State = {};
+            property.Country = {};
+            property.City = {};
+            property.CloseOfDayTime = $('#closeofdaytime').val();
+            property.CheckinTime = $('#checkintime').val();
+            property.CheckoutTime = $('#checkouttime').val();
+            property.PropertyDetails = $('#owner').val();
+            property.PropertyName = $('#propertyName').val();
+            property.PropertyCode = $('#propertyCode').val();
+            property.FullAddress = $('#fulladdress').val();
+            property.WebSiteAddress = $('#website').val();
+            property.IsActive = true;
+            property.CreatedOn = getCurrentDate();
+            property.CreatedBy = getCreatedBy();
+            property.SecondaryName = $('#secondaryName').val();
+            property.Phone = $('#phone').val();
+            property.Fax = $('#fax').val();
+            property.Email = $('#email').val();
+            //property.LogoPath = $('#dateTo').val();
+            property.TimeZone = $('#timezone').val();
+            property.CurrencyID = $('#currency').val();
+            //TODO: remove hardcoded value
+            property.State.ID = 6;//$('#ddlState').val();
+            property.Country.Id = 3;//$('#ddlCountry').val();
+            property.City.Id = 7;//$('#ddlCity').val();
+            property.ZipCode = $('#zipCode').val();            
+
+            // AddProperty by api calling  
+            propertyRequestDto.Property = property;
+            pmsService.AddProperty(propertyRequestDto);
+        },
+
         AjaxHandlers: function () {
             // ajax handlers start
             pmsService.Handlers.OnAddBookingSuccess = function (data) {
@@ -854,12 +916,30 @@
             };
 
             pmsService.Handlers.OnGetAllPropertySuccess = function (data) {
-                if (!data || !data.Properties || data.Properties.length <= 0) return;                
+                if (!data || !data.Properties || data.Properties.length <= 0) return;
+                $('#propmodal').removeClass('open');
                 window.GuestCheckinManager.PopulatePropertyGrid(data);
             };
             pmsService.Handlers.OnGetAllPropertyFailure = function () {
                 // show error log
                 console.error("get all property call failed");
+            };
+
+            pmsService.Handlers.OnAddPropertySuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                if (data.ResponseObject > 0) {                    
+                    console.log(status);                    
+                    window.GuestCheckinManager.GetAllProperty();
+                    alert(status);
+                } else {
+                    console.error(status);
+                    alert(status);
+                }
+            };
+
+            pmsService.Handlers.OnAddPropertyFailure = function () {
+                // show error log
+                console.error("Property is not added.");
             };
 
             //pmsService.Handlers.OnGetRoomByPropertySuccess = function (data) {
@@ -1268,6 +1348,78 @@
 
         var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
         return dateOutput + ' ' + time;
+    }
+
+    function validatePropertyInputs() {
+        var propertyName = $('#propertyName').val();
+        var closeOfDayTime = $('#closeofdaytime').val();
+        var checkinTime = $('#checkintime').val();
+        var checkoutTime = $('#checkouttime').val();
+        var propertyDetails = $('#owner').val();
+        var propertyCode = $('#propertyCode').val();
+        var fullAddress = $('#fulladdress').val();
+        var webSiteAddress = $('#website').val();
+        var phone = $('#phone').val();
+        var fax = $('#fax').val();
+        var email = $('#email').val();
+        //var logoPath = $('#dateTo').val();
+        var timeZone = $('#timezone').val();
+        var currencyID = $('#currency').val();
+        var state = $('#ddlState').val();
+        var country = $('#ddlCountry').val();
+        var city = $('#ddlCity').val();
+        var zipCode = $('#zipCode').val();
+
+        if (!propertyName || propertyName.length <= 0) {
+            alert("Property Name is required");
+            return false;
+        }
+        if (!closeOfDayTime || closeOfDayTime.length <= 0) {
+            alert("Close of daytime is required");
+            return false;
+        }
+        if (!checkintime || checkintime.length <= 0) {
+            alert("Checkintime is required");
+            return false;
+        }
+        if (!checkoutTime || checkoutTime.length <= 0) {
+            alert("CheckoutTime is required");
+            return false;
+        }
+        if (!propertyCode || propertyCode.length <= 0) {
+            alert("PropertyCode is required");
+            return false;
+        }
+        if (!fullAddress || fullAddress.length <= 0) {
+            alert("FullAddress is required");
+            return false;
+        }
+        if (!phone || phone.length <= 0) {
+            alert("Phone is required");
+            return false;
+        }
+        if (!email || email.length <= 0) {
+            alert("Email is required");
+            return false;
+        }
+        if (!zipCode || zipCode.length <= 0) {
+            alert("ZipCode is required");
+            return false;
+        }
+        //TODO:uncomment below code
+        //if (!state || state === '-1') {
+        //    alert("Select proper state");
+        //    return false;
+        //}
+        //if (!country || country === '-1') {
+        //    alert("Select proper country");
+        //    return false;
+        //}
+        //if (!city || city === '-1') {
+        //    alert("Select proper city");
+        //    return false;
+        //}
+        return true;
     }
 
     function validateInputs() {

@@ -38,6 +38,12 @@
             OnGetBookingByIdFailure: null,
             OnGetAllPropertySuccess: null,
             OnGetAllPropertyFailure: null,
+            OnAddPropertySuccess: null,
+            OnAddPropertyFailure: null,
+        };
+
+        this.AddProperty = function (args) {
+            makeAjaxRequestPost(args, "AddProperty", this, "api/v1/Property/AddProperty");
         };
 
         this.GetAllProperty = function (args) {
