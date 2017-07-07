@@ -25,7 +25,7 @@ namespace PMS.Resources.Entities
         public string Fax { get; set; }
         public string LogoPath { get; set; }
         public string WebSiteAddress { get; set; }
-        public string TimeZone { get; set; }
+        public string TimeZone { get; set; }        
         public Nullable<int> CurrencyID { get; set; }
         public Nullable<System.TimeSpan> CheckinTime { get; set; }
         public Nullable<System.TimeSpan> CheckoutTime { get; set; }
@@ -33,5 +33,6 @@ namespace PMS.Resources.Entities
         public State State { get; set; }
         public Country Country { get; set; }
         public City City { get; set; }
+        public string Zipcode { get; set; }
     }
 }

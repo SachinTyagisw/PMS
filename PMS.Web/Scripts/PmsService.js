@@ -38,6 +38,18 @@
             OnGetBookingByIdFailure: null,
             OnGetAllPropertySuccess: null,
             OnGetAllPropertyFailure: null,
+            OnAddPropertySuccess: null,
+            OnAddPropertyFailure: null,
+            OnDeletePropertySuccess: null,
+            OnDeletePropertyFailure: null,
+        };
+
+        this.DeleteProperty = function (args) {
+            makeAjaxRequestDelete(args, "DeleteProperty", this, "api/v1/Property/DeleteProperty/" + args.propertyId);
+        };
+
+        this.AddProperty = function (args) {
+            makeAjaxRequestPost(args, "AddProperty", this, "api/v1/Property/AddProperty");
         };
 
         this.GetAllProperty = function (args) {
@@ -104,6 +116,33 @@
             makeAjaxRequestGet(args, "GetRoomByProperty", this, "api/v1/Room/GetRoomByProperty/" + args.propertyId);
         };
 
+
+        function makeAjaxRequestDelete(args, operationName, e, uri) {
+            var url = e.Config.BaseUrl + uri;
+            var successCallback = makeSuccessHandler(operationName, e);
+            var failureCallback = makeFailureHandler(operationName, e);
+            var completeCallback = makeCompleteHandler(operationName, e);
+
+            if (win.PmsAjaxQueue != null) {
+                win.PmsAjaxQueue.AddToQueue(url, successCallback, failureCallback, completeCallback, 'DELETE');
+                return;
+            }
+
+            if (e.AjaxRequestInProgress) {
+                alert("An Ajax request is already in progress cannot start another one. Please wait and try again later");
+                return;
+            }
+
+            $.ajax({
+                url: url,
+                success: successCallback,
+                type: "DELETE",
+                contentType: "application/json",
+                error: failureCallback,
+                complete: completeCallback
+            });
+        }
+
         function makeAjaxRequestGet(args, operationName, e, uri) {
             var url = e.Config.BaseUrl + uri;
             var successCallback = makeSuccessHandler(operationName, e);
@@ -111,7 +150,7 @@
             var completeCallback = makeCompleteHandler(operationName, e);
 
             if (win.PmsAjaxQueue != null) {
-                win.PmsAjaxQueue.AddToQueue(url, successCallback, failureCallback, completeCallback);
+                win.PmsAjaxQueue.AddToQueue(url, successCallback, failureCallback, completeCallback, 'GET');
                 return;
             }
 
@@ -165,7 +204,7 @@
             var completeCallback = makeCompleteHandler(operationName, e);
 
             if (win.PmsAjaxQueue != null) {
-                win.PmsAjaxQueue.AddToQueue(url, successCallback, failureCallback, completeCallback, args);
+                win.PmsAjaxQueue.AddToQueue(url, successCallback, failureCallback, completeCallback, 'POST', args);
                 return;
             }
 
@@ -178,6 +217,33 @@
                 url: url,
                 success: successCallback,
                 type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(args),
+                error: failureCallback,
+                complete: completeCallback
+            });
+        }
+
+        function makeAjaxRequestPut(args, operationName, e, uri) {
+            var url = e.Config.BaseUrl + uri;
+            var successCallback = makeSuccessHandler(operationName, e);
+            var failureCallback = makeFailureHandler(operationName, e);
+            var completeCallback = makeCompleteHandler(operationName, e);
+
+            if (win.PmsAjaxQueue != null) {
+                win.PmsAjaxQueue.AddToQueue(url, successCallback, failureCallback, completeCallback, 'PUT', args);
+                return;
+            }
+
+            if (e.AjaxRequestInProgress) {
+                alert("An Ajax request is already in progress cannot start another one. Please wait and try again later");
+                return;
+            }
+
+            $.ajax({
+                url: url,
+                success: successCallback,
+                type: "PUT",
                 contentType: "application/json",
                 data: JSON.stringify(args),
                 error: failureCallback,

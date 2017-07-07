@@ -88,25 +88,25 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/22/2017 18:24:51</publishTime>
     </File>
     <File Include="bin/PMS.Resources.Common.dll">
-      <publishTime>07/05/2017 15:25:40</publishTime>
+      <publishTime>07/07/2017 13:28:11</publishTime>
     </File>
     <File Include="bin/PMS.Resources.DAL.dll">
-      <publishTime>07/06/2017 11:05:02</publishTime>
+      <publishTime>07/07/2017 13:39:46</publishTime>
     </File>
     <File Include="bin/PMS.Resources.DTO.dll">
-      <publishTime>07/06/2017 11:05:01</publishTime>
+      <publishTime>07/07/2017 13:36:41</publishTime>
     </File>
     <File Include="bin/PMS.Resources.Entities.dll">
-      <publishTime>07/05/2017 15:25:39</publishTime>
+      <publishTime>07/07/2017 13:36:37</publishTime>
     </File>
     <File Include="bin/PMS.Resources.Logging.dll">
-      <publishTime>07/06/2017 11:05:03</publishTime>
+      <publishTime>07/07/2017 13:39:47</publishTime>
     </File>
     <File Include="bin/PMS.Resources.Services.dll">
-      <publishTime>07/06/2017 11:05:04</publishTime>
+      <publishTime>07/07/2017 13:40:40</publishTime>
     </File>
     <File Include="bin/PMS.Web.dll">
-      <publishTime>07/06/2017 11:05:07</publishTime>
+      <publishTime>07/07/2017 13:40:44</publishTime>
     </File>
     <File Include="bin/RestSharp.dll">
       <publishTime>04/22/2017 18:24:52</publishTime>
@@ -176,6 +176,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Content/bootstrap.min.css">
       <publishTime>04/06/2017 09:36:56</publishTime>
+    </File>
+    <File Include="Content/Bootstrap/bootstrap-datetimepicker.css">
+      <publishTime>07/06/2017 23:28:49</publishTime>
     </File>
     <File Include="Content/Bootstrap/bootstrap.css">
       <publishTime>04/22/2017 18:24:38</publishTime>
@@ -355,7 +358,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/22/2017 18:24:38</publishTime>
     </File>
     <File Include="Content/style.css">
-      <publishTime>07/04/2017 15:21:16</publishTime>
+      <publishTime>07/06/2017 23:28:49</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>04/22/2017 18:24:42</publishTime>
@@ -513,6 +516,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/Bootstrap/bootstrap.min.js">
       <publishTime>04/22/2017 18:24:39</publishTime>
     </File>
+    <File Include="Scripts/Bootstrap/datetimepicker.js">
+      <publishTime>07/07/2017 09:43:45</publishTime>
+    </File>
     <File Include="Scripts/Bootstrap/ui-bootstrap-tpls.min.js">
       <publishTime>04/22/2017 18:24:39</publishTime>
     </File>
@@ -529,7 +535,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/11/2017 14:33:20</publishTime>
     </File>
     <File Include="Scripts/GuestCheckinManager.js">
-      <publishTime>07/06/2017 14:01:40</publishTime>
+      <publishTime>07/07/2017 16:43:18</publishTime>
     </File>
     <File Include="Scripts/index.js">
       <publishTime>04/22/2017 18:24:40</publishTime>
@@ -847,10 +853,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/06/2017 09:37:04</publishTime>
     </File>
     <File Include="Scripts/PmsAjaxQueue.js">
-      <publishTime>06/05/2017 22:30:18</publishTime>
+      <publishTime>07/07/2017 16:40:20</publishTime>
     </File>
     <File Include="Scripts/PmsService.js">
-      <publishTime>07/06/2017 11:43:14</publishTime>
+      <publishTime>07/07/2017 16:50:36</publishTime>
     </File>
     <File Include="Scripts/PmsSession.js">
       <publishTime>06/09/2017 12:18:48</publishTime>
@@ -871,10 +877,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/06/2017 09:37:06</publishTime>
     </File>
     <File Include="Scripts/scripts.js">
-      <publishTime>07/06/2017 11:37:02</publishTime>
+      <publishTime>07/07/2017 00:32:18</publishTime>
     </File>
     <File Include="Scripts/_references.js">
-      <publishTime>05/28/2017 12:55:00</publishTime>
+      <publishTime>07/06/2017 23:28:49</publishTime>
     </File>
     <File Include="Views/Account/1Login.cshtml">
       <publishTime>04/27/2017 18:36:21</publishTime>
@@ -916,7 +922,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/22/2017 18:24:40</publishTime>
     </File>
     <File Include="Views/Booking/Checkin.cshtml">
-      <publishTime>06/30/2017 21:55:52</publishTime>
+      <publishTime>07/07/2017 10:46:19</publishTime>
     </File>
     <File Include="Views/Booking/RoomBook.cshtml">
       <publishTime>04/16/2017 10:01:05</publishTime>
@@ -949,13 +955,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/22/2017 18:24:40</publishTime>
     </File>
     <File Include="Views/Property/Index.cshtml">
-      <publishTime>07/06/2017 14:01:57</publishTime>
+      <publishTime>07/07/2017 16:02:23</publishTime>
     </File>
     <File Include="Views/Room/DashBoard.cshtml">
       <publishTime>07/05/2017 16:38:03</publishTime>
     </File>
     <File Include="Views/Room/Index.cshtml">
-      <publishTime>07/05/2017 16:51:54</publishTime>
+      <publishTime>07/06/2017 23:28:49</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>04/22/2017 18:24:40</publishTime>
@@ -970,7 +976,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/10/2017 14:39:31</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>07/06/2017 14:01:52</publishTime>
+      <publishTime>07/07/2017 16:43:01</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>04/22/2017 18:24:40</publishTime>
@@ -979,7 +985,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/24/2017 09:21:40</publishTime>
     </File>
     <File Include="Views/Shared/_RoomDetails.cshtml">
-      <publishTime>06/30/2017 21:45:38</publishTime>
+      <publishTime>07/06/2017 23:28:49</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>04/22/2017 18:24:40</publishTime>
@@ -988,7 +994,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/22/2017 18:24:40</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>07/05/2017 15:30:24</publishTime>
+      <publishTime>07/07/2017 13:40:47</publishTime>
     </File>
   </ItemGroup>
 </Project>

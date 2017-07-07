@@ -6,16 +6,43 @@
     var gcm = window.GuestCheckinManager;
     $(document).ready(function () {
 
-        window.GuestCheckinManager.GetAllProperty();
-
-        $("#divProperty").on("click", ".fa-plus-circle", function () {
-            $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td></tr>');
+        gcm.GetAllProperty();
+        
+        $('#phone').keydown(function (e) {
+            gcm.IsNumeric(e);
         });
 
+        $('#fax').keydown(function (e) {
+            gcm.IsNumeric(e);
+        });
+
+        $('#zipCode').keydown(function (e) {
+            gcm.IsNumeric(e);
+        });
+
+        $("#createRow").click(function () {
+            gcm.ClearPropertyFields();
+        });
+
+        $("#cancel").click(function () {
+            $('#propmodal').removeClass('open');
+        });
+
+        $("#create").click(function () {
+            gcm.AddProperty();
+        });
+
+        //$("#divProperty").on("click", ".fa-plus-circle", function () {
+        //    $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td></tr>');
+        //});
+
         $("#divProperty").on("click", ".fa-minus-circle", function () {
-            //if (prompt("Are You Sure You Want to Delete this Row? Type 'yes' to Confirm this") == "yes") {
-            $(this).closest('tr').remove();
-            //} else { }
+            if (confirm("Are you sure you want to delete this row ?")) {                
+                var propertyId = $(this).closest('tr')[0].id;
+                if (propertyId <= 0) return;
+                gcm.DeleteProperty(propertyId);
+                $(this).closest('tr').remove();
+            }           
         });
 
         $("#divProperty").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {
@@ -64,7 +91,7 @@
         </div>
     </div>
 </div>
-<div class="modal-wrapper">
+<div id="propmodal" class="modal-wrapper">
     <div class="modal">
         <div class="head">
             <span class="label-head">Create Property</span><a class="btn-close trigger" href="javascript:;"></a>
@@ -75,22 +102,22 @@
                 <div class="state-content">
                     <div class="col-lg-3 p-l-0">
                         <div class="form-group">
-                            <input id="property-name" type="text" maxlength="10" placeholder="Property Name" class="form-control" name="example-input-normal">
+                            <input id="propertyName" type="text" placeholder="Property Name" class="form-control" name="example-input-normal">
                         </div>
                     </div>
                     <div class="col-lg-3 p-l-0">
                         <div class="form-group">
-                            <input id="property-code" type="text" maxlength="10" placeholder="Property Code" class="form-control" name="example-input-normal">
+                            <input id="propertyCode" type="text" placeholder="Property Code" class="form-control" name="example-input-normal">
                         </div>
                     </div>
                     <div class="col-lg-3 p-l-0">
                         <div class="form-group">
-                            <input id="secondry-name" type="text" maxlength="10" placeholder="Secondry Name" class="form-control" name="example-input-normal">
+                            <input id="secondaryName" type="text" placeholder="Secondry Name" class="form-control" name="example-input-normal">
                         </div>
                     </div>
                     <div class="col-lg-3 p-r-0 p-l-0">
                         <div class="form-group">
-                            <input id="website" type="text" maxlength="10" placeholder="Website Address" class="form-control" name="example-input-normal">
+                            <input id="website" type="text" placeholder="Website Address" class="form-control" name="example-input-normal">
                         </div>
                     </div>
                     <div class="col-lg-3 p-l-0">
@@ -111,7 +138,7 @@
                     <div class="email-content">
                         <div class="col-lg-3 p-r-0 p-l-0">
                             <div class="form-group">
-                                <input type="text" placeholder="Email" class="form-control" name="example-input-normal" id="email">
+                                <input id="owner" type="text" placeholder="Owner" class="form-control" name="example-input-normal">
                             </div>
                         </div>
                     </div>
@@ -151,30 +178,39 @@
                 </div>
                 <div class="col-lg-3 p-l-0">
                     <div class="form-group">
-                        <input id="checkin-time" type="text" maxlength="10" placeholder="Check-In Time" class="form-control" name="example-input-normal">
+                        <input id="checkintime" type="text" placeholder="Check-In Time" class="form-control" name="example-input-normal">
                     </div>
                 </div>
                 <div class="col-lg-3 p-l-0">
                     <div class="form-group">
-                        <input id="checkout-time" type="text" maxlength="10" placeholder="Checkout Time" class="form-control" name="example-input-normal">
+                        <input id="checkouttime" type="text" placeholder="Checkout Time" class="form-control" name="example-input-normal">
                     </div>
                 </div>
                 <div class="col-lg-3 p-r-0 p-l-0">
                     <div class="form-group">
-                        <input id="close-of-day-time" type="text" maxlength="10" placeholder="Close of Day Time" class="form-control" name="example-input-normal">
+                        <input id="closeofdaytime" type="text" maxlength="10" placeholder="Close of Day Time" class="form-control" name="example-input-normal">
                     </div>
                 </div>
-                <div class="col-lg-6 p-r-0 p-l-0">
+                <div class="col-lg-6 p-l-0">
                     <div class="form-group">
-                        <textarea id="full-address" class="form-control" rows="3" placeholder="Full Address"></textarea>
+                        <textarea id="fulladdress" class="form-control" rows="3" placeholder="Full Address"></textarea>
                     </div>
                 </div>
             </div>
             <div class="button-section">
-                <button type="button" class="btn btn-primary m-l-5 m-t-15">Cancel</button>
-                <button type="button" class="btn btn-primary m-l-5 m-t-15">Create</button>
+                <button id="cancel" type="button" class="btn btn-primary m-l-5 m-t-15">Cancel</button>
+                <button id="create" type="button" class="btn btn-primary m-l-5 m-t-15">Create</button>
             </div>
         </div>
+    </div>
+</div>
+<div id="divLoader">
+    <div class="loader" style="display:none;">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
     </div>
 </div>
 <script type="text/html" id="propertyTemplate">
