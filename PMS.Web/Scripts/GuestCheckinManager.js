@@ -659,7 +659,7 @@
             var propertyTemplate = $('#propertyTemplate');
             divProperty.html(propertyTemplate.render(data));
             $("#divProperty thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
-            $("#divProperty tbody tr").append('<td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+            $("#divProperty tbody tr").append('<td class="finalActionsCol"><i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
         },
         
         AddProperty: function () {
@@ -698,6 +698,12 @@
             // AddProperty by api calling  
             propertyRequestDto.Property = property;
             pmsService.AddProperty(propertyRequestDto);
+        },
+
+        DeleteProperty: function (propertyId) {
+            // DeleteProperty by api calling  
+            args.propertyId = propertyId;
+            pmsService.DeleteProperty(args);
         },
 
         AjaxHandlers: function () {
@@ -939,6 +945,17 @@
             pmsService.Handlers.OnAddPropertyFailure = function () {
                 // show error log
                 console.error("Property is not added.");
+            };
+
+            pmsService.Handlers.OnDeletePropertyFailure = function () {
+                // show error log
+                console.error("Property is not deleted.");
+            };
+
+            pmsService.Handlers.OnDeletePropertySuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                alert(status);
             };
 
             //pmsService.Handlers.OnGetRoomByPropertySuccess = function (data) {

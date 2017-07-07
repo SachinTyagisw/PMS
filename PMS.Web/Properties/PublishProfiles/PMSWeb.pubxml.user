@@ -535,7 +535,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/11/2017 14:33:20</publishTime>
     </File>
     <File Include="Scripts/GuestCheckinManager.js">
-      <publishTime>07/07/2017 13:34:44</publishTime>
+      <publishTime>07/07/2017 16:43:18</publishTime>
     </File>
     <File Include="Scripts/index.js">
       <publishTime>04/22/2017 18:24:40</publishTime>
@@ -853,10 +853,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/06/2017 09:37:04</publishTime>
     </File>
     <File Include="Scripts/PmsAjaxQueue.js">
-      <publishTime>06/05/2017 22:30:18</publishTime>
+      <publishTime>07/07/2017 16:40:20</publishTime>
     </File>
     <File Include="Scripts/PmsService.js">
-      <publishTime>07/07/2017 09:26:19</publishTime>
+      <publishTime>07/07/2017 16:50:36</publishTime>
     </File>
     <File Include="Scripts/PmsSession.js">
       <publishTime>06/09/2017 12:18:48</publishTime>
@@ -955,7 +955,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/22/2017 18:24:40</publishTime>
     </File>
     <File Include="Views/Property/Index.cshtml">
-      <publishTime>07/07/2017 13:33:49</publishTime>
+      <publishTime>07/07/2017 16:02:23</publishTime>
     </File>
     <File Include="Views/Room/DashBoard.cshtml">
       <publishTime>07/05/2017 16:38:03</publishTime>
@@ -976,7 +976,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/10/2017 14:39:31</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>07/06/2017 23:28:49</publishTime>
+      <publishTime>07/07/2017 16:43:01</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>04/22/2017 18:24:40</publishTime>
