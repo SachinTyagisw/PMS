@@ -61,14 +61,14 @@
                             <div class="state-content">
                                 <div class="col-lg-6 p-l-0">
                                     <div class="form-group">
-                                        <select id="ddlCountry" onchange="OnCountryChange(true);" class="form-control">
+                                        <select id="ddlCountry" onchange="OnCountryChange(this, $('#ddlState'), $('#ddlCity'));" class="form-control">
                                             <option value="-1">Select Country</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 p-r-0 p-l-0">
                                     <div class="form-group">
-                                        <select id="ddlState" onchange="OnStateChange();" class="form-control">
+                                        <select id="ddlState" onchange="OnStateChange(this, $('#ddlCity'));" class="form-control">
                                             <option value="-1">Select State</option>
                                         </select>
                                     </div>
@@ -135,7 +135,7 @@
                             </div>
                             <div class="col-lg-12 p-r-0 p-l-0">
                                 <div class="form-group">
-                                    <select id="ddlIdCountry" onchange="OnCountryChange(false);" class="form-control">
+                                    <select id="ddlIdCountry" onchange="OnCountryChange(this, $('#ddlIdState'));" class="form-control">
                                         <option value="-1">Select Country</option>
                                     </select>
                                 </div>
