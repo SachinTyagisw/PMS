@@ -7,8 +7,8 @@
         rowObject.attr('contenteditable', 'false');
         rowObject.css('background-color', 'transparent');
     }
-    function OnCountryChange(isDdlCountryChange) {
-        gcm.OnCountryChange(isDdlCountryChange);
+    function OnCountryChange(isDdlCountryChange, isClone) {
+        gcm.OnCountryChange(isDdlCountryChange, isClone);
     }
 
     function OnStateChange() {
@@ -17,6 +17,7 @@
 
     $(document).ready(function () {
 
+        gcm.GetCountry();
         gcm.GetAllProperty();
         
         $('#phone').keydown(function (e) {
@@ -69,20 +70,53 @@
                 $(thisRow).css('background-color', '#ffc9c9');
                 $(this).removeClass("fa-pencil-square-o");
                 $(this).addClass("fa-floppy-o editMode");
+                
+                var cloneCountry = $('#ddlCountryClone').clone(true);
+                cloneCountry[0].style = 'display:block';
+                $(thisRow)[3].innerText = "";
+                $(thisRow[3]).append(cloneCountry);
+
+                var cloneState = $('#ddlStateClone').clone(true);
+                cloneState[0].style = 'display:block';
+                $(thisRow)[4].innerText = "";
+                $(thisRow[4]).append(cloneState);
+
+                var cloneCity = $('#ddlCityClone').clone(true);
+                cloneCity[0].style = 'display:block';
+                $(thisRow)[5].innerText = "";
+                $(thisRow[5]).append(cloneCity);
+
                 makeFieldsNonEditable($(thisRow[0]));
                 makeFieldsNonEditable($(thisRow[6]));
                 makeFieldsNonEditable($(thisRow[7]));
+
             } else if (editOn == true) {
                 var propertyId = $(thisRow)[0].innerText;
+                var countryId = $(thisRow)[3].children[0].value;
+                var stateId = $(thisRow)[4].children[0].value;
+                var cityId = $(thisRow)[5].children[0].value;
+                
                 if (propertyId <= 0) return;
+                if (countryId <= 0) {
+                    alert("Select proper country");
+                    return;
+                }
+                if (stateId <= 0) {
+                    alert("Select proper state");
+                    return;
+                }
+                if (cityId <= 0) {
+                    alert("Select proper city");
+                    return;
+                }
+                
                 var existingProperty = gcm.FindExistingProperty(propertyId);
                 if (!existingProperty) return;
                 existingProperty.PropertyName = $(thisRow)[1].innerText;
                 existingProperty.PropertyDetails = $(thisRow)[2].innerText;
-                //TODO: remove hardcoded value
-                existingProperty.Country.Id = 3;
-                existingProperty.City.Id = 2;
-                existingProperty.State.ID = 5;
+                existingProperty.Country.Id = countryId;
+                existingProperty.City.Id = cityId;
+                existingProperty.State.ID = stateId;
                 gcm.UpdateProperty(existingProperty);
 
                 $(thisRow).attr('contenteditable', 'false');
@@ -240,6 +274,15 @@
         <div class="dot"></div>
     </div>
 </div>
+<select style="display:none" id="ddlCountryClone" onchange="OnCountryChange(false,true);" class="form-control">
+    <option value="-1">Select Country</option>
+</select>
+<select style="display:none" id="ddlStateClone" onchange="OnStateChange();" class="form-control">
+    <option value="-1">Select State</option>
+</select>
+<select style="display:none" id="ddlCityClone" class="form-control">
+    <option value="-1">Select City</option>
+</select>
 <script type="text/html" id="propertyTemplate">
     <table class="table table-hover table-bordered results tableContents">
         <thead>
@@ -260,7 +303,7 @@
                 <td class="idRow" contenteditable="false">${$value.Id}</td>
                 <td contenteditable="false">${$value.PropertyName}</td>
                 <td contenteditable="false">${$value.PropertyDetails}</td>
-                <td contenteditable="false">${$value.Country.Name}</td>
+                <td contenteditable="false">${$value.Country.Name}</td> 
                 <td contenteditable="false">${$value.State.Name}</td>
                 <td contenteditable="false">${$value.City.Name}</td>
                 <td contenteditable="false">${$value.CreatedOn}</td>

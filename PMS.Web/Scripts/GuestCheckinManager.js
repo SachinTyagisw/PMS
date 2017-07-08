@@ -3,6 +3,7 @@
     var pmsSession = window.PmsSession;
     var args = {};
     var isDdlCountryChange = null;
+    var isDdlCountryClone = null;
     var invoiceData = {};
     var guestCheckinManager = {
        
@@ -98,12 +99,16 @@
             }
         },
 
-        BindStateDdl: function (idx, ddlCountryChange) {
-
-            var ddlCountry = ddlCountryChange ? $('#ddlCountry') : $('#ddlIdCountry');
-            var ddlState = ddlCountryChange ? $('#ddlState') : $('#ddlIdState');
+        BindStateDdl: function (idx, ddlCountryChange, isClone) {
+            var ddlState = null;
+            if (isClone) {
+                ddlState = $('#ddlStateClone');
+            } else {
+                ddlState = ddlCountryChange ? $('#ddlState') : $('#ddlIdState');    
+            }
+            
             var stateData = pmsSession.GetItem("statedata");
-            if (!ddlCountry || !ddlState  || !stateData) return;
+            if (!ddlState  || !stateData) return;
 
             var stateSessionData = $.parseJSON(stateData);
             if (!stateSessionData || stateSessionData.length <= 0) return;
@@ -142,18 +147,31 @@
             } else {
                 window.GuestCheckinManager.BindCountryDdl($('#ddlCountry'));
                 window.GuestCheckinManager.BindCountryDdl($('#ddlIdCountry'));
+                window.GuestCheckinManager.BindCountryDdl($('#ddlCountryClone'));
             }
         },
 
-        OnCountryChange: function (isDdlCountryChange) {
+        OnCountryChange: function (isDdlCountryChange, isClone) {
             var idx = -1;
-            var ddlCountry = isDdlCountryChange ? $('#ddlCountry') : $('#ddlIdCountry');
-            var ddlState = isDdlCountryChange ? $('#ddlState') : $('#ddlIdState');
-            ddlState.empty();
-            ddlState.append(new Option("Select State", "-1"));
-            if (isDdlCountryChange) {
-                $('#ddlCity').empty();
-                $('#ddlCity').append(new Option("Select City", "-1"));
+            var ddlCountry = null;
+            var ddlState = null;
+            if (isClone){
+                ddlCountry = $('#ddlCountryClone');
+                ddlState = $('#ddlStateClone');
+                ddlState.empty();
+                ddlState.append(new Option("Select State", "-1"));
+                $('#ddlCityClone').empty();
+                $('#ddlCityClone').append(new Option("Select City", "-1"));
+
+            } else {
+                ddlCountry = isDdlCountryChange ? $('#ddlCountry') : $('#ddlIdCountry');
+                ddlState = isDdlCountryChange ? $('#ddlState') : $('#ddlIdState');
+                ddlState.empty();
+                ddlState.append(new Option("Select State", "-1"));
+                if (isDdlCountryChange) {
+                    $('#ddlCity').empty();
+                    $('#ddlCity').append(new Option("Select City", "-1"));
+                }
             }
 
             if (ddlCountry.val() !== '-1') {
@@ -163,9 +181,9 @@
                     idx = window.GuestCheckinManager.CheckIfKeyPresent(ddlCountry.val(), stateSessionData);
                 }
                 if (idx === -1) {
-                    window.GuestCheckinManager.GetStateByCountry(isDdlCountryChange);
+                    window.GuestCheckinManager.GetStateByCountry(isDdlCountryChange, ddlCountry.val(), isClone);
                 } else {
-                    window.GuestCheckinManager.BindStateDdl(idx, isDdlCountryChange);
+                    window.GuestCheckinManager.BindStateDdl(idx, isDdlCountryChange, isClone);
                 }
             }
         },
@@ -320,9 +338,10 @@
             }
         },
 
-        GetStateByCountry: function (ddlCountryChange) {
-            isDdlCountryChange = ddlCountryChange
-            args.Id = isDdlCountryChange ? $('#ddlCountry').val() : $('#ddlIdCountry').val();
+        GetStateByCountry: function (ddlCountryChange, countryId, isClone) {
+            isDdlCountryChange = ddlCountryChange;
+            isDdlCountryClone = isClone;
+            args.Id = countryId;
             // get state by api calling  
             pmsService.GetStateByCountry(args);
         },
@@ -882,6 +901,7 @@
                 pmsSession.SetItem("countrydata", JSON.stringify(data.Country));
                 window.GuestCheckinManager.BindCountryDdl($('#ddlCountry'));
                 window.GuestCheckinManager.BindCountryDdl($('#ddlIdCountry'));
+                window.GuestCheckinManager.BindCountryDdl($('#ddlCountryClone'));
             };
             pmsService.Handlers.OnGetCountryFailure = function () {
                 // show error log
@@ -890,9 +910,13 @@
 
             pmsService.Handlers.OnGetStateByCountrySuccess = function (data) {
                 if (!data || !data.States || data.States.length <= 0) return;
-
-                var countryId = isDdlCountryChange ? $('#ddlCountry').val() : $('#ddlIdCountry').val();
-
+                var countryId = '';
+                if (isDdlCountryClone) {
+                    countryId = $('#ddlCountryClone').val();
+                } else {
+                    countryId = isDdlCountryChange ? $('#ddlCountry').val() : $('#ddlIdCountry').val();
+                }
+                
                 var idx = gcm.CheckIfKeyPresent(countryId, pmsSession.CountrySessionKey);
                 // store state data in session storage only when country key is not present
                 if (idx === -1) {
@@ -905,7 +929,7 @@
                     idx = pmsSession.CountrySessionKey.length - 1;
                 }
 
-                window.GuestCheckinManager.BindStateDdl(idx, isDdlCountryChange);
+                window.GuestCheckinManager.BindStateDdl(idx, isDdlCountryChange, isDdlCountryClone);
             };
             pmsService.Handlers.OnGetStateByCountryFailure = function () {
                 // show error log
