@@ -28,10 +28,11 @@
                 return;
             }
             getRoomTypes();
-            getRoomRateTypes();
-            getCountry();
+            getRoomRateTypes();            
             getAllGuest();
             //getRooms();
+            window.GuestCheckinManager.GetCountry();
+            window.GuestCheckinManager.AjaxHandlers();
         },
 
         ShouldCallGetRoomApi: function () {
@@ -133,22 +134,71 @@
             }
         },
 
-        BindCountryDdl: function () {
-            var ddlCountry = $('#ddlCountry');
-            var ddlIdCountry = $('#ddlIdCountry');
+        GetCountry: function () {
             var countryData = pmsSession.GetItem("countrydata");
-            if (!ddlIdCountry || !ddlCountry || !countryData) return;
+            if (!countryData) {
+                // get country by api calling  
+                pmsService.GetCountry(args);
+            } else {
+                window.GuestCheckinManager.BindCountryDdl($('#ddlCountry'));
+                window.GuestCheckinManager.BindCountryDdl($('#ddlIdCountry'));
+            }
+        },
 
+        OnCountryChange: function (isDdlCountryChange) {
+            var idx = -1;
+            var ddlCountry = isDdlCountryChange ? $('#ddlCountry') : $('#ddlIdCountry');
+            var ddlState = isDdlCountryChange ? $('#ddlState') : $('#ddlIdState');
+            ddlState.empty();
+            ddlState.append(new Option("Select State", "-1"));
+            if (isDdlCountryChange) {
+                $('#ddlCity').empty();
+                $('#ddlCity').append(new Option("Select City", "-1"));
+            }
+
+            if (ddlCountry.val() !== '-1') {
+                var stateData = pmsSession.GetItem("statedata");
+                if (stateData) {
+                    var stateSessionData = $.parseJSON(stateData);
+                    idx = window.GuestCheckinManager.CheckIfKeyPresent(ddlCountry.val(), stateSessionData);
+                }
+                if (idx === -1) {
+                    window.GuestCheckinManager.GetStateByCountry(isDdlCountryChange);
+                } else {
+                    window.GuestCheckinManager.BindStateDdl(idx, isDdlCountryChange);
+                }
+            }
+        },
+
+        OnStateChange: function () {
+            var idx = -1;
+            var ddlState = $('#ddlState');
+            var ddlCity = $('#ddlCity');
+            ddlCity.empty();
+            ddlCity.append(new Option("Select City", "-1"));
+            if (ddlState.val() !== '-1') {
+                var cityData = pmsSession.GetItem("citydata");
+                if (cityData) {
+                    var citySessionData = $.parseJSON(cityData);
+                    idx = window.GuestCheckinManager.CheckIfKeyPresent(ddlState.val(), citySessionData);
+                }
+                if (idx === -1) {
+                    window.GuestCheckinManager.GetCityByState();
+                } else {
+                    window.GuestCheckinManager.BindCityDdl(idx);
+                }
+            }
+        },
+
+        BindCountryDdl: function (ddlCountry) {
+            var countryData = pmsSession.GetItem("countrydata");
+            if (!ddlCountry || !countryData) return;
             var country = $.parseJSON(countryData);
             if (!country || country.length <= 0) return;
-
             ddlCountry.empty();
-            ddlIdCountry.empty();
             ddlCountry.append(new Option("Select Country", "-1"));
-            ddlIdCountry.append(new Option("Select Country", "-1"));
             for (var i = 0; i < country.length; i++) {
                 ddlCountry.append(new Option(country[i].Name, country[i].Id));
-                ddlIdCountry.append(new Option(country[i].Name, country[i].Id));
             }
         },
 
@@ -563,7 +613,7 @@
         },
 
         ClearAllFields: function () {
-            window.GuestCheckinManager.Initialize();
+            window.GuestCheckinManager.Initialize();            
             window.GuestCheckinManager.MakeReadOnly(false);
             $("#fName").val('');
             $("#lName").val('');
@@ -693,10 +743,9 @@
             //property.LogoPath = $('#dateTo').val();
             property.TimeZone = $('#timezone').val();
             property.CurrencyID = $('#currency').val();
-            //TODO: remove hardcoded value
-            property.State.ID = 6;//$('#ddlState').val();
-            property.Country.Id = 3;//$('#ddlCountry').val();
-            property.City.Id = 7;//$('#ddlCity').val();
+            property.State.ID = $('#ddlState').val();
+            property.Country.Id = $('#ddlCountry').val();
+            property.City.Id = $('#ddlCity').val();
             property.ZipCode = $('#zipCode').val();            
 
             // AddProperty by api calling  
@@ -831,7 +880,8 @@
                 if (!data || !data.Country || data.Country.length <= 0) return;
 
                 pmsSession.SetItem("countrydata", JSON.stringify(data.Country));
-                window.GuestCheckinManager.BindCountryDdl();
+                window.GuestCheckinManager.BindCountryDdl($('#ddlCountry'));
+                window.GuestCheckinManager.BindCountryDdl($('#ddlIdCountry'));
             };
             pmsService.Handlers.OnGetCountryFailure = function () {
                 // show error log
@@ -1352,17 +1402,7 @@
             // get guest by api calling  
             pmsService.GetGuest(args);
         }
-    }    
-
-    function getCountry() {
-        var countryData = pmsSession.GetItem("countrydata");
-        if (!countryData) {
-            // get country by api calling  
-            pmsService.GetCountry(args);
-        } else {
-            window.GuestCheckinManager.BindCountryDdl();
-        }
-    }
+    }      
 
     function getRoomRateTypes() {
         args.propertyId = getPropertyId();
@@ -1453,19 +1493,18 @@
             alert("ZipCode is required");
             return false;
         }
-        //TODO:uncomment below code
-        //if (!state || state === '-1') {
-        //    alert("Select proper state");
-        //    return false;
-        //}
-        //if (!country || country === '-1') {
-        //    alert("Select proper country");
-        //    return false;
-        //}
-        //if (!city || city === '-1') {
-        //    alert("Select proper city");
-        //    return false;
-        //}
+        if (!country || country === '-1') {
+            alert("Select proper country");
+            return false;
+        }
+        if (!state || state === '-1') {
+            alert("Select proper state");
+            return false;
+        }
+        if (!city || city === '-1') {
+            alert("Select proper city");
+            return false;
+        }
         return true;
     }
 

@@ -64,10 +64,7 @@
         if (!window.PmsSession.GetItem("username")) {
             window.PmsSession.SetItem("username", "@ViewBag.UserName");
         }
-        if (!window.PmsSession.GetItem("roomtypedata")) {
-            window.GuestCheckinManager.Initialize();
-        }
-        window.GuestCheckinManager.AjaxHandlers();
+        window.GuestCheckinManager.Initialize();
     });
     </script>
 

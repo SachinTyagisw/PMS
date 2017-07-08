@@ -7,6 +7,14 @@
         rowObject.attr('contenteditable', 'false');
         rowObject.css('background-color', 'transparent');
     }
+    function OnCountryChange(isDdlCountryChange) {
+        gcm.OnCountryChange(isDdlCountryChange);
+    }
+
+    function OnStateChange() {
+        gcm.OnStateChange();
+    }
+
     $(document).ready(function () {
 
         gcm.GetAllProperty();
@@ -24,6 +32,7 @@
         });
 
         $("#createRow").click(function () {
+            gcm.GetCountry();
             gcm.ClearPropertyFields();
         });
 
