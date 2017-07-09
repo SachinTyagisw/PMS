@@ -143,12 +143,12 @@
             }
         }
         
-        function OnCountryChange(isDdlCountryChange) {
-            gcm.OnCountryChange(isDdlCountryChange);
+        function OnCountryChange(ddlCountry, ddlState, ddlCity) {
+            gcm.OnCountryChange(ddlCountry, ddlState, ddlCity);
         }
 
-        function OnStateChange() {
-            gcm.OnStateChange();
+        function OnStateChange(ddlState, ddlCity) {
+            gcm.OnStateChange(ddlState, ddlCity);
         }
 
         function OnRoomTypeChange() {

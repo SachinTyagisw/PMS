@@ -3,16 +3,16 @@
 }
 <script type='text/javascript'>
     var gcm = window.GuestCheckinManager;
-    function makeFieldsNonEditable(rowObject){
+    function makeFieldsReadonly(rowObject){
         rowObject.attr('contenteditable', 'false');
         rowObject.css('background-color', 'transparent');
     }
-    function OnCountryChange(isDdlCountryChange, isClone) {
-        gcm.OnCountryChange(isDdlCountryChange, isClone);
+    function OnCountryChange(ddlCountry, ddlState, ddlCity) {
+        gcm.OnCountryChange(ddlCountry, ddlState, ddlCity);
     }
 
-    function OnStateChange() {
-        gcm.OnStateChange();
+    function OnStateChange(ddlState, ddlCity) {
+        gcm.OnStateChange(ddlState, ddlCity);
     }
 
     $(document).ready(function () {
@@ -86,10 +86,18 @@
                 $(thisRow)[5].innerText = "";
                 $(thisRow[5]).append(cloneCity);
 
-                makeFieldsNonEditable($(thisRow[0]));
-                makeFieldsNonEditable($(thisRow[6]));
-                makeFieldsNonEditable($(thisRow[7]));
-
+                makeFieldsReadonly($(thisRow[0]));
+                makeFieldsReadonly($(thisRow[6]));
+                makeFieldsReadonly($(thisRow[7]));
+                if ($(thisRow[3].children[0])) {
+                    $(thisRow[3].children[0]).removeAttr('disabled');
+                }
+                if ($(thisRow[4].children[0])) {
+                    $(thisRow[4].children[0]).removeAttr('disabled');
+                }
+                if ($(thisRow[5].children[0])) {
+                    $(thisRow[5].children[0]).removeAttr('disabled');
+                }
             } else if (editOn == true) {
                 var propertyId = $(thisRow)[0].innerText;
                 var countryId = $(thisRow)[3].children[0].value;
@@ -123,6 +131,9 @@
                 $(thisRow).css('background-color', 'transparent');
                 $(this).removeClass("fa-floppy-o editMode");
                 $(this).addClass("fa-pencil-square-o");
+                $(thisRow[3].children[0]).attr('disabled', 'disabled');
+                $(thisRow[4].children[0]).attr('disabled', 'disabled');
+                $(thisRow[5].children[0]).attr('disabled', 'disabled');
             }
         });
 
@@ -205,14 +216,14 @@
                     </div>
                     <div class="col-lg-3 p-l-0">
                         <div class="form-group">
-                            <select id="ddlCountry" onchange="OnCountryChange(true);" class="form-control">
+                            <select id="ddlCountry" onchange="OnCountryChange(this, $('#ddlState'), $('#ddlCity'));" class="form-control">
                                 <option value="-1">Select Country</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-lg-3 p-l-0">
                         <div class="form-group">
-                            <select id="ddlState" onchange="OnStateChange();" class="form-control">
+                            <select id="ddlState" onchange="OnStateChange(this, $('#ddlCity'));" class="form-control">
                                 <option value="-1">Select State</option>
                             </select>
                         </div>
@@ -274,10 +285,10 @@
         <div class="dot"></div>
     </div>
 </div>
-<select style="display:none" id="ddlCountryClone" onchange="OnCountryChange(false,true);" class="form-control">
+<select style="display:none" id="ddlCountryClone" onchange="OnCountryChange(this, $('#ddlStateClone'), $('#ddlCityClone'));" class="form-control">
     <option value="-1">Select Country</option>
 </select>
-<select style="display:none" id="ddlStateClone" onchange="OnStateChange();" class="form-control">
+<select style="display:none" id="ddlStateClone" onchange="OnStateChange(this, $('#ddlCityClone'));" class="form-control">
     <option value="-1">Select State</option>
 </select>
 <select style="display:none" id="ddlCityClone" class="form-control">
