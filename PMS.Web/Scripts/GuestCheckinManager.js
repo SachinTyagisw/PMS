@@ -32,8 +32,7 @@
             getRoomTypes();
             getRoomRateTypes();            
             getAllGuest();
-            //getRooms();
-            window.GuestCheckinManager.GetCountry();
+            //getRooms();            
             window.GuestCheckinManager.AjaxHandlers();
         },
 
@@ -137,15 +136,14 @@
             }
         },
 
-        GetCountry: function () {
+        GetCountry: function (ddlCountry) {
+            ddlCountryObj = ddlCountry;
             var countryData = pmsSession.GetItem("countrydata");
             if (!countryData) {
                 // get country by api calling  
                 pmsService.GetCountry(args);
             } else {
-                window.GuestCheckinManager.BindCountryDdl($('#ddlCountry'));
-                window.GuestCheckinManager.BindCountryDdl($('#ddlIdCountry'));
-                window.GuestCheckinManager.BindCountryDdl($('#ddlCountryClone'));
+                window.GuestCheckinManager.BindCountryDdl(ddlCountryObj);
             }
         },
 
@@ -164,7 +162,7 @@
                 ddlCityObj.append(new Option("Select City", "-1"));
             }
             var countryId = ddlCountryObj.value;
-            if (countryId <= 0) return;
+            if (!countryId || countryId <= 0) return;
 
             var stateData = pmsSession.GetItem("statedata");
             if (stateData) {
@@ -188,7 +186,7 @@
                 ddlCityObj.append(new Option("Select City", "-1"));
             }
             var stateId = ddlStateObj.value;
-            if (stateId <= 0) return;
+            if (!stateId || stateId <= 0) return;
 
             var cityData = pmsSession.GetItem("citydata");
             if (cityData) {
@@ -891,9 +889,11 @@
                 if (!data || !data.Country || data.Country.length <= 0) return;
 
                 pmsSession.SetItem("countrydata", JSON.stringify(data.Country));
-                window.GuestCheckinManager.BindCountryDdl($('#ddlCountry'));
-                window.GuestCheckinManager.BindCountryDdl($('#ddlIdCountry'));
-                window.GuestCheckinManager.BindCountryDdl($('#ddlCountryClone'));
+                window.GuestCheckinManager.BindCountryDdl(ddlCountryObj);
+                //TODO: fill ddlIdCountry either via notification or on body onload
+                if(ddlCountryObj[0].id ==='ddlCountry'){
+                    window.GuestCheckinManager.BindCountryDdl($('#ddlIdCountry'));
+                }
             };
             pmsService.Handlers.OnGetCountryFailure = function () {
                 // show error log

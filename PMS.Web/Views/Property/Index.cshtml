@@ -17,7 +17,6 @@
 
     $(document).ready(function () {
 
-        gcm.GetCountry();
         gcm.GetAllProperty();
         
         $('#phone').keydown(function (e) {
@@ -33,7 +32,7 @@
         });
 
         $("#createRow").click(function () {
-            gcm.GetCountry();
+            gcm.GetCountry($('#ddlCountryProp'));
             gcm.ClearPropertyFields();
         });
 
@@ -61,6 +60,7 @@
         $("#divProperty").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {            
             var thisRow = $(this).parent().siblings();
             var editOn = $(this).hasClass("editMode");
+            var propertyId = $(thisRow)[0].innerText;
 
             $('td:last-child').attr('contenteditable', 'false');
             $('td:last-child').css('background-color', 'transparent');
@@ -71,20 +71,34 @@
                 $(this).removeClass("fa-pencil-square-o");
                 $(this).addClass("fa-floppy-o editMode");
                 
-                var cloneCountry = $('#ddlCountryClone').clone(true);
+                var cloneCountry = $('#ddlCountryClone').clone(true);                
                 cloneCountry[0].style = 'display:block';
+                cloneCountry[0].id = 'ddlCountryClone' + propertyId;
+                var countrySelector = '#' + cloneCountry[0].id;
+                gcm.GetCountry($(cloneCountry));
                 $(thisRow)[3].innerText = "";
-                $(thisRow[3]).append(cloneCountry);
-
-                var cloneState = $('#ddlStateClone').clone(true);
+                $(thisRow[3]).append(cloneCountry);                
+                
+                var cloneState = $('#ddlStateClone').clone(true);                
                 cloneState[0].style = 'display:block';
+                cloneState[0].id = 'ddlStateClone' + propertyId;
+                var stateSelector = '#' + cloneState[0].id;
                 $(thisRow)[4].innerText = "";
-                $(thisRow[4]).append(cloneState);
+                $(thisRow[4]).append(cloneState);                
 
-                var cloneCity = $('#ddlCityClone').clone(true);
+                var cloneCity = $('#ddlCityClone').clone(true);                
                 cloneCity[0].style = 'display:block';
+                cloneCity[0].id = 'ddlCityClone' + propertyId;
                 $(thisRow)[5].innerText = "";
                 $(thisRow[5]).append(cloneCity);
+
+                $(document).on('change', countrySelector, function () {
+                    gcm.OnCountryChange($(cloneCountry)[0], $(cloneState), $(cloneCity));
+                });
+
+                $(document).on('change', stateSelector, function () {
+                    gcm.OnStateChange($(cloneState)[0], $(cloneCity));
+                });
 
                 makeFieldsReadonly($(thisRow[0]));
                 makeFieldsReadonly($(thisRow[6]));
@@ -97,9 +111,10 @@
                 }
                 if ($(thisRow[5].children[0])) {
                     $(thisRow[5].children[0]).removeAttr('disabled');
-                }
-            } else if (editOn == true) {
-                var propertyId = $(thisRow)[0].innerText;
+                }    
+
+
+            } else if (editOn == true) {                
                 var countryId = $(thisRow)[3].children[0].value;
                 var stateId = $(thisRow)[4].children[0].value;
                 var cityId = $(thisRow)[5].children[0].value;
@@ -216,7 +231,7 @@
                     </div>
                     <div class="col-lg-3 p-l-0">
                         <div class="form-group">
-                            <select id="ddlCountry" onchange="OnCountryChange(this, $('#ddlState'), $('#ddlCity'));" class="form-control">
+                            <select id="ddlCountryProp" onchange="OnCountryChange(this, $('#ddlState'), $('#ddlCity'));" class="form-control">
                                 <option value="-1">Select Country</option>
                             </select>
                         </div>
@@ -285,10 +300,10 @@
         <div class="dot"></div>
     </div>
 </div>
-<select style="display:none" id="ddlCountryClone" onchange="OnCountryChange(this, $('#ddlStateClone'), $('#ddlCityClone'));" class="form-control">
+<select style="display:none" id="ddlCountryClone" class="form-control">
     <option value="-1">Select Country</option>
 </select>
-<select style="display:none" id="ddlStateClone" onchange="OnStateChange(this, $('#ddlCityClone'));" class="form-control">
+<select style="display:none" id="ddlStateClone" class="form-control">
     <option value="-1">Select State</option>
 </select>
 <select style="display:none" id="ddlCityClone" class="form-control">
