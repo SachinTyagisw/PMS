@@ -218,6 +218,7 @@
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PropertyController.cs" />
     <Compile Include="Controllers\PropertyController.PropertyType.cs" />
+    <Compile Include="Controllers\PropertyFloorController.cs" />
     <Compile Include="Controllers\RewardController.cs" />
     <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\RewardController.RewardCategory.cs" />

@@ -34,7 +34,13 @@ namespace PMS.Resources.DAL
         int AddPaymentType(PmsEntity.PaymentType paymentType);
         bool UpdatePaymentType(PmsEntity.PaymentType paymentType);
         bool DeletePaymentType(int paymentTypeId);
-        List<PmsEntity.PaymentType> GetPaymentTypeByProperty(int paymentTypeId);
+        List<PmsEntity.PaymentType> GetPaymentTypeByProperty(int propertyId);
+
+        //Property Floor Methods
+        int AddFloor(PmsEntity.PropertyFloor propertyFloor);
+        bool UpdateFloor(PmsEntity.PropertyFloor propertyFloor);
+        bool DeleteFloor(int propertyFloorId);
+        List<PmsEntity.PropertyFloor> GetFloorsByProperty(int propertyId);
 
         int AddRoomType(PmsEntity.RoomType roomType);
         bool UpdateRoomType(PmsEntity.RoomType roomType);

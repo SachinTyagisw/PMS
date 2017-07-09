@@ -1199,5 +1199,103 @@ namespace PMS.Resources.DAL
             return paymentTypes;
 
         }
+
+
+        public int AddFloor(PmsEntity.PropertyFloor propertyFloor)
+        {
+            var Id = -1;
+            if (propertyFloor == null) return Id;
+
+            var propertyFloorObj = new DAL.PropertyFloor
+            {
+                CreatedOn = propertyFloor.CreatedOn,
+                isActive = true,
+                CreatedBy = propertyFloor.CreatedBy,
+                PropertyId = propertyFloor.PropertyId,
+                FloorNumber = propertyFloor.FloorNumber,
+                LastUpdatedBy = propertyFloor.CreatedBy,
+                LastUpdatedOn = propertyFloor.LastUpdatedOn
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.PropertyFloors.Add(propertyFloorObj);
+                var result = pmsContext.SaveChanges();
+                Id = result == 1 ? propertyFloorObj.ID : -1;
+            }
+
+            return Id;
+        }
+
+        public bool UpdateFloor(PmsEntity.PropertyFloor propertyFloor)
+        {
+            var isUpdated = false;
+            if (propertyFloor == null) return isUpdated;
+
+            var propertyFloorObj = new DAL.PropertyFloor
+            {
+                LastUpdatedOn = propertyFloor.LastUpdatedOn,
+                isActive = propertyFloor.isActive,
+                LastUpdatedBy = propertyFloor.LastUpdatedBy,
+                PropertyId = propertyFloor.PropertyId,
+                FloorNumber = propertyFloor.FloorNumber,
+                ID = propertyFloor.ID,
+                CreatedBy = propertyFloor.CreatedBy,
+                CreatedOn = propertyFloor.CreatedOn
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Entry(propertyFloorObj).State = System.Data.Entity.EntityState.Modified;
+                var result = pmsContext.SaveChanges();
+                isUpdated = result == 1 ? true : false;
+            }
+
+            return isUpdated;
+        }
+
+        public bool DeleteFloor(int propertyFloorId)
+        {
+            var isDeleted = false;
+            if (propertyFloorId <= 0) return isDeleted;
+
+            var propertyFloorObj = new DAL.PropertyFloor
+            {
+                isActive = false,
+                ID = propertyFloorId
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.PropertyFloors.Attach(propertyFloorObj);
+                pmsContext.Entry(propertyFloorObj).Property(x => x.isActive).IsModified = true;
+                var result = pmsContext.SaveChanges();
+                isDeleted = result == 1 ? true : false;
+            }
+            return isDeleted;
+        }
+
+        public List<PmsEntity.PropertyFloor> GetFloorsByProperty(int propertyId)
+        {
+            var propertyFloors = new List<PmsEntity.PropertyFloor>();
+            using (var pmsContext = new PmsEntities())
+            {
+                propertyFloors = pmsContext.PropertyFloors.Where(x => x.PropertyId == propertyId && (x.isActive != null && x.isActive.Value))
+                                                 .Select(x => new PmsEntity.PropertyFloor
+                                                 {
+                                                     CreatedOn = x.CreatedOn,
+                                                     CreatedBy = x.CreatedBy,
+                                                     LastUpdatedBy = x.LastUpdatedBy,
+                                                     LastUpdatedOn = x.LastUpdatedOn,
+                                                     ID = x.ID,
+                                                     PropertyId = x.PropertyId,
+                                                     FloorNumber = x.FloorNumber
+                                                 }).ToList();
+
+            }
+
+            return propertyFloors;
+
+        }
     }
 }

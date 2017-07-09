@@ -286,6 +286,30 @@ namespace PMS.Resources.Logic
         {
             return DalFactory.GetPaymentTypeByProperty(propertyId);
         }
+
+        //Property Floor
+
+        public int AddFloor(PmsEntity.PropertyFloor propertyFloor)
+        {
+            return DalFactory.AddFloor(propertyFloor);
+        }
+
+        public bool UpdateFloor(PmsEntity.PropertyFloor propertyFloor)
+        {
+
+            return DalFactory.UpdateFloor(propertyFloor);
+        }
+
+        public bool DeleteFloor(int propertyFloorId)
+        {
+
+            return DalFactory.DeleteFloor(propertyFloorId);
+        }
+
+        public List<PmsEntity.PropertyFloor> GetFloorsByProperty(int propertyId)
+        {
+            return DalFactory.GetFloorsByProperty(propertyId);
+        }
          
 
         #region helper methods 

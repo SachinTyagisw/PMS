@@ -41,6 +41,12 @@ namespace PMS.Resources.Logic
         bool UpdatePaymentType(PmsEntity.PaymentType paymentType);
         bool DeletePaymentType(int paymentTypeId);
         List<PmsEntity.PaymentType> GetPaymentTypeByProperty(int propertyId);
+       
+        //Floor Methods
+        int AddFloor(PmsEntity.PropertyFloor propertyFloor);
+        bool UpdateFloor(PmsEntity.PropertyFloor propertyFloor);
+        bool DeleteFloor(int propertyFloorId);
+        List<PmsEntity.PropertyFloor> GetFloorsByProperty(int propertyId);
 
         int AddRoomPrice(PmsEntity.RoomPricing roomPrice);
         bool UpdateRoomPrice(PmsEntity.RoomPricing roomPrice);
