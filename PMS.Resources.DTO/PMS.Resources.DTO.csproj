@@ -55,6 +55,7 @@
     <Compile Include="Request\AddRoomTypeRequestDto.cs" />
     <Compile Include="Request\GetPaymentChargesRequestDto.cs" />
     <Compile Include="Request\GetRoomByDateRequestDto.cs" />
+    <Compile Include="Request\PropertyFloorRequestDto.cs" />
     <Compile Include="Request\UpdatePropertyRequestDto.cs" />
     <Compile Include="Request\UpdatePropertyTypeRequestDto.cs" />
     <Compile Include="Request\UpdateRateTypeRequestDto.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Response\GetNotificationResponseDto.cs" />
     <Compile Include="Response\GetPaymentChargesResponseDto.cs" />
     <Compile Include="Response\GetPaymentTypeResponseDto.cs" />
+    <Compile Include="Response\GetPropertyFloorResponseDto.cs" />
     <Compile Include="Response\GetPropertyResponseDto.cs" />
     <Compile Include="Response\GetPropertyTypeResponseDto.cs" />
     <Compile Include="Response\GetRewardResponseDto.cs" />

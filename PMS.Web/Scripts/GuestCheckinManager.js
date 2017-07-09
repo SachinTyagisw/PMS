@@ -29,7 +29,13 @@
                 window.location.replace(window.webBaseUrl + "Account/Login");
                 return;
             }
-            getRoomTypes();
+            
+            if (!window.PmsSession.GetItem("roomtypedata")) {
+                window.GuestCheckinManager.GetRoomTypes();
+            } else {
+                window.GuestCheckinManager.BindRoomTypeDdl($('#roomTypeDdl'));
+            }
+
             getRoomRateTypes();            
             getAllGuest();
             //getRooms();            
@@ -69,8 +75,7 @@
             }
         },
 
-        BindRoomTypeDdl: function () {
-            var ddlRoomType = $('#roomTypeDdl');
+        BindRoomTypeDdl: function (ddlRoomType) {
             var roomTypeData = pmsSession.GetItem("roomtypedata");
             if (!ddlRoomType || !roomTypeData) return;
 
@@ -720,9 +725,19 @@
         PopulatePropertyGrid: function (data) {
             var divProperty = $('#divProperty');
             var propertyTemplate = $('#propertyTemplate');
+            if (!divProperty || !propertyTemplate) return;
             divProperty.html(propertyTemplate.render(data));
             $("#divProperty thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
             $("#divProperty tbody tr").append('<td class="finalActionsCol"><i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+        },
+
+        PopulateRoomTypeGrid: function (data) {
+            var divRoomType = $('#divRoomType');
+            var roomtypeTemplate = $('#roomtypeTemplate');
+            if (!divRoomType || !roomtypeTemplate) return;
+            divRoomType.html(roomtypeTemplate.render(data));
+            $("#divRoomType thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
+            $("#divRoomType tbody tr").append('<td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
         },
         
         AddProperty: function () {
@@ -805,6 +820,12 @@
             }
         },
 
+        GetRoomTypes: function(propertyId) {
+            args.propertyId = propertyId && propertyId > 0 ? propertyId : getPropertyId();
+            // get room types by api calling  
+            pmsService.GetRoomTypeByProperty(args);
+        },
+
         AjaxHandlers: function () {
             // ajax handlers start
             pmsService.Handlers.OnAddBookingSuccess = function (data) {
@@ -843,7 +864,15 @@
             pmsService.Handlers.OnGetRoomTypeByPropertySuccess = function (data) {
                 //storing room type data into session storage
                 pmsSession.SetItem("roomtypedata", JSON.stringify(data.RoomTypes));
-                window.GuestCheckinManager.BindRoomTypeDdl();
+                var divRoomType = $('#divRoomType');
+                var roomtypeTemplate = $('#roomtypeTemplate');
+                var roomTypeDdl = $('#roomTypeDdl');
+                if (roomTypeDdl) {
+                    window.GuestCheckinManager.BindRoomTypeDdl(roomTypeDdl);
+                }
+                if (divRoomType && roomtypeTemplate) {
+                    window.GuestCheckinManager.PopulateRoomTypeGrid(data);
+                }
             };
 
             pmsService.Handlers.OnGetRoomTypeByPropertyFailure = function () {
@@ -1417,18 +1446,7 @@
 
         roomBookings.push(roomBooking);
         return roomBookings;
-    }
-
-    function getRoomTypes() {
-        args.propertyId = getPropertyId();
-        var roomTypeData = pmsSession.GetItem("roomtypedata");
-        if (!roomTypeData) {
-            // get room types by api calling  
-            pmsService.GetRoomTypeByProperty(args);
-        } else {
-            window.GuestCheckinManager.BindRoomTypeDdl();
-        }
-    }
+    }    
         
     function getAllGuest() {
         var guestData = pmsSession.GetItem("guestinfo");

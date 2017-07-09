@@ -5,4 +5,117 @@
 }
 
 <h2>RoomType</h2>
+<script type='text/javascript'>
+    var gcm = window.GuestCheckinManager;
+    function makeFieldsReadonly(rowObject) {
+        rowObject.attr('contenteditable', 'false');
+        rowObject.css('background-color', 'transparent');
+    }
+
+    $(document).ready(function () {
+        //TODO : remove hardcoded value
+        gcm.GetRoomTypes('1');
+
+        $("#divRoomType").on("click", ".fa-plus-circle", function () {
+            $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td></tr>');
+        });
+
+        $("#divRoomType").on("click", ".fa-minus-circle", function () {
+            if (confirm("Are you sure you want to delete this row ?")) {
+                var roomTypeId = $(this).closest('tr')[0].id;
+                if (roomTypeId <= 0) return;
+                gcm.DeleteRoomType(roomTypeId);
+                $(this).closest('tr').remove();
+            }
+        });
+
+        $("#divRoomType").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {
+            var thisRow = $(this).parent().siblings();
+            var editOn = $(this).hasClass("editMode");
+            var roomTypeId = $(thisRow)[0].innerText;
+
+            if (editOn == false) {
+                gcm.OnGridEdit(editOn, $(thisRow), $(this));
+
+                //var cloneCountry = $('#ddlCountryClone').clone(true);
+                //cloneCountry[0].style = 'display:block';
+                //cloneCountry[0].id = 'ddlCountryClone' + roomTypeId;
+                //var countrySelector = '#' + cloneCountry[0].id;
+                //gcm.GetCountry($(cloneCountry));
+                //$(thisRow)[3].innerText = "";
+                //$(thisRow[3]).append(cloneCountry);
+
+                makeFieldsReadonly($(thisRow[0]));
+               
+            } else if (editOn == true) {
+                //var countryId = $(thisRow)[3].children[0].value;
+                //var stateId = $(thisRow)[4].children[0].value;
+                //var cityId = $(thisRow)[5].children[0].value;
+
+                if (roomTypeId <= 0) return;
+
+                //var existingProperty = gcm.FindExistingProperty(propertyId);
+                //if (!existingProperty) return;
+                //existingProperty.PropertyName = $(thisRow)[1].innerText;
+                //existingProperty.PropertyDetails = $(thisRow)[2].innerText;
+                //existingProperty.Country.Id = countryId;
+                //existingProperty.City.Id = cityId;
+                //existingProperty.State.ID = stateId;
+                ////call updateroomtype api
+                //gcm.UpdateRoomType(existingProperty);
+
+                gcm.OnGridEdit(editOn, $(thisRow), $(this));
+
+                //$(thisRow[3].children[0]).attr('disabled', 'disabled');
+                //$(thisRow[4].children[0]).attr('disabled', 'disabled');
+                //$(thisRow[5].children[0]).attr('disabled', 'disabled');
+            }
+        });
+
+    });
+</script>
+<div class="content-wrap">
+    <div class="main controls">
+        <div class="container-fluid">
+            <div class="main-content" style="width:80%; margin: 0 auto;">
+                <h1 class="table-head"><span>Create Room Types</span></h1>
+                <div class="form-group m-t-10">
+                    <input type="text" class="search form-control" placeholder="Search by Room Type, Short Code...">
+                </div>
+                <span class="counter"></span>
+                <div id="divRoomType">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="divLoader">
+    <div class="loader" style="display:none;">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+</div>
+<script type="text/html" id="roomtypeTemplate">
+    <table class="table table-hover table-bordered results tableContents">
+        <thead>
+            <tr>
+                <th id="IDCol">ID #</th>
+                <th id="roomTypeCol" contenteditable="false">Room Type</th>
+                <th id="shortCodeCol" contenteditable="false">Short Code</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{each RoomTypes}}
+            <tr id="${$value.Id}">
+                <td class="idRow" contenteditable="false">${$value.Id}</td>
+                <td contenteditable="false">${$value.Name}</td>
+                <td contenteditable="false">${$value.ShortName}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</script>
 
