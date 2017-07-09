@@ -788,6 +788,23 @@
             return null;
         },
 
+        OnGridEdit: function (editOn, rowObj, thisObj) {
+            $('td:last-child').attr('contenteditable', 'false');
+            $('td:last-child').css('background-color', 'transparent');
+
+            if (editOn == false) {
+                rowObj.attr('contenteditable', 'true');
+                rowObj.css('background-color', '#ffc9c9');
+                thisObj.removeClass("fa-pencil-square-o");
+                thisObj.addClass("fa-floppy-o editMode");
+            } else if (editOn == true) {  
+                rowObj.attr('contenteditable', 'false');
+                rowObj.css('background-color', 'transparent');
+                thisObj.removeClass("fa-floppy-o editMode");
+                thisObj.addClass("fa-pencil-square-o");
+            }
+        },
+
         AjaxHandlers: function () {
             // ajax handlers start
             pmsService.Handlers.OnAddBookingSuccess = function (data) {
