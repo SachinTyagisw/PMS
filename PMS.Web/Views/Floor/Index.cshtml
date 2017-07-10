@@ -1,8 +1,137 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Floor</h2>
+<script type='text/javascript'>
+    var gcm = window.GuestCheckinManager;
+    function makeFieldsReadonly(rowObject) {
+        rowObject.attr('contenteditable', 'false');
+        rowObject.css('background-color', 'transparent');
+    }
+
+    function OnPropertyChange() {
+        if ($('#ddlProperty').val() <= 0) {
+            alert('Select valid property');
+            return;
+        }
+        gcm.GetFloorsByProperty($('#ddlProperty').val());
+    }
+
+    $(document).ready(function () {
+
+        gcm.GetAllProperty();
+
+        $("#divFloor").on("click", ".fa-plus-circle", function () {
+            $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="false"></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td></tr>');
+        });
+
+        $("#divFloor").on("click", ".fa-minus-circle", function () {
+            if (confirm("Are you sure you want to delete this row ?")) {
+                var floorId = $(this).closest('tr')[0].id;
+                $(this).closest('tr').remove();
+                if (floorId <= 0) return;
+                gcm.DeleteFloor(floorId);
+                if ($('#divFloor tbody tr').length <= 0) {
+                    $('#ddlProperty').val('-1');
+                }
+            }
+        });
+
+        $("#divFloor").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {
+            var thisRow = $(this).parent().siblings();
+            var editOn = $(this).hasClass("editMode");
+            var floorId = $(thisRow)[0].innerText;
+            var propertyId = $('#ddlProperty').val();
+
+            if (editOn == false) {
+                gcm.OnGridEdit(editOn, $(thisRow), $(this));
+                makeFieldsReadonly($(thisRow[0]));
+            } else if (editOn == true) {
+                if (floorId > 0) {
+                    var existingFloor = gcm.FindPropertySetting(floorId);
+                    if (!existingFloor) return;
+                    existingFloor.FloorNumber = $(thisRow)[1].innerText;
+                    //call updatefloor api
+                    gcm.UpdateFloor(existingFloor);
+                } else {
+                    if (propertyId <= 0) {
+                        alert("Select valid property");
+                        return;
+                    }
+                    var floor = {};
+                    floor.FloorNumber = $(thisRow)[1].innerText;
+                    floor.PropertyId = propertyId;
+                    //call addfloor api
+                    gcm.AddFloor(floor);
+                }
+
+                gcm.OnGridEdit(editOn, $(thisRow), $(this));
+            }
+        });
+
+    });
+</script>
+<div class="content-wrap">
+    <div class="main controls">
+        <div class="container-fluid">
+            <div class="main-content" style="width:80%; margin: 0 auto;">
+                <h1 class="table-head"><span>Create Floor</span></h1>
+                <div class="form-group m-t-10">
+                    <input type="text" class="search form-control" placeholder="Search by Floor number...">
+                </div>
+                <div class="col-lg-2 p-1-0 p-r-5">
+                    <div class="form-group">
+                        <label>Select Property</label>
+                    </div>
+                </div>
+                <div class="col-lg-2 p-l-0 p-r-0">
+                    <div class="form-group">
+                        <select id="ddlProperty" onchange="OnPropertyChange();">
+                            <option value="-1">Select Property</option>
+                        </select>
+                    </div>
+                </div>
+                <span class="counter"></span>
+                <div id="divFloor">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="divLoader">
+    <div class="loader" style="display:none;">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+</div>
+<script type="text/html" id="floorTemplate">
+    <table class="table table-hover table-bordered results tableContents">
+        <thead>
+            <tr>
+                <th id="IDCol">ID #</th>
+                <th id="floorNumCol" contenteditable="false">Floor Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{if typeof PropertyFloors != "undefined" && PropertyFloors != "null" && PropertyFloors.length > 0 }}
+            {{each PropertyFloors}}
+            <tr id="${$value.Id}">
+                <td class="idRow" contenteditable="false">${$value.Id}</td>
+                <td contenteditable="false">${$value.FloorNumber}</td>
+            </tr>
+            {{/each}}
+            {{else}}
+            <tr>
+                <td class="idRow" contenteditable="false"></td>
+                <td contenteditable="false"></td>
+            </tr>
+            {{/if}}
+        </tbody>
+    </table>
+</script>
 

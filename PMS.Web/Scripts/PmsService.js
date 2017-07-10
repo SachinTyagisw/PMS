@@ -50,6 +50,12 @@
             OnUpdateRoomTypeFailure: null,
             OnAddRoomTypeSuccess: null,
             OnAddRoomTypeFailure: null,
+            OnGetFloorsByPropertySuccess: null,
+            OnGetFloorsByPropertyFailure: null,
+        };
+
+        this.GetFloorsByProperty = function (args) {
+            makeAjaxRequestGet(args, "GetFloorsByProperty", this, "api/v1/PropertyFloor/GetFloorsByProperty/" + args.propertyId);
         };
 
         this.UpdateProperty = function (args) {

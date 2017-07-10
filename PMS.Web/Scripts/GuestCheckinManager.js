@@ -742,6 +742,20 @@
             $("#divProperty tbody tr").append('<td class="finalActionsCol"><i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
         },
 
+        PopulateFloorGrid: function (data) {
+            var divFloor = $('#divFloor');
+            var floorTemplate = $('#floorTemplate');
+            if (!divFloor || !floorTemplate) return;
+            divFloor.html(floorTemplate.render(data));
+            $("#divFloor thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
+            if (data && data.PropertyFloors && data.PropertyFloors.length > 0) {
+                $("#divFloor tbody tr").append('<td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+            } else {
+                // when no floor data is present in db 
+                $("#divFloor tbody tr").append('<td class="finalActionsCol"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+            }
+        },
+
         PopulateRoomTypeGrid: function (data) {
             var divRoomType = $('#divRoomType');
             var roomtypeTemplate = $('#roomtypeTemplate');
@@ -866,6 +880,12 @@
             args.propertyId = propertyId && propertyId > 0 ? propertyId : getPropertyId();
             // get room types by api calling  
             pmsService.GetRoomTypeByProperty(args);
+        },
+
+        GetFloorsByProperty: function (propertyId) {
+            args.propertyId = propertyId;
+            // get floor by property by api calling  
+            pmsService.GetFloorsByProperty(args);
         },
 
         AjaxHandlers: function () {
@@ -1202,6 +1222,16 @@
                 console.log(status);
                 alert(status);
             };
+
+            pmsService.Handlers.OnGetFloorsByPropertySuccess = function (data) {
+                window.GuestCheckinManager.PopulateFloorGrid(data);
+            };
+
+            pmsService.Handlers.OnGetFloorsByPropertyFailure = function () {
+                // show error log
+                console.error("Get Floor call failed");
+            };
+
             //pmsService.Handlers.OnGetRoomByPropertySuccess = function (data) {
             //    //storing room data into session storage
             //    pmsSession.SetItem("roomdata", JSON.stringify(data.Rooms));
