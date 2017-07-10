@@ -8,7 +8,7 @@ namespace PMS.Resources.Entities
 {
     public class PaymentType
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public Nullable<int> PropertyID { get; set; }
         public string ShortName { get; set; }
         public string Description { get; set; }

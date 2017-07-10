@@ -65,8 +65,9 @@ namespace PMS.Api.Controllers
 
             config.Routes.MapHttpRoute(
               "GetFloorsByProperty",
-              "api/v1/PropertyFloor/GetFloorsByProperty",
-              new { controller = "PropertyFloor", action = "GetFloorsByProperty" }
+              "api/v1/PropertyFloor/GetFloorsByProperty/{propertyId}",
+              new { controller = "PropertyFloor", action = "GetFloorsByProperty" },
+              constraints: new { propertyId = RegExConstants.NumericRegEx }
               );
         }
 
@@ -88,7 +89,7 @@ namespace PMS.Api.Controllers
             else
             {
                 response.ResponseStatus = PmsApiStatus.Failure.ToString();
-                response.StatusDescription = "New Room Addition failed.Contact administrator.";
+                response.StatusDescription = "New Floor Addition failed.Contact administrator.";
             }
             return response;
         }
@@ -96,7 +97,7 @@ namespace PMS.Api.Controllers
         [HttpPut, ActionName("UpdateFloor")]
         public PmsResponseDto UpdateFloor([FromBody] PropertyFloorRequestDto request)
         {
-            if (request == null || request.PropertyFloor == null)
+            if (request == null || request.PropertyFloor == null || request.PropertyFloor.Id <= 0)
                 throw new PmsException("Floor can not be updated.");
 
             var response = new PmsResponseDto();
@@ -140,7 +141,6 @@ namespace PMS.Api.Controllers
 
             var response = new GetPropertyFloorResponseDto();
             response.PropertyFloors = _iPmsLogic.GetFloorsByProperty(propertyId);
-
             return response;
         }
 

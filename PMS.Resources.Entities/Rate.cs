@@ -8,7 +8,7 @@ namespace PMS.Resources.Entities
 {
     public class Rate
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string Type { get; set; }
         public Nullable<int> PropertyID { get; set; }
         public Nullable<int> RateTypeID { get; set; }
