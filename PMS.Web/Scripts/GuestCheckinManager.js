@@ -75,6 +75,17 @@
             }
         },
 
+        BindPropertyDdl: function (ddlProperty) {
+            var properties = window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting;
+            if (!ddlProperty || !properties || properties.length <= 0) return;
+
+            ddlProperty.empty();
+            ddlProperty.append(new Option("Select Property", "-1"));
+            for (var i = 0; i < properties.length; i++) {
+                ddlProperty.append(new Option(properties[i].PropertyName, properties[i].Id));
+            }
+        },
+
         BindRoomTypeDdl: function (ddlRoomType) {
             var roomTypeData = pmsSession.GetItem("roomtypedata");
             if (!ddlRoomType || !roomTypeData) return;
@@ -901,10 +912,10 @@
                 var divRoomType = $('#divRoomType');
                 var roomtypeTemplate = $('#roomtypeTemplate');
                 var roomTypeDdl = $('#roomTypeDdl');
-                if (roomTypeDdl) {
+                if (roomTypeDdl && roomTypeDdl.length > 0) {
                     window.GuestCheckinManager.BindRoomTypeDdl(roomTypeDdl);
                 }
-                if (divRoomType && roomtypeTemplate) {
+                else if (divRoomType && roomtypeTemplate && divRoomType.length > 0 && roomtypeTemplate.length > 0) {
                     window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = null;
                     window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = data.RoomTypes;
                     window.GuestCheckinManager.PopulateRoomTypeGrid(data);
@@ -1097,9 +1108,18 @@
                 if (!data || !data.Properties || data.Properties.length <= 0) return;
                 window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = null;
                 window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = data.Properties;
-                $('#propmodal').removeClass('open');
-                window.GuestCheckinManager.PopulatePropertyGrid(data);
+                var divProperty = $('#divProperty');
+                var propertyTemplate = $('#propertyTemplate');
+                var ddlProperty = $('#ddlProperty');
+                if (divProperty && propertyTemplate && divProperty.length > 0 && propertyTemplate.length > 0) {
+                    $('#propmodal').removeClass('open');
+                    window.GuestCheckinManager.PopulatePropertyGrid(data);
+                }
+                else if (ddlProperty &&  ddlProperty.length > 0) {
+                    window.GuestCheckinManager.BindPropertyDdl(ddlProperty);
+                }
             };
+
             pmsService.Handlers.OnGetAllPropertyFailure = function () {
                 // show error log
                 console.error("get all property call failed");

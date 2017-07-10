@@ -12,9 +12,17 @@
         rowObject.css('background-color', 'transparent');
     }
 
+    function OnPropertyChange() {
+        if ($('#ddlProperty').val() <= 0) {
+            alert('Select valid property');
+            return;
+        }
+        gcm.GetRoomTypes($('#ddlProperty').val());
+    }
+
     $(document).ready(function () {
-        //TODO : remove hardcoded value
-        gcm.GetRoomTypes('1');
+
+        gcm.GetAllProperty();
 
         $("#divRoomType").on("click", ".fa-plus-circle", function () {
             $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td></tr>');
@@ -58,6 +66,18 @@
                 <h1 class="table-head"><span>Create Room Types</span></h1>
                 <div class="form-group m-t-10">
                     <input type="text" class="search form-control" placeholder="Search by Room Type, Short Code...">
+                </div>
+                <div class="col-lg-1 p-l-0 p-r-5">
+                    <div class="form-group">
+                        <label>Select Property</label>
+                    </div>
+                </div>
+                <div class="col-lg-2 p-l-0 p-r-0">
+                    <div class="form-group">
+                        <select id="ddlProperty" onchange="OnPropertyChange();">
+                            <option value="-1">Select Property</option>
+                        </select>
+                    </div>
                 </div>
                 <span class="counter"></span>
                 <div id="divRoomType">
