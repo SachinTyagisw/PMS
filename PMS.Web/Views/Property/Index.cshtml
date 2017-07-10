@@ -126,7 +126,7 @@
                     return;
                 }
                 
-                var existingProperty = gcm.FindExistingProperty(propertyId);
+                var existingProperty = gcm.FindPropertySetting(propertyId);
                 if (!existingProperty) return;
                 existingProperty.PropertyName = $(thisRow)[1].innerText;
                 existingProperty.PropertyDetails = $(thisRow)[2].innerText;

@@ -8,8 +8,8 @@
     var invoiceData = {};
     var guestCheckinManager = {
        
-        PropertyResponseDto: {
-            Property : null
+        PropertySettingResponseDto: {
+            PropertySetting: null
         },
 
         BookingDto: {
@@ -783,6 +783,30 @@
             pmsService.DeleteProperty(args);
         },
 
+        DeleteRoomType: function (roomTypeId) {
+            // DeleteRoomType by api calling  
+            args.roomTypeId = roomTypeId;
+            pmsService.DeleteRoomType(args);
+        },
+        
+        AddRoomType: function () {
+
+            if (!validatePropertyInputs()) return;
+
+            var roomTypeRequestDto = {};
+            roomTypeRequestDto.RoomType = {};
+            var roomType = {};
+            //property.State = {};
+            //property.Country = {};
+            //property.City = {};
+            //property.CloseOfDayTime = $('#closeofdaytime').val();
+            //property.CheckinTime = $('#checkintime').val();
+
+            // AddProperty by api calling  
+            roomTypeRequestDto.RoomType = roomType;
+            pmsService.AddProperty(roomTypeRequestDto);
+        },
+
         UpdateProperty: function (property) {
             property.LastUpdatedBy = getCreatedBy();
             property.LastUpdatedOn = getCurrentDate();
@@ -793,12 +817,22 @@
             pmsService.UpdateProperty(propertyRequestDto);
         },
         
-        FindExistingProperty : function(propertyId){
-            var properties = window.GuestCheckinManager.PropertyResponseDto.Property;
-            if (!properties || properties.length <= 0) return null;
-            for (var i = 0; i < properties.length; i++){
-                if (properties[i].Id !== parseInt(propertyId)) continue;
-                return properties[i];
+        UpdateRoomType: function (roomType) {
+            roomType.LastUpdatedBy = getCreatedBy();
+            roomType.LastUpdatedOn = getCurrentDate();
+            // UpdateRoomType by api calling 
+            var roomTypeRequestDto = {};
+            roomTypeRequestDto.RoomType = {};
+            roomTypeRequestDto.RoomType = roomType;
+            pmsService.UpdateRoomType(roomTypeRequestDto);
+        },
+
+        FindPropertySetting: function (id) {
+            var settings = window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting;
+            if (!settings || settings.length <= 0) return null;
+            for (var i = 0; i < settings.length; i++){
+                if (settings[i].Id !== parseInt(id)) continue;
+                return settings[i];
             }
             return null;
         },
@@ -871,6 +905,8 @@
                     window.GuestCheckinManager.BindRoomTypeDdl(roomTypeDdl);
                 }
                 if (divRoomType && roomtypeTemplate) {
+                    window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = null;
+                    window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = data.RoomTypes;
                     window.GuestCheckinManager.PopulateRoomTypeGrid(data);
                 }
             };
@@ -1059,7 +1095,8 @@
 
             pmsService.Handlers.OnGetAllPropertySuccess = function (data) {
                 if (!data || !data.Properties || data.Properties.length <= 0) return;
-                window.GuestCheckinManager.PropertyResponseDto.Property = data.Properties;
+                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = null;
+                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = data.Properties;
                 $('#propmodal').removeClass('open');
                 window.GuestCheckinManager.PopulatePropertyGrid(data);
             };
@@ -1107,6 +1144,45 @@
                 alert(status);
             };
 
+            pmsService.Handlers.OnAddRoomTypeSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                if (data.ResponseObject > 0) {
+                    console.log(status);
+                    //TODO get propertyid from ddl 
+                    //window.GuestCheckinManager.GetRoomTypes();
+                    alert(status);
+                } else {
+                    console.error(status);
+                    alert(status);
+                }
+            };
+
+            pmsService.Handlers.OnAddRoomTypeFailure = function () {
+                // show error log
+                console.error("Roomtype is not added.");
+            };
+
+            pmsService.Handlers.OnDeleteRoomTypeFailure = function () {
+                // show error log
+                console.error("Roomtype is not deleted.");
+            };
+
+            pmsService.Handlers.OnDeleteRoomTypeSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                alert(status);
+            };
+
+            pmsService.Handlers.OnUpdateRoomTypeFailure = function () {
+                // show error log
+                console.error("Roomtype is not updated.");
+            };
+
+            pmsService.Handlers.OnUpdateRoomTypeSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                alert(status);
+            };
             //pmsService.Handlers.OnGetRoomByPropertySuccess = function (data) {
             //    //storing room data into session storage
             //    pmsSession.SetItem("roomdata", JSON.stringify(data.Rooms));

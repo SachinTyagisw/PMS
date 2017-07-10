@@ -44,6 +44,12 @@
             OnDeletePropertyFailure: null,
             OnUpdatePropertySuccess: null,
             OnUpdatePropertyFailure: null,
+            OnDeleteRoomTypeSuccess: null,
+            OnDeleteRoomTypeFailure: null,
+            OnUpdateRoomTypeSuccess: null,
+            OnUpdateRoomTypeFailure: null,
+            OnAddRoomTypeSuccess: null,
+            OnAddRoomTypeFailure: null,
         };
 
         this.UpdateProperty = function (args) {
@@ -52,6 +58,18 @@
 
         this.DeleteProperty = function (args) {
             makeAjaxRequestDelete(args, "DeleteProperty", this, "api/v1/Property/DeleteProperty/" + args.propertyId);
+        };
+
+        this.UpdateRoomType = function (args) {
+            makeAjaxRequestPut(args, "UpdateRoomType", this, "api/v1/Room/UpdateRoomType");
+        };
+
+        this.DeleteRoomType = function (args) {
+            makeAjaxRequestDelete(args, "DeleteRoomType", this, "api/v1/Room/DeleteRoomType/" + args.roomTypeId);
+        };
+
+        this.AddRoomType = function (args) {
+            makeAjaxRequestPost(args, "AddRoomType", this, "api/v1/Room/AddRoomType");
         };
 
         this.AddProperty = function (args) {

@@ -490,7 +490,8 @@ namespace PMS.Resources.DAL
                                                      LastUpdatedOn = x.LastUpdatedOn,
                                                      Id = x.ID,
                                                      PropertyId = x.PropertyID,
-                                                     ShortName = x.ShortName
+                                                     ShortName = x.ShortName,
+                                                     IsActive = x.IsActive
                                                  }).ToList();
 
             }
