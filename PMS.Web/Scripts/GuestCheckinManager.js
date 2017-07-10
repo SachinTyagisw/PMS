@@ -748,7 +748,12 @@
             if (!divRoomType || !roomtypeTemplate) return;
             divRoomType.html(roomtypeTemplate.render(data));
             $("#divRoomType thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
-            $("#divRoomType tbody tr").append('<td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+            if (data && data.RoomTypes && data.RoomTypes.length > 0) {
+                $("#divRoomType tbody tr").append('<td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+            }else{
+                // when no roomtype data is present in db 
+                $("#divRoomType tbody tr").append('<td class="finalActionsCol"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+            }
         },
         
         AddProperty: function () {
@@ -800,22 +805,14 @@
             pmsService.DeleteRoomType(args);
         },
         
-        AddRoomType: function () {
-
-            if (!validatePropertyInputs()) return;
-
+        AddRoomType: function (roomType) {
+            roomType.CreatedBy = getCreatedBy();
+            roomType.CreatedOn = getCurrentDate();
             var roomTypeRequestDto = {};
             roomTypeRequestDto.RoomType = {};
-            var roomType = {};
-            //property.State = {};
-            //property.Country = {};
-            //property.City = {};
-            //property.CloseOfDayTime = $('#closeofdaytime').val();
-            //property.CheckinTime = $('#checkintime').val();
-
-            // AddProperty by api calling  
+            // AddRoomType by api calling  
             roomTypeRequestDto.RoomType = roomType;
-            pmsService.AddProperty(roomTypeRequestDto);
+            pmsService.AddRoomType(roomTypeRequestDto);
         },
 
         UpdateProperty: function (property) {
@@ -1167,10 +1164,12 @@
             pmsService.Handlers.OnAddRoomTypeSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 if (data.ResponseObject > 0) {
-                    console.log(status);
-                    //TODO get propertyid from ddl 
-                    //window.GuestCheckinManager.GetRoomTypes();
+                    console.log(status);                    
                     alert(status);
+                    // to fetch new data
+                    if($('#ddlProperty') && $('#ddlProperty').val() > 0) {
+                        window.GuestCheckinManager.GetRoomTypes($('#ddlProperty').val());
+                    }
                 } else {
                     console.error(status);
                     alert(status);

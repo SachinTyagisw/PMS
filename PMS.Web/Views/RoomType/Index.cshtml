@@ -25,15 +25,18 @@
         gcm.GetAllProperty();
 
         $("#divRoomType").on("click", ".fa-plus-circle", function () {
-            $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td></tr>');
+            $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="false"></td><td contenteditable="false"></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td></tr>');
         });
 
         $("#divRoomType").on("click", ".fa-minus-circle", function () {
             if (confirm("Are you sure you want to delete this row ?")) {
                 var roomTypeId = $(this).closest('tr')[0].id;
+                $(this).closest('tr').remove();
                 if (roomTypeId <= 0) return;
                 gcm.DeleteRoomType(roomTypeId);
-                $(this).closest('tr').remove();
+                if ($('#divRoomType tbody tr').length <= 0) {
+                    $('#ddlProperty').val('-1');
+                }
             }
         });
 
@@ -41,18 +44,32 @@
             var thisRow = $(this).parent().siblings();
             var editOn = $(this).hasClass("editMode");
             var roomTypeId = $(thisRow)[0].innerText;
+            var propertyId = $('#ddlProperty').val();
 
             if (editOn == false) {
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
                 makeFieldsReadonly($(thisRow[0]));
             } else if (editOn == true) {
-                if (roomTypeId <= 0) return;
-                var existingRoomType = gcm.FindPropertySetting(roomTypeId);
-                if (!existingRoomType) return;
-                existingRoomType.Name = $(thisRow)[1].innerText;
-                existingRoomType.ShortName = $(thisRow)[2].innerText;
-                //call updateroomtype api
-                gcm.UpdateRoomType(existingRoomType);
+                if (roomTypeId > 0) {
+                    var existingRoomType = gcm.FindPropertySetting(roomTypeId);
+                    if (!existingRoomType) return;
+                    existingRoomType.Name = $(thisRow)[1].innerText;
+                    existingRoomType.ShortName = $(thisRow)[2].innerText;
+                    //call updateroomtype api
+                    gcm.UpdateRoomType(existingRoomType);
+                } else {
+                    if (propertyId <= 0) {
+                        alert("Select valid property");
+                        return;
+                    }
+                    var roomType = {};
+                    roomType.Name = $(thisRow)[1].innerText;
+                    roomType.ShortName = $(thisRow)[2].innerText;
+                    roomType.PropertyID = propertyId;
+                    //call addroomtype api
+                    gcm.AddRoomType(roomType);                    
+                }
+                
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
             }
         });
@@ -67,7 +84,7 @@
                 <div class="form-group m-t-10">
                     <input type="text" class="search form-control" placeholder="Search by Room Type, Short Code...">
                 </div>
-                <div class="col-lg-1 p-l-0 p-r-5">
+                <div class="col-lg-2 p-1-0 p-r-5">
                     <div class="form-group">
                         <label>Select Property</label>
                     </div>
@@ -105,6 +122,7 @@
             </tr>
         </thead>
         <tbody>
+            {{if typeof RoomTypes != "undefined" && RoomTypes != "null" && RoomTypes.length > 0 }}
             {{each RoomTypes}}
             <tr id="${$value.Id}">
                 <td class="idRow" contenteditable="false">${$value.Id}</td>
@@ -112,6 +130,13 @@
                 <td contenteditable="false">${$value.ShortName}</td>
             </tr>
             {{/each}}
+            {{else}}
+            <tr>
+                <td class="idRow" contenteditable="false"></td>
+                <td contenteditable="false"></td>
+                <td contenteditable="false"></td>
+            </tr>
+            {{/if}}
         </tbody>
     </table>
 </script>
