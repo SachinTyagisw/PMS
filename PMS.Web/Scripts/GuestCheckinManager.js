@@ -752,7 +752,7 @@
                 $("#divFloor tbody tr").append('<td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
             } else {
                 // when no floor data is present in db 
-                $("#divFloor tbody tr").append('<td class="finalActionsCol"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+                $("#divFloor tbody tr").append('<td class="finalActionsCol"><i class="fa fa-floppy-o editMode" aria-hidden="true"></i> </td>');
             }
         },
 
@@ -766,7 +766,7 @@
                 $("#divRoomType tbody tr").append('<td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
             }else{
                 // when no roomtype data is present in db 
-                $("#divRoomType tbody tr").append('<td class="finalActionsCol"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+                $("#divRoomType tbody tr").append('<td class="finalActionsCol"><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td>');
             }
         },
         
@@ -818,7 +818,33 @@
             args.roomTypeId = roomTypeId;
             pmsService.DeleteRoomType(args);
         },
+
+        DeleteFloor: function (floorId) {
+            // DeleteFloor by api calling  
+            args.floorId = floorId;
+            pmsService.DeleteFloor(args);
+        },
         
+        AddFloor: function (floor) {
+            floor.CreatedBy = getCreatedBy();
+            floor.CreatedOn = getCurrentDate();
+            var floorRequestDto = {};
+            floorRequestDto.PropertyFloor = {};
+            // AddFloor by api calling  
+            floorRequestDto.PropertyFloor = floor;
+            pmsService.AddFloor(floorRequestDto);
+        },
+
+        UpdateFloor: function (floor) {
+            floor.LastUpdatedBy = getCreatedBy();
+            floor.LastUpdatedOn = getCurrentDate();
+            // UpdateFloor by api calling 
+            var floorRequestDto = {};
+            floorRequestDto.PropertyFloor = {};
+            floorRequestDto.PropertyFloor = floor;
+            pmsService.UpdateFloor(floorRequestDto);
+        },
+
         AddRoomType: function (roomType) {
             roomType.CreatedBy = getCreatedBy();
             roomType.CreatedOn = getCurrentDate();
@@ -1178,18 +1204,19 @@
             pmsService.Handlers.OnUpdatePropertySuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
+                window.GuestCheckinManager.GetAllProperty();
                 alert(status);
             };
 
             pmsService.Handlers.OnAddRoomTypeSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 if (data.ResponseObject > 0) {
-                    console.log(status);                    
-                    alert(status);
+                    console.log(status);
                     // to fetch new data
-                    if($('#ddlProperty') && $('#ddlProperty').val() > 0) {
+                    if ($('#ddlProperty') && $('#ddlProperty').val() > 0) {
                         window.GuestCheckinManager.GetRoomTypes($('#ddlProperty').val());
                     }
+                    alert(status);
                 } else {
                     console.error(status);
                     alert(status);
@@ -1199,6 +1226,48 @@
             pmsService.Handlers.OnAddRoomTypeFailure = function () {
                 // show error log
                 console.error("Roomtype is not added.");
+            };
+
+            pmsService.Handlers.OnAddFloorSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                if (data.ResponseObject > 0) {
+                    console.log(status);
+                    // to fetch new data
+                    if ($('#ddlProperty') && $('#ddlProperty').val() > 0) {
+                        window.GuestCheckinManager.GetFloorsByProperty($('#ddlProperty').val());
+                    }
+                    alert(status);
+                } else {
+                    console.error(status);
+                    alert(status);
+                }
+            };
+
+            pmsService.Handlers.OnAddFloorFailure = function () {
+                // show error log
+                console.error("Floor is not added.");
+            };
+
+            pmsService.Handlers.OnDeleteFloorFailure = function () {
+                // show error log
+                console.error("Floor is not deleted.");
+            };
+
+            pmsService.Handlers.OnDeleteFloorSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                alert(status);
+            };
+
+            pmsService.Handlers.OnUpdateFloorFailure = function () {
+                // show error log
+                console.error("Floor is not updated.");
+            };
+
+            pmsService.Handlers.OnUpdateFloorSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                alert(status);
             };
 
             pmsService.Handlers.OnDeleteRoomTypeFailure = function () {
@@ -1224,6 +1293,8 @@
             };
 
             pmsService.Handlers.OnGetFloorsByPropertySuccess = function (data) {
+                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = null;
+                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = data.PropertyFloors;
                 window.GuestCheckinManager.PopulateFloorGrid(data);
             };
 

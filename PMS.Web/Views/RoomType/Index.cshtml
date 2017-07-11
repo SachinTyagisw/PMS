@@ -25,11 +25,11 @@
         gcm.GetAllProperty();
 
         $("#divRoomType").on("click", ".fa-plus-circle", function () {
-            $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="false"></td><td contenteditable="false"></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td></tr>');
+            $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="true" style="background-color: #ffc9c9;"></td><td contenteditable="true" style="background-color: #ffc9c9;"></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-floppy-o editMode" aria-hidden="true"></i> </td></tr>');
         });
-
+         
         $("#divRoomType").on("click", ".fa-minus-circle", function () {
-            if (confirm("Are you sure you want to delete this row ?")) {
+            if (confirm("Are you sure you want to delete ?")) {
                 var roomTypeId = $(this).closest('tr')[0].id;
                 $(this).closest('tr').remove();
                 if (roomTypeId <= 0) return;
@@ -45,16 +45,26 @@
             var editOn = $(this).hasClass("editMode");
             var roomTypeId = $(thisRow)[0].innerText;
             var propertyId = $('#ddlProperty').val();
+            var roomTypeName = $(thisRow)[1].innerText;
+            var shortCode = $(thisRow)[2].innerText;
 
             if (editOn == false) {
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
                 makeFieldsReadonly($(thisRow[0]));
             } else if (editOn == true) {
+                if (!roomTypeName || roomTypeName.length <= 0) {
+                    alert("Roomtype name is required");
+                    return;
+                }
+                if (!shortCode || shortCode.length <= 0) {
+                    alert("Short code is required");
+                    return;
+                }
                 if (roomTypeId > 0) {
                     var existingRoomType = gcm.FindPropertySetting(roomTypeId);
                     if (!existingRoomType) return;
-                    existingRoomType.Name = $(thisRow)[1].innerText;
-                    existingRoomType.ShortName = $(thisRow)[2].innerText;
+                    existingRoomType.Name = roomTypeName;
+                    existingRoomType.ShortName = shortCode;
                     //call updateroomtype api
                     gcm.UpdateRoomType(existingRoomType);
                 } else {
@@ -63,13 +73,12 @@
                         return;
                     }
                     var roomType = {};
-                    roomType.Name = $(thisRow)[1].innerText;
-                    roomType.ShortName = $(thisRow)[2].innerText;
+                    roomType.Name = roomTypeName;
+                    roomType.ShortName = shortCode;
                     roomType.PropertyID = propertyId;
                     //call addroomtype api
                     gcm.AddRoomType(roomType);                    
                 }
-                
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
             }
         });
@@ -133,8 +142,8 @@
             {{else}}
             <tr>
                 <td class="idRow" contenteditable="false"></td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
+                <td contenteditable="true" style="background-color: #ffc9c9;"></td>
+                <td contenteditable="true" style="background-color: #ffc9c9;"></td>
             </tr>
             {{/if}}
         </tbody>

@@ -46,7 +46,7 @@
         });
 
         $("#divProperty").on("click", ".fa-minus-circle", function () {
-            if (confirm("Are you sure you want to delete this row ?")) {                
+            if (confirm("Are you sure you want to delete ?")) {                
                 var propertyId = $(this).closest('tr')[0].id;
                 $(this).closest('tr').remove();
                 if (propertyId <= 0) return;
@@ -54,7 +54,10 @@
             }           
         });
 
-        $("#divProperty").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {            
+        $("#divProperty").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {
+            $('.modal-wrapper').toggleClass('open');
+            $('.page-wrapper').toggleClass('blur');
+            return false;
             var thisRow = $(this).parent().siblings();
             var editOn = $(this).hasClass("editMode");
             var propertyId = $(thisRow)[0].innerText;
@@ -107,6 +110,8 @@
                 var countryId = $(thisRow)[3].children[0].value;
                 var stateId = $(thisRow)[4].children[0].value;
                 var cityId = $(thisRow)[5].children[0].value;
+                var propertyName = $(thisRow)[1].innerText;
+                var ownerName = $(thisRow)[2].innerText;
                 
                 if (propertyId <= 0) return;
                 if (countryId <= 0) {
@@ -121,17 +126,25 @@
                     alert("Select proper city");
                     return;
                 }
-                
+                if (!propertyName || propertyName.length <= 0) {
+                    alert("Property name is required");
+                    return;
+                }
+                if (!ownerName || ownerName.length <= 0) {
+                    alert("Owner name is required");
+                    return;
+                }
+
                 var existingProperty = gcm.FindPropertySetting(propertyId);
                 if (!existingProperty) return;
-                existingProperty.PropertyName = $(thisRow)[1].innerText;
-                existingProperty.PropertyDetails = $(thisRow)[2].innerText;
+                
+                existingProperty.PropertyName = propertyName;
+                existingProperty.PropertyDetails = ownerName;
                 existingProperty.Country.Id = countryId;
                 existingProperty.City.Id = cityId;
                 existingProperty.State.ID = stateId;
                 //call updateproperty api
                 gcm.UpdateProperty(existingProperty);
-
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
 
                 $(thisRow[3].children[0]).attr('disabled', 'disabled');

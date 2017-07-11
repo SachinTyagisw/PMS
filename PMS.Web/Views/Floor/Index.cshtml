@@ -24,11 +24,11 @@
         gcm.GetAllProperty();
 
         $("#divFloor").on("click", ".fa-plus-circle", function () {
-            $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="false"></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td></tr>');
+            $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="true" style="background-color: #ffc9c9;"></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-floppy-o editMode" aria-hidden="true"></i> </td></tr>');
         });
 
         $("#divFloor").on("click", ".fa-minus-circle", function () {
-            if (confirm("Are you sure you want to delete this row ?")) {
+            if (confirm("Are you sure you want to delete ?")) {
                 var floorId = $(this).closest('tr')[0].id;
                 $(this).closest('tr').remove();
                 if (floorId <= 0) return;
@@ -44,15 +44,20 @@
             var editOn = $(this).hasClass("editMode");
             var floorId = $(thisRow)[0].innerText;
             var propertyId = $('#ddlProperty').val();
+            var floorNumber = $(thisRow)[1].innerText;
 
             if (editOn == false) {
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
                 makeFieldsReadonly($(thisRow[0]));
             } else if (editOn == true) {
+                if (!floorNumber || floorNumber.length <= 0) {
+                    alert("Floor Number is required");
+                    return;
+                }
                 if (floorId > 0) {
                     var existingFloor = gcm.FindPropertySetting(floorId);
                     if (!existingFloor) return;
-                    existingFloor.FloorNumber = $(thisRow)[1].innerText;
+                    existingFloor.FloorNumber = floorNumber;
                     //call updatefloor api
                     gcm.UpdateFloor(existingFloor);
                 } else {
@@ -61,12 +66,11 @@
                         return;
                     }
                     var floor = {};
-                    floor.FloorNumber = $(thisRow)[1].innerText;
+                    floor.FloorNumber = floorNumber;
                     floor.PropertyId = propertyId;
                     //call addfloor api
                     gcm.AddFloor(floor);
                 }
-
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
             }
         });
@@ -128,7 +132,7 @@
             {{else}}
             <tr>
                 <td class="idRow" contenteditable="false"></td>
-                <td contenteditable="false"></td>
+                <td contenteditable="true" style="background-color: #ffc9c9;"></td>
             </tr>
             {{/if}}
         </tbody>

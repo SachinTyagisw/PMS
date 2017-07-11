@@ -1289,7 +1289,8 @@ namespace PMS.Resources.DAL
                                                      LastUpdatedOn = x.LastUpdatedOn,
                                                      Id = x.ID,
                                                      PropertyId = x.PropertyId,
-                                                     FloorNumber = x.FloorNumber
+                                                     FloorNumber = x.FloorNumber,
+                                                     IsActive = x.IsActive
                                                  }).ToList();
 
             }

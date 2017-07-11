@@ -52,6 +52,24 @@
             OnAddRoomTypeFailure: null,
             OnGetFloorsByPropertySuccess: null,
             OnGetFloorsByPropertyFailure: null,
+            OnDeleteFloorSuccess: null,
+            OnDeleteFloorFailure: null,
+            OnAddFloorSuccess: null,
+            OnAddFloorFailure: null,
+            OnUpdateFloorSuccess: null,
+            OnUpdateFloorFailure: null,
+        };
+
+        this.UpdateFloor = function (args) {
+            makeAjaxRequestPut(args, "UpdateFloor", this, "api/v1/PropertyFloor/UpdateFloor");
+        };
+
+        this.AddFloor = function (args) {
+            makeAjaxRequestPost(args, "AddFloor", this, "api/v1/PropertyFloor/AddFloor");
+        };
+
+        this.DeleteFloor = function (args) {
+            makeAjaxRequestDelete(args, "DeleteFloor", this, "api/v1/PropertyFloor/DeleteFloor/" + args.floorId);
         };
 
         this.GetFloorsByProperty = function (args) {
