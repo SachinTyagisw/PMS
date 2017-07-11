@@ -42,6 +42,12 @@ namespace PMS.Resources.DAL
         bool DeleteFloor(int propertyFloorId);
         List<PmsEntity.PropertyFloor> GetFloorsByProperty(int propertyId);
 
+        //Extra Charges
+        int AddExtraCharge(PmsEntity.ExtraCharge extraCharge);
+        bool UpdateExtraCharge(PmsEntity.ExtraCharge extraCharge);
+        bool DeleteExtraCharge(int extraChargeId);
+        List<PmsEntity.ExtraCharge> GetExtraCharges(int ptopertyId);
+
         int AddRoomType(PmsEntity.RoomType roomType);
         bool UpdateRoomType(PmsEntity.RoomType roomType);
         bool DeleteRoomType(int roomTypeId);

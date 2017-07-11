@@ -209,6 +209,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ExpenseController.cs" />
+    <Compile Include="Controllers\ExtraChargeController.cs" />
     <Compile Include="Controllers\GuestController.cs" />
     <Compile Include="Controllers\GuestController.Reward.cs" />
     <Compile Include="Controllers\HomeController.cs" />

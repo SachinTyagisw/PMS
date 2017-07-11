@@ -1299,5 +1299,105 @@ namespace PMS.Resources.DAL
             return propertyFloors;
 
         }
+
+
+        public int AddExtraCharge(PmsEntity.ExtraCharge extraCharge)
+        {
+            var Id = -1;
+            if (extraCharge == null) return Id;
+
+            var extrachargesObj = new DAL.ExtraCharge
+            {
+                CreatedOn = extraCharge.CreatedOn,
+                IsActive = true,
+                CreatedBy = extraCharge.CreatedBy,
+                PropertyID = extraCharge.PropertyID,
+                FacilityName = extraCharge.FacilityName,
+                Value = extraCharge.Value,
+                LastUpdatedBy = extraCharge.CreatedBy,
+                LastUpdatedOn = extraCharge.LastUpdatedOn
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.ExtraCharges.Add(extrachargesObj);
+                var result = pmsContext.SaveChanges();
+                Id = result == 1 ? extrachargesObj.ID : -1;
+            }
+            return Id;
+        }
+
+        public bool UpdateExtraCharge(PmsEntity.ExtraCharge extraCharge)
+        {
+            var isUpdated = false;
+            if (extraCharge == null) return isUpdated;
+
+            var extraChargeObj = new DAL.ExtraCharge
+            {
+                CreatedOn = extraCharge.CreatedOn,
+                IsActive = true,
+                CreatedBy = extraCharge.CreatedBy,
+                PropertyID = extraCharge.PropertyID,
+                FacilityName = extraCharge.FacilityName,
+                Value = extraCharge.Value,
+                ID = extraCharge.ID,
+                LastUpdatedBy = extraCharge.CreatedBy,
+                LastUpdatedOn = extraCharge.LastUpdatedOn
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Entry(extraChargeObj).State = System.Data.Entity.EntityState.Modified;
+                var result = pmsContext.SaveChanges();
+                isUpdated = result == 1 ? true : false;
+            }
+
+            return isUpdated;
+        }
+
+        public bool DeleteExtraCharge(int extraChargeId)
+        {
+            var isDeleted = false;
+            if (extraChargeId <= 0) return isDeleted;
+
+            var extraChargeObj = new DAL.ExtraCharge
+            {
+                IsActive = false,
+                ID = extraChargeId
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.ExtraCharges.Attach(extraChargeObj);
+                pmsContext.Entry(extraChargeObj).Property(x => x.IsActive).IsModified = true;
+                var result = pmsContext.SaveChanges();
+                isDeleted = result == 1 ? true : false;
+            }
+            return isDeleted;
+        }
+
+        public List<PmsEntity.ExtraCharge> GetExtraCharges(int propertyId)
+        {
+            var extraCharges = new List<PmsEntity.ExtraCharge>();
+            using (var pmsContext = new PmsEntities())
+            {
+                extraCharges = pmsContext.ExtraCharges.Where(x => x.PropertyID == propertyId && x.IsActive)
+                                                 .Select(x => new PmsEntity.ExtraCharge
+                                                 {
+                                                     CreatedOn = x.CreatedOn,
+                                                     CreatedBy = x.CreatedBy,
+                                                     LastUpdatedBy = x.LastUpdatedBy,
+                                                     LastUpdatedOn = x.LastUpdatedOn,
+                                                     ID = x.ID,
+                                                     PropertyID = x.PropertyID,
+                                                     Value = x.Value,
+                                                     FacilityName = x.FacilityName,
+                                                     IsActive = x.IsActive
+                                                 }).ToList();
+
+            }
+
+            return extraCharges;
+        }
     }
 }

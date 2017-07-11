@@ -48,6 +48,12 @@ namespace PMS.Resources.Logic
         bool DeleteFloor(int propertyFloorId);
         List<PmsEntity.PropertyFloor> GetFloorsByProperty(int propertyId);
 
+        //Extra Charges
+        int AddExtraCharge(PmsEntity.ExtraCharge extraCharge);
+        bool UpdateExtraCharge(PmsEntity.ExtraCharge extraCharge);
+        bool DeleteExtraCharge(int extraChargeId);
+        List<PmsEntity.ExtraCharge> GetExtraCharges(int propertyId);
+
         int AddRoomPrice(PmsEntity.RoomPricing roomPrice);
         bool UpdateRoomPrice(PmsEntity.RoomPricing roomPrice);
         bool DeleteRoomPrice(int priceId);

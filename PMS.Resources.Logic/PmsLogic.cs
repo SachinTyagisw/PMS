@@ -310,7 +310,6 @@ namespace PMS.Resources.Logic
         {
             return DalFactory.GetFloorsByProperty(propertyId);
         }
-         
 
         #region helper methods 
         private string RemoveXmlDefaultNode(string xml)
@@ -322,5 +321,26 @@ namespace PMS.Resources.Logic
             return xml;
         }
         #endregion
+
+
+        public int AddExtraCharge(PmsEntity.ExtraCharge extraCharge)
+        {
+            return DalFactory.AddExtraCharge(extraCharge);
+        }
+
+        public bool UpdateExtraCharge(PmsEntity.ExtraCharge extraCharge)
+        {
+            return DalFactory.UpdateExtraCharge(extraCharge);
+        }
+
+        public bool DeleteExtraCharge(int extraChargeId)
+        {
+            return DalFactory.DeleteExtraCharge(extraChargeId);
+        }
+
+        public List<PmsEntity.ExtraCharge> GetExtraCharges(int propertyId)
+        {
+            return DalFactory.GetExtraCharges(propertyId);
+        }
     }
 }
