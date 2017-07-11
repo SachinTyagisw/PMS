@@ -770,11 +770,11 @@
             }
         },
         
-        AddProperty: function () {
-            if (!validatePropertyInputs()) return;
+        AddProperty: function (property) {           
             var propertyRequestDto = {};
             propertyRequestDto.Property = {};
-            var property = prepareProperty();           
+            property.CreatedOn = getCurrentDate();
+            property.CreatedBy = getCreatedBy();
             // AddProperty by api calling  
             propertyRequestDto.Property = property;
             pmsService.AddProperty(propertyRequestDto);
@@ -828,13 +828,10 @@
             pmsService.AddRoomType(roomTypeRequestDto);
         },
 
-        UpdateProperty: function (propertyId) {
-            if (!validatePropertyInputs() || propertyId <= 0) return;
+        UpdateProperty: function (property) {
             // UpdateProperty by api calling 
             var propertyRequestDto = {};
             propertyRequestDto.Property = {};
-            var property = prepareProperty();
-            property.Id = propertyId;
             property.LastUpdatedBy = getCreatedBy();
             property.LastUpdatedOn = getCurrentDate();
             propertyRequestDto.Property = property;
@@ -1310,36 +1307,7 @@
         //    alert(HH);
 
         //}
-    };
-    
-    function prepareProperty() {
-        var property = {};
-        property.State = {};
-        property.Country = { };
-        property.City = {};
-        property.CreatedOn = getCurrentDate();
-        property.CreatedBy = getCreatedBy();
-        property.IsActive = true;
-        property.CloseOfDayTime = $('#closeofdaytime').val();
-        property.CheckinTime = $('#checkintime').val();
-        property.CheckoutTime = $('#checkouttime').val();
-        property.PropertyDetails = $('#owner').val();
-        property.PropertyName = $('#propertyName').val();
-        property.PropertyCode = $('#propertyCode').val();
-        property.FullAddress = $('#fulladdress').val();
-        property.WebSiteAddress = $('#website').val();            
-        property.SecondaryName = $('#secondaryName').val();
-        property.Phone = $('#phone').val();
-        property.Fax = $('#fax').val();                
-        property.TimeZone = $('#timezone').val();
-        property.CurrencyID = $('#ddlCurrency').val();
-        property.State.ID = $('#ddlState').val();
-        property.Country.Id = $('#ddlCountryProp').val();
-        property.City.Id = $('#ddlCity').val();
-        property.ZipCode = $('#zipCode').val();
-        //property.LogoPath = $('#dateTo').val();
-        return property;
-    }
+    };    
 
     function populateAddress(address) {
         $('#address').val(address.Address1);
@@ -1693,78 +1661,7 @@
 
         var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
         return dateOutput + ' ' + time;
-    }
-
-    function validatePropertyInputs() {
-        var propertyName = $('#propertyName').val();
-        var closeOfDayTime = $('#closeofdaytime').val();
-        var checkinTime = $('#checkintime').val();
-        var checkoutTime = $('#checkouttime').val();
-        var propertyDetails = $('#owner').val();
-        var propertyCode = $('#propertyCode').val();
-        var fullAddress = $('#fulladdress').val();
-        var webSiteAddress = $('#website').val();
-        var phone = $('#phone').val();
-        var fax = $('#fax').val();
-        //var logoPath = $('#dateTo').val();
-        var timeZone = $('#timezone').val();
-        var currencyId = $('#ddlCurrency').val();
-        var state = $('#ddlState').val();
-        var country = $('#ddlCountryProp').val();
-        var city = $('#ddlCity').val();
-        var zipCode = $('#zipCode').val();
-
-        if (!propertyName || propertyName.length <= 0) {
-            alert("Property Name is required");
-            return false;
-        }
-        if (!closeOfDayTime || closeOfDayTime.length <= 0) {
-            alert("Close of daytime is required");
-            return false;
-        }
-        if (!checkintime || checkintime.length <= 0) {
-            alert("Checkintime is required");
-            return false;
-        }
-        if (!checkoutTime || checkoutTime.length <= 0) {
-            alert("CheckoutTime is required");
-            return false;
-        }
-        if (!propertyCode || propertyCode.length <= 0) {
-            alert("PropertyCode is required");
-            return false;
-        }
-        if (!fullAddress || fullAddress.length <= 0) {
-            alert("FullAddress is required");
-            return false;
-        }
-        if (!phone || phone.length <= 0) {
-            alert("Phone is required");
-            return false;
-        }
-        if (!zipCode || zipCode.length <= 0) {
-            alert("ZipCode is required");
-            return false;
-        }
-        if (!currencyId || currencyId === '-1') {
-            alert("Select proper currency");
-            return false;
-        }
-
-        if (!country || country === '-1') {
-            alert("Select proper country");
-            return false;
-        }
-        if (!state || state === '-1') {
-            alert("Select proper state");
-            return false;
-        }
-        if (!city || city === '-1') {
-            alert("Select proper city");
-            return false;
-        }
-        return true;
-    }
+    }   
 
     function validateInputs() {
         var fname = $("#fName").val();

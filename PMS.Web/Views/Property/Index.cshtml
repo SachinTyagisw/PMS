@@ -4,6 +4,104 @@
 }
 <script type='text/javascript'>
     var gcm = window.GuestCheckinManager;
+
+    function prepareProperty() {
+        var property = {};
+        property.State = {};
+        property.Country = {};
+        property.City = {};        
+        property.IsActive = true;
+        property.CloseOfDayTime = $('#closeofdaytime').val();
+        property.CheckinTime = $('#checkintime').val();
+        property.CheckoutTime = $('#checkouttime').val();
+        property.PropertyDetails = $('#owner').val();
+        property.PropertyName = $('#propertyName').val();
+        property.PropertyCode = $('#propertyCode').val();
+        property.FullAddress = $('#fulladdress').val();
+        property.WebSiteAddress = $('#website').val();
+        property.SecondaryName = $('#secondaryName').val();
+        property.Phone = $('#phone').val();
+        property.Fax = $('#fax').val();
+        property.TimeZone = $('#timezone').val();
+        property.CurrencyID = $('#ddlCurrency').val();
+        property.State.ID = $('#ddlState').val();
+        property.Country.Id = $('#ddlCountryProp').val();
+        property.City.Id = $('#ddlCity').val();
+        property.ZipCode = $('#zipCode').val();
+        //property.LogoPath = $('#dateTo').val();
+        return property;
+    }
+
+    function validatePropertyInputs() {
+        var propertyName = $('#propertyName').val();
+        var closeOfDayTime = $('#closeofdaytime').val();
+        var checkinTime = $('#checkintime').val();
+        var checkoutTime = $('#checkouttime').val();
+        var propertyDetails = $('#owner').val();
+        var propertyCode = $('#propertyCode').val();
+        var fullAddress = $('#fulladdress').val();
+        var webSiteAddress = $('#website').val();
+        var phone = $('#phone').val();
+        var fax = $('#fax').val();        
+        var timeZone = $('#timezone').val();
+        var currencyId = $('#ddlCurrency').val();
+        var state = $('#ddlState').val();
+        var country = $('#ddlCountryProp').val();
+        var city = $('#ddlCity').val();
+        var zipCode = $('#zipCode').val();
+        //var logoPath = $('#dateTo').val();
+
+        if (!propertyName || propertyName.length <= 0) {
+            alert("Property Name is required");
+            return false;
+        }
+        if (!closeOfDayTime || closeOfDayTime.length <= 0) {
+            alert("Close of daytime is required");
+            return false;
+        }
+        if (!checkintime || checkintime.length <= 0) {
+            alert("Checkintime is required");
+            return false;
+        }
+        if (!checkoutTime || checkoutTime.length <= 0) {
+            alert("CheckoutTime is required");
+            return false;
+        }
+        if (!propertyCode || propertyCode.length <= 0) {
+            alert("PropertyCode is required");
+            return false;
+        }
+        if (!fullAddress || fullAddress.length <= 0) {
+            alert("FullAddress is required");
+            return false;
+        }
+        if (!phone || phone.length <= 0) {
+            alert("Phone is required");
+            return false;
+        }
+        if (!zipCode || zipCode.length <= 0) {
+            alert("ZipCode is required");
+            return false;
+        }
+        if (!currencyId || currencyId === '-1') {
+            alert("Select proper currency");
+            return false;
+        }
+
+        if (!country || country === '-1') {
+            alert("Select proper country");
+            return false;
+        }
+        if (!state || state === '-1') {
+            alert("Select proper state");
+            return false;
+        }
+        if (!city || city === '-1') {
+            alert("Select proper city");
+            return false;
+        }
+        return true;
+    }
     function makeFieldsReadonly(rowObject){
         rowObject.attr('contenteditable', 'false');
         rowObject.css('background-color', 'transparent');
@@ -73,12 +171,19 @@
         });
 
         $("#create").click(function () {
-            gcm.AddProperty();
+            if (!validatePropertyInputs()) return;
+            var property = prepareProperty();
+            gcm.AddProperty(property);
         });
 
-        $("#update").click(function () {
+        $("#update").click(function () {            
+            if (!validatePropertyInputs()) return;
             var propertyId = $('#hdnPropertyId').val();
-            gcm.UpdateProperty(propertyId);
+            var property = prepareProperty();
+            property.CreatedOn = $('#hdnCreatedOn').val();
+            property.CreatedBy = $('#hdnCreatedBy').val();
+            property.Id = propertyId;
+            gcm.UpdateProperty(property);
         });
 
         $("#divProperty").on("click", ".fa-minus-circle", function () {
@@ -92,6 +197,8 @@
 
         $("#divProperty").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {
             $('#hdnPropertyId').val('');
+            $('#hdnCreatedOn').val('');
+            $('#hdnCreatedBy').val('');
             var thisRow = $(this).parent().siblings();
             var editOn = $(this).hasClass("editMode");
             var propertyId = $(thisRow)[0].innerText;
@@ -104,6 +211,8 @@
                 toggleButton(true);
             }
             $('#hdnPropertyId').val(propertyId);
+            $('#hdnCreatedOn').val(existingProperty.CreatedOn);
+            $('#hdnCreatedBy').val(existingProperty.CreatedBy);
             gcm.GetCountry($('#ddlCountryProp'));
             openModal();
             populatePropertyDetails(existingProperty);
@@ -251,6 +360,8 @@
                 <button id="update" disabled="disabled" type="button" class="btn btn-primary m-l-5 m-t-15">Update</button>
             </div>
             <input type="hidden" value="" id='hdnPropertyId'>
+            <input type="hidden" value="" id='hdnCreatedOn'>
+            <input type="hidden" value="" id='hdnCreatedBy'>
         </div>
     </div>
 </div>
