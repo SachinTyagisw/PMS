@@ -16,6 +16,37 @@
         gcm.OnStateChange(ddlState, ddlCity);
     }
 
+    function toggleButton(shouldDisable) {
+        $('#update').attr("disabled", !shouldDisable);
+        $('#create').attr("disabled", shouldDisable);
+    }
+
+    function openModal(){
+        $('.modal-wrapper').toggleClass('open');
+        $('.page-wrapper').toggleClass('blur');
+        return false;
+    }
+
+    function populatePropertyDetails(property) {
+        $('#closeofdaytime').val(property.CloseOfDayTime);
+        $('#checkintime').val(property.CheckinTime);
+        $('#checkouttime').val(property.CheckoutTime);
+        $('#owner').val(property.PropertyDetails);
+        $('#propertyName').val(property.PropertyName);
+        $('#propertyCode').val(property.PropertyCode);
+        $('#fulladdress').val(property.FullAddress);
+        $('#website').val(property.WebSiteAddress);
+        $('#secondaryName').val(property.SecondaryName);
+        $('#phone').val(property.Phone);
+        $('#fax').val(property.Fax);
+        $('#timezone').val(property.TimeZone);
+        $('#ddlCurrency').val(property.CurrencyID);        
+        $('#zipCode').val(property.Zipcode);
+        //$('#ddlCountryProp').text(property.Country.Name);
+        //$('#ddlState').text(property.State.Name);
+        //$('#ddlCity').text(property.City.Name);
+    }
+
     $(document).ready(function () {
 
         gcm.GetAllProperty();
@@ -45,6 +76,11 @@
             gcm.AddProperty();
         });
 
+        $("#update").click(function () {
+            var propertyId = $('#hdnPropertyId').val();
+            gcm.UpdateProperty(propertyId);
+        });
+
         $("#divProperty").on("click", ".fa-minus-circle", function () {
             if (confirm("Are you sure you want to delete ?")) {                
                 var propertyId = $(this).closest('tr')[0].id;
@@ -55,108 +91,27 @@
         });
 
         $("#divProperty").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {
-            $('.modal-wrapper').toggleClass('open');
-            $('.page-wrapper').toggleClass('blur');
-            return false;
+            $('#hdnPropertyId').val('');
             var thisRow = $(this).parent().siblings();
             var editOn = $(this).hasClass("editMode");
             var propertyId = $(thisRow)[0].innerText;
-        
-            if (editOn == false) {
-                gcm.OnGridEdit(editOn, $(thisRow), $(this));
-
-                var cloneCountry = $('#ddlCountryClone').clone(true);                
-                cloneCountry[0].style = 'display:block';
-                cloneCountry[0].id = 'ddlCountryClone' + propertyId;
-                var countrySelector = '#' + cloneCountry[0].id;
-                gcm.GetCountry($(cloneCountry));
-                $(thisRow)[3].innerText = "";
-                $(thisRow[3]).append(cloneCountry);                
-                
-                var cloneState = $('#ddlStateClone').clone(true);                
-                cloneState[0].style = 'display:block';
-                cloneState[0].id = 'ddlStateClone' + propertyId;
-                var stateSelector = '#' + cloneState[0].id;
-                $(thisRow)[4].innerText = "";
-                $(thisRow[4]).append(cloneState);                
-
-                var cloneCity = $('#ddlCityClone').clone(true);                
-                cloneCity[0].style = 'display:block';
-                cloneCity[0].id = 'ddlCityClone' + propertyId;
-                $(thisRow)[5].innerText = "";
-                $(thisRow[5]).append(cloneCity);
-
-                $(document).on('change', countrySelector, function () {
-                    gcm.OnCountryChange($(cloneCountry)[0], $(cloneState), $(cloneCity));
-                });
-
-                $(document).on('change', stateSelector, function () {
-                    gcm.OnStateChange($(cloneState)[0], $(cloneCity));
-                });
-
-                makeFieldsReadonly($(thisRow[0]));
-                makeFieldsReadonly($(thisRow[6]));
-                makeFieldsReadonly($(thisRow[7]));
-                if ($(thisRow[3].children[0])) {
-                    $(thisRow[3].children[0]).removeAttr('disabled');
-                }
-                if ($(thisRow[4].children[0])) {
-                    $(thisRow[4].children[0]).removeAttr('disabled');
-                }
-                if ($(thisRow[5].children[0])) {
-                    $(thisRow[5].children[0]).removeAttr('disabled');
-                }    
-            } else if (editOn == true) {                
-                var countryId = $(thisRow)[3].children[0].value;
-                var stateId = $(thisRow)[4].children[0].value;
-                var cityId = $(thisRow)[5].children[0].value;
-                var propertyName = $(thisRow)[1].innerText;
-                var ownerName = $(thisRow)[2].innerText;
-                
-                if (propertyId <= 0) return;
-                if (countryId <= 0) {
-                    alert("Select proper country");
-                    return;
-                }
-                if (stateId <= 0) {
-                    alert("Select proper state");
-                    return;
-                }
-                if (cityId <= 0) {
-                    alert("Select proper city");
-                    return;
-                }
-                if (!propertyName || propertyName.length <= 0) {
-                    alert("Property name is required");
-                    return;
-                }
-                if (!ownerName || ownerName.length <= 0) {
-                    alert("Owner name is required");
-                    return;
-                }
-
-                var existingProperty = gcm.FindPropertySetting(propertyId);
-                if (!existingProperty) return;
-                
-                existingProperty.PropertyName = propertyName;
-                existingProperty.PropertyDetails = ownerName;
-                existingProperty.Country.Id = countryId;
-                existingProperty.City.Id = cityId;
-                existingProperty.State.ID = stateId;
-                //call updateproperty api
-                gcm.UpdateProperty(existingProperty);
-                gcm.OnGridEdit(editOn, $(thisRow), $(this));
-
-                $(thisRow[3].children[0]).attr('disabled', 'disabled');
-                $(thisRow[4].children[0]).attr('disabled', 'disabled');
-                $(thisRow[5].children[0]).attr('disabled', 'disabled');
+            var existingProperty = gcm.FindPropertySetting(propertyId);
+            if (!existingProperty) {
+                alert('Selected property is not valid');
+                return;
             }
+            if (propertyId > 0) {
+                toggleButton(true);
+            }
+            $('#hdnPropertyId').val(propertyId);
+            gcm.GetCountry($('#ddlCountryProp'));
+            openModal();
+            populatePropertyDetails(existingProperty);
         });
 
         $('#createRow, .trigger').click(function () {
-            $('.modal-wrapper').toggleClass('open');
-            $('.page-wrapper').toggleClass('blur');
-            return false;
+            toggleButton(false);
+            openModal();
         });
     });
 
@@ -174,7 +129,7 @@
 
                 </div>
                 <br>
-                <button id="createRow" class="btn btn-primary m-l-5 m-t-15" type="button">Create</button>
+                <button id="createRow" class="btn btn-primary m-l-5 m-t-15" type="button">Create Property</button>
             </div>
         </div>
     </div>
@@ -200,7 +155,7 @@
                     </div>
                     <div class="col-lg-3 p-l-0">
                         <div class="form-group">
-                            <input id="secondaryName" type="text" placeholder="Secondry Name" class="form-control" name="example-input-normal">
+                            <input id="secondaryName" type="text" placeholder="Secondary Name" class="form-control" name="example-input-normal">
                         </div>
                     </div>
                     <div class="col-lg-3 p-r-0 p-l-0">
@@ -213,11 +168,16 @@
                             <input id="timezone" type="text" maxlength="10" placeholder="Time Zone" class="form-control" name="example-input-normal">
                         </div>
                     </div>
+
                     <div class="col-lg-3 p-l-0">
                         <div class="form-group">
-                            <input id="currency" type="text" maxlength="10" placeholder="Currency" class="form-control" name="example-input-normal">
+                            <select id="ddlCurrency" class="form-control">
+                                <option value="-1">Select Currency</option>
+                                <option value="1">USD</option>
+                            </select>
                         </div>
                     </div>
+                    
                     <div class="col-lg-3 p-l-0">
                         <div class="form-group">
                             <input id="phone" type="text" maxlength="10" placeholder="Phone" class="form-control" name="example-input-normal">
@@ -288,7 +248,9 @@
             <div class="button-section">
                 <button id="cancel" type="button" class="btn btn-primary m-l-5 m-t-15">Cancel</button>
                 <button id="create" type="button" class="btn btn-primary m-l-5 m-t-15">Create</button>
+                <button id="update" disabled="disabled" type="button" class="btn btn-primary m-l-5 m-t-15">Update</button>
             </div>
+            <input type="hidden" value="" id='hdnPropertyId'>
         </div>
     </div>
 </div>
@@ -301,15 +263,6 @@
         <div class="dot"></div>
     </div>
 </div>
-<select style="display:none" id="ddlCountryClone" class="form-control">
-    <option value="-1">Select Country</option>
-</select>
-<select style="display:none" id="ddlStateClone" class="form-control">
-    <option value="-1">Select State</option>
-</select>
-<select style="display:none" id="ddlCityClone" class="form-control">
-    <option value="-1">Select City</option>
-</select>
 <script type="text/html" id="propertyTemplate">
     <table class="table table-hover table-bordered results tableContents">
         <thead>

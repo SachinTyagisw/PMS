@@ -243,7 +243,8 @@ namespace PMS.Resources.DAL
                                 PropertyDetails = m.s.x.p.PropertyDetails,
                                 SecondaryName = m.s.x.p.SecondaryName,
                                 TimeZone = m.s.x.p.TimeZone,
-                                WebSiteAddress = m.s.x.p.WebSiteAddress
+                                WebSiteAddress = m.s.x.p.WebSiteAddress,
+                                CurrencyID = m.s.x.p.CurrencyId
                              }).ToList();
             }
             return properties;

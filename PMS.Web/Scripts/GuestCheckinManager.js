@@ -771,37 +771,10 @@
         },
         
         AddProperty: function () {
-            
             if (!validatePropertyInputs()) return;
-
             var propertyRequestDto = {};
             propertyRequestDto.Property = {};
-            var property = {};
-            property.State = {};
-            property.Country = {};
-            property.City = {};
-            property.CloseOfDayTime = $('#closeofdaytime').val();
-            property.CheckinTime = $('#checkintime').val();
-            property.CheckoutTime = $('#checkouttime').val();
-            property.PropertyDetails = $('#owner').val();
-            property.PropertyName = $('#propertyName').val();
-            property.PropertyCode = $('#propertyCode').val();
-            property.FullAddress = $('#fulladdress').val();
-            property.WebSiteAddress = $('#website').val();
-            property.IsActive = true;
-            property.CreatedOn = getCurrentDate();
-            property.CreatedBy = getCreatedBy();
-            property.SecondaryName = $('#secondaryName').val();
-            property.Phone = $('#phone').val();
-            property.Fax = $('#fax').val();
-            //property.LogoPath = $('#dateTo').val();
-            property.TimeZone = $('#timezone').val();
-            property.CurrencyID = $('#currency').val();
-            property.State.ID = $('#ddlState').val();
-            property.Country.Id = $('#ddlCountry').val();
-            property.City.Id = $('#ddlCity').val();
-            property.ZipCode = $('#zipCode').val();            
-
+            var property = prepareProperty();           
             // AddProperty by api calling  
             propertyRequestDto.Property = property;
             pmsService.AddProperty(propertyRequestDto);
@@ -855,12 +828,15 @@
             pmsService.AddRoomType(roomTypeRequestDto);
         },
 
-        UpdateProperty: function (property) {
-            property.LastUpdatedBy = getCreatedBy();
-            property.LastUpdatedOn = getCurrentDate();
+        UpdateProperty: function (propertyId) {
+            if (!validatePropertyInputs() || propertyId <= 0) return;
             // UpdateProperty by api calling 
             var propertyRequestDto = {};
             propertyRequestDto.Property = {};
+            var property = prepareProperty();
+            property.Id = propertyId;
+            property.LastUpdatedBy = getCreatedBy();
+            property.LastUpdatedOn = getCurrentDate();
             propertyRequestDto.Property = property;
             pmsService.UpdateProperty(propertyRequestDto);
         },
@@ -1335,6 +1311,35 @@
 
         //}
     };
+    
+    function prepareProperty() {
+        var property = {};
+        property.State = {};
+        property.Country = { };
+        property.City = {};
+        property.CreatedOn = getCurrentDate();
+        property.CreatedBy = getCreatedBy();
+        property.IsActive = true;
+        property.CloseOfDayTime = $('#closeofdaytime').val();
+        property.CheckinTime = $('#checkintime').val();
+        property.CheckoutTime = $('#checkouttime').val();
+        property.PropertyDetails = $('#owner').val();
+        property.PropertyName = $('#propertyName').val();
+        property.PropertyCode = $('#propertyCode').val();
+        property.FullAddress = $('#fulladdress').val();
+        property.WebSiteAddress = $('#website').val();            
+        property.SecondaryName = $('#secondaryName').val();
+        property.Phone = $('#phone').val();
+        property.Fax = $('#fax').val();                
+        property.TimeZone = $('#timezone').val();
+        property.CurrencyID = $('#ddlCurrency').val();
+        property.State.ID = $('#ddlState').val();
+        property.Country.Id = $('#ddlCountryProp').val();
+        property.City.Id = $('#ddlCity').val();
+        property.ZipCode = $('#zipCode').val();
+        //property.LogoPath = $('#dateTo').val();
+        return property;
+    }
 
     function populateAddress(address) {
         $('#address').val(address.Address1);
@@ -1703,9 +1708,9 @@
         var fax = $('#fax').val();
         //var logoPath = $('#dateTo').val();
         var timeZone = $('#timezone').val();
-        var currencyID = $('#currency').val();
+        var currencyId = $('#ddlCurrency').val();
         var state = $('#ddlState').val();
-        var country = $('#ddlCountry').val();
+        var country = $('#ddlCountryProp').val();
         var city = $('#ddlCity').val();
         var zipCode = $('#zipCode').val();
 
@@ -1741,6 +1746,11 @@
             alert("ZipCode is required");
             return false;
         }
+        if (!currencyId || currencyId === '-1') {
+            alert("Select proper currency");
+            return false;
+        }
+
         if (!country || country === '-1') {
             alert("Select proper country");
             return false;
