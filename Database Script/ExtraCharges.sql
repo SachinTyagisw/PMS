@@ -1,37 +1,30 @@
 USE [PMS]
 GO
 
-/****** Object:  Table [dbo].[ExtraCharges]    Script Date: 6/8/2017 12:00:05 PM ******/
-SET ANSI_NULLS ON
-GO
+DROP TABLE [EXTRACHARGES]
 
-SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[ExtraCharges](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[PropertyID] [int] NULL,
-	[FacilityKey] [int] NULL,
+	[FacilityName] [nvarchar](400) NOT NULL,
 	[Value] [money] NULL,
-	[IsActive] [bit] NULL,
+	[IsActive] [bit] NOT NULL,
 	[CreatedBy] [nvarchar](200) NULL,
 	[CreatedOn] [datetime] NULL,
 	[LastUpdatedBy] [nvarchar](200) NULL,
-	[LastUpdatedOn] [datetime] NULL,
- CONSTRAINT [PK_ExtraCharges] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-
+	[LastUpdatedOn] [datetime] NULL);
 GO
 
-ALTER TABLE [dbo].[ExtraCharges]  WITH CHECK ADD FOREIGN KEY([FacilityKey])
-REFERENCES [dbo].[ChargableFacility] ([ID])
-GO
-
-ALTER TABLE [dbo].[ExtraCharges]  WITH CHECK ADD FOREIGN KEY([PropertyID])
+ALTER TABLE [dbo].[ExtraCharges]  WITH CHECK ADD  CONSTRAINT [FK__ExtraChar__Prope__214BF109] FOREIGN KEY([PropertyID])
 REFERENCES [dbo].[Property] ([ID])
 GO
 
+ALTER TABLE [dbo].[ExtraCharges] ADD  CONSTRAINT [DF_ExtraCharges_IsActive]  DEFAULT ((1)) FOR [IsActive]
+GO
 
+ALTER TABLE [dbo].[ExtraCharges] ADD  CONSTRAINT [DF_ExtraCharges_Unique]  Unique ([PropertyID],[FacilityName])
+GO
+
+Constraint UC_FacilityName unique([PropertyID],[FacilityName])
