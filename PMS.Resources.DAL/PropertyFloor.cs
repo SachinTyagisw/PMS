@@ -17,7 +17,7 @@ namespace PMS.Resources.DAL
         public Nullable<int> PropertyId { get; set; }
         public int ID { get; set; }
         public Nullable<int> FloorNumber { get; set; }
-        public Nullable<bool> isActive { get; set; }
+        public bool IsActive { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string LastUpdatedBy { get; set; }

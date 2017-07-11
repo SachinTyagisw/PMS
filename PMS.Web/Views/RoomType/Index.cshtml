@@ -1,0 +1,152 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>RoomType</h2>
+<script type='text/javascript'>
+    var gcm = window.GuestCheckinManager;
+    function makeFieldsReadonly(rowObject) {
+        rowObject.attr('contenteditable', 'false');
+        rowObject.css('background-color', 'transparent');
+    }
+
+    function OnPropertyChange() {
+        if ($('#ddlProperty').val() <= 0) {
+            alert('Select valid property');
+            return;
+        }
+        gcm.GetRoomTypes($('#ddlProperty').val());
+    }
+
+    $(document).ready(function () {
+
+        gcm.GetAllProperty();
+
+        $("#divRoomType").on("click", ".fa-plus-circle", function () {
+            $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="true" style="background-color: #ffc9c9;"></td><td contenteditable="true" style="background-color: #ffc9c9;"></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-floppy-o editMode" aria-hidden="true"></i> </td></tr>');
+        });
+         
+        $("#divRoomType").on("click", ".fa-minus-circle", function () {
+            if (confirm("Are you sure you want to delete ?")) {
+                var roomTypeId = $(this).closest('tr')[0].id;
+                $(this).closest('tr').remove();
+                if (roomTypeId <= 0) return;
+                gcm.DeleteRoomType(roomTypeId);
+                if ($('#divRoomType tbody tr').length <= 0) {
+                    $('#ddlProperty').val('-1');
+                }
+            }
+        });
+
+        $("#divRoomType").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {
+            var thisRow = $(this).parent().siblings();
+            var editOn = $(this).hasClass("editMode");
+            var roomTypeId = $(thisRow)[0].innerText;
+            var propertyId = $('#ddlProperty').val();
+            var roomTypeName = $(thisRow)[1].innerText;
+            var shortCode = $(thisRow)[2].innerText;
+
+            if (editOn == false) {
+                gcm.OnGridEdit(editOn, $(thisRow), $(this));
+                makeFieldsReadonly($(thisRow[0]));
+            } else if (editOn == true) {
+                if (!roomTypeName || roomTypeName.length <= 0) {
+                    alert("Roomtype name is required");
+                    return;
+                }
+                if (!shortCode || shortCode.length <= 0) {
+                    alert("Short code is required");
+                    return;
+                }
+                if (roomTypeId > 0) {
+                    var existingRoomType = gcm.FindPropertySetting(roomTypeId);
+                    if (!existingRoomType) return;
+                    existingRoomType.Name = roomTypeName;
+                    existingRoomType.ShortName = shortCode;
+                    //call updateroomtype api
+                    gcm.UpdateRoomType(existingRoomType);
+                } else {
+                    if (propertyId <= 0) {
+                        alert("Select valid property");
+                        return;
+                    }
+                    var roomType = {};
+                    roomType.Name = roomTypeName;
+                    roomType.ShortName = shortCode;
+                    roomType.PropertyID = propertyId;
+                    //call addroomtype api
+                    gcm.AddRoomType(roomType);                    
+                }
+                gcm.OnGridEdit(editOn, $(thisRow), $(this));
+            }
+        });
+
+    });
+</script>
+<div class="content-wrap">
+    <div class="main controls">
+        <div class="container-fluid">
+            <div class="main-content" style="width:80%; margin: 0 auto;">
+                <h1 class="table-head"><span>Create Room Types</span></h1>
+                <div class="form-group m-t-10">
+                    <input type="text" class="search form-control" placeholder="Search by Room Type, Short Code...">
+                </div>
+                <div class="col-lg-2 p-1-0 p-r-5">
+                    <div class="form-group">
+                        <label>Select Property</label>
+                    </div>
+                </div>
+                <div class="col-lg-2 p-l-0 p-r-0">
+                    <div class="form-group">
+                        <select id="ddlProperty" onchange="OnPropertyChange();">
+                            <option value="-1">Select Property</option>
+                        </select>
+                    </div>
+                </div>
+                <span class="counter"></span>
+                <div id="divRoomType">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="divLoader">
+    <div class="loader" style="display:none;">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+</div>
+<script type="text/html" id="roomtypeTemplate">
+    <table class="table table-hover table-bordered results tableContents">
+        <thead>
+            <tr>
+                <th id="IDCol">ID #</th>
+                <th id="roomTypeCol" contenteditable="false">Room Type</th>
+                <th id="shortCodeCol" contenteditable="false">Short Code</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{if typeof RoomTypes != "undefined" && RoomTypes != "null" && RoomTypes.length > 0 }}
+            {{each RoomTypes}}
+            <tr id="${$value.Id}">
+                <td class="idRow" contenteditable="false">${$value.Id}</td>
+                <td contenteditable="false">${$value.Name}</td>
+                <td contenteditable="false">${$value.ShortName}</td>
+            </tr>
+            {{/each}}
+            {{else}}
+            <tr>
+                <td class="idRow" contenteditable="false"></td>
+                <td contenteditable="true" style="background-color: #ffc9c9;"></td>
+                <td contenteditable="true" style="background-color: #ffc9c9;"></td>
+            </tr>
+            {{/if}}
+        </tbody>
+    </table>
+</script>
+

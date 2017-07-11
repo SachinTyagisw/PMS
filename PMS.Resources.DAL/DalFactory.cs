@@ -243,7 +243,8 @@ namespace PMS.Resources.DAL
                                 PropertyDetails = m.s.x.p.PropertyDetails,
                                 SecondaryName = m.s.x.p.SecondaryName,
                                 TimeZone = m.s.x.p.TimeZone,
-                                WebSiteAddress = m.s.x.p.WebSiteAddress
+                                WebSiteAddress = m.s.x.p.WebSiteAddress,
+                                CurrencyID = m.s.x.p.CurrencyId
                              }).ToList();
             }
             return properties;
@@ -489,7 +490,9 @@ namespace PMS.Resources.DAL
                                                      LastUpdatedBy = x.LastUpdatedBy,
                                                      LastUpdatedOn = x.LastUpdatedOn,
                                                      Id = x.ID,
-                                                     PropertyId = x.PropertyID
+                                                     PropertyId = x.PropertyID,
+                                                     ShortName = x.ShortName,
+                                                     IsActive = x.IsActive
                                                  }).ToList();
 
             }
@@ -1140,7 +1143,7 @@ namespace PMS.Resources.DAL
                 PropertyID = paymentType.PropertyID,
                 Description = paymentType.Description,
                 ShortName = paymentType.ShortName,
-                ID = paymentType.ID,
+                ID = paymentType.Id,
                 CreatedBy = paymentType.CreatedBy,
                 CreatedOn = paymentType.CreatedOn
             };
@@ -1189,7 +1192,7 @@ namespace PMS.Resources.DAL
                                                      CreatedBy = x.CreatedBy,
                                                      LastUpdatedBy = x.LastUpdatedBy,
                                                      LastUpdatedOn = x.LastUpdatedOn,
-                                                     ID = x.ID,
+                                                     Id = x.ID,
                                                      PropertyID = x.PropertyID,
                                                      ShortName = x.ShortName
                                                  }).ToList();
@@ -1199,8 +1202,7 @@ namespace PMS.Resources.DAL
             return paymentTypes;
 
         }
-
-
+        
         public int AddFloor(PmsEntity.PropertyFloor propertyFloor)
         {
             var Id = -1;
@@ -1209,7 +1211,7 @@ namespace PMS.Resources.DAL
             var propertyFloorObj = new DAL.PropertyFloor
             {
                 CreatedOn = propertyFloor.CreatedOn,
-                isActive = true,
+                IsActive = true,
                 CreatedBy = propertyFloor.CreatedBy,
                 PropertyId = propertyFloor.PropertyId,
                 FloorNumber = propertyFloor.FloorNumber,
@@ -1223,7 +1225,6 @@ namespace PMS.Resources.DAL
                 var result = pmsContext.SaveChanges();
                 Id = result == 1 ? propertyFloorObj.ID : -1;
             }
-
             return Id;
         }
 
@@ -1235,11 +1236,11 @@ namespace PMS.Resources.DAL
             var propertyFloorObj = new DAL.PropertyFloor
             {
                 LastUpdatedOn = propertyFloor.LastUpdatedOn,
-                isActive = propertyFloor.isActive,
+                IsActive = propertyFloor.IsActive,
                 LastUpdatedBy = propertyFloor.LastUpdatedBy,
                 PropertyId = propertyFloor.PropertyId,
                 FloorNumber = propertyFloor.FloorNumber,
-                ID = propertyFloor.ID,
+                ID = propertyFloor.Id,
                 CreatedBy = propertyFloor.CreatedBy,
                 CreatedOn = propertyFloor.CreatedOn
             };
@@ -1261,14 +1262,14 @@ namespace PMS.Resources.DAL
 
             var propertyFloorObj = new DAL.PropertyFloor
             {
-                isActive = false,
+                IsActive = false,
                 ID = propertyFloorId
             };
 
             using (var pmsContext = new PmsEntities())
             {
                 pmsContext.PropertyFloors.Attach(propertyFloorObj);
-                pmsContext.Entry(propertyFloorObj).Property(x => x.isActive).IsModified = true;
+                pmsContext.Entry(propertyFloorObj).Property(x => x.IsActive).IsModified = true;
                 var result = pmsContext.SaveChanges();
                 isDeleted = result == 1 ? true : false;
             }
@@ -1280,16 +1281,17 @@ namespace PMS.Resources.DAL
             var propertyFloors = new List<PmsEntity.PropertyFloor>();
             using (var pmsContext = new PmsEntities())
             {
-                propertyFloors = pmsContext.PropertyFloors.Where(x => x.PropertyId == propertyId && (x.isActive != null && x.isActive.Value))
+                propertyFloors = pmsContext.PropertyFloors.Where(x => x.PropertyId == propertyId && x.IsActive)
                                                  .Select(x => new PmsEntity.PropertyFloor
                                                  {
                                                      CreatedOn = x.CreatedOn,
                                                      CreatedBy = x.CreatedBy,
                                                      LastUpdatedBy = x.LastUpdatedBy,
                                                      LastUpdatedOn = x.LastUpdatedOn,
-                                                     ID = x.ID,
+                                                     Id = x.ID,
                                                      PropertyId = x.PropertyId,
-                                                     FloorNumber = x.FloorNumber
+                                                     FloorNumber = x.FloorNumber,
+                                                     IsActive = x.IsActive
                                                  }).ToList();
 
             }

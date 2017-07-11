@@ -1,8 +1,107 @@
 ﻿@{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type='text/javascript'>
     var gcm = window.GuestCheckinManager;
+
+    function prepareProperty() {
+        var property = {};
+        property.State = {};
+        property.Country = {};
+        property.City = {};        
+        property.IsActive = true;
+        property.CloseOfDayTime = $('#closeofdaytime').val();
+        property.CheckinTime = $('#checkintime').val();
+        property.CheckoutTime = $('#checkouttime').val();
+        property.PropertyDetails = $('#owner').val();
+        property.PropertyName = $('#propertyName').val();
+        property.PropertyCode = $('#propertyCode').val();
+        property.FullAddress = $('#fulladdress').val();
+        property.WebSiteAddress = $('#website').val();
+        property.SecondaryName = $('#secondaryName').val();
+        property.Phone = $('#phone').val();
+        property.Fax = $('#fax').val();
+        property.TimeZone = $('#timezone').val();
+        property.CurrencyID = $('#ddlCurrency').val();
+        property.State.ID = $('#ddlState').val();
+        property.Country.Id = $('#ddlCountryProp').val();
+        property.City.Id = $('#ddlCity').val();
+        property.ZipCode = $('#zipCode').val();
+        //property.LogoPath = $('#dateTo').val();
+        return property;
+    }
+
+    function validatePropertyInputs() {
+        var propertyName = $('#propertyName').val();
+        var closeOfDayTime = $('#closeofdaytime').val();
+        var checkinTime = $('#checkintime').val();
+        var checkoutTime = $('#checkouttime').val();
+        var propertyDetails = $('#owner').val();
+        var propertyCode = $('#propertyCode').val();
+        var fullAddress = $('#fulladdress').val();
+        var webSiteAddress = $('#website').val();
+        var phone = $('#phone').val();
+        var fax = $('#fax').val();        
+        var timeZone = $('#timezone').val();
+        var currencyId = $('#ddlCurrency').val();
+        var state = $('#ddlState').val();
+        var country = $('#ddlCountryProp').val();
+        var city = $('#ddlCity').val();
+        var zipCode = $('#zipCode').val();
+        //var logoPath = $('#dateTo').val();
+
+        if (!propertyName || propertyName.length <= 0) {
+            alert("Property Name is required");
+            return false;
+        }
+        if (!closeOfDayTime || closeOfDayTime.length <= 0) {
+            alert("Close of daytime is required");
+            return false;
+        }
+        if (!checkintime || checkintime.length <= 0) {
+            alert("Checkintime is required");
+            return false;
+        }
+        if (!checkoutTime || checkoutTime.length <= 0) {
+            alert("CheckoutTime is required");
+            return false;
+        }
+        if (!propertyCode || propertyCode.length <= 0) {
+            alert("PropertyCode is required");
+            return false;
+        }
+        if (!fullAddress || fullAddress.length <= 0) {
+            alert("FullAddress is required");
+            return false;
+        }
+        if (!phone || phone.length <= 0) {
+            alert("Phone is required");
+            return false;
+        }
+        if (!zipCode || zipCode.length <= 0) {
+            alert("ZipCode is required");
+            return false;
+        }
+        if (!currencyId || currencyId === '-1') {
+            alert("Select proper currency");
+            return false;
+        }
+
+        if (!country || country === '-1') {
+            alert("Select proper country");
+            return false;
+        }
+        if (!state || state === '-1') {
+            alert("Select proper state");
+            return false;
+        }
+        if (!city || city === '-1') {
+            alert("Select proper city");
+            return false;
+        }
+        return true;
+    }
     function makeFieldsReadonly(rowObject){
         rowObject.attr('contenteditable', 'false');
         rowObject.css('background-color', 'transparent');
@@ -15,9 +114,39 @@
         gcm.OnStateChange(ddlState, ddlCity);
     }
 
+    function toggleButton(shouldDisable) {
+        $('#update').attr("disabled", !shouldDisable);
+        $('#create').attr("disabled", shouldDisable);
+    }
+
+    function openModal(){
+        $('.modal-wrapper').toggleClass('open');
+        $('.page-wrapper').toggleClass('blur');
+        return false;
+    }
+
+    function populatePropertyDetails(property) {
+        $('#closeofdaytime').val(property.CloseOfDayTime);
+        $('#checkintime').val(property.CheckinTime);
+        $('#checkouttime').val(property.CheckoutTime);
+        $('#owner').val(property.PropertyDetails);
+        $('#propertyName').val(property.PropertyName);
+        $('#propertyCode').val(property.PropertyCode);
+        $('#fulladdress').val(property.FullAddress);
+        $('#website').val(property.WebSiteAddress);
+        $('#secondaryName').val(property.SecondaryName);
+        $('#phone').val(property.Phone);
+        $('#fax').val(property.Fax);
+        $('#timezone').val(property.TimeZone);
+        $('#ddlCurrency').val(property.CurrencyID);        
+        $('#zipCode').val(property.Zipcode);
+        //$('#ddlCountryProp').text(property.Country.Name);
+        //$('#ddlState').text(property.State.Name);
+        //$('#ddlCity').text(property.City.Name);
+    }
+
     $(document).ready(function () {
 
-        gcm.GetCountry();
         gcm.GetAllProperty();
         
         $('#phone').keydown(function (e) {
@@ -33,7 +162,7 @@
         });
 
         $("#createRow").click(function () {
-            gcm.GetCountry();
+            gcm.GetCountry($('#ddlCountryProp'));
             gcm.ClearPropertyFields();
         });
 
@@ -42,105 +171,56 @@
         });
 
         $("#create").click(function () {
-            gcm.AddProperty();
+            if (!validatePropertyInputs()) return;
+            var property = prepareProperty();
+            gcm.AddProperty(property);
         });
 
-        //$("#divProperty").on("click", ".fa-plus-circle", function () {
-        //    $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td contenteditable="false">-</td><td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td></tr>');
-        //});
+        $("#update").click(function () {            
+            if (!validatePropertyInputs()) return;
+            var propertyId = $('#hdnPropertyId').val();
+            var property = prepareProperty();
+            property.CreatedOn = $('#hdnCreatedOn').val();
+            property.CreatedBy = $('#hdnCreatedBy').val();
+            property.Id = propertyId;
+            gcm.UpdateProperty(property);
+        });
 
         $("#divProperty").on("click", ".fa-minus-circle", function () {
-            if (confirm("Are you sure you want to delete this row ?")) {                
+            if (confirm("Are you sure you want to delete ?")) {                
                 var propertyId = $(this).closest('tr')[0].id;
+                $(this).closest('tr').remove();
                 if (propertyId <= 0) return;
                 gcm.DeleteProperty(propertyId);
-                $(this).closest('tr').remove();
             }           
         });
 
-        $("#divProperty").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {            
+        $("#divProperty").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {
+            $('#hdnPropertyId').val('');
+            $('#hdnCreatedOn').val('');
+            $('#hdnCreatedBy').val('');
             var thisRow = $(this).parent().siblings();
             var editOn = $(this).hasClass("editMode");
-
-            $('td:last-child').attr('contenteditable', 'false');
-            $('td:last-child').css('background-color', 'transparent');
-
-            if (editOn == false) {
-                $(thisRow).attr('contenteditable', 'true');
-                $(thisRow).css('background-color', '#ffc9c9');
-                $(this).removeClass("fa-pencil-square-o");
-                $(this).addClass("fa-floppy-o editMode");
-                
-                var cloneCountry = $('#ddlCountryClone').clone(true);
-                cloneCountry[0].style = 'display:block';
-                $(thisRow)[3].innerText = "";
-                $(thisRow[3]).append(cloneCountry);
-
-                var cloneState = $('#ddlStateClone').clone(true);
-                cloneState[0].style = 'display:block';
-                $(thisRow)[4].innerText = "";
-                $(thisRow[4]).append(cloneState);
-
-                var cloneCity = $('#ddlCityClone').clone(true);
-                cloneCity[0].style = 'display:block';
-                $(thisRow)[5].innerText = "";
-                $(thisRow[5]).append(cloneCity);
-
-                makeFieldsReadonly($(thisRow[0]));
-                makeFieldsReadonly($(thisRow[6]));
-                makeFieldsReadonly($(thisRow[7]));
-                if ($(thisRow[3].children[0])) {
-                    $(thisRow[3].children[0]).removeAttr('disabled');
-                }
-                if ($(thisRow[4].children[0])) {
-                    $(thisRow[4].children[0]).removeAttr('disabled');
-                }
-                if ($(thisRow[5].children[0])) {
-                    $(thisRow[5].children[0]).removeAttr('disabled');
-                }
-            } else if (editOn == true) {
-                var propertyId = $(thisRow)[0].innerText;
-                var countryId = $(thisRow)[3].children[0].value;
-                var stateId = $(thisRow)[4].children[0].value;
-                var cityId = $(thisRow)[5].children[0].value;
-                
-                if (propertyId <= 0) return;
-                if (countryId <= 0) {
-                    alert("Select proper country");
-                    return;
-                }
-                if (stateId <= 0) {
-                    alert("Select proper state");
-                    return;
-                }
-                if (cityId <= 0) {
-                    alert("Select proper city");
-                    return;
-                }
-                
-                var existingProperty = gcm.FindExistingProperty(propertyId);
-                if (!existingProperty) return;
-                existingProperty.PropertyName = $(thisRow)[1].innerText;
-                existingProperty.PropertyDetails = $(thisRow)[2].innerText;
-                existingProperty.Country.Id = countryId;
-                existingProperty.City.Id = cityId;
-                existingProperty.State.ID = stateId;
-                gcm.UpdateProperty(existingProperty);
-
-                $(thisRow).attr('contenteditable', 'false');
-                $(thisRow).css('background-color', 'transparent');
-                $(this).removeClass("fa-floppy-o editMode");
-                $(this).addClass("fa-pencil-square-o");
-                $(thisRow[3].children[0]).attr('disabled', 'disabled');
-                $(thisRow[4].children[0]).attr('disabled', 'disabled');
-                $(thisRow[5].children[0]).attr('disabled', 'disabled');
+            var propertyId = $(thisRow)[0].innerText;
+            var existingProperty = gcm.FindPropertySetting(propertyId);
+            if (!existingProperty) {
+                alert('Selected property is not valid');
+                return;
             }
+            if (propertyId > 0) {
+                toggleButton(true);
+            }
+            $('#hdnPropertyId').val(propertyId);
+            $('#hdnCreatedOn').val(existingProperty.CreatedOn);
+            $('#hdnCreatedBy').val(existingProperty.CreatedBy);
+            gcm.GetCountry($('#ddlCountryProp'));
+            openModal();
+            populatePropertyDetails(existingProperty);
         });
 
         $('#createRow, .trigger').click(function () {
-            $('.modal-wrapper').toggleClass('open');
-            $('.page-wrapper').toggleClass('blur');
-            return false;
+            toggleButton(false);
+            openModal();
         });
     });
 
@@ -158,7 +238,7 @@
 
                 </div>
                 <br>
-                <button id="createRow" class="btn btn-primary m-l-5 m-t-15" type="button">Create</button>
+                <button id="createRow" class="btn btn-primary m-l-5 m-t-15" type="button">Create Property</button>
             </div>
         </div>
     </div>
@@ -184,7 +264,7 @@
                     </div>
                     <div class="col-lg-3 p-l-0">
                         <div class="form-group">
-                            <input id="secondaryName" type="text" placeholder="Secondry Name" class="form-control" name="example-input-normal">
+                            <input id="secondaryName" type="text" placeholder="Secondary Name" class="form-control" name="example-input-normal">
                         </div>
                     </div>
                     <div class="col-lg-3 p-r-0 p-l-0">
@@ -197,11 +277,16 @@
                             <input id="timezone" type="text" maxlength="10" placeholder="Time Zone" class="form-control" name="example-input-normal">
                         </div>
                     </div>
+
                     <div class="col-lg-3 p-l-0">
                         <div class="form-group">
-                            <input id="currency" type="text" maxlength="10" placeholder="Currency" class="form-control" name="example-input-normal">
+                            <select id="ddlCurrency" class="form-control">
+                                <option value="-1">Select Currency</option>
+                                <option value="1">USD</option>
+                            </select>
                         </div>
                     </div>
+                    
                     <div class="col-lg-3 p-l-0">
                         <div class="form-group">
                             <input id="phone" type="text" maxlength="10" placeholder="Phone" class="form-control" name="example-input-normal">
@@ -216,7 +301,7 @@
                     </div>
                     <div class="col-lg-3 p-l-0">
                         <div class="form-group">
-                            <select id="ddlCountry" onchange="OnCountryChange(this, $('#ddlState'), $('#ddlCity'));" class="form-control">
+                            <select id="ddlCountryProp" onchange="OnCountryChange(this, $('#ddlState'), $('#ddlCity'));" class="form-control">
                                 <option value="-1">Select Country</option>
                             </select>
                         </div>
@@ -272,7 +357,11 @@
             <div class="button-section">
                 <button id="cancel" type="button" class="btn btn-primary m-l-5 m-t-15">Cancel</button>
                 <button id="create" type="button" class="btn btn-primary m-l-5 m-t-15">Create</button>
+                <button id="update" disabled="disabled" type="button" class="btn btn-primary m-l-5 m-t-15">Update</button>
             </div>
+            <input type="hidden" value="" id='hdnPropertyId'>
+            <input type="hidden" value="" id='hdnCreatedOn'>
+            <input type="hidden" value="" id='hdnCreatedBy'>
         </div>
     </div>
 </div>
@@ -285,15 +374,6 @@
         <div class="dot"></div>
     </div>
 </div>
-<select style="display:none" id="ddlCountryClone" onchange="OnCountryChange(this, $('#ddlStateClone'), $('#ddlCityClone'));" class="form-control">
-    <option value="-1">Select Country</option>
-</select>
-<select style="display:none" id="ddlStateClone" onchange="OnStateChange(this, $('#ddlCityClone'));" class="form-control">
-    <option value="-1">Select State</option>
-</select>
-<select style="display:none" id="ddlCityClone" class="form-control">
-    <option value="-1">Select City</option>
-</select>
 <script type="text/html" id="propertyTemplate">
     <table class="table table-hover table-bordered results tableContents">
         <thead>

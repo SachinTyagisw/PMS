@@ -230,6 +230,7 @@
         $(document).ready(function () {
 
             init();
+            gcm.GetCountry($('#ddlCountry'));
 
             $('#divInvoice').on("click", ".tableRow-remove", function () {
                 $(this).parents('tr').detach();

@@ -13,6 +13,7 @@ namespace PMS.Resources.DTO.Response
     [Serializable]
     public class GetPropertyFloorResponseDto
     {
+        [DataMember]
         public List<PropertyFloor> PropertyFloors { get; set; }
     }
 }

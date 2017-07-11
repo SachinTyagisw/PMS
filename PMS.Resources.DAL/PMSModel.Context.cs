@@ -46,6 +46,7 @@ namespace PMS.Resources.DAL
         public virtual DbSet<InvoicePaymentDetail> InvoicePaymentDetails { get; set; }
         public virtual DbSet<InvoiceTaxDetail> InvoiceTaxDetails { get; set; }
         public virtual DbSet<Property> Properties { get; set; }
+        public virtual DbSet<PropertyFloor> PropertyFloors { get; set; }
         public virtual DbSet<Rate> Rates { get; set; }
         public virtual DbSet<RateType> RateTypes { get; set; }
         public virtual DbSet<RewardCategory> RewardCategories { get; set; }
@@ -56,7 +57,6 @@ namespace PMS.Resources.DAL
         public virtual DbSet<State> States { get; set; }
         public virtual DbSet<Tax> Taxes { get; set; }
         public virtual DbSet<PaymentType> PaymentTypes { get; set; }
-        public virtual DbSet<PropertyFloor> PropertyFloors { get; set; }
     
         public virtual ObjectResult<GETALLBOOKINGS_Result> GETALLBOOKINGS(Nullable<int> pROPERTYID, Nullable<System.DateTime> cHECKINTIME, Nullable<System.DateTime> cHECKOUTDATE)
         {
