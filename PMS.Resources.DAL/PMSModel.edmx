@@ -144,7 +144,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PropertyID" Type="int" />
-          <Property Name="FacilityKey" Type="int" />
+          <Property Name="FacilityName" Type="nvarchar" MaxLength="400" Nullable="false" />
           <Property Name="Value" Type="money" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
@@ -537,18 +537,6 @@ warning 6002: The table/view 'PMS.dbo.PaymentType' does not have a primary key d
             </Principal>
             <Dependent Role="City">
               <PropertyRef Name="StateID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__ExtraChar__Facil__2057CCD0">
-          <End Role="ChargableFacility" Type="Self.ChargableFacility" Multiplicity="0..1" />
-          <End Role="ExtraCharges" Type="Self.ExtraCharges" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ChargableFacility">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ExtraCharges">
-              <PropertyRef Name="FacilityKey" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -964,10 +952,6 @@ warning 6002: The table/view 'PMS.dbo.PaymentType' does not have a primary key d
             <End Role="State" EntitySet="State" />
             <End Role="City" EntitySet="City" />
           </AssociationSet>
-          <AssociationSet Name="FK__ExtraChar__Facil__2057CCD0" Association="Self.FK__ExtraChar__Facil__2057CCD0">
-            <End Role="ChargableFacility" EntitySet="ChargableFacility" />
-            <End Role="ExtraCharges" EntitySet="ExtraCharges" />
-          </AssociationSet>
           <AssociationSet Name="FK__ExtraChar__Prope__214BF109" Association="Self.FK__ExtraChar__Prope__214BF109">
             <End Role="Property" EntitySet="Property" />
             <End Role="ExtraCharges" EntitySet="ExtraCharges" />
@@ -1177,7 +1161,6 @@ warning 6002: The table/view 'PMS.dbo.PaymentType' does not have a primary key d
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="ExtraCharges" Relationship="Self.FK__ExtraChar__Facil__2057CCD0" FromRole="ChargableFacility" ToRole="ExtraCharges" />
         </EntityType>
         <EntityType Name="City">
           <Key>
@@ -1228,14 +1211,13 @@ warning 6002: The table/view 'PMS.dbo.PaymentType' does not have a primary key d
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PropertyID" Type="Int32" />
-          <Property Name="FacilityKey" Type="Int32" />
+          <Property Name="FacilityName" Type="String" MaxLength="400" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Value" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="ChargableFacility" Relationship="Self.FK__ExtraChar__Facil__2057CCD0" FromRole="ExtraCharges" ToRole="ChargableFacility" />
           <NavigationProperty Name="Property" Relationship="Self.FK__ExtraChar__Prope__214BF109" FromRole="ExtraCharges" ToRole="Property" />
         </EntityType>
         <EntityType Name="Guest">
@@ -1695,18 +1677,6 @@ warning 6002: The table/view 'PMS.dbo.PaymentType' does not have a primary key d
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ExtraChar__Facil__2057CCD0">
-          <End Role="ChargableFacility" Type="Self.ChargableFacility" Multiplicity="0..1" />
-          <End Role="ExtraCharges" Type="Self.ExtraCharge" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ChargableFacility">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ExtraCharges">
-              <PropertyRef Name="FacilityKey" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__City__CountryID__48CFD27E">
           <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
           <End Role="City" Type="Self.City" Multiplicity="*" />
@@ -2045,10 +2015,6 @@ warning 6002: The table/view 'PMS.dbo.PaymentType' does not have a primary key d
           <AssociationSet Name="FK__RoomBooki__Booki__33D4B598" Association="Self.FK__RoomBooki__Booki__33D4B598">
             <End Role="Booking" EntitySet="Bookings" />
             <End Role="RoomBooking" EntitySet="RoomBookings" />
-          </AssociationSet>
-          <AssociationSet Name="FK__ExtraChar__Facil__2057CCD0" Association="Self.FK__ExtraChar__Facil__2057CCD0">
-            <End Role="ChargableFacility" EntitySet="ChargableFacilities" />
-            <End Role="ExtraCharges" EntitySet="ExtraCharges" />
           </AssociationSet>
           <AssociationSet Name="FK__City__CountryID__48CFD27E" Association="Self.FK__City__CountryID__48CFD27E">
             <End Role="Country" EntitySet="Countries" />
@@ -2461,7 +2427,7 @@ warning 6002: The table/view 'PMS.dbo.PaymentType' does not have a primary key d
               <MappingFragment StoreEntitySet="ExtraCharges">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
-                <ScalarProperty Name="FacilityKey" ColumnName="FacilityKey" />
+                <ScalarProperty Name="FacilityName" ColumnName="FacilityName" />
                 <ScalarProperty Name="Value" ColumnName="Value" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
