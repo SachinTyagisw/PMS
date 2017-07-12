@@ -121,7 +121,7 @@ namespace PMS.Resources.DAL
                 CheckoutTime = property.CheckoutTime,
                 CloseOfDayTime = property.CloseOfDayTime,
                 CurrencyId = property.CurrencyID,
-                State = property.State.ID,
+                State = property.State.Id,
                 Country = property.Country.Id,
                 City = property.City.Id,
                 PropertyDetails = property.PropertyDetails,
@@ -166,7 +166,7 @@ namespace PMS.Resources.DAL
                 Zipcode = property.Zipcode,
                 City = property.City.Id,
                 Country = property.Country.Id,
-                State = property.State.ID
+                State = property.State.Id
             };
 
             using (var pmsContext = new PmsEntities())
@@ -225,15 +225,18 @@ namespace PMS.Resources.DAL
                                 Zipcode = m.s.x.p.Zipcode,
                                 Country = new PmsEntity.Country
                                 {
-                                    Name = m.s.x.c.Name
+                                    Name = m.s.x.c.Name,
+                                    Id = m.s.x.c.ID
                                 },
                                 City = new PmsEntity.City
                                 {
-                                    Name = m.s.ct.Name
+                                    Name = m.s.ct.Name,
+                                    Id = m.s.x.c.ID
                                 },
                                 State = new PmsEntity.State
                                 {
-                                    Name = m.k.Name
+                                    Name = m.k.Name,
+                                    Id = m.s.x.c.ID
                                 },
                                 Fax = m.s.x.p.Fax,
                                 FullAddress = m.s.x.p.FullAddress,
@@ -692,7 +695,7 @@ namespace PMS.Resources.DAL
                 states = pmsContext.States.Where(x => x.IsActive && x.CountryID == id)
                            .Select(x => new PmsEntity.State
                            {
-                               ID = x.ID,
+                               Id = x.ID,
                                Name = x.Name,
                                CountryId = x.CountryID.Value
                            }).ToList();
@@ -1113,11 +1116,9 @@ namespace PMS.Resources.DAL
                 CreatedOn = paymentType.CreatedOn,
                 IsActive = true,
                 CreatedBy = paymentType.CreatedBy,
-                PropertyID = paymentType.PropertyID,
+                PropertyID = paymentType.PropertyId,
                 ShortName = paymentType.ShortName,
-                Description = paymentType.Description,
-                LastUpdatedBy = paymentType.CreatedBy,
-                LastUpdatedOn = paymentType.LastUpdatedOn
+                Description = paymentType.Description
             };
 
             using (var pmsContext = new PmsEntities())
@@ -1140,7 +1141,7 @@ namespace PMS.Resources.DAL
                 LastUpdatedOn = paymentType.LastUpdatedOn,
                 IsActive = paymentType.IsActive,
                 LastUpdatedBy = paymentType.LastUpdatedBy,
-                PropertyID = paymentType.PropertyID,
+                PropertyID = paymentType.PropertyId,
                 Description = paymentType.Description,
                 ShortName = paymentType.ShortName,
                 ID = paymentType.Id,
@@ -1184,7 +1185,7 @@ namespace PMS.Resources.DAL
             var paymentTypes = new List<PmsEntity.PaymentType>();
             using (var pmsContext = new PmsEntities())
             {
-                paymentTypes = pmsContext.PaymentTypes.Where(x => x.PropertyID == propertyId && (x.IsActive !=null && x.IsActive.Value))
+                paymentTypes = pmsContext.PaymentTypes.Where(x => x.PropertyID == propertyId && x.IsActive)
                                                  .Select(x => new PmsEntity.PaymentType
                                                  {
                                                      CreatedOn = x.CreatedOn,
@@ -1193,8 +1194,9 @@ namespace PMS.Resources.DAL
                                                      LastUpdatedBy = x.LastUpdatedBy,
                                                      LastUpdatedOn = x.LastUpdatedOn,
                                                      Id = x.ID,
-                                                     PropertyID = x.PropertyID,
-                                                     ShortName = x.ShortName
+                                                     PropertyId = x.PropertyID,
+                                                     ShortName = x.ShortName,
+                                                     IsActive = x.IsActive
                                                  }).ToList();
 
             }

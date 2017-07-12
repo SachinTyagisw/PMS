@@ -8,7 +8,7 @@ namespace PMS.Resources.Entities
 {
     public class State
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public int CountryId { get; set; }
         public string Name { get; set; }
         public bool IsActive { get; set; }

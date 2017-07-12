@@ -276,8 +276,6 @@
           <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
           <Property Name="LastUpdatedOn" Type="datetime" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'PMS.dbo.PaymentType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="PaymentType">
           <Key>
             <PropertyRef Name="ID" />
@@ -286,7 +284,7 @@ warning 6002: The table/view 'PMS.dbo.PaymentType' does not have a primary key d
           <Property Name="PropertyID" Type="int" />
           <Property Name="ShortName" Type="nvarchar" MaxLength="50" />
           <Property Name="Description" Type="nvarchar(max)" />
-          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
@@ -904,6 +902,7 @@ warning 6002: The table/view 'PMS.dbo.PaymentType' does not have a primary key d
           <EntitySet Name="InvoiceItems" EntityType="Self.InvoiceItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InvoicePaymentDetails" EntityType="Self.InvoicePaymentDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InvoiceTaxDetail" EntityType="Self.InvoiceTaxDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentType" EntityType="Self.PaymentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Property" EntityType="Self.Property" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PropertyFloor" EntityType="Self.PropertyFloor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rates" EntityType="Self.Rates" Schema="dbo" store:Type="Tables" />
@@ -915,19 +914,6 @@ warning 6002: The table/view 'PMS.dbo.PaymentType' does not have a primary key d
           <EntitySet Name="RoomType" EntityType="Self.RoomType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="State" EntityType="Self.State" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Taxes" EntityType="Self.Taxes" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PaymentType" EntityType="Self.PaymentType" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [PaymentType].[ID] AS [ID], 
-    [PaymentType].[PropertyID] AS [PropertyID], 
-    [PaymentType].[ShortName] AS [ShortName], 
-    [PaymentType].[Description] AS [Description], 
-    [PaymentType].[IsActive] AS [IsActive], 
-    [PaymentType].[CreatedBy] AS [CreatedBy], 
-    [PaymentType].[CreatedOn] AS [CreatedOn], 
-    [PaymentType].[LastUpdatedBy] AS [LastUpdatedBy], 
-    [PaymentType].[LastUpdatedOn] AS [LastUpdatedOn]
-    FROM [dbo].[PaymentType] AS [PaymentType]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK__Additiona__Booki__6442E2C9" Association="Self.FK__Additiona__Booki__6442E2C9">
             <End Role="Booking" EntitySet="Booking" />
             <End Role="AdditionalGuests" EntitySet="AdditionalGuests" />
@@ -1358,6 +1344,21 @@ warning 6002: The table/view 'PMS.dbo.PaymentType' does not have a primary key d
           <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Invoice" Relationship="Self.FK__InvoiceTa__Invoi__403A8C7D" FromRole="InvoiceTaxDetail" ToRole="Invoice" />
         </EntityType>
+        <EntityType Name="PaymentType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PropertyID" Type="Int32" />
+          <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Property" Relationship="Self.FK__PaymentTy__Prope__0C1BC9F9" FromRole="PaymentType" ToRole="Property" />
+        </EntityType>
         <EntityType Name="Property">
           <Key>
             <PropertyRef Name="ID" />
@@ -1565,21 +1566,6 @@ warning 6002: The table/view 'PMS.dbo.PaymentType' does not have a primary key d
           <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
           <NavigationProperty Name="AllTax" Relationship="Self.FK__Taxes__TaxId__39237A9A" FromRole="Taxes" ToRole="AllTaxes" />
           <NavigationProperty Name="Property" Relationship="Self.FK__Taxes__PropertyI__382F5661" FromRole="Taxes" ToRole="Property" />
-        </EntityType>
-        <EntityType Name="PaymentType">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PropertyID" Type="Int32" />
-          <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsActive" Type="Boolean" />
-          <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
-          <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Property" Relationship="Self.FK__PaymentTy__Prope__0C1BC9F9" FromRole="PaymentType" ToRole="Property" />
         </EntityType>
         <Association Name="FK__Additiona__Booki__6442E2C9">
           <End Role="Booking" Type="Self.Booking" Multiplicity="0..1" />
@@ -1972,6 +1958,7 @@ warning 6002: The table/view 'PMS.dbo.PaymentType' does not have a primary key d
           <EntitySet Name="InvoiceItems" EntityType="Self.InvoiceItem" />
           <EntitySet Name="InvoicePaymentDetails" EntityType="Self.InvoicePaymentDetail" />
           <EntitySet Name="InvoiceTaxDetails" EntityType="Self.InvoiceTaxDetail" />
+          <EntitySet Name="PaymentTypes" EntityType="Self.PaymentType" />
           <EntitySet Name="Properties" EntityType="Self.Property" />
           <EntitySet Name="PropertyFloors" EntityType="Self.PropertyFloor" />
           <EntitySet Name="Rates" EntityType="Self.Rate" />
@@ -1983,7 +1970,6 @@ warning 6002: The table/view 'PMS.dbo.PaymentType' does not have a primary key d
           <EntitySet Name="RoomTypes" EntityType="Self.RoomType" />
           <EntitySet Name="States" EntityType="Self.State" />
           <EntitySet Name="Taxes" EntityType="Self.Tax" />
-          <EntitySet Name="PaymentTypes" EntityType="Self.PaymentType" />
           <AssociationSet Name="FK__Additiona__Booki__6442E2C9" Association="Self.FK__Additiona__Booki__6442E2C9">
             <End Role="Booking" EntitySet="Bookings" />
             <End Role="AdditionalGuests" EntitySet="AdditionalGuests" />
@@ -2569,6 +2555,21 @@ warning 6002: The table/view 'PMS.dbo.PaymentType' does not have a primary key d
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="PaymentTypes">
+            <EntityTypeMapping TypeName="PmsModel.PaymentType">
+              <MappingFragment StoreEntitySet="PaymentType">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Properties">
             <EntityTypeMapping TypeName="PmsModel.Property">
               <MappingFragment StoreEntitySet="Property">
@@ -2748,21 +2749,6 @@ warning 6002: The table/view 'PMS.dbo.PaymentType' does not have a primary key d
                 <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
                 <ScalarProperty Name="TaxId" ColumnName="TaxId" />
                 <ScalarProperty Name="Value" ColumnName="Value" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
-                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PaymentTypes">
-            <EntityTypeMapping TypeName="PmsModel.PaymentType">
-              <MappingFragment StoreEntitySet="PaymentType">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
-                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />

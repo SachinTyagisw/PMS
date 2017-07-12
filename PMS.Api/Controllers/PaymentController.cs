@@ -64,9 +64,10 @@ namespace PMS.Api.Controllers
              );
 
             config.Routes.MapHttpRoute(
-              "GetPaymentType",
-              "api/v1/Payment/GetPaymentType",
-              new { controller = "Payment", action = "GetPaymentType" }
+              "GetPaymentTypeByProperty",
+              "api/v1/Payment/GetPaymentTypeByProperty/{propertyId}",
+              new { controller = "Payment", action = "GetPaymentTypeByProperty" },
+              constraints: new { propertyId = RegExConstants.NumericRegEx }
               );
         }
 
@@ -88,7 +89,7 @@ namespace PMS.Api.Controllers
             else
             {
                 response.ResponseStatus = PmsApiStatus.Failure.ToString();
-                response.StatusDescription = "New Room Addition failed.Contact administrator.";
+                response.StatusDescription = "New Payment Type Addition failed.Contact administrator.";
             }
             return response;
         }
@@ -96,19 +97,19 @@ namespace PMS.Api.Controllers
         [HttpPut, ActionName("UpdatePaymentType")]
         public PmsResponseDto UpdatePaymentType([FromBody] PaymentTypeRequestDto request)
         {
-            if (request == null || request.PaymentType == null)
+            if (request == null || request.PaymentType == null || request.PaymentType.Id <= 0)
                 throw new PmsException("Payment Type can not be updated.");
 
             var response = new PmsResponseDto();
             if (_iPmsLogic.UpdatePaymentType(request.PaymentType))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
-                response.StatusDescription = "PaymentType Updated successfully.";
+                response.StatusDescription = "Payment Type Updated successfully.";
             }
             else
             {
                 response.ResponseStatus = PmsApiStatus.Failure.ToString();
-                response.StatusDescription = "PaymentType Updation failed.Contact administrator.";
+                response.StatusDescription = "Payment Type Updation failed.Contact administrator.";
             }
             return response;
         }
