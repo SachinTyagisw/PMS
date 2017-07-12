@@ -4694,7 +4694,25 @@ a.animated-button:link, a.animated-button:visited {
   -ms-filter: blur(5px);
   filter: blur(5px);
 }
+.subnav {
+    margin: 0 0 0 64px;
+}
+.subnav li {
+    color: #fff;
+    padding: 10px;
+    /* display: list-item!important; */
+    list-style: circle;
+    width: 174px;
+}
 
+.table-data {
+    margin: 20px 24px;
+    background: #dadada;
+    display: block;
+    width: 96%;
+    height: 500px;
+    overflow-x: hidden;
+}
 /*a.btn{
   width:150px;
   display:block;
@@ -4716,7 +4734,7 @@ a.animated-button:link, a.animated-button:visited {
   height:100%;
   position:fixed;
   top:0; left:0;
-  background:rgba(255,257,153,0.75);
+  background:rgba(0,0,0,0.45);
   visibility:hidden;
   opacity:0;
   -webkit-transition: all 0.25s ease-in-out;
@@ -4730,7 +4748,7 @@ a.animated-button:link, a.animated-button:visited {
   visibility:visible;
 }
 
-.modal{
+.modal-wrapper .modal{
   width:800px;
   height:400px;
   display:block;
@@ -4839,6 +4857,11 @@ h1.table-head span:after {
     right: 0;
     z-index: 9;
     bottom: 0;
+}
+.btn-side {
+    padding: 5px 12px;
+    margin-bottom: 0;
+    font-size: 12px;
 }
 
 @media screen and (max-width: 768px) {

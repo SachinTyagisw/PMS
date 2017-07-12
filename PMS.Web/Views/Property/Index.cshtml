@@ -229,17 +229,30 @@
 <div class="content-wrap">
     <div class="main controls">
         <div class="container-fluid">
-            <div class="main-content">
-                <div class="form-group m-t-10">
-                    <input type="text" class="search form-control" placeholder="Search by Property Name, Owner Name, Country ...">
-                </div>
-                <span class="counter"></span>
-                <div id="divProperty">
+            <div class="col-lg-12 p-r-0 p-l-0">
+                <div class="card alert">
+                    <div class="card-header">
+                        <h4>Property</h4>
+                    </div>
+                    <div class="card-body room-details">
+                        <div class="row" style="">
+                            <div class="form-group col-lg-8 m-t-10">
+                                <input type="text" class="search form-control" placeholder="Search by Property Name, Owner Name, Country ...">
+                            </div>
 
+                            <div class="col-lg-2 p-l-0 p-r-0">
+                                <div class="form-group">
+                                    <button id="createRow" class="btn btn-primary m-l-5 m-t-10 btn-side" type="button">Create Property</button>
+                                </div>
+                            </div>
+                            <span class="counter"></span>
+                            <div id="divProperty" class="table-data">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <br>
-                <button id="createRow" class="btn btn-primary m-l-5 m-t-15" type="button">Create Property</button>
             </div>
+
         </div>
     </div>
 </div>

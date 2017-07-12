@@ -1,10 +1,8 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>RoomType</h2>
 <script type='text/javascript'>
     var gcm = window.GuestCheckinManager;
     function makeFieldsReadonly(rowObject) {
@@ -88,25 +86,31 @@
 <div class="content-wrap">
     <div class="main controls">
         <div class="container-fluid">
-            <div class="main-content" style="width:80%; margin: 0 auto;">
-                <h1 class="table-head"><span>Create Room Types</span></h1>
-                <div class="form-group m-t-10">
-                    <input type="text" class="search form-control" placeholder="Search by Room Type, Short Code...">
-                </div>
-                <div class="col-lg-2 p-1-0 p-r-5">
-                    <div class="form-group">
-                        <label>Select Property</label>
+            <div class="col-lg-12 p-r-0 p-l-0">
+                <div class="card alert">
+                    <div class="card-header">
+                        <h4>Create Room Types</h4>
                     </div>
-                </div>
-                <div class="col-lg-2 p-l-0 p-r-0">
-                    <div class="form-group">
-                        <select id="ddlProperty" onchange="OnPropertyChange();">
-                            <option value="-1">Select Property</option>
-                        </select>
+                    <div class="card-body room-details">
+                        <div class="row" style="">
+                            <div class="form-group col-lg-8 m-t-10">
+                                <label>Search</label>
+                                <input type="text" class="search form-control" placeholder="Search by Room Type, Short Code...">
+                            </div>
+
+                            <div class="col-lg-2 p-l-0 p-r-0">
+                                <div class="form-group">
+                                    <label>Select Property</label>
+                                    <select id="ddlProperty" onchange="OnPropertyChange();">
+                                        <option value="-1">Select Property</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <span class="counter"></span>
+                            <div id="divRoomType" class="table-data">
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <span class="counter"></span>
-                <div id="divRoomType">
                 </div>
             </div>
         </div>
