@@ -49,42 +49,46 @@
         var country = $('#ddlCountryProp').val();
         var city = $('#ddlCity').val();
         var zipCode = $('#zipCode').val();
+        var secondaryName = $('#secondaryName').val();
         //var logoPath = $('#dateTo').val();
 
         if (!propertyName || propertyName.length <= 0) {
             alert("Property Name is required");
             return false;
         }
-        if (!closeOfDayTime || closeOfDayTime.length <= 0) {
-            alert("Close of daytime is required");
-            return false;
-        }
-        if (!checkintime || checkintime.length <= 0) {
-            alert("Checkintime is required");
-            return false;
-        }
-        if (!checkoutTime || checkoutTime.length <= 0) {
-            alert("CheckoutTime is required");
-            return false;
-        }
+       
         if (!propertyCode || propertyCode.length <= 0) {
-            alert("PropertyCode is required");
+            alert("Property Code is required");
             return false;
         }
-        if (!fullAddress || fullAddress.length <= 0) {
-            alert("FullAddress is required");
+
+        if (!secondaryName || secondaryName.length <= 0) {
+            alert("secondary Name is required");
             return false;
         }
+       
+        if (!webSiteAddress || webSiteAddress.length <= 0) {
+            alert("WebSite Address is required");
+            return false;
+        }
+
+        if (!timeZone || timeZone.length <= 0) {
+            alert("Time zone is required");
+            return false;
+        }
+
+        if (!currencyId || currencyId === '-1') {
+            alert("Select proper currency");
+            return false;
+        }
+
         if (!phone || phone.length <= 0) {
             alert("Phone is required");
             return false;
         }
-        if (!zipCode || zipCode.length <= 0) {
-            alert("ZipCode is required");
-            return false;
-        }
-        if (!currencyId || currencyId === '-1') {
-            alert("Select proper currency");
+
+        if (!propertyDetails || propertyDetails.length <= 0) {
+            alert("Owner is required");
             return false;
         }
 
@@ -92,6 +96,7 @@
             alert("Select proper country");
             return false;
         }
+
         if (!state || state === '-1') {
             alert("Select proper state");
             return false;
@@ -100,6 +105,32 @@
             alert("Select proper city");
             return false;
         }
+
+        if (!zipCode || zipCode.length <= 0) {
+            alert("ZipCode is required");
+            return false;
+        }
+
+        if (!checkintime || checkintime.length <= 0) {
+            alert("Checkintime is required");
+            return false;
+        }
+
+        if (!checkoutTime || checkoutTime.length <= 0) {
+            alert("CheckoutTime is required");
+            return false;
+        }
+
+        if (!closeOfDayTime || closeOfDayTime.length <= 0) {
+            alert("Close of daytime is required");
+            return false;
+        }
+
+        if (!fullAddress || fullAddress.length <= 0) {
+            alert("FullAddress is required");
+            return false;
+        }
+
         return true;
     }
     function makeFieldsReadonly(rowObject){
