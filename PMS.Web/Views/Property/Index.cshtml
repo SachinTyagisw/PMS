@@ -140,9 +140,11 @@
         $('#timezone').val(property.TimeZone);
         $('#ddlCurrency').val(property.CurrencyID);        
         $('#zipCode').val(property.Zipcode);
-        //$('#ddlCountryProp').text(property.Country.Name);
-        //$('#ddlState').text(property.State.Name);
-        //$('#ddlCity').text(property.City.Name);
+        $('#ddlCountryProp').val(property.Country.Id);
+        gcm.OnCountryChange(ddlCountryProp, ddlState, ddlCity);
+        $('#ddlState').val(property.State.Id);
+        gcm.OnStateChange(ddlState, ddlCity);
+        $('#ddlCity').val(property.City.Id);
     }
 
     $(document).ready(function () {
@@ -214,6 +216,8 @@
             $('#hdnCreatedOn').val(existingProperty.CreatedOn);
             $('#hdnCreatedBy').val(existingProperty.CreatedBy);
             gcm.GetCountry($('#ddlCountryProp'));
+            gcm.GetStateByCountry(-1);
+            gcm.GetCityByState(-1);
             openModal();
             populatePropertyDetails(existingProperty);
         });

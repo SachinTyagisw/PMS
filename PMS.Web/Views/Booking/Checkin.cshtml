@@ -231,6 +231,8 @@
 
             init();
             gcm.GetCountry($('#ddlCountry'));
+            gcm.GetStateByCountry(-1);
+            gcm.GetCityByState(-1);
 
             $('#divInvoice').on("click", ".tableRow-remove", function () {
                 $(this).parents('tr').detach();

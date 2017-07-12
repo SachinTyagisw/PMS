@@ -1,11 +1,7 @@
 ﻿(function (win) {    
 
     var pmsSession = {
-
-        CountrySessionKey: [],
         GuestSessionKey: [],
-        StateSessionKey: [],
-
         SetItem: function (key, value) {
             if (typeof (Storage) !== "undefined") {
                 // Code for localStorage/sessionStorage.

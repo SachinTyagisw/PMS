@@ -3,8 +3,6 @@
     var pmsSession = window.PmsSession;
     var args = {};
     var ddlCountryObj = null;
-    var ddlStateObj = null;
-    var ddlCityObj = null;
     var invoiceData = {};
     var guestCheckinManager = {
        
@@ -115,40 +113,35 @@
             }
         },
 
-        BindStateDdl: function (idx) {
-            var ddlState = ddlStateObj;
-            if (!ddlState) return;
-
-            var stateData = pmsSession.GetItem("statedata");
+        BindStateDdl: function (countryId, ddlState, stateData) {
+            stateData = !stateData ? pmsSession.GetItem("statedata") : stateData;
             if (!ddlState  || !stateData) return;
 
             var stateSessionData = $.parseJSON(stateData);
             if (!stateSessionData || stateSessionData.length <= 0) return;
-            var stateValue = stateSessionData[idx].statevalue;
+            var filterStates = filterStateByCountryId(countryId, stateSessionData);
+            if (!filterStates || filterStates.length <= 0) return;
 
             ddlState.empty();
             ddlState.append(new Option("Select State", "-1"));
-            for (var i = 0; i < stateValue.length; i++) {
-                ddlState.append(new Option(stateValue[i].Name, stateValue[i].ID));
+            for (var i = 0; i < filterStates.length; i++) {
+                ddlState.append(new Option(filterStates[i].Name, filterStates[i].Id));
             }
         },
 
-        BindCityDdl: function (idx) {
-
-            var ddlCity = ddlCityObj;
-            if (!ddlCity) return;
-
-            var cityData = pmsSession.GetItem("citydata");
+        BindCityDdl: function (stateId, ddlCity, cityData) {
+            cityData = !cityData ? pmsSession.GetItem("citydata") : cityData;
             if (!ddlCity || !cityData) return;
 
             var citySessionData = $.parseJSON(cityData);
             if (!citySessionData || citySessionData.length <= 0) return;
-            var cityValue = citySessionData[idx].cityvalue;
+            var filterCity = filterCityByStateId(stateId, citySessionData);
+            if (!filterCity || filterCity.length <= 0) return;
 
             ddlCity.empty();
             ddlCity.append(new Option("Select City", "-1"));
-            for (var i = 0; i < cityValue.length; i++) {
-                ddlCity.append(new Option(cityValue[i].Name, cityValue[i].Id));
+            for (var i = 0; i < filterCity.length; i++) {
+                ddlCity.append(new Option(filterCity[i].Name, filterCity[i].Id));
             }
         },
 
@@ -164,55 +157,36 @@
         },
 
         OnCountryChange: function (ddlCountry, ddlState, ddlCity) {
-            var idx = -1;
             if (!ddlCountry) return;            
-            ddlCountryObj = ddlCountry;
-            ddlStateObj = ddlState;
-            ddlCityObj = ddlCity;
-            if (ddlStateObj) {
-                ddlStateObj.empty();
-                ddlStateObj.append(new Option("Select State", "-1"));
+            if (ddlState) {
+                ddlState.empty();
+                ddlState.append(new Option("Select State", "-1"));
             }
-            if (ddlCityObj) {
-                ddlCityObj.empty();
-                ddlCityObj.append(new Option("Select City", "-1"));
+            if (ddlCity) {
+                ddlCity.empty();
+                ddlCity.append(new Option("Select City", "-1"));
             }
-            var countryId = ddlCountryObj.value;
+            var countryId = ddlCountry.value;
             if (!countryId || countryId <= 0) return;
 
             var stateData = pmsSession.GetItem("statedata");
             if (stateData) {
-                var stateSessionData = $.parseJSON(stateData);
-                idx = window.GuestCheckinManager.CheckIfKeyPresent(countryId, stateSessionData);
-            }
-            if (idx === -1) {
-                window.GuestCheckinManager.GetStateByCountry(countryId);
-            } else {
-                window.GuestCheckinManager.BindStateDdl(idx);
+                window.GuestCheckinManager.BindStateDdl(countryId, ddlState, stateData);
             }
         },
 
         OnStateChange: function (ddlState, ddlCity) {
-            var idx = -1;
             if (!ddlState) return;
-            ddlStateObj = ddlState;
-            ddlCityObj = ddlCity;
-            if (ddlCityObj) {
-                ddlCityObj.empty();
-                ddlCityObj.append(new Option("Select City", "-1"));
+            if (ddlCity) {
+                ddlCity.empty();
+                ddlCity.append(new Option("Select City", "-1"));
             }
-            var stateId = ddlStateObj.value;
+            var stateId = ddlState.value;
             if (!stateId || stateId <= 0) return;
 
             var cityData = pmsSession.GetItem("citydata");
-            if (cityData) {
-                var citySessionData = $.parseJSON(cityData);
-                idx = window.GuestCheckinManager.CheckIfKeyPresent(stateId, citySessionData);
-            }
-            if (idx === -1) {
-                window.GuestCheckinManager.GetCityByState(stateId);
-            } else {
-                window.GuestCheckinManager.BindCityDdl(idx);
+            if (cityData) {                
+                window.GuestCheckinManager.BindCityDdl(stateId, ddlCity, cityData);
             }
         },
 
@@ -347,15 +321,21 @@
         },
 
         GetStateByCountry: function (countryId) {
-            args.Id = countryId;
-            // get state by api calling  
-            pmsService.GetStateByCountry(args);
+            var stateData = pmsSession.GetItem("statedata");
+            if (!stateData) {
+                args.Id = countryId;
+                // get state by api calling  
+                pmsService.GetStateByCountry(args);
+            }
         },
 
         GetCityByState: function (stateId) {
-            args.Id = stateId;
-            // get city by api calling  
-            pmsService.GetCityByState(args);
+            var cityData = pmsSession.GetItem("citydata");
+            if (!cityData) {
+                args.Id = stateId;
+                // get city by api calling  
+                pmsService.GetCityByState(args);
+            }
         },
 
         CheckIfKeyPresent: function (key, object) {
@@ -1011,25 +991,9 @@
 
             pmsService.Handlers.OnGetStateByCountrySuccess = function (data) {
                 if (!data || !data.States || data.States.length <= 0) return;
-                var countryId = ddlCountryObj ? ddlCountryObj.value : -1;
-                if (countryId <= 0) {
-                    alert('Invalid country id.');
-                    return;
-                }
-                var idx = gcm.CheckIfKeyPresent(countryId, pmsSession.CountrySessionKey);
-                // store state data in session storage only when country key is not present
-                if (idx === -1) {
-                    pmsSession.CountrySessionKey.push({
-                        Id: countryId,
-                        statevalue: data.States
-                    });
-                    pmsSession.SetItem("statedata", JSON.stringify(pmsSession.CountrySessionKey));
-                    //calculating the index of the statedata added in session above
-                    idx = pmsSession.CountrySessionKey.length - 1;
-                }
-
-                window.GuestCheckinManager.BindStateDdl(idx);
+                pmsSession.SetItem("statedata", JSON.stringify(data.States));
             };
+
             pmsService.Handlers.OnGetStateByCountryFailure = function () {
                 // show error log
                 console.error("get state call failed");
@@ -1046,25 +1010,7 @@
 
             pmsService.Handlers.OnGetCityByStateSuccess = function (data) {
                 if (!data || !data.City || data.City.length <= 0) return;
-
-                var stateId = ddlStateObj ? ddlStateObj.value : -1;
-                if (stateId <= 0) {
-                    alert('Invalid state id.');
-                    return;
-                }
-                var idx = gcm.CheckIfKeyPresent(stateId, pmsSession.StateSessionKey);
-                // store city data in session storage only when state key is not present
-                if (idx === -1) {
-                    pmsSession.StateSessionKey.push({
-                        Id: stateId,
-                        cityvalue: data.City
-                    });
-                    pmsSession.SetItem("citydata", JSON.stringify(pmsSession.StateSessionKey));
-                    //calculating the index of the citydata added in session above
-                    idx = pmsSession.StateSessionKey.length - 1;
-                }
-
-                window.GuestCheckinManager.BindCityDdl(idx);
+                pmsSession.SetItem("citydata", JSON.stringify(data.City));
             };
             pmsService.Handlers.OnGetCityByStateFailure = function () {
                 // show error log
@@ -1307,7 +1253,27 @@
         //    alert(HH);
 
         //}
-    };    
+    };
+
+    function filterCityByStateId(stateId, data) {
+        var filterData = [];
+        for (var i = 0; i < data.length; i++) {
+            // lookup for stateId
+            if (!data[i] || !data[i].StateId || data[i].StateId <= 0 || data[i].StateId !== parseInt(stateId)) continue;
+            filterData.push(data[i]);
+        }
+        return filterData;
+    }
+
+    function filterStateByCountryId(countryId, data) {
+        var filterData = [];
+        for (var i = 0; i < data.length; i++) {
+            // lookup for countryId
+            if (!data[i] || !data[i].CountryId || data[i].CountryId <= 0 || data[i].CountryId !== parseInt(countryId)) continue;
+            filterData.push(data[i]);
+        }
+        return filterData;
+    }
 
     function populateAddress(address) {
         $('#address').val(address.Address1);
