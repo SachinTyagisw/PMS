@@ -116,14 +116,12 @@
         BindStateDdl: function (countryId, ddlState, stateData) {
             stateData = !stateData ? pmsSession.GetItem("statedata") : stateData;
             if (!ddlState  || !stateData) return;
-
+            ddlState.empty();
+            ddlState.append(new Option("Select State", "-1"));
             var stateSessionData = $.parseJSON(stateData);
             if (!stateSessionData || stateSessionData.length <= 0) return;
             var filterStates = filterStateByCountryId(countryId, stateSessionData);
             if (!filterStates || filterStates.length <= 0) return;
-
-            ddlState.empty();
-            ddlState.append(new Option("Select State", "-1"));
             for (var i = 0; i < filterStates.length; i++) {
                 ddlState.append(new Option(filterStates[i].Name, filterStates[i].Id));
             }
@@ -132,14 +130,13 @@
         BindCityDdl: function (stateId, ddlCity, cityData) {
             cityData = !cityData ? pmsSession.GetItem("citydata") : cityData;
             if (!ddlCity || !cityData) return;
-
+            ddlCity.empty();
+            ddlCity.append(new Option("Select City", "-1"));
             var citySessionData = $.parseJSON(cityData);
             if (!citySessionData || citySessionData.length <= 0) return;
             var filterCity = filterCityByStateId(stateId, citySessionData);
             if (!filterCity || filterCity.length <= 0) return;
 
-            ddlCity.empty();
-            ddlCity.append(new Option("Select City", "-1"));
             for (var i = 0; i < filterCity.length; i++) {
                 ddlCity.append(new Option(filterCity[i].Name, filterCity[i].Id));
             }
@@ -419,6 +416,21 @@
                 divInvoice.html(invoiceTemplate.render(data.Invoice));
             }
             window.GuestCheckinManager.CalculateInvoice();
+        },
+
+        IsTime: function (e) {
+            var key = e.keyCode;
+            if (e.shiftKey && key === 186) return true;
+            if (e.shiftKey || e.ctrlKey || e.altKey) {
+                e.preventDefault();
+                return false;
+            } else {
+                if (!((key == 8) || (key == 46) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+                    e.preventDefault();
+                    return false;
+                }
+            }
+            return true;
         },
 
         IsNumeric: function (e) {

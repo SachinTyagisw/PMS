@@ -231,12 +231,12 @@ namespace PMS.Resources.DAL
                                 City = new PmsEntity.City
                                 {
                                     Name = m.s.ct.Name,
-                                    Id = m.s.x.c.ID
+                                    Id = m.s.ct.ID
                                 },
                                 State = new PmsEntity.State
                                 {
                                     Name = m.k.Name,
-                                    Id = m.s.x.c.ID
+                                    Id = m.k.ID
                                 },
                                 Fax = m.s.x.p.Fax,
                                 FullAddress = m.s.x.p.FullAddress,

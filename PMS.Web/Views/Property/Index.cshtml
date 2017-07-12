@@ -141,9 +141,9 @@
         $('#ddlCurrency').val(property.CurrencyID);        
         $('#zipCode').val(property.Zipcode);
         $('#ddlCountryProp').val(property.Country.Id);
-        gcm.OnCountryChange(ddlCountryProp, ddlState, ddlCity);
+        gcm.OnCountryChange($('#ddlCountryProp')[0], $('#ddlState'), $('#ddlCity'));
         $('#ddlState').val(property.State.Id);
-        gcm.OnStateChange(ddlState, ddlCity);
+        gcm.OnStateChange($('#ddlState')[0], $('#ddlCity'));
         $('#ddlCity').val(property.City.Id);
     }
 
@@ -151,6 +151,18 @@
 
         gcm.GetAllProperty();
         
+        $('#checkintime').keydown(function (e) {
+            gcm.IsTime(e);
+        });
+
+        $('#checkouttime').keydown(function (e) {
+            gcm.IsTime(e);
+        });
+
+        $('#closeofdaytime').keydown(function (e) {
+            gcm.IsTime(e);
+        });
+
         $('#phone').keydown(function (e) {
             gcm.IsNumeric(e);
         });
