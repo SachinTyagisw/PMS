@@ -991,10 +991,6 @@
 
                 pmsSession.SetItem("countrydata", JSON.stringify(data.Country));
                 window.GuestCheckinManager.BindCountryDdl(ddlCountryObj);
-                //TODO: fill ddlIdCountry either via notification or on body onload
-                if(ddlCountryObj[0].id ==='ddlCountry'){
-                    window.GuestCheckinManager.BindCountryDdl($('#ddlIdCountry'));
-                }
             };
             pmsService.Handlers.OnGetCountryFailure = function () {
                 // show error log
