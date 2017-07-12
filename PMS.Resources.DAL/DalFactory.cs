@@ -692,7 +692,7 @@ namespace PMS.Resources.DAL
 
             using (var pmsContext = new PmsEntities())
             {
-                states = pmsContext.States.Where(x => x.IsActive && x.CountryID == id)
+                states = pmsContext.States.Where(x => x.IsActive)
                            .Select(x => new PmsEntity.State
                            {
                                Id = x.ID,
@@ -701,7 +701,10 @@ namespace PMS.Resources.DAL
                            }).ToList();
 
             }
-
+            if (id > 0)
+            {
+                states = states.Where(x => x.CountryId.Equals(id)).ToList();
+            }
             return states;
         }
 
@@ -710,7 +713,7 @@ namespace PMS.Resources.DAL
             var city = new List<PmsEntity.City>();
             using (var pmsContext = new PmsEntities())
             {
-                city = pmsContext.Cities.Where(x => x.IsActive && x.StateID == id)
+                city = pmsContext.Cities.Where(x => x.IsActive)
                            .Select(x => new PmsEntity.City
                            {
                                Id = x.ID,
@@ -719,6 +722,10 @@ namespace PMS.Resources.DAL
                                CountryId = x.CountryID
                            }).ToList();
 
+            }
+            if (id > 0)
+            {
+                city = city.Where(x => x.StateId.Equals(id)).ToList();
             }
             return city;
         }

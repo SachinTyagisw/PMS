@@ -175,6 +175,7 @@
     <Compile Include="Controllers\FloorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PropertyController.cs" />
     <Compile Include="Controllers\RateTypeController.cs" />
     <Compile Include="Controllers\RoomController.cs" />
@@ -454,6 +455,7 @@
     <Content Include="Views\RoomType\Index.cshtml" />
     <Content Include="Views\RateType\Index.cshtml" />
     <Content Include="Views\Floor\Index.cshtml" />
+    <Content Include="Views\Payment\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

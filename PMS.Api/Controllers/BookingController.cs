@@ -350,10 +350,10 @@ namespace PMS.Api.Controllers
             var queryParams = Request.GetQueryNameValuePairs();
             var countryId = queryParams.FirstOrDefault(x => x.Key == "id").Value;
             int id;
-            
-            if (!int.TryParse(countryId, out id) || id <= 0)
+
+            if (!int.TryParse(countryId, out id))
             {
-                throw new PmsException("Incorrect country id");
+                id = -1;
             }
          
             response.States = _iPmsLogic.GetStateByCountry(id);
@@ -368,9 +368,9 @@ namespace PMS.Api.Controllers
             var stateId = queryParams.FirstOrDefault(x => x.Key == "id").Value;
             int id;
 
-            if (!int.TryParse(stateId, out id) || id <= 0)
+            if (!int.TryParse(stateId, out id))
             {
-                throw new PmsException("Incorrect state id");
+                id = -1;
             }
 
             response.City = _iPmsLogic.GetCityByState(id);
