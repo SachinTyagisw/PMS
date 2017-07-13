@@ -1320,7 +1320,7 @@ namespace PMS.Resources.DAL
                 CreatedOn = extraCharge.CreatedOn,
                 IsActive = true,
                 CreatedBy = extraCharge.CreatedBy,
-                PropertyID = extraCharge.PropertyID,
+                PropertyID = extraCharge.PropertyId,
                 FacilityName = extraCharge.FacilityName,
                 Value = extraCharge.Value,
                 LastUpdatedBy = extraCharge.CreatedBy,
@@ -1346,10 +1346,10 @@ namespace PMS.Resources.DAL
                 CreatedOn = extraCharge.CreatedOn,
                 IsActive = true,
                 CreatedBy = extraCharge.CreatedBy,
-                PropertyID = extraCharge.PropertyID,
+                PropertyID = extraCharge.PropertyId,
                 FacilityName = extraCharge.FacilityName,
                 Value = extraCharge.Value,
-                ID = extraCharge.ID,
+                ID = extraCharge.Id,
                 LastUpdatedBy = extraCharge.CreatedBy,
                 LastUpdatedOn = extraCharge.LastUpdatedOn
             };
@@ -1372,7 +1372,8 @@ namespace PMS.Resources.DAL
             var extraChargeObj = new DAL.ExtraCharge
             {
                 IsActive = false,
-                ID = extraChargeId
+                ID = extraChargeId,
+                FacilityName = string.Empty
             };
 
             using (var pmsContext = new PmsEntities())
@@ -1397,8 +1398,8 @@ namespace PMS.Resources.DAL
                                                      CreatedBy = x.CreatedBy,
                                                      LastUpdatedBy = x.LastUpdatedBy,
                                                      LastUpdatedOn = x.LastUpdatedOn,
-                                                     ID = x.ID,
-                                                     PropertyID = x.PropertyID,
+                                                     Id = x.ID,
+                                                     PropertyId = x.PropertyID,
                                                      Value = x.Value,
                                                      FacilityName = x.FacilityName,
                                                      IsActive = x.IsActive

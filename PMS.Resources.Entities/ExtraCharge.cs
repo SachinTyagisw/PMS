@@ -8,8 +8,8 @@ namespace PMS.Resources.Entities
 {
     public class ExtraCharge
     {
-        public int ID { get; set; }
-        public Nullable<int> PropertyID { get; set; }
+        public int Id { get; set; }
+        public Nullable<int> PropertyId { get; set; }
         public string FacilityName { get; set; }
         public Nullable<decimal> Value { get; set; }
         public Nullable<bool> IsActive { get; set; }

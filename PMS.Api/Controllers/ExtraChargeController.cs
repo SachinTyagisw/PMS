@@ -47,7 +47,7 @@ namespace PMS.Api.Controllers
         {
             config.Routes.MapHttpRoute(
              "AddExtraCharge",
-             "api/v1/Payment/AddExtraCharge",
+             "api/v1/ExtraCharge/AddExtraCharge",
              new { controller = "ExtraCharge", action = "AddExtraCharge" }
              );
 
@@ -59,15 +59,16 @@ namespace PMS.Api.Controllers
 
             config.Routes.MapHttpRoute(
              "DeleteExtraCharge",
-             "api/v1/ExtraCharge/DeleteExtraCharge/{Id}",
-             new { controller = "Payment", action = "DeleteExtraCharge" },
-             constraints: new { typeId = RegExConstants.NumericRegEx }
+             "api/v1/ExtraCharge/DeleteExtraCharge/{id}",
+             new { controller = "ExtraCharge", action = "DeleteExtraCharge" },
+             constraints: new { id = RegExConstants.NumericRegEx }
              );
 
             config.Routes.MapHttpRoute(
-              "GetExtraChargesByProperty",
-              "api/v1/ExtraCharge/GetExtraChargesByProperty",
-              new { controller = "ExtraCharge", action = "GetExtraChargesByProperty" }
+              "GetExtraChargeByProperty",
+              "api/v1/ExtraCharge/GetExtraChargeByProperty/{propertyId}",
+              new { controller = "ExtraCharge", action = "GetExtraChargeByProperty" },
+              constraints: new { propertyId = RegExConstants.NumericRegEx }
               );
         }
 
@@ -97,7 +98,7 @@ namespace PMS.Api.Controllers
         [HttpPut, ActionName("UpdateExtraCharge")]
         public PmsResponseDto UpdateExtraCharge([FromBody] ExtraChargeRequestDto request)
         {
-            if (request == null || request.ExtraCharge == null)
+            if (request == null || request.ExtraCharge == null || request.ExtraCharge.Id <= 0 )
                 throw new PmsException("ExtraCharge can not be updated.");
 
             var response = new PmsResponseDto();
@@ -115,12 +116,12 @@ namespace PMS.Api.Controllers
         }
 
         [HttpDelete, ActionName("DeleteExtraCharge")]
-        public PmsResponseDto DeleteExtraCharge(int extraChargeId)
+        public PmsResponseDto DeleteExtraCharge(int id)
         {
-            if (extraChargeId <= 0) throw new PmsException("ExtraCharge is not valid. Hence ExtraCharge can not be deleted.");
+            if (id <= 0) throw new PmsException("ExtraCharge is not valid. Hence ExtraCharge can not be deleted.");
 
             var response = new PmsResponseDto();
-            if (_iPmsLogic.DeleteExtraCharge(extraChargeId))
+            if (_iPmsLogic.DeleteExtraCharge(id))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "ExtraCharge Deleted successfully.";
@@ -128,14 +129,14 @@ namespace PMS.Api.Controllers
             else
             {
                 response.ResponseStatus = PmsApiStatus.Failure.ToString();
-                response.StatusDescription = "Payment Type Deletion failed.Contact administrator.";
+                response.StatusDescription = "ExtraCharge Deletion failed.Contact administrator.";
             }
             return response;
         }
 
 
-        [HttpGet, ActionName("GetExtraChargesByProperty")]
-        public GetExtraChargeResponseDto GetExtraChargesByProperty(int propertyId)
+        [HttpGet, ActionName("GetExtraChargeByProperty")]
+        public GetExtraChargeResponseDto GetExtraChargeByProperty(int propertyId)
         {
             if (propertyId <= 0) throw new PmsException("Property id is not valid.");
 
