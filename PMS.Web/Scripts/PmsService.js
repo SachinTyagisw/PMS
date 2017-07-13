@@ -66,6 +66,30 @@
             OnAddPaymentTypeFailure: null,
             OnUpdatePaymentTypeSuccess: null,
             OnUpdatePaymentTypeFailure: null,
+            OnGetExtraChargeByPropertySuccess: null,
+            OnGetExtraChargeByPropertyFailure: null,
+            OnDeleteExtraChargeSuccess: null,
+            OnDeleteExtraChargeFailure: null,
+            OnAddExtraChargeSuccess: null,
+            OnAddExtraChargeFailure: null,
+            OnUpdateExtraChargeSuccess: null,
+            OnUpdateExtraChargeFailure: null,
+        };
+
+        this.UpdateExtraCharge = function (args) {
+            makeAjaxRequestPut(args, "UpdateExtraCharge", this, "api/v1/ExtraCharge/UpdateExtraCharge");
+        };
+
+        this.AddExtraCharge = function (args) {
+            makeAjaxRequestPost(args, "AddExtraCharge", this, "api/v1/ExtraCharge/AddExtraCharge");
+        };
+
+        this.DeleteExtraCharge = function (args) {
+            makeAjaxRequestDelete(args, "DeleteExtraCharge", this, "api/v1/ExtraCharge/DeleteExtraCharge/" + args.id);
+        };
+
+        this.GetExtraChargeByProperty = function (args) {
+            makeAjaxRequestGet(args, "GetExtraChargeByProperty", this, "api/v1/ExtraCharge/GetExtraChargeByProperty/" + args.propertyId);
         };
 
         this.UpdatePaymentType = function (args) {
@@ -83,7 +107,6 @@
         this.GetPaymentTypeByProperty = function (args) {
             makeAjaxRequestGet(args, "GetPaymentTypeByProperty", this, "api/v1/Payment/GetPaymentTypeByProperty/" + args.propertyId);
         };
-
 
         this.UpdateFloor = function (args) {
             makeAjaxRequestPut(args, "UpdateFloor", this, "api/v1/PropertyFloor/UpdateFloor");

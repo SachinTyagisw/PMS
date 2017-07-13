@@ -738,6 +738,20 @@
             $("#divProperty tbody tr").append('<td class="finalActionsCol"><i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
         },
 
+        PopulateExtraChargeGrid : function (data){
+            var divExtraCharge = $('#divExtraCharge');
+            var extrachargeTemplate = $('#extrachargeTemplate');
+            if (!divExtraCharge || !extrachargeTemplate) return;
+            divExtraCharge.html(extrachargeTemplate.render(data));
+            $("#divExtraCharge thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
+            if (data && data.ExtraCharges && data.ExtraCharges.length > 0) {
+                $("#divExtraCharge tbody tr").append('<td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+            } else {
+                // when no extraCharge data is present in db 
+                $("#divExtraCharge tbody tr").append('<td class="finalActionsCol"><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td>');
+            }
+        },
+
         PopulatePaymentTypeGrid : function (data){
             var divPaymentType = $('#divPaymentType');
             var paymenttypeTemplate = $('#paymenttypeTemplate');
@@ -895,7 +909,7 @@
             args.propertyId = propertyId && propertyId > 0 ? propertyId : getPropertyId();
             // get payment types by api calling  
             pmsService.GetPaymentTypeByProperty(args);
-        },
+        },        
         
         GetFloorsByProperty: function (propertyId) {
             args.propertyId = propertyId;
@@ -927,6 +941,38 @@
             paymentTypeRequestDto.PaymentType = {};
             paymentTypeRequestDto.PaymentType = paymentType;
             pmsService.UpdatePaymentType(paymentTypeRequestDto);
+        },
+
+        GetExtraCharge: function (propertyId) {
+            args.propertyId = propertyId && propertyId > 0 ? propertyId : getPropertyId();
+            // get extra charges by api calling  
+            pmsService.GetExtraChargeByProperty(args);
+        },
+
+        DeleteExtraCharge: function (id) {
+            // DeleteExtraCharge by api calling  
+            args.id = id;
+            pmsService.DeleteExtraCharge(args);
+        },
+
+        AddExtraCharge: function (extracharge) {
+            extracharge.CreatedBy = getCreatedBy();
+            extracharge.CreatedOn = getCurrentDate();
+            var extraChargeRequestDto = {};
+            extraChargeRequestDto.ExtraCharge = {};
+            // AddExtraCharge by api calling  
+            extraChargeRequestDto.ExtraCharge = extracharge;
+            pmsService.AddExtraCharge(extraChargeRequestDto);
+        },
+
+        UpdateExtraCharge: function (extracharge) {
+            extracharge.LastUpdatedBy = getCreatedBy();
+            extracharge.LastUpdatedOn = getCurrentDate();
+            // UpdateExtraCharge by api calling 
+            var extraChargeRequestDto = {};
+            extraChargeRequestDto.ExtraCharge = {};
+            extraChargeRequestDto.ExtraCharge = extracharge;
+            pmsService.UpdateExtraCharge(extraChargeRequestDto);
         },
 
         AjaxHandlers: function () {
@@ -1332,6 +1378,59 @@
             };
 
             pmsService.Handlers.OnUpdatePaymentTypeSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                alert(status);
+            };
+
+            pmsService.Handlers.OnGetExtraChargeByPropertySuccess = function (data) {
+                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = null;
+                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = data.ExtraCharges;
+                window.GuestCheckinManager.PopulateExtraChargeGrid(data);
+            };
+
+            pmsService.Handlers.OnGetExtraChargeByPropertyFailure = function () {
+                // show error log
+                console.error("Get Extra charge call failed");
+            };
+
+            pmsService.Handlers.OnAddExtraChargeSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                if (data.ResponseObject > 0) {
+                    console.log(status);
+                    // to fetch new data
+                    if ($('#ddlProperty') && $('#ddlProperty').val() > 0) {
+                        window.GuestCheckinManager.GetExtraCharge($('#ddlProperty').val());
+                    }
+                    alert(status);
+                } else {
+                    console.error(status);
+                    alert(status);
+                }
+            };
+
+            pmsService.Handlers.OnAddExtraChargeFailure = function () {
+                // show error log
+                console.error("Extra Charge is not added.");
+            };
+
+            pmsService.Handlers.OnDeleteExtraChargeFailure = function () {
+                // show error log
+                console.error("Extra Charge is not deleted.");
+            };
+
+            pmsService.Handlers.OnDeleteExtraChargeSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                alert(status);
+            };
+
+            pmsService.Handlers.OnUpdateExtraChargeFailure = function () {
+                // show error log
+                console.error("Extra Charge is not updated.");
+            };
+
+            pmsService.Handlers.OnUpdateExtraChargeSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
                 alert(status);
