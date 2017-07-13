@@ -58,9 +58,9 @@ namespace PMS.Api.Controllers
 
             config.Routes.MapHttpRoute(
              "DeletePaymentType",
-             "api/v1/Payment/DeletePaymentType/{typeId}",
+             "api/v1/Payment/DeletePaymentType/{paymentTypeId}",
              new { controller = "Payment", action = "DeletePaymentType" },
-             constraints: new { typeId = RegExConstants.NumericRegEx }
+             constraints: new { paymentTypeId = RegExConstants.NumericRegEx }
              );
 
             config.Routes.MapHttpRoute(

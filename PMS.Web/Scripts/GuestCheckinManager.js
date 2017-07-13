@@ -738,6 +738,20 @@
             $("#divProperty tbody tr").append('<td class="finalActionsCol"><i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
         },
 
+        PopulatePaymentTypeGrid : function (data){
+            var divPaymentType = $('#divPaymentType');
+            var paymenttypeTemplate = $('#paymenttypeTemplate');
+            if (!divPaymentType || !paymenttypeTemplate) return;
+            divPaymentType.html(paymenttypeTemplate.render(data));
+            $("#divPaymentType thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
+            if (data && data.PaymentTypes && data.PaymentTypes.length > 0) {
+                $("#divPaymentType tbody tr").append('<td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+            } else {
+                // when no paymenttype data is present in db 
+                $("#divPaymentType tbody tr").append('<td class="finalActionsCol"><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td>');
+            }
+        },
+
         PopulateFloorGrid: function (data) {
             var divFloor = $('#divFloor');
             var floorTemplate = $('#floorTemplate');
@@ -877,10 +891,42 @@
             pmsService.GetRoomTypeByProperty(args);
         },
 
+        GetPaymentType: function (propertyId) {
+            args.propertyId = propertyId && propertyId > 0 ? propertyId : getPropertyId();
+            // get payment types by api calling  
+            pmsService.GetPaymentTypeByProperty(args);
+        },
+        
         GetFloorsByProperty: function (propertyId) {
             args.propertyId = propertyId;
             // get floor by property by api calling  
             pmsService.GetFloorsByProperty(args);
+        },
+
+        DeletePaymentType: function (typeId) {
+            // DeletePaymentType by api calling  
+            args.typeId = typeId;
+            pmsService.DeletePaymentType(args);
+        },
+
+        AddPaymentType: function (paymentType) {
+            paymentType.CreatedBy = getCreatedBy();
+            paymentType.CreatedOn = getCurrentDate();
+            var paymentTypeRequestDto = {};
+            paymentTypeRequestDto.PaymentType = {};
+            // AddFloor by api calling  
+            paymentTypeRequestDto.PaymentType = paymentType;
+            pmsService.AddPaymentType(paymentTypeRequestDto);
+        },
+
+        UpdatePaymentType: function (paymentType) {
+            paymentType.LastUpdatedBy = getCreatedBy();
+            paymentType.LastUpdatedOn = getCurrentDate();
+            // UpdatePaymentType by api calling 
+            var paymentTypeRequestDto = {};
+            paymentTypeRequestDto.PaymentType = {};
+            paymentTypeRequestDto.PaymentType = paymentType;
+            pmsService.UpdatePaymentType(paymentTypeRequestDto);
         },
 
         AjaxHandlers: function () {
@@ -1236,6 +1282,59 @@
             pmsService.Handlers.OnGetFloorsByPropertyFailure = function () {
                 // show error log
                 console.error("Get Floor call failed");
+            };
+
+            pmsService.Handlers.OnGetPaymentTypeByPropertySuccess = function (data) {
+                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = null;
+                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = data.PaymentTypes;
+                window.GuestCheckinManager.PopulatePaymentTypeGrid(data);
+            };
+
+            pmsService.Handlers.OnGetPaymentTypeByPropertyFailure = function () {
+                // show error log
+                console.error("Get Payment type call failed");
+            };
+
+            pmsService.Handlers.OnAddPaymentTypeSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                if (data.ResponseObject > 0) {
+                    console.log(status);
+                    // to fetch new data
+                    if ($('#ddlProperty') && $('#ddlProperty').val() > 0) {
+                        window.GuestCheckinManager.GetPaymentType($('#ddlProperty').val());
+                    }
+                    alert(status);
+                } else {
+                    console.error(status);
+                    alert(status);
+                }
+            };
+
+            pmsService.Handlers.OnAddPaymentTypeFailure = function () {
+                // show error log
+                console.error("Payment type is not added.");
+            };
+
+            pmsService.Handlers.OnDeletePaymentTypeFailure = function () {
+                // show error log
+                console.error("Payment type is not deleted.");
+            };
+
+            pmsService.Handlers.OnDeletePaymentTypeSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                alert(status);
+            };
+
+            pmsService.Handlers.OnUpdatePaymentTypeFailure = function () {
+                // show error log
+                console.error("Payment type is not updated.");
+            };
+
+            pmsService.Handlers.OnUpdatePaymentTypeSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                alert(status);
             };
 
             //pmsService.Handlers.OnGetRoomByPropertySuccess = function (data) {

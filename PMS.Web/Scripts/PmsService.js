@@ -58,7 +58,32 @@
             OnAddFloorFailure: null,
             OnUpdateFloorSuccess: null,
             OnUpdateFloorFailure: null,
+            OnGetPaymentTypeByPropertySuccess: null,
+            OnGetPaymentTypeByPropertyFailure: null,
+            OnDeletePaymentTypeSuccess: null,
+            OnDeletePaymentTypeFailure: null,
+            OnAddPaymentTypeSuccess: null,
+            OnAddPaymentTypeFailure: null,
+            OnUpdatePaymentTypeSuccess: null,
+            OnUpdatePaymentTypeFailure: null,
         };
+
+        this.UpdatePaymentType = function (args) {
+            makeAjaxRequestPut(args, "UpdatePaymentType", this, "api/v1/Payment/UpdatePaymentType");
+        };
+
+        this.AddPaymentType = function (args) {
+            makeAjaxRequestPost(args, "AddPaymentType", this, "api/v1/Payment/AddPaymentType");
+        };
+
+        this.DeletePaymentType = function (args) {
+            makeAjaxRequestDelete(args, "DeletePaymentType", this, "api/v1/Payment/DeletePaymentType/" + args.typeId);
+        };
+
+        this.GetPaymentTypeByProperty = function (args) {
+            makeAjaxRequestGet(args, "GetPaymentTypeByProperty", this, "api/v1/Payment/GetPaymentTypeByProperty/" + args.propertyId);
+        };
+
 
         this.UpdateFloor = function (args) {
             makeAjaxRequestPut(args, "UpdateFloor", this, "api/v1/PropertyFloor/UpdateFloor");

@@ -15,7 +15,7 @@
             alert('Select valid property');
             return;
         }
-        gcm.GetRoomTypes($('#ddlProperty').val());
+        gcm.GetPaymentType($('#ddlProperty').val());
     }
 
     $(document).ready(function () {
@@ -31,7 +31,7 @@
                 var paymentTypeId = $(this).closest('tr')[0].id;
                 $(this).closest('tr').remove();
                 if (paymentTypeId <= 0) return;
-                gcm.DeleteRoomType(paymentTypeId);
+                gcm.DeletePaymentType(paymentTypeId);
                 if ($('#divPaymentType tbody tr').length <= 0) {
                     $('#ddlProperty').val('-1');
                 }
@@ -51,7 +51,7 @@
                 makeFieldsReadonly($(thisRow[0]));
             } else if (editOn == true) {
                 if (!paymentTypeName || paymentTypeName.length <= 0) {
-                    alert("Roomtype name is required");
+                    alert("Payment type name is required");
                     return;
                 }
                 if (!shortCode || shortCode.length <= 0) {
@@ -59,23 +59,23 @@
                     return;
                 }
                 if (paymentTypeId > 0) {
-                    var existingRoomType = gcm.FindPropertySetting(paymentTypeId);
-                    if (!existingRoomType) return;
-                    existingRoomType.Name = paymentTypeName;
-                    existingRoomType.ShortName = shortCode;
-                    //call updateroomtype api
-                    gcm.UpdateRoomType(existingRoomType);
+                    var existingPaymentType = gcm.FindPropertySetting(paymentTypeId);
+                    if (!existingPaymentType) return;
+                    existingPaymentType.Name = paymentTypeName;
+                    existingPaymentType.ShortName = shortCode;
+                    //call UpdatePaymentType api
+                    gcm.UpdatePaymentType(existingPaymentType);
                 } else {
                     if (propertyId <= 0) {
                         alert("Select valid property");
                         return;
                     }
-                    var roomType = {};
-                    roomType.Name = paymentTypeName;
-                    roomType.ShortName = shortCode;
-                    roomType.PropertyID = propertyId;
+                    var paymentType = {};
+                    paymentType.Description = paymentTypeName;
+                    paymentType.ShortName = shortCode;
+                    paymentType.PropertyId = propertyId;
                     //call AddPaymentType api
-                    gcm.AddPaymentType(roomType);
+                    gcm.AddPaymentType(paymentType);
                 }
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
             }
@@ -89,13 +89,13 @@
             <div class="col-lg-12 p-r-0 p-l-0">
                 <div class="card alert">
                     <div class="card-header">
-                        <h4>Create Room Types</h4>
+                        <h4>Create Payment Types</h4>
                     </div>
                     <div class="card-body room-details">
                         <div class="row" style="">
                             <div class="form-group col-lg-8 m-t-10">
                                 <label>Search</label>
-                                <input type="text" class="search form-control" placeholder="Search by Room Type, Short Code...">
+                                <input type="text" class="search form-control" placeholder="Search by Payment Type, Short Code...">
                             </div>
 
                             <div class="col-lg-2 p-l-0 p-r-0 m-t-10">
