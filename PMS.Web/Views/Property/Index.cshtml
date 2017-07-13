@@ -114,12 +114,12 @@
         if (!checkinTime || checkinTime.length <= 0) {
             alert("Checkintime is required");
             return false;
-        }
+        }        
 
         if (!checkoutTime || checkoutTime.length <= 0) {
             alert("CheckoutTime is required");
             return false;
-        }
+        }        
 
         if (!closeOfDayTime || closeOfDayTime.length <= 0) {
             alert("Close of daytime is required");
@@ -128,6 +128,36 @@
 
         if (!fullAddress || fullAddress.length <= 0) {
             alert("FullAddress is required");
+            return false;
+        }
+
+        if (checkinTime.indexOf(':') <= 0) {
+            alert("Checkintime should be in time format eg: hh:mm");
+            return false;
+        }
+
+        if (checkinTime.indexOf(':') > 0 && checkinTime.split(":").length > 2) {
+            alert("Checkintime should be in time format eg: hh:mm");
+            return false;
+        }
+
+        if (checkoutTime.indexOf(':') <= 0) {
+            alert("CheckoutTime should be in time format eg: hh:mm");
+            return false;
+        }
+
+        if (checkoutTime.indexOf(':') > 0 && checkoutTime.split(":").length > 2) {
+            alert("CheckoutTime should be in time format eg: hh:mm");
+            return false;
+        }
+
+        if (closeOfDayTime.indexOf(':') <= 0) {
+            alert("CloseOfDayTime should be in time format eg: hh:mm");
+            return false;
+        }
+
+        if (closeOfDayTime.indexOf(':') > 0 && closeOfDayTime.split(":").length > 2) {
+            alert("CloseOfDayTime should be in time format eg: hh:mm");
             return false;
         }
 
@@ -289,7 +319,7 @@
 
                             <div class="col-lg-7 p-l-0 p-r-20">
                                 <div class="form-group">
-                                    <button id="createRow" class="btn btn-primary m-l-5 m-t-10 btn-side" type="button">Create Property</button>
+                                    <button id="createRow" class="btn btn-primary m-l-5 m-r-10 btn-side" type="button">Create Property</button>
                                 </div>
                             </div>
                             @*<span class="counter"></span>*@

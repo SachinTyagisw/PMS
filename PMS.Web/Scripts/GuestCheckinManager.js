@@ -423,7 +423,7 @@
 
         IsTime: function (e) {
             var key = e.keyCode;
-            if (e.shiftKey && key === 186) return true;
+            if (key === 9 || e.shiftKey && key === 186) return true;
             if (e.shiftKey || e.ctrlKey || e.altKey) {
                 e.preventDefault();
                 return false;
@@ -437,11 +437,12 @@
         },
 
         IsNumeric: function (e) {
+            var key = e.keyCode;
+            if (key === 9) return true;
             if (e.shiftKey || e.ctrlKey || e.altKey) {
                 e.preventDefault();
                 return false;
             } else {
-                var key = e.keyCode;
                 if (!((key == 8) || (key == 46) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
                     e.preventDefault();
                     return false;

@@ -4706,11 +4706,11 @@ a.animated-button:link, a.animated-button:visited {
 }
 
 .table-data {
-    margin: 10px 14px;
+    margin: 10px 24px;
     background: #e3e8ea;
     display: block;
-    width: 98%;
-    max-height: 400px;
+    width: 96%;
+    max-height: 500px;
     overflow-x: hidden;
 }
 /*a.btn{
