@@ -786,17 +786,18 @@ namespace PMS.Resources.DAL
             var taxes = new List<PmsEntity.Tax>();
             using (var pmsContext = new PmsEntities())
             {
-                var resultSet = pmsContext.GETBOOKINGAMOUNT(propertyId, roomTypeId, rateTypeId, noOfHours, 0, IsHourly).ToList();
-                if (resultSet == null || resultSet.Count <= 0) return taxes;
-                foreach (var result in resultSet.OrderBy(x => x.OrderBy))
-                {
-                    var tax = new PmsEntity.Tax();
-                    tax.TaxName = result.ITEM;
-                    tax.Value = result.ITEMAMOUNT;
-                    tax.IsDefaultCharges = true;
+                //TODO: update SP
+                //var resultSet = pmsContext.GETBOOKINGAMOUNT(propertyId, roomTypeId, rateTypeId, noOfHours, 0, IsHourly).ToList();
+                //if (resultSet == null || resultSet.Count <= 0) return taxes;
+                //foreach (var result in resultSet.OrderBy(x => x.OrderBy))
+                //{
+                //    var tax = new PmsEntity.Tax();
+                //    tax.TaxName = result.ITEM;
+                //    tax.Value = result.ITEMAMOUNT;
+                //    tax.IsDefaultCharges = true;
 
-                    taxes.Add(tax);
-                }
+                //    taxes.Add(tax);
+                //}
             }
             return taxes;
         }

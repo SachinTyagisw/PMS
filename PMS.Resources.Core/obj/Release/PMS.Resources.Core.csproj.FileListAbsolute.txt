@@ -14,4 +14,3 @@ D:\PMS\PMS.Resources.Core\bin\Release\System.Web.Http.SelfHost.xml
 D:\PMS\PMS.Resources.Core\bin\Release\System.Web.Http.WebHost.xml
 D:\PMS\PMS.Resources.Core\obj\Release\PMS.Resources.Core.dll
 D:\PMS\PMS.Resources.Core\obj\Release\PMS.Resources.Core.pdb
-D:\PMS\PMS.Resources.Core\obj\Release\PMS.Resources.Core.csprojResolveAssemblyReference.cache

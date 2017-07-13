@@ -52,19 +52,6 @@
           <Property Name="LastUpdatedOn" Type="datetime" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <EntityType Name="AllTaxes">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TaxShortName" Type="nvarchar" MaxLength="100" />
-          <Property Name="Description" Type="nvarchar(max)" />
-          <Property Name="IsActive" Type="bit" Nullable="false" />
-          <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
-          <Property Name="CreatedOn" Type="datetime" />
-          <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
-          <Property Name="LastUpdatedOn" Type="datetime" />
-        </EntityType>
         <EntityType Name="Booking">
           <Key>
             <PropertyRef Name="ID" />
@@ -465,6 +452,7 @@
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
           <Property Name="LastUpdatedOn" Type="datetime" />
+          <Property Name="TaxName" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <Association Name="FK__Additiona__Booki__6442E2C9">
           <End Role="Booking" Type="Self.Booking" Multiplicity="0..1" />
@@ -826,18 +814,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Taxes__TaxId__39237A9A">
-          <End Role="AllTaxes" Type="Self.AllTaxes" Multiplicity="0..1" />
-          <End Role="Taxes" Type="Self.Taxes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AllTaxes">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Taxes">
-              <PropertyRef Name="TaxId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Function Name="GETALLBOOKINGS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PROPERTYID" Type="int" Mode="In" />
           <Parameter Name="CHECKINTIME" Type="datetime" Mode="In" />
@@ -887,7 +863,6 @@
           <EntitySet Name="AdditionalGuests" EntityType="Self.AdditionalGuests" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AddressType" EntityType="Self.AddressType" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AllTaxes" EntityType="Self.AllTaxes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Booking" EntityType="Self.Booking" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChargableFacility" EntityType="Self.ChargableFacility" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
@@ -1034,10 +1009,6 @@
             <End Role="Property" EntitySet="Property" />
             <End Role="Taxes" EntitySet="Taxes" />
           </AssociationSet>
-          <AssociationSet Name="FK__Taxes__TaxId__39237A9A" Association="Self.FK__Taxes__TaxId__39237A9A">
-            <End Role="AllTaxes" EntitySet="AllTaxes" />
-            <End Role="Taxes" EntitySet="Taxes" />
-          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
@@ -1094,20 +1065,6 @@
           <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Addresses" Relationship="Self.FK__Address__Address__1920BF5C" FromRole="AddressType" ToRole="Address" />
-        </EntityType>
-        <EntityType Name="AllTax">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TaxShortName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
-          <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Taxes" Relationship="Self.FK__Taxes__TaxId__39237A9A" FromRole="AllTaxes" ToRole="Taxes" />
         </EntityType>
         <EntityType Name="Booking">
           <Key>
@@ -1564,7 +1521,7 @@
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="AllTax" Relationship="Self.FK__Taxes__TaxId__39237A9A" FromRole="Taxes" ToRole="AllTaxes" />
+          <Property Name="TaxName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Property" Relationship="Self.FK__Taxes__PropertyI__382F5661" FromRole="Taxes" ToRole="Property" />
         </EntityType>
         <Association Name="FK__Additiona__Booki__6442E2C9">
@@ -1600,18 +1557,6 @@
             </Principal>
             <Dependent Role="Address">
               <PropertyRef Name="GuestID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Taxes__TaxId__39237A9A">
-          <End Role="AllTaxes" Type="Self.AllTax" Multiplicity="0..1" />
-          <End Role="Taxes" Type="Self.Tax" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AllTaxes">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Taxes">
-              <PropertyRef Name="TaxId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1943,7 +1888,6 @@
           <EntitySet Name="AdditionalGuests" EntityType="Self.AdditionalGuest" />
           <EntitySet Name="Addresses" EntityType="Self.Address" />
           <EntitySet Name="AddressTypes" EntityType="Self.AddressType" />
-          <EntitySet Name="AllTaxes" EntityType="Self.AllTax" />
           <EntitySet Name="Bookings" EntityType="Self.Booking" />
           <EntitySet Name="ChargableFacilities" EntityType="Self.ChargableFacility" />
           <EntitySet Name="Cities" EntityType="Self.City" />
@@ -1981,10 +1925,6 @@
           <AssociationSet Name="FK__Address__GuestID__1A14E395" Association="Self.FK__Address__GuestID__1A14E395">
             <End Role="Guest" EntitySet="Guests" />
             <End Role="Address" EntitySet="Addresses" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Taxes__TaxId__39237A9A" Association="Self.FK__Taxes__TaxId__39237A9A">
-            <End Role="AllTaxes" EntitySet="AllTaxes" />
-            <End Role="Taxes" EntitySet="Taxes" />
           </AssociationSet>
           <AssociationSet Name="FK__Booking__Propert__1273C1CD" Association="Self.FK__Booking__Propert__1273C1CD">
             <End Role="Property" EntitySet="Properties" />
@@ -2100,7 +2040,7 @@
             <Parameter Name="CHECKOUTDATE" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="GETALLGUESTS" ReturnType="Collection(PmsModel.GETALLGUESTS_Result)" />
-          <FunctionImport Name="GETBOOKINGAMOUNT" ReturnType="Collection(PmsModel.GETBOOKINGAMOUNT_Result)">
+          <FunctionImport Name="GETBOOKINGAMOUNT">
             <Parameter Name="PROPERTYID" Mode="In" Type="Int32" />
             <Parameter Name="ROOMTYPEID" Mode="In" Type="Int32" />
             <Parameter Name="RATETYPEID" Mode="In" Type="Int32" />
@@ -2161,11 +2101,6 @@
           <Property Type="DateTime" Name="DOB" Nullable="true" />
           <Property Type="String" Name="GENDER" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="PHOTOPATH" Nullable="true" MaxLength="200" />
-        </ComplexType>
-        <ComplexType Name="GETBOOKINGAMOUNT_Result">
-          <Property Type="String" Name="ITEM" Nullable="true" MaxLength="100" />
-          <Property Type="Decimal" Name="ITEMAMOUNT" Nullable="true" Precision="19" />
-          <Property Type="Int32" Name="OrderBy" Nullable="false" />
         </ComplexType>
         <ComplexType Name="GetBookingDetails_Result">
           <Property Type="Int32" Name="BookingID" Nullable="false" />
@@ -2313,20 +2248,6 @@
                 <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
                 <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AllTaxes">
-            <EntityTypeMapping TypeName="PmsModel.AllTax">
-              <MappingFragment StoreEntitySet="AllTaxes">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="TaxShortName" ColumnName="TaxShortName" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
-                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2754,6 +2675,7 @@
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
                 <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+                <ScalarProperty Name="TaxName" ColumnName="TaxName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2787,15 +2709,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GETBOOKINGAMOUNT" FunctionName="PmsModel.Store.GETBOOKINGAMOUNT">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="PmsModel.GETBOOKINGAMOUNT_Result">
-                <ScalarProperty Name="ITEM" ColumnName="ITEM" />
-                <ScalarProperty Name="ITEMAMOUNT" ColumnName="ITEMAMOUNT" />
-                <ScalarProperty Name="OrderBy" ColumnName="OrderBy" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GETBOOKINGAMOUNT" FunctionName="PmsModel.Store.GETBOOKINGAMOUNT" />
           <FunctionImportMapping FunctionImportName="GetBookingDetails" FunctionName="PmsModel.Store.GetBookingDetails">
             <ResultMapping>
               <ComplexTypeMapping TypeName="PmsModel.GetBookingDetails_Result">

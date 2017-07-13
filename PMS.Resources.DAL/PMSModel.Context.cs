@@ -30,7 +30,6 @@ namespace PMS.Resources.DAL
         public virtual DbSet<AdditionalGuest> AdditionalGuests { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<AddressType> AddressTypes { get; set; }
-        public virtual DbSet<AllTax> AllTaxes { get; set; }
         public virtual DbSet<Booking> Bookings { get; set; }
         public virtual DbSet<ChargableFacility> ChargableFacilities { get; set; }
         public virtual DbSet<City> Cities { get; set; }
@@ -80,7 +79,7 @@ namespace PMS.Resources.DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GETALLGUESTS_Result>("GETALLGUESTS");
         }
     
-        public virtual ObjectResult<GETBOOKINGAMOUNT_Result> GETBOOKINGAMOUNT(Nullable<int> pROPERTYID, Nullable<int> rOOMTYPEID, Nullable<int> rATETYPEID, Nullable<int> nOOFHOURS, Nullable<int> nOOFDAYS, Nullable<bool> iSHOURLY)
+        public virtual int GETBOOKINGAMOUNT(Nullable<int> pROPERTYID, Nullable<int> rOOMTYPEID, Nullable<int> rATETYPEID, Nullable<int> nOOFHOURS, Nullable<int> nOOFDAYS, Nullable<bool> iSHOURLY)
         {
             var pROPERTYIDParameter = pROPERTYID.HasValue ?
                 new ObjectParameter("PROPERTYID", pROPERTYID) :
@@ -106,7 +105,7 @@ namespace PMS.Resources.DAL
                 new ObjectParameter("ISHOURLY", iSHOURLY) :
                 new ObjectParameter("ISHOURLY", typeof(bool));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GETBOOKINGAMOUNT_Result>("GETBOOKINGAMOUNT", pROPERTYIDParameter, rOOMTYPEIDParameter, rATETYPEIDParameter, nOOFHOURSParameter, nOOFDAYSParameter, iSHOURLYParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GETBOOKINGAMOUNT", pROPERTYIDParameter, rOOMTYPEIDParameter, rATETYPEIDParameter, nOOFHOURSParameter, nOOFDAYSParameter, iSHOURLYParameter);
         }
     
         public virtual ObjectResult<GetBookingDetails_Result> GetBookingDetails(Nullable<int> bookingID)

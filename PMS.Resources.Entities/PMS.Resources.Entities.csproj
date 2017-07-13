@@ -42,7 +42,6 @@
     <Compile Include="AdditionalGuest.cs" />
     <Compile Include="Address.cs" />
     <Compile Include="AddressType.cs" />
-    <Compile Include="AllTax.cs" />
     <Compile Include="ChargableFacility.cs" />
     <Compile Include="City.cs" />
     <Compile Include="Country.cs" />

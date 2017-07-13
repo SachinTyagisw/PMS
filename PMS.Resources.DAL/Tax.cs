@@ -23,8 +23,8 @@ namespace PMS.Resources.DAL
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string LastUpdatedBy { get; set; }
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
+        public string TaxName { get; set; }
     
-        public virtual AllTax AllTax { get; set; }
         public virtual Property Property { get; set; }
     }
 }
