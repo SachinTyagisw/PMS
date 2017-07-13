@@ -21,10 +21,10 @@ namespace PMS.Web
             //            "~/Scripts/jquery.validate*"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/jquery").Include("~/Scripts/Jquery/jquery-2.2.3.min.js")
+                        .Include("~/Scripts/Jquery/jquery.validate.min.js")
                         .Include("~/Scripts/Jquery/jquery-ui.min.js")
                         .Include("~/Scripts/Jquery/lib/jquery.nanoscroller.min.js")
                         .Include("~/Scripts/Jquery/lib/jquery-ui/jquery-ui-timepicker-addon.js")
-                        .Include("~/Scripts/Jquery/jquery.validate.min.js")
                         .Include("~/Scripts/Jquery/jquery.tmpl.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/angular").Include("~/Scripts/Angular/angular.min.js")
@@ -40,7 +40,8 @@ namespace PMS.Web
             bundles.Add(new ScriptBundle("~/bundles/js/bootstrap").Include("~/Scripts/Bootstrap/bootstrap.min.js")
                         .Include("~/Scripts/Bootstrap/ui-bootstrap-tpls.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/js/custom").Include("~/Scripts/PmsSession.js")
+            bundles.Add(new ScriptBundle("~/bundles/js/custom").Include("~/Scripts/Notifications.js")
+                        .Include("~/Scripts/PmsSession.js")
                         .Include("~/Scripts/PmsAjaxQueue.js")
                         .Include("~/Scripts/PmsService.js")
                         .Include("~/Scripts/GuestCheckinManager.js")
@@ -59,20 +60,19 @@ namespace PMS.Web
             //bundles.Add(new StyleBundle("~/bundles/css/bootstrap")
             //           .Include("~/Content/Bootstrap/bootstrap.min.css"));
 
-            bundles.Add(new StyleBundle("~/bundles/css/lib")
-                       .Include("~/Content/lib/calendar2/pignose.calendar.min.css")
-                       .Include("~/Content/lib/font-awesome.min.css")
-                       .Include("~/Content/lib/themify-icons.css")
-                       .Include("~/Content/lib/owl.theme.default.min.css")
-                       .Include("~/Content/lib/sidebar.css")
-                       .Include("~/Content/lib/bootstrap.min.css")
-                       .Include("~/Content/lib/unix.css")
-                       .Include("~/Content/Jquery/jquery-ui.min.css")
-                       .Include("~/Content/lib/jquery-ui-timepicker-addon.css"));
-
             bundles.Add(new StyleBundle("~/bundles/daypilotmedia/css").Include("~/Content/daypilot-media/layout.css")
                        .Include("~/Content/daypilot-media/custom.css")
                        .Include("~/Content/daypilot-media/modal.css"));
+
+            bundles.Add(new StyleBundle("~/bundles/css/lib")
+                       .Include("~/Content/lib/font-awesome.min.css")
+                       .Include("~/Content/lib/themify-icons.css")
+                       .Include("~/Content/lib/owl.theme.default.min.css")
+                       .Include("~/Content/lib/bootstrap.min.css")
+                       .Include("~/Content/lib/unix.css")
+                       .Include("~/Content/Jquery/jquery-ui.min.css")
+                       .Include("~/Content/Bootstrap/bootstrap-datetimepicker.css")
+                       .Include("~/Content/style.css"));
 
             //bundles.Add(new StyleBundle("~/bundles/css/angular").Include("~/Content/Angular/ng-grid.min.css"));
         }

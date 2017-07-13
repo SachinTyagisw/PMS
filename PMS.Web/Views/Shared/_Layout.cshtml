@@ -4,8 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - PMS Application</title>
-    @*<link rel="stylesheet" href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/css/lib")" />*@
     <link rel="stylesheet" href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/daypilotmedia/css")" />
+    <link rel="stylesheet" href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/css/lib")" />
     @*<link type="text/css" rel="stylesheet" href="~/Content/icons/style.css" />*@
 
     <!-- ================= Favicon ================== -->
@@ -20,114 +20,133 @@
     <!-- Standard iPhone Touch Icon-->
     <link rel="apple-touch-icon" sizes="57x57" href="#">
     <!-- Styles -->
-    @*<link href="~/Content/lib/calendar2/pignose.calendar.min.css" rel="stylesheet">*@
-    <link href="~/Content/lib/font-awesome.min.css" rel="stylesheet">
+    @*<link href="~/Content/lib/font-awesome.min.css" rel="stylesheet">
     <link href="~/Content/lib/themify-icons.css" rel="stylesheet">
     <link href="~/Content/lib/owl.theme.default.min.css" rel="stylesheet" />
     <link href="~/Content/lib/bootstrap.min.css" rel="stylesheet">
     <link href="~/Content/lib/unix.css" rel="stylesheet">
     <link href="~/Content/Jquery/jquery-ui.min.css" rel="stylesheet">
-    @*<link href="~/Content/lib/jquery-ui-timepicker-addon.css" rel="stylesheet">*@
     <link href="~/Content/Bootstrap/bootstrap-datetimepicker.css" rel="stylesheet" />
-    <link href="~/Content/style.css" rel="stylesheet">
-    
+    <link href="~/Content/style.css" rel="stylesheet">*@
+
     <!--comment below bundling js logic to unbundle js files -->
-    @*<script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/jquery")"></script>*@
+    <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/jquery")"></script>
 
     <!--uncomment below js files to unbundle them -->
-    <script src="~/Scripts/Jquery/jquery-2.2.3.min.js"></script>
+    @*<script src="~/Scripts/Jquery/jquery-2.2.3.min.js"></script>
     <script src="~/Scripts/Jquery/jquery.validate.min.js"></script>
     <script src="~/Scripts/Jquery/jquery-ui.min.js"></script>
     <script src="~/Scripts/Jquery/lib/jquery.nanoscroller.min.js"></script>
-    @*<script src="~/Scripts/Jquery/lib/jquery-ui/jquery-ui-timepicker-addon.js"></script>*@
-    <script src="~/Scripts/Jquery/jquery.tmpl.js"></script>
+    <script src="~/Scripts/Jquery/jquery.tmpl.js"></script>*@
 
-    <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/angular")"></script>    
-    
-    <!--comment below bundling js logic to unbundle js files -->
-    @*<script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/jquery/lib")"></script>*@    
-    <!--uncomment below js files to unbundle them -->
-    @*<script src="~/Scripts/scripts.js"></script>*@
-
+    <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/angular")"></script>
     <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/bootstrap")"></script>
-    
+
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
     <script src="~/Scripts/Bootstrap/datetimepicker.js"></script>
     <script type="text/javascript">
         window.apiBaseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["ApiBaseUrl"].ToString())';
         window.webBaseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["WebBaseUrl"].ToString())';
         jQuery(document).ready(function ($) {
-        //set property id on property ddl selection
-        if (!window.PmsSession.GetItem("propertyid")) {
-            window.PmsSession.SetItem("propertyid", 1);
-        }
-        if (!window.PmsSession.GetItem("username")) {
-            window.PmsSession.SetItem("username", "@ViewBag.UserName");
-        }
-        window.GuestCheckinManager.Initialize();
-    });
+            //set property id on property ddl selection
+            if (!window.PmsSession.GetItem("propertyid")) {
+                window.PmsSession.SetItem("propertyid", 1);
+            }
+            if (!window.PmsSession.GetItem("username")) {
+                window.PmsSession.SetItem("username", "@ViewBag.UserName");
+            }
+            window.GuestCheckinManager.Initialize();
+        });
     </script>
 
     <!--comment below bundling js logic to unbundle js files -->
-    @*<script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/custom")"></script>*@
+    <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/custom")"></script>
 
     <!--uncomment below js files to unbundle them -->
+    @*<script src="~/Scripts/Notifications.js"></script>
     <script src="~/Scripts/PmsSession.js"></script>
-    <script src="~/Scripts/PmsAjaxQueue.js" ></script>
-    <script src="~/Scripts/PmsService.js" ></script>
+    <script src="~/Scripts/PmsAjaxQueue.js"></script>
+    <script src="~/Scripts/PmsService.js"></script>
     <script src="~/Scripts/GuestCheckinManager.js"></script>
     <script src="~/Scripts/calendarModule.js"></script>
     <script src="~/Scripts/index.js"></script>
     <script src="~/Scripts/messageModalService.js"></script>
     <script src="~/Scripts/redirectionService.js"></script>
     <script src="~/Scripts/calendarService.js"></script>
-    <script src="~/Scripts/calendarController.js"></script>
-    </head>
-    <body class="sidebar-hide">
-        <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
-            <div class="area"></div>
-            <nav class="main-menu">
-                <ul>
-                    <li>
-                        <a href="~/Room/DashBoard" class="green-c">
-                            <i class="fa fa-home fa-2x"></i>
-                            <span class="nav-text">
-                                Dashboard
-                            </span>
-                        </a>
+    <script src="~/Scripts/calendarController.js"></script>*@
+</head>
+<body class="sidebar-hide">
+    <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
+        <div class="area"></div>
+        <nav class="main-menu">
+            <ul>
+                <li>
+                    <a href="~/Room/DashBoard" class="green-c">
+                        <i class="fa fa-home fa-2x"></i>
+                        <span class="nav-text">
+                            Dashboard
+                        </span>
+                    </a>
 
-                    </li>
-                    <li class="has-subnav">
-                        <a href="~/Booking/Checkin" class="red-c">
-                            <i class="fa fa-table fa-2x"></i>
-                            <span class="nav-text">
-                                Booking
-                            </span>
-                        </a>
+                </li>
+                <li class="has-subnav">
+                    <a href="~/Booking/Checkin" class="red-c">
+                        <i class="fa fa-table fa-2x"></i>
+                        <span class="nav-text">
+                            Booking
+                        </span>
+                    </a>
 
-                    </li>
-                    <li class="has-subnav">
-                        <a href="~/Property/Index" class="blue-c">
-                            <i class="fa fa-list fa-2x"></i>
-                            <span class="nav-text">
-                                Property Configuration
-                            </span>
-                        </a>
-                        @*<ul class="subnav">
+                </li>
+                <li class="has-subnav">
+                    <a href="~/Property/Index" class="blue-c">
+                        <i class="fa fa-list fa-2x"></i>
+                        <span class="nav-text">
+                            Property Configuration
+                        </span>
+                    </a>
+                    @*<ul class="subnav">
                             <li><a href="#">Rate</a></li>
                         </ul>*@
-                    </li>
+                </li>
 
-                    @*<li class="has-subnav">
-                        <a href="~/RoomType/Index" class="blue-c">
-                            <i class="fa fa-list fa-2x"></i>
-                            <span class="nav-text">
-                                Roomtype Configuration
-                            </span>
-                        </a>
+                <li class="has-subnav">
+                    <a href="~/RoomType/Index" class="yellow-c">
+                        <i class="fa fa-list fa-2x"></i>
+                        <span class="nav-text">
+                            Roomtype Configuration
+                        </span>
+                    </a>
 
-                    </li>*@
-                    @*<li class="has-subnav">
+                 </li>
+                <li class="has-subnav">
+                    <a href="~/Floor/Index" class="green-c">
+                        <i class="fa fa-list fa-2x"></i>
+                        <span class="nav-text">
+                            Floor Configuration
+                        </span>
+                    </a>
+
+                </li>
+                <li class="has-subnav">
+                    <a href="~/ExtraCharge/Index" class="purple-c">
+                        <i class="fa fa-list fa-2x"></i>
+                        <span class="nav-text">
+                            ExtraCharges Configuration
+                        </span>
+                    </a>
+
+                </li>
+                <li class="has-subnav">
+                    <a href="~/Payment/Index" class="red-c">
+                        <i class="fa fa-list fa-2x"></i>
+                        <span class="nav-text">
+                            PaymentType Configuration
+                        </span>
+                    </a>
+
+                </li>
+                @*<li class="has-subnav">
                         <a href="#" class="blue-c">
                             <i class="fa fa-list fa-2x"></i>
                             <span class="nav-text">
@@ -136,81 +155,79 @@
                         </a>
 
                     </li>*@
-                    <li class="has-subnav">
-                        <a href="#" class="yellow-c">
-                            <i class="fa fa-laptop fa-2x"></i>
-                            <span class="nav-text">
-                                Rewards
-                            </span>
-                        </a>
+                <li class="has-subnav">
+                    <a href="#" class="yellow-c">
+                        <i class="fa fa-laptop fa-2x"></i>
+                        <span class="nav-text">
+                            Rewards
+                        </span>
+                    </a>
 
-                    </li>
-                    <li>
-                        <a href="#" class="purple-c">
-                            <i class="fa fa-font fa-2x"></i>
-                            <span class="nav-text">
-                                Change password
-                            </span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+                </li>
+                <li>
+                    <a href="#" class="purple-c">
+                        <i class="fa fa-font fa-2x"></i>
+                        <span class="nav-text">
+                            Change password
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
 
-        </div><!-- /# sidebar -->
+    </div><!-- /# sidebar -->
 
-        <div class="header">
-            <div class="pull-left">
-                <div class="logo"><a href="#"><span><img src="~/Images/logo.png"></span></a></div>
-                <div class="hamburger sidebar-toggle is-active">
-                    <span class="line"></span>
-                    <span class="line"></span>
-                    <span class="line"></span>
-                </div>
-            </div>
-            <div class="pull-right p-r-15">
-                <ul>
-                    <li class="header-icon dib">
-                        <img class="avatar-img" src="~/Images/avatar/profile.png" alt="" /> <span class="user-avatar">Administrator  <i class="ti-angle-down f-s-10"></i></span>
-                        <div class="drop-down dropdown-profile">
-                            <div class="dropdown-content-body">
-                                <ul>
-                                    <li><a href="#"><i class="ti-user"></i> <span>Profile</span></a></li>
-                                    <li><a href="#"><i class="ti-settings"></i> <span>Setting</span></a></li>
-                                    <li><a href="#"><i class="ti-power-off"></i> <span>Logout</span></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+    <div class="header">
+        <div class="pull-left">
+            <div class="logo"><a href="#"><span><img src="~/Images/logo.png"></span></a></div>
+            <div class="hamburger sidebar-toggle is-active">
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
             </div>
         </div>
+        <div class="pull-right p-r-15">
+            <ul>
+                <li class="header-icon dib">
+                    <img class="avatar-img" src="~/Images/avatar/profile.png" alt="" /> <span class="user-avatar">Administrator  <i class="ti-angle-down f-s-10"></i></span>
+                    <div class="drop-down dropdown-profile">
+                        <div class="dropdown-content-body">
+                            <ul>
+                                <li><a href="#"><i class="ti-user"></i> <span>Profile</span></a></li>
+                                <li><a href="#"><i class="ti-settings"></i> <span>Setting</span></a></li>
+                                <li><a href="#"><i class="ti-power-off"></i> <span>Logout</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
 
-         @RenderBody()
+    @RenderBody()
 
-        <!--comment below bundling js logic to unbundle js files -->
-        <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/jquery/lib")"></script>
+    <!--comment below bundling js logic to unbundle js files -->
+    <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/jquery/lib")"></script>
 
-        <!--uncomment below js files to unbundle them -->
-        @*<script src="~/Scripts/Jquery/lib/jquery.min.js"></script><!-- jquery vendor -->
+    <!--uncomment below js files to unbundle them -->
+    @*<script src="~/Scripts/Jquery/lib/jquery.min.js"></script><!-- jquery vendor -->
         <script src="~/Scripts/Jquery/lib/jquery.nanoscroller.min.js"></script><!-- nano scroller -->
         <script src="~/Scripts/Jquery/lib/sidebar.js"></script><!-- sidebar -->
         <script src="~/Scripts/Jquery/lib/bootstrap.min.js"></script><!-- bootstrap -->
         <script src="~/Scripts/Jquery/lib/jquery-ui/jquery-ui.min.js"></script><!-- bootstrap -->
         <script src="~/Scripts/Jquery/lib/jquery-ui/jquery-ui-timepicker-addon.js"></script><!-- bootstrap -->
         <script src="~/Scripts/scripts.js"></script>*@
-        <script type='text/javascript'>
-            $(document).on({
-                ajaxStart: function ()
-                {
-                    $('#divLoader').addClass("bg-overlay");
-                    $('.bg-overlay, .loader').css('display', 'block');
-                },
-                ajaxStop: function ()
-                {
-                    $('#divLoader').removeClass("bg-overlay");
-                    $('.bg-overlay, .loader').css('display', 'none');
-                }
-            });            
-        </script>
-    </body>
-    </html>
+    <script type='text/javascript'>
+        $(document).on({
+            ajaxStart: function () {
+                $('#divLoader').addClass("bg-overlay");
+                $('.bg-overlay, .loader').css('display', 'block');
+            },
+            ajaxStop: function () {
+                $('#divLoader').removeClass("bg-overlay");
+                $('.bg-overlay, .loader').css('display', 'none');
+            }
+        });
+    </script>
+</body>
+</html>
