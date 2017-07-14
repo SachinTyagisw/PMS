@@ -301,6 +301,7 @@
     <Content Include="Scripts\Angular\ng-grid.min.js" />
     <Content Include="Scripts\Bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\Bootstrap\datetimepicker.js" />
+    <Content Include="Scripts\Bootstrap\Moment.js" />
     <Content Include="Scripts\Bootstrap\ui-bootstrap-tpls.min.js" />
     <Content Include="Scripts\daypilot\daypilot-all.min.js" />
     <Content Include="Scripts\GuestCheckinManager.js" />

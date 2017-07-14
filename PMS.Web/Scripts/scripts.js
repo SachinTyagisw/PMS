@@ -145,20 +145,6 @@ $("#checkAll").change(function () {
 //    }
 //});
 
-$( "#dateFrom, #dateTo" ).datetimepicker({
-    maxDate: "+2Y",
-    timeInput: true,
-    timeFormat: "hh:mm tt",
-    showHour: false,
-    showMinute: false
-});
-
-$('#idExpiry, #dob').datepicker({
-	changeMonth: true,
-	changeYear: true
-});
-
-
 //document.querySelector(".hour-input").onchange = function () {
 //    document.querySelector('.hour-dd').disabled = !this.checked;
 //};
