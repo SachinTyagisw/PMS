@@ -271,7 +271,7 @@ $(function () {
 
         if (editOn == false) {
             $(thisRow).attr('contenteditable', 'true');
-            $(thisRow).css('background-color', '#ffc9c9');
+            $(thisRow).css({'border': '1px solid #000','background': 'rgba(255,255,255,0.7)', 'padding': '6px'});
             $(this).removeClass("fa-pencil-square-o");
             $(this).addClass("fa-floppy-o editMode");
         } else if (editOn == true) {
@@ -309,7 +309,7 @@ $(function () {
 
         if (editOn == false) {
             $(thisRow).attr('contenteditable', 'true');
-            $(thisRow).css('background-color', '#ffc9c9');
+            $(thisRow).css({ 'border': '1px solid #000', 'background': 'rgba(255,255,255,0.7)', 'padding': '6px' });
             $(this).removeClass("fa-pencil-square-o");
             $(this).addClass("fa-floppy-o editMode");
         } else if (editOn == true) {
@@ -348,7 +348,7 @@ $(function () {
 
         if (editOn == false) {
             $(thisRow).attr('contenteditable', 'true');
-            $(thisRow).css('background-color', '#ffc9c9');
+            $(thisRow).css({ 'border': '1px solid #000', 'background': 'rgba(255,255,255,0.7)', 'padding': '6px' });
             $(this).removeClass("fa-pencil-square-o");
             $(this).addClass("fa-floppy-o editMode");
         } else if (editOn == true) {
@@ -386,7 +386,7 @@ $(function () {
 
         if (editOn == false) {
             $(thisRow).attr('contenteditable', 'true');
-            $(thisRow).css('background-color', '#ffc9c9');
+            $(thisRow).css({ 'border': '1px solid #000', 'background': 'rgba(255,255,255,0.7)', 'padding': '6px' });
             $(this).removeClass("fa-pencil-square-o");
             $(this).addClass("fa-floppy-o editMode");
         } else if (editOn == true) {

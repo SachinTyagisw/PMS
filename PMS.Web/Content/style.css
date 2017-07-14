@@ -1144,10 +1144,7 @@ a.dt-button.active:not(.disabled) {
   text-align: right;
   font-size: 20px;
 }
-[contenteditable]:hover,
-[contenteditable]:focus {
-  background: #dadada;
-}
+
 .control-bar {
   position: relative;
   z-index: 100;
@@ -4574,9 +4571,12 @@ a.animated-button:link, a.animated-button:visited {
   display:table-row;
 }
 
-.counter{
-  padding:8px; 
-  color:#888;
+.counter {
+    padding: 3px;
+    color: #888;
+    text-align: right;
+    display: block;
+    background: #fff;
 }
 .tableContents {
   min-width: 200px;
@@ -4589,6 +4589,12 @@ a.animated-button:link, a.animated-button:visited {
 .tableContents th {
     background: #57666d;
     color:#fff;
+}
+.table.tableContents thead tr th:first-child{
+    width: 100px;
+}
+.table.tableContents thead tr th:last-child  {
+    width: 200px;
 }
 .table.tableContents thead tr th,
 .table.tableContents tbody tr td {
@@ -4610,19 +4616,6 @@ a.animated-button:link, a.animated-button:visited {
   border-right: 0px;
 }
 
-.tableContents th:hover {
-  background-color: #9bc8ff;
-  cursor: default;
-}
-
-.tableContents td:hover {
-  background-color: #dddddd;
-}
-
-.tableContents .finalActionsCol:hover {
-  background-color: #9bc8ff;
-}
-
 
 /*td:last-child:hover{
   background-color:transparent;
@@ -4631,10 +4624,6 @@ a.animated-button:link, a.animated-button:visited {
 .tableContents .actionsCol:hover::after {
   height: 0px;
   width: 0px;
-}
-
-.tableContents .actionsCol:hover {
-  background-color: transparent;
 }
 
 .tableContents th:hover::after {
@@ -4712,6 +4701,7 @@ a.animated-button:link, a.animated-button:visited {
     width: 98%;
     max-height: 400px;
     overflow-x: hidden;
+    max-width: 1200px;
 }
 /*a.btn{
   width:150px;
