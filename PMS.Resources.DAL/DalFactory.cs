@@ -1422,9 +1422,7 @@ namespace PMS.Resources.DAL
                 CreatedBy = tax.CreatedBy,
                 PropertyID = tax.PropertyId,
                 TaxName = tax.TaxName,
-                Value = tax.Value,
-                LastUpdatedBy = tax.CreatedBy,
-                LastUpdatedOn = tax.LastUpdatedOn
+                Value = tax.Value
             };
 
             using (var pmsContext = new PmsEntities())

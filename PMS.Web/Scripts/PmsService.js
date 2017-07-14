@@ -74,6 +74,30 @@
             OnAddExtraChargeFailure: null,
             OnUpdateExtraChargeSuccess: null,
             OnUpdateExtraChargeFailure: null,
+            OnGetTaxByPropertySuccess: null,
+            OnGetTaxByPropertyFailure: null,
+            OnDeleteTaxSuccess: null,
+            OnDeleteTaxFailure: null,
+            OnAddTaxSuccess: null,
+            OnAddTaxFailure: null,
+            OnUpdateTaxSuccess: null,
+            OnUpdateTaxFailure: null,
+        };
+
+        this.UpdateTax = function (args) {
+            makeAjaxRequestPut(args, "UpdateTax", this, "api/v1/Tax/UpdateTax");
+        };
+
+        this.AddTax = function (args) {
+            makeAjaxRequestPost(args, "AddTax", this, "api/v1/Tax/AddTax");
+        };
+
+        this.DeleteTax = function (args) {
+            makeAjaxRequestDelete(args, "DeleteTax", this, "api/v1/Tax/DeleteTax/" + args.taxId);
+        };
+
+        this.GetTaxByProperty = function (args) {
+            makeAjaxRequestGet(args, "GetTaxByProperty", this, "api/v1/Tax/GetTaxByProperty/" + args.propertyId);
         };
 
         this.UpdateExtraCharge = function (args) {

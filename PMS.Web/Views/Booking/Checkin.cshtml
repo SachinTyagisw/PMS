@@ -89,9 +89,8 @@
             var checkInDate = document.getElementById('dateFrom');
             var hrsToAdd = parseInt(document.getElementById('hoursComboBox').value);
             var chkHours = document.getElementById('hourCheckin');
-
             var dt = new Date($('#dateFrom').val());
-
+            
             if (!dt.toLocaleString().includes("Invalid") && (hrsToAdd != '-1') && (chkHours.checked == true))
             {
                 //dt.setHours(dt.getHours() + hoursToAdd);
@@ -246,7 +245,7 @@
                 e.stopPropagation();
             });
 
-            $('#divInvoice').on("click", ".table-addpaymenttype", function (e) {
+            $('#divInvoice').on("click", "#addPaymentType", function (e) {
                 if ($('#paymentTypeDdl').val() === -1 || $('#paymentVal').val() <= 0) {
                     alert('Please select proper payment type or value.');
                     return;

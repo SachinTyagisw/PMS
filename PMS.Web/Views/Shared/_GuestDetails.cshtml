@@ -149,14 +149,32 @@
                                 </div>
                                 <div class="col-lg-12 p-r-0 p-l-0">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="ID Expiry Date" id="idExpiry">
-                                        <span class="ti-calendar form-control-feedback booking-system-feedback cal-pos"></span>
+                                        <div class='input-group date' id='datetimepickerIdExpiry'>
+                                            <input id="idExpiry" type='text' placeholder="ID Expiry Date" class="form-control calendar" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                        <script type="text/javascript">
+                                            $(function () {
+                                                $('#datetimepickerIdExpiry').datetimepicker();
+                                            });
+                                        </script>
                                     </div>
                                 </div>
                                 <div class="col-lg-12 p-r-0 p-l-0">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="DOB" id="dob">
-                                        <span class="ti-calendar form-control-feedback booking-system-feedback cal-pos"></span>
+                                        <div class='input-group date' id='datetimepickerDob'>
+                                            <input id="dob" type='text' placeholder="DOB" class="form-control calendar" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                        <script type="text/javascript">
+                                            $(function () {
+                                                $('#datetimepickerDob').datetimepicker();
+                                            });
+                                        </script>                                       
                                     </div>
                                 </div>
                             </div>

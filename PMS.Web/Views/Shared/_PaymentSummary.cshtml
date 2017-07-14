@@ -107,7 +107,7 @@
                 {{each(i,paymentDetail) InvoicePaymentDetails}}
                         {{if i===0}}
                             <tr id="trPaymentType" class="sortActive remove" style="display: block;">
-                                <td id="paymentTypeAdd"><span class="table-addpaymenttype glyphicon glyphicon-plus"></span></td>
+                                <td id="paymentTypeAdd"><span id="addPaymentType" class="glyphicon glyphicon-plus"></span></td>
                                 <td contenteditable="true">
                                     <select id="paymentTypeDdl" class="form-control">
                                         <option {{if paymentDetail.PaymentMode !== 'Credit Card' && paymentDetail.PaymentMode !== 'Cash' && paymentDetail.PaymentMode !== 'Coupons'}} selected {{/if}} value="-1">Payment Type</option>
@@ -139,7 +139,7 @@
                     {{else}}
                     <tr id="trPaymentType" class="sortActive remove" style="display: block;">
                         @*<td id="paymentTypeAdd"><span class="table-addpaymenttype glyphicon glyphicon-plus"></span></td>*@
-                        <td id="paymentTypeAdd"><span class="glyphicon glyphicon-th-list"></span></td>
+                        <td id="paymentTypeAdd"><span id="addPaymentType" class="glyphicon glyphicon-plus"></span></td>
                         <td contenteditable="true">
                             <select id="paymentTypeDdl" class="form-control">
                                 <option selected="selected" value="-1">Payment Type</option>
@@ -172,9 +172,9 @@
                         <td></td>
                     </tr>
                     <tr id="trPaymentTypeOther" class="sortActive remove" style="display: none;">
-                        <td id="paymentTypeTrash"><span class="tableRow-remove glyphicon glyphicon-trash"></span></td>
+                        <td id="paymentTypeTrash"><span class="glyphicon glyphicon-trash"></span></td>
                         <td contenteditable="true">
-                            <select id="paymentTypeDdl" class="form-control">
+                            <select style="width:57%;" id="paymentTypeDdl" class="form-control">
                                 <option selected="selected" value="-1">Payment Type</option>
                                 <option value="1">Credit Card</option>
                                 <option value="2">Cash</option>
