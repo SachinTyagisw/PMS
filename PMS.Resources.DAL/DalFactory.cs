@@ -376,16 +376,71 @@ namespace PMS.Resources.DAL
         public int AddRateType(PmsEntity.RateType rateType)
         {
             var Id = -1;
+            if (rateType == null) return Id;
+
+            var rateTypeObj = new DAL.RateType
+            {
+                CreatedOn = rateType.CreatedOn,
+                IsActive = true,
+                CreatedBy = rateType.CreatedBy,
+                PropertyID = rateType.PropertyId,
+                NAME = rateType.Name,
+                ShortName = rateType.ShortName
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.RateTypes.Add(rateTypeObj);
+                var result = pmsContext.SaveChanges();
+                Id = result == 1 ? rateTypeObj.ID : -1;
+            }
             return Id;
         }
+
         public bool UpdateRateType(PmsEntity.RateType rateType)
         {
             var isUpdated = false;
+            if (rateType == null) return isUpdated;
+
+            var rateTypeObj = new DAL.RateType
+            {
+                CreatedOn = rateType.CreatedOn,
+                IsActive = true,
+                CreatedBy = rateType.CreatedBy,
+                PropertyID = rateType.PropertyId,
+                NAME = rateType.Name,
+                ShortName = rateType.ShortName,
+                ID = rateType.Id,
+                LastUpdatedBy = rateType.CreatedBy,
+                LastUpdatedOn = rateType.LastUpdatedOn
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Entry(rateTypeObj).State = System.Data.Entity.EntityState.Modified;
+                var result = pmsContext.SaveChanges();
+                isUpdated = result == 1 ? true : false;
+            }
             return isUpdated;
         }
         public bool DeleteRateType(int rateTypeId)
         {
             var isDeleted = false;
+            if (rateTypeId <= 0) return isDeleted;
+
+            var rateType = new DAL.RateType
+            {
+                IsActive = false,
+                ID = rateTypeId
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.RateTypes.Attach(rateType);
+                pmsContext.Entry(rateType).Property(x => x.IsActive).IsModified = true;
+                var result = pmsContext.SaveChanges();
+                isDeleted = result == 1 ? true : false;
+            }
             return isDeleted;
         }
         public List<PmsEntity.RateType> GetRateTypeByProperty(int propertyId)
@@ -1470,8 +1525,7 @@ namespace PMS.Resources.DAL
             var taxObj = new DAL.Tax
             {
                 IsActive = false,
-                ID = taxId,
-                //TaxName = string.Empty
+                ID = taxId
             };
 
             using (var pmsContext = new PmsEntities())
