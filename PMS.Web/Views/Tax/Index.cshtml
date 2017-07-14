@@ -15,67 +15,67 @@
             alert('Select valid property');
             return;
         }
-        gcm.GetRoomTypes($('#ddlProperty').val());
+        gcm.GetTax($('#ddlProperty').val());
     }
 
     $(document).ready(function () {
 
         gcm.GetAllProperty();
 
-        $("#divRoomType").on("click", ".fa-plus-circle", function () {
+        $("#divTax").on("click", ".fa-plus-circle", function () {
             $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="true" style="background-color: #ffc9c9;"></td><td contenteditable="true" style="background-color: #ffc9c9;"></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-floppy-o editMode" aria-hidden="true"></i> </td></tr>');
         });
-         
-        $("#divRoomType").on("click", ".fa-minus-circle", function () {
+
+        $("#divTax").on("click", ".fa-minus-circle", function () {
             if (confirm("Are you sure you want to delete ?")) {
-                var roomTypeId = $(this).closest('tr')[0].id;
+                var taxId = $(this).closest('tr')[0].id;
                 $(this).closest('tr').remove();
-                if (roomTypeId <= 0) return;
-                gcm.DeleteRoomType(roomTypeId);
-                if ($('#divRoomType tbody tr').length <= 0) {
+                if (taxId <= 0) return;
+                gcm.DeleteTax(taxId);
+                if ($('#divTax tbody tr').length <= 0) {
                     $('#ddlProperty').val('-1');
                 }
             }
         });
 
-        $("#divRoomType").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {
+        $("#divTax").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {
             var thisRow = $(this).parent().siblings();
             var editOn = $(this).hasClass("editMode");
-            var roomTypeId = $(thisRow)[0].innerText;
+            var taxId = $(thisRow)[0].innerText;
             var propertyId = $('#ddlProperty').val();
-            var roomTypeName = $(thisRow)[1].innerText;
-            var shortCode = $(thisRow)[2].innerText;
+            var taxName = $(thisRow)[1].innerText;
+            var taxAmount = $(thisRow)[2].innerText;
 
             if (editOn == false) {
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
                 makeFieldsReadonly($(thisRow[0]));
             } else if (editOn == true) {
-                if (!roomTypeName || roomTypeName.length <= 0) {
-                    alert("Roomtype name is required");
+                if (!taxName || taxName.length <= 0) {
+                    alert("Tax Name is required");
                     return;
                 }
-                if (!shortCode || shortCode.length <= 0) {
-                    alert("Short code is required");
+                if (!taxAmount || taxAmount <= 0) {
+                    alert("Tax Amount should be greater than 0");
                     return;
                 }
-                if (roomTypeId > 0) {
-                    var existingRoomType = gcm.FindPropertySetting(roomTypeId);
-                    if (!existingRoomType) return;
-                    existingRoomType.Name = roomTypeName;
-                    existingRoomType.ShortName = shortCode;
-                    //call updateroomtype api
-                    gcm.UpdateRoomType(existingRoomType);
+                if (taxId > 0) {
+                    var existingTax = gcm.FindPropertySetting(taxId);
+                    if (!existingTax) return;
+                    existingTax.TaxName = taxName;
+                    existingTax.Value = taxAmount;
+                    //call UpdateTax api
+                    gcm.UpdateTax(existingTax);
                 } else {
                     if (propertyId <= 0) {
                         alert("Select valid property");
                         return;
                     }
-                    var roomType = {};
-                    roomType.Name = roomTypeName;
-                    roomType.ShortName = shortCode;
-                    roomType.PropertyID = propertyId;
-                    //call addroomtype api
-                    gcm.AddRoomType(roomType);                    
+                    var Tax = {};
+                    Tax.TaxName = taxName;
+                    Tax.Value = taxAmount;
+                    Tax.PropertyId = propertyId;
+                    //call AddTax api
+                    gcm.AddTax(Tax);
                 }
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
             }
@@ -89,13 +89,13 @@
             <div class="col-lg-12 p-r-0 p-l-0">
                 <div class="card alert">
                     <div class="card-header">
-                        <h4>Create Room Types</h4>
+                        <h4>Create Tax</h4>
                     </div>
                     <div class="card-body room-details">
                         <div class="row" style="">
                             <div class="form-group col-lg-8 m-t-10">
                                 <label>Search</label>
-                                <input type="text" class="search form-control" placeholder="Search by Room Type, Short Code...">
+                                <input type="text" class="search form-control" placeholder="Search by Tax Name...">
                             </div>
 
                             <div class="col-lg-2 p-l-0 p-r-0 m-t-10">
@@ -106,8 +106,8 @@
                                     </select>
                                 </div>
                             </div>
-                            <div id="divRoomType" class="table-data">
-                                <span class="counter"></span>
+                            <span class="counter"></span>
+                            <div id="divTax" class="table-data">
                             </div>
                         </div>
                     </div>
@@ -125,22 +125,22 @@
         <div class="dot"></div>
     </div>
 </div>
-<script type="text/html" id="roomtypeTemplate">
+<script type="text/html" id="taxTemplate">
     <table class="table table-hover table-bordered results tableContents">
         <thead>
             <tr>
                 <th id="IDCol">ID #</th>
-                <th id="roomTypeCol" contenteditable="false">Room Type</th>
-                <th id="shortCodeCol" contenteditable="false">Short Code</th>
+                <th id="taxNameCol" contenteditable="false">Tax Name</th>
+                <th id="valueCol" contenteditable="false">Value</th>
             </tr>
         </thead>
         <tbody>
-            {{if typeof RoomTypes != "undefined" && RoomTypes != "null" && RoomTypes.length > 0 }}
-            {{each RoomTypes}}
+            {{if typeof Taxes != "undefined" && Taxes != "null" && Taxes.length > 0 }}
+            {{each Taxes}}
             <tr id="${$value.Id}">
                 <td class="idRow" contenteditable="false">${$value.Id}</td>
-                <td contenteditable="false">${$value.Name}</td>
-                <td contenteditable="false">${$value.ShortName}</td>
+                <td contenteditable="false">${$value.TaxName}</td>
+                <td contenteditable="false">${$value.Value}</td>
             </tr>
             {{/each}}
             {{else}}

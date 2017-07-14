@@ -74,6 +74,48 @@
             OnAddExtraChargeFailure: null,
             OnUpdateExtraChargeSuccess: null,
             OnUpdateExtraChargeFailure: null,
+            OnGetTaxByPropertySuccess: null,
+            OnGetTaxByPropertyFailure: null,
+            OnDeleteTaxSuccess: null,
+            OnDeleteTaxFailure: null,
+            OnAddTaxSuccess: null,
+            OnAddTaxFailure: null,
+            OnUpdateTaxSuccess: null,
+            OnUpdateTaxFailure: null,
+            OnDeleteRateTypeSuccess: null,
+            OnDeleteRateTypeFailure: null,
+            OnAddRateTypeSuccess: null,
+            OnAddRateTypeFailure: null,
+            OnUpdateRateTypeSuccess: null,
+            OnUpdateRateTypeFailure: null,
+        };
+
+        this.UpdateRateType = function (args) {
+            makeAjaxRequestPut(args, "UpdateRateType", this, "api/v1/Room/UpdateRateType");
+        };
+
+        this.AddRateType = function (args) {
+            makeAjaxRequestPost(args, "AddRateType", this, "api/v1/Room/AddRateType");
+        };
+
+        this.DeleteRateType = function (args) {
+            makeAjaxRequestDelete(args, "DeleteRateType", this, "api/v1/Room/DeleteRateType/" + args.typeId);
+        };
+
+        this.UpdateTax = function (args) {
+            makeAjaxRequestPut(args, "UpdateTax", this, "api/v1/Tax/UpdateTax");
+        };
+
+        this.AddTax = function (args) {
+            makeAjaxRequestPost(args, "AddTax", this, "api/v1/Tax/AddTax");
+        };
+
+        this.DeleteTax = function (args) {
+            makeAjaxRequestDelete(args, "DeleteTax", this, "api/v1/Tax/DeleteTax/" + args.taxId);
+        };
+
+        this.GetTaxByProperty = function (args) {
+            makeAjaxRequestGet(args, "GetTaxByProperty", this, "api/v1/Tax/GetTaxByProperty/" + args.propertyId);
         };
 
         this.UpdateExtraCharge = function (args) {

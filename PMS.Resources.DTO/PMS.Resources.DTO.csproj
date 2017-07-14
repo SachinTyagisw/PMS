@@ -91,7 +91,7 @@
     <Compile Include="Response\GetRoomStatusResponseDto.cs" />
     <Compile Include="Response\GetRoomTypeResponseDto.cs" />
     <Compile Include="Response\GetStateResponseDto.cs" />
-    <Compile Include="Response\GetTaxesResponseDto.cs" />
+    <Compile Include="Response\GetTaxResponseDto.cs" />
     <Compile Include="Response\PmsResponseDto.cs" />
   </ItemGroup>
   <ItemGroup>

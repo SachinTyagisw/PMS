@@ -118,28 +118,28 @@ namespace PMS.Api.Controllers
                 new Tax 
                 {
                     TaxName = "ROOM CHARGES",
-                    TaxId = 4,
+                    Id = 4,
                     Value = 11,
                     IsDefaultCharges = true
                 },
                 new Tax 
                 {
                     TaxName = "VAT",
-                    TaxId = 1,
+                    Id = 1,
                     Value = 10,
                     IsDefaultCharges = true
                 },
                 new Tax 
                 {
                     TaxName = "ServiceTax",
-                    TaxId = 2,
+                    Id = 2,
                     Value = 20,
                     IsDefaultCharges = true
                 },
                 new Tax 
                 {
                     TaxName = "Misc Tax",
-                    TaxId = 3,
+                    Id = 3,
                     Value = 30,
                     IsDefaultCharges = false
                 }

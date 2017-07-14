@@ -10,7 +10,6 @@ namespace PMS.Resources.Entities
     {
         public int Id { get; set; }
         public Nullable<int> PropertyId { get; set; }
-        public Nullable<int> TaxId { get; set; }
         public Nullable<decimal> Value { get; set; }
         public bool IsActive { get; set; }
         public string CreatedBy { get; set; }

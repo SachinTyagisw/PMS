@@ -27,17 +27,27 @@
                 window.location.replace(window.webBaseUrl + "Account/Login");
                 return;
             }
-            
             if (!window.PmsSession.GetItem("roomtypedata")) {
                 window.GuestCheckinManager.GetRoomTypes();
             } else {
                 window.GuestCheckinManager.BindRoomTypeDdl($('#roomTypeDdl'));
             }
-
-            getRoomRateTypes();            
+            window.GuestCheckinManager.GetRoomRateType();
             getAllGuest();
             //getRooms();            
             window.GuestCheckinManager.AjaxHandlers();
+        },
+
+        GetRoomRateType: function () {
+            args.propertyId = getPropertyId();
+            var rateTypeData = pmsSession.GetItem("ratetypedata");
+            if (!rateTypeData) {
+                // get room rate types by api calling  
+                pmsService.GetRateTypeByProperty(args);
+            }
+            else {
+                window.GuestCheckinManager.BindRateTypeDdl();
+            }
         },
 
         ShouldCallGetRoomApi: function () {
@@ -738,6 +748,20 @@
             $("#divProperty tbody tr").append('<td class="finalActionsCol"><i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
         },
 
+        PopulateTaxGrid: function (data) {
+            var divTax = $('#divTax');
+            var taxTemplate = $('#taxTemplate');
+            if (!divTax || !taxTemplate) return;
+            divTax.html(taxTemplate.render(data));
+            $("#divTax thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
+            if (data && data.Taxes && data.Taxes.length > 0) {
+                $("#divTax tbody tr").append('<td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+            } else {
+                // when no tax data is present in db 
+                $("#divTax tbody tr").append('<td class="finalActionsCol"><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td>');
+            }
+        },
+
         PopulateExtraChargeGrid : function (data){
             var divExtraCharge = $('#divExtraCharge');
             var extrachargeTemplate = $('#extrachargeTemplate');
@@ -973,6 +997,64 @@
             extraChargeRequestDto.ExtraCharge = {};
             extraChargeRequestDto.ExtraCharge = extracharge;
             pmsService.UpdateExtraCharge(extraChargeRequestDto);
+        },
+
+        GetTax: function (propertyId) {
+            args.propertyId = propertyId && propertyId > 0 ? propertyId : getPropertyId();
+            // get tax by api calling  
+            pmsService.GetTaxByProperty(args);
+        },
+
+        DeleteTax: function (taxId) {
+            // DeleteTax by api calling  
+            args.taxId = taxId;
+            pmsService.DeleteTax(args);
+        },
+
+        AddTax: function (tax) {
+            tax.CreatedBy = getCreatedBy();
+            tax.CreatedOn = getCurrentDate();
+            var taxRequestDto = {};
+            taxRequestDto.Tax = {};
+            // AddExtraCharge by api calling  
+            taxRequestDto.Tax = tax;
+            pmsService.AddTax(taxRequestDto);
+        },
+
+        UpdateTax: function (tax) {
+            tax.LastUpdatedBy = getCreatedBy();
+            tax.LastUpdatedOn = getCurrentDate();
+            // UpdateTax by api calling 
+            var taxRequestDto = {};
+            taxRequestDto.Tax = {};
+            taxRequestDto.Tax = tax;
+            pmsService.UpdateTax(taxRequestDto);
+        },
+
+        DeleteRateType: function (typeId) {
+            // DeleteRateType by api calling  
+            args.typeId = typeId;
+            pmsService.DeleteRateType(args);
+        },
+
+        AddRateType: function (rateType) {
+            rateType.CreatedBy = getCreatedBy();
+            rateType.CreatedOn = getCurrentDate();
+            var rateTypeDto = {};
+            rateTypeDto.RateType = {};
+            // AddRateType by api calling  
+            rateTypeDto.RateType = rateType;
+            pmsService.AddRateType(rateTypeDto);
+        },
+
+        UpdateRateType: function (existingRateType) {
+            existingRateType.LastUpdatedBy = getCreatedBy();
+            existingRateType.LastUpdatedOn = getCurrentDate();
+            // UpdateRateType by api calling 
+            var rateTypeDto = {};
+            rateTypeDto.RateType = {};
+            rateTypeDto.RateType = existingRateType;
+            pmsService.UpdateRateType(rateTypeDto);
         },
 
         AjaxHandlers: function () {
@@ -1436,6 +1518,101 @@
                 alert(status);
             };
 
+            pmsService.Handlers.OnGetTaxByPropertySuccess = function (data) {
+                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = null;
+                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = data.Taxes;
+                window.GuestCheckinManager.PopulateTaxGrid(data);
+            };
+
+            pmsService.Handlers.OnGetTaxByPropertyFailure = function () {
+                // show error log
+                console.error("Get tax call failed");
+            };
+
+            pmsService.Handlers.OnAddTaxSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                if (data.ResponseObject > 0) {
+                    console.log(status);
+                    // to fetch new data
+                    if ($('#ddlProperty') && $('#ddlProperty').val() > 0) {
+                        window.GuestCheckinManager.GetTax($('#ddlProperty').val());
+                    }
+                    alert(status);
+                } else {
+                    console.error(status);
+                    alert(status);
+                }
+            };
+
+            pmsService.Handlers.OnAddTaxFailure = function () {
+                // show error log
+                console.error("Tax is not added.");
+            };
+
+            pmsService.Handlers.OnDeleteTaxFailure = function () {
+                // show error log
+                console.error("Tax is not deleted.");
+            };
+
+            pmsService.Handlers.OnDeleteTaxSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                alert(status);
+            };
+
+            pmsService.Handlers.OnUpdateTaxFailure = function () {
+                // show error log
+                console.error("Tax is not updated.");
+            };
+
+            pmsService.Handlers.OnUpdateTaxSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                alert(status);
+            };
+
+            pmsService.Handlers.OnAddRateTypeSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                if (data.ResponseObject > 0) {
+                    console.log(status);
+                    // to fetch new data
+                    if ($('#ddlProperty') && $('#ddlProperty').val() > 0) {
+                        window.GuestCheckinManager.GetRoomRateType($('#ddlProperty').val());
+                    }
+                    alert(status);
+                } else {
+                    console.error(status);
+                    alert(status);
+                }
+            };
+
+            pmsService.Handlers.OnAddRateTypeFailure = function () {
+                // show error log
+                console.error("Rate type is not added.");
+            };
+
+            pmsService.Handlers.OnDeleteRateTypeFailure = function () {
+                // show error log
+                console.error("Rate type is not deleted.");
+            };
+
+            pmsService.Handlers.OnDeleteRateTypeSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                alert(status);
+            };
+
+            pmsService.Handlers.OnUpdateRateTypeFailure = function () {
+                // show error log
+                console.error("Rate type is not updated.");
+            };
+
+            pmsService.Handlers.OnUpdateRateTypeSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                alert(status);
+            };
+
             //pmsService.Handlers.OnGetRoomByPropertySuccess = function (data) {
             //    //storing room data into session storage
             //    pmsSession.SetItem("roomdata", JSON.stringify(data.Rooms));
@@ -1805,18 +1982,6 @@
         }
     }      
 
-    function getRoomRateTypes() {
-        args.propertyId = getPropertyId();
-        var rateTypeData = pmsSession.GetItem("ratetypedata");
-        if (!rateTypeData) {
-            // get room rate types by api calling  
-            pmsService.GetRateTypeByProperty(args);
-        }
-        else {
-            window.GuestCheckinManager.BindRateTypeDdl();
-        }
-    }
-    
     //function getRooms(){
     //    args.propertyId = getPropertyId();
     //    var roomData = pmsSession.GetItem("roomdata");

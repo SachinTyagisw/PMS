@@ -348,8 +348,7 @@
           <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
           <Property Name="LastUpdatedOn" Type="datetime" />
           <Property Name="NAME" Type="nvarchar(max)" />
-          <Property Name="RoomTypeID" Type="int" />
-          <Property Name="ShortName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Units" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="RewardCategory">
           <Key>
@@ -1400,8 +1399,7 @@
           <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
           <Property Name="NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="RoomTypeID" Type="Int32" />
-          <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Units" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Property" Relationship="Self.FK__RateType__Proper__267ABA7A" FromRole="RateType" ToRole="Property" />
           <NavigationProperty Name="Property1" Relationship="Self.FK__RateType__Proper__27F8EE98" FromRole="RateType" ToRole="Property" />
           <NavigationProperty Name="Rates" Relationship="Self.FK__Rates__RateTypeI__251C81ED" FromRole="RateType" ToRole="Rates" />
@@ -2040,7 +2038,7 @@
             <Parameter Name="CHECKOUTDATE" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="GETALLGUESTS" ReturnType="Collection(PmsModel.GETALLGUESTS_Result)" />
-          <FunctionImport Name="GETBOOKINGAMOUNT">
+          <FunctionImport Name="GETBOOKINGAMOUNT" ReturnType="Collection(PmsModel.GETBOOKINGAMOUNT_Result)">
             <Parameter Name="PROPERTYID" Mode="In" Type="Int32" />
             <Parameter Name="ROOMTYPEID" Mode="In" Type="Int32" />
             <Parameter Name="RATETYPEID" Mode="In" Type="Int32" />
@@ -2101,6 +2099,11 @@
           <Property Type="DateTime" Name="DOB" Nullable="true" />
           <Property Type="String" Name="GENDER" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="PHOTOPATH" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="GETBOOKINGAMOUNT_Result">
+          <Property Type="String" Name="ITEM" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="ITEMAMOUNT" Nullable="true" Precision="19" />
+          <Property Type="Int32" Name="OrderBy" Nullable="false" />
         </ComplexType>
         <ComplexType Name="GetBookingDetails_Result">
           <Property Type="Int32" Name="BookingID" Nullable="false" />
@@ -2564,8 +2567,7 @@
                 <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
                 <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
                 <ScalarProperty Name="NAME" ColumnName="NAME" />
-                <ScalarProperty Name="RoomTypeID" ColumnName="RoomTypeID" />
-                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="Units" ColumnName="Units" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2709,7 +2711,15 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GETBOOKINGAMOUNT" FunctionName="PmsModel.Store.GETBOOKINGAMOUNT" />
+          <FunctionImportMapping FunctionImportName="GETBOOKINGAMOUNT" FunctionName="PmsModel.Store.GETBOOKINGAMOUNT">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PmsModel.GETBOOKINGAMOUNT_Result">
+                <ScalarProperty Name="ITEM" ColumnName="ITEM" />
+                <ScalarProperty Name="ITEMAMOUNT" ColumnName="ITEMAMOUNT" />
+                <ScalarProperty Name="OrderBy" ColumnName="OrderBy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetBookingDetails" FunctionName="PmsModel.Store.GetBookingDetails">
             <ResultMapping>
               <ComplexTypeMapping TypeName="PmsModel.GetBookingDetails_Result">

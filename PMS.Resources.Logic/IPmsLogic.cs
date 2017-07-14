@@ -58,7 +58,7 @@ namespace PMS.Resources.Logic
         int AddTax(PmsEntity.Tax tax);
         bool UpdateTax(PmsEntity.Tax tax);
         bool DeleteTax(int TaxId);
-        List<PmsEntity.Tax> GetTaxesByProperty(int propertyId);
+        List<PmsEntity.Tax> GetTaxByProperty(int propertyId);
 
         int AddRoomPrice(PmsEntity.RoomPricing roomPrice);
         bool UpdateRoomPrice(PmsEntity.RoomPricing roomPrice);

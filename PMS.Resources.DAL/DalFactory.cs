@@ -376,16 +376,71 @@ namespace PMS.Resources.DAL
         public int AddRateType(PmsEntity.RateType rateType)
         {
             var Id = -1;
+            if (rateType == null) return Id;
+
+            var rateTypeObj = new DAL.RateType
+            {
+                CreatedOn = rateType.CreatedOn,
+                IsActive = true,
+                CreatedBy = rateType.CreatedBy,
+                PropertyID = rateType.PropertyId,
+                NAME = rateType.Name,
+                Units = rateType.Units
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.RateTypes.Add(rateTypeObj);
+                var result = pmsContext.SaveChanges();
+                Id = result == 1 ? rateTypeObj.ID : -1;
+            }
             return Id;
         }
+
         public bool UpdateRateType(PmsEntity.RateType rateType)
         {
             var isUpdated = false;
+            if (rateType == null) return isUpdated;
+
+            var rateTypeObj = new DAL.RateType
+            {
+                CreatedOn = rateType.CreatedOn,
+                IsActive = true,
+                CreatedBy = rateType.CreatedBy,
+                PropertyID = rateType.PropertyId,
+                NAME = rateType.Name,
+                Units = rateType.Units,
+                ID = rateType.Id,
+                LastUpdatedBy = rateType.CreatedBy,
+                LastUpdatedOn = rateType.LastUpdatedOn
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Entry(rateTypeObj).State = System.Data.Entity.EntityState.Modified;
+                var result = pmsContext.SaveChanges();
+                isUpdated = result == 1 ? true : false;
+            }
             return isUpdated;
         }
         public bool DeleteRateType(int rateTypeId)
         {
             var isDeleted = false;
+            if (rateTypeId <= 0) return isDeleted;
+
+            var rateType = new DAL.RateType
+            {
+                IsActive = false,
+                ID = rateTypeId
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.RateTypes.Attach(rateType);
+                pmsContext.Entry(rateType).Property(x => x.IsActive).IsModified = true;
+                var result = pmsContext.SaveChanges();
+                isDeleted = result == 1 ? true : false;
+            }
             return isDeleted;
         }
         public List<PmsEntity.RateType> GetRateTypeByProperty(int propertyId)
@@ -402,7 +457,8 @@ namespace PMS.Resources.DAL
                                                      LastUpdatedBy = x.LastUpdatedBy,
                                                      LastUpdatedOn = x.LastUpdatedOn,
                                                      Id = x.ID,
-                                                     PropertyId = x.PropertyID
+                                                     PropertyId = x.PropertyID,
+                                                     Units = x.Units
                                                  }).ToList();
 
             }
@@ -786,18 +842,17 @@ namespace PMS.Resources.DAL
             var taxes = new List<PmsEntity.Tax>();
             using (var pmsContext = new PmsEntities())
             {
-                //TODO: update SP
-                //var resultSet = pmsContext.GETBOOKINGAMOUNT(propertyId, roomTypeId, rateTypeId, noOfHours, 0, IsHourly).ToList();
-                //if (resultSet == null || resultSet.Count <= 0) return taxes;
-                //foreach (var result in resultSet.OrderBy(x => x.OrderBy))
-                //{
-                //    var tax = new PmsEntity.Tax();
-                //    tax.TaxName = result.ITEM;
-                //    tax.Value = result.ITEMAMOUNT;
-                //    tax.IsDefaultCharges = true;
+                var resultSet = pmsContext.GETBOOKINGAMOUNT(propertyId, roomTypeId, rateTypeId, noOfHours, 0, IsHourly).ToList();
+                if (resultSet == null || resultSet.Count <= 0) return taxes;
+                foreach (var result in resultSet.OrderBy(x => x.OrderBy))
+                {
+                    var tax = new PmsEntity.Tax();
+                    tax.TaxName = result.ITEM;
+                    tax.Value = result.ITEMAMOUNT;
+                    tax.IsDefaultCharges = true;
 
-                //    taxes.Add(tax);
-                //}
+                    taxes.Add(tax);
+                }
             }
             return taxes;
         }
@@ -1411,7 +1466,6 @@ namespace PMS.Resources.DAL
             return extraCharges;
         }
 
-
         public int AddTax(PmsEntity.Tax tax)
         {
             var Id = -1;
@@ -1424,9 +1478,7 @@ namespace PMS.Resources.DAL
                 CreatedBy = tax.CreatedBy,
                 PropertyID = tax.PropertyId,
                 TaxName = tax.TaxName,
-                Value = tax.Value,
-                LastUpdatedBy = tax.CreatedBy,
-                LastUpdatedOn = tax.LastUpdatedOn
+                Value = tax.Value
             };
 
             using (var pmsContext = new PmsEntities())
@@ -1474,8 +1526,7 @@ namespace PMS.Resources.DAL
             var taxObj = new DAL.Tax
             {
                 IsActive = false,
-                ID = taxId,
-                //TaxName = string.Empty
+                ID = taxId
             };
 
             using (var pmsContext = new PmsEntities())
@@ -1488,7 +1539,7 @@ namespace PMS.Resources.DAL
             return isDeleted;
         }
 
-        public List<PmsEntity.Tax> GetTaxes(int propertyId)
+        public List<PmsEntity.Tax> GetTaxByProperty(int propertyId)
         {
             var taxes = new List<PmsEntity.Tax>();
             using (var pmsContext = new PmsEntities())
@@ -1510,7 +1561,6 @@ namespace PMS.Resources.DAL
             }
 
             return taxes;
-
         }
     }
 }

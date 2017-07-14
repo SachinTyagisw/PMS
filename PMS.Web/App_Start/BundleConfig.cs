@@ -24,7 +24,6 @@ namespace PMS.Web
                         .Include("~/Scripts/Jquery/jquery.validate.min.js")
                         .Include("~/Scripts/Jquery/jquery-ui.min.js")
                         .Include("~/Scripts/Jquery/lib/jquery.nanoscroller.min.js")
-                        .Include("~/Scripts/Jquery/lib/jquery-ui/jquery-ui-timepicker-addon.js")
                         .Include("~/Scripts/Jquery/jquery.tmpl.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/angular").Include("~/Scripts/Angular/angular.min.js")
@@ -38,7 +37,9 @@ namespace PMS.Web
                        .Include("~/Scripts/scripts.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/bootstrap").Include("~/Scripts/Bootstrap/bootstrap.min.js")
-                        .Include("~/Scripts/Bootstrap/ui-bootstrap-tpls.min.js"));
+                       .Include("~/Scripts/Bootstrap/ui-bootstrap-tpls.min.js")
+                       .Include("~/Scripts/Bootstrap/moment.js")
+                       .Include("~/Scripts/Bootstrap/datetimepicker.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/custom").Include("~/Scripts/Notifications.js")
                         .Include("~/Scripts/PmsSession.js")
@@ -71,8 +72,7 @@ namespace PMS.Web
                        .Include("~/Content/lib/bootstrap.min.css")
                        .Include("~/Content/lib/unix.css")
                        .Include("~/Content/Jquery/jquery-ui.min.css")
-                       .Include("~/Content/Bootstrap/bootstrap-datetimepicker.css")
-                       .Include("~/Content/style.css"));
+                       .Include("~/Content/Bootstrap/bootstrap-datetimepicker.css"));
 
             //bundles.Add(new StyleBundle("~/bundles/css/angular").Include("~/Content/Angular/ng-grid.min.css"));
         }

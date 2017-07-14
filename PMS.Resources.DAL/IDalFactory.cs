@@ -52,7 +52,7 @@ namespace PMS.Resources.DAL
         int AddTax(PmsEntity.Tax tax);
         bool UpdateTax(PmsEntity.Tax tax);
         bool DeleteTax(int TaxId);
-        List<PmsEntity.Tax> GetTaxes(int propertyId);
+        List<PmsEntity.Tax> GetTaxByProperty(int propertyId);
 
         int AddRoomType(PmsEntity.RoomType roomType);
         bool UpdateRoomType(PmsEntity.RoomType roomType);

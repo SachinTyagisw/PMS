@@ -144,7 +144,6 @@ $("#checkAll").change(function () {
 //        }, 16);
 //    }
 //});
-
 $( "#dateFrom, #dateTo" ).datetimepicker({
     maxDate: "+2Y",
     timeInput: true,
@@ -154,11 +153,9 @@ $( "#dateFrom, #dateTo" ).datetimepicker({
 });
 
 $('#idExpiry, #dob').datepicker({
-	changeMonth: true,
-	changeYear: true
+    changeMonth: true,
+    changeYear: true
 });
-
-
 //document.querySelector(".hour-input").onchange = function () {
 //    document.querySelector('.hour-dd').disabled = !this.checked;
 //};
@@ -285,7 +282,7 @@ $(function () {
 
         if (editOn == false) {
             $(thisRow).attr('contenteditable', 'true');
-            $(thisRow).css('background-color', '#ffc9c9');
+            $(thisRow).css({'border': '1px solid #000','background': 'rgba(255,255,255,0.7)', 'padding': '6px'});
             $(this).removeClass("fa-pencil-square-o");
             $(this).addClass("fa-floppy-o editMode");
         } else if (editOn == true) {
@@ -323,7 +320,7 @@ $(function () {
 
         if (editOn == false) {
             $(thisRow).attr('contenteditable', 'true');
-            $(thisRow).css('background-color', '#ffc9c9');
+            $(thisRow).css({ 'border': '1px solid #000', 'background': 'rgba(255,255,255,0.7)', 'padding': '6px' });
             $(this).removeClass("fa-pencil-square-o");
             $(this).addClass("fa-floppy-o editMode");
         } else if (editOn == true) {
@@ -362,7 +359,7 @@ $(function () {
 
         if (editOn == false) {
             $(thisRow).attr('contenteditable', 'true');
-            $(thisRow).css('background-color', '#ffc9c9');
+            $(thisRow).css({ 'border': '1px solid #000', 'background': 'rgba(255,255,255,0.7)', 'padding': '6px' });
             $(this).removeClass("fa-pencil-square-o");
             $(this).addClass("fa-floppy-o editMode");
         } else if (editOn == true) {
@@ -400,7 +397,7 @@ $(function () {
 
         if (editOn == false) {
             $(thisRow).attr('contenteditable', 'true');
-            $(thisRow).css('background-color', '#ffc9c9');
+            $(thisRow).css({ 'border': '1px solid #000', 'background': 'rgba(255,255,255,0.7)', 'padding': '6px' });
             $(this).removeClass("fa-pencil-square-o");
             $(this).addClass("fa-floppy-o editMode");
         } else if (editOn == true) {

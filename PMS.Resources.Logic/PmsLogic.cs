@@ -311,17 +311,6 @@ namespace PMS.Resources.Logic
             return DalFactory.GetFloorsByProperty(propertyId);
         }
 
-        #region helper methods 
-        private string RemoveXmlDefaultNode(string xml)
-        {
-            var idxStartNode = xml.IndexOf("<?");
-            var idxEndNode = xml.IndexOf("?>");
-            var length = idxEndNode - idxStartNode + 2;
-            xml = xml.Remove(idxStartNode, length);
-            return xml;
-        }
-        #endregion
-
 
         public int AddExtraCharge(PmsEntity.ExtraCharge extraCharge)
         {
@@ -359,9 +348,21 @@ namespace PMS.Resources.Logic
             return DalFactory.DeleteTax(TaxId);
         }
 
-        public List<PmsEntity.Tax> GetTaxesByProperty(int propertyId)
+        public List<PmsEntity.Tax> GetTaxByProperty(int propertyId)
         {
-            return DalFactory.GetTaxes(propertyId);
+            return DalFactory.GetTaxByProperty(propertyId);
         }
+
+        #region Helper method
+
+        private string RemoveXmlDefaultNode(string xml)
+        {
+            var idxStartNode = xml.IndexOf("<?");
+            var idxEndNode = xml.IndexOf("?>");
+            var length = idxEndNode - idxStartNode + 2;
+            xml = xml.Remove(idxStartNode, length);
+            return xml;
+        }
+        #endregion
     }
 }
