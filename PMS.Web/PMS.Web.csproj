@@ -178,7 +178,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PropertyController.cs" />
-    <Compile Include="Controllers\RateTypeController.cs" />
+    <Compile Include="Controllers\RateController.cs" />
     <Compile Include="Controllers\RoomController.cs" />
     <Compile Include="Controllers\RoomTypeController.cs" />
     <Compile Include="Controllers\TaxController.cs" />
@@ -457,7 +457,7 @@
     <Content Include="Views\Property\Index.cshtml" />
     <Content Include="Views\Room\Index.cshtml" />
     <Content Include="Views\RoomType\Index.cshtml" />
-    <Content Include="Views\RateType\Index.cshtml" />
+    <Content Include="Views\Rate\Index.cshtml" />
     <Content Include="Views\Floor\Index.cshtml" />
     <Content Include="Views\Payment\Index.cshtml" />
     <Content Include="Views\ExtraCharge\Index.cshtml" />

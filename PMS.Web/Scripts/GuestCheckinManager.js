@@ -27,17 +27,27 @@
                 window.location.replace(window.webBaseUrl + "Account/Login");
                 return;
             }
-            
             if (!window.PmsSession.GetItem("roomtypedata")) {
                 window.GuestCheckinManager.GetRoomTypes();
             } else {
                 window.GuestCheckinManager.BindRoomTypeDdl($('#roomTypeDdl'));
             }
-
-            getRoomRateTypes();            
+            window.GuestCheckinManager.GetRoomRateType();
             getAllGuest();
             //getRooms();            
             window.GuestCheckinManager.AjaxHandlers();
+        },
+
+        GetRoomRateType: function () {
+            args.propertyId = getPropertyId();
+            var rateTypeData = pmsSession.GetItem("ratetypedata");
+            if (!rateTypeData) {
+                // get room rate types by api calling  
+                pmsService.GetRateTypeByProperty(args);
+            }
+            else {
+                window.GuestCheckinManager.BindRateTypeDdl();
+            }
         },
 
         ShouldCallGetRoomApi: function () {
@@ -1021,6 +1031,32 @@
             pmsService.UpdateTax(taxRequestDto);
         },
 
+        DeleteRateType: function (typeId) {
+            // DeleteRateType by api calling  
+            args.typeId = typeId;
+            pmsService.DeleteRateType(args);
+        },
+
+        AddRateType: function (rateType) {
+            rateType.CreatedBy = getCreatedBy();
+            rateType.CreatedOn = getCurrentDate();
+            var rateTypeDto = {};
+            rateTypeDto.RateType = {};
+            // AddRateType by api calling  
+            rateTypeDto.RateType = rateType;
+            pmsService.AddRateType(rateTypeDto);
+        },
+
+        UpdateRateType: function (existingRateType) {
+            existingRateType.LastUpdatedBy = getCreatedBy();
+            existingRateType.LastUpdatedOn = getCurrentDate();
+            // UpdateRateType by api calling 
+            var rateTypeDto = {};
+            rateTypeDto.RateType = {};
+            rateTypeDto.RateType = existingRateType;
+            pmsService.UpdateRateType(rateTypeDto);
+        },
+
         AjaxHandlers: function () {
             // ajax handlers start
             pmsService.Handlers.OnAddBookingSuccess = function (data) {
@@ -1535,6 +1571,48 @@
                 alert(status);
             };
 
+            pmsService.Handlers.OnAddRateTypeSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                if (data.ResponseObject > 0) {
+                    console.log(status);
+                    // to fetch new data
+                    if ($('#ddlProperty') && $('#ddlProperty').val() > 0) {
+                        window.GuestCheckinManager.GetRoomRateType($('#ddlProperty').val());
+                    }
+                    alert(status);
+                } else {
+                    console.error(status);
+                    alert(status);
+                }
+            };
+
+            pmsService.Handlers.OnAddRateTypeFailure = function () {
+                // show error log
+                console.error("Rate type is not added.");
+            };
+
+            pmsService.Handlers.OnDeleteRateTypeFailure = function () {
+                // show error log
+                console.error("Rate type is not deleted.");
+            };
+
+            pmsService.Handlers.OnDeleteRateTypeSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                alert(status);
+            };
+
+            pmsService.Handlers.OnUpdateRateTypeFailure = function () {
+                // show error log
+                console.error("Rate type is not updated.");
+            };
+
+            pmsService.Handlers.OnUpdateRateTypeSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                alert(status);
+            };
+
             //pmsService.Handlers.OnGetRoomByPropertySuccess = function (data) {
             //    //storing room data into session storage
             //    pmsSession.SetItem("roomdata", JSON.stringify(data.Rooms));
@@ -1904,18 +1982,6 @@
         }
     }      
 
-    function getRoomRateTypes() {
-        args.propertyId = getPropertyId();
-        var rateTypeData = pmsSession.GetItem("ratetypedata");
-        if (!rateTypeData) {
-            // get room rate types by api calling  
-            pmsService.GetRateTypeByProperty(args);
-        }
-        else {
-            window.GuestCheckinManager.BindRateTypeDdl();
-        }
-    }
-    
     //function getRooms(){
     //    args.propertyId = getPropertyId();
     //    var roomData = pmsSession.GetItem("roomdata");
