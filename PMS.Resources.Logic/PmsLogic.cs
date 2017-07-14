@@ -342,5 +342,26 @@ namespace PMS.Resources.Logic
         {
             return DalFactory.GetExtraCharges(propertyId);
         }
+
+
+        public int AddTax(PmsEntity.Tax tax)
+        {
+            return DalFactory.AddTax(tax);
+        }
+
+        public bool UpdateTax(PmsEntity.Tax tax)
+        {
+            return DalFactory.UpdateTax(tax);
+        }
+
+        public bool DeleteTax(int TaxId)
+        {
+            return DalFactory.DeleteTax(TaxId);
+        }
+
+        public List<PmsEntity.Tax> GetTaxesByProperty(int propertyId)
+        {
+            return DalFactory.GetTaxes(propertyId);
+        }
     }
 }

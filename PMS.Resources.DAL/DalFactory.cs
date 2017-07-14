@@ -1410,5 +1410,107 @@ namespace PMS.Resources.DAL
 
             return extraCharges;
         }
+
+
+        public int AddTax(PmsEntity.Tax tax)
+        {
+            var Id = -1;
+            if (tax == null) return Id;
+
+            var taxsObj = new DAL.Tax
+            {
+                CreatedOn = tax.CreatedOn,
+                IsActive = true,
+                CreatedBy = tax.CreatedBy,
+                PropertyID = tax.PropertyId,
+                TaxName = tax.TaxName,
+                Value = tax.Value,
+                LastUpdatedBy = tax.CreatedBy,
+                LastUpdatedOn = tax.LastUpdatedOn
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Taxes.Add(taxsObj);
+                var result = pmsContext.SaveChanges();
+                Id = result == 1 ? taxsObj.ID : -1;
+            }
+            return Id;
+        }
+
+        public bool UpdateTax(PmsEntity.Tax tax)
+        {
+            var isUpdated = false;
+            if (tax == null) return isUpdated;
+
+            var taxObj = new DAL.Tax
+            {
+                CreatedOn = tax.CreatedOn,
+                IsActive = true,
+                CreatedBy = tax.CreatedBy,
+                PropertyID = tax.PropertyId,
+                TaxName = tax.TaxName,
+                Value = tax.Value,
+                ID = tax.Id,
+                LastUpdatedBy = tax.CreatedBy,
+                LastUpdatedOn = tax.LastUpdatedOn
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Entry(taxObj).State = System.Data.Entity.EntityState.Modified;
+                var result = pmsContext.SaveChanges();
+                isUpdated = result == 1 ? true : false;
+            }
+
+            return isUpdated;
+        }
+
+        public bool DeleteTax(int taxId)
+        {
+            var isDeleted = false;
+            if (taxId <= 0) return isDeleted;
+
+            var taxObj = new DAL.Tax
+            {
+                IsActive = false,
+                ID = taxId,
+                //TaxName = string.Empty
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Taxes.Attach(taxObj);
+                pmsContext.Entry(taxObj).Property(x => x.IsActive).IsModified = true;
+                var result = pmsContext.SaveChanges();
+                isDeleted = result == 1 ? true : false;
+            }
+            return isDeleted;
+        }
+
+        public List<PmsEntity.Tax> GetTaxes(int propertyId)
+        {
+            var taxes = new List<PmsEntity.Tax>();
+            using (var pmsContext = new PmsEntities())
+            {
+                taxes = pmsContext.Taxes.Where(x => x.PropertyID == propertyId && x.IsActive)
+                                                 .Select(x => new PmsEntity.Tax
+                                                 {
+                                                     CreatedOn = x.CreatedOn,
+                                                     CreatedBy = x.CreatedBy,
+                                                     LastUpdatedBy = x.LastUpdatedBy,
+                                                     LastUpdatedOn = x.LastUpdatedOn,
+                                                     Id = x.ID,
+                                                     PropertyId = x.PropertyID,
+                                                     Value = x.Value,
+                                                     TaxName = x.TaxName,
+                                                     IsActive = x.IsActive
+                                                 }).ToList();
+
+            }
+
+            return taxes;
+
+        }
     }
 }

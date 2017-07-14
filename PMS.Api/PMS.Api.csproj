@@ -226,6 +226,7 @@
     <Compile Include="Controllers\RoomController.cs" />
     <Compile Include="Controllers\RoomController.RateType.cs" />
     <Compile Include="Controllers\RoomController.RoomStatus.cs" />
+    <Compile Include="Controllers\TaxController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="CustomStreamProvider\CustomMultipartFormDataStreamProvider.cs" />

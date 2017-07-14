@@ -46,7 +46,13 @@ namespace PMS.Resources.DAL
         int AddExtraCharge(PmsEntity.ExtraCharge extraCharge);
         bool UpdateExtraCharge(PmsEntity.ExtraCharge extraCharge);
         bool DeleteExtraCharge(int extraChargeId);
-        List<PmsEntity.ExtraCharge> GetExtraCharges(int ptopertyId);
+        List<PmsEntity.ExtraCharge> GetExtraCharges(int propertyId);
+
+        //Taxes
+        int AddTax(PmsEntity.Tax tax);
+        bool UpdateTax(PmsEntity.Tax tax);
+        bool DeleteTax(int TaxId);
+        List<PmsEntity.Tax> GetTaxes(int propertyId);
 
         int AddRoomType(PmsEntity.RoomType roomType);
         bool UpdateRoomType(PmsEntity.RoomType roomType);
