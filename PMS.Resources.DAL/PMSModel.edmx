@@ -348,8 +348,7 @@
           <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
           <Property Name="LastUpdatedOn" Type="datetime" />
           <Property Name="NAME" Type="nvarchar(max)" />
-          <Property Name="RoomTypeID" Type="int" />
-          <Property Name="ShortName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Units" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="RewardCategory">
           <Key>
@@ -1400,8 +1399,7 @@
           <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
           <Property Name="NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="RoomTypeID" Type="Int32" />
-          <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Units" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Property" Relationship="Self.FK__RateType__Proper__267ABA7A" FromRole="RateType" ToRole="Property" />
           <NavigationProperty Name="Property1" Relationship="Self.FK__RateType__Proper__27F8EE98" FromRole="RateType" ToRole="Property" />
           <NavigationProperty Name="Rates" Relationship="Self.FK__Rates__RateTypeI__251C81ED" FromRole="RateType" ToRole="Rates" />
@@ -2569,8 +2567,7 @@
                 <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
                 <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
                 <ScalarProperty Name="NAME" ColumnName="NAME" />
-                <ScalarProperty Name="RoomTypeID" ColumnName="RoomTypeID" />
-                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="Units" ColumnName="Units" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

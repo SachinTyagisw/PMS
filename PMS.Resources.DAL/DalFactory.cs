@@ -385,7 +385,7 @@ namespace PMS.Resources.DAL
                 CreatedBy = rateType.CreatedBy,
                 PropertyID = rateType.PropertyId,
                 NAME = rateType.Name,
-                ShortName = rateType.ShortName
+                Units = rateType.Units
             };
 
             using (var pmsContext = new PmsEntities())
@@ -409,7 +409,7 @@ namespace PMS.Resources.DAL
                 CreatedBy = rateType.CreatedBy,
                 PropertyID = rateType.PropertyId,
                 NAME = rateType.Name,
-                ShortName = rateType.ShortName,
+                Units = rateType.Units,
                 ID = rateType.Id,
                 LastUpdatedBy = rateType.CreatedBy,
                 LastUpdatedOn = rateType.LastUpdatedOn
@@ -457,7 +457,8 @@ namespace PMS.Resources.DAL
                                                      LastUpdatedBy = x.LastUpdatedBy,
                                                      LastUpdatedOn = x.LastUpdatedOn,
                                                      Id = x.ID,
-                                                     PropertyId = x.PropertyID
+                                                     PropertyId = x.PropertyID,
+                                                     Units = x.Units
                                                  }).ToList();
 
             }
