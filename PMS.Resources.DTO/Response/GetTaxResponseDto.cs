@@ -10,7 +10,7 @@ namespace PMS.Resources.DTO.Response
 {
     [DataContract]
     [Serializable]
-    public class GetTaxesResponseDto
+    public class GetTaxResponseDto
     {
         [DataMember]
         public List<Tax> Taxes { get; set; }

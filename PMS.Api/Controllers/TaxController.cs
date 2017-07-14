@@ -20,7 +20,7 @@ namespace PMS.Api.Controllers
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class TaxController : ApiController, IRestController
     {
-             private readonly IPmsLogic _iPmsLogic = null;
+        private readonly IPmsLogic _iPmsLogic = null;
         public TaxController()
             : this(ServiceLocator.Current.GetInstance<IPmsLogic>())
         {
@@ -58,15 +58,15 @@ namespace PMS.Api.Controllers
 
             config.Routes.MapHttpRoute(
              "DeleteTax",
-             "api/v1/Tax/DeleteTax/{TaxId}",
+             "api/v1/Tax/DeleteTax/{taxId}",
              new { controller = "Tax", action = "DeleteTax" },
-             constraints: new { TaxId = RegExConstants.NumericRegEx }
+             constraints: new { taxId = RegExConstants.NumericRegEx }
              );
 
             config.Routes.MapHttpRoute(
-              "GetTaxsByProperty",
-              "api/v1/Tax/GetTaxesByProperty/{propertyId}",
-              new { controller = "Tax", action = "GetTaxesByProperty" },
+              "GetTaxByProperty",
+              "api/v1/Tax/GetTaxByProperty/{propertyId}",
+              new { controller = "Tax", action = "GetTaxByProperty" },
               constraints: new { propertyId = RegExConstants.NumericRegEx }
               );
         }
@@ -115,12 +115,12 @@ namespace PMS.Api.Controllers
         }
 
         [HttpDelete, ActionName("DeleteTax")]
-        public PmsResponseDto DeleteTax(int TaxId)
+        public PmsResponseDto DeleteTax(int taxId)
         {
-            if (TaxId <= 0) throw new PmsException("Tax is not valid. Hence Tax can not be deleted.");
+            if (taxId <= 0) throw new PmsException("Tax id is not valid. Hence Tax can not be deleted.");
 
             var response = new PmsResponseDto();
-            if (_iPmsLogic.DeleteTax(TaxId))
+            if (_iPmsLogic.DeleteTax(taxId))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Tax Deleted successfully.";
@@ -134,13 +134,13 @@ namespace PMS.Api.Controllers
         }
 
 
-        [HttpGet, ActionName("GetTaxesByProperty")]
-        public GetTaxesResponseDto GetTaxesByProperty(int propertyId)
+        [HttpGet, ActionName("GetTaxByProperty")]
+        public GetTaxResponseDto GetTaxByProperty(int propertyId)
         {
             if (propertyId <= 0) throw new PmsException("Property id is not valid.");
 
-            var response = new GetTaxesResponseDto();
-            response.Taxes = _iPmsLogic.GetTaxesByProperty(propertyId);
+            var response = new GetTaxResponseDto();
+            response.Taxes = _iPmsLogic.GetTaxByProperty(propertyId);
             return response;
         }
     }

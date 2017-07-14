@@ -786,18 +786,17 @@ namespace PMS.Resources.DAL
             var taxes = new List<PmsEntity.Tax>();
             using (var pmsContext = new PmsEntities())
             {
-                //TODO: update SP
-                //var resultSet = pmsContext.GETBOOKINGAMOUNT(propertyId, roomTypeId, rateTypeId, noOfHours, 0, IsHourly).ToList();
-                //if (resultSet == null || resultSet.Count <= 0) return taxes;
-                //foreach (var result in resultSet.OrderBy(x => x.OrderBy))
-                //{
-                //    var tax = new PmsEntity.Tax();
-                //    tax.TaxName = result.ITEM;
-                //    tax.Value = result.ITEMAMOUNT;
-                //    tax.IsDefaultCharges = true;
+                var resultSet = pmsContext.GETBOOKINGAMOUNT(propertyId, roomTypeId, rateTypeId, noOfHours, 0, IsHourly).ToList();
+                if (resultSet == null || resultSet.Count <= 0) return taxes;
+                foreach (var result in resultSet.OrderBy(x => x.OrderBy))
+                {
+                    var tax = new PmsEntity.Tax();
+                    tax.TaxName = result.ITEM;
+                    tax.Value = result.ITEMAMOUNT;
+                    tax.IsDefaultCharges = true;
 
-                //    taxes.Add(tax);
-                //}
+                    taxes.Add(tax);
+                }
             }
             return taxes;
         }
@@ -1411,7 +1410,6 @@ namespace PMS.Resources.DAL
             return extraCharges;
         }
 
-
         public int AddTax(PmsEntity.Tax tax)
         {
             var Id = -1;
@@ -1488,7 +1486,7 @@ namespace PMS.Resources.DAL
             return isDeleted;
         }
 
-        public List<PmsEntity.Tax> GetTaxes(int propertyId)
+        public List<PmsEntity.Tax> GetTaxByProperty(int propertyId)
         {
             var taxes = new List<PmsEntity.Tax>();
             using (var pmsContext = new PmsEntities())
@@ -1510,7 +1508,6 @@ namespace PMS.Resources.DAL
             }
 
             return taxes;
-
         }
     }
 }
