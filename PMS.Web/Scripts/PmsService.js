@@ -82,6 +82,24 @@
             OnAddTaxFailure: null,
             OnUpdateTaxSuccess: null,
             OnUpdateTaxFailure: null,
+            OnDeleteRateTypeSuccess: null,
+            OnDeleteRateTypeFailure: null,
+            OnAddRateTypeSuccess: null,
+            OnAddRateTypeFailure: null,
+            OnUpdateRateTypeSuccess: null,
+            OnUpdateRateTypeFailure: null,
+        };
+
+        this.UpdateRateType = function (args) {
+            makeAjaxRequestPut(args, "UpdateRateType", this, "api/v1/Room/UpdateRateType");
+        };
+
+        this.AddRateType = function (args) {
+            makeAjaxRequestPost(args, "AddRateType", this, "api/v1/Room/AddRateType");
+        };
+
+        this.DeleteRateType = function (args) {
+            makeAjaxRequestDelete(args, "DeleteRateType", this, "api/v1/Room/DeleteRateType/" + args.typeId);
         };
 
         this.UpdateTax = function (args) {
