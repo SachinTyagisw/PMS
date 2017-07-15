@@ -16,5 +16,9 @@ namespace PMS.Web.Controllers
         {
             return View();
         }
+        public ActionResult Manage()
+        {
+            return View();
+        }
     }
 }

@@ -462,6 +462,7 @@
     <Content Include="Views\Payment\Index.cshtml" />
     <Content Include="Views\ExtraCharge\Index.cshtml" />
     <Content Include="Views\Tax\Index.cshtml" />
+    <Content Include="Views\Rate\Manage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
