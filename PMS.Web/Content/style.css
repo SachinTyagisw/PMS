@@ -4743,6 +4743,9 @@ a.animated-button:link, a.animated-button:visited {
 #side-nav.width ul .selected:hover ul {
   display: block;
 }
+#side-nav.width .nav-text {
+    display: none;
+}
 #side-nav > ul > li {
   display: block;
   position: relative;
