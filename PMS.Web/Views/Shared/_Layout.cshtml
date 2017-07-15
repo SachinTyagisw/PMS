@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - PMS Application</title>
     <link rel="stylesheet" href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/daypilotmedia/css")" />
-    @*<link rel="stylesheet" href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/css/lib")" />*@
+    <link rel="stylesheet" href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/css/lib")" />
 
     <!-- ================= Favicon ================== -->
     <!-- Standard -->
@@ -19,30 +19,30 @@
     <!-- Standard iPhone Touch Icon-->
     <link rel="apple-touch-icon" sizes="57x57" href="#">
     <!-- Styles -->
-        <link href="~/Content/lib/font-awesome.min.css" rel="stylesheet">
+    @*  <link href="~/Content/lib/font-awesome.min.css" rel="stylesheet">
         <link href="~/Content/lib/themify-icons.css" rel="stylesheet">
         <link href="~/Content/lib/owl.theme.default.min.css" rel="stylesheet" />
         <link href="~/Content/lib/bootstrap.min.css" rel="stylesheet">
         <link href="~/Content/lib/unix.css" rel="stylesheet">
         <link href="~/Content/Jquery/jquery-ui.min.css" rel="stylesheet">
         <link href="~/Content/Bootstrap/bootstrap-datetimepicker.css" rel="stylesheet" />
-       
+        *@
     <link href="~/Content/style.css" rel="stylesheet">
     <!--comment below bundling js logic to unbundle js files -->
-    @*<script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/jquery")"></script>*@
+    <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/jquery")"></script>
 
     <!--uncomment below js files to unbundle them -->
-    <script src="~/Scripts/Jquery/jquery-2.2.3.min.js"></script>
+    @*<script src="~/Scripts/Jquery/jquery-2.2.3.min.js"></script>
     <script src="~/Scripts/Jquery/jquery.validate.min.js"></script>
     <script src="~/Scripts/Jquery/jquery-ui.min.js"></script>
     <script src="~/Scripts/Jquery/lib/jquery.nanoscroller.min.js"></script>
-    <script src="~/Scripts/Jquery/jquery.tmpl.js"></script>
+    <script src="~/Scripts/Jquery/jquery.tmpl.js"></script>*@
 
     <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/angular")"></script>
     <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/bootstrap")"></script>
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
-    <script src="~/Scripts/Bootstrap/datetimepicker.js"></script>
+    @*<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+    <script src="~/Scripts/Bootstrap/datetimepicker.js"></script>*@
     <script type="text/javascript">
         window.apiBaseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["ApiBaseUrl"].ToString())';
         window.webBaseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["WebBaseUrl"].ToString())';
@@ -59,10 +59,10 @@
     </script>
 
     <!--comment below bundling js logic to unbundle js files -->
-    @*<script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/custom")"></script>*@
+    <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/custom")"></script>
 
     <!--uncomment below js files to unbundle them -->
-        <script src="~/Scripts/Notifications.js"></script>
+    @*<script src="~/Scripts/Notifications.js"></script>
         <script src="~/Scripts/PmsSession.js"></script>
         <script src="~/Scripts/PmsAjaxQueue.js"></script>
         <script src="~/Scripts/PmsService.js"></script>
@@ -72,7 +72,7 @@
         <script src="~/Scripts/messageModalService.js"></script>
         <script src="~/Scripts/redirectionService.js"></script>
         <script src="~/Scripts/calendarService.js"></script>
-        <script src="~/Scripts/calendarController.js"></script>
+        <script src="~/Scripts/calendarController.js"></script>*@
 </head>
 <body class="sidebar-hide">
     <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
@@ -213,7 +213,6 @@
     <!--comment below bundling js logic to unbundle js files -->
     <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/bundles/js/jquery/lib")"></script>
     <script src="~/Scripts/scripts.js"></script>
-
     <script type='text/javascript'>
         $(document).on({
             ajaxStart: function () {

@@ -234,19 +234,6 @@
 
             init();           
 
-            $("#dateFrom, #dateTo").datetimepicker({
-                maxDate: "+2Y",
-                timeInput: true,
-                timeFormat: "hh:mm tt",
-                showHour: false,
-                showMinute: false
-            });
-
-            $('#idExpiry, #dob').datepicker({
-                changeMonth: true,
-                changeYear: true
-            });
-
             $('#divInvoice').on("click", ".tableRow-remove", function () {
                 $(this).parents('tr').detach();
                 gcm.CalculateInvoice();
