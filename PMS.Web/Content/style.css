@@ -3552,7 +3552,7 @@ text-decoration:none;
 -webkit-transform:translateZ(0) scale(1,1);
 -webkit-transition:all .1s linear;
 transition:all .1s linear;
-  
+border-bottom: 1px solid #dadada;  
 }
 
 .main-menu .nav-icon {
@@ -4759,15 +4759,13 @@ a.animated-button:link, a.animated-button:visited {
   display: block;
 }
 #side-nav > ul > li.selected ul {
-  display: block;
-  left: 0;
-  position: relative;
-  width: 100%;
-  top: 0;
+  position: absolute;
+  width: 22.5rem;
+  left: 22.5rem;
   padding-left: 0;
   overflow: hidden;
-  -webkit-animation: animate-height 1.2s 1 ease-in-out;
-          animation: animate-height 1.2s 1 ease-in-out;
+  -webkit-animation: none;
+          animation: none;
 }
 #side-nav > ul > li .fa {
   padding: 14px;
@@ -4797,9 +4795,10 @@ ul li ul {
 ul li ul li {
   display: inline;
 }
-ul li ul li a {
+.main-menu ul li ul li a {
   display: block;
-  padding: 1em;
+  padding: 0.6em;
+  font-size:1.3rem;
 }
 ul li ul li a:hover {
   color: #3ed8b5;
