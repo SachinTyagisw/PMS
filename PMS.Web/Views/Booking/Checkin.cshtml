@@ -200,6 +200,10 @@
 
         function init() {
 
+            gcm.GetCountry($('#ddlCountry'));
+            gcm.GetStateByCountry(-1);
+            gcm.GetCityByState(-1);
+
             //if user is navigated to checkin screen from dashboard screen with bookingid in session storage
             if (pmsSession.GetItem("bookingId")) {
                 $('#btnCheckin').attr("disabled", true);
@@ -228,10 +232,7 @@
 
         $(document).ready(function () {
 
-            init();
-            gcm.GetCountry($('#ddlCountry'));
-            gcm.GetStateByCountry(-1);
-            gcm.GetCityByState(-1);
+            init();           
 
             $("#dateFrom, #dateTo").datetimepicker({
                 maxDate: "+2Y",

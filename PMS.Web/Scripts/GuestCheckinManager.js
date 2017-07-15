@@ -32,22 +32,21 @@
             } else {
                 window.GuestCheckinManager.BindRoomTypeDdl($('#roomTypeDdl'));
             }
-            window.GuestCheckinManager.GetRoomRateType();
+            if (!window.PmsSession.GetItem("ratetypedata")) {
+                window.GuestCheckinManager.GetRoomRateType();
+            } else {
+                window.GuestCheckinManager.BindRateTypeDdl($('#rateTypeDdl'));
+            }
+            
             getAllGuest();
             //getRooms();            
             window.GuestCheckinManager.AjaxHandlers();
         },
 
-        GetRoomRateType: function () {
-            args.propertyId = getPropertyId();
-            var rateTypeData = pmsSession.GetItem("ratetypedata");
-            if (!rateTypeData) {
-                // get room rate types by api calling  
-                pmsService.GetRateTypeByProperty(args);
-            }
-            else {
-                window.GuestCheckinManager.BindRateTypeDdl();
-            }
+        GetRoomRateType: function (propertyId) {
+            args.propertyId = propertyId && propertyId > 0 ? propertyId : getPropertyId();
+            // get room rate types by api calling  
+            pmsService.GetRateTypeByProperty(args);
         },
 
         ShouldCallGetRoomApi: function () {
@@ -108,8 +107,7 @@
             }
         },
 
-        BindRateTypeDdl: function () {
-            var ddlRateType = $('#rateTypeDdl');
+        BindRateTypeDdl: function (ddlRateType) {
             var rateTypeData = pmsSession.GetItem("ratetypedata");
             if (!ddlRateType || !rateTypeData) return;
 
@@ -804,6 +802,20 @@
             }
         },
 
+        PopulateRateTypeGrid: function (data) {
+            var divRateType = $('#divRateType');
+            var rateTemplate = $('#rateTemplate');
+            if (!divRateType || !rateTemplate) return;
+            divRateType.html(rateTemplate.render(data));
+            $("#divRateType thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
+            if (data && data.RateTypes && data.RateTypes.length > 0) {
+                $("#divRateType tbody tr").append('<td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+            } else {
+                // when no ratetype data is present in db 
+                $("#divRateType tbody tr").append('<td class="finalActionsCol"><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td>');
+            }
+        },
+
         PopulateRoomTypeGrid: function (data) {
             var divRoomType = $('#divRoomType');
             var roomtypeTemplate = $('#roomtypeTemplate');
@@ -825,6 +837,9 @@
             property.CreatedBy = getCreatedBy();
             // AddProperty by api calling  
             propertyRequestDto.Property = property;
+            Notifications.SubscribeActive("on-property-add-success", function (sender, args) {
+                window.GuestCheckinManager.GetAllProperty();
+            });
             pmsService.AddProperty(propertyRequestDto);
         },
 
@@ -853,6 +868,9 @@
             floorRequestDto.PropertyFloor = {};
             // AddFloor by api calling  
             floorRequestDto.PropertyFloor = floor;
+            Notifications.SubscribeActive("on-floor-add-success", function (sender, args) {
+                window.GuestCheckinManager.GetFloorsByProperty(floor.PropertyId);
+            });
             pmsService.AddFloor(floorRequestDto);
         },
 
@@ -873,6 +891,9 @@
             roomTypeRequestDto.RoomType = {};
             // AddRoomType by api calling  
             roomTypeRequestDto.RoomType = roomType;
+            Notifications.SubscribeActive("on-roomtype-add-success", function (sender, args) {
+                window.GuestCheckinManager.GetRoomTypes(roomType.PropertyId);
+            });
             pmsService.AddRoomType(roomTypeRequestDto);
         },
 
@@ -952,8 +973,11 @@
             paymentType.CreatedOn = getCurrentDate();
             var paymentTypeRequestDto = {};
             paymentTypeRequestDto.PaymentType = {};
-            // AddFloor by api calling  
+            // AddPaymentType by api calling  
             paymentTypeRequestDto.PaymentType = paymentType;
+            Notifications.SubscribeActive("on-paymenttype-add-success", function (sender, args) {
+                window.GuestCheckinManager.GetPaymentType(paymentType.PropertyId);
+            });
             pmsService.AddPaymentType(paymentTypeRequestDto);
         },
 
@@ -986,6 +1010,9 @@
             extraChargeRequestDto.ExtraCharge = {};
             // AddExtraCharge by api calling  
             extraChargeRequestDto.ExtraCharge = extracharge;
+            Notifications.SubscribeActive("on-extracharge-add-success", function (sender, args) {
+                window.GuestCheckinManager.GetExtraCharge(extracharge.PropertyId);
+            });
             pmsService.AddExtraCharge(extraChargeRequestDto);
         },
 
@@ -1016,8 +1043,11 @@
             tax.CreatedOn = getCurrentDate();
             var taxRequestDto = {};
             taxRequestDto.Tax = {};
-            // AddExtraCharge by api calling  
+            // AddTax by api calling  
             taxRequestDto.Tax = tax;
+            Notifications.SubscribeActive("on-tax-add-success", function (sender, args) {
+                window.GuestCheckinManager.GetTax(tax.PropertyId);
+            });
             pmsService.AddTax(taxRequestDto);
         },
 
@@ -1044,6 +1074,9 @@
             rateTypeDto.RateType = {};
             // AddRateType by api calling  
             rateTypeDto.RateType = rateType;
+            Notifications.SubscribeActive("on-ratetype-add-success", function (sender, args) {
+                window.GuestCheckinManager.GetRoomRateType(rateType.PropertyId);
+            });
             pmsService.AddRateType(rateTypeDto);
         },
 
@@ -1054,6 +1087,9 @@
             var rateTypeDto = {};
             rateTypeDto.RateType = {};
             rateTypeDto.RateType = existingRateType;
+            Notifications.SubscribeActive("on-ratetype-update-success", function (sender, args) {
+                window.GuestCheckinManager.GetRoomRateType(existingRateType.PropertyId);
+            });
             pmsService.UpdateRateType(rateTypeDto);
         },
 
@@ -1116,7 +1152,17 @@
             pmsService.Handlers.OnGetRateTypeByPropertySuccess = function (data) {
                 //storing room rate type data into session storage
                 pmsSession.SetItem("ratetypedata", JSON.stringify(data.RateTypes));
-                window.GuestCheckinManager.BindRateTypeDdl();
+                var divRateType = $('#divRateType');
+                var rateTemplate = $('#rateTemplate');
+                var rateTypeDdl = $('#rateTypeDdl');
+                if (rateTypeDdl && rateTypeDdl.length > 0) {
+                    window.GuestCheckinManager.BindRateTypeDdl(rateTypeDdl);
+                }
+                else if (divRateType && rateTemplate && divRateType.length > 0 && rateTemplate.length > 0) {
+                    window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = null;
+                    window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = data.RateTypes;
+                    window.GuestCheckinManager.PopulateRateTypeGrid(data);
+                }
             };
 
             pmsService.Handlers.OnGetRateTypeByPropertyFailure = function () {
@@ -1281,8 +1327,8 @@
                 var status = data.StatusDescription.toLowerCase();
                 if (data.ResponseObject > 0) {                    
                     console.log(status);                    
-                    window.GuestCheckinManager.GetAllProperty();
                     alert(status);
+                    if (window.Notifications) window.Notifications.Notify("on-property-add-success", null, null);
                 } else {
                     console.error(status);
                     alert(status);
@@ -1320,12 +1366,10 @@
             pmsService.Handlers.OnAddRoomTypeSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 if (data.ResponseObject > 0) {
-                    console.log(status);
-                    // to fetch new data
-                    if ($('#ddlProperty') && $('#ddlProperty').val() > 0) {
-                        window.GuestCheckinManager.GetRoomTypes($('#ddlProperty').val());
-                    }
+                    console.log(status);                    
                     alert(status);
+                    // to fetch new data                    
+                    if (window.Notifications) window.Notifications.Notify("on-roomtype-add-success", null, null);
                 } else {
                     console.error(status);
                     alert(status);
@@ -1340,12 +1384,10 @@
             pmsService.Handlers.OnAddFloorSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 if (data.ResponseObject > 0) {
-                    console.log(status);
-                    // to fetch new data
-                    if ($('#ddlProperty') && $('#ddlProperty').val() > 0) {
-                        window.GuestCheckinManager.GetFloorsByProperty($('#ddlProperty').val());
-                    }
+                    console.log(status);                                   
                     alert(status);
+                    // to fetch new data     
+                    if (window.Notifications) window.Notifications.Notify("on-floor-add-success", null, null);
                 } else {
                     console.error(status);
                     alert(status);
@@ -1427,11 +1469,10 @@
                 var status = data.StatusDescription.toLowerCase();
                 if (data.ResponseObject > 0) {
                     console.log(status);
-                    // to fetch new data
-                    if ($('#ddlProperty') && $('#ddlProperty').val() > 0) {
-                        window.GuestCheckinManager.GetPaymentType($('#ddlProperty').val());
-                    }
                     alert(status);
+                    // to fetch new data                    
+                    if (window.Notifications) window.Notifications.Notify("on-paymenttype-add-success", null, null);
+                    
                 } else {
                     console.error(status);
                     alert(status);
@@ -1479,12 +1520,10 @@
             pmsService.Handlers.OnAddExtraChargeSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 if (data.ResponseObject > 0) {
-                    console.log(status);
-                    // to fetch new data
-                    if ($('#ddlProperty') && $('#ddlProperty').val() > 0) {
-                        window.GuestCheckinManager.GetExtraCharge($('#ddlProperty').val());
-                    }
+                    console.log(status);                                        
                     alert(status);
+                    // to fetch new data
+                    if (window.Notifications) window.Notifications.Notify("on-extracharge-add-success", null, null);
                 } else {
                     console.error(status);
                     alert(status);
@@ -1533,11 +1572,9 @@
                 var status = data.StatusDescription.toLowerCase();
                 if (data.ResponseObject > 0) {
                     console.log(status);
-                    // to fetch new data
-                    if ($('#ddlProperty') && $('#ddlProperty').val() > 0) {
-                        window.GuestCheckinManager.GetTax($('#ddlProperty').val());
-                    }
                     alert(status);
+                    // to fetch new data
+                    if (window.Notifications) window.Notifications.Notify("on-tax-add-success", null, null);                                        
                 } else {
                     console.error(status);
                     alert(status);
@@ -1575,11 +1612,9 @@
                 var status = data.StatusDescription.toLowerCase();
                 if (data.ResponseObject > 0) {
                     console.log(status);
-                    // to fetch new data
-                    if ($('#ddlProperty') && $('#ddlProperty').val() > 0) {
-                        window.GuestCheckinManager.GetRoomRateType($('#ddlProperty').val());
-                    }
+                    // to fetch new data                    
                     alert(status);
+                    if (window.Notifications) window.Notifications.Notify("on-ratetype-add-success", null, null);
                 } else {
                     console.error(status);
                     alert(status);
@@ -1611,6 +1646,7 @@
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
                 alert(status);
+                if (window.Notifications) window.Notifications.Notify("on-ratetype-update-success", null, null);
             };
 
             //pmsService.Handlers.OnGetRoomByPropertySuccess = function (data) {

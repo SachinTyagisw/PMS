@@ -1,0 +1,226 @@
+﻿
+@{
+    ViewBag.Title = "Manage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrap">
+    <main class="tab-main">
+
+        <input id="tab1" type="radio" name="tabs" checked>
+        <label for="tab1">Create Floor</label>
+
+        <input id="tab2" type="radio" name="tabs">
+        <label for="tab2">Create Rooms</label>
+
+        <input id="tab3" type="radio" name="tabs">
+        <label for="tab3">Create Rate Types</label>
+
+        <input id="tab4" type="radio" name="tabs">
+        <label for="tab4">Manage Room Rates</label>
+
+        <section id="content1">
+            <div class="form-group m-t-10">
+                <input type="text" class="search form-control" placeholder="Search by floor...">
+            </div>
+            <span class="counter"></span>
+            <div id="createFloor">
+                <table class="table table-hover table-bordered results tableContents">
+                    <thead>
+                        <tr>
+                            <th id="IDCol">ID #</th>
+                            <th id="floorCol" contenteditable="false">Floor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="idRow" contenteditable="false">1</td>
+                            <td contenteditable="false">1</td>
+                        </tr>
+                        <tr>
+                            <td class="idRow" contenteditable="false">2</td>
+                            <td contenteditable="false">2</td>
+                        </tr>
+                        <tr id="bottomRow Row3">
+                            <td class="idRow" contenteditable="false">3</td>
+                            <td contenteditable="false">3</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <button id="addRow" class="btn btn-primary m-l-5 m-t-15" type="button">Add Row</button>
+            </div>
+        </section>
+
+        <section id="content2">
+            <div class="form-group m-t-10">
+                <input type="text" class="search form-control" placeholder="Search by Rooms...">
+            </div>
+            <span class="counter"></span>
+            <div id="createRooms">
+                <table class="table table-hover table-bordered results tableContents">
+                    <thead>
+                        <tr>
+                            <th id="IDCol">ID #</th>
+                            <th id="floorCol" contenteditable="false">Floors</th>
+                            <th id="floorCol" contenteditable="false">Room Type</th>
+                            <th id="floorCol" contenteditable="false">Rooms</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="idRow" contenteditable="false">1</td>
+                            <td contenteditable="false">1</td>
+                            <td contenteditable="false">KS</td>
+                            <td contenteditable="false">101</td>
+                        </tr>
+                        <tr>
+                            <td class="idRow" contenteditable="false">2</td>
+                            <td contenteditable="false">1</td>
+                            <td contenteditable="false">KNS</td>
+                            <td contenteditable="false">102</td>
+                        </tr>
+                        <tr>
+                            <td class="idRow" contenteditable="false">3</td>
+                            <td contenteditable="false">1</td>
+                            <td contenteditable="false">QS</td>
+                            <td contenteditable="false">103</td>
+                        </tr>
+                        <tr>
+                            <td class="idRow" contenteditable="false">3</td>
+                            <td contenteditable="false">2</td>
+                            <td contenteditable="false">QS</td>
+                            <td contenteditable="false">201</td>
+                        </tr>
+                        <tr>
+                            <td class="idRow" contenteditable="false">3</td>
+                            <td contenteditable="false">2</td>
+                            <td contenteditable="false">QS</td>
+                            <td contenteditable="false">202</td>
+                        </tr>
+                        <tr>
+                            <td class="idRow" contenteditable="false">3</td>
+                            <td contenteditable="false">2</td>
+                            <td contenteditable="false">QS</td>
+                            <td contenteditable="false">203</td>
+                        </tr>
+                        <tr id="bottomRow Row3">
+                            <td class="idRow" contenteditable="false">3</td>
+                            <td contenteditable="false">3</td>
+                            <td contenteditable="false">QS</td>
+                            <td contenteditable="false">301</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <button id="addRow" class="btn btn-primary m-l-5 m-t-15" type="button">Add Row</button>
+            </div>
+        </section>
+
+        <section id="content3">
+            <div class="form-group m-t-10">
+                <input type="text" class="search form-control" placeholder="Search by Rate Types...">
+            </div>
+            <span class="counter"></span>
+            <div id="createRateTypes">
+                <table class="table table-hover table-bordered results tableContents">
+                    <thead>
+                        <tr>
+                            <th id="IDCol">ID #</th>
+                            <th id="rateTypeCol" contenteditable="false">Rate Type</th>
+                            <th id="unitsCol" contenteditable="false">Units</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="idRow" contenteditable="false">1</td>
+                            <td contenteditable="false">WeekDay</td>
+                            <td contenteditable="false">Daily</td>
+                        </tr>
+                        <tr>
+                            <td class="idRow" contenteditable="false">2</td>
+                            <td contenteditable="false">WeekEnd</td>
+                            <td contenteditable="false">daily</td>
+                        </tr>
+                        <tr>
+                            <td class="idRow" contenteditable="false">3</td>
+                            <td contenteditable="false">Summer</td>
+                            <td contenteditable="false">Daily</td>
+                        </tr>
+                        <tr>
+                            <td class="idRow" contenteditable="false">4</td>
+                            <td contenteditable="false">Hourly1</td>
+                            <td contenteditable="false">Hourly</td>
+                        </tr>
+                        <tr>
+                            <td class="idRow" contenteditable="false">5</td>
+                            <td contenteditable="false">Hourly2</td>
+                            <td contenteditable="false">Hourly</td>
+                        </tr>
+                        <tr id="bottomRow Row3">
+                            <td class="idRow" contenteditable="false">6</td>
+                            <td contenteditable="false">Hourly3</td>
+                            <td contenteditable="false">Hourly</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <button id="addRow" class="btn btn-primary m-l-5 m-t-15" type="button">Add Row</button>
+            </div>
+        </section>
+
+        <section id="content4">
+            <div class="form-group m-t-10">
+                <input type="text" class="search form-control" placeholder="Search by Room Rates...">
+            </div>
+            <span class="counter"></span>
+            <div id="manageRoomRates">
+                <table class="table table-hover table-bordered results tableContents">
+                    <thead>
+                        <tr>
+                            <th id="IDCol">ID #</th>
+                            <th id="floorCol" contenteditable="false">Floors</th>
+                            <th id="roomTypeCol" contenteditable="false">Room Type</th>
+                            <th id="roomsCol" contenteditable="false">Room#</th>
+                            <th id="ratesCol" contenteditable="false">Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="idRow" contenteditable="false">1</td>
+                            <td contenteditable="false">1</td>
+                            <td contenteditable="false">King Smoking</td>
+                            <td contenteditable="false">101</td>
+                            <td contenteditable="false"></td>
+                        </tr>
+                        <tr>
+                            <td class="idRow" contenteditable="false">2</td>
+                            <td contenteditable="false">1</td>
+                            <td contenteditable="false">King Non Smoking</td>
+                            <td contenteditable="false">102</td>
+                            <td contenteditable="false"></td>
+                        </tr>
+                        <tr>
+                            <td class="idRow" contenteditable="false">3</td>
+                            <td contenteditable="false">1</td>
+                            <td contenteditable="false">Queen Single</td>
+                            <td contenteditable="false">103</td>
+                            <td contenteditable="false"></td>
+                        </tr>
+                        <tr id="bottomRow Row3">
+                            <td class="idRow" contenteditable="false">4</td>
+                            <td contenteditable="false">2</td>
+                            <td contenteditable="false">Queen Smoking</td>
+                            <td contenteditable="false">201</td>
+                            <td contenteditable="false"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <button id="addRow" class="btn btn-primary m-l-5 m-t-15" type="button">Add Row</button>
+            </div>
+        </section>
+
+    </main>
+</div>
+

@@ -1,7 +1,7 @@
 USE [PMS]
 GO
 
-/****** Object:  Table [dbo].[PropertyFloor]    Script Date: 7/10/2017 9:27:14 PM ******/
+/****** Object:  Table [dbo].[PropertyFloor]    Script Date: 07/14/2017 21:24:31 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -9,19 +9,23 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[PropertyFloor](
-	[PropertyId] [int] NULL,
+	[propertyId] [int] NULL,
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[FloorNumber] [int] NULL,
-	[IsActive] [bit] NOT NULL CONSTRAINT [DF__PropertyF__isAct__0EF836A4]  DEFAULT ((1)),
+	[isActive] [bit] NULL,
 	[CreatedBy] [nvarchar](200) NULL,
 	[CreatedOn] [datetime] NULL,
 	[LastUpdatedBy] [nvarchar](200) NULL,
 	[LastUpdatedOn] [datetime] NULL,
- CONSTRAINT [PK_PropertyFloor] PRIMARY KEY CLUSTERED 
+PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
+
+ALTER TABLE [dbo].[PropertyFloor] ADD  DEFAULT ((1)) FOR [isActive]
+GO
+
 

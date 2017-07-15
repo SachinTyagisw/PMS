@@ -54,6 +54,10 @@
                     alert("Tax Name is required");
                     return;
                 }
+                if (isNaN(taxAmount)) {
+                    alert("Tax Amount should be numeric");
+                    return;
+                }
                 if (!taxAmount || taxAmount <= 0) {
                     alert("Tax Amount should be greater than 0");
                     return;

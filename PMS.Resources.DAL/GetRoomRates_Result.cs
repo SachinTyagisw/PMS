@@ -10,29 +10,22 @@
 namespace PMS.Resources.DAL
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Room
+    public partial class GetRoomRates_Result
     {
-        public Room()
-        {
-            this.Rates = new HashSet<Rate>();
-        }
-    
         public int ID { get; set; }
-        public int PropertyID { get; set; }
-        public int RoomTypeID { get; set; }
-        public string Number { get; set; }
+        public string Type { get; set; }
+        public Nullable<int> PropertyID { get; set; }
+        public Nullable<int> RateTypeID { get; set; }
+        public Nullable<int> RoomTypeID { get; set; }
+        public Nullable<int> InputKeyHours { get; set; }
+        public Nullable<decimal> Value { get; set; }
         public bool IsActive { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string LastUpdatedBy { get; set; }
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
-        public Nullable<int> FloorId { get; set; }
-    
-        public virtual Property Property { get; set; }
-        public virtual PropertyFloor PropertyFloor { get; set; }
-        public virtual ICollection<Rate> Rates { get; set; }
-        public virtual RoomType RoomType { get; set; }
+        public string RoomTypeName { get; set; }
+        public string RateTypeName { get; set; }
     }
 }

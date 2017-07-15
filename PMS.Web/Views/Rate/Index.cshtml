@@ -23,7 +23,7 @@
         gcm.GetAllProperty();
 
         $("#divRateType").on("click", ".fa-plus-circle", function () {
-            $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="true" style="background-color: #ffc9c9;"></td><td contenteditable="true" style="background-color: #ffc9c9;"></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-floppy-o editMode" aria-hidden="true"></i> </td></tr>');
+            $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="true" style="background-color: #ffc9c9;"></td><td contenteditable="true" style="background-color: #ffc9c9;"><select style="display:block" id="ddlUnitClone" class="form-control"><option value="Hourly">Hourly</option><option value="Daily">Daily</option></select></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i><i class="fa fa-minus-circle" aria-hidden="true"></i><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td></tr>');
         });
 
         $("#divRateType").on("click", ".fa-minus-circle", function () {
@@ -44,17 +44,19 @@
             var rateTypeId = $(thisRow)[0].innerText;
             var propertyId = $('#ddlProperty').val();
             var rateTypeName = $(thisRow)[1].innerText;
-            var units = $(thisRow)[2].innerText;
-
             if (editOn == false) {
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
+                var cloneUnit = $('#ddlUnitClone').clone(true);
+                cloneUnit[0].style = 'display:block';
+                $(thisRow)[2].innerText = "";
+                $(thisRow[2]).append(cloneUnit);
                 makeFieldsReadonly($(thisRow[0]));
             } else if (editOn == true) {
+                var units = $(thisRow)[2].children[0].value;
                 if (!rateTypeName || rateTypeName.length <= 0) {
                     alert("Rate type name is required");
                     return;
                 }
-                
                 if (rateTypeId > 0) {
                     var existingRateType = gcm.FindPropertySetting(rateTypeId);
                     if (!existingRateType) return;
@@ -86,13 +88,13 @@
             <div class="col-lg-12 p-r-0 p-l-0">
                 <div class="card alert">
                     <div class="card-header">
-                        <h4>Create Tax</h4>
+                        <h4>Create Rate type</h4>
                     </div>
                     <div class="card-body room-details">
                         <div class="row" style="">
                             <div class="form-group col-lg-8 m-t-10">
                                 <label>Search</label>
-                                <input type="text" class="search form-control" placeholder="Search by Tax Name...">
+                                <input type="text" class="search form-control" placeholder="Search by Rate type name, Units...">
                             </div>
 
                             <div class="col-lg-2 p-l-0 p-r-0 m-t-10">
@@ -122,6 +124,10 @@
         <div class="dot"></div>
     </div>
 </div>
+<select style="display:none" id="ddlUnitClone" class="form-control">
+    <option value="Hourly">Hourly</option>
+    <option value="Daily">Daily</option>
+</select>
 <script type="text/html" id="rateTemplate">
     <table class="table table-hover table-bordered results tableContents">
         <thead>
