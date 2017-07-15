@@ -33,13 +33,15 @@ namespace PMS.Web
                        .Include("~/Scripts/Angular/ng-grid-flexible-height.min.js")
                        .Include("~/Scripts/daypilot/daypilot-all.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/js/jquery/lib").Include("~/Scripts/Jquery/lib/sidebar.js")
-                       .Include("~/Scripts/scripts.js"));
+            bundles.Add(new ScriptBundle("~/bundles/js/jquery/lib").Include("~/Scripts/Jquery/lib/sidebar.js"));
+                        //ToDO need to be included           
+                        //.Include("~/Scripts/scripts.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/bootstrap").Include("~/Scripts/Bootstrap/bootstrap.min.js")
-                       .Include("~/Scripts/Bootstrap/ui-bootstrap-tpls.min.js")
-                       .Include("~/Scripts/Bootstrap/moment.js")
-                       .Include("~/Scripts/Bootstrap/datetimepicker.js"));
+                       .Include("~/Scripts/Bootstrap/ui-bootstrap-tpls.min.js"));
+                       //ToDO need to be included
+                       //.Include("~/Scripts/Bootstrap/moment.js")
+                       //.Include("~/Scripts/Bootstrap/datetimepicker.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/custom").Include("~/Scripts/Notifications.js")
                         .Include("~/Scripts/PmsSession.js")
