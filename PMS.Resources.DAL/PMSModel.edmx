@@ -863,6 +863,9 @@
         <Function Name="GETINVOICEDETAILS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="INVOICEID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetRoomRates" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PropertyId" Type="int" Mode="In" />
+        </Function>
         <Function Name="GETROOMSTATUS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PROPERTYID" Type="int" Mode="In" />
           <Parameter Name="CHECKINTIME" Type="datetime" Mode="In" />
@@ -2138,6 +2141,9 @@
           <FunctionImport Name="GETINVOICEDETAILS" ReturnType="Collection(PmsModel.GETINVOICEDETAILS_Result)">
             <Parameter Name="INVOICEID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="GetRoomRates" ReturnType="Collection(PmsModel.GetRoomRates_Result)">
+            <Parameter Name="PropertyId" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="GETROOMSTATUS" ReturnType="Collection(PmsModel.GETROOMSTATUS_Result)">
             <Parameter Name="PROPERTYID" Mode="In" Type="Int32" />
             <Parameter Name="CHECKINTIME" Mode="In" Type="DateTime" />
@@ -2279,6 +2285,22 @@
           <Property Type="String" Name="PaymentDetails" Nullable="true" />
           <Property Type="String" Name="TaxShortName" Nullable="true" />
           <Property Type="Decimal" Name="TaxAmount" Nullable="true" Precision="7" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="GetRoomRates_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Type" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="PropertyID" Nullable="true" />
+          <Property Type="Int32" Name="RateTypeID" Nullable="true" />
+          <Property Type="Int32" Name="RoomTypeID" Nullable="true" />
+          <Property Type="Int32" Name="InputKeyHours" Nullable="true" />
+          <Property Type="Decimal" Name="Value" Nullable="true" Precision="19" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="CreatedOn" Nullable="true" Precision="23" />
+          <Property Type="String" Name="LastUpdatedBy" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="LastUpdatedOn" Nullable="true" Precision="23" />
+          <Property Type="String" Name="RoomTypeName" Nullable="true" />
+          <Property Type="String" Name="RateTypeName" Nullable="true" />
         </ComplexType>
         <ComplexType Name="GETROOMSTATUS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -2907,6 +2929,26 @@
                 <ScalarProperty Name="PaymentDetails" ColumnName="PaymentDetails" />
                 <ScalarProperty Name="TaxShortName" ColumnName="TaxShortName" />
                 <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetRoomRates" FunctionName="PmsModel.Store.GetRoomRates">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PmsModel.GetRoomRates_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
+                <ScalarProperty Name="RateTypeID" ColumnName="RateTypeID" />
+                <ScalarProperty Name="RoomTypeID" ColumnName="RoomTypeID" />
+                <ScalarProperty Name="InputKeyHours" ColumnName="InputKeyHours" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+                <ScalarProperty Name="RoomTypeName" ColumnName="RoomTypeName" />
+                <ScalarProperty Name="RateTypeName" ColumnName="RateTypeName" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

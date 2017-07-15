@@ -135,6 +135,15 @@ namespace PMS.Resources.DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GETINVOICEDETAILS_Result>("GETINVOICEDETAILS", iNVOICEIDParameter);
         }
     
+        public virtual ObjectResult<GetRoomRates_Result> GetRoomRates(Nullable<int> propertyId)
+        {
+            var propertyIdParameter = propertyId.HasValue ?
+                new ObjectParameter("PropertyId", propertyId) :
+                new ObjectParameter("PropertyId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetRoomRates_Result>("GetRoomRates", propertyIdParameter);
+        }
+    
         public virtual ObjectResult<GETROOMSTATUS_Result> GETROOMSTATUS(Nullable<int> pROPERTYID, Nullable<System.DateTime> cHECKINTIME, Nullable<System.DateTime> cHECKOUTDATE)
         {
             var pROPERTYIDParameter = pROPERTYID.HasValue ?
