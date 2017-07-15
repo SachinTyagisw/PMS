@@ -14,6 +14,11 @@ namespace PMS.Resources.DAL
     
     public partial class Room
     {
+        public Room()
+        {
+            this.Rates = new HashSet<Rate>();
+        }
+    
         public int ID { get; set; }
         public int PropertyID { get; set; }
         public int RoomTypeID { get; set; }
@@ -23,8 +28,11 @@ namespace PMS.Resources.DAL
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string LastUpdatedBy { get; set; }
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
+        public Nullable<int> FloorId { get; set; }
     
         public virtual Property Property { get; set; }
+        public virtual PropertyFloor PropertyFloor { get; set; }
+        public virtual ICollection<Rate> Rates { get; set; }
         public virtual RoomType RoomType { get; set; }
     }
 }

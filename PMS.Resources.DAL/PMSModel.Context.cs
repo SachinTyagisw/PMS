@@ -178,6 +178,32 @@ namespace PMS.Resources.DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("InsertInvoice", propertyIDParameter, invoiceXMLParameter, iNVOICEID);
         }
     
+        public virtual int InsertRoom(Nullable<int> propertyID, string roomXML)
+        {
+            var propertyIDParameter = propertyID.HasValue ?
+                new ObjectParameter("propertyID", propertyID) :
+                new ObjectParameter("propertyID", typeof(int));
+    
+            var roomXMLParameter = roomXML != null ?
+                new ObjectParameter("RoomXML", roomXML) :
+                new ObjectParameter("RoomXML", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertRoom", propertyIDParameter, roomXMLParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> InsertRoomRates(Nullable<int> propertyID, string rateXML, ObjectParameter rateID)
+        {
+            var propertyIDParameter = propertyID.HasValue ?
+                new ObjectParameter("propertyID", propertyID) :
+                new ObjectParameter("propertyID", typeof(int));
+    
+            var rateXMLParameter = rateXML != null ?
+                new ObjectParameter("RateXML", rateXML) :
+                new ObjectParameter("RateXML", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("InsertRoomRates", propertyIDParameter, rateXMLParameter, rateID);
+        }
+    
         public virtual int UpdateBooking(Nullable<int> bOOKINGID, Nullable<System.DateTime> cHECKINTIME, Nullable<System.DateTime> cHECKOUTTIME, Nullable<int> roomID)
         {
             var bOOKINGIDParameter = bOOKINGID.HasValue ?
