@@ -77,7 +77,7 @@
 <body class="sidebar-hide">
     <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
         <div class="area"></div>
-        <nav class="main-menu">
+        <nav id="side-nav"  class="main-menu">
             <ul>
                 <li>
                     <a href="~/Room/DashBoard" class="green-c">
@@ -104,21 +104,23 @@
                             Property Configuration
                         </span>
                     </a>
-                    @*<ul class="subnav">
-                            <li><a href="#">Rate</a></li>
-                        </ul>*@
                 </li>
 
-                <li class="has-subnav">
+                <li class="selected">
                     <a href="~/RoomType/Index" class="yellow-c">
                         <i class="fa fa-list fa-2x"></i>
                         <span class="nav-text">
                             Roomtype Configuration
                         </span>
                     </a>
-
+                    <ul>
+                        <li><a href="~/Floor/Index">Floor Configuration</a></li>
+                        <li><a href="~/ExtraCharge/Index">ExtraCharges Configuration</a></li>
+                        <li><a href="~/Payment/Index">PaymentType Configuration</a></li>
+                        <li><a href="~/Tax/Index">Tax Configuration</a></li>
+                    </ul>
                 </li>
-                <li class="has-subnav">
+                @*<li class="has-subnav">
                     <a href="~/Floor/Index" class="green-c">
                         <i class="fa fa-list fa-2x"></i>
                         <span class="nav-text">
@@ -155,15 +157,6 @@
                     </a>
 
                 </li>
-                @*<li class="has-subnav">
-                        <a href="#" class="blue-c">
-                            <i class="fa fa-list fa-2x"></i>
-                            <span class="nav-text">
-                                Reports
-                            </span>
-                        </a>
-
-                    </li>*@
                 <li class="has-subnav">
                     <a href="#" class="yellow-c">
                         <i class="fa fa-laptop fa-2x"></i>
@@ -172,7 +165,7 @@
                         </span>
                     </a>
 
-                </li>
+                </li>*@
                 <li>
                     <a href="#" class="purple-c">
                         <i class="fa fa-font fa-2x"></i>
@@ -182,8 +175,58 @@
                     </a>
                 </li>
             </ul>
+            <a id="toggle">
+                <i class="fa fa-chevron-circle-left"></i>
+            </a>
         </nav>
-
+        @*<nav id="side-nav" class="main-menu">
+            <ul>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-code"></i>
+                        <span>Pen</span>
+                    </a>
+                    <ul>
+                        <li><a href="#">New</a></li>
+                        <li><a href="#">Picks</a></li>
+                        <li><a href="#">Popular</a></li>
+                        <li><a href="#">Recent</a></li>
+                    </ul>
+                </li>
+                <li class="selected">
+                    <a href="#">
+                        <i class="fa fa-comment-o"></i>
+                        <span>Comment</span>
+                    </a>
+                    <ul>
+                        <li><a href="#">New</a></li>
+                        <li><a href="#">Popular</a></li>
+                        <li><a href="#">Recent</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-heart-o"></i>
+                        <span>Heart</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-paper-plane-o"></i>
+                        <span>Share</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-star-o"></i>
+                        <span>Favorite</span>
+                    </a>
+                </li>
+            </ul>
+            <a id="toggle">
+                <i class="fa fa-chevron-circle-left"></i>
+            </a>
+        </nav>*@
     </div><!-- /# sidebar -->
 
     <div class="header">

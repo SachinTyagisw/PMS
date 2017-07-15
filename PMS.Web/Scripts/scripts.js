@@ -120,7 +120,10 @@ $("#checkAll").change(function () {
     $("input:checkbox").prop('checked', $(this).prop("checked"));
 });
 
-
+$('#toggle').click( function(){
+    $(this).parent().toggleClass('width');
+    $(this).children().toggleClass( 'fa-chevron-circle-left').toggleClass( 'fa-chevron-circle-right');
+});
     /*  Data Table
     -------------*/
 
