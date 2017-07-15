@@ -54,6 +54,10 @@
                     alert("Facility Name is required");
                     return;
                 }
+                if (isNaN(facilityAmount)) {
+                    alert("Facility Amount should be numeric");
+                    return;
+                }                
                 if (!facilityAmount || facilityAmount <= 0) {
                     alert("Facility Amount should be greater than 0");
                     return;
