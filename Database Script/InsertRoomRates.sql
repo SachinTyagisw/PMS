@@ -1,7 +1,7 @@
-CREATE PROCEDURE [dbo].[InsertRoomRates]                        
+ Create PROCEDURE [dbo].[InsertRoom]                        
  @propertyID INT,                        
- @RateXML XML = NULL,     
- @RateID INT OUTPUT                        
+ @RoomXML XML = NULL  
+             
 AS                        
 BEGIN                        
  SET NOCOUNT ON                        
@@ -9,104 +9,78 @@ BEGIN
  BEGIN TRY                        
                           
  DECLARE @hDoc INT                        
-  IF @RateXML IS NOT NULL                        
+  IF @RoomXML IS NOT NULL                        
   BEGIN                        
-   DECLARE @SavedRateIDTable Table (OldRateID INT, NewRateID INT)                        
-   EXEC sp_xml_preparedocument @hDoc OUTPUT,@RateXML    
-                        
-   -- Start - Merge INTO Invoice                        
+   DECLARE @SavedRoomIDTable Table (OldRoomID INT, NewRoomID INT)                        
+   EXEC sp_xml_preparedocument @hDoc OUTPUT,@RoomXML    
+     
   MERGE INTO                         
-  [Rates] AS [TargetRates]                        
+  [Room] AS [TargetRoom]                        
   USING                         
    (                        
     SELECT                         
-      XMLTable.ID,                          
-      XMLTable.Type,  
-      XMLTable.PropertyID,          
-      XMLTable.RateTypeID,                          
-      XMLTable.RoomTypeID,                          
-      XMLTable.InputKeyHours,                          
-      XMLTable.Value,                          
-      XMLTable.RoomId,                          
+      XMLTable.Id,                          
+      XMLTable.RoomTypeId,
+      XMLTable.FloorId,          
+      XMLTable.Number,                          
       XMLTable.IsActive,                          
       XMLTable.CreatedBy,                          
       XMLTable.CreatedOn,                          
       XMLTable.LastUpdatedBy,                          
       XMLTable.LastUpdatedOn                        
     FROM                         
-     OPENXML(@hDoc, 'Rates',2)                        
+     OPENXML(@hDoc, 'Rooms/Room',2)                        
      WITH                        
      (                        
-      ID int,                          
-      Type nvarchar(20),                          
-      PropertyID int,                          
-      RateTypeID int,    
-      RoomTypeID int,                        
-      InputKeyHours int,                          
-      Value money,                          
-      RoomId int,                          
+      Id int,                          
+      RoomTypeId int,  
+      FloorId int,                        
+      Number nvarchar(200),                          
       IsActive bit,                          
       CreatedBy nvarchar(200),                          
       CreatedOn Datetime,                          
       LastUpdatedBy nvarchar(200),                          
       LastUpdatedOn DateTime                        
      ) XMLTable                          
-   ) AS [SourceRates]                        
-  ON [TargetRates].ID = [SourceRates].ID                        
+   ) AS [SourceRoom]                        
+  ON [TargetRoom].Id = [SourceRoom].Id        
+                    
   WHEN MATCHED THEN                        
   UPDATE                         
    SET                         
-      [TargetRates].Type = [SourceRates].Type                          
-      ,[TargetRates].PropertyID = [SourceRates].PropertyID                          
-      ,[TargetRates].RateTypeID = [SourceRates].RateTypeID                        
-      ,[TargetRates].RoomTypeID = [SourceRates].RoomTypeID                        
-      ,[TargetRates].InputKeyHours = [SourceRates].InputKeyHours                          
-      ,[TargetRates].Value = [SourceRates].Value           
-      ,[TargetRates].RoomId = [SourceRates].RoomId                        
-      ,[TargetRates].IsActive = [SourceRates].IsActive                          
-      ,[TargetRates].CreatedBy = [SourceRates].CreatedBy                        
-      ,[TargetRates].CreatedOn = [SourceRates].CreatedOn                         
-      ,[TargetRates].LastUpdatedBy = [SourceRates].LastUpdatedBy                         
-      ,[TargetRates].LastUpdatedOn = [SourceRates].LastUpdatedOn                        
-      ,@RateID = [SourceRates].ID    
+       [TargetRoom].RoomTypeId = [SourceRoom].RoomTypeId 
+      ,[TargetRoom].FloorId = [SourceRoom].FloorId                          
+      ,[TargetRoom].Number = [SourceRoom].Number                          
+      ,[TargetRoom].IsActive = [SourceRoom].IsActive                          
+      ,[TargetRoom].CreatedBy = [SourceRoom].CreatedBy                        
+      ,[TargetRoom].CreatedOn = [SourceRoom].CreatedOn                         
+      ,[TargetRoom].LastUpdatedBy = [SourceRoom].LastUpdatedBy                         
+      ,[TargetRoom].LastUpdatedOn = [SourceRoom].LastUpdatedOn                        
   WHEN NOT MATCHED THEN                        
-  INSERT (                          
-      Type,                          
-      PropertyID,                          
-      RateTypeID,
-      RoomTypeID,                          
-      InputKeyHours,                          
-      Value,                          
-      RoomId,                          
+  INSERT (   
+   PropertyId,                         
+      RoomTypeId,  
+      FloorId,
+      Number,                          
       IsActive,                          
       CreatedBy,                          
-      CreatedOn,                          
-      LastUpdatedBy,   
-      LastUpdatedOn  
-      )             
+      CreatedOn,                       
+      LastUpdatedBy,                          
+      LastUpdatedOn)             
    VALUES                         
-    (                        
-      [SourceRates].Type                          
-      ,[SourceRates].PropertyID                          
-      ,[SourceRates].RateTypeID
-      ,[SourceRates].RoomTypeID                        
-      ,[SourceRates].InputKeyHours                          
-      ,[SourceRates].Value           
-      ,[SourceRates].RoomId                        
-      ,[SourceRates].IsActive                          
-      ,[SourceRates].CreatedBy                        
-      ,[SourceRates].CreatedOn                         
-      ,[SourceRates].LastUpdatedBy                         
-      ,[SourceRates].LastUpdatedOn                         
-    )                        
-   OUTPUT [SourceRates].ID, inserted.ID INTO @SavedRateIDTable(OldRateID,NewRateID);                        
-     
-   IF(@RateID is null)    
-   BEGIN    
-    SELECT @RateID = NewRateID FROM @SavedRateIDTable          
-   END     
-    SELECT @RateID        
- END                        
+    (    
+  @PropertyID,                      
+     [SourceRoom].RoomTypeId,
+     [SourceRoom].FloorId,                          
+     [SourceRoom].Number,                          
+     [SourceRoom].IsActive,                          
+     [SourceRoom].CreatedBy,                          
+     [SourceRoom].CreatedOn,                          
+     [SourceRoom].LastUpdatedBy,                          
+     [SourceRoom].LastUpdatedOn                        
+    ) ;                       
+ END   
+                      
  COMMIT TRAN                        
  END TRY                        
                         
