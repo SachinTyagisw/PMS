@@ -18,6 +18,7 @@ namespace PMS.Resources.Entities
         public Nullable<int> PropertyId { get; set; }
         public Nullable<int> RoomTypeID { get; set; }
         public string Units { get; set; }
+        public Nullable<int> Hours { get; set; }
         public List<Rate> Rates { get; set; }
     }
 }

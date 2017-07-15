@@ -29,6 +29,7 @@ namespace PMS.Resources.DAL
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
         public string NAME { get; set; }
         public string Units { get; set; }
+        public Nullable<int> Hours { get; set; }
     
         public virtual Property Property { get; set; }
         public virtual Property Property1 { get; set; }
