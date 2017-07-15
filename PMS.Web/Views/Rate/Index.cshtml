@@ -5,6 +5,19 @@
 
 <script type='text/javascript'>
     var gcm = window.GuestCheckinManager;
+
+    function OnUnitChange(ddlUnit, ddlHour) {
+        if (ddlUnit && ddlUnit.value === 'Daily'){
+            if (ddlHour && ddlHour[0] && ddlHour[0].style.cssText === "display: block;") {
+                ddlHour.attr("disabled", "disabled");
+            }else{
+                $('#ddlHourClone').attr("disabled", "disabled");
+            } 
+        } else {
+            ddlHour.removeAttr("disabled");
+        }
+    }
+
     function makeFieldsReadonly(rowObject) {
         rowObject.attr('contenteditable', 'false');
         rowObject.css('background-color', 'transparent');
@@ -23,7 +36,7 @@
         gcm.GetAllProperty();
 
         $("#divRateType").on("click", ".fa-plus-circle", function () {
-            $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="true" style="background-color: #ffc9c9;"></td><td contenteditable="true" style="background-color: #ffc9c9;"><select style="display:block" id="ddlUnitClone" class="form-control"><option value="Hourly">Hourly</option><option value="Daily">Daily</option></select></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i><i class="fa fa-minus-circle" aria-hidden="true"></i><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td></tr>');
+            $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="true" style="background-color: #ffc9c9;"></td><td contenteditable="true" style="background-color: #ffc9c9;"><select style="display:block" id="ddlUnitClone" class="form-control"><option value="Hourly">Hourly</option><option value="Daily">Daily</option></select></td><td contenteditable="true" style="background-color: #ffc9c9;"><select style="display:block" id="ddlHourClone" onchange="OnUnitChange(this);" class="form-control"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i><i class="fa fa-minus-circle" aria-hidden="true"></i><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td></tr>');
         });
 
         $("#divRateType").on("click", ".fa-minus-circle", function () {
@@ -46,13 +59,34 @@
             var rateTypeName = $(thisRow)[1].innerText;
             if (editOn == false) {
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
+
                 var cloneUnit = $('#ddlUnitClone').clone(true);
                 cloneUnit[0].style = 'display:block';
+                cloneUnit[0].id = 'ddlUnitClone' + rateTypeId;
+                var unitSelector = '#' + cloneUnit[0].id;
                 $(thisRow)[2].innerText = "";
                 $(thisRow[2]).append(cloneUnit);
+
+                var cloneHour = $('#ddlHourClone').clone(true);
+                cloneHour[0].style = 'display:block';
+                cloneHour[0].id = 'ddlHourClone' + rateTypeId;
+                cloneHour.removeAttr("disabled");
+                var hourSelector = '#' + cloneHour[0].id;
+                $(thisRow)[3].innerText = "";
+                $(thisRow[3]).append(cloneHour);
+
+                $(document).on('change', unitSelector, function () {
+                    OnUnitChange($(cloneUnit)[0], $(cloneHour));
+                });
+
                 makeFieldsReadonly($(thisRow[0]));
             } else if (editOn == true) {
                 var units = $(thisRow)[2].children[0].value;
+                var hours = $(thisRow)[3].children[0].value;
+                if (units === 'Daily') {
+                    hours = null;
+                }
+
                 if (!rateTypeName || rateTypeName.length <= 0) {
                     alert("Rate type name is required");
                     return;
@@ -62,6 +96,7 @@
                     if (!existingRateType) return;
                     existingRateType.Name = rateTypeName;
                     existingRateType.Units = units;
+                    existingRateType.Hours = hours;
                     //call UpdateRateType api
                     gcm.UpdateRateType(existingRateType);
                 } else {
@@ -73,6 +108,7 @@
                     rateType.Name = rateTypeName;
                     rateType.Units = units;
                     rateType.PropertyId = propertyId;
+                    rateType.Hours = hours;
                     //call AddRateType api
                     gcm.AddRateType(rateType);
                 }
@@ -124,10 +160,20 @@
         <div class="dot"></div>
     </div>
 </div>
-<select style="display:none" id="ddlUnitClone" class="form-control">
+<select style="display:none" id="ddlUnitClone" onchange="OnUnitChange(this, $('#ddlHourClone'));" class="form-control">
     <option value="Hourly">Hourly</option>
     <option value="Daily">Daily</option>
 </select>
+
+<select style="display:none" id="ddlHourClone" class="form-control">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+</select>
+
 <script type="text/html" id="rateTemplate">
     <table class="table table-hover table-bordered results tableContents">
         <thead>
@@ -135,6 +181,7 @@
                 <th id="IDCol">ID #</th>
                 <th id="rateTypeCol" contenteditable="false">Rate Type</th>
                 <th id="unitsCol" contenteditable="false">Units</th>
+                <th id="hoursCol" contenteditable="false">Hours</th>
             </tr>
         </thead>
         <tbody>
@@ -144,11 +191,13 @@
                 <td class="idRow" contenteditable="false">${$value.Id}</td>
                 <td contenteditable="false">${$value.Name}</td>
                 <td contenteditable="false">${$value.Units}</td>
+                <td contenteditable="false">${$value.Hours}</td>
             </tr>
             {{/each}}
             {{else}}
             <tr>
                 <td class="idRow" contenteditable="false"></td>
+                <td contenteditable="true" style="background-color: #ffc9c9;"></td>
                 <td contenteditable="true" style="background-color: #ffc9c9;"></td>
                 <td contenteditable="true" style="background-color: #ffc9c9;"></td>
             </tr>
