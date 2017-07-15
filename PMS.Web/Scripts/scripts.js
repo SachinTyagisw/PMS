@@ -280,14 +280,16 @@ $(function () {
         var thisRow = $(this).parent().siblings();
         var editOn = $(this).hasClass("editMode");
 
-        $('td:last-child').attr('contenteditable', 'false');
-        $('td:last-child').css('background-color', 'transparent');
+        $('td:first-child, td:last-child').attr('contenteditable', 'false');
+        $('td:first-child, td:last-child').css('background-color', 'transparent');
 
         if (editOn == false) {
             $(thisRow).attr('contenteditable', 'true');
-            $(thisRow).css({'border': '1px solid #000','background': 'rgba(255,255,255,0.7)', 'padding': '6px'});
+            $(thisRow).css({ 'border': '1px solid #000', 'background': 'rgba(255,255,255,0.7)', 'padding': '6px' });
+            $(thisRow).select();
             $(this).removeClass("fa-pencil-square-o");
             $(this).addClass("fa-floppy-o editMode");
+            $('td:first-child').attr('contenteditable', 'false').css({ 'border': '1px solid #fff', 'background-color': 'transparent', 'padding': '5px 10px' });
         } else if (editOn == true) {
             $(thisRow).attr('contenteditable', 'false');
             $(thisRow).css('background-color', 'transparent');
@@ -318,14 +320,15 @@ $(function () {
         var thisRow = $(this).parent().siblings();
         var editOn = $(this).hasClass("editMode");
 
-        $('td:last-child').attr('contenteditable', 'false');
-        $('td:last-child').css('background-color', 'transparent');
+        $('td:first-child, td:last-child').attr('contenteditable', 'false');
+        $('td:first-child, td:last-child').css('background-color', 'transparent');
 
         if (editOn == false) {
             $(thisRow).attr('contenteditable', 'true');
             $(thisRow).css({ 'border': '1px solid #000', 'background': 'rgba(255,255,255,0.7)', 'padding': '6px' });
             $(this).removeClass("fa-pencil-square-o");
             $(this).addClass("fa-floppy-o editMode");
+            $('td:first-child').attr('contenteditable', 'false').css({ 'border': '1px solid #fff', 'background-color': 'transparent', 'padding': '5px 10px' });
         } else if (editOn == true) {
             $(thisRow).attr('contenteditable', 'false');
             $(thisRow).css('background-color', 'transparent');
@@ -357,14 +360,15 @@ $(function () {
         var thisRow = $(this).parent().siblings();
         var editOn = $(this).hasClass("editMode");
 
-        $('td:last-child').attr('contenteditable', 'false');
-        $('td:last-child').css('background-color', 'transparent');
+        $('td:first-child, td:last-child').attr('contenteditable', 'false');
+        $('td:first-child, td:last-child').css('background-color', 'transparent');
 
         if (editOn == false) {
             $(thisRow).attr('contenteditable', 'true');
             $(thisRow).css({ 'border': '1px solid #000', 'background': 'rgba(255,255,255,0.7)', 'padding': '6px' });
             $(this).removeClass("fa-pencil-square-o");
             $(this).addClass("fa-floppy-o editMode");
+            $('td:first-child').attr('contenteditable', 'false').css({ 'border': '1px solid #fff', 'background-color': 'transparent', 'padding': '5px 10px' });
         } else if (editOn == true) {
             $(thisRow).attr('contenteditable', 'false');
             $(thisRow).css('background-color', 'transparent');
@@ -395,14 +399,15 @@ $(function () {
         var thisRow = $(this).parent().siblings();
         var editOn = $(this).hasClass("editMode");
 
-        $('td:last-child').attr('contenteditable', 'false');
-        $('td:last-child').css('background-color', 'transparent');
+        $('td:first-child, td:last-child').attr('contenteditable', 'false');
+        $('td:first-child, td:last-child').css('background-color', 'transparent');
 
         if (editOn == false) {
             $(thisRow).attr('contenteditable', 'true');
             $(thisRow).css({ 'border': '1px solid #000', 'background': 'rgba(255,255,255,0.7)', 'padding': '6px' });
             $(this).removeClass("fa-pencil-square-o");
             $(this).addClass("fa-floppy-o editMode");
+            $('td:first-child').attr('contenteditable', 'false').css({ 'border': '1px solid #fff', 'background-color': 'transparent', 'padding': '5px 10px' });
         } else if (editOn == true) {
             $(thisRow).attr('contenteditable', 'false');
             $(thisRow).css('background-color', 'transparent');
