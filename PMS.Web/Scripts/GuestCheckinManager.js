@@ -32,22 +32,21 @@
             } else {
                 window.GuestCheckinManager.BindRoomTypeDdl($('#roomTypeDdl'));
             }
-            window.GuestCheckinManager.GetRoomRateType();
+            if (!window.PmsSession.GetItem("ratetypedata")) {
+                window.GuestCheckinManager.GetRoomRateType();
+            } else {
+                window.GuestCheckinManager.BindRateTypeDdl($('#rateTypeDdl'));
+            }
+            
             getAllGuest();
             //getRooms();            
             window.GuestCheckinManager.AjaxHandlers();
         },
 
-        GetRoomRateType: function () {
-            args.propertyId = getPropertyId();
-            var rateTypeData = pmsSession.GetItem("ratetypedata");
-            if (!rateTypeData) {
-                // get room rate types by api calling  
-                pmsService.GetRateTypeByProperty(args);
-            }
-            else {
-                window.GuestCheckinManager.BindRateTypeDdl();
-            }
+        GetRoomRateType: function (propertyId) {
+            args.propertyId = propertyId && propertyId > 0 ? propertyId : getPropertyId();
+            // get room rate types by api calling  
+            pmsService.GetRateTypeByProperty(args);
         },
 
         ShouldCallGetRoomApi: function () {
@@ -108,8 +107,7 @@
             }
         },
 
-        BindRateTypeDdl: function () {
-            var ddlRateType = $('#rateTypeDdl');
+        BindRateTypeDdl: function (ddlRateType) {
             var rateTypeData = pmsSession.GetItem("ratetypedata");
             if (!ddlRateType || !rateTypeData) return;
 
@@ -804,6 +802,20 @@
             }
         },
 
+        PopulateRateTypeGrid: function (data) {
+            var divRateType = $('#divRateType');
+            var rateTemplate = $('#rateTemplate');
+            if (!divRateType || !rateTemplate) return;
+            divRateType.html(rateTemplate.render(data));
+            $("#divRateType thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
+            if (data && data.RateTypes && data.RateTypes.length > 0) {
+                $("#divRateType tbody tr").append('<td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+            } else {
+                // when no ratetype data is present in db 
+                $("#divRateType tbody tr").append('<td class="finalActionsCol"><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td>');
+            }
+        },
+
         PopulateRoomTypeGrid: function (data) {
             var divRoomType = $('#divRoomType');
             var roomtypeTemplate = $('#roomtypeTemplate');
@@ -1116,7 +1128,17 @@
             pmsService.Handlers.OnGetRateTypeByPropertySuccess = function (data) {
                 //storing room rate type data into session storage
                 pmsSession.SetItem("ratetypedata", JSON.stringify(data.RateTypes));
-                window.GuestCheckinManager.BindRateTypeDdl();
+                var divRateType = $('#divRateType');
+                var rateTemplate = $('#rateTemplate');
+                var rateTypeDdl = $('#rateTypeDdl');
+                if (rateTypeDdl && rateTypeDdl.length > 0) {
+                    window.GuestCheckinManager.BindRateTypeDdl(rateTypeDdl);
+                }
+                else if (divRateType && rateTemplate && divRateType.length > 0 && rateTemplate.length > 0) {
+                    window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = null;
+                    window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = data.RateTypes;
+                    window.GuestCheckinManager.PopulateRateTypeGrid(data);
+                }
             };
 
             pmsService.Handlers.OnGetRateTypeByPropertyFailure = function () {
