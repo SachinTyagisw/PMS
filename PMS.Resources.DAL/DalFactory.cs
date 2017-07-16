@@ -1566,10 +1566,42 @@ namespace PMS.Resources.DAL
             return taxes;
         }
 
-        public List<PmsEntity.Rate> GetRoomRateByProperty(int propertyId)
+        public List<PmsEntity.Rate> c(int propertyId)
         {
-            var rate = new List<PmsEntity.Rate>();
-            return rate;
+            var rates = new List<PmsEntity.Rate>();
+            using (var pmsContext = new PmsEntities())
+            {
+                var resultSet = pmsContext.GetRoomRates(propertyId).ToList();
+                if (resultSet == null || resultSet.Count <= 0) return rates;
+                foreach(var result in resultSet)
+                {
+                    var rate = new PmsEntity.Rate();
+                    rate.CreatedBy = result.CreatedBy;
+                    rate.CreatedOn = result.CreatedOn;
+                    rate.Id = result.ID;
+                    rate.InputKeyHours = result.InputKeyHours;
+                    rate.IsActive = result.IsActive;
+                    rate.LastUpdatedBy = result.LastUpdatedBy;
+                    rate.LastUpdatedOn = result.LastUpdatedOn;
+                    rate.PropertyId = result.PropertyID;
+                    rate.RateType = new PmsEntity.RateType
+                    {
+                        Id = result.RateTypeID.HasValue ? Convert.ToInt32(result.RateTypeID) : -1,
+                        Name = result.RateTypeName
+                    };
+                    rate.RoomType = new PmsEntity.RoomType
+                    {
+                        Id = result.RoomTypeID.HasValue ? Convert.ToInt32(result.RoomTypeID) : -1,
+                        Name = result.RoomTypeName
+                    };
+                    rate.Type = result.Type;
+                    rate.Value = result.Value;
+
+                    rates.Add(rate);
+                }
+            }
+
+            return rates;
         }
     }
 }
