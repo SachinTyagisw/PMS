@@ -367,7 +367,7 @@ namespace PMS.Resources.Logic
             return DalFactory.GetTaxByProperty(propertyId);
         }
 
-        public List<PmsEntity.Rate> GetRoomRateByProperty(int propertyId)
+        public List<PmsEntity.RateType> GetRoomRateByProperty(int propertyId)
         {
             return DalFactory.GetRoomRateByProperty(propertyId);
         }

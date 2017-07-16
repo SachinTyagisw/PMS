@@ -761,7 +761,8 @@
 
         PopulateRoomRateInGrid: function (ratedata) {
             var data = {};
-            data.RoomRate = ratedata;
+            data.RoomRate = [];
+            data.RoomRate.push(ratedata);
             var divManageRate = $('#divManageRate');
             var manageRateTemplate = $('#manageRateTemplate');
             if (!divManageRate || !manageRateTemplate) return;
