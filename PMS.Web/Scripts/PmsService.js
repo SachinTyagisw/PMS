@@ -90,6 +90,30 @@
             OnUpdateRateTypeFailure: null,
             OnGetRoomRateByPropertySuccess: null,
             OnGetRoomRateByPropertyFailure: null,
+            OnDeleteRoomSuccess: null,
+            OnDeleteRoomFailure: null,
+            OnAddRoomSuccess: null,
+            OnAddRoomFailure: null,
+            OnUpdateRoomSuccess: null,
+            OnUpdateRoomFailure: null,
+            OnGetRoomByPropertySuccess: null,
+            OnGetRoomByPropertyFailure: null,
+        };
+
+        this.UpdateRoom = function (args) {
+            makeAjaxRequestPut(args, "UpdateRoom", this, "api/v1/Room/UpdateRoom");
+        };
+
+        this.AddRoom = function (args) {
+            makeAjaxRequestPost(args, "AddRoom", this, "api/v1/Room/AddRoom");
+        };
+
+        this.DeleteRoom = function (args) {
+            makeAjaxRequestDelete(args, "DeleteRoom", this, "api/v1/Room/DeleteRoom/" + args.typeId);
+        };
+
+        this.GetRoomByProperty = function (args) {
+            makeAjaxRequestGet(args, "GetRoomByProperty", this, "api/v1/Room/GetRoomByProperty/" + args.propertyId);
         };
 
         this.GetRoomRateByProperty = function (args) {

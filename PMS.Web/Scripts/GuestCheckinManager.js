@@ -1113,6 +1113,71 @@
             pmsService.UpdateRateType(rateTypeDto);
         },
 
+        PopulateRoomGrid: function (data) {
+            var divRoom = $('#divRoom');
+            var roomTemplate = $('#roomTemplate');
+            if (!divRoom || !roomTemplate) return;
+            divRoom.html(roomTemplate.render(data));
+            $("#divRoom thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
+            if (data && data.Rooms && data.Rooms.length > 0) {
+                $("#divRoom tbody tr").append('<td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+            } else {
+                // when no tax data is present in db 
+                $("#divRoom tbody tr").append('<td class="finalActionsCol"><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td>');
+            }
+        },
+
+        //Admin Screen Room Methods
+
+        PopulateRoomGrid: function (data) {
+            var divRoom = $('#divRoom');
+            var roomTemplate = $('#roomTemplate');
+            if (!divRoom || !roomTemplate) return;
+            divRoom.html(roomTemplate.render(data));
+            $("#divRoom thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
+            if (data && data.Rooms && data.Rooms.length > 0) {
+                $("#divRoom tbody tr").append('<td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+            } else {
+                // when no tax data is present in db 
+                $("#divRoom tbody tr").append('<td class="finalActionsCol"><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td>');
+            }
+        },
+
+        GetRoomByProperty: function (propertyId) {
+            args.propertyId = propertyId && propertyId > 0 ? propertyId : getPropertyId();
+            // get rooms by api calling  
+            pmsService.GetRoomByProperty(args);
+        },
+
+        DeleteRoom: function (roomId) {
+            // DeletRoom by api calling  
+            args.roomId = roomId;
+            pmsService.DeleteRoom(args);
+        },
+
+        AddRoom: function (room) {
+            room.CreatedBy = getCreatedBy();
+            room.CreatedOn = getCurrentDate();
+            var roomRequestDto = {};
+            roomRequestDto.Room = {};
+            // AddRoom by api calling  
+            roomRequestDto.Room = room;
+            Notifications.SubscribeActive("on-room-add-success", function (sender, args) {
+                window.GuestCheckinManager.GetRoomByProperty(room.PropertyId);
+            });
+            pmsService.AddRoom(roomRequestDto);
+        },
+
+        UpdateRoom: function (room) {
+            room.LastUpdatedBy = getCreatedBy();
+            room.LastUpdatedOn = getCurrentDate();
+            // UpdateRoom by api calling 
+            var roomRequestDto = {};
+            roomRequestDto.Room = {};
+            roomRequestDto.Room = room;
+            pmsService.UpdateRoom(roomRequestDto);
+        },
+
         AjaxHandlers: function () {
             // ajax handlers start
             pmsService.Handlers.OnAddBookingSuccess = function (data) {
@@ -1189,6 +1254,7 @@
                 // show error log
                 console.error("Get Room rate type call failed");
             };
+
 
             pmsService.Handlers.OnImageUploadSuccess = function (data) {
                 console.log(data[0]);
@@ -1626,6 +1692,19 @@
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
                 alert(status);
+            };
+
+            //Room Callbacks
+
+            pmsService.Handlers.OnGetRoomByPropertySuccess = function (data) {
+                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = null;
+                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = data.Rooms;
+                window.GuestCheckinManager.PopulateRoomGrid(data);
+            };
+
+            pmsService.Handlers.OnGetRoomByPropertyFailure = function () {
+                // show error log
+                console.error("Get room call failed");
             };
 
             pmsService.Handlers.OnAddRateTypeSuccess = function (data) {

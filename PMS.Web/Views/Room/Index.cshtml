@@ -2,4 +2,167 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script type='text/javascript'>
+    var gcm = window.GuestCheckinManager;
+    function makeFieldsReadonly(rowObject) {
+        rowObject.attr('contenteditable', 'false');
+        rowObject.css('background-color', 'transparent');
+    }
+
+    function OnPropertyChange() {
+        if ($('#ddlProperty').val() <= 0) {
+            alert('Select valid property');
+            return;
+        }
+        gcm.GetRoomByProperty($('#ddlProperty').val());
+    }
+
+    $(document).ready(function () {
+
+        gcm.GetAllProperty();
+
+        $("#divRoom").on("click", ".fa-plus-circle", function () {
+            $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="true" style="background-color: #ffc9c9;"></td><td contenteditable="true" style="background-color: #ffc9c9;"></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-floppy-o editMode" aria-hidden="true"></i> </td></tr>');
+        });
+
+        $("#divRoom").on("click", ".fa-minus-circle", function () {
+            if (confirm("Are you sure you want to delete ?")) {
+                var roomId = $(this).closest('tr')[0].id;
+                $(this).closest('tr').remove();
+                if (roomId <= 0) return;
+                gcm.DeleteRoom(roomId);
+                if ($('#divRoom tbody tr').length <= 0) {
+                    $('#ddlProperty').val('-1');
+                }
+            }
+        });
+
+        $("#divRoom").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {
+            var thisRow = $(this).parent().siblings();
+            var editOn = $(this).hasClass("editMode");
+            var roomId = $(thisRow)[0].innerText;
+            var propertyId = $('#ddlProperty').val();
+            var RoomTypeID = $(thisRow)[1].innerText;
+            var FloorID = $(thisRow)[2].innerText;
+            var RoomNumber = $(thisRow)[3].innerText;
+
+            if (editOn == false) {
+                gcm.OnGridEdit(editOn, $(thisRow), $(this));
+                makeFieldsReadonly($(thisRow[0]));
+            } else if (editOn == true) {
+                if (!RoomTypeID || RoomTypeID.length <= 0) {
+                    alert("Room Type is required");
+                    return;
+                }
+                if (!FloorID || FloorID.length <= 0) {
+                    alert("Floor is required");
+                    return;
+                }
+                if (!RoomNumber || RoomNumber.length <= 0) {
+                    alert("Room Number is required");
+                    return;
+                }
+                
+                if (roomId > 0) {
+                    var existingRoom = gcm.FindPropertySetting(roomId);
+                    if (!existingRoom) return;
+                    existingRoom.RoomType.Id = RoomTypeID;
+                    existingRoom.FloorId = FloorID;
+                    existingRoom.Number = Roomnumber;
+                    //call UpdateRoom api
+                    gcm.UpdateRoom(existingRoom);
+                } else {
+                    if (propertyId <= 0) {
+                        alert("Select valid property");
+                        return;
+                    }
+                    var room = {};
+                    room.RoomType.Id = RoomTypeID;
+                    room.FloorId = FloorID;
+                    room.Number = Roomnumber;
+                    room.PropertyId = propertyId;
+                    //call AddRoom api
+                    gcm.AddRoom(room);
+                }
+                gcm.OnGridEdit(editOn, $(thisRow), $(this));
+            }
+        });
+
+    });
+</script>
+<div class="content-wrap">
+    <div class="main controls">
+        <div class="container-fluid">
+            <div class="col-lg-12 p-r-0 p-l-0">
+                <div class="card alert">
+                    <div class="card-header">
+                        <h4>Create Room</h4>
+                    </div>
+                    <div class="card-body room-details">
+                        <div class="row" style="">
+                            <div class="form-group col-lg-8 m-t-10">
+                                <label>Search</label>
+                                <input type="text" class="search form-control" placeholder="Search by Room Number, Room Type, Floor...">
+                            </div>
+
+                            <div class="col-lg-2 p-l-0 p-r-0 m-t-10">
+                                <div class="form-group">
+                                    <label>Select Property</label>
+                                    <select id="ddlProperty" onchange="OnPropertyChange();">
+                                        <option value="-1">Select Property</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div id="divRoom" class="table-data">
+                                <span class="counter"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="divLoader">
+    <div class="loader" style="display:none;">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+</div>
+<script type="text/html" id="roomTemplate">
+    <table class="table table-hover table-bordered results tableContents">
+        <thead>
+            <tr>
+                <th id="IDCol">ID #</th>
+                <th id="RoomTypeCol" contenteditable="false">Room Type</th>
+                <th id="FloorCol" contenteditable="false">Floor</th>
+                <th id="RoomNumberCol" contenteditable="false">Room Number</th>    
+            </tr>
+        </thead>
+        <tbody>
+            {{if typeof Rooms != "undefined" && Rooms != "null" && Rooms.length > 0 }}
+            {{each Rooms}}
+            <tr id="${$value.Id}">
+                <td class="idRow" contenteditable="false">${$value.Id}</td>
+                <td contenteditable="false">${$value.RoomType.Id}</td>
+                <td contenteditable="false">${$value.Floor.Id}</td>
+                <td contenteditable="false">${$value.Number}</td>
+            </tr>
+            {{/each}}
+            {{else}}
+            <tr>
+                <td class="idRow" contenteditable="false"></td>
+                <td contenteditable="true" style="background-color: #ffc9c9;"></td>
+                <td contenteditable="true" style="background-color: #ffc9c9;"></td>
+                <td contenteditable="true" style="background-color: #ffc9c9;"></td>
+            </tr>
+            {{/if}}
+        </tbody>
+    </table>
+</script>
+
 
