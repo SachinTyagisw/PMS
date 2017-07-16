@@ -1576,7 +1576,7 @@ namespace PMS.Resources.DAL
             return taxes;
         }
 
-        public List<PmsEntity.Rate> c(int propertyId)
+        public List<PmsEntity.Rate> GetRoomRateByProperty(int propertyId)
         {
             var rates = new List<PmsEntity.Rate>();
             using (var pmsContext = new PmsEntities())
