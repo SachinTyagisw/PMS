@@ -89,13 +89,27 @@ namespace PMS.Resources.Logic
         {
             return DalFactory.GetAllPropertyType();
         }
-        public int AddRoom(List<PmsEntity.Room> room)
+        public bool AddRoom(List<PmsEntity.Room> room)
         {
-            return DalFactory.AddRoom(room);
+            var propertyId = room[0].Property.Id;
+            var roomXml = PmsConverter.SerializeObjectToXmlString(room);
+            if (string.IsNullOrWhiteSpace(roomXml)) 
+                return false;
+
+            roomXml = RemoveXmlDefaultNode(roomXml);
+
+            return DalFactory.AddRoom(propertyId, roomXml);
         }
-        public bool UpdateRoom(PmsEntity.Room room)
+        public bool UpdateRoom(List<PmsEntity.Room> room)
         {
-            return DalFactory.UpdateRoom(room);
+            var propertyId = room[0].Property.Id;
+            var roomXml = PmsConverter.SerializeObjectToXmlString(room);
+            if (string.IsNullOrWhiteSpace(roomXml))
+                return false;
+
+            roomXml = RemoveXmlDefaultNode(roomXml);
+
+            return DalFactory.UpdateRoom(propertyId, roomXml);
         }
         public bool DeleteRoom(int roomId)
         {

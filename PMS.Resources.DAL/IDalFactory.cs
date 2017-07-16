@@ -21,10 +21,15 @@ namespace PMS.Resources.DAL
         bool UpdatePropertyType(PmsEntity.PropertyType propertyType);
         bool DeletePropertyType(int propertyTypeId);
         List<PmsEntity.PropertyType> GetAllPropertyType();
-        int AddRoom(List<PmsEntity.Room> room);
-        bool UpdateRoom(PmsEntity.Room room);
+        
+        //Room API
+        //int AddRoom(List<PmsEntity.Room> room);
+        //bool UpdateRoom(List<PmsEntity.Room> room);
+        bool AddRoom(int propertyId, string roomXml);
+        bool UpdateRoom(int propertyId, string roomXml);
         bool DeleteRoom(int roomId);
         List<PmsEntity.Room> GetRoomByProperty(int propertyId);
+
         int AddRateType(PmsEntity.RateType rateType);
         bool UpdateRateType(PmsEntity.RateType rateType);
         bool DeleteRateType(int rateTypeId);
