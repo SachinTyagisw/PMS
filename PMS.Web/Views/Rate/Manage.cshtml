@@ -6,6 +6,9 @@
 <script type='text/javascript'>
     var gcm = window.GuestCheckinManager;
 
+    function OnRateTabClick(){
+    }
+
     function OnUnitChange(ddlUnit, ddlHour) {
         if (ddlUnit && ddlUnit.value === 'Daily'){
             if (ddlHour && ddlHour[0] && ddlHour[0].style.cssText === "display: block;") {
@@ -132,8 +135,21 @@
             </select>
         </div>
     </div>
-    <div id="divRoomRate" class="table-data">
-    </div>
+    <main class="tab-main" style="display:block;">
+        <div id="divRoomRate" class="table-data">
+        </div>
+            <section id="content1">
+                <div class="form-group m-t-10">
+                    <input type="text" class="search form-control" placeholder="Search by floor...">
+                </div>
+                    <span class="counter">
+                    </span>
+                    <div id="divManageRate">
+                    </div>
+                    <br>
+                    <button id="addRow" class="btn btn-primary m-l-5 m-t-15" type="button">Add Row</button>
+            </section>
+    </main>
 </div>
 <div id="divLoader">
     <div class="loader" style="display:none;">
@@ -145,46 +161,37 @@
     </div>
 </div>
 <script type="text/html" id="roomRateTemplate">
-    <main class="tab-main">
         {{if typeof RoomRate != "undefined" && RoomRate != "null" && RoomRate.length > 0 }}
         {{each RoomRate}}
         <input id="${$value.RateType.Id}" type="radio" name="tabs" checked>
-        <label for="${$value.RateType.Id}">${$value.RateType.Name}</label>
+        <label onclick="OnRateTabClick();" for="${$value.RateType.Id}">${$value.RateType.Name}</label>
         {{/each}}
-        <section id="content1">
-            <div class="form-group m-t-10">
-                <input type="text" class="search form-control" placeholder="Search by floor...">
-            </div>
-
-            <div id="createFloor">
-                <span class="counter"></span>
-                <table class="table table-hover table-bordered results tableContents">
-                    <thead>
-                        <tr>
-                            <th id="IDCol">ID #</th>
-                            <th id="floorCol" contenteditable="false">Floor</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="idRow" contenteditable="false">1</td>
-                            <td contenteditable="false">1</td>
-                        </tr>
-                        <tr>
-                            <td class="idRow" contenteditable="false">2</td>
-                            <td contenteditable="false">2</td>
-                        </tr>
-                        <tr id="bottomRow Row3">
-                            <td class="idRow" contenteditable="false">3</td>
-                            <td contenteditable="false">3</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <br>
-                <button id="addRow" class="btn btn-primary m-l-5 m-t-15" type="button">Add Row</button>
-            </div>
-        </section>
-        {{/if}}
-    </main>
+        {{/if}}    
+</script>
+<script type="text/html" id="manageRateTemplate">
+    <table class="table table-hover table-bordered results tableContents">
+        <thead>
+            <tr>
+                <th id="IDCol">ID #</th>
+                <th id="roomTypeCol" contenteditable="false">Room Type</th>
+                <th id="roomnumberCol" contenteditable="false">Room #</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{if typeof RoomRate != "undefined" && RoomRate != "null" }}
+            <tr id="${Id}">
+                <td class="idRow" contenteditable="false">${Id}</td>
+                <td contenteditable="false">$RoomType.Name</td>
+                <td contenteditable="false">$RoomType.Id</td>
+            </tr>
+            {{else}}
+            <tr>
+                <td class="idRow" contenteditable="false"></td>
+                <td contenteditable="true" style="background-color: #ffc9c9;"></td>
+                <td contenteditable="true" style="background-color: #ffc9c9;"></td>
+            </tr>
+            {{/if}}
+        </tbody>
+    </table>
 </script>
 
