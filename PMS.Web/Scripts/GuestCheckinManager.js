@@ -752,11 +752,21 @@
             $("#divProperty tbody tr").append('<td class="finalActionsCol"><i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
         },
 
-        PopulateRoomRateGrid: function (data) {
+        PopulateRateTabInGrid: function (data) {
             var divRoomRate = $('#divRoomRate');
             var roomRateTemplate = $('#roomRateTemplate');
             if (!divRoomRate || !roomRateTemplate) return;
             divRoomRate.html(roomRateTemplate.render(data));
+        },
+
+        PopulateRoomRateInGrid: function (ratedata) {
+            var data = {};
+            data.RoomRate = ratedata;
+            var divManageRate = $('#divManageRate');
+            var manageRateTemplate = $('#manageRateTemplate');
+            if (!divManageRate || !manageRateTemplate) return;
+            //divManageRate.html('');
+            divManageRate.html(manageRateTemplate.render(data));
             //$("#divRoomRate thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
             //if (data && data.RoomRate && data.RoomRate.length > 0) {
             //    $("#divRoomRate tbody tr").append('<td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
@@ -821,7 +831,7 @@
                 $("#divFloor tbody tr").append('<td class="finalActionsCol"><i class="fa fa-floppy-o editMode" aria-hidden="true"></i> </td>');
             }
         },
-
+        
         PopulateRateTypeGrid: function (data) {
             var divRateType = $('#divRateType');
             var rateTemplate = $('#rateTemplate');
@@ -1749,9 +1759,12 @@
             };
 
             pmsService.Handlers.OnGetRoomRateByPropertySuccess = function (data) {
+                // when no data available return
+                if (!data || !data.RoomRate || data.RoomRate.length <= 0) return;
                 window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = null;
                 window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = data.RoomRate;
-                window.GuestCheckinManager.PopulateRoomRateGrid(data);
+                window.GuestCheckinManager.PopulateRateTabInGrid(data);
+                window.GuestCheckinManager.PopulateRoomRateInGrid(data.RoomRate[0]);
             };
 
             pmsService.Handlers.OnGetRoomRateByPropertyFailure = function () {
