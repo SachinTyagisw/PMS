@@ -272,57 +272,67 @@ namespace PMS.Resources.DAL
             var propertyTypes = new List<PmsEntity.PropertyType>();
             return propertyTypes;
         }
-        public int AddRoom(List<PmsEntity.Room> room)
+        public bool AddRoom(int propertyId, string roomXml)
         {
-            var Id = -1;
-            if (room == null || room.Count <= 0) return Id;
+            return SaveRoom(propertyId, roomXml);
+            //var Id = -1;
+            //if (room == null || room.Count <= 0) return Id;
 
-            var roomObj = new DAL.Room
-            {
-                CreatedOn = room[0].CreatedOn,
-                IsActive = true,
-                CreatedBy = room[0].CreatedBy,
-                PropertyID = room[0].Property.Id,
-                Number = room[0].Number,
-                RoomTypeID = room[0].RoomType.Id
-            };
+            //var roomObj = new DAL.Room
+            //{
+            //    CreatedOn = room[0].CreatedOn,
+            //    IsActive = true,
+            //    CreatedBy = room[0].CreatedBy,
+            //    PropertyID = room[0].Property.Id,
+            //    Number = room[0].Number,
+            //    RoomTypeID = room[0].RoomType.Id
+            //};
 
-            using (var pmsContext = new PmsEntities())
-            {
-                pmsContext.Rooms.Add(roomObj);
-                var result = pmsContext.SaveChanges();
-                Id = result == 1 ? roomObj.ID : -1;
-            }
+            //using (var pmsContext = new PmsEntities())
+            //{
+            //    pmsContext.Rooms.Add(roomObj);
+            //    var result = pmsContext.SaveChanges();
+            //    Id = result == 1 ? roomObj.ID : -1;
+            //}
 
-            return Id;
+            //return Id;
         }
-        public bool UpdateRoom(PmsEntity.Room room)
+        public bool UpdateRoom(int propertyId, string roomXml)
         {
-            var isUpdated = false;
-
-            if (room == null) return isUpdated;
-
-            var roomObj = new DAL.Room
-            {
-                LastUpdatedOn = room.LastUpdatedOn,
-                IsActive = room.IsActive,
-                LastUpdatedBy = room.LastUpdatedBy,
-                ID = room.Id,
-                CreatedBy = room.CreatedBy,
-                CreatedOn = room.CreatedOn,
-                PropertyID = room.Property.Id,
-                Number = room.Number,
-                RoomTypeID = room.RoomType.Id
-            };
-
-            using (var pmsContext = new PmsEntities())
-            {
-                pmsContext.Entry(roomObj).State = System.Data.Entity.EntityState.Modified;
-                var result = pmsContext.SaveChanges();
-                isUpdated = result == 1 ? true : false;
-            }
-            return isUpdated;
+            return SaveRoom(propertyId, roomXml);
         }
+
+        private bool SaveRoom(int propertyId, string roomXml)
+        {
+           var isSaved = false;
+           using (var pmsContext = new PmsEntities())
+           {
+               var propIdField = new SqlParameter
+               {
+                   ParameterName = "@propertyID",
+                   DbType = DbType.Int32,
+                   Value = propertyId
+               };
+
+               var roomXmlField = new SqlParameter
+               {
+                   ParameterName = "@RoomXML",
+                   DbType = DbType.Xml,
+                   Value = roomXml
+               };
+               try
+               {
+                   var result = pmsContext.Database.ExecuteSqlCommand("InsertRoom @propertyID, @RoomXML", propIdField, roomXmlField);
+                   isSaved = true;
+               }
+               catch (Exception ex)
+               {
+
+               }
+           }
+           return isSaved;
+        }
+
         public bool DeleteRoom(int roomId)
         {
             var isDeleted = false;
