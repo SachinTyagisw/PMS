@@ -165,11 +165,11 @@
         {{if typeof RoomRate != "undefined" && RoomRate != "null" && RoomRate.length > 0 }}
         {{each(i,rate) RoomRate}}
             {{if i===0}}
-                <input id="${rate.RateType.Id}" type="radio" name="tabs" checked>
-                <label onclick="OnRateTabClick();" for="${rate.RateType.Id}">${rate.RateType.Name}</label>
+                <input id="${rate.Id}" type="radio" name="tabs" checked>
+                <label onclick="OnRateTabClick();" for="${rate.Id}">${rate.Name}</label>
                 {{else}}
-                   <input id="${rate.RateType.Id}" type="radio" name="tabs">
-                   <label onclick="OnRateTabClick();" for="${rate.RateType.Id}">${rate.RateType.Name}</label>
+                   <input id="${rate.Id}" type="radio" name="tabs">
+                   <label onclick="OnRateTabClick();" for="${rate.Id}">${rate.Name}</label>
             {{/if}}
     
         {{/each}}
@@ -185,8 +185,8 @@
             </tr>
         </thead>
         <tbody>
-            {{if typeof RoomRate != "undefined" && RoomRate != "null" && RoomRate.length > 0 }}
-            {{each RoomRate}}
+            {{if typeof Rates != "undefined" && Rates != "null" && Rates.length > 0 }}
+            {{each Rates}}
             <tr id="${$value.Id}">
                 <td class="idRow" contenteditable="false">${$value.Id}</td>
                 <td contenteditable="false">${$value.RoomType.Name}</td>
