@@ -88,6 +88,12 @@
             OnAddRateTypeFailure: null,
             OnUpdateRateTypeSuccess: null,
             OnUpdateRateTypeFailure: null,
+            OnGetRoomRateByPropertySuccess: null,
+            OnGetRoomRateByPropertyFailure: null,
+        };
+
+        this.GetRoomRateByProperty = function (args) {
+            makeAjaxRequestGet(args, "GetRoomRateByProperty", this, "api/v1/Room/GetRoomRateByProperty/" + args.propertyId);
         };
 
         this.UpdateRateType = function (args) {

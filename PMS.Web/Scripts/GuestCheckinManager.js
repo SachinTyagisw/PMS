@@ -746,6 +746,20 @@
             $("#divProperty tbody tr").append('<td class="finalActionsCol"><i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
         },
 
+        PopulateRoomRateGrid: function (data) {
+            var divRoomRate = $('#divRoomRate');
+            var roomRateTemplate = $('#roomRateTemplate');
+            if (!divRoomRate || !roomRateTemplate) return;
+            divRoomRate.html(roomRateTemplate.render(data));
+            $("#divRoomRate thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
+            if (data && data.RoomRate && data.RoomRate.length > 0) {
+                $("#divRoomRate tbody tr").append('<td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+            } else {
+                // when no room rate data is present in db 
+                $("#divRoomRate tbody tr").append('<td class="finalActionsCol"><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td>');
+            }
+        },
+
         PopulateTaxGrid: function (data) {
             var divTax = $('#divTax');
             var taxTemplate = $('#taxTemplate');
@@ -1647,6 +1661,17 @@
                 console.log(status);
                 alert(status);
                 if (window.Notifications) window.Notifications.Notify("on-ratetype-update-success", null, null);
+            };
+
+            pmsService.Handlers.OnGetRoomRateByPropertySuccess = function (data) {
+                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = null;
+                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = data.RoomRate;
+                window.GuestCheckinManager.PopulateRoomRateGrid(data);
+            };
+
+            pmsService.Handlers.OnGetRoomRateByPropertyFailure = function () {
+                // show error log
+                console.error("Get room rate call failed");
             };
 
             //pmsService.Handlers.OnGetRoomByPropertySuccess = function (data) {
