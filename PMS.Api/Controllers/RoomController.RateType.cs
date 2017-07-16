@@ -47,6 +47,13 @@ namespace PMS.Api.Controllers
               );
 
             config.Routes.MapHttpRoute(
+              "GetRoomRateByProperty",
+              "api/v1/Room/GetRoomRateByProperty/{propertyId}",
+              new { controller = "Room", action = "GetRoomRateByProperty" },
+              constraints: new { propertyId = RegExConstants.NumericRegEx }
+              );
+
+            config.Routes.MapHttpRoute(
               "GetRateTypeById",
               "api/v1/Room/{propertyId}/GetRateTypeById/{typeId}",
               new { controller = "Room", action = "GetRateTypeById" },
@@ -109,6 +116,19 @@ namespace PMS.Api.Controllers
             {
                 response.ResponseStatus = PmsApiStatus.Failure.ToString();
                 response.StatusDescription = "Rate Type Deletion failed.Contact administrator.";
+            }
+            return response;
+        }
+
+        [HttpGet, ActionName("GetRoomRateByProperty")]
+        public GetRoomRateResponseDto GetRoomRateByProperty(int propertyId)
+        {
+            if (propertyId <= 0) throw new PmsException("Property id is not valid.");
+
+            var response = new GetRoomRateResponseDto();
+            if (!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
+            {
+                response.RoomRate = _iPmsLogic.GetRoomRateByProperty(propertyId);
             }
             return response;
         }

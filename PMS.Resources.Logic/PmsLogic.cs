@@ -353,6 +353,11 @@ namespace PMS.Resources.Logic
             return DalFactory.GetTaxByProperty(propertyId);
         }
 
+        public List<PmsEntity.Rate> GetRoomRateByProperty(int propertyId)
+        {
+            return DalFactory.GetRoomRateByProperty(propertyId);
+        }
+
         #region Helper method
 
         private string RemoveXmlDefaultNode(string xml)

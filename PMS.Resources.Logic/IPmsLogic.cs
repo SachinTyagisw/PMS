@@ -87,5 +87,6 @@ namespace PMS.Resources.Logic
         int AddInvoice(PmsEntity.Invoice invoice);
         PmsEntity.Invoice GetInvoiceById(int invoiceId);
         PmsEntity.Booking GetBookingById(int bookingId);
+        List<PmsEntity.Rate> GetRoomRateByProperty(int propertyId);
     }
 }

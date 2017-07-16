@@ -85,6 +85,7 @@
     <Compile Include="Response\GetRewardResponseDto.cs" />
     <Compile Include="Response\GetRewardCategoryResponseDto.cs" />
     <Compile Include="Response\GetRoomPriceResponseDto.cs" />
+    <Compile Include="Response\GetRoomRateResponseDto.cs" />
     <Compile Include="Response\GetRoomResponseDto.cs" />
     <Compile Include="Request\UpdateRoomRequestDto.cs" />
     <Compile Include="Response\GetRateTypeResponseDto.cs" />

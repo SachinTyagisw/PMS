@@ -1565,5 +1565,11 @@ namespace PMS.Resources.DAL
 
             return taxes;
         }
+
+        public List<PmsEntity.Rate> GetRoomRateByProperty(int propertyId)
+        {
+            var rate = new List<PmsEntity.Rate>();
+            return rate;
+        }
     }
 }

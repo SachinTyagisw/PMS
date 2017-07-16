@@ -86,6 +86,7 @@ namespace PMS.Resources.DAL
         int AddInvoice(int propertyId, string invoiceXml);
         PmsEntity.Invoice GetInvoiceById(int invoiceId);
         PmsEntity.Booking GetBookingById(int bookingId);
+        List<PmsEntity.Rate> GetRoomRateByProperty(int propertyId);
     }
 }
 
