@@ -1597,7 +1597,8 @@ namespace PMS.Resources.DAL
                     rate.RateType = new PmsEntity.RateType
                     {
                         Id = result.RateTypeID.HasValue ? Convert.ToInt32(result.RateTypeID) : -1,
-                        Name = result.RateTypeName
+                        Name = result.RateTypeName,
+                        Hours = result.Hours
                     };
                     rate.RoomType = new PmsEntity.RoomType
                     {

@@ -27,5 +27,6 @@ namespace PMS.Resources.DAL
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
         public string RoomTypeName { get; set; }
         public string RateTypeName { get; set; }
+        public Nullable<int> Hours { get; set; }
     }
 }

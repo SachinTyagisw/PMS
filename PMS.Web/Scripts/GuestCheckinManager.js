@@ -49,6 +49,12 @@
             pmsService.GetRateTypeByProperty(args);
         },
 
+        GetRoomRateByProperty: function (propertyId) {
+            args.propertyId = propertyId && propertyId > 0 ? propertyId : getPropertyId();
+            // get room rate by api calling  
+            pmsService.GetRoomRateByProperty(args);
+        },
+
         ShouldCallGetRoomApi: function () {
             var roomTypeId = $('#roomTypeDdl').val();
             var dtFrom = $("#dateFrom").val();
@@ -751,13 +757,13 @@
             var roomRateTemplate = $('#roomRateTemplate');
             if (!divRoomRate || !roomRateTemplate) return;
             divRoomRate.html(roomRateTemplate.render(data));
-            $("#divRoomRate thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
-            if (data && data.RoomRate && data.RoomRate.length > 0) {
-                $("#divRoomRate tbody tr").append('<td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
-            } else {
-                // when no room rate data is present in db 
-                $("#divRoomRate tbody tr").append('<td class="finalActionsCol"><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td>');
-            }
+            //$("#divRoomRate thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
+            //if (data && data.RoomRate && data.RoomRate.length > 0) {
+            //    $("#divRoomRate tbody tr").append('<td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+            //} else {
+            //    // when no room rate data is present in db 
+            //    $("#divRoomRate tbody tr").append('<td class="finalActionsCol"><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td>');
+            //}
         },
 
         PopulateTaxGrid: function (data) {
