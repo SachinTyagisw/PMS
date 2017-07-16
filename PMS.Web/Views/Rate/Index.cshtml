@@ -204,8 +204,22 @@
             <tr>
                 <td class="idRow" contenteditable="false"></td>
                 <td contenteditable="true" style="background-color: #ffc9c9;"></td>
-                <td contenteditable="true" style="background-color: #ffc9c9;"></td>
-                <td contenteditable="true" style="background-color: #ffc9c9;"></td>
+                <td contenteditable="true" style="background-color: #ffc9c9;">
+                    <select style="display:block" id="ddlUnitNoData" onchange="OnUnitChange(this, $('#ddlHourNoData'));" class="form-control">
+                        <option value="Hourly">Hourly</option>
+                        <option value="Daily">Daily</option>
+                    </select>
+                </td>
+                <td contenteditable="true" style="background-color: #ffc9c9;">
+                    <select style="display:block" id="ddlHourNoData" class="form-control">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </td>
             </tr>
             {{/if}}
         </tbody>
