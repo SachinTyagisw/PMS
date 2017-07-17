@@ -34,19 +34,7 @@
             if (!window.PmsSession.GetItem("username")) {
                 window.location.replace(window.webBaseUrl + "Account/Login");
                 return;
-            }
-            if (!window.PmsSession.GetItem("roomtypedata")) {
-                window.GuestCheckinManager.GetRoomTypes();
-            } else {
-                    var roomTypeData = window.PmsSession.GetItem("roomtypedata");
-                    var roomTypes = $.parseJSON(roomTypeData);
-                    window.GuestCheckinManager.BindRoomTypeDdl($('#roomTypeDdl'), roomTypes);
-            }
-            if (!window.PmsSession.GetItem("ratetypedata")) {
-                window.GuestCheckinManager.GetRoomRateType();
-            } else {
-                window.GuestCheckinManager.BindRateTypeDdl($('#rateTypeDdl'));
-            }
+            }           
             
             getAllGuest();
             //getRooms();            
