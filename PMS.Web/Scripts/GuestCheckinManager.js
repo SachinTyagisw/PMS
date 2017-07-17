@@ -790,6 +790,8 @@
             } else {
                 // when no room rate data is present in db 
                 $("#divManageRate tbody tr").append('<td class="finalActionsCol"><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td>');
+                window.GuestCheckinManager.FillFloorData($('#ddlFloorAdd'), $('#ddlProperty').val());
+                window.GuestCheckinManager.FillRoomTypeData($('#ddlRoomTypeAdd'), $('#ddlProperty').val());
             }
         },
 
@@ -1214,6 +1216,36 @@
             roomRequestDto.Room = {};
             roomRequestDto.Room = room;
             pmsService.UpdateRoom(roomRequestDto);
+        },
+
+        FillRoomData: function (ddlRoom, propertyId) {
+            if (!ddlRoom || !propertyId || propertyId <= 0) return;
+        },
+
+        FillRoomTypeData: function (ddlRoomType, propertyId) {
+            if (!ddlRoomType || !propertyId || propertyId <= 0) return;
+            var roomtypes = window.GuestCheckinManager.PropertySettingResponseDto.RoomTypeSettings;
+            if (!roomtypes || roomtypes.length <= 0) {
+                Notifications.SubscribeActive("on-roomtype-get-success", function (sender, args) {
+                    window.GuestCheckinManager.BindRoomTypeDdl(ddlRoomType);
+                });
+                gcm.GetRoomTypes(propertyId);
+            } else {
+                window.GuestCheckinManager.BindRoomTypeDdl(ddlRoomType);
+            }
+        },
+        
+        FillFloorData: function (ddlFloor, propertyId) {
+             if (!ddlFloor || !propertyId || propertyId <= 0) return;
+                var floors = window.GuestCheckinManager.PropertySettingResponseDto.FloorSettings;
+                if (!floors || floors.length <= 0) {
+                    Notifications.SubscribeActive("on-floor-get-success", function (sender, args) {
+                        window.GuestCheckinManager.BindFloorDdl(ddlFloor);
+                    });
+                    gcm.GetFloorsByProperty(propertyId);
+                } else {
+                    window.GuestCheckinManager.BindFloorDdl(ddlFloor);
+                }
         },
 
         AjaxHandlers: function () {
@@ -1796,8 +1828,6 @@
             };
 
             pmsService.Handlers.OnGetRoomRateByPropertySuccess = function (data) {
-                // when no data available return
-                if (!data || !data.RoomRate || data.RoomRate.length <= 0) return;
                 window.GuestCheckinManager.PropertySettingResponseDto.RateSettings = null;
                 window.GuestCheckinManager.PropertySettingResponseDto.RateSettings = data.RoomRate;
                 window.GuestCheckinManager.PopulateRateTabInGrid(data);
