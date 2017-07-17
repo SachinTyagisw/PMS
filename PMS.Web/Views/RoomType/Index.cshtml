@@ -15,6 +15,12 @@
             alert('Select valid property');
             return;
         }
+        Notifications.SubscribeActive("on-populate-roomtypegrid", function (sender, args) {
+            var data = {};
+            data.RoomTypes = {};
+            data.RoomTypes = window.GuestCheckinManager.PropertySettingResponseDto.RoomTypeSettings;
+            window.GuestCheckinManager.PopulateRoomTypeGrid(data);
+        });
         gcm.GetRoomTypes($('#ddlProperty').val());
     }
 
