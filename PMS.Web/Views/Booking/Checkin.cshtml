@@ -200,6 +200,18 @@
 
         function init() {
 
+            if (!pmsSession.GetItem("roomtypedata")) {
+                gcm.GetRoomTypes();
+            } else {
+                var roomTypeData = window.PmsSession.GetItem("roomtypedata");
+                var roomTypes = $.parseJSON(roomTypeData);
+                gcm.BindRoomTypeDdl($('#roomTypeDdl'), roomTypes);
+            }
+            if (!pmsSession.GetItem("ratetypedata")) {
+                gcm.GetRoomRateType();
+            } else {
+                gcm.BindRateTypeDdl($('#rateTypeDdl'));
+            }
             gcm.GetCountry($('#ddlCountry'));
             gcm.GetStateByCountry(-1);
             gcm.GetCityByState(-1);
