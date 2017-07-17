@@ -993,7 +993,7 @@
 
             if (editOn == false) {
                 rowObj.attr('contenteditable', 'true');
-                rowObj.css('background-color', '#ffc9c9');
+                rowObj.css('background-color', 'rgba(255,255,255,0.7)');
                 thisObj.removeClass("fa-pencil-square-o");
                 thisObj.addClass("fa-floppy-o editMode");
             } else if (editOn == true) {  

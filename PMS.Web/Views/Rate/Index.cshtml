@@ -41,7 +41,7 @@
         gcm.GetAllProperty();
 
         $("#divRateType").on("click", ".fa-plus-circle", function () {
-            $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="true" style="background-color: #ffc9c9;"></td><td contenteditable="true" style="background-color: #ffc9c9;"><select style="display:block" id="ddlUnitAdd" onchange="OnUnitChange(this,null);" class="form-control"><option value="Hourly">Hourly</option><option value="Daily">Daily</option></select></td><td contenteditable="true" style="background-color: #ffc9c9;"><select style="display:block" id="ddlHourAdd" class="form-control"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i><i class="fa fa-minus-circle" aria-hidden="true"></i><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td></tr>');
+            $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"></td><td contenteditable="true" style="background-color: #ffc9c9;"><select style="display:block" id="ddlUnitAdd" onchange="OnUnitChange(this,null);" class="form-control"><option value="Hourly">Hourly</option><option value="Daily">Daily</option></select></td><td contenteditable="true" style="background-color: #ffc9c9;"><select style="display:block" id="ddlHourAdd" class="form-control"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i><i class="fa fa-minus-circle" aria-hidden="true"></i><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td></tr>');
         });
 
         $("#divRateType").on("click", ".fa-minus-circle", function () {
@@ -203,14 +203,14 @@
             {{else}}
             <tr>
                 <td class="idRow" contenteditable="false"></td>
-                <td contenteditable="true" style="background-color: #ffc9c9;"></td>
-                <td contenteditable="true" style="background-color: #ffc9c9;">
+                <td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"></td>
+                <td contenteditable="true" style="background-color: rgba(255,255,255,0.7);">
                     <select style="display:block" id="ddlUnitNoData" onchange="OnUnitChange(this, $('#ddlHourNoData'));" class="form-control">
                         <option value="Hourly">Hourly</option>
                         <option value="Daily">Daily</option>
                     </select>
                 </td>
-                <td contenteditable="true" style="background-color: #ffc9c9;">
+                <td contenteditable="true" style="background-color: rgba(255,255,255,0.7);">
                     <select style="display:block" id="ddlHourNoData" class="form-control">
                         <option value="1">1</option>
                         <option value="2">2</option>
