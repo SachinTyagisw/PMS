@@ -7,7 +7,10 @@
     var guestCheckinManager = {
        
         PropertySettingResponseDto: {
-            PropertySetting: null
+            PropertySetting: null,
+            FloorSettings: null,
+            RoomTypeSettings: null,
+            RoomSettings: null,
         },
 
         BookingDto: {
@@ -100,7 +103,7 @@
         },
 
         BindFloorDdl: function (ddlFloor) {
-            var floors = window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting;
+            var floors = window.GuestCheckinManager.PropertySettingResponseDto.FloorSettings;
             if (!ddlFloor || !floors || floors.length <= 0) return;
 
             ddlFloor.empty();
@@ -1233,6 +1236,8 @@
             };
 
             pmsService.Handlers.OnGetRoomTypeByPropertySuccess = function (data) {
+                window.GuestCheckinManager.PropertySettingResponseDto.RoomTypeSettings = null;
+                window.GuestCheckinManager.PropertySettingResponseDto.RoomTypeSettings = data.RoomTypes;
                 //storing room type data into session storage
                 pmsSession.SetItem("roomtypedata", JSON.stringify(data.RoomTypes));
                 var divRoomType = $('#divRoomType');
@@ -1241,10 +1246,11 @@
                 if (roomTypeDdl && roomTypeDdl.length > 0) {
                     window.GuestCheckinManager.BindRoomTypeDdl(roomTypeDdl);
                 }
-                else if (divRoomType && roomtypeTemplate && divRoomType.length > 0 && roomtypeTemplate.length > 0) {
-                    window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = null;
-                    window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = data.RoomTypes;
+                else if (divRoomType && roomtypeTemplate && divRoomType.length > 0 && roomtypeTemplate.length > 0) {                    
                     window.GuestCheckinManager.PopulateRoomTypeGrid(data);
+                }
+                else {
+                    if (window.Notifications) window.Notifications.Notify("on-roomtype-get-success", null, null);
                 }
             };
 
@@ -1549,12 +1555,14 @@
             };
 
             pmsService.Handlers.OnGetFloorsByPropertySuccess = function (data) {
+                window.GuestCheckinManager.PropertySettingResponseDto.FloorSettings = null;
+                window.GuestCheckinManager.PropertySettingResponseDto.FloorSettings = data.PropertyFloors;
                 var divFloor = $('#divFloor');
                 var floorTemplate = $('#floorTemplate');
                 if (divFloor && floorTemplate && divFloor.length > 0 && floorTemplate.length > 0) {
                     window.GuestCheckinManager.PopulateFloorGrid(data);
                 } else {
-                    if (window.Notifications) window.Notifications.Notify("on-floors-get-success", null, null);
+                    if (window.Notifications) window.Notifications.Notify("on-floor-get-success", null, null);
                 }
             };
 

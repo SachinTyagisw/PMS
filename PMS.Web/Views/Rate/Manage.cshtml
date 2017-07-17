@@ -43,11 +43,11 @@
 
         $("#divManageRate").on("click", ".fa-minus-circle", function () {
             if (confirm("Are you sure you want to delete ?")) {
-                var rateTypeId = $(this).closest('tr')[0].id;
+                var rateId = $(this).closest('tr')[0].id;
                 $(this).closest('tr').remove();
-                if (rateTypeId <= 0) return;
-                gcm.DeleteRateType(rateTypeId);
-                if ($('#divRateType tbody tr').length <= 0) {
+                if (rateId <= 0) return;
+                gcm.DeleteRate(rateId);
+                if ($('#divManageRate tbody tr').length <= 0) {
                     $('#ddlProperty').val('-1');
                 }
             }
@@ -90,17 +90,31 @@
                 $(document).on('change', roomTypeSelector, function () {
                     OnRoomTypeChange($(cloneRoomType)[0], $(cloneRoom));
                 });
-                makeFieldsReadonly($(thisRow[0]));
-                Notifications.SubscribeActive("on-floors-get-success", function (sender, args) {
+                makeFieldsReadonly($(thisRow[0]));               
+                var floors = window.GuestCheckinManager.PropertySettingResponseDto.FloorSettings;
+                if (!floors || floors.length <= 0) {
+                    Notifications.SubscribeActive("on-floor-get-success", function (sender, args) {
+                        window.GuestCheckinManager.BindFloorDdl($(floorSelector));
+                    });
+                    gcm.GetFloorsByProperty($('#ddlProperty').val());
+                } else {
                     window.GuestCheckinManager.BindFloorDdl($(floorSelector));
-                });
-                gcm.GetFloorsByProperty($('#ddlProperty').val());
-               
+                }
+                var roomtypes = window.GuestCheckinManager.PropertySettingResponseDto.RoomTypeSettings;
+                if (!roomtypes || roomtypes.length <= 0) {
+                    Notifications.SubscribeActive("on-roomtype-get-success", function (sender, args) {
+                        window.GuestCheckinManager.BindRoomTypeDdl($(roomTypeSelector));
+                    });
+                    gcm.GetRoomTypes($('#ddlProperty').val());
+                } else {
+                    window.GuestCheckinManager.BindRoomTypeDdl($(roomTypeSelector));
+                }
+
             } else if (editOn == true) {
                 var floorId = $(thisRow)[1].children[0].value;
                 var roomTypeId = $(thisRow)[2].children[0].value;
                 var roomId = $(thisRow)[3].children[0].value;
-                var rateValue = $(thisRow)[4].children[0].value;
+                var rateValue = $(thisRow)[4].innerText;
 
                 if (floorId <= 0) {
                     alert("Select proper floor");
@@ -110,7 +124,7 @@
                     alert("Select proper room type");
                     return;
                 }
-                if (roomTypeId <= 0) {
+                if (roomId <= 0) {
                     alert("Select proper room number");
                     return;
                 }
@@ -127,7 +141,7 @@
                     existingRate.RoomId = roomId;
                     existingRate.Value = rateValue;
                     //call UpdateRate api
-                    //gcm.UpdateRate(existingRate);
+                    gcm.UpdateRate(existingRate);
                 } else {
                     if (propertyId <= 0) {
                         alert("Select valid property");
@@ -142,7 +156,7 @@
                     // todo to get InputKeyHours 
                     rate.InputKeyHours = 1;
                     //call AddRate api
-                    //gcm.AddRate(rate);
+                    gcm.AddRate(rate);
                 }
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
             }
