@@ -97,17 +97,6 @@
             }
         },
 
-        BindFloorDdl: function (ddlFloor) {
-            var floors = window.GuestCheckinManager.PropertySettingResponseDto.FloorSettings;
-            if (!ddlFloor || !floors || floors.length <= 0) return;
-
-            ddlFloor.empty();
-            ddlFloor.append(new Option("Select Floor", "-1"));
-            for (var i = 0; i < floors.length; i++) {
-                ddlFloor.append(new Option(floors[i].FloorNumber, floors[i].Id));
-            }
-        },
-
         BindRoomTypeDdl: function (ddlRoomType, roomTypes) {            
             if (!ddlRoomType || !roomTypes || roomTypes.length <= 0) return;
             ddlRoomType.empty();

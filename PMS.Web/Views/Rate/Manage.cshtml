@@ -93,10 +93,6 @@
                 var roomId = $(thisRow)[2].children[0].value;
                 var rateValue = $(thisRow)[4].innerText;
 
-                if (floorId <= 0) {
-                    alert("Select proper floor");
-                    return;
-                }
                 if (roomTypeId <= 0) {
                     alert("Select proper room type");
                     return;
@@ -173,9 +169,7 @@
         <button id="save" class="btn btn-primary m-l-5 m-t-15" type="button">Save</button>
     </section>
 </div>
-<select style="display:none" id="ddlFloorClone" class="form-control">
-    <option value="-1">Select Floor</option>
-</select>
+
 <select style="display:none" id="ddlRoomTypeClone" class="form-control">
     <option value="-1">Select Roomtype</option>
 </select>
