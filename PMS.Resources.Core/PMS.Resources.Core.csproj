@@ -38,7 +38,7 @@
     </Reference>
     <Reference Include="Microsoft.Practices.Unity, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Windows\assembly\GAC_MSIL\Microsoft.Practices.Unity\1.2.0.0__31bf3856ad364e35\Microsoft.Practices.Unity.dll</HintPath>
+      <HintPath>..\tools\Microsoft Practices\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Unity.Configuration">
       <HintPath>..\tools\Microsoft Practices\Microsoft.Practices.Unity.Configuration.dll</HintPath>
