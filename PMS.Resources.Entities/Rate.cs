@@ -19,7 +19,6 @@ namespace PMS.Resources.Entities
         public string LastUpdatedBy { get; set; }
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
         public Room Room { get; set; }
-        public RoomType RoomType { get; set; }
         public RateType RateType { get; set; }
 
     }

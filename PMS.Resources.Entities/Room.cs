@@ -9,7 +9,6 @@ namespace PMS.Resources.Entities
     public class Room
     {
         public int Id { get; set; }
-        public int FloorId { get; set; }
         public string Number { get; set; }
         public bool IsActive { get; set; }
         public string CreatedBy { get; set; }
@@ -19,5 +18,6 @@ namespace PMS.Resources.Entities
         public Property Property { get; set; }
         public RoomType RoomType { get; set; }
         public RoomStatus RoomStatus { get; set; }
+        public PropertyFloor Floor { get; set; }
     }
 }

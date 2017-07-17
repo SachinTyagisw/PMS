@@ -2292,6 +2292,7 @@
           <Property Type="Int32" Name="PropertyID" Nullable="true" />
           <Property Type="Int32" Name="RateTypeID" Nullable="true" />
           <Property Type="Int32" Name="RoomTypeID" Nullable="true" />
+          <Property Type="Int32" Name="RoomId" Nullable="true" />
           <Property Type="Int32" Name="InputKeyHours" Nullable="true" />
           <Property Type="Decimal" Name="Value" Nullable="true" Precision="19" />
           <Property Type="Boolean" Name="IsActive" Nullable="true" />
@@ -2305,6 +2306,7 @@
           <Property Type="Boolean" Name="RateTypeIsActive" Nullable="false" />
           <Property Type="String" Name="RoomNumber" Nullable="true" MaxLength="200" />
           <Property Type="Int32" Name="FloorNumber" Nullable="true" />
+          <Property Type="Int32" Name="FloorId" Nullable="true" />
           <Property Type="Int32" Name="Hours" Nullable="true" />
         </ComplexType>
         <ComplexType Name="GETROOMSTATUS_Result">
@@ -2945,6 +2947,7 @@
                 <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
                 <ScalarProperty Name="RateTypeID" ColumnName="RateTypeID" />
                 <ScalarProperty Name="RoomTypeID" ColumnName="RoomTypeID" />
+                <ScalarProperty Name="RoomId" ColumnName="RoomId" />
                 <ScalarProperty Name="InputKeyHours" ColumnName="InputKeyHours" />
                 <ScalarProperty Name="Value" ColumnName="Value" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
@@ -2958,6 +2961,7 @@
                 <ScalarProperty Name="RateTypeIsActive" ColumnName="RateTypeIsActive" />
                 <ScalarProperty Name="RoomNumber" ColumnName="RoomNumber" />
                 <ScalarProperty Name="FloorNumber" ColumnName="FloorNumber" />
+                <ScalarProperty Name="FloorId" ColumnName="FloorId" />
                 <ScalarProperty Name="Hours" ColumnName="Hours" />
               </ComplexTypeMapping>
             </ResultMapping>

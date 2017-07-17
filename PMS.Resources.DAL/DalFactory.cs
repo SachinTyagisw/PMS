@@ -1607,10 +1607,20 @@ namespace PMS.Resources.DAL
                         rate.LastUpdatedBy = value.LastUpdatedBy;
                         rate.LastUpdatedOn = value.LastUpdatedOn;
                         rate.PropertyId = value.PropertyID;
-                        rate.RoomType = new PmsEntity.RoomType
+                        rate.Room = new PmsEntity.Room
                         {
-                            Id = value.RoomTypeID.HasValue ? Convert.ToInt32(value.RoomTypeID) : -1,
-                            Name = value.RoomTypeName
+                           Id = value.RoomId.HasValue ? Convert.ToInt32(value.RoomId) : -1,
+                           Number = value.RoomNumber,
+                           Floor = new PmsEntity.PropertyFloor
+                           {
+                               FloorNumber = value.FloorNumber,
+                               Id = value.FloorId.HasValue ? Convert.ToInt32(value.FloorId) : -1
+                           },
+                           RoomType = new PmsEntity.RoomType
+                           {
+                              Id = value.RoomTypeID.HasValue ? Convert.ToInt32(value.RoomTypeID) : -1,
+                              Name = value.RoomTypeName
+                           }
                         };
                         rate.Type = value.Type;
                         rate.Value = value.Value;

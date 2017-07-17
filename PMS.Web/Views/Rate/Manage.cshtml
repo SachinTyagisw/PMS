@@ -182,8 +182,10 @@
         <thead>
             <tr>
                 <th id="IDCol">ID #</th>
+                <th id="floorCol" contenteditable="false">Floor</th>
                 <th id="roomTypeCol" contenteditable="false">Room Type</th>
                 <th id="roomnumberCol" contenteditable="false">Room #</th>
+                <th id="rateCol" contenteditable="false">Rate</th>
             </tr>
         </thead>
         <tbody>
@@ -193,11 +195,15 @@
                 <td class="idRow" contenteditable="false">${$value.Id}</td>
                 <td contenteditable="false">${$value.RoomType.Name}</td>
                 <td contenteditable="false">${$value.RoomType.Id}</td>
+                <td contenteditable="false">${$value.RoomType.Id}</td>
+                <td contenteditable="false">${$value.RoomType.Id}</td>
             </tr>
             {{/each}}
             {{else}}
             <tr>
                 <td class="idRow" contenteditable="false"></td>
+                <td contenteditable="true" style="background-color: #ffc9c9;"></td>
+                <td contenteditable="true" style="background-color: #ffc9c9;"></td>
                 <td contenteditable="true" style="background-color: #ffc9c9;"></td>
                 <td contenteditable="true" style="background-color: #ffc9c9;"></td>
             </tr>
