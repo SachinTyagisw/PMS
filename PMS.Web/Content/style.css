@@ -4276,7 +4276,7 @@ p
   position: relative;
 }
 #invoice-table .glyphicon {
-  font-size: 15px;
+  font-size: 10px;
 }
 
 .tableRow-remove {
@@ -4351,6 +4351,7 @@ select#paymentTypeDdl {
 }
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
     padding: 1px 4px;
+    font-size: 1.2rem;
 }
 /*-- Tabs CSS --*/
 .room-filter {
