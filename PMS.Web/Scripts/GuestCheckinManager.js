@@ -99,6 +99,17 @@
             }
         },
 
+        BindFloorDdl: function (ddlFloor) {
+            var floors = window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting;
+            if (!ddlFloor || !floors || floors.length <= 0) return;
+
+            ddlFloor.empty();
+            ddlFloor.append(new Option("Select Floor", "-1"));
+            for (var i = 0; i < floors.length; i++) {
+                ddlFloor.append(new Option(floors[i].FloorNumber, floors[i].Id));
+            }
+        },
+
         BindRoomTypeDdl: function (ddlRoomType) {
             var roomTypeData = pmsSession.GetItem("roomtypedata");
             if (!ddlRoomType || !roomTypeData) return;
@@ -944,7 +955,7 @@
             roomTypeRequestDto.RoomType = roomType;
             pmsService.UpdateRoomType(roomTypeRequestDto);
         },
-
+        
         FindPropertySetting: function (id) {
             var settings = window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting;
             if (!settings || settings.length <= 0) return null;
@@ -1538,9 +1549,13 @@
             };
 
             pmsService.Handlers.OnGetFloorsByPropertySuccess = function (data) {
-                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = null;
-                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = data.PropertyFloors;
-                window.GuestCheckinManager.PopulateFloorGrid(data);
+                var divFloor = $('#divFloor');
+                var floorTemplate = $('#floorTemplate');
+                if (divFloor && floorTemplate && divFloor.length > 0 && floorTemplate.length > 0) {
+                    window.GuestCheckinManager.PopulateFloorGrid(data);
+                } else {
+                    if (window.Notifications) window.Notifications.Notify("on-floors-get-success", null, null);
+                }
             };
 
             pmsService.Handlers.OnGetFloorsByPropertyFailure = function () {

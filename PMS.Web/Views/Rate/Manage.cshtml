@@ -11,22 +11,13 @@
         var existingRateType = gcm.FindPropertySetting(rateTypeId);
         gcm.PopulateRoomRateInGrid(existingRateType);
     }
+    
+    function OnFloorChange(ddlFloor, ddlRoom) {
+        alert('onfloor');
+    }
 
-    function OnUnitChange(ddlUnit, ddlHour) {
-        if (ddlUnit && ddlUnit.value === 'Daily'){
-            if (ddlHour && ddlHour[0] && ddlHour[0].style.cssText === "display: block;") {
-                ddlHour.attr("disabled", "disabled");
-            }else{
-                $('#ddlHourAdd').attr("disabled", "disabled");
-            }
-        } else {
-            if (!ddlHour) {
-                $('#ddlHourAdd').removeAttr("disabled");
-            } else {
-                ddlHour.removeAttr("disabled");
-            }
-
-        }
+    function OnRoomTypeChange(ddlRoomType, ddlRoom) {
+        alert('onroom');
     }
 
     function makeFieldsReadonly(rowObject) {
@@ -46,11 +37,11 @@
 
         gcm.GetAllProperty();
 
-        $("#divRateType").on("click", ".fa-plus-circle", function () {
+        $("#divManageRate").on("click", ".fa-plus-circle", function () {
             $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="true" style="background-color: #ffc9c9;"></td><td contenteditable="true" style="background-color: #ffc9c9;"><select style="display:block" id="ddlUnitAdd" onchange="OnUnitChange(this,null);" class="form-control"><option value="Hourly">Hourly</option><option value="Daily">Daily</option></select></td><td contenteditable="true" style="background-color: #ffc9c9;"><select style="display:block" id="ddlHourAdd" class="form-control"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i><i class="fa fa-minus-circle" aria-hidden="true"></i><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td></tr>');
         });
 
-        $("#divRateType").on("click", ".fa-minus-circle", function () {
+        $("#divManageRate").on("click", ".fa-minus-circle", function () {
             if (confirm("Are you sure you want to delete ?")) {
                 var rateTypeId = $(this).closest('tr')[0].id;
                 $(this).closest('tr').remove();
@@ -62,66 +53,96 @@
             }
         });
 
-        $("#divRateType").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {
+        $("#divManageRate").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {
             var thisRow = $(this).parent().siblings();
             var editOn = $(this).hasClass("editMode");
-            var rateTypeId = $(thisRow)[0].innerText;
+            var rateId = $(thisRow)[0].innerText;
             var propertyId = $('#ddlProperty').val();
-            var rateTypeName = $(thisRow)[1].innerText;
             if (editOn == false) {
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
 
-                var cloneUnit = $('#ddlUnitClone').clone(true);
-                cloneUnit[0].style = 'display:block';
-                cloneUnit[0].id = 'ddlUnitClone' + rateTypeId;
-                var unitSelector = '#' + cloneUnit[0].id;
+                var cloneFloor = $('#ddlFloorClone').clone(true);
+                cloneFloor[0].style = 'display:block';
+                cloneFloor[0].id = 'ddlFloorClone' + rateId;
+                var floorSelector = '#' + cloneFloor[0].id;
+                $(thisRow)[1].innerText = "";
+                $(thisRow[1]).append(cloneFloor);
+
+                var cloneRoomType = $('#ddlRoomTypeClone').clone(true);
+                cloneRoomType[0].style = 'display:block';
+                cloneRoomType[0].id = 'ddlRoomTypeClone' + rateId;
+                cloneRoomType.removeAttr("disabled");
+                var roomTypeSelector = '#' + cloneRoomType[0].id;
                 $(thisRow)[2].innerText = "";
-                $(thisRow[2]).append(cloneUnit);
+                $(thisRow[2]).append(cloneRoomType);
 
-                var cloneHour = $('#ddlHourClone').clone(true);
-                cloneHour[0].style = 'display:block';
-                cloneHour[0].id = 'ddlHourClone' + rateTypeId;
-                cloneHour.removeAttr("disabled");
-                var hourSelector = '#' + cloneHour[0].id;
+                var cloneRoom = $('#ddlRoomClone').clone(true);
+                cloneRoom[0].style = 'display:block';
+                cloneRoom[0].id = 'ddlRoomClone' + rateId;
+                cloneRoom.removeAttr("disabled");
                 $(thisRow)[3].innerText = "";
-                $(thisRow[3]).append(cloneHour);
+                $(thisRow[3]).append(cloneRoom);
 
-                $(document).on('change', unitSelector, function () {
-                    OnUnitChange($(cloneUnit)[0], $(cloneHour));
+                $(document).on('change', floorSelector, function () {
+                    OnFloorChange($(cloneFloor)[0], $(cloneRoom));
                 });
 
+                $(document).on('change', roomTypeSelector, function () {
+                    OnRoomTypeChange($(cloneRoomType)[0], $(cloneRoom));
+                });
                 makeFieldsReadonly($(thisRow[0]));
+                Notifications.SubscribeActive("on-floors-get-success", function (sender, args) {
+                    window.GuestCheckinManager.BindFloorDdl($(floorSelector));
+                });
+                gcm.GetFloorsByProperty($('#ddlProperty').val());
+               
             } else if (editOn == true) {
-                var units = $(thisRow)[2].children[0].value;
-                var hours = $(thisRow)[3].children[0].value;
-                if (units === 'Daily') {
-                    hours = null;
-                }
+                var floorId = $(thisRow)[1].children[0].value;
+                var roomTypeId = $(thisRow)[2].children[0].value;
+                var roomId = $(thisRow)[3].children[0].value;
+                var rateValue = $(thisRow)[4].children[0].value;
 
-                if (!rateTypeName || rateTypeName.length <= 0) {
-                    alert("Rate type name is required");
+                if (floorId <= 0) {
+                    alert("Select proper floor");
                     return;
                 }
-                if (rateTypeId > 0) {
-                    var existingRateType = gcm.FindPropertySetting(rateTypeId);
-                    if (!existingRateType) return;
-                    existingRateType.Name = rateTypeName;
-                    existingRateType.Units = units;
-                    existingRateType.Hours = hours;
-                    //call UpdateRateType api
-                    gcm.UpdateRateType(existingRateType);
+                if (roomTypeId <= 0) {
+                    alert("Select proper room type");
+                    return;
+                }
+                if (roomTypeId <= 0) {
+                    alert("Select proper room number");
+                    return;
+                }
+                if (isNaN(rateValue)) {
+                    alert("Rate value should be numeric");
+                    return;
+                }
+
+                if (rateId > 0) {
+                    var existingRate = gcm.FindPropertySetting(rateId);
+                    if (!existingRate) return;
+                    existingRate.FloorId = floorId;
+                    existingRate.RoomTypeId = roomTypeId;
+                    existingRate.RoomId = roomId;
+                    existingRate.Value = rateValue;
+                    //call UpdateRate api
+                    //gcm.UpdateRate(existingRate);
                 } else {
                     if (propertyId <= 0) {
                         alert("Select valid property");
                         return;
                     }
-                    var rateType = {};
-                    rateType.Name = rateTypeName;
-                    rateType.Units = units;
-                    rateType.PropertyId = propertyId;
-                    rateType.Hours = hours;
-                    //call AddRateType api
-                    gcm.AddRateType(rateType);
+                    var rate = {};
+                    rate.FloorId = floorId;
+                    rate.RoomTypeId = roomTypeId;
+                    rate.RoomId = roomId;
+                    rate.Value = rateValue;
+                    rate.PropertyId = propertyId;
+                    // todo to get InputKeyHours 
+                    rate.InputKeyHours = 1;
+                    //call AddRate api
+                    //gcm.AddRate(rate);
                 }
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
             }
@@ -151,9 +172,18 @@
         <div id="divManageRate">
         </div>
         <br>
-        <button id="addRow" class="btn btn-primary m-l-5 m-t-15" type="button">Add Row</button>
+        <button id="save" class="btn btn-primary m-l-5 m-t-15" type="button">Save</button>
     </section>
 </div>
+<select style="display:none" id="ddlFloorClone" class="form-control">
+    <option value="-1">Select Floor</option>
+</select>
+<select style="display:none" id="ddlRoomTypeClone" class="form-control">
+    <option value="-1">Select Roomtype</option>
+</select>
+<select style="display:none" id="ddlRoomClone" class="form-control">
+    <option value="-1">Select Room</option>
+</select>
 <div id="divLoader">
     <div class="loader" style="display:none;">
         <div class="dot"></div>
@@ -193,10 +223,10 @@
             {{each Rates}}
             <tr id="${$value.Id}">
                 <td class="idRow" contenteditable="false">${$value.Id}</td>
-                <td contenteditable="false">${$value.RoomType.Name}</td>
-                <td contenteditable="false">${$value.RoomType.Id}</td>
-                <td contenteditable="false">${$value.RoomType.Id}</td>
-                <td contenteditable="false">${$value.RoomType.Id}</td>
+                <td contenteditable="false">${$value.Room.Floor.FloorNumber}</td>
+                <td contenteditable="false">${$value.Room.RoomType.Name}</td>
+                <td contenteditable="false">${$value.Room.Number}</td>
+                <td contenteditable="false">${$value.Value}</td>
             </tr>
             {{/each}}
             {{else}}

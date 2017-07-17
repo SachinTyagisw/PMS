@@ -9,6 +9,9 @@ namespace PMS.Resources.Entities
     public class Rate
     {
         public int Id { get; set; }
+        public int FloorId { get; set; }
+        public int RoomTypeId { get; set; }
+        public int RoomId { get; set; }
         public string Type { get; set; }
         public Nullable<int> PropertyId { get; set; }
         public Nullable<int> InputKeyHours { get; set; }
