@@ -775,7 +775,6 @@
             } else {
                 // when no room rate data is present in db 
                 $("#divManageRate tbody tr").append('<td class="finalActionsCol"><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td>');
-                window.GuestCheckinManager.FillFloorData($('#ddlFloorAdd'), $('#ddlProperty').val());
                 window.GuestCheckinManager.FillRoomTypeData($('#ddlRoomTypeAdd'), $('#ddlProperty').val());
             }
         },
@@ -1220,19 +1219,6 @@
             }
         },
         
-        FillFloorData: function (ddlFloor, propertyId) {
-             if (!ddlFloor || !propertyId || propertyId <= 0) return;
-                var floors = window.GuestCheckinManager.PropertySettingResponseDto.FloorSettings;
-                if (!floors || floors.length <= 0) {
-                    Notifications.SubscribeActive("on-floor-get-success", function (sender, args) {
-                        window.GuestCheckinManager.BindFloorDdl(ddlFloor);
-                    });
-                    gcm.GetFloorsByProperty(propertyId);
-                } else {
-                    window.GuestCheckinManager.BindFloorDdl(ddlFloor);
-                }
-        },
-
         DeleteRoomRate: function (rateId) {
             // DeleteRoomRate by api calling  
             args.rateId = rateId;

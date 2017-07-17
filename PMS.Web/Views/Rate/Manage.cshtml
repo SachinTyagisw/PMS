@@ -12,10 +12,11 @@
         gcm.PopulateRoomRateInGrid(existingRateType);
     }
     
-    function OnFloorChange(ddlFloor, ddlRoom) {
+    function OnRoomChange(ddlRoom, tdFloor) {
     }
 
     function OnRoomTypeChange(ddlRoomType, ddlRoom) {
+        //gcm.FillRoomData($(cloneRoom), $('#ddlProperty').val());
     }
 
     function makeFieldsReadonly(rowObject) {
@@ -36,7 +37,6 @@
 
         $("#divManageRate").on("click", ".fa-plus-circle", function () {
             $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"><select style="display:block" id="ddlFloorAdd" onchange="OnFloorChange(this,null);" class="form-control"><option value="-1">Select Floor</option></select></td><td contenteditable="true" style="background-color: #ffc9c9;"><select style="display:block" id="ddlRoomTypeAdd" onchange="OnRoomTypeChange(this,null);" class="form-control"><option value="-1">Select RoomType</option></select></td><td contenteditable="true" style="background-color: #ffc9c9;"><select style="display:block" id="ddlRoomAdd" class="form-control"><option value="-1">Select Room</option></select></td><td contenteditable="true" style="background-color: #ffc9c9;"></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i><i class="fa fa-minus-circle" aria-hidden="true"></i><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td></tr>');
-            gcm.FillFloorData($('#ddlFloorAdd'), $('#ddlProperty').val());
             gcm.FillRoomTypeData($('#ddlRoomTypeAdd'), $('#ddlProperty').val());
             //gcm.FillRoomData($('#ddlRoomAdd'), $('#ddlProperty').val());
         });
@@ -61,44 +61,36 @@
             if (editOn == false) {
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
 
-                var cloneFloor = $('#ddlFloorClone').clone(true);
-                cloneFloor[0].style = 'display:block';
-                cloneFloor[0].id = 'ddlFloorClone' + rateId;
-                var floorSelector = '#' + cloneFloor[0].id;
-                $(thisRow)[1].innerText = "";
-                $(thisRow[1]).append(cloneFloor);
-
                 var cloneRoomType = $('#ddlRoomTypeClone').clone(true);
                 cloneRoomType[0].style = 'display:block';
                 cloneRoomType[0].id = 'ddlRoomTypeClone' + rateId;
-                cloneRoomType.removeAttr("disabled");
                 var roomTypeSelector = '#' + cloneRoomType[0].id;
-                $(thisRow)[2].innerText = "";
-                $(thisRow[2]).append(cloneRoomType);
+                $(thisRow)[1].innerText = "";
+                $(thisRow[1]).append(cloneRoomType);
 
                 var cloneRoom = $('#ddlRoomClone').clone(true);
                 cloneRoom[0].style = 'display:block';
                 cloneRoom[0].id = 'ddlRoomClone' + rateId;
-                cloneRoom.removeAttr("disabled");
-                $(thisRow)[3].innerText = "";
-                $(thisRow[3]).append(cloneRoom);
-
-                $(document).on('change', floorSelector, function () {
-                    OnFloorChange($(cloneFloor)[0], $(cloneRoom));
-                });
+                var roomSelector = '#' + cloneRoom[0].id;
+                $(thisRow)[2].innerText = "";
+                $(thisRow[2]).append(cloneRoom);
 
                 $(document).on('change', roomTypeSelector, function () {
                     OnRoomTypeChange($(cloneRoomType)[0], $(cloneRoom));
                 });
-                makeFieldsReadonly($(thisRow[0]));               
-                gcm.FillFloorData($(floorSelector), $('#ddlProperty').val());
-                gcm.FillRoomTypeData($(roomTypeSelector), $('#ddlProperty').val());
-                //gcm.FillRoomData($(cloneRoom), $('#ddlProperty').val());
+
+                $(document).on('change', roomSelector, function () {
+                    OnRoomChange($(cloneRoom)[0], tdFloor);
+                });
+
+                makeFieldsReadonly($(thisRow[0]));
+                makeFieldsReadonly($(thisRow[3]));
+                gcm.FillRoomTypeData($(roomTypeSelector), $('#ddlProperty').val());                
 
             } else if (editOn == true) {
-                var floorId = $(thisRow)[1].children[0].value;
-                var roomTypeId = $(thisRow)[2].children[0].value;
-                var roomId = $(thisRow)[3].children[0].value;
+                var floorId = $(thisRow)[3].children[0].value;
+                var roomTypeId = $(thisRow)[1].children[0].value;
+                var roomId = $(thisRow)[2].children[0].value;
                 var rateValue = $(thisRow)[4].innerText;
 
                 if (floorId <= 0) {
@@ -218,9 +210,9 @@
         <thead>
             <tr>
                 <th id="IDCol">ID #</th>
-                <th id="floorCol" contenteditable="false">Floor</th>
                 <th id="roomTypeCol" contenteditable="false">Room Type</th>
                 <th id="roomnumberCol" contenteditable="false">Room #</th>
+                <th id="floorCol" contenteditable="false">Floor</th>
                 <th id="rateCol" contenteditable="false">Rate</th>
             </tr>
         </thead>
@@ -228,21 +220,16 @@
             {{if typeof Rates != "undefined" && Rates != "null" && Rates.length > 0 }}
             {{each Rates}}
             <tr id="${$value.Id}">
-                <td class="idRow" contenteditable="false">${$value.Id}</td>
-                <td contenteditable="false">${$value.Room.Floor.FloorNumber}</td>
+                <td class="idRow" contenteditable="false">${$value.Id}</td>                
                 <td contenteditable="false">${$value.Room.RoomType.Name}</td>
                 <td contenteditable="false">${$value.Room.Number}</td>
+                <td contenteditable="false">${$value.Room.Floor.FloorNumber}</td>
                 <td contenteditable="false">${$value.Value}</td>
             </tr>
             {{/each}}
             {{else}}
             <tr>
-                <td class="idRow" contenteditable="false"></td>
-                <td contenteditable="true" style="background-color: rgba(255,255,255,0.7);">
-                    <select style="display:block" id="ddlFloorAdd" class="form-control">
-                        <option value="-1">Select Floor</option>
-                    </select>
-                </td>
+                <td class="idRow" contenteditable="false"></td>                
                 <td contenteditable="true" style="background-color: rgba(255,255,255,0.7);">
                     <select style="display:block" id="ddlRoomTypeAdd" class="form-control">
                         <option value="-1">Select Roomtype</option>
@@ -253,6 +240,7 @@
                         <option value="-1">Select Room</option>
                     </select>
                 </td>
+                <td class="floorRow" contenteditable="false"></td>
                 <td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"></td>
             </tr>
             {{/if}}
