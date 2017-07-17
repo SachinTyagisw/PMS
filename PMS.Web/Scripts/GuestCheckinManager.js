@@ -765,13 +765,13 @@
             if (!divManageRate || !manageRateTemplate) return;
             divManageRate.html('');
             divManageRate.html(manageRateTemplate.render(data));
-            //$("#divRoomRate thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
-            //if (data && data.RoomRate && data.RoomRate.length > 0) {
-            //    $("#divRoomRate tbody tr").append('<td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
-            //} else {
-            //    // when no room rate data is present in db 
-            //    $("#divRoomRate tbody tr").append('<td class="finalActionsCol"><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td>');
-            //}
+            $("#divManageRate thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
+            if (data && data.Rates && data.Rates.length > 0) {
+                $("#divManageRate tbody tr").append('<td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+            } else {
+                // when no room rate data is present in db 
+                $("#divManageRate tbody tr").append('<td class="finalActionsCol"><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td>');
+            }
         },
 
         PopulateTaxGrid: function (data) {

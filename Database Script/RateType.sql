@@ -1,7 +1,7 @@
 USE [PMS]
 GO
 
-/****** Object:  Table [dbo].[RateType]    Script Date: 7/1/2017 2:32:13 PM ******/
+/****** Object:  Table [dbo].[RateType]    Script Date: 7/17/2017 10:24:24 AM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -17,8 +17,8 @@ CREATE TABLE [dbo].[RateType](
 	[LastUpdatedBy] [nvarchar](200) NULL,
 	[LastUpdatedOn] [datetime] NULL,
 	[NAME] [nvarchar](max) NULL,
-	[RoomTypeID] [int] NULL,
-	[ShortName] [nvarchar](50) NULL,
+	[Units] [nvarchar](50) NULL,
+	[Hours] [int] NULL,
  CONSTRAINT [PK__RateType__3214EC2725FEB820] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
@@ -40,5 +40,4 @@ GO
 
 ALTER TABLE [dbo].[RateType] CHECK CONSTRAINT [FK__RateType__Proper__27F8EE98]
 GO
-
 
