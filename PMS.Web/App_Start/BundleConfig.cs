@@ -33,7 +33,7 @@ namespace PMS.Web
                        .Include("~/Scripts/Angular/ng-grid-flexible-height.min.js")
                        .Include("~/Scripts/daypilot/daypilot-all.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/js/jquery/lib").Include("~/Scripts/Jquery/lib/sidebar.js"));
+            //bundles.Add(new ScriptBundle("~/bundles/js/jquery/lib").Include("~/Scripts/Jquery/lib/sidebar.js"));
             //TODO to be included
                        //.Include("~/Scripts/scripts.js"));
 

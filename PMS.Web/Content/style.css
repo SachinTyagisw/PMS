@@ -4716,12 +4716,11 @@ a.animated-button:link, a.animated-button:visited {
 }*/
 #side-nav {
   width: 226px;
-  /*background: rgba(255, 255, 255, 0.1);*/
   box-shadow: 0 0 15px 2px rgba(0, 0, 0, 0.1);
   -webkit-transition: width 0.5s ease-out;
   transition: width 0.5s ease-out;
-  -webkit-animation: animate-width 1.2s 1 ease-in-out;
-          animation: animate-width 1.2s 1 ease-in-out;
+  -webkit-animation: animate-width 0.1s 1 ease-in-out;
+          animation: animate-width 0.1s 1 ease-in-out;
 }
 #side-nav.width {
   width: 48px;
