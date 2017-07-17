@@ -1587,14 +1587,17 @@ namespace PMS.Resources.DAL
                 if (resultSet == null || resultSet.Count <= 0) return rateTypes;
                 foreach (var result in resultSet)
                 {
-                    if (result == null || result.ToList().Count <= 0) continue;
+                    if (result == null || result.ToList().Count <= 0 || !result.ToList()[0].RateTypeIsActive) continue;
                     var ratetype = new PmsEntity.RateType();
                     ratetype.Id = result.ToList()[0].MasterRateTypeID;
                     ratetype.Name = result.ToList()[0].RateTypeName;
                     ratetype.Hours = result.ToList()[0].Hours;
+                    ratetype.IsActive = result.ToList()[0].RateTypeIsActive;
                     ratetype.Rates = new List<PmsEntity.Rate>();
                     foreach (var value in result)
                     {
+                        if (!value.IsActive.HasValue || !Convert.ToBoolean(value.IsActive)) continue;
+
                         var rate = new PmsEntity.Rate();
                         rate.CreatedBy = value.CreatedBy;
                         rate.CreatedOn = value.CreatedOn;

@@ -28,6 +28,9 @@ namespace PMS.Resources.DAL
         public string RoomTypeName { get; set; }
         public string RateTypeName { get; set; }
         public int MasterRateTypeID { get; set; }
+        public bool RateTypeIsActive { get; set; }
+        public string RoomNumber { get; set; }
+        public Nullable<int> FloorNumber { get; set; }
         public Nullable<int> Hours { get; set; }
     }
 }

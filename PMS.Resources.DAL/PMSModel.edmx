@@ -2302,6 +2302,9 @@
           <Property Type="String" Name="RoomTypeName" Nullable="true" />
           <Property Type="String" Name="RateTypeName" Nullable="true" />
           <Property Type="Int32" Name="MasterRateTypeID" Nullable="false" />
+          <Property Type="Boolean" Name="RateTypeIsActive" Nullable="false" />
+          <Property Type="String" Name="RoomNumber" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="FloorNumber" Nullable="true" />
           <Property Type="Int32" Name="Hours" Nullable="true" />
         </ComplexType>
         <ComplexType Name="GETROOMSTATUS_Result">
@@ -2952,6 +2955,9 @@
                 <ScalarProperty Name="RoomTypeName" ColumnName="RoomTypeName" />
                 <ScalarProperty Name="RateTypeName" ColumnName="RateTypeName" />
                 <ScalarProperty Name="MasterRateTypeID" ColumnName="MasterRateTypeID" />
+                <ScalarProperty Name="RateTypeIsActive" ColumnName="RateTypeIsActive" />
+                <ScalarProperty Name="RoomNumber" ColumnName="RoomNumber" />
+                <ScalarProperty Name="FloorNumber" ColumnName="FloorNumber" />
                 <ScalarProperty Name="Hours" ColumnName="Hours" />
               </ComplexTypeMapping>
             </ResultMapping>
