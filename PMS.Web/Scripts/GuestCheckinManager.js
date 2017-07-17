@@ -1248,6 +1248,38 @@
                 }
         },
 
+        DeleteRoomRate: function (rateId) {
+            // DeleteRoomRate by api calling  
+            args.rateId = rateId;
+            pmsService.DeleteRoomRate(args);
+        },
+
+        AddRoomRate: function (rate) {
+            rate.CreatedBy = getCreatedBy();
+            rate.CreatedOn = getCurrentDate();
+            var rateRequestDto = {};
+            rateRequestDto.Rate = [];
+            // AddRoomRate by api calling  
+            rateRequestDto.Rate.push(rate);
+            Notifications.SubscribeActive("on-roomrate-add-success", function (sender, args) {
+                window.GuestCheckinManager.GetRoomRateByProperty(rate.PropertyId);
+            });
+            pmsService.AddRoomRate(rateRequestDto);
+        },
+
+        UpdateRoomRate: function (rate) {
+            rate.LastUpdatedBy = getCreatedBy();
+            rate.LastUpdatedOn = getCurrentDate();
+            // UpdateRoomRate by api calling 
+            var rateRequestDto = {};
+            rateRequestDto.Rate = [];
+            rateRequestDto.Rate.push(rate);
+            Notifications.SubscribeActive("on-roomrate-update-success", function (sender, args) {
+                window.GuestCheckinManager.GetRoomRateByProperty(rate.PropertyId);
+            });
+            pmsService.UpdateRoomRate(rateRequestDto);
+        },
+
         AjaxHandlers: function () {
             // ajax handlers start
             pmsService.Handlers.OnAddBookingSuccess = function (data) {
@@ -1838,6 +1870,47 @@
             pmsService.Handlers.OnGetRoomRateByPropertyFailure = function () {
                 // show error log
                 console.error("Get room rate call failed");
+            };
+
+            pmsService.Handlers.OnAddRoomRateSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                if (data.ResponseObject > 0) {
+                    console.log(status);
+                    // to fetch new data                    
+                    alert(status);
+                    if (window.Notifications) window.Notifications.Notify("on-roomrate-add-success", null, null);
+                } else {
+                    console.error(status);
+                    alert(status);
+                }
+            };
+
+            pmsService.Handlers.OnAddRoomRateFailure = function () {
+                // show error log
+                console.error("Room rate is not added.");
+            };
+
+            pmsService.Handlers.OnDeleteRoomRateFailure = function () {
+                // show error log
+                console.error("Room rate is not deleted.");
+            };
+
+            pmsService.Handlers.OnDeleteRoomRateSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                alert(status);
+            };
+
+            pmsService.Handlers.OnUpdateRoomRateFailure = function () {
+                // show error log
+                console.error("Room rate is not updated.");
+            };
+
+            pmsService.Handlers.OnUpdateRoomRateSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                alert(status);
+                if (window.Notifications) window.Notifications.Notify("on-roomrate-update-success", null, null);
             };
 
             //pmsService.Handlers.OnGetRoomByPropertySuccess = function (data) {

@@ -46,7 +46,7 @@
                 var rateId = $(this).closest('tr')[0].id;
                 $(this).closest('tr').remove();
                 if (rateId <= 0) return;
-                gcm.DeleteRate(rateId);
+                gcm.DeleteRoomRate(rateId);
                 if ($('#divManageRate tbody tr').length <= 0) {
                     $('#ddlProperty').val('-1');
                 }
@@ -127,8 +127,8 @@
                     existingRate.RoomTypeId = roomTypeId;
                     existingRate.RoomId = roomId;
                     existingRate.Value = rateValue;
-                    //call UpdateRate api
-                    gcm.UpdateRate(existingRate);
+                    //call UpdateRoomRate api
+                    gcm.UpdateRoomRate(existingRate);
                 } else {
                     if (propertyId <= 0) {
                         alert("Select valid property");
@@ -142,8 +142,8 @@
                     rate.PropertyId = propertyId;
                     // todo to get InputKeyHours 
                     rate.InputKeyHours = 1;
-                    //call AddRate api
-                    gcm.AddRate(rate);
+                    //call AddRoomRate api
+                    gcm.AddRoomRate(rate);
                 }
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
             }
