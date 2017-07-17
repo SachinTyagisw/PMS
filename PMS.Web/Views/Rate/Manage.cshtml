@@ -135,21 +135,22 @@
             </select>
         </div>
     </div>
-    <main class="tab-main" style="display:block;">
-        <div id="divRoomRate" class="table-data">
-        </div>
+    @*<main class="tab-main">*@
+        <main>
+            <div id="divRoomRate" class="table-data">
+            </div>
             <section id="content1">
                 <div class="form-group m-t-10">
                     <input type="text" class="search form-control" placeholder="Search by floor...">
                 </div>
-                    <span class="counter">
-                    </span>
-                    <div id="divManageRate">
-                    </div>
-                    <br>
-                    <button id="addRow" class="btn btn-primary m-l-5 m-t-15" type="button">Add Row</button>
+                <span class="counter">
+                </span>
+                <div id="divManageRate">
+                </div>
+                <br>
+                <button id="addRow" class="btn btn-primary m-l-5 m-t-15" type="button">Add Row</button>
             </section>
-    </main>
+        </main>
 </div>
 <div id="divLoader">
     <div class="loader" style="display:none;">
@@ -162,9 +163,15 @@
 </div>
 <script type="text/html" id="roomRateTemplate">
         {{if typeof RoomRate != "undefined" && RoomRate != "null" && RoomRate.length > 0 }}
-        {{each RoomRate}}
-        <input id="${$value.RateType.Id}" type="radio" name="tabs" checked>
-        <label onclick="OnRateTabClick();" for="${$value.RateType.Id}">${$value.RateType.Name}</label>
+        {{each(i,rate) RoomRate}}
+            {{if i===0}}
+                <input id="${rate.Id}" type="radio" name="tabs" checked>
+                <label onclick="OnRateTabClick();" for="${rate.Id}">${rate.Name}</label>
+                {{else}}
+                   <input id="${rate.Id}" type="radio" name="tabs">
+                   <label onclick="OnRateTabClick();" for="${rate.Id}">${rate.Name}</label>
+            {{/if}}
+    
         {{/each}}
         {{/if}}    
 </script>
@@ -178,12 +185,14 @@
             </tr>
         </thead>
         <tbody>
-            {{if typeof RoomRate != "undefined" && RoomRate != "null" }}
-            <tr id="${Id}">
-                <td class="idRow" contenteditable="false">${Id}</td>
-                <td contenteditable="false">$RoomType.Name</td>
-                <td contenteditable="false">$RoomType.Id</td>
+            {{if typeof Rates != "undefined" && Rates != "null" && Rates.length > 0 }}
+            {{each Rates}}
+            <tr id="${$value.Id}">
+                <td class="idRow" contenteditable="false">${$value.Id}</td>
+                <td contenteditable="false">${$value.RoomType.Name}</td>
+                <td contenteditable="false">${$value.RoomType.Id}</td>
             </tr>
+            {{/each}}
             {{else}}
             <tr>
                 <td class="idRow" contenteditable="false"></td>

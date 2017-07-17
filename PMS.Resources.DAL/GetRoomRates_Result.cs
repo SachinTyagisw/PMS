@@ -13,20 +13,21 @@ namespace PMS.Resources.DAL
     
     public partial class GetRoomRates_Result
     {
-        public int ID { get; set; }
+        public Nullable<int> ID { get; set; }
         public string Type { get; set; }
         public Nullable<int> PropertyID { get; set; }
         public Nullable<int> RateTypeID { get; set; }
         public Nullable<int> RoomTypeID { get; set; }
         public Nullable<int> InputKeyHours { get; set; }
         public Nullable<decimal> Value { get; set; }
-        public bool IsActive { get; set; }
+        public Nullable<bool> IsActive { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string LastUpdatedBy { get; set; }
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
         public string RoomTypeName { get; set; }
         public string RateTypeName { get; set; }
+        public int MasterRateTypeID { get; set; }
         public Nullable<int> Hours { get; set; }
     }
 }

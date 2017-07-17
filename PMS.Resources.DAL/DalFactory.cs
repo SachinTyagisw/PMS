@@ -1576,43 +1576,49 @@ namespace PMS.Resources.DAL
             return taxes;
         }
 
-        public List<PmsEntity.Rate> GetRoomRateByProperty(int propertyId)
+        public List<PmsEntity.RateType> GetRoomRateByProperty(int propertyId)
         {
-            var rates = new List<PmsEntity.Rate>();
+            var rateTypes = new List<PmsEntity.RateType>();
             using (var pmsContext = new PmsEntities())
             {
-                var resultSet = pmsContext.GetRoomRates(propertyId).ToList();
-                if (resultSet == null || resultSet.Count <= 0) return rates;
-                foreach(var result in resultSet)
-                {
-                    var rate = new PmsEntity.Rate();
-                    rate.CreatedBy = result.CreatedBy;
-                    rate.CreatedOn = result.CreatedOn;
-                    rate.Id = result.ID;
-                    rate.InputKeyHours = result.InputKeyHours;
-                    rate.IsActive = result.IsActive;
-                    rate.LastUpdatedBy = result.LastUpdatedBy;
-                    rate.LastUpdatedOn = result.LastUpdatedOn;
-                    rate.PropertyId = result.PropertyID;
-                    rate.RateType = new PmsEntity.RateType
-                    {
-                        Id = result.RateTypeID.HasValue ? Convert.ToInt32(result.RateTypeID) : -1,
-                        Name = result.RateTypeName,
-                        Hours = result.Hours
-                    };
-                    rate.RoomType = new PmsEntity.RoomType
-                    {
-                        Id = result.RoomTypeID.HasValue ? Convert.ToInt32(result.RoomTypeID) : -1,
-                        Name = result.RoomTypeName
-                    };
-                    rate.Type = result.Type;
-                    rate.Value = result.Value;
+                var resultSet = pmsContext.GetRoomRates(propertyId)
+                                .GroupBy(a => a.MasterRateTypeID).ToList();
 
-                    rates.Add(rate);
+                if (resultSet == null || resultSet.Count <= 0) return rateTypes;
+                foreach (var result in resultSet)
+                {
+                    if (result == null || result.ToList().Count <= 0) continue;
+                    var ratetype = new PmsEntity.RateType();
+                    ratetype.Id = result.ToList()[0].MasterRateTypeID;
+                    ratetype.Name = result.ToList()[0].RateTypeName;
+                    ratetype.Hours = result.ToList()[0].Hours;
+                    ratetype.Rates = new List<PmsEntity.Rate>();
+                    foreach (var value in result)
+                    {
+                        var rate = new PmsEntity.Rate();
+                        rate.CreatedBy = value.CreatedBy;
+                        rate.CreatedOn = value.CreatedOn;
+                        rate.Id = value.ID.HasValue ? Convert.ToInt32(value.ID) : -1;
+                        rate.InputKeyHours = value.InputKeyHours;
+                        rate.IsActive = value.IsActive;
+                        rate.LastUpdatedBy = value.LastUpdatedBy;
+                        rate.LastUpdatedOn = value.LastUpdatedOn;
+                        rate.PropertyId = value.PropertyID;
+                        rate.RoomType = new PmsEntity.RoomType
+                        {
+                            Id = value.RoomTypeID.HasValue ? Convert.ToInt32(value.RoomTypeID) : -1,
+                            Name = value.RoomTypeName
+                        };
+                        rate.Type = value.Type;
+                        rate.Value = value.Value;
+
+                        ratetype.Rates.Add(rate);
+                    }
+                    rateTypes.Add(ratetype);
                 }
             }
 
-            return rates;
+            return rateTypes;
         }
     }
 }

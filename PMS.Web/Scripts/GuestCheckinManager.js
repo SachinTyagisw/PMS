@@ -759,13 +759,11 @@
             divRoomRate.html(roomRateTemplate.render(data));
         },
 
-        PopulateRoomRateInGrid: function (ratedata) {
-            var data = {};
-            data.RoomRate = ratedata;
+        PopulateRoomRateInGrid: function (data) {
             var divManageRate = $('#divManageRate');
             var manageRateTemplate = $('#manageRateTemplate');
             if (!divManageRate || !manageRateTemplate) return;
-            //divManageRate.html('');
+            divManageRate.html('');
             divManageRate.html(manageRateTemplate.render(data));
             //$("#divRoomRate thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
             //if (data && data.RoomRate && data.RoomRate.length > 0) {
@@ -1764,6 +1762,7 @@
                 window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = null;
                 window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = data.RoomRate;
                 window.GuestCheckinManager.PopulateRateTabInGrid(data);
+                // to show default 1st tab data hence pass index 0
                 window.GuestCheckinManager.PopulateRoomRateInGrid(data.RoomRate[0]);
             };
 

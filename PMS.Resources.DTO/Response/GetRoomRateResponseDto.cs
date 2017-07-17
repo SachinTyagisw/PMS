@@ -13,6 +13,6 @@ namespace PMS.Resources.DTO.Response
     public class GetRoomRateResponseDto
     {
         [DataMember]
-        public List<Rate> RoomRate { get; set; }
+        public List<RateType> RoomRate { get; set; }
     }
 }
