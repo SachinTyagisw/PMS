@@ -13,6 +13,7 @@
     }
     
     function OnRoomChange(ddlRoom, tdFloor) {
+             alert('on room');
     }
 
     function OnRoomTypeChange(ddlRoomType, ddlRoom) {
@@ -36,9 +37,8 @@
         gcm.GetAllProperty();
 
         $("#divManageRate").on("click", ".fa-plus-circle", function () {
-            $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"><select style="display:block" id="ddlFloorAdd" onchange="OnFloorChange(this,null);" class="form-control"><option value="-1">Select Floor</option></select></td><td contenteditable="true" style="background-color: #ffc9c9;"><select style="display:block" id="ddlRoomTypeAdd" onchange="OnRoomTypeChange(this,null);" class="form-control"><option value="-1">Select RoomType</option></select></td><td contenteditable="true" style="background-color: #ffc9c9;"><select style="display:block" id="ddlRoomAdd" class="form-control"><option value="-1">Select Room</option></select></td><td contenteditable="true" style="background-color: #ffc9c9;"></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i><i class="fa fa-minus-circle" aria-hidden="true"></i><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td></tr>');
-            gcm.FillRoomTypeData($('#ddlRoomTypeAdd'), $('#ddlProperty').val());
-            //gcm.FillRoomData($('#ddlRoomAdd'), $('#ddlProperty').val());
+            $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="true" style="background-color: #ffc9c9;"><select style="display:block" id="ddlRoomTypeAdd" onchange="OnRoomTypeChange(this,null);" class="form-control"><option value="-1">Select RoomType</option></select></td><td contenteditable="true" style="background-color: #ffc9c9;"><select style="display:block" id="ddlRoomAdd" onchange="OnRoomChange(this,null);" class="form-control"><option value="-1">Select Room</option></select></td><td class="idRow" contenteditable="false"></td><td contenteditable="true" style="background-color: #ffc9c9;"></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i><i class="fa fa-minus-circle" aria-hidden="true"></i><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td></tr>');
+            gcm.FillRoomTypeData($('#ddlRoomTypeAdd'), $('#ddlProperty').val());            
         });
 
         $("#divManageRate").on("click", ".fa-minus-circle", function () {

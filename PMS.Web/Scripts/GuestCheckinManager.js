@@ -1595,8 +1595,6 @@
                 var floorTemplate = $('#floorTemplate');
                 if (divFloor && floorTemplate && divFloor.length > 0 && floorTemplate.length > 0) {
                     window.GuestCheckinManager.PopulateFloorGrid(data);
-                } else {
-                    if (window.Notifications) window.Notifications.Notify("on-floor-get-success", null, null);
                 }
             };
 
