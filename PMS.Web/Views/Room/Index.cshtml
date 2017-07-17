@@ -64,7 +64,7 @@
                 }
                 
                 if (roomId > 0) {
-                    var existingRoom = gcm.FindPropertySetting(roomId);
+                    var existingRoom = gcm.FindSetting(roomId, window.GuestCheckinManager.PropertySettingResponseDto.RoomSettings);
                     if (!existingRoom) return;
                     existingRoom.RoomType.Id = RoomTypeID;
                     existingRoom.FloorId = FloorID;

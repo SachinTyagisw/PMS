@@ -54,7 +54,7 @@
                     return;
                 }
                 if (floorId > 0) {
-                    var existingFloor = gcm.FindPropertySetting(floorId);
+                    var existingFloor = gcm.FindSetting(floorId, window.GuestCheckinManager.PropertySettingResponseDto.FloorSettings);
                     if (!existingFloor) return;
                     existingFloor.FloorNumber = floorNumber;
                     //call updatefloor api

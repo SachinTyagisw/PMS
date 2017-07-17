@@ -97,7 +97,7 @@
                     return;
                 }
                 if (rateTypeId > 0) {
-                    var existingRateType = gcm.FindPropertySetting(rateTypeId);
+                    var existingRateType = gcm.FindSetting(rateTypeId, window.GuestCheckinManager.PropertySettingResponseDto.RateTypeSettings);
                     if (!existingRateType) return;
                     existingRateType.Name = rateTypeName;
                     existingRateType.Units = units;

@@ -59,7 +59,7 @@
                     return;
                 }
                 if (roomTypeId > 0) {
-                    var existingRoomType = gcm.FindPropertySetting(roomTypeId);
+                    var existingRoomType = gcm.FindSetting(roomTypeId, window.GuestCheckinManager.PropertySettingResponseDto.RoomTypeSettings);
                     if (!existingRoomType) return;
                     existingRoomType.Name = roomTypeName;
                     existingRoomType.ShortName = shortCode;

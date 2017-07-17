@@ -277,7 +277,7 @@
             var thisRow = $(this).parent().siblings();
             var editOn = $(this).hasClass("editMode");
             var propertyId = $(thisRow)[0].innerText;
-            var existingProperty = gcm.FindPropertySetting(propertyId);
+            var existingProperty = gcm.FindSetting(propertyId, window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting);
             if (!existingProperty) {
                 alert('Selected property is not valid');
                 return;

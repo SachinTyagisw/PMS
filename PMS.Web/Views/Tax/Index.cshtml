@@ -63,7 +63,7 @@
                     return;
                 }
                 if (taxId > 0) {
-                    var existingTax = gcm.FindPropertySetting(taxId);
+                    var existingTax = gcm.FindSetting(taxId, window.GuestCheckinManager.PropertySettingResponseDto.TaxSettings);
                     if (!existingTax) return;
                     existingTax.TaxName = taxName;
                     existingTax.Value = taxAmount;

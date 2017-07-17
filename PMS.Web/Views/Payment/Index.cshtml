@@ -59,7 +59,7 @@
                     return;
                 }
                 if (paymentTypeId > 0) {
-                    var existingPaymentType = gcm.FindPropertySetting(paymentTypeId);
+                    var existingPaymentType = gcm.FindSetting(paymentTypeId, window.GuestCheckinManager.PropertySettingResponseDto.PaymentTypeSettings);
                     if (!existingPaymentType) return;
                     existingPaymentType.Name = paymentTypeName;
                     existingPaymentType.ShortName = shortCode;

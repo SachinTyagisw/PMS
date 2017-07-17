@@ -11,6 +11,11 @@
             FloorSettings: null,
             RoomTypeSettings: null,
             RoomSettings: null,
+            ExtraChargeSettings: null,
+            PaymentTypeSettings: null,
+            RateSettings: null,
+            RateTypeSettings: null,
+            TaxSettings: null,
         },
 
         BookingDto: {
@@ -959,8 +964,19 @@
             pmsService.UpdateRoomType(roomTypeRequestDto);
         },
         
-        FindPropertySetting: function (id) {
-            var settings = window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting;
+        FindIndex: function (id, settings) {
+            var idx = -1;
+            if (!settings || settings.length <= 0) return idx;
+            for (var i = 0; i < settings.length; i++) {
+                if (settings[i].Id === parseInt(id)) {
+                    idx = i;
+                    return idx;
+                }
+            }
+            return idx;
+        },
+
+        FindSetting: function (id, settings) {
             if (!settings || settings.length <= 0) return null;
             for (var i = 0; i < settings.length; i++){
                 if (settings[i].Id !== parseInt(id)) continue;
@@ -1260,6 +1276,8 @@
             };
 
             pmsService.Handlers.OnGetRateTypeByPropertySuccess = function (data) {
+                window.GuestCheckinManager.PropertySettingResponseDto.RateTypeSettings = null;
+                window.GuestCheckinManager.PropertySettingResponseDto.RateTypeSettings = data.RateTypes;
                 //storing room rate type data into session storage
                 pmsSession.SetItem("ratetypedata", JSON.stringify(data.RateTypes));
                 var divRateType = $('#divRateType');
@@ -1268,9 +1286,7 @@
                 if (rateTypeDdl && rateTypeDdl.length > 0) {
                     window.GuestCheckinManager.BindRateTypeDdl(rateTypeDdl);
                 }
-                else if (divRateType && rateTemplate && divRateType.length > 0 && rateTemplate.length > 0) {
-                    window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = null;
-                    window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = data.RateTypes;
+                else if (divRateType && rateTemplate && divRateType.length > 0 && rateTemplate.length > 0) {                    
                     window.GuestCheckinManager.PopulateRateTypeGrid(data);
                 }
             };
@@ -1572,8 +1588,8 @@
             };
 
             pmsService.Handlers.OnGetPaymentTypeByPropertySuccess = function (data) {
-                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = null;
-                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = data.PaymentTypes;
+                window.GuestCheckinManager.PropertySettingResponseDto.PaymentTypeSettings = null;
+                window.GuestCheckinManager.PropertySettingResponseDto.PaymentTypeSettings = data.PaymentTypes;
                 window.GuestCheckinManager.PopulatePaymentTypeGrid(data);
             };
 
@@ -1624,8 +1640,8 @@
             };
 
             pmsService.Handlers.OnGetExtraChargeByPropertySuccess = function (data) {
-                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = null;
-                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = data.ExtraCharges;
+                window.GuestCheckinManager.PropertySettingResponseDto.ExtraChargeSettings = null;
+                window.GuestCheckinManager.PropertySettingResponseDto.ExtraChargeSettings = data.ExtraCharges;
                 window.GuestCheckinManager.PopulateExtraChargeGrid(data);
             };
 
@@ -1675,8 +1691,8 @@
             };
 
             pmsService.Handlers.OnGetTaxByPropertySuccess = function (data) {
-                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = null;
-                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = data.Taxes;
+                window.GuestCheckinManager.PropertySettingResponseDto.TaxSettings = null;
+                window.GuestCheckinManager.PropertySettingResponseDto.TaxSettings = data.Taxes;
                 window.GuestCheckinManager.PopulateTaxGrid(data);
             };
 
@@ -1728,8 +1744,8 @@
             //Room Callbacks
 
             pmsService.Handlers.OnGetRoomByPropertySuccess = function (data) {
-                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = null;
-                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = data.Rooms;
+                window.GuestCheckinManager.PropertySettingResponseDto.RoomSettings = null;
+                window.GuestCheckinManager.PropertySettingResponseDto.RoomSettings = data.Rooms;
                 window.GuestCheckinManager.PopulateRoomGrid(data);
             };
 
@@ -1782,8 +1798,8 @@
             pmsService.Handlers.OnGetRoomRateByPropertySuccess = function (data) {
                 // when no data available return
                 if (!data || !data.RoomRate || data.RoomRate.length <= 0) return;
-                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = null;
-                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = data.RoomRate;
+                window.GuestCheckinManager.PropertySettingResponseDto.RateSettings = null;
+                window.GuestCheckinManager.PropertySettingResponseDto.RateSettings = data.RoomRate;
                 window.GuestCheckinManager.PopulateRateTabInGrid(data);
                 // to show default 1st tab data hence pass index 0
                 window.GuestCheckinManager.PopulateRoomRateInGrid(data.RoomRate[0]);

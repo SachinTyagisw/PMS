@@ -63,7 +63,7 @@
                     return;
                 }
                 if (extraChargeId > 0) {
-                    var existingExtraCharges = gcm.FindPropertySetting(extraChargeId);
+                    var existingExtraCharges = gcm.FindSetting(extraChargeId, window.GuestCheckinManager.PropertySettingResponseDto.ExtraChargeSettings);
                     if (!existingExtraCharges) return;
                     existingExtraCharges.FacilityName = facilityName;
                     existingExtraCharges.Value = facilityAmount;

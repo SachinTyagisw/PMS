@@ -5,10 +5,10 @@
 }
 <script type='text/javascript'>
     var gcm = window.GuestCheckinManager;
-
+    var rateTypeId = -1;
     function OnRateTabClick(tabObj) {
-        var rateTypeId = tabObj ? tabObj.id : -1;
-        var existingRateType = gcm.FindPropertySetting(rateTypeId);
+        rateTypeId = tabObj ? tabObj.id : -1;
+        var existingRateType = gcm.FindSetting(rateTypeId, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings);
         gcm.PopulateRoomRateInGrid(existingRateType);
     }
     
@@ -134,7 +134,9 @@
                 }
 
                 if (rateId > 0) {
-                    var existingRate = gcm.FindPropertySetting(rateId);
+                    var idx = gcm.FindIndex(rateTypeId, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings);
+                    if (idx <= 0) return;
+                    var existingRate = gcm.FindSetting(rateId, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings[idx].Rates);
                     if (!existingRate) return;
                     existingRate.FloorId = floorId;
                     existingRate.RoomTypeId = roomTypeId;
@@ -165,25 +167,30 @@
     });
 </script>
 <div class="content-wrap">
-    <div class="col-lg-2 p-l-0 p-r-0 m-t-10">
-        <div class="form-group">
-            <label>Select Property</label>
-            <select id="ddlProperty" onchange="OnPropertyChange();">
-                <option value="-1">Select Property</option>
-            </select>
-        </div>
-    </div>
     <main class="tab-main">
             <div id="divRoomRate" class="table-data">
             </div>
     </main>
     <section id="content1">
-        <div class="form-group m-t-10">
-            <input type="text" class="search form-control" placeholder="Search by Roomtype, room#, rate, floor# ...">
-        </div>
-        <span class="counter">
-        </span>
-        <div id="divManageRate">
+        <div class="card-body room-details">
+            <div class="row" style="">
+                <div class="form-group col-lg-8 m-t-10">
+                    <label>Search</label>
+                    <input type="text" class="search form-control" placeholder="Search by Roomtype, room#, rate, floor# ...">
+                </div>
+
+                <div class="col-lg-2 p-l-0 p-r-0 m-t-10">
+                    <div class="form-group">
+                        <label>Select Property</label>
+                        <select id="ddlProperty" onchange="OnPropertyChange();">
+                            <option value="-1">Select Property</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="divManageRate" class="table-data">
+                    <span class="counter"></span>
+                </div>
+            </div>
         </div>
         <br>
         <button id="save" class="btn btn-primary m-l-5 m-t-15" type="button">Save</button>
@@ -197,6 +204,7 @@
 </select>
 <select style="display:none" id="ddlRoomClone" class="form-control">
     <option value="-1">Select Room</option>
+    <option value="1">Room1</option>
 </select>
 <div id="divLoader">
     <div class="loader" style="display:none;">
