@@ -238,7 +238,7 @@ namespace PMS.Api.Controllers
         [HttpPut, ActionName("UpdateRoomRate")]
         public PmsResponseDto UpdateRoomRate([FromBody] RoomRateRequestDto request)
         {
-            if (request == null || request.Rate == null) throw new PmsException("Room Rate can not be updated.");
+            if (request == null || request.Rate == null || request.Rate.Id <= 0) throw new PmsException("Room Rate can not be updated.");
 
             var response = new PmsResponseDto();
             if (_iPmsLogic.UpdateRoomRate(request.Rate))

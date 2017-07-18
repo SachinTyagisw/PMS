@@ -1643,7 +1643,6 @@ namespace PMS.Resources.DAL
 
         public int AddRoomRate(int propertyId, string rateXml)
         {
-            var isAdded = false;
             var rateId = SaveRoomRateIndDb(propertyId, rateXml);
             return rateId;
         }
