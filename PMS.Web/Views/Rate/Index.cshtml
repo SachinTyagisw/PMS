@@ -94,6 +94,7 @@
 
                 if (!rateTypeName || rateTypeName.length <= 0) {
                     alert("Rate type name is required");
+                    $(thisRow)[1].focus();
                     return;
                 }
                 if (rateTypeId > 0) {

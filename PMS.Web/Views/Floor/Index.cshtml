@@ -49,8 +49,9 @@
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
                 makeFieldsReadonly($(thisRow[0]));
             } else if (editOn == true) {
-                if (!floorNumber || floorNumber.length <= 0) {
-                    alert("Floor Number is required");
+                if (isNaN(floorNumber)) {
+                    alert("Floor Number should be numeric");
+                    $(thisRow)[1].focus();
                     return;
                 }
                 if (floorId > 0) {

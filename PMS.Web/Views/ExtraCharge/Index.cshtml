@@ -52,14 +52,17 @@
             } else if (editOn == true) {
                 if (!facilityName || facilityName.length <= 0) {
                     alert("Facility Name is required");
+                    $(thisRow)[1].focus();
                     return;
                 }
                 if (isNaN(facilityAmount)) {
-                    alert("Facility Amount should be numeric");
+                    alert("Value should be numeric");
+                    $(thisRow)[2].focus();
                     return;
                 }                
                 if (!facilityAmount || facilityAmount <= 0) {
-                    alert("Facility Amount should be greater than 0");
+                    alert("Value should be greater than 0");
+                    $(thisRow)[2].focus();
                     return;
                 }
                 if (extraChargeId > 0) {

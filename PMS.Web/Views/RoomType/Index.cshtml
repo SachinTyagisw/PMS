@@ -58,10 +58,12 @@
             } else if (editOn == true) {
                 if (!roomTypeName || roomTypeName.length <= 0) {
                     alert("Roomtype name is required");
+                    $(thisRow)[1].focus();
                     return;
                 }
                 if (!shortCode || shortCode.length <= 0) {
                     alert("Short code is required");
+                    $(thisRow)[2].focus();
                     return;
                 }
                 if (roomTypeId > 0) {

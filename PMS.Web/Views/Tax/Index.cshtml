@@ -52,14 +52,17 @@
             } else if (editOn == true) {
                 if (!taxName || taxName.length <= 0) {
                     alert("Tax Name is required");
+                    $(thisRow)[1].focus();
                     return;
                 }
                 if (isNaN(taxAmount)) {
-                    alert("Tax Amount should be numeric");
+                    alert("Value should be numeric");
+                    $(thisRow)[2].focus();
                     return;
                 }
                 if (!taxAmount || taxAmount <= 0) {
-                    alert("Tax Amount should be greater than 0");
+                    alert("Value should be greater than 0");
+                    $(thisRow)[2].focus();
                     return;
                 }
                 if (taxId > 0) {
