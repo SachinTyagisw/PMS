@@ -1583,7 +1583,6 @@ namespace PMS.Resources.DAL
 
             return taxes;
         }
-
         public List<PmsEntity.RateType> GetRoomRateByProperty(int propertyId)
         {
             var rateTypes = new List<PmsEntity.RateType>();
@@ -1640,6 +1639,19 @@ namespace PMS.Resources.DAL
             }
 
             return rateTypes;
+        }
+
+        public bool AddRoomRate(int propertyId, string rateXml)
+        {
+            throw new NotImplementedException();
+        }
+        public bool UpdateRoomRate(int propertyId, string rateXml)
+        {
+            throw new NotImplementedException();
+        }
+        public bool DeleteRoomRate(int rateId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -23,8 +23,6 @@ namespace PMS.Resources.DAL
         List<PmsEntity.PropertyType> GetAllPropertyType();
         
         //Room API
-        //int AddRoom(List<PmsEntity.Room> room);
-        //bool UpdateRoom(List<PmsEntity.Room> room);
         bool AddRoom(int propertyId, string roomXml);
         bool UpdateRoom(int propertyId, string roomXml);
         bool DeleteRoom(int roomId);
@@ -92,6 +90,9 @@ namespace PMS.Resources.DAL
         PmsEntity.Invoice GetInvoiceById(int invoiceId);
         PmsEntity.Booking GetBookingById(int bookingId);
         List<PmsEntity.RateType> GetRoomRateByProperty(int propertyId);
+        bool AddRoomRate(int propertyId, string rateXml);
+        bool UpdateRoomRate(int propertyId, string rateXml);
+        bool DeleteRoomRate(int rateId);
     }
 }
 

@@ -59,6 +59,25 @@ namespace PMS.Api.Controllers
               new { controller = "Room", action = "GetRateTypeById" },
               constraints: new { propertyId = RegExConstants.NumericRegEx, typeId = RegExConstants.NumericRegEx }
               );
+
+            config.Routes.MapHttpRoute(
+            "AddRoomRate",
+            "api/v1/Room/AddRoomRate",
+            new { controller = "Room", action = "AddRoomRate" }
+            );
+
+            config.Routes.MapHttpRoute(
+             "UpdateRoomRate",
+             "api/v1/Room/UpdateRoomRate",
+             new { controller = "Room", action = "UpdateRoomRate" }
+             );
+
+            config.Routes.MapHttpRoute(
+             "DeleteRoomRate",
+             "api/v1/Room/DeleteRoomRate/{rateId}",
+             new { controller = "Room", action = "DeleteRoomRate" },
+             constraints: new { rateId = RegExConstants.NumericRegEx }
+             );
         }
 
         [HttpPost, ActionName("AddRateType")]
@@ -192,6 +211,63 @@ namespace PMS.Api.Controllers
             if (rateTypeResponseDto == null || rateTypeResponseDto.RateTypes == null || rateTypeResponseDto.RateTypes.Count <= 0) return response;
 
             response.RateTypes = rateTypeResponseDto.RateTypes.Where(x => x.Id.Equals(typeId)).ToList();
+            return response;
+        }
+
+        [HttpPost, ActionName("AddRoomRate")]
+        public PmsResponseDto AddRoomRate([FromBody] RoomRateRequestDto request)
+        {
+            if (request == null || request.Rate == null || request.Rate.Count <=0) throw new PmsException("Invalid Room Rate add request.");
+
+            var response = new PmsResponseDto();
+            if (_iPmsLogic.AddRoomRate(request.Rate))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "New Room Rate Added successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "New Room Rate Addition failed.Contact administrator.";
+            }
+            return response;
+        }
+
+        [HttpPut, ActionName("UpdateRoomRate")]
+        public PmsResponseDto UpdateRoomRate([FromBody] RoomRateRequestDto request)
+        {
+            if (request == null || request.Rate == null || request.Rate.Count <= 0) throw new PmsException("Room Rate can not be updated.");
+
+            var response = new PmsResponseDto();
+            if (_iPmsLogic.UpdateRoomRate(request.Rate))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "Room Rate Updated successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "Room Rate Updation failed.Contact administrator.";
+            }
+            return response;
+        }
+
+        [HttpDelete, ActionName("DeleteRoomRate")]
+        public PmsResponseDto DeleteRoomRate(int rateId)
+        {
+            if (rateId <= 0) throw new PmsException("Room Rate id is not valid. Hence Room Rate can not be deleted.");
+
+            var response = new PmsResponseDto();
+            if (_iPmsLogic.DeleteRoomRate(rateId))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "Room Rate Deleted successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "Room Rate Deletion failed.Contact administrator.";
+            }
             return response;
         }
     }
