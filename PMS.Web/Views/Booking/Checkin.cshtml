@@ -151,15 +151,20 @@
         }
 
         function OnRoomTypeChange() {
-            if ($('#roomTypeDdl').val() !== '-1') {
-                var roomData = pmsSession.GetItem("roomdata");
-                if (!roomData && gcm.ShouldCallGetRoomApi()) {
-                    gcm.GetRoomByDate();
-                } else {
-                    gcm.BindRoomDdl();
-                }
-            } else {
-                $('#roomddl').empty();
+            var ddlRoom = $('#roomddl');
+            var roomTypeId = $('#roomTypeDdl').val();
+            ddlRoom.empty();
+            ddlRoom.append(new Option("Select Room", "-1"));
+
+            if (roomTypeId !== '-1') {
+                if (gcm.ShouldCallGetRoomApi()) {
+                    Notifications.SubscribeActive("on-roombydate-get-success", function (sender, args) {
+                        var data = pmsSession.GetItem("roomdata");
+                        var rooms = $.parseJSON(data);
+                        window.GuestCheckinManager.BindRoomDdl(ddlRoom, roomTypeId, rooms, true);
+                    });
+                    gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val());
+                }                
             }
         }
 

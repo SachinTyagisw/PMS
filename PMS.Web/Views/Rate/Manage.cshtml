@@ -12,12 +12,34 @@
         gcm.PopulateRoomRateInGrid(existingRateType);
     }
     
+    function GetFloorNumberByRoomId(roomId) {
+        var floorNumber = -1;
+        var rooms = window.GuestCheckinManager.PropertySettingResponseDto.RoomSettings;
+        if (!rooms || rooms.length <= 0) return floorNumber;
+        for (var i = 0; i < rooms.length; i++) {
+            if (rooms[i].Id !== parseInt(roomId)) continue;
+            floorNumber = rooms[i].Floor.FloorNumber;
+            $('#hdnFloorId').val('');
+            $('#hdnFloorId').val(rooms[i].Floor.Id);
+            return floorNumber;
+        }
+        return floorNumber;
+    }
+
     function OnRoomChange(ddlRoom, tdFloor) {
-             alert('on room');
+        var roomId = ddlRoom.value;
+        var floorNumber = GetFloorNumberByRoomId(roomId);
+        if (!tdFloor) {
+            tdFloor = $('#tdFloorAdd');
+        }
+        tdFloor[0].innerText = floorNumber;
     }
 
     function OnRoomTypeChange(ddlRoomType, ddlRoom) {
-        //gcm.FillRoomData($(cloneRoom), $('#ddlProperty').val());
+        if (!ddlRoom) {
+            ddlRoom = $('#ddlRoomAdd');
+       }
+      gcm.FillRoomData(ddlRoomType, ddlRoom, $('#ddlProperty').val());
     }
 
     function makeFieldsReadonly(rowObject) {
@@ -37,8 +59,8 @@
         gcm.GetAllProperty();
 
         $("#divManageRate").on("click", ".fa-plus-circle", function () {
-            $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="true" style="background-color: #ffc9c9;"><select style="display:block" id="ddlRoomTypeAdd" onchange="OnRoomTypeChange(this,null);" class="form-control"><option value="-1">Select RoomType</option></select></td><td contenteditable="true" style="background-color: #ffc9c9;"><select style="display:block" id="ddlRoomAdd" onchange="OnRoomChange(this,null);" class="form-control"><option value="-1">Select Room</option></select></td><td class="idRow" contenteditable="false"></td><td contenteditable="true" style="background-color: #ffc9c9;"></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i><i class="fa fa-minus-circle" aria-hidden="true"></i><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td></tr>');
-            gcm.FillRoomTypeData($('#ddlRoomTypeAdd'), $('#ddlProperty').val());            
+            $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="true" style="background-color: #ffc9c9;"><select style="display:block" id="ddlRoomTypeAdd" onchange="OnRoomTypeChange(this,null);" class="form-control"><option value="-1">Select RoomType</option></select></td><td contenteditable="true" style="background-color: #ffc9c9;"><select style="display:block" id="ddlRoomAdd" onchange="OnRoomChange(this,null);" class="form-control"><option value="-1">Select Room</option></select></td><td id="tdFloorAdd" class="idRow" contenteditable="false"></td><td contenteditable="true" style="background-color: #ffc9c9;"></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i><i class="fa fa-minus-circle" aria-hidden="true"></i><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td></tr>');
+            gcm.FillRoomTypeData($('#ddlRoomTypeAdd'), $('#ddlProperty').val());
         });
 
         $("#divManageRate").on("click", ".fa-minus-circle", function () {
@@ -80,15 +102,15 @@
                 });
 
                 $(document).on('change', roomSelector, function () {
-                    OnRoomChange($(cloneRoom)[0], tdFloor);
+                    OnRoomChange($(cloneRoom)[0], $(thisRow[3]));
                 });
 
                 makeFieldsReadonly($(thisRow[0]));
                 makeFieldsReadonly($(thisRow[3]));
-                gcm.FillRoomTypeData($(roomTypeSelector), $('#ddlProperty').val());                
+                gcm.FillRoomTypeData($(roomTypeSelector), $('#ddlProperty').val());
 
             } else if (editOn == true) {
-                var floorId = $(thisRow)[3].children[0].value;
+                var floorId = $('#hdnFloorId').val();
                 var roomTypeId = $(thisRow)[1].children[0].value;
                 var roomId = $(thisRow)[2].children[0].value;
                 var rateValue = $(thisRow)[4].innerText;
@@ -176,6 +198,7 @@
 <select style="display:none" id="ddlRoomClone" class="form-control">
     <option value="-1">Select Room</option>
 </select>
+<input type="hidden" value="" id='hdnFloorId'>
 <div id="divLoader">
     <div class="loader" style="display:none;">
         <div class="dot"></div>
