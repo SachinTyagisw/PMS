@@ -97,6 +97,7 @@ namespace PMS.Resources.Logic
             if (string.IsNullOrWhiteSpace(rateXml)) return false;
             
             rateXml = RemoveXmlDefaultNode(rateXml);
+            rateXml = RemoveRateXmlDefaultNode(rateXml);
             var logService = LoggingManager.GetLogInstance();
             logService.LogException("ratexml :" + rateXml);
 
@@ -109,6 +110,7 @@ namespace PMS.Resources.Logic
             if (string.IsNullOrWhiteSpace(rateXml)) return false;
 
             rateXml = RemoveXmlDefaultNode(rateXml);
+            rateXml = RemoveRateXmlDefaultNode(rateXml);
             var logService = LoggingManager.GetLogInstance();
             logService.LogException("ratexml :" + rateXml);
 
@@ -410,6 +412,15 @@ namespace PMS.Resources.Logic
             var idxStartNode = xml.IndexOf("<?");
             var idxEndNode = xml.IndexOf("?>");
             var length = idxEndNode - idxStartNode + 2;
+            xml = xml.Remove(idxStartNode, length);
+            return xml;
+        }
+        private string RemoveRateXmlDefaultNode(string xml)
+        {
+            xml = xml.Replace("ArrayOfRate", "Rates");
+            var idxStartNode = xml.IndexOf("xmlns") -1 ;
+            var idxEndNode = xml.LastIndexOf("XMLSchema");
+            var length = idxEndNode - idxStartNode + 10;
             xml = xml.Remove(idxStartNode, length);
             return xml;
         }
