@@ -132,32 +132,32 @@
         }
 
         if (checkinTime.indexOf(':') <= 0) {
-            alert("Checkintime should be in time format eg: hh:mm");
+            alert("Checkintime should be in time format eg: hh:mm:ss");
             return false;
         }
 
-        if (checkinTime.indexOf(':') > 0 && checkinTime.split(":").length > 2) {
-            alert("Checkintime should be in time format eg: hh:mm");
+        if (checkinTime.indexOf(':') > 0 && checkinTime.split(":").length > 3) {
+            alert("Checkintime should be in time format eg: hh:mm:ss");
             return false;
         }
 
         if (checkoutTime.indexOf(':') <= 0) {
-            alert("CheckoutTime should be in time format eg: hh:mm");
+            alert("CheckoutTime should be in time format eg: hh:mm:ss");
             return false;
         }
 
-        if (checkoutTime.indexOf(':') > 0 && checkoutTime.split(":").length > 2) {
-            alert("CheckoutTime should be in time format eg: hh:mm");
+        if (checkoutTime.indexOf(':') > 0 && checkoutTime.split(":").length > 3) {
+            alert("CheckoutTime should be in time format eg: hh:mm:ss");
             return false;
         }
 
         if (closeOfDayTime.indexOf(':') <= 0) {
-            alert("CloseOfDayTime should be in time format eg: hh:mm");
+            alert("CloseOfDayTime should be in time format eg: hh:mm:ss");
             return false;
         }
 
-        if (closeOfDayTime.indexOf(':') > 0 && closeOfDayTime.split(":").length > 2) {
-            alert("CloseOfDayTime should be in time format eg: hh:mm");
+        if (closeOfDayTime.indexOf(':') > 0 && closeOfDayTime.split(":").length > 3) {
+            alert("CloseOfDayTime should be in time format eg: hh:mm:ss");
             return false;
         }
 
@@ -309,7 +309,7 @@
             <div class="col-lg-12 p-r-0 p-l-0">
                 <div class="card alert">
                     <div class="card-header">
-                        <h4>Property</h4>
+                        <h4>Create Property</h4>
                     </div>
                     <div class="card-body room-details">
                         <div class="row" style="">
