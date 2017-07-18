@@ -81,6 +81,9 @@
                     Tax.TaxName = taxName;
                     Tax.Value = taxAmount;
                     Tax.PropertyId = propertyId;
+                    Notifications.SubscribeActive("on-tax-add-success", function (sender, args) {
+                        window.GuestCheckinManager.GetTax($('#ddlProperty').val());
+                    });
                     //call AddTax api
                     gcm.AddTax(Tax);
                 }

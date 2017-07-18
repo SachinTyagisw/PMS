@@ -68,6 +68,9 @@
                     var floor = {};
                     floor.FloorNumber = floorNumber;
                     floor.PropertyId = propertyId;
+                    Notifications.SubscribeActive("on-floor-add-success", function (sender, args) {
+                        window.GuestCheckinManager.GetFloorsByProperty($('#ddlProperty').val());
+                    });
                     //call addfloor api
                     gcm.AddFloor(floor);
                 }

@@ -81,6 +81,9 @@
                     extraCharges.FacilityName = facilityName;
                     extraCharges.Value = facilityAmount;
                     extraCharges.PropertyId = propertyId;
+                    Notifications.SubscribeActive("on-extracharge-add-success", function (sender, args) {
+                        window.GuestCheckinManager.GetExtraCharge($('#ddlProperty').val());
+                    });
                     //call AddExtraCharge api
                     gcm.AddExtraCharge(extraCharges);
                 }

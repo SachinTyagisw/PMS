@@ -103,6 +103,9 @@
                     existingRateType.Name = rateTypeName;
                     existingRateType.Units = units;
                     existingRateType.Hours = hours;
+                    Notifications.SubscribeActive("on-ratetype-update-success", function (sender, args) {
+                        window.GuestCheckinManager.GetRoomRateType($('#ddlProperty').val());
+                    });
                     //call UpdateRateType api
                     gcm.UpdateRateType(existingRateType);
                 } else {
@@ -115,6 +118,9 @@
                     rateType.Units = units;
                     rateType.PropertyId = propertyId;
                     rateType.Hours = hours;
+                    Notifications.SubscribeActive("on-ratetype-add-success", function (sender, args) {
+                        window.GuestCheckinManager.GetRoomRateType($('#ddlProperty').val());
+                    });
                     //call AddRateType api
                     gcm.AddRateType(rateType);
                 }

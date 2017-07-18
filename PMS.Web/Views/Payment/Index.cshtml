@@ -76,6 +76,9 @@
                     paymentType.Description = paymentTypeName;
                     paymentType.ShortName = shortCode;
                     paymentType.PropertyId = propertyId;
+                    Notifications.SubscribeActive("on-paymenttype-add-success", function (sender, args) {
+                        window.GuestCheckinManager.GetPaymentType($('#ddlProperty').val());
+                    });
                     //call AddPaymentType api
                     gcm.AddPaymentType(paymentType);
                 }

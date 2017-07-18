@@ -881,10 +881,7 @@
             var floorRequestDto = {};
             floorRequestDto.PropertyFloor = {};
             // AddFloor by api calling  
-            floorRequestDto.PropertyFloor = floor;
-            Notifications.SubscribeActive("on-floor-add-success", function (sender, args) {
-                window.GuestCheckinManager.GetFloorsByProperty(floor.PropertyId);
-            });
+            floorRequestDto.PropertyFloor = floor;            
             pmsService.AddFloor(floorRequestDto);
         },
 
@@ -904,10 +901,7 @@
             var roomTypeRequestDto = {};
             roomTypeRequestDto.RoomType = {};
             // AddRoomType by api calling  
-            roomTypeRequestDto.RoomType = roomType;
-            Notifications.SubscribeActive("on-roomtype-add-success", function (sender, args) {
-                window.GuestCheckinManager.GetRoomTypes(roomType.PropertyId);
-            });
+            roomTypeRequestDto.RoomType = roomType;            
             pmsService.AddRoomType(roomTypeRequestDto);
         },
 
@@ -999,10 +993,7 @@
             var paymentTypeRequestDto = {};
             paymentTypeRequestDto.PaymentType = {};
             // AddPaymentType by api calling  
-            paymentTypeRequestDto.PaymentType = paymentType;
-            Notifications.SubscribeActive("on-paymenttype-add-success", function (sender, args) {
-                window.GuestCheckinManager.GetPaymentType(paymentType.PropertyId);
-            });
+            paymentTypeRequestDto.PaymentType = paymentType;           
             pmsService.AddPaymentType(paymentTypeRequestDto);
         },
 
@@ -1034,10 +1025,7 @@
             var extraChargeRequestDto = {};
             extraChargeRequestDto.ExtraCharge = {};
             // AddExtraCharge by api calling  
-            extraChargeRequestDto.ExtraCharge = extracharge;
-            Notifications.SubscribeActive("on-extracharge-add-success", function (sender, args) {
-                window.GuestCheckinManager.GetExtraCharge(extracharge.PropertyId);
-            });
+            extraChargeRequestDto.ExtraCharge = extracharge;            
             pmsService.AddExtraCharge(extraChargeRequestDto);
         },
 
@@ -1069,10 +1057,7 @@
             var taxRequestDto = {};
             taxRequestDto.Tax = {};
             // AddTax by api calling  
-            taxRequestDto.Tax = tax;
-            Notifications.SubscribeActive("on-tax-add-success", function (sender, args) {
-                window.GuestCheckinManager.GetTax(tax.PropertyId);
-            });
+            taxRequestDto.Tax = tax;            
             pmsService.AddTax(taxRequestDto);
         },
 
@@ -1098,10 +1083,7 @@
             var rateTypeDto = {};
             rateTypeDto.RateType = {};
             // AddRateType by api calling  
-            rateTypeDto.RateType = rateType;
-            Notifications.SubscribeActive("on-ratetype-add-success", function (sender, args) {
-                window.GuestCheckinManager.GetRoomRateType(rateType.PropertyId);
-            });
+            rateTypeDto.RateType = rateType;            
             pmsService.AddRateType(rateTypeDto);
         },
 
@@ -1111,10 +1093,7 @@
             // UpdateRateType by api calling 
             var rateTypeDto = {};
             rateTypeDto.RateType = {};
-            rateTypeDto.RateType = existingRateType;
-            Notifications.SubscribeActive("on-ratetype-update-success", function (sender, args) {
-                window.GuestCheckinManager.GetRoomRateType(existingRateType.PropertyId);
-            });
+            rateTypeDto.RateType = existingRateType;            
             pmsService.UpdateRateType(rateTypeDto);
         },
 

@@ -82,6 +82,9 @@
                     roomType.Name = roomTypeName;
                     roomType.ShortName = shortCode;
                     roomType.PropertyID = propertyId;
+                    Notifications.SubscribeActive("on-roomtype-add-success", function (sender, args) {
+                        window.GuestCheckinManager.GetRoomTypes($('#ddlProperty').val());
+                    });
                     //call addroomtype api
                     gcm.AddRoomType(roomType);                    
                 }
