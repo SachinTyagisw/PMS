@@ -13,7 +13,7 @@ namespace PMS.Resources.DTO.Request
     public class RoomRateRequestDto
     {
         [DataMember]
-        public List<Rate> Rates { get; set; }
+        public Rate Rate { get; set; }
     }
 }
 

@@ -137,6 +137,9 @@
                     existingRate.RoomTypeId = roomTypeId;
                     existingRate.RoomId = roomId;
                     existingRate.Value = rateValue;
+                    Notifications.SubscribeActive("on-roomrate-update-success", function (sender, args) {
+                        window.GuestCheckinManager.GetRoomRateByProperty($('#ddlProperty').val());
+                    });
                     //call UpdateRoomRate api
                     gcm.UpdateRoomRate(existingRate);
                 } else {
@@ -152,6 +155,9 @@
                     rate.PropertyId = propertyId;
                     // todo to get InputKeyHours 
                     rate.InputKeyHours = 1;
+                    Notifications.SubscribeActive("on-roomrate-add-success", function (sender, args) {
+                        window.GuestCheckinManager.GetRoomRateByProperty($('#ddlProperty').val());
+                    });
                     //call AddRoomRate api
                     gcm.AddRoomRate(rate);
                 }

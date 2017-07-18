@@ -1185,12 +1185,9 @@
             rate.CreatedBy = getCreatedBy();
             rate.CreatedOn = getCurrentDate();
             var rateRequestDto = {};
-            rateRequestDto.Rate = [];
+            rateRequestDto.Rate = {};
             // AddRoomRate by api calling  
-            rateRequestDto.Rate.push(rate);
-            Notifications.SubscribeActive("on-roomrate-add-success", function (sender, args) {
-                window.GuestCheckinManager.GetRoomRateByProperty(rate.PropertyId);
-            });
+            rateRequestDto.Rate = rate;           
             pmsService.AddRoomRate(rateRequestDto);
         },
 
@@ -1199,11 +1196,8 @@
             rate.LastUpdatedOn = getCurrentDate();
             // UpdateRoomRate by api calling 
             var rateRequestDto = {};
-            rateRequestDto.Rate = [];
-            rateRequestDto.Rate.push(rate);
-            Notifications.SubscribeActive("on-roomrate-update-success", function (sender, args) {
-                window.GuestCheckinManager.GetRoomRateByProperty(rate.PropertyId);
-            });
+            rateRequestDto.Rate = {};
+            rateRequestDto.Rate = rate;            
             pmsService.UpdateRoomRate(rateRequestDto);
         },
 

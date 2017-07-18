@@ -90,7 +90,7 @@ namespace PMS.Resources.DAL
         PmsEntity.Invoice GetInvoiceById(int invoiceId);
         PmsEntity.Booking GetBookingById(int bookingId);
         List<PmsEntity.RateType> GetRoomRateByProperty(int propertyId);
-        bool AddRoomRate(int propertyId, string rateXml);
+        int AddRoomRate(int propertyId, string rateXml);
         bool UpdateRoomRate(int propertyId, string rateXml);
         bool DeleteRoomRate(int rateId);
     }

@@ -88,8 +88,8 @@ namespace PMS.Resources.Logic
         PmsEntity.Invoice GetInvoiceById(int invoiceId);
         PmsEntity.Booking GetBookingById(int bookingId);
         List<PmsEntity.RateType> GetRoomRateByProperty(int propertyId);
-        bool AddRoomRate(List<PmsEntity.Rate> rate);
-        bool UpdateRoomRate(List<PmsEntity.Rate> rate);
+        int AddRoomRate(PmsEntity.Rate rate);
+        bool UpdateRoomRate(PmsEntity.Rate rate);
         bool DeleteRoomRate(int rateId);
     }
 }
