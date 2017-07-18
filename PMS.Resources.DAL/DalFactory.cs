@@ -1643,15 +1643,73 @@ namespace PMS.Resources.DAL
 
         public bool AddRoomRate(int propertyId, string rateXml)
         {
-            throw new NotImplementedException();
+            var isAdded = false;
+            var rateId = SaveRoomRateIndDb(propertyId, rateXml);
+            if (rateId > 0)
+            {
+                isAdded = true;
+            }
+            return isAdded;
         }
         public bool UpdateRoomRate(int propertyId, string rateXml)
         {
-            throw new NotImplementedException();
+            var isUpdated = false;
+            var rateId = SaveRoomRateIndDb(propertyId, rateXml);
+            if (rateId > 0)
+            {
+                isUpdated = true;
+            }
+            return isUpdated;
         }
         public bool DeleteRoomRate(int rateId)
         {
-            throw new NotImplementedException();
+            var isDeleted = false;
+            if (rateId <= 0) return isDeleted;
+
+            var rate = new DAL.Rate
+            {
+                IsActive = false,
+                ID = rateId                
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Rates.Attach(rate);
+                pmsContext.Entry(rate).Property(x => x.IsActive).IsModified = true;
+                var result = pmsContext.SaveChanges();
+                isDeleted = result == 1 ? true : false;
+            }
+            return isDeleted;
+        }
+
+        private int SaveRoomRateIndDb(int propertyId, string rateXml)
+        {
+            using (var pmsContext = new PmsEntities())
+            {
+                var propId = new SqlParameter
+                {
+                    ParameterName = "propertyID",
+                    DbType = DbType.Int32,
+                    Value = propertyId
+                };
+
+                var roomRateXml = new SqlParameter
+                {
+                    ParameterName = "RateXML",
+                    DbType = DbType.Xml,
+                    Value = rateXml
+                };
+
+                var rateId = new SqlParameter
+                {
+                    ParameterName = "RateID",
+                    DbType = DbType.Int32,
+                    Direction = ParameterDirection.Output
+                };
+                var result = pmsContext.Database.ExecuteSqlCommand("InsertRoomRates @propertyID, @RateXML, @RateID OUTPUT", propId, roomRateXml, rateId);
+                return rateId.Value != null ? Convert.ToInt32(rateId.Value) : -1;                
+            }
+            
         }
     }
 }
