@@ -8,12 +8,34 @@
     var rateTypeId = -1;
 
     function getRateTypeId() {
-        rateTypeId === -1 ? $('input[name=firsttab]')[0].id : rateTypeId;
+        rateTypeId = rateTypeId === -1 ? $('input[name=firsttab]')[0].id : rateTypeId;
         return rateTypeId;
+    }
+    function setFocusOnCurrentTab(currentTabId) {
+        if ($("input:checked").length > 0) {
+            var previousSelectedTabId = getPreviousSelectedTab(currentTabId, $("input:checked"));
+            if (previousSelectedTabId > 0) {
+                var previousSelectedTab = $('#' + previousSelectedTabId);
+                previousSelectedTab.attr("checked", false);
+            }
+        }
+        var currentTab = $('#' + currentTabId);
+        if (currentTab) {
+            currentTab.attr("checked", true);
+            currentTab.focus();
+        }
+    }
+    function getPreviousSelectedTab(currentTabId, tabSelector) {
+        for (var i = 0; i < tabSelector.length; i++) {
+            if (currentTabId === tabSelector[i].id) continue;
+            return tabSelector[i].id;
+        }
+        return -1;
     }
 
     function onRateTabClick(tabObj) {
         rateTypeId = tabObj ? tabObj.id : -1;
+        setFocusOnCurrentTab(rateTypeId);
         var existingRateType = gcm.FindSetting(rateTypeId, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings);
         gcm.PopulateRoomRateInGrid(existingRateType);
     }
@@ -139,7 +161,7 @@
                 if (rateId > 0) {
                     rateTypeId = getRateTypeId();
                     var idx = gcm.FindIndex(rateTypeId, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings);
-                    if (idx <= 0) return;
+                    if (idx < 0) return;
                     var existingRate = gcm.FindSetting(rateId, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings[idx].Rates);
                     if (!existingRate) return;
                     existingRate.RoomTypeId = roomTypeId;
@@ -150,6 +172,7 @@
                     existingRate.RateTypeId = rateTypeId;
                     Notifications.SubscribeActive("on-roomrate-update-success", function (sender, args) {
                         window.GuestCheckinManager.GetRoomRateByProperty($('#ddlProperty').val());
+                        setFocusOnCurrentTab(rateTypeId);
                     });
                     //call UpdateRoomRate api
                     gcm.UpdateRoomRate(existingRate);
@@ -234,7 +257,7 @@
         {{if typeof RoomRate != "undefined" && RoomRate != "null" && RoomRate.length > 0 }}
         {{each(i,rate) RoomRate}}
                 {{if i===0}}
-                        <input onclick="onRateTabClick(this);" id="${rate.Id}" type="radio" name="firsttab" checked>
+                        <input onclick="onRateTabClick(this);" id="${rate.Id}" type="radio" name="firsttab" checked="checked">
                         <label for="${rate.Id}">${rate.Name}</label>
                     {{else}}
                         <input onclick="onRateTabClick(this);" id="${rate.Id}" type="radio" name="tabs">
@@ -269,16 +292,16 @@
             <tr>
                 <td class="idRow" contenteditable="false"></td>                
                 <td contenteditable="true" style="background-color: rgba(255,255,255,0.7);">
-                    <select style="display:block" id="ddlRoomTypeAdd" class="form-control">
+                    <select style="display:block" id="ddlRoomTypeAdd" onchange="onRoomTypeChange(this, $('#ddlRoomAdd'));" class="form-control">
                         <option value="-1">Select Roomtype</option>
-                    </select>
+                    </select> 
                 </td>
                 <td contenteditable="true" style="background-color: rgba(255,255,255,0.7);">
-                    <select style="display:block" id="ddlRoomAdd" class="form-control">
+                    <select style="display:block" id="ddlRoomAdd" onchange="onRoomChange(this, $('#tdFloorAdd'));" class="form-control">
                         <option value="-1">Select Room</option>
                     </select>
                 </td>
-                <td class="floorRow" contenteditable="false"></td>
+                <td class="floorRow" id="tdFloorAdd" contenteditable="false"></td>
                 <td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"></td>
             </tr>
             {{/if}}

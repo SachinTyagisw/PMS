@@ -740,15 +740,19 @@
         PopulateRateTab: function (data) {
             var divRoomRate = $('#divRoomRate');
             var roomRateTemplate = $('#roomRateTemplate');
-            if (!divRoomRate || !roomRateTemplate) return;
+            if (!divRoomRate || !roomRateTemplate || divRoomRate.length <= 0 || roomRateTemplate.length <= 0) return;
+            divRoomRate.html('');
+            if (!data || !data.RoomRate || data.RoomRate.length <= 0) return;
             divRoomRate.html(roomRateTemplate.render(data));
         },
 
         PopulateRoomRateInGrid: function (data) {
+            var rateData = window.GuestCheckinManager.PropertySettingResponseDto.RateSettings;
             var divManageRate = $('#divManageRate');
             var manageRateTemplate = $('#manageRateTemplate');
-            if (!divManageRate || !manageRateTemplate) return;
+            if (!divManageRate || !manageRateTemplate || divManageRate.length <= 0 || manageRateTemplate.length <= 0) return;
             divManageRate.html('');
+            if (!rateData || rateData.length <= 0) return;
             divManageRate.html(manageRateTemplate.render(data));
             $("#divManageRate thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
             if (data && data.Rates && data.Rates.length > 0) {
