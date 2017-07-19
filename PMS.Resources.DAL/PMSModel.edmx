@@ -2304,6 +2304,7 @@
           <Property Type="String" Name="RateTypeName" Nullable="true" />
           <Property Type="Int32" Name="MasterRateTypeID" Nullable="false" />
           <Property Type="Boolean" Name="RateTypeIsActive" Nullable="false" />
+          <Property Type="String" Name="Units" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="RoomNumber" Nullable="true" MaxLength="200" />
           <Property Type="Int32" Name="FloorNumber" Nullable="true" />
           <Property Type="Int32" Name="FloorId" Nullable="true" />
@@ -2959,6 +2960,7 @@
                 <ScalarProperty Name="RateTypeName" ColumnName="RateTypeName" />
                 <ScalarProperty Name="MasterRateTypeID" ColumnName="MasterRateTypeID" />
                 <ScalarProperty Name="RateTypeIsActive" ColumnName="RateTypeIsActive" />
+                <ScalarProperty Name="Units" ColumnName="Units" />
                 <ScalarProperty Name="RoomNumber" ColumnName="RoomNumber" />
                 <ScalarProperty Name="FloorNumber" ColumnName="FloorNumber" />
                 <ScalarProperty Name="FloorId" ColumnName="FloorId" />

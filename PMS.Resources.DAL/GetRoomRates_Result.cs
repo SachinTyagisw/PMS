@@ -30,6 +30,7 @@ namespace PMS.Resources.DAL
         public string RateTypeName { get; set; }
         public int MasterRateTypeID { get; set; }
         public bool RateTypeIsActive { get; set; }
+        public string Units { get; set; }
         public string RoomNumber { get; set; }
         public Nullable<int> FloorNumber { get; set; }
         public Nullable<int> FloorId { get; set; }

@@ -9,10 +9,10 @@
     function OnRateTabClick(tabObj) {
         $('#hdnType').val('');
         $('#hdnHours').val('');
-        //TODO fill type hours
-        //$('#hdnType').val(tabObj);
         rateTypeId = tabObj ? tabObj.id : -1;
         var existingRateType = gcm.FindSetting(rateTypeId, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings);
+        $('#hdnType').val(existingRateType);
+        $('#hdnHours').val(existingRateType);
         gcm.PopulateRoomRateInGrid(existingRateType);
     }
     
@@ -219,10 +219,10 @@
         {{if typeof RoomRate != "undefined" && RoomRate != "null" && RoomRate.length > 0 }}
         {{each(i,rate) RoomRate}}
             {{if i===0}}
-                <input onclick="OnRateTabClick(this);" id="${rate.Id}" type="radio" name="tabs" checked>
+    <input onclick="OnRateTabClick(this);" hours="${rate.Hours}" id="${rate.Id}" type="radio" name="tabs" checked>
                 <label for="${rate.Id}">${rate.Name}</label>
                 {{else}}
-                   <input onclick="OnRateTabClick(this);" id="${rate.Id}" type="radio" name="tabs">
+    <input onclick="OnRateTabClick(this);" hours="${rate.Hours}" id="${rate.Id}" type="radio" name="tabs">
                    <label for="${rate.Id}">${rate.Name}</label>
             {{/if}}
     

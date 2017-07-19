@@ -1600,6 +1600,7 @@ namespace PMS.Resources.DAL
                     ratetype.Name = result.ToList()[0].RateTypeName;
                     ratetype.Hours = result.ToList()[0].Hours;
                     ratetype.IsActive = result.ToList()[0].RateTypeIsActive;
+                    ratetype.Units = result.ToList()[0].Units;
                     ratetype.Rates = new List<PmsEntity.Rate>();
                     foreach (var value in result)
                     {
