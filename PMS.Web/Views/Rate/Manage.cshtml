@@ -125,7 +125,12 @@
                     return;
                 }
                 if (isNaN(rateValue)) {
-                    alert("Rate value should be numeric");
+                    alert("Rate should be numeric");
+                    return;
+                }
+                if (!rateValue || rateValue <= 0) {
+                    alert("Rate should be greater than 0");
+                    $(thisRow)[4].focus();
                     return;
                 }
 
@@ -137,6 +142,9 @@
                     existingRate.RoomTypeId = roomTypeId;
                     existingRate.RoomId = roomId;
                     existingRate.Value = rateValue;
+                    existingRate.PropertyId = propertyId;
+                    existingRate.IsActive = true;
+                    existingRate.RateTypeId = rateTypeId;
                     Notifications.SubscribeActive("on-roomrate-update-success", function (sender, args) {
                         window.GuestCheckinManager.GetRoomRateByProperty($('#ddlProperty').val());
                     });
@@ -148,13 +156,17 @@
                         return;
                     }
                     var rate = {};
-                    rate.Type = "Daily";
+                    var existingRateType = gcm.FindSetting(rateTypeId, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings);
+                    if (!existingRateType) return;
+                    rate.Id = -1;
+                    rate.RateTypeId = rateTypeId;
                     rate.RoomTypeId = roomTypeId;
                     rate.RoomId = roomId;
                     rate.Value = rateValue;
                     rate.PropertyId = propertyId;
-                    // todo to get InputKeyHours 
-                    rate.InputKeyHours = 1;
+                    rate.Type = existingRateType.Units;
+                    rate.IsActive = true;
+                    rate.InputKeyHours = rate.Type === 'Daily' ? null : existingRateType.Hours;
                     Notifications.SubscribeActive("on-roomrate-add-success", function (sender, args) {
                         window.GuestCheckinManager.GetRoomRateByProperty($('#ddlProperty').val());
                     });
