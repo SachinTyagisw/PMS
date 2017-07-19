@@ -12,20 +12,20 @@
         return rateTypeId;
     }
     function setFocusOnCurrentTab(currentTabId) {
-        if ($("input:checked").length === 2) {
-            var previousSelectedTabId = getPreviousSelectedTab(currentTabId, $("input:checked"));
-            if (previousSelectedTabId > 0) {
-                var previousSelectedTab = $('#' + previousSelectedTabId);
-                previousSelectedTab.attr("checked", false);
+        if ($("input:checked").length > 0) {
+            var tabSelector = $("input:checked");
+            for (var i = 0; i < tabSelector.length; i++) {
+                tabSelector[i].checked = false;
             }
         }
         var currentTab = $('#' + currentTabId);
         if (currentTab) {
-            currentTab.attr("checked", true);
+            currentTab.attr("checked", "checked");
             currentTab.focus();
         }
     }
     function getPreviousSelectedTab(currentTabId, tabSelector) {
+        if (tabSelector.length === 1) return currentTabId;
         for (var i = 0; i < tabSelector.length; i++) {
             if (currentTabId === tabSelector[i].id) continue;
             return tabSelector[i].id;
@@ -37,6 +37,11 @@
         rateTypeId = tabObj ? tabObj.id : -1;
         setFocusOnCurrentTab(rateTypeId);
         var existingRateType = gcm.FindSetting(rateTypeId, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings);
+        Notifications.Subscribe("on-roomrate-get-success", function (sender, args) {
+            var existRateType = gcm.FindSetting(rateTypeId, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings);
+            setFocusOnCurrentTab(rateTypeId);
+            gcm.PopulateRoomRateInGrid(existingRateType);
+        });
         gcm.PopulateRoomRateInGrid(existingRateType);
     }
     
@@ -170,9 +175,8 @@
                     existingRate.PropertyId = propertyId;
                     existingRate.IsActive = true;
                     existingRate.RateTypeId = rateTypeId;
-                    Notifications.SubscribeActive("on-roomrate-update-success", function (sender, args) {
+                    Notifications.SubscribeActive("on-roomrate-update-success", function (sender, args) {                        
                         window.GuestCheckinManager.GetRoomRateByProperty($('#ddlProperty').val());
-                        setFocusOnCurrentTab(rateTypeId);
                     });
                     //call UpdateRoomRate api
                     gcm.UpdateRoomRate(existingRate);
@@ -196,7 +200,7 @@
                     rate.InputKeyHours = existingRateType.Units === 'Daily' ? null : existingRateType.Hours;
                     Notifications.SubscribeActive("on-roomrate-add-success", function (sender, args) {
                         window.GuestCheckinManager.GetRoomRateByProperty($('#ddlProperty').val());
-                    });
+                    });                    
                     //call AddRoomRate api
                     gcm.AddRoomRate(rate);
                 }

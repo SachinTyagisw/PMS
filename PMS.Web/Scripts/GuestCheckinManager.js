@@ -1782,10 +1782,11 @@
 
             pmsService.Handlers.OnGetRoomRateByPropertySuccess = function (data) {
                 window.GuestCheckinManager.PropertySettingResponseDto.RateSettings = null;
-                window.GuestCheckinManager.PropertySettingResponseDto.RateSettings = data.RoomRate;
+                window.GuestCheckinManager.PropertySettingResponseDto.RateSettings = data.RoomRate;                
                 window.GuestCheckinManager.PopulateRateTab(data);
                 // to show default 1st tab data hence pass index 0
                 window.GuestCheckinManager.PopulateRoomRateInGrid(data.RoomRate[0]);
+                if (window.Notifications) window.Notifications.Notify("on-roomrate-get-success", null, null);
             };
 
             pmsService.Handlers.OnGetRoomRateByPropertyFailure = function () {
