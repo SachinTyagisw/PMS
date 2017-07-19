@@ -24,15 +24,7 @@
             currentTab.focus();
         }
     }
-    function getPreviousSelectedTab(currentTabId, tabSelector) {
-        if (tabSelector.length === 1) return currentTabId;
-        for (var i = 0; i < tabSelector.length; i++) {
-            if (currentTabId === tabSelector[i].id) continue;
-            return tabSelector[i].id;
-        }
-        return -1;
-    }
-
+   
     function onRateTabClick(tabObj) {
         rateTypeId = tabObj ? tabObj.id : -1;
         setFocusOnCurrentTab(rateTypeId);
