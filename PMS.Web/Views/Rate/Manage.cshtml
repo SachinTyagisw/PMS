@@ -28,13 +28,13 @@
     function onRateTabClick(tabObj) {
         rateTypeId = tabObj ? tabObj.id : -1;
         setFocusOnCurrentTab(rateTypeId);
-        var existingRateType = gcm.FindSetting(rateTypeId, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings);
+        var existingRoomRate = gcm.FindSetting(rateTypeId, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings);
         Notifications.Subscribe("on-roomrate-get-success", function (sender, args) {
-            var existRateType = gcm.FindSetting(rateTypeId, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings);
+            var roomRate = gcm.FindSetting(rateTypeId, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings);
             setFocusOnCurrentTab(rateTypeId);
-            gcm.PopulateRoomRateInGrid(existRateType);
+            gcm.PopulateRoomRateInGrid(roomRate);
         });
-        gcm.PopulateRoomRateInGrid(existingRateType);
+        gcm.PopulateRoomRateInGrid(existingRoomRate);
     }
     
     function getFloorNumberByRoomId(roomId) {
@@ -179,17 +179,17 @@
                     }
                     var rate = {};
                     rateTypeId = getRateTypeId();
-                    var existingRateType = gcm.FindSetting(rateTypeId, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings);
-                    if (!existingRateType) return;
+                    var existingRoomRate = gcm.FindSetting(rateTypeId, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings);
+                    if (!existingRoomRate) return;
                     rate.Id = -1;
                     rate.RateTypeId = rateTypeId;
                     rate.RoomTypeId = roomTypeId;
                     rate.RoomId = roomId;
                     rate.Value = rateValue;
                     rate.PropertyId = propertyId;
-                    rate.Type = existingRateType.Units;
+                    rate.Type = existingRoomRate.Units;
                     rate.IsActive = true;
-                    rate.InputKeyHours = existingRateType.Units === 'Daily' ? null : existingRateType.Hours;
+                    rate.InputKeyHours = existingRoomRate.Units === 'Daily' ? null : existingRoomRate.Hours;
                     Notifications.SubscribeActive("on-roomrate-add-success", function (sender, args) {
                         window.GuestCheckinManager.GetRoomRateByProperty($('#ddlProperty').val());
                     });                    
