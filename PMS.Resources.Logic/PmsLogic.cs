@@ -97,8 +97,8 @@ namespace PMS.Resources.Logic
             if (string.IsNullOrWhiteSpace(rateXml)) return -1;
             
             rateXml = RemoveXmlDefaultNode(rateXml);
-            var logService = LoggingManager.GetLogInstance();
-            logService.LogException("ratexml :" + rateXml);
+            //var logService = LoggingManager.GetLogInstance();
+            //logService.LogException("ratexml :" + rateXml);
 
             return DalFactory.AddRoomRate(propertyId, rateXml);
         }
@@ -109,8 +109,8 @@ namespace PMS.Resources.Logic
             if (string.IsNullOrWhiteSpace(rateXml)) return false;
 
             rateXml = RemoveXmlDefaultNode(rateXml);
-            var logService = LoggingManager.GetLogInstance();
-            logService.LogException("ratexml :" + rateXml);
+            //var logService = LoggingManager.GetLogInstance();
+            //logService.LogException("ratexml :" + rateXml);
 
             return DalFactory.UpdateRoomRate(propertyId, rateXml);
 

@@ -737,7 +737,7 @@
             $("#divProperty tbody tr").append('<td class="finalActionsCol"><i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
         },
 
-        PopulateRateTabInGrid: function (data) {
+        PopulateRateTab: function (data) {
             var divRoomRate = $('#divRoomRate');
             var roomRateTemplate = $('#roomRateTemplate');
             if (!divRoomRate || !roomRateTemplate) return;
@@ -1779,7 +1779,7 @@
             pmsService.Handlers.OnGetRoomRateByPropertySuccess = function (data) {
                 window.GuestCheckinManager.PropertySettingResponseDto.RateSettings = null;
                 window.GuestCheckinManager.PropertySettingResponseDto.RateSettings = data.RoomRate;
-                window.GuestCheckinManager.PopulateRateTabInGrid(data);
+                window.GuestCheckinManager.PopulateRateTab(data);
                 // to show default 1st tab data hence pass index 0
                 window.GuestCheckinManager.PopulateRoomRateInGrid(data.RoomRate[0]);
             };
