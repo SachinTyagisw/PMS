@@ -12,7 +12,7 @@
         return rateTypeId;
     }
     function setFocusOnCurrentTab(currentTabId) {
-        if ($("input:checked").length > 0) {
+        if ($("input:checked").length === 2) {
             var previousSelectedTabId = getPreviousSelectedTab(currentTabId, $("input:checked"));
             if (previousSelectedTabId > 0) {
                 var previousSelectedTab = $('#' + previousSelectedTabId);
