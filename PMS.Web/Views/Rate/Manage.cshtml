@@ -32,7 +32,7 @@
         Notifications.Subscribe("on-roomrate-get-success", function (sender, args) {
             var existRateType = gcm.FindSetting(rateTypeId, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings);
             setFocusOnCurrentTab(rateTypeId);
-            gcm.PopulateRoomRateInGrid(existingRateType);
+            gcm.PopulateRoomRateInGrid(existRateType);
         });
         gcm.PopulateRoomRateInGrid(existingRateType);
     }
