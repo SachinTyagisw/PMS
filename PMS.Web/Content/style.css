@@ -4602,6 +4602,7 @@ a.animated-button:link, a.animated-button:visited {
   text-align: center;
   padding: 5px 10px;
   position: relative;
+  max-width: 400px;
 }
 
 .tableContents tr:last-child td {
