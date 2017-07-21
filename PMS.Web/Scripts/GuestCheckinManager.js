@@ -1112,8 +1112,10 @@
             if (data && data.Rooms && data.Rooms.length > 0) {
                 $("#divRoom tbody tr").append('<td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
             } else {
-                // when no tax data is present in db 
+                // when no room data is present in db 
                 $("#divRoom tbody tr").append('<td class="finalActionsCol"><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td>');
+                window.GuestCheckinManager.FillRoomTypeData($('#ddlRoomTypeAdd'), $('#ddlProperty').val());
+                window.GuestCheckinManager.FillFloorData($('#ddlFloorAdd'), $('#ddlProperty').val());
             }
         },
 
@@ -1178,6 +1180,19 @@
                 window.GuestCheckinManager.BindRoomTypeDdl(ddlRoomType, roomtypes);
             }
         },
+
+        FillFloorData: function (ddlFloor, propertyId) {
+            if (!ddlFloor || !propertyId || propertyId <= 0) return;
+            var floors = window.GuestCheckinManager.PropertySettingResponseDto.FloorSettings;
+            if (!floors || floors.length <= 0) {
+                Notifications.SubscribeActive("on-floor-get-success", function (sender, args) {
+                    window.GuestCheckinManager.BindFloorDdl(ddlFloor, window.GuestCheckinManager.PropertySettingResponseDto.FloorSettings);
+                });
+                gcm.GetFloorsByProperty(propertyId);
+            } else {
+                window.GuestCheckinManager.BindFloorDdl(ddlFloor, floors);
+            }
+        },
         
         DeleteRoomRate: function (rateId) {
             // DeleteRoomRate by api calling  
@@ -1204,6 +1219,15 @@
             rateRequestDto.Rate = rate;            
             pmsService.UpdateRoomRate(rateRequestDto);
         },
+
+        BindFloorDdl: function (ddlFloor, floors) {            
+            if (!ddlFloor || !floors || floors.length <= 0) return;
+            ddlFloor.empty();
+            ddlFloor.append(new Option("Select Floor", "-1"));
+            for (var i = 0; i < floors.length; i++) {
+                ddlFloor.append(new Option(floors[i].FloorNumber, floors[i].Id));
+            }
+        },        
 
         AjaxHandlers: function () {
             // ajax handlers start
@@ -1564,6 +1588,10 @@
                 if (divFloor && floorTemplate && divFloor.length > 0 && floorTemplate.length > 0) {
                     window.GuestCheckinManager.PopulateFloorGrid(data);
                 }
+                else {
+                    if (window.Notifications) window.Notifications.Notify("on-floor-get-success", null, null);
+                }
+                
             };
 
             pmsService.Handlers.OnGetFloorsByPropertyFailure = function () {

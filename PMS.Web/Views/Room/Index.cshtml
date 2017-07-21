@@ -15,16 +15,31 @@
             return;
         }
         gcm.GetRoomByProperty($('#ddlProperty').val());
+        gcm.FillRoomTypeData($('#ddlRoomType'), $('#ddlProperty').val());
+        gcm.FillFloorData($('#ddlFloor'), $('#ddlProperty').val());
     }
 
     $(document).ready(function () {
 
         gcm.GetAllProperty();
-        gcm.FillRoomTypeData($('#ddlRoomType'), $('#ddlProperty').val());
+
+        $('#noofrow').keydown(function (e) {
+            gcm.IsNumeric(e);
+        });
+
+        $("#btncreate").click(function () {
+            var rowCount = $('#noofrow').val();
+            if ($('#ddlProperty').val() <= 0) {
+                alert('Select valid property');
+                return;
+            }
+            alert(rowCount);
+        });
 
         $("#divRoom").on("click", ".fa-plus-circle", function () {
             $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="false" style="background-color: rgba(255,255,255,0.7);"><select style="display:block" id="ddlRoomTypeAdd" class="form-control"><option value="-1">Select RoomType</option></select></td><td contenteditable="false" style="background-color: rgba(255,255,255,0.7);"><select style="display:block" id="ddlFloorAdd" class="form-control"><option value="-1">Select Floor</option></select></td><td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-floppy-o editMode" aria-hidden="true"></i> </td></tr>');
             gcm.FillRoomTypeData($('#ddlRoomTypeAdd'), $('#ddlProperty').val());
+            gcm.FillFloorData($('#ddlFloorAdd'), $('#ddlProperty').val());
         });
 
         $("#divRoom").on("click", ".fa-minus-circle", function () {
@@ -43,9 +58,7 @@
             var thisRow = $(this).parent().siblings();
             var editOn = $(this).hasClass("editMode");
             var roomId = $(thisRow)[0].innerText;
-            var propertyId = $('#ddlProperty').val();
-            var roomTypeId = $(thisRow)[1].children[0].value;
-            var floorId = $(thisRow)[2].children[0].value;
+            var propertyId = $('#ddlProperty').val();            
             var roomNumber = $(thisRow)[3].innerText;
 
             if (editOn == false) {
@@ -70,16 +83,20 @@
                 makeFieldsReadonly($(thisRow[0]));
                 
             } else if (editOn == true) {
+                var roomTypeId = $(thisRow)[1].children[0].value;
+                var floorId = $(thisRow)[2].children[0].value;
+
                 if (roomTypeId <= 0) {
-                    alert("Room Type is required");
+                    alert("Select valid room type");
                     return;
                 }
                 if (floorId <= 0) {
-                    alert("Floor is required");
+                    alert("Select valid floor");
                     return;
                 }
                 if (!roomNumber || roomNumber.length <= 0) {
                     alert("Room Number is required");
+                    $(thisRow)[3].focus();
                     return;
                 }
                 
@@ -121,39 +138,51 @@
                     <div class="card-body room-details">
                         <div class="row" style="">
                             <div class="form-group col-lg-8 m-t-10">
-                                <label>Search</label>
                                 <input type="text" class="search form-control" placeholder="Search by Room Number, Room Type, Floor...">
                             </div>
+                        </div>
+                            <div class="row" style="">
+                                <div class="col-lg-2 p-l-11 p-r-5 m-t-10">
+                                    <div class="form-group">
+                                        <label>Select Property</label>
+                                        <select id="ddlProperty" onchange="OnPropertyChange();">
+                                            <option value="-1">Select Property</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 p-l-11 p-r-5 m-t-10">
+                                    <div class="form-group">
+                                        <label>Select RoomType</label>
+                                        <select id="ddlRoomType">
+                                            <option value="-1">Select RoomType</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 p-l-11 p-r-5 m-t-10">
+                                    <div class="form-group">
+                                        <label>Select Floor</label>
+                                        <select id="ddlFloor">
+                                            <option value="-1">Select Floor</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 p-l-11 p-r-5 m-t-25">
+                                    <div class="form-group">
+                                        <input id="noofrow" type="text" placeholder="No of Rows" class="form-control" name="example-input-normal">
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 p-l-11 p-r-5 m-t-10">
+                                    <div class="form-group">
+                                        <button id="btncreate" type="button" class="btn btn-primary m-l-5 m-t-15">Create Rows</button>
+                                    </div>
+                                </div>
+                                
 
-                            <div class="col-lg-2 p-l-0 p-r-0 m-t-10">
-                                <div class="form-group">
-                                    <label>Select Property</label>
-                                    <select id="ddlProperty" onchange="OnPropertyChange();">
-                                        <option value="-1">Select Property</option>
-                                    </select>
+                                <div id="divRoom" class="table-data">
+                                    <span class="counter"></span>
                                 </div>
-                            </div>
-                            <div class="col-lg-2 p-l-0 p-r-0 m-t-10">
-                                <div class="form-group">
-                                    <label>Select RoomType</label>
-                                    <select id="ddlRoomType">
-                                        <option value="-1">Select RoomType</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-2 p-l-0 p-r-0 m-t-10">
-                                <div class="form-group">
-                                    <label>Select Floor</label>
-                                    <select id="ddlFloor">
-                                        <option value="-1">Select Floor</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div id="divRoom" class="table-data">
-                                <span class="counter"></span>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -191,8 +220,16 @@
             {{else}}
             <tr>
                 <td class="idRow" contenteditable="false"></td>
-                <td contenteditable="false" style="background-color: rgba(255,255,255,0.7);"></td>
-                <td contenteditable="false" style="background-color: rgba(255,255,255,0.7);"></td>
+                <td contenteditable="false" style="background-color: rgba(255,255,255,0.7);">
+                    <select style="display:block" id="ddlRoomTypeAdd" class="form-control">
+                        <option value="-1">Select RoomType</option>
+                    </select> 
+                </td>
+                <td contenteditable="false" style="background-color: rgba(255,255,255,0.7);">
+                    <select style="display:block" id="ddlFloorAdd" class="form-control">
+                        <option value="-1">Select Floor</option>
+                    </select> 
+                </td>
                 <td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"></td>
             </tr>
             {{/if}}
