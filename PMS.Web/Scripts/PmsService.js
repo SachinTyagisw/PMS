@@ -127,7 +127,7 @@
         };
 
         this.DeleteRoom = function (args) {
-            makeAjaxRequestDelete(args, "DeleteRoom", this, "api/v1/Room/DeleteRoom/" + args.typeId);
+            makeAjaxRequestDelete(args, "DeleteRoom", this, "api/v1/Room/DeleteRoom/" + args.roomId);
         };
 
         this.GetRoomByProperty = function (args) {
@@ -297,11 +297,6 @@
         this.GetRateTypeByProperty = function (args) {
             makeAjaxRequestGet(args, "GetRateTypeByProperty", this, "api/v1/Room/GetRateTypeByProperty/" + args.propertyId);
         };
-
-        this.GetRoomByProperty = function (args) {
-            makeAjaxRequestGet(args, "GetRoomByProperty", this, "api/v1/Room/GetRoomByProperty/" + args.propertyId);
-        };
-
 
         function makeAjaxRequestDelete(args, operationName, e, uri) {
             var url = e.Config.BaseUrl + uri;

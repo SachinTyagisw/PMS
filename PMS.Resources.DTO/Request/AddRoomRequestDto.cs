@@ -13,6 +13,6 @@ namespace PMS.Resources.DTO.Request
     public class AddRoomRequestDto
     {
         [DataMember]
-        public List<Room> Room { get; set; }
+        public List<Room> Rooms { get; set; }
     }
 }

@@ -121,23 +121,25 @@ namespace PMS.Resources.Logic
         }
         public bool AddRoom(List<PmsEntity.Room> room)
         {
-            var propertyId = room[0].Property.Id;
+            var propertyId = room[0].PropertyId;
             var roomXml = PmsConverter.SerializeObjectToXmlString(room);
             if (string.IsNullOrWhiteSpace(roomXml)) 
                 return false;
 
             roomXml = RemoveXmlDefaultNode(roomXml);
+            roomXml = roomXml.Replace("ArrayOfRoom", "Rooms");
 
             return DalFactory.AddRoom(propertyId, roomXml);
         }
         public bool UpdateRoom(List<PmsEntity.Room> room)
         {
-            var propertyId = room[0].Property.Id;
+            var propertyId = room[0].PropertyId;
             var roomXml = PmsConverter.SerializeObjectToXmlString(room);
             if (string.IsNullOrWhiteSpace(roomXml))
                 return false;
 
             roomXml = RemoveXmlDefaultNode(roomXml);
+            roomXml = roomXml.Replace("ArrayOfRoom", "Rooms");
 
             return DalFactory.UpdateRoom(propertyId, roomXml);
         }

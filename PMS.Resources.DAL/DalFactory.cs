@@ -275,27 +275,6 @@ namespace PMS.Resources.DAL
         public bool AddRoom(int propertyId, string roomXml)
         {
             return SaveRoom(propertyId, roomXml);
-            //var Id = -1;
-            //if (room == null || room.Count <= 0) return Id;
-
-            //var roomObj = new DAL.Room
-            //{
-            //    CreatedOn = room[0].CreatedOn,
-            //    IsActive = true,
-            //    CreatedBy = room[0].CreatedBy,
-            //    PropertyID = room[0].Property.Id,
-            //    Number = room[0].Number,
-            //    RoomTypeID = room[0].RoomType.Id
-            //};
-
-            //using (var pmsContext = new PmsEntities())
-            //{
-            //    pmsContext.Rooms.Add(roomObj);
-            //    var result = pmsContext.SaveChanges();
-            //    Id = result == 1 ? roomObj.ID : -1;
-            //}
-
-            //return Id;
         }
         public bool UpdateRoom(int propertyId, string roomXml)
         {

@@ -15,6 +15,9 @@ namespace PMS.Resources.Entities
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string LastUpdatedBy { get; set; }
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
+        public int PropertyId { get; set; }
+        public int RoomTypeId { get; set; }
+        public int FloorId { get; set; }
         public Property Property { get; set; }
         public RoomType RoomType { get; set; }
         public RoomStatus RoomStatus { get; set; }

@@ -112,15 +112,13 @@ namespace PMS.Api.Controllers
         [HttpPost, ActionName("AddRoom")]
         public PmsResponseDto AddRoom([FromBody] AddRoomRequestDto request)
         {
-            if (request == null || request.Room == null || request.Room.Count <= 0) throw new PmsException("Room can not be added.");
+            if (request == null || request.Rooms == null || request.Rooms.Count <= 0) throw new PmsException("Room can not be added.");
 
             var response = new PmsResponseDto();
-            var Id = _iPmsLogic.AddRoom(request.Room);
-            if (Id)
+            if (_iPmsLogic.AddRoom(request.Rooms))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "New Room Added successfully.";
-                response.ResponseObject = Id;
             }
             else
             {
@@ -133,10 +131,10 @@ namespace PMS.Api.Controllers
         [HttpPut, ActionName("UpdateRoom")]
         public PmsResponseDto UpdateRoom([FromBody] UpdateRoomRequestDto request)
         {
-            if (request == null || request.Room == null || request.Room.Count <= 0) throw new PmsException("Room can not be updated.");
+            if (request == null || request.Rooms == null || request.Rooms.Count <= 0) throw new PmsException("Room can not be updated.");
 
             var response = new PmsResponseDto();
-            if (_iPmsLogic.UpdateRoom(request.Room))
+            if (_iPmsLogic.UpdateRoom(request.Rooms))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Room Updated successfully.";
