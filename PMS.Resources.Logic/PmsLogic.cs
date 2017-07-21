@@ -129,6 +129,9 @@ namespace PMS.Resources.Logic
             roomXml = RemoveXmlDefaultNode(roomXml);
             roomXml = roomXml.Replace("ArrayOfRoom", "Rooms");
 
+            //var logService = LoggingManager.GetLogInstance();
+            //logService.LogException("roomXml :" + roomXml);
+
             return DalFactory.AddRoom(propertyId, roomXml);
         }
         public bool UpdateRoom(List<PmsEntity.Room> room)
@@ -140,6 +143,9 @@ namespace PMS.Resources.Logic
 
             roomXml = RemoveXmlDefaultNode(roomXml);
             roomXml = roomXml.Replace("ArrayOfRoom", "Rooms");
+
+            //var logService = LoggingManager.GetLogInstance();
+            //logService.LogException("roomXml :" + roomXml);
 
             return DalFactory.UpdateRoom(propertyId, roomXml);
         }

@@ -1131,26 +1131,21 @@
             pmsService.DeleteRoom(args);
         },
 
-        AddRoom: function (room) {
-            room.CreatedBy = getCreatedBy();
-            room.CreatedOn = getCurrentDate();
-            var roomRequestDto = {};
-            roomRequestDto.Room = {};
+        AddRoom: function (rooms) {
+            //room.CreatedBy = getCreatedBy();
+            //room.CreatedOn = getCurrentDate();
+            var roomRequestDto = rooms;
             // AddRoom by api calling  
-            roomRequestDto.Room = room;
-            Notifications.SubscribeActive("on-room-add-success", function (sender, args) {
-                window.GuestCheckinManager.GetRoomByProperty(room.PropertyId);
-            });
             pmsService.AddRoom(roomRequestDto);
         },
 
-        UpdateRoom: function (room) {
-            room.LastUpdatedBy = getCreatedBy();
-            room.LastUpdatedOn = getCurrentDate();
+        UpdateRoom: function (rooms) {
+            //room.LastUpdatedBy = getCreatedBy();
+            //room.LastUpdatedOn = getCurrentDate();
             // UpdateRoom by api calling 
-            var roomRequestDto = {};
-            roomRequestDto.Room = {};
-            roomRequestDto.Room = room;
+            var roomRequestDto = rooms;
+            //roomRequestDto.Rooms = [];
+            //roomRequestDto.Rooms = room;
             pmsService.UpdateRoom(roomRequestDto);
         },
 
@@ -1862,6 +1857,48 @@
                 alert(status);
                 if (window.Notifications) window.Notifications.Notify("on-roomrate-update-success", null, null);
             };
+
+            pmsService.Handlers.OnAddRoomSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                if (status.indexOf('successfully') > 0) {
+                    console.log(status);
+                    // to fetch new data                    
+                    alert(status);
+                    if (window.Notifications) window.Notifications.Notify("on-room-add-success", null, null);
+                } else {
+                    console.error(status);
+                    alert(status);
+                }
+            };
+
+            pmsService.Handlers.OnAddRoomFailure = function () {
+                // show error log
+                console.error("Room is not added.");
+            };
+
+            pmsService.Handlers.OnDeleteRoomFailure = function () {
+                // show error log
+                console.error("Room is not deleted.");
+            };
+
+            pmsService.Handlers.OnDeleteRoomSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                alert(status);
+            };
+
+            pmsService.Handlers.OnUpdateRoomFailure = function () {
+                // show error log
+                console.error("Room is not updated.");
+            };
+
+            pmsService.Handlers.OnUpdateRoomSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                alert(status);
+                if (window.Notifications) window.Notifications.Notify("on-room-update-success", null, null);
+            };
+
             // ajax handlers end
         }
         

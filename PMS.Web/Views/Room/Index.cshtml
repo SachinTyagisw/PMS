@@ -60,6 +60,8 @@
             var roomId = $(thisRow)[0].innerText;
             var propertyId = $('#ddlProperty').val();            
             var roomNumber = $(thisRow)[3].innerText;
+            var roomRequestDto = {};
+            roomRequestDto.Rooms = [];
 
             if (editOn == false) {
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
@@ -106,8 +108,15 @@
                     existingRoom.RoomTypeId = roomTypeId;
                     existingRoom.FloorId = floorId;
                     existingRoom.Number = roomNumber;
+                    existingRoom.IsActive = true;
+
+                    roomRequestDto.Rooms.push(existingRoom);
+
+                    Notifications.SubscribeActive("on-room-update-success", function (sender, args) {
+                        window.GuestCheckinManager.GetRoomByProperty($('#ddlProperty').val());
+                    });
                     //call UpdateRoom api
-                    gcm.UpdateRoom(existingRoom);
+                    gcm.UpdateRoom(roomRequestDto);
                 } else {
                     if (propertyId <= 0) {
                         alert("Select valid property");
@@ -118,8 +127,16 @@
                     room.FloorId = floorId;
                     room.Number = roomNumber;
                     room.PropertyId = propertyId;
+                    room.IsActive = true;
+                    //default roomid incase of add request
+                    room.Id = "-1";
+
+                    roomRequestDto.Rooms.push(room);
+                    Notifications.SubscribeActive("on-room-add-success", function (sender, args) {
+                        window.GuestCheckinManager.GetRoomByProperty($('#ddlProperty').val());
+                    });
                     //call AddRoom api
-                    gcm.AddRoom(room);
+                    gcm.AddRoom(roomRequestDto);
                 }
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
             }

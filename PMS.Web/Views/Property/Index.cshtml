@@ -54,21 +54,25 @@
 
         if (!propertyName || propertyName.length <= 0) {
             alert("Property Name is required");
+            $('#propertyName').focus();
             return false;
         }
        
         if (!propertyCode || propertyCode.length <= 0) {
             alert("Property Code is required");
+            $('#propertyCode').focus();
             return false;
         }        
        
         if (!webSiteAddress || webSiteAddress.length <= 0) {
             alert("WebSite Address is required");
+            $('#website').focus();
             return false;
         }
 
         if (!timeZone || timeZone.length <= 0) {
             alert("Time zone is required");
+            $('#timezone').focus();
             return false;
         }
 
@@ -79,11 +83,13 @@
 
         if (!phone || phone.length <= 0) {
             alert("Phone is required");
+            $('#phone').focus();
             return false;
         }
         
         if (!propertyDetails || propertyDetails.length <= 0) {
             alert("Owner is required");
+            $('#owner').focus();
             return false;
         }
 
@@ -103,64 +109,75 @@
 
         if (!zipCode || zipCode.length <= 0) {
             alert("ZipCode is required");
+            $('#zipCode').focus();
             return false;
         }
 
         if (!fax || fax.length <= 0) {
             alert("Fax is required");
+            $('#fax').focus();
             return false;
         }
 
         if (!checkinTime || checkinTime.length <= 0) {
             alert("Checkintime is required");
+            $('#checkintime').focus();
             return false;
         }        
 
         if (!checkoutTime || checkoutTime.length <= 0) {
             alert("CheckoutTime is required");
+            $('#checkouttime').focus();
             return false;
         }        
 
         if (!closeOfDayTime || closeOfDayTime.length <= 0) {
             alert("Close of daytime is required");
+            $('#closeOfDayTime').focus();
             return false;
         }
 
         if (!fullAddress || fullAddress.length <= 0) {
             alert("FullAddress is required");
+            $('#fulladdress').focus();
             return false;
         }
 
         if (checkinTime.indexOf(':') <= 0) {
             alert("Checkintime should be in time format eg: hh:mm:ss");
+            $('#checkintime').focus();
             return false;
         }
 
         if (checkinTime.indexOf(':') > 0 && checkinTime.split(":").length > 3) {
             alert("Checkintime should be in time format eg: hh:mm:ss");
+            $('#checkintime').focus();
             return false;
         }
 
         if (checkoutTime.indexOf(':') <= 0) {
             alert("CheckoutTime should be in time format eg: hh:mm:ss");
+            $('#checkouttime').focus();
             return false;
         }
 
         if (checkoutTime.indexOf(':') > 0 && checkoutTime.split(":").length > 3) {
             alert("CheckoutTime should be in time format eg: hh:mm:ss");
+            $('#checkouttime').focus();
             return false;
         }
 
         if (closeOfDayTime.indexOf(':') <= 0) {
             alert("CloseOfDayTime should be in time format eg: hh:mm:ss");
+            $('#closeOfDayTime').focus();
             return false;
         }
 
         if (closeOfDayTime.indexOf(':') > 0 && closeOfDayTime.split(":").length > 3) {
             alert("CloseOfDayTime should be in time format eg: hh:mm:ss");
+            $('#closeOfDayTime').focus();
             return false;
         }
-
         return true;
     }
     function makeFieldsReadonly(rowObject){
