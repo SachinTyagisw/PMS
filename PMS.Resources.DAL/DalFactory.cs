@@ -342,27 +342,30 @@ namespace PMS.Resources.DAL
                 rooms = pmsContext.Rooms.Where(x => x.IsActive && x.PropertyID == propertyId)
                                         .Join(pmsContext.PropertyFloors , a => a.FloorId , f => f.ID,
                                         (a, f) => new {a, f})
+                                        .Join(pmsContext.RoomTypes, i => i.a.RoomTypeID, r => r.ID,
+                                        (i, r) => new { i, r })
                                         .Select(x => new PmsEntity.Room
                                         {
-                                            CreatedOn = x.a.CreatedOn,
-                                            Number = x.a.Number,
-                                            CreatedBy = x.a.CreatedBy,
-                                            LastUpdatedBy = x.a.LastUpdatedBy,
-                                            LastUpdatedOn = x.a.LastUpdatedOn,
-                                            Id = x.a.ID,
+                                            CreatedOn = x.i.a.CreatedOn,
+                                            Number = x.i.a.Number,
+                                            CreatedBy = x.i.a.CreatedBy,
+                                            LastUpdatedBy = x.i.a.LastUpdatedBy,
+                                            LastUpdatedOn = x.i.a.LastUpdatedOn,
+                                            Id = x.i.a.ID,
                                             Property = new PmsEntity.Property
                                             {
-                                                Id = x.a.PropertyID
+                                                Id = x.i.a.PropertyID                                                
                                             },
-                                            IsActive = x.a.IsActive,
+                                            IsActive = x.i.a.IsActive,
                                             RoomType = new PmsEntity.RoomType
                                             {
-                                                Id = x.a.RoomTypeID
+                                                Id = x.r.ID,
+                                                Name = x.r.NAME
                                             },
                                             Floor = new PmsEntity.PropertyFloor
                                             {
-                                                Id = x.f.ID,
-                                                FloorNumber = x.f.FloorNumber
+                                                Id = x.i.f.ID,
+                                                FloorNumber = x.i.f.FloorNumber
                                             }
 
                                         }).ToList();
