@@ -33,7 +33,36 @@
                 alert('Select valid property');
                 return;
             }
-            alert(rowCount);
+            if (rowCount <= 0) {
+                alert('No of rows should be greater than 0');
+                $('#noofrow').focus();
+                return;
+            }
+            var totalTr = $("tr").length - 1;
+            for (var i = 1; i <= rowCount; i++) {
+                $("tr:last").after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="false" style="background-color: rgba(255,255,255,0.7);"></td><td contenteditable="false" style="background-color: rgba(255,255,255,0.7);"></td><td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-floppy-o editMode" aria-hidden="true"></i> </td></tr>');
+                var lastRow = $("tr:last");
+                var cloneRoomType = $('#ddlRoomType').clone(true);
+                cloneRoomType[0].style = 'display:block';
+                cloneRoomType[0].id = 'ddlRoomType' + (totalTr + parseInt(i));
+                var roomTypeSelector = '#' + cloneRoomType[0].id;
+                
+                $(lastRow[0].cells[1]).innerText = "";
+                $(lastRow[0].cells[1]).attr('contenteditable', 'false');
+                $(lastRow[0].cells[1]).append(cloneRoomType);
+
+                var cloneFloor = $('#ddlFloor').clone(true);
+                cloneFloor[0].style = 'display:block';
+                cloneFloor[0].id = 'ddlFloor' + (totalTr + parseInt(i));
+                var floorSelector = '#' + cloneFloor[0].id;
+
+                $(lastRow[0].cells[2]).innerText = "";
+                $(lastRow[0].cells[2]).attr('contenteditable', 'false');
+                $(lastRow[0].cells[2]).append(cloneFloor);
+
+                gcm.FillRoomTypeData($(roomTypeSelector), $('#ddlProperty').val());
+                gcm.FillFloorData($(floorSelector), $('#ddlProperty').val());
+            }
         });
 
         $("#divRoom").on("click", ".fa-plus-circle", function () {
