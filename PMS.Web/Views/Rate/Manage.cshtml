@@ -262,15 +262,22 @@
 </div>
 <script type="text/html" id="roomRateTemplate">
         {{if typeof RoomRate != "undefined" && RoomRate != "null" && RoomRate.length > 0 }}
-        {{each(i,rate) RoomRate}}
-                {{if i===0}}
-                        <input onclick="onRateTabClick(this);" id="${rate.Id}" type="radio" name="firsttab" checked="checked">
-                        <label for="${rate.Id}">${rate.Name}</label>
-                    {{else}}
-                        <input onclick="onRateTabClick(this);" id="${rate.Id}" type="radio" name="tabs">
-                        <label for="${rate.Id}">${rate.Name}</label>
-                {{/if}}
-        {{/each}}
+        <ul class="flexi-tabs">
+            {{each(i,rate) RoomRate}}
+            {{if i===0}}
+            <li>
+                <input onclick="onRateTabClick(this);" id="${rate.Id}" type="radio" name="firsttab" checked="checked">
+                <label for="${rate.Id}">${rate.Name}</label>
+            </li>
+            {{else}}
+            <li>
+                <input onclick="onRateTabClick(this);" id="${rate.Id}" type="radio" name="tabs" checked="checked">
+                <label for="${rate.Id}">${rate.Name}</label>
+            </li>
+            {{/if}}
+
+            {{/each}}
+        </ul>
         {{/if}}    
 </script>
 <script type="text/html" id="manageRateTemplate">

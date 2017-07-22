@@ -5044,6 +5044,7 @@ main.tab-main input {
 
 main.tab-main label {
   display: inline-block;
+  font-weight:100;
   margin: 0 0 -1px;
   padding: 15px 25px;
   font-weight: 600;
@@ -5058,14 +5059,21 @@ main.tab-main label:before {
   margin-right: 10px;
 }
 
-main.tab-main label[for*='1']:before { content: '\f1cb'; }
-main.tab-main label[for*='2']:before { content: '\f17d'; }
-main.tab-main label[for*='3']:before { content: '\f16b'; }
-main.tab-main label[for*='4']:before { content: '\f1a9'; }
 
+ul.flexi-tabs {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+ul.flexi-tabs li {
+    list-style: none;
+    display: table-cell;
+}
 main.tab-main label:hover {
-  color: #888;
-  cursor: pointer;
+    color: #fff;
+    cursor: pointer;
+    background: #425057;
+    font-weight: 100;
 }
 
 main.tab-main input:checked + label {
