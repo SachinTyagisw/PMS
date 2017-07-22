@@ -1131,21 +1131,15 @@
             pmsService.DeleteRoom(args);
         },
 
-        AddRoom: function (rooms) {
-            //room.CreatedBy = getCreatedBy();
-            //room.CreatedOn = getCurrentDate();
+        AddRoom: function (rooms) {           
             var roomRequestDto = rooms;
             // AddRoom by api calling  
             pmsService.AddRoom(roomRequestDto);
         },
 
-        UpdateRoom: function (rooms) {
-            //room.LastUpdatedBy = getCreatedBy();
-            //room.LastUpdatedOn = getCurrentDate();
+        UpdateRoom: function (rooms) {          
             // UpdateRoom by api calling 
-            var roomRequestDto = rooms;
-            //roomRequestDto.Rooms = [];
-            //roomRequestDto.Rooms = room;
+            var roomRequestDto = rooms;           
             pmsService.UpdateRoom(roomRequestDto);
         },
 

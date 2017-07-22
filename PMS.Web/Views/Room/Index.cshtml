@@ -4,9 +4,27 @@
 }
 <script type='text/javascript'>
     var gcm = window.GuestCheckinManager;
+
     function makeFieldsReadonly(rowObject) {
         rowObject.attr('contenteditable', 'false');
         rowObject.css('background-color', 'transparent');
+    }
+
+    function getCreatedBy() {
+        return window.PmsSession.GetItem("username");
+    }
+
+    function getCurrentDate() {
+        // date format yyyy/mm/dd
+        var dt = new Date();
+        var month = dt.getMonth() + 1;
+        var day = dt.getDate();
+        var dateOutput = dt.getFullYear() + '/' +
+            (month < 10 ? '0' : '') + month + '/' +
+            (day < 10 ? '0' : '') + day;
+
+        var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+        return dateOutput + ' ' + time;
     }
 
     function OnPropertyChange() {
@@ -26,11 +44,57 @@
         $('#noofrow').keydown(function (e) {
             gcm.IsNumeric(e);
         });
+        
+        $("#btnsave").click(function () {
+            var propertyId = $('#ddlProperty').val();
+            var divRoom = $("#divRoom table tbody tr");
+            var divRoomCount = divRoom ? divRoom.length : 0;
+            if (divRoomCount <= 0 || propertyId <= 0) return;
+            
+            var createdBy = getCreatedBy();
+            var createdOn = getCurrentDate();
+            var roomRequestDto = {};
+            roomRequestDto.Rooms = [];           
+
+            for (var i = 0; i < divRoomCount; i++){
+                var room = {};
+                var roomTypeSelector = '#ddlRoomType' + (i+1);
+                var floorSelector = '#ddlFloor' + (i+1);
+                room.RoomTypeId = $(roomTypeSelector) && $(roomTypeSelector).length > 0 ? $(roomTypeSelector).val() : divRoom[i].cells[1].id;
+                room.FloorId = $(floorSelector) && $(floorSelector).length > 0 ? $(floorSelector).val() : divRoom[i].cells[2].id;
+                room.Number = divRoom[i].cells[3].innerText;
+                room.PropertyId = propertyId;
+                room.IsActive = true;
+                //default roomid incase of add request
+                room.Id = divRoom[i].cells[0].innerText > 0 ? divRoom[i].cells[0].innerText : -1;
+                room.CreatedBy = createdBy;
+                room.CreatedOn = createdOn;
+
+                roomRequestDto.Rooms.push(room);
+            }
+            
+            Notifications.SubscribeActive("on-room-add-success", function (sender, args) {
+                window.GuestCheckinManager.GetRoomByProperty($('#ddlProperty').val());
+            });
+
+            //call AddRoom api
+            gcm.AddRoom(roomRequestDto);
+        });
 
         $("#btncreate").click(function () {
             var rowCount = $('#noofrow').val();
+            var roomTypeId = $('#ddlRoomType').val();
+            var floorId = $('#ddlFloor').val();
             if ($('#ddlProperty').val() <= 0) {
                 alert('Select valid property');
+                return;
+            }            
+            if (roomTypeId <= 0) {
+                alert('Select valid roomtype');
+                return;
+            }
+            if (floorId <= 0) {
+                alert('Select valid floor');
                 return;
             }
             if (rowCount <= 0) {
@@ -62,6 +126,8 @@
 
                 gcm.FillRoomTypeData($(roomTypeSelector), $('#ddlProperty').val());
                 gcm.FillFloorData($(floorSelector), $('#ddlProperty').val());
+                $(roomTypeSelector).val(roomTypeId);
+                $(floorSelector).val(floorId);
             }
         });
 
@@ -138,6 +204,8 @@
                     existingRoom.FloorId = floorId;
                     existingRoom.Number = roomNumber;
                     existingRoom.IsActive = true;
+                    existingRoom.LastUpdatedBy = getCreatedBy();
+                    existingRoom.LastUpdatedOn = getCurrentDate();
 
                     roomRequestDto.Rooms.push(existingRoom);
 
@@ -159,6 +227,8 @@
                     room.IsActive = true;
                     //default roomid incase of add request
                     room.Id = "-1";
+                    room.CreatedBy = getCreatedBy();
+                    room.CreatedOn = getCurrentDate();
 
                     roomRequestDto.Rooms.push(room);
                     Notifications.SubscribeActive("on-room-add-success", function (sender, args) {
@@ -222,7 +292,11 @@
                                         <button id="btncreate" type="button" class="btn btn-primary m-l-5 m-t-15">Create Rows</button>
                                     </div>
                                 </div>
-                                
+                                <div class="col-lg-2 p-l-11 p-r-5 m-t-10">
+                                    <div class="form-group">
+                                        <button id="btnsave" type="button" class="btn btn-primary m-l-5 m-t-15">Save Rooms</button>
+                                    </div>
+                                </div>
 
                                 <div id="divRoom" class="table-data">
                                     <span class="counter"></span>
@@ -258,8 +332,8 @@
             {{each Rooms}}
             <tr id="${$value.Id}">
                 <td class="idRow" contenteditable="false">${$value.Id}</td>
-                <td contenteditable="false">${$value.RoomType.Name}</td>
-                <td contenteditable="false">${$value.Floor.FloorNumber}</td>
+                <td id=${$value.RoomType.Id} contenteditable ="false">${$value.RoomType.Name}</td>
+                <td id=${$value.Floor.Id} contenteditable="false">${$value.Floor.FloorNumber}</td>
                 <td contenteditable="false">${$value.Number}</td>
             </tr>
             {{/each}}
