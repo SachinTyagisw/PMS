@@ -4351,7 +4351,7 @@ select#paymentTypeDdl {
 }
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
     padding: 1px 4px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
 }
 /*-- Tabs CSS --*/
 .room-filter {
@@ -4600,7 +4600,7 @@ a.animated-button:link, a.animated-button:visited {
   border-bottom: 1px solid #fff;
   border-right: 1px solid #fff;
   text-align: center;
-  padding: 5px 10px;
+  padding: 4px 4px 0;
   position: relative;
   max-width: 400px;
 }
@@ -4699,7 +4699,7 @@ a.animated-button:link, a.animated-button:visited {
     width: 98%;
     max-height: 400px;
     overflow-x: hidden;
-    max-width: 1200px;
+    max-width: 1242px;
 }
 /*a.btn{
   width:150px;
