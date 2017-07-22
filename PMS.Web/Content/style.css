@@ -4994,6 +4994,9 @@ h1.table-head span:before, h1.table-head span:after {
   position: absolute;
   bottom: .5em;
 }
+.input-group.date {
+    display: grid;
+}
 h1.table-head span:before {
   right: 100%;
 }
@@ -5009,10 +5012,10 @@ h1.table-head span:after {
     text-align: center;
     background-color: #eee;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 0;
     display: inline-table;
     position: absolute;
-    right: 0;
+    right: 14px;
     z-index: 9;
     bottom: 0;
 }
