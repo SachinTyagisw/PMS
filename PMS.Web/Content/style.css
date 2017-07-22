@@ -4699,7 +4699,11 @@ a.animated-button:link, a.animated-button:visited {
     width: 98%;
     max-height: 400px;
     overflow-x: hidden;
-    max-width: 1242px;
+    /*max-width: 1242px;*/
+}
+main.tab-main + .table-data {
+    margin: 0 2rem;
+    width: 96.8%;
 }
 /*a.btn{
   width:150px;
@@ -5006,7 +5010,7 @@ h1.table-head span:after {
 .input-group-addon {
     padding: 5px 12px;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 100;
     line-height: 1;
     color: #555;
     text-align: center;
@@ -5027,9 +5031,10 @@ h1.table-head span:after {
 
 /*-- Tabs --*/
 main.tab-main {
-    padding: 8px;
+    padding: 8px 0 0;
     margin: 1rem 1.5rem;
     background: transparent;
+    display: inline-block;
 }
 
 main.tab-main section {
@@ -5050,7 +5055,9 @@ main.tab-main label {
   font-weight: 600;
   text-align: center;
   color: #bbb;
-  border: 1px solid transparent;
+  background: #7a7a7a;
+width: 100%;
+border-right: 1px solid #dadada;
 }
 
 main.tab-main label:before {
@@ -5072,15 +5079,16 @@ ul.flexi-tabs li {
 main.tab-main label:hover {
     color: #fff;
     cursor: pointer;
-    background: #425057;
+    background: #4a4040;
     font-weight: 100;
 }
 
 main.tab-main input:checked + label {
-  color: #555;
-  border: 1px solid #ddd;
-  border-top: 2px solid orange;
-  border-bottom: 1px solid #fff;
+    border-top: 2px solid orange;
+    color: #fff;
+    cursor: pointer;
+    background: #4a4040;
+    font-weight: 100;
 }
 
 main.tab-main #tab1:checked ~ #content1,
