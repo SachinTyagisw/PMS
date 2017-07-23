@@ -84,6 +84,12 @@
         //    checkOutDate.val(dateOutput + ' ' + time);            
         //};
 
+        $(function () {
+            $("#datetimepicker1").on("dp.change", function (e) {
+                OnCmbHourlyCheckInChange();
+            });
+        });
+
         function OnCmbHourlyCheckInChange() {
             var checkOutDate = document.getElementById('dateTo');
             var checkInDate = document.getElementById('dateFrom');
