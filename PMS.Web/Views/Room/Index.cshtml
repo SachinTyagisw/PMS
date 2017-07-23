@@ -44,17 +44,17 @@
         $('#noofrow').keydown(function (e) {
             gcm.IsNumeric(e);
         });
-        
+
         $("#btnsave").click(function () {
             var propertyId = $('#ddlProperty').val();
             var divRoom = $("#divRoom table tbody tr");
             var divRoomCount = divRoom ? divRoom.length : 0;
             if (divRoomCount <= 0 || propertyId <= 0) return;
-            
+
             var createdBy = getCreatedBy();
             var createdOn = getCurrentDate();
             var roomRequestDto = {};
-            roomRequestDto.Rooms = [];           
+            roomRequestDto.Rooms = [];
 
             for (var i = 0; i < divRoomCount; i++){
                 var room = {};
@@ -72,7 +72,7 @@
 
                 roomRequestDto.Rooms.push(room);
             }
-            
+
             Notifications.SubscribeActive("on-room-add-success", function (sender, args) {
                 window.GuestCheckinManager.GetRoomByProperty($('#ddlProperty').val());
             });
@@ -88,7 +88,7 @@
             if ($('#ddlProperty').val() <= 0) {
                 alert('Select valid property');
                 return;
-            }            
+            }
             if (roomTypeId <= 0) {
                 alert('Select valid roomtype');
                 return;
@@ -110,7 +110,7 @@
                 cloneRoomType[0].style = 'display:block';
                 cloneRoomType[0].id = 'ddlRoomType' + (totalTr + parseInt(i));
                 var roomTypeSelector = '#' + cloneRoomType[0].id;
-                
+
                 $(lastRow[0].cells[1]).innerText = "";
                 $(lastRow[0].cells[1]).attr('contenteditable', 'false');
                 $(lastRow[0].cells[1]).append(cloneRoomType);
@@ -153,7 +153,7 @@
             var thisRow = $(this).parent().siblings();
             var editOn = $(this).hasClass("editMode");
             var roomId = $(thisRow)[0].innerText;
-            var propertyId = $('#ddlProperty').val();            
+            var propertyId = $('#ddlProperty').val();
             var roomNumber = $(thisRow)[3].innerText;
             var roomRequestDto = {};
             roomRequestDto.Rooms = [];
@@ -178,7 +178,7 @@
                 $(thisRow[2]).append(cloneFloor);
 
                 makeFieldsReadonly($(thisRow[0]));
-                
+
             } else if (editOn == true) {
                 var roomTypeId = $(thisRow)[1].children[0].value;
                 var floorId = $(thisRow)[2].children[0].value;
@@ -196,7 +196,7 @@
                     $(thisRow)[3].focus();
                     return;
                 }
-                
+
                 if (roomId > 0) {
                     var existingRoom = gcm.FindSetting(roomId, window.GuestCheckinManager.PropertySettingResponseDto.RoomSettings);
                     if (!existingRoom) return;
@@ -247,62 +247,62 @@
     <div class="main controls">
         <div class="container-fluid">
             <div class="col-lg-12 p-r-0 p-l-0">
-                <div class="card alert">
+                <div class="card alert create-room">
                     <div class="card-header">
                         <h4>Create Room</h4>
                     </div>
                     <div class="card-body room-details">
                         <div class="row" style="">
-                            <div class="form-group col-lg-8 m-t-10">
+                            <div class="form-group col-lg-2 p-r-5 m-t-10">
+                                <label>Search</label>
                                 <input type="text" class="search form-control" placeholder="Search by Room Number, Room Type, Floor...">
                             </div>
-                        </div>
-                            <div class="row" style="">
-                                <div class="col-lg-2 p-l-11 p-r-5 m-t-10">
-                                    <div class="form-group">
-                                        <label>Select Property</label>
-                                        <select id="ddlProperty" onchange="OnPropertyChange();">
-                                            <option value="-1">Select Property</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 p-l-11 p-r-5 m-t-10">
-                                    <div class="form-group">
-                                        <label>Select RoomType</label>
-                                        <select id="ddlRoomType">
-                                            <option value="-1">Select RoomType</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 p-l-11 p-r-5 m-t-10">
-                                    <div class="form-group">
-                                        <label>Select Floor</label>
-                                        <select id="ddlFloor">
-                                            <option value="-1">Select Floor</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 p-l-11 p-r-5 m-t-25">
-                                    <div class="form-group">
-                                        <input id="noofrow" type="text" placeholder="No of Rows" class="form-control" name="example-input-normal">
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 p-l-11 p-r-5 m-t-10">
-                                    <div class="form-group">
-                                        <button id="btncreate" type="button" class="btn btn-primary m-l-5 m-t-15">Create Rows</button>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 p-l-11 p-r-5 m-t-10">
-                                    <div class="form-group">
-                                        <button id="btnsave" type="button" class="btn btn-primary m-l-5 m-t-15">Save Rooms</button>
-                                    </div>
-                                </div>
 
-                                <div id="divRoom" class="table-data">
-                                    <span class="counter"></span>
+                            <div class="col-lg-2 p-l-10 p-r-5 m-t-10">
+                                <div class="form-group">
+                                    <label>Select Property</label>
+                                    <select id="ddlProperty" onchange="OnPropertyChange();">
+                                        <option value="-1">Select Property</option>
+                                    </select>
                                 </div>
                             </div>
+                            <div class="col-lg-2 p-l-10 p-r-5 m-t-10">
+                                <div class="form-group">
+                                    <label>Select RoomType</label>
+                                    <select id="ddlRoomType">
+                                        <option value="-1">Select RoomType</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 p-l-10 p-r-5 m-t-10">
+                                <div class="form-group">
+                                    <label>Select Floor</label>
+                                    <select id="ddlFloor">
+                                        <option value="-1">Select Floor</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-1 p-l-10 p-r-5 m-t-25">
+                                <div class="form-group">
+                                    <input id="noofrow" type="text" placeholder="No of Rows" class="form-control" name="example-input-normal">
+                                </div>
+                            </div>
+                            <div class="col-lg-1 p-l-10 p-r-5 m-t-10 m-l-15">
+                                <div class="form-group">
+                                    <button id="btncreate" type="button" class="btn btn-primary m-l-5 m-t-15">Create Rows</button>
+                                </div>
+                            </div>
+                            <div class="col-lg-1 p-l-10 p-r-5 m-t-10 m-l-15">
+                                <div class="form-group">
+                                    <button id="btnsave" type="button" class="btn btn-primary m-l-5 m-t-15">Save Rooms</button>
+                                </div>
+                            </div>
+
                         </div>
+                        <div id="divRoom" class="table-data">
+                            <span class="counter"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -324,7 +324,7 @@
                 <th id="IDCol">ID #</th>
                 <th id="RoomTypeCol" contenteditable="false">Room Type</th>
                 <th id="FloorCol" contenteditable="false">Floor</th>
-                <th id="RoomNumberCol" contenteditable="false">Room Number</th>    
+                <th id="RoomNumberCol" contenteditable="false">Room Number</th>
             </tr>
         </thead>
         <tbody>
@@ -332,7 +332,7 @@
             {{each Rooms}}
             <tr id="${$value.Id}">
                 <td class="idRow" contenteditable="false">${$value.Id}</td>
-                <td id=${$value.RoomType.Id} contenteditable ="false">${$value.RoomType.Name}</td>
+                <td id=${$value.RoomType.Id} contenteditable="false">${$value.RoomType.Name}</td>
                 <td id=${$value.Floor.Id} contenteditable="false">${$value.Floor.FloorNumber}</td>
                 <td contenteditable="false">${$value.Number}</td>
             </tr>
@@ -343,12 +343,12 @@
                 <td contenteditable="false" style="background-color: rgba(255,255,255,0.7);">
                     <select style="display:block" id="ddlRoomTypeAdd" class="form-control">
                         <option value="-1">Select RoomType</option>
-                    </select> 
+                    </select>
                 </td>
                 <td contenteditable="false" style="background-color: rgba(255,255,255,0.7);">
                     <select style="display:block" id="ddlFloorAdd" class="form-control">
                         <option value="-1">Select Floor</option>
-                    </select> 
+                    </select>
                 </td>
                 <td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"></td>
             </tr>
