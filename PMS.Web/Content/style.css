@@ -5017,11 +5017,14 @@ h1.table-head span:after {
     background-color: #eee;
     border: 1px solid #ccc;
     border-radius: 0;
-    display: inline-table;
     position: absolute;
-    right: 14px;
+    right: 0;
     z-index: 9;
     bottom: 0;
+    width:40px;
+}
+.btn-section-form {
+    display:flex;
 }
 .btn-side {
     padding: 5px 12px;
