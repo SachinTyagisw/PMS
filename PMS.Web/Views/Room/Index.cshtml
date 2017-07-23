@@ -247,62 +247,62 @@
     <div class="main controls">
         <div class="container-fluid">
             <div class="col-lg-12 p-r-0 p-l-0">
-                <div class="card alert create-room">
+                <div class="card alert">
                     <div class="card-header">
                         <h4>Create Room</h4>
                     </div>
                     <div class="card-body room-details">
                         <div class="row" style="">
-                            <div class="form-group col-lg-2 p-r-5 m-t-10">
-                                <label>Search</label>
+                            <div class="form-group col-lg-8 m-t-10">
                                 <input type="text" class="search form-control" placeholder="Search by Room Number, Room Type, Floor...">
                             </div>
-
-                            <div class="col-lg-2 p-l-10 p-r-5 m-t-10">
-                                <div class="form-group">
-                                    <label>Select Property</label>
-                                    <select id="ddlProperty" onchange="OnPropertyChange();">
-                                        <option value="-1">Select Property</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-2 p-l-10 p-r-5 m-t-10">
-                                <div class="form-group">
-                                    <label>Select RoomType</label>
-                                    <select id="ddlRoomType">
-                                        <option value="-1">Select RoomType</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-2 p-l-10 p-r-5 m-t-10">
-                                <div class="form-group">
-                                    <label>Select Floor</label>
-                                    <select id="ddlFloor">
-                                        <option value="-1">Select Floor</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-1 p-l-10 p-r-5 m-t-25">
-                                <div class="form-group">
-                                    <input id="noofrow" type="text" placeholder="No of Rows" class="form-control" name="example-input-normal">
-                                </div>
-                            </div>
-                            <div class="col-lg-1 p-l-10 p-r-5 m-t-10 m-l-15">
-                                <div class="form-group">
-                                    <button id="btncreate" type="button" class="btn btn-primary m-l-5 m-t-15">Create Rows</button>
-                                </div>
-                            </div>
-                            <div class="col-lg-1 p-l-10 p-r-5 m-t-10 m-l-15">
-                                <div class="form-group">
-                                    <button id="btnsave" type="button" class="btn btn-primary m-l-5 m-t-15">Save Rooms</button>
-                                </div>
-                            </div>
-
                         </div>
-                        <div id="divRoom" class="table-data">
-                            <span class="counter"></span>
+                            <div class="row" style="">
+                                <div class="col-lg-2 p-l-11 p-r-5 m-t-10">
+                                    <div class="form-group">
+                                        <label>Select Property</label>
+                                        <select id="ddlProperty" onchange="OnPropertyChange();">
+                                            <option value="-1">Select Property</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 p-l-11 p-r-5 m-t-10">
+                                    <div class="form-group">
+                                        <label>Select RoomType</label>
+                                        <select id="ddlRoomType">
+                                            <option value="-1">Select RoomType</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 p-l-11 p-r-5 m-t-10">
+                                    <div class="form-group">
+                                        <label>Select Floor</label>
+                                        <select id="ddlFloor">
+                                            <option value="-1">Select Floor</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 p-l-11 p-r-5 m-t-25">
+                                    <div class="form-group">
+                                        <input id="noofrow" type="text" placeholder="No of Rows" class="form-control" name="example-input-normal">
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 p-l-11 p-r-5 m-t-10">
+                                    <div class="form-group">
+                                        <button id="btncreate" type="button" class="btn btn-primary m-l-5 m-t-15">Create Rows</button>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 p-l-11 p-r-5 m-t-10">
+                                    <div class="form-group">
+                                        <button id="btnsave" type="button" class="btn btn-primary m-l-5 m-t-15">Save Rooms</button>
+                                    </div>
+                                </div>
+
+                                <div id="divRoom" class="table-data">
+                                    <span class="counter"></span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
