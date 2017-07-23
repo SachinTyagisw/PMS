@@ -959,6 +959,7 @@
                 rowObj.css('background-color', 'rgba(255,255,255,0.7)');
                 thisObj.removeClass("fa-pencil-square-o");
                 thisObj.addClass("fa-floppy-o editMode");
+                rowObj[1].focus();
             } else if (editOn == true) {  
                 rowObj.attr('contenteditable', 'false');
                 rowObj.css('background-color', 'transparent');
