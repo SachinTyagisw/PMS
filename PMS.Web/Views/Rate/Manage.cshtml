@@ -12,15 +12,15 @@
         return rateTypeId;
     }
     function setFocusOnCurrentTab(currentTabId) {
-        if ($("input:checked").length > 0) {
-            var tabSelector = $("input:checked");
+        if ($('input[type=radio]').length > 0) {
+            var tabSelector = $('input[type=radio]');
             for (var i = 0; i < tabSelector.length; i++) {
                 tabSelector[i].checked = false;
             }
         }
         var currentTab = $('#' + currentTabId);
         if (currentTab) {
-            currentTab.attr("checked", "checked");
+            currentTab[0].checked = true;
             currentTab.focus();
         }
     }
@@ -271,7 +271,7 @@
             </li>
             {{else}}
             <li>
-                <input onclick="onRateTabClick(this);" id="${rate.Id}" type="radio" name="tabs" checked="checked">
+                <input onclick="onRateTabClick(this);" id="${rate.Id}" type="radio" name="tabs">
                 <label for="${rate.Id}">${rate.Name}</label>
             </li>
             {{/if}}
