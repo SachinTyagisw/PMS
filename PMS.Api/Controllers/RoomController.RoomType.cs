@@ -65,13 +65,13 @@ namespace PMS.Api.Controllers
             if (Id > 0)
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
-                response.StatusDescription = "New Room Type Added successfully.";
+                response.StatusDescription = "Record(s) saved successfully.";
                 response.ResponseObject = Id;
             }
             else
             {
                 response.ResponseStatus = PmsApiStatus.Failure.ToString();
-                response.StatusDescription = "New Room Type Addition failed.Contact administrator.";
+                response.StatusDescription = "Operation failed.Please contact administrator.";
             }
             return response;
         }
@@ -85,12 +85,12 @@ namespace PMS.Api.Controllers
             if (_iPmsLogic.UpdateRoomType(request.RoomType))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
-                response.StatusDescription = "Room Type Updated successfully.";
+                response.StatusDescription = "Record(s) saved successfully.";
             }
             else
             {
                 response.ResponseStatus = PmsApiStatus.Failure.ToString();
-                response.StatusDescription = "Room Type Updation failed.Contact administrator.";
+                response.StatusDescription = "Operation failed.Please contact administrator.";
             }
             return response;
         }
@@ -104,12 +104,12 @@ namespace PMS.Api.Controllers
             if (_iPmsLogic.DeleteRoomType(typeId))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
-                response.StatusDescription = "Room Type Deleted successfully.";
+                response.StatusDescription = "Record deleted successfully.";
             }
             else
             {
                 response.ResponseStatus = PmsApiStatus.Failure.ToString();
-                response.StatusDescription = "Room Type Deletion failed.Contact administrator.";
+                response.StatusDescription = "Operation failed.Please contact administrator.";
             }
             return response;
         }

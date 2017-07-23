@@ -118,12 +118,12 @@ namespace PMS.Api.Controllers
             if (_iPmsLogic.AddRoom(request.Rooms))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
-                response.StatusDescription = "New Room Added successfully.";
+                response.StatusDescription = "Record(s) saved successfully.";
             }
             else
             {
                 response.ResponseStatus = PmsApiStatus.Failure.ToString();
-                response.StatusDescription = "New Room Addition failed.Contact administrator.";
+                response.StatusDescription = "Operation failed.Please contact administrator.";
             }
             return response;
         }
@@ -137,12 +137,12 @@ namespace PMS.Api.Controllers
             if (_iPmsLogic.UpdateRoom(request.Rooms))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
-                response.StatusDescription = "Room Updated successfully.";
+                response.StatusDescription = "Record(s) saved successfully.";
             }
             else
             {
                 response.ResponseStatus = PmsApiStatus.Failure.ToString();
-                response.StatusDescription = "Room Updation failed.Contact administrator.";
+                response.StatusDescription = "Operation failed.Please contact administrator.";
             }
             return response;
         }
@@ -156,12 +156,12 @@ namespace PMS.Api.Controllers
             if (_iPmsLogic.DeleteRoom(roomId))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
-                response.StatusDescription = "Room Deleted successfully.";
+                response.StatusDescription = "Record deleted successfully.";
             }
             else
             {
                 response.ResponseStatus = PmsApiStatus.Failure.ToString();
-                response.StatusDescription = "Room Deletion failed.Contact administrator.";
+                response.StatusDescription = "Operation failed.Please contact administrator.";
             }
             return response;
         }

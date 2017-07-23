@@ -83,13 +83,13 @@ namespace PMS.Api.Controllers
             if (Id > 0)
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
-                response.StatusDescription = "New Tax Added successfully.";
+                response.StatusDescription = "Record(s) saved successfully.";
                 response.ResponseObject = Id;
             }
             else
             {
                 response.ResponseStatus = PmsApiStatus.Failure.ToString();
-                response.StatusDescription = "New Tax Addition failed.Contact administrator.";
+                response.StatusDescription = "Operation failed.Please contact administrator.";
             }
             return response;
         }
@@ -104,12 +104,12 @@ namespace PMS.Api.Controllers
             if (_iPmsLogic.UpdateTax(request.Tax))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
-                response.StatusDescription = "Tax Updated successfully.";
+                response.StatusDescription = "Record(s) saved successfully.";
             }
             else
             {
                 response.ResponseStatus = PmsApiStatus.Failure.ToString();
-                response.StatusDescription = "Tax Updation failed.Contact administrator.";
+                response.StatusDescription = "Operation failed.Please contact administrator.";
             }
             return response;
         }
@@ -123,12 +123,12 @@ namespace PMS.Api.Controllers
             if (_iPmsLogic.DeleteTax(taxId))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
-                response.StatusDescription = "Tax Deleted successfully.";
+                response.StatusDescription = "Record deleted successfully.";
             }
             else
             {
                 response.ResponseStatus = PmsApiStatus.Failure.ToString();
-                response.StatusDescription = "Tax Deletion failed.Contact administrator.";
+                response.StatusDescription = "Operation failed.Please contact administrator.";
             }
             return response;
         }

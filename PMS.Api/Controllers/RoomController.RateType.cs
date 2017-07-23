@@ -90,13 +90,13 @@ namespace PMS.Api.Controllers
             if (Id > 0)
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
-                response.StatusDescription = "New Rate Type Added successfully.";
+                response.StatusDescription = "Record(s) saved successfully.";
                 response.ResponseObject = Id;
             }
             else
             {
                 response.ResponseStatus = PmsApiStatus.Failure.ToString();
-                response.StatusDescription = "New Rate Type Addition failed.Contact administrator.";
+                response.StatusDescription = "Operation failed.Please contact administrator.";
             }
             return response;
         }
@@ -110,12 +110,12 @@ namespace PMS.Api.Controllers
             if (_iPmsLogic.UpdateRateType(request.RateType))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
-                response.StatusDescription = "Rate Type Updated successfully.";
+                response.StatusDescription = "Record(s) saved successfully.";
             }
             else
             {
                 response.ResponseStatus = PmsApiStatus.Failure.ToString();
-                response.StatusDescription = "Rate Type Updation failed.Contact administrator.";
+                response.StatusDescription = "Operation failed.Please contact administrator.";
             }
             return response;
         }
@@ -129,12 +129,12 @@ namespace PMS.Api.Controllers
             if (_iPmsLogic.DeleteRateType(typeId))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
-                response.StatusDescription = "Rate Type Deleted successfully.";
+                response.StatusDescription = "Record deleted successfully.";
             }
             else
             {
                 response.ResponseStatus = PmsApiStatus.Failure.ToString();
-                response.StatusDescription = "Rate Type Deletion failed.Contact administrator.";
+                response.StatusDescription = "Operation failed.Please contact administrator.";
             }
             return response;
         }
@@ -224,13 +224,13 @@ namespace PMS.Api.Controllers
             if (Id > 0)
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
-                response.StatusDescription = "New Room Rate Added successfully.";
+                response.StatusDescription = "Record(s) saved successfully.";
                 response.ResponseObject = Id;
             }
             else
             {
                 response.ResponseStatus = PmsApiStatus.Failure.ToString();
-                response.StatusDescription = "New Room Rate Addition failed.Contact administrator.";
+                response.StatusDescription = "Operation failed.Please contact administrator.";
             }
             return response;
         }
@@ -244,12 +244,12 @@ namespace PMS.Api.Controllers
             if (_iPmsLogic.UpdateRoomRate(request.Rate))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
-                response.StatusDescription = "Room Rate Updated successfully.";
+                response.StatusDescription = "Record(s) saved successfully.";
             }
             else
             {
                 response.ResponseStatus = PmsApiStatus.Failure.ToString();
-                response.StatusDescription = "Room Rate Updation failed.Contact administrator.";
+                response.StatusDescription = "Operation failed.Please contact administrator.";
             }
             return response;
         }
@@ -263,12 +263,12 @@ namespace PMS.Api.Controllers
             if (_iPmsLogic.DeleteRoomRate(rateId))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
-                response.StatusDescription = "Room Rate Deleted successfully.";
+                response.StatusDescription = "Record deleted successfully.";
             }
             else
             {
                 response.ResponseStatus = PmsApiStatus.Failure.ToString();
-                response.StatusDescription = "Room Rate Deletion failed.Contact administrator.";
+                response.StatusDescription = "Operation failed.Please contact administrator.";
             }
             return response;
         }
