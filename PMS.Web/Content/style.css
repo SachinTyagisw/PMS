@@ -5097,21 +5097,15 @@ main.tab-main #tab3:checked ~ #content3,
 main.tab-main #tab4:checked ~ #content4 {
   display: block;
 }
-
-@media screen and (max-width: 650px) {
-  main.tab-main label {
-    font-size: 0;
-  }
-  main.tab-main label:before {
-    margin: 0;
-    font-size: 18px;
-  }
+.create-room .btn {
+    padding:3px 12px;
+}
+.create-room .table-data {
+    margin: 10px 0;
 }
 
-@media screen and (max-width: 400px) {
-  main.tab-main label {
-    padding: 15px;
-  }
+@media screen and (max-width: 1400px) {
+
 }
 
 @media screen and (max-width: 768px) {
@@ -5126,6 +5120,17 @@ main.tab-main #tab4:checked ~ #content4 {
     margin-bottom: 16px;
   }
 }
+@media screen and (max-width: 650px) {
+  main.tab-main label {
+    font-size: 0;
+  }
+  main.tab-main label:before {
+    margin: 0;
+    font-size: 18px;
+  }
+}
+
+
 @media screen and (max-width: 480px) {
 .login-section .container, .login-section .content {     
     width: 300px;
@@ -5144,6 +5149,12 @@ main.tab-main #tab4:checked ~ #content4 {
   }
   .login-section .content .link-login ul li a{ margin: 10px; }
   .login-section .button a { padding: 0px 0 1px 40px; }
+}
+
+@media screen and (max-width: 400px) {
+  main.tab-main label {
+    padding: 15px;
+  }
 }
 
 @media screen and (max-width: 320px) {
