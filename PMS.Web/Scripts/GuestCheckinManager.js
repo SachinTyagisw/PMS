@@ -100,15 +100,19 @@
         },
 
         BindRateTypeDdl: function (ddlRateType) {
-            var rateTypeData = pmsSession.GetItem("ratetypedata");
+            var rateTypeData = pmsSession.GetItem("roomratedata");
             if (!ddlRateType || !rateTypeData) return;
 
             var rateTypes = $.parseJSON(rateTypeData);
             if (!rateTypes || rateTypes.length <= 0) return;
-
+            var isHourlyCbChecked = $('#hourCheckin')[0].checked;
+                        
             ddlRateType.empty();
             ddlRateType.append(new Option("Select RateType", "-1"));
             for (var i = 0; i < rateTypes.length; i++) {
+                if ((!rateTypes[i].Rates || rateTypes[i].Rates.length <= 0)
+                || (!isHourlyCbChecked && rateTypes[i].Units !== "Daily")
+                || (isHourlyCbChecked && rateTypes[i].Units !== "Hourly")) continue;
                 ddlRateType.append(new Option(rateTypes[i].Name, rateTypes[i].Id));
             }
         },
@@ -1274,9 +1278,7 @@
 
             pmsService.Handlers.OnGetRateTypeByPropertySuccess = function (data) {
                 window.GuestCheckinManager.PropertySettingResponseDto.RateTypeSettings = null;
-                window.GuestCheckinManager.PropertySettingResponseDto.RateTypeSettings = data.RateTypes;
-                //storing room rate type data into session storage
-                pmsSession.SetItem("ratetypedata", JSON.stringify(data.RateTypes));
+                window.GuestCheckinManager.PropertySettingResponseDto.RateTypeSettings = data.RateTypes;                
                 var divRateType = $('#divRateType');
                 var rateTemplate = $('#rateTemplate');
                 var rateTypeDdl = $('#rateTypeDdl');
@@ -1800,7 +1802,10 @@
 
             pmsService.Handlers.OnGetRoomRateByPropertySuccess = function (data) {
                 window.GuestCheckinManager.PropertySettingResponseDto.RateSettings = null;
-                window.GuestCheckinManager.PropertySettingResponseDto.RateSettings = data.RoomRate;                
+                window.GuestCheckinManager.PropertySettingResponseDto.RateSettings = data.RoomRate;
+                //storing room rate data into session storage
+                pmsSession.SetItem("roomratedata", JSON.stringify(data.RoomRate));
+
                 window.GuestCheckinManager.PopulateRateTab(data);
                 // to show default 1st tab data hence pass index 0
                 window.GuestCheckinManager.PopulateRoomRateInGrid(data.RoomRate[0]);

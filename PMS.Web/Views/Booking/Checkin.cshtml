@@ -131,6 +131,8 @@
          }
        
         function OnChkHourlyCheckInChange() {
+            gcm.BindRateTypeDdl($('#rateTypeDdl'));
+
             var cmbHours = document.getElementById("hoursComboBox");
             var chkHours = document.getElementById("hourCheckin");
             var checkOutDate = document.getElementById('dateTo');
@@ -218,11 +220,16 @@
                 var roomTypes = $.parseJSON(roomTypeData);
                 gcm.BindRoomTypeDdl($('#roomTypeDdl'), roomTypes);
             }
-            if (!pmsSession.GetItem("ratetypedata")) {
-                gcm.GetRoomRateType();
+
+            if (!pmsSession.GetItem("roomratedata")) {
+                Notifications.SubscribeActive("on-roomrate-get-success", function (sender, args) {
+                    gcm.BindRateTypeDdl($('#rateTypeDdl'));
+                });
+                gcm.GetRoomRateByProperty();
             } else {
                 gcm.BindRateTypeDdl($('#rateTypeDdl'));
             }
+
             gcm.GetCountry($('#ddlCountry'));
             gcm.GetStateByCountry(-1);
             gcm.GetCityByState(-1);
