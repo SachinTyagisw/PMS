@@ -131,6 +131,22 @@
 
         },
 
+        FilterRateType: function (ddlRateType, selectedHr) {
+            var rateTypeData = pmsSession.GetItem("roomratedata");
+            var isHourlyCbChecked = $('#hourCheckin')[0].checked;
+            if (!ddlRateType || !rateTypeData) return;
+            var rateTypes = $.parseJSON(rateTypeData);
+            if (!rateTypes || rateTypes.length <= 0 || !isHourlyCbChecked) return;
+
+            ddlRateType.empty();
+            ddlRateType.append(new Option("Select RateType", "-1"));
+            for (var i = 0; i < rateTypes.length; i++) {
+                if ((!rateTypes[i].Rates || rateTypes[i].Rates.length <= 0)
+                    || !rateTypes[i].Hours || rateTypes[i].Hours <= 0 || rateTypes[i].Hours + "-hr" !== selectedHr) continue;
+                ddlRateType.append(new Option(rateTypes[i].Name, rateTypes[i].Id));
+            }
+        },
+
         BindRateTypeDdl: function (ddlRateType) {
             var rateTypeData = pmsSession.GetItem("roomratedata");
             if (!ddlRateType || !rateTypeData) return;

@@ -126,8 +126,9 @@
                 var time = hrs + ":" + mins + " " + am;
                 //checkOutDate.val(dateOutput + ' ' + time);            
                 checkOutDate.value = dateOutput + ' ' + time; 
-            };
-                
+            }
+            var selectedHr = $("#hoursComboBox option:selected").text();
+            gcm.FilterRateType($('#rateTypeDdl'), selectedHr);
          }
        
         function OnChkHourlyCheckInChange() {
