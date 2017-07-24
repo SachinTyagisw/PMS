@@ -119,14 +119,13 @@
                     var ddlHourlyOptSelector = $("#hoursComboBox option");
                     for (var k = 0; k < ddlHourlyOptSelector.length; k++) {
                         if(!ddlHourlyOptSelector[k].text
-                           || isNaN(ddlHourlyOptSelector[k].text)
-                           || (parseInt(ddlHourlyOptSelector[k].text) !== hrs)) continue;
+                           || (ddlHourlyOptSelector[k].text) !== hrs + "-hr") continue;
                         isHourExists = true;
                         break;
                     }
                     if (isHourExists) continue;
 
-                    ddlHourly.append(new Option(hrs, rateTypes[i].Rates[j].Id));
+                    ddlHourly.append(new Option(hrs + "-hr", rateTypes[i].Rates[j].Id));
                 }
             }
 
@@ -146,7 +145,7 @@
                 if ((!rateTypes[i].Rates || rateTypes[i].Rates.length <= 0)
                 || (!isHourlyCbChecked && rateTypes[i].Units !== "Daily")
                 || (isHourlyCbChecked && rateTypes[i].Units !== "Hourly")) continue;
-                ddlRateType.append(new Option(rateTypes[i].Name, rateTypes[i].Id));
+                ddlRateType.append(new Option(rateTypes[i].Name , rateTypes[i].Id));
             }
         },
 
