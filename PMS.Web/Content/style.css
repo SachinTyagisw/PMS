@@ -2453,7 +2453,10 @@ ul {
   min-height: 344px;
 }
 .card-section-payment {
-    height: 505px;
+    height: 300px;
+}
+.bill-section-payment {
+    height: 200px;
 }
 .user-profile .card-header {
     border-bottom: 1px solid #e7e7e7;
@@ -3475,7 +3478,7 @@ a.mud-c {
   display: inline-block;
 }
 .img-no-available {
-    height: 410px; 
+    height: 210px; 
     position: relative;
 }
 .img-no-available span {
