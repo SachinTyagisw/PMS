@@ -132,6 +132,7 @@
        
         function OnChkHourlyCheckInChange() {
             gcm.BindRateTypeDdl($('#rateTypeDdl'));
+            gcm.FillHourlyDdl($('#hoursComboBox'));
 
             var cmbHours = document.getElementById("hoursComboBox");
             var chkHours = document.getElementById("hourCheckin");

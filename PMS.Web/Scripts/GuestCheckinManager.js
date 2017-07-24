@@ -98,6 +98,39 @@
                 ddlRoomType.append(new Option(roomTypes[i].Name, roomTypes[i].Id));
             }
         },
+        
+        FillHourlyDdl: function (ddlHourly) {            
+            var rateTypeData = pmsSession.GetItem("roomratedata");
+            var isHourlyCbChecked = $('#hourCheckin')[0].checked;
+            if (!isHourlyCbChecked || !ddlHourly || !rateTypeData) return;
+            var rateTypes = $.parseJSON(rateTypeData);
+            if (!rateTypes || rateTypes.length <= 0) return;
+            ddlHourly.empty();
+            ddlHourly.append(new Option("Select Hrs", "-1"));
+
+            for (var i = 0; i < rateTypes.length; i++) {
+                if ((!rateTypes[i].Rates || rateTypes[i].Rates.length <= 0)
+                || (isHourlyCbChecked && rateTypes[i].Units !== "Hourly")) continue;
+                for (var j = 0; j < rateTypes[i].Rates.length; j++) {
+                    var hrs = parseInt(rateTypes[i].Rates[j].InputKeyHours);                   
+                    if (hrs <= 0) continue;
+                    var isHourExists = false;
+                    // check to avoid adding duplicate hours into hourly ddl
+                    var ddlHourlyOptSelector = $("#hoursComboBox option");
+                    for (var k = 0; k < ddlHourlyOptSelector.length; k++) {
+                        if(!ddlHourlyOptSelector[k].text
+                           || isNaN(ddlHourlyOptSelector[k].text)
+                           || (parseInt(ddlHourlyOptSelector[k].text) !== hrs)) continue;
+                        isHourExists = true;
+                        break;
+                    }
+                    if (isHourExists) continue;
+
+                    ddlHourly.append(new Option(hrs, rateTypes[i].Rates[j].Id));
+                }
+            }
+
+        },
 
         BindRateTypeDdl: function (ddlRateType) {
             var rateTypeData = pmsSession.GetItem("roomratedata");
