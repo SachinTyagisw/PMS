@@ -1,190 +1,191 @@
-﻿    <div class="col-lg-12 p-r-0 p-l-0">
-        <div class="card alert card-section-payment">
-            <div class="card-header">
-                <h4>Payment Summary</h4>
+﻿<div class="col-lg-12 p-r-0 p-l-0">
+    <div class="card alert card-section-payment">
+        <div class="card-header">
+            <h4>Payment Summary</h4>
+        </div>
+        <div id="invoice-bot">
+            <div class="img-no-available">
+                <span>Click load to get payment summary</span>
             </div>
-            <div id="invoice-bot">
-                <div class="img-no-available">
-                    <span>Click load to get payment summary</span>
-                </div>
-                <div id="invoice-table">
-                    <div id="divInvoice">
+            <div id="invoice-table">
+                <div id="divInvoice">
 
-                    </div>
                 </div>
-                <!--End Table-->
-                <div class="button-section">
-                    <button type="button" class="btn btn-primary m-l-5 m-t-15">Print Receipt</button>
-                    <button type="button" class="btn btn-primary m-l-5 m-t-15">Print Folio</button>
-                    <button id="saveInvoice" disabled="disabled" type="button" class="btn btn-primary m-l-5 m-t-15">Save</button>
-                    <button id="loadInvoice" type="button" class="btn btn-primary m-l-5 m-t-15">Load Invoice</button>
-                </div>
+            </div>
+            <!--End Table-->
+            <div class="button-section">
+                <button type="button" class="btn btn-primary m-l-5 m-t-15">Print Receipt</button>
+                <button type="button" class="btn btn-primary m-l-5 m-t-15">Print Folio</button>
+                <button id="saveInvoice" disabled="disabled" type="button" class="btn btn-primary m-l-5 m-t-15">Save</button>
+                <button id="loadInvoice" type="button" class="btn btn-primary m-l-5 m-t-15">Load Invoice</button>
             </div>
         </div>
     </div>
-    <script type="text/html" id="invoiceTemplate">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Item Description</th>
-                    <th>Sub-total</th>
-                    <th></th>
-                    <th><span class="table-add glyphicon glyphicon-plus"></span></th>
-                </tr>
-            </thead>
-            <tbody id="sortableTable">
-                <tr id="trOthertax" style="display:none;" class="sortActive remove">
-                    <td><span class="glyphicon glyphicon-th-list"></span></td>
-                    <td id="otherTaxText" contenteditable="true"></td>
-                    <td><input id="otherTaxVal" value="0.0" onkeyup="OnTaxValChange(event, this)" /></td>
-                    <td></td>
-                    <td><span class="tableRow-remove glyphicon glyphicon-trash"></span></td>
-                </tr>
-                {{each Tax}}
-                {{if $value.IsDefaultCharges }}
-                <tr class="sortActive">
-                    <td> <span class="glyphicon glyphicon-th-list"></span></td>
-                    <td>${$value.TaxName}</td>
-                    <td>
-                        @*'ROOM CHARGES' is coming from SP and is always be fixed*@
-                        {{if $value.TaxName === 'ROOM CHARGES' }}
-                        <input id="baseRoomCharge" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
-                        {{/if}}
-                        {{if $value.TaxName === 'Total Room Charge' }}
-                        <input id="totalRoomCharge" disabled="disabled" name="${$value.TaxName}" value="${$value.Value}" />
-                        {{/if}}
-                        {{if $value.TaxName !== 'Total Room Charge' && $value.TaxName !== 'ROOM CHARGES' }}
-                        <input id="taxVal" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
-                        {{/if}}
-                    </td>
-                    <td></td>
-                </tr>
-                {{else}}
-                <tr id="trOthertax" style="display:block;" class="sortActive">
-                    <td><span class="glyphicon glyphicon-th-list"></span></td>
-                    <td id="otherTaxText" contenteditable="true">${$value.TaxName}</td>
-                    <td><input id="otherTaxVal" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" /></td>
-                    <td></td>
-                    <td><span class="tableRow-remove glyphicon glyphicon-trash"></span></td>
-                </tr>
-                {{/if}}
-                {{/each}}
-                <tr id="trDiscount" class="sortActive">
-                    <td><span class="glyphicon glyphicon-th-list"></span></td>
-                    <td>Discount</td>
-                    <td><input id="discount" onkeyup="OnTaxValChange(event, this)" class="color-danger" value="${typeof Discount != 'undefined' && Discount > 0 ? Discount : 0 }" /></td>
-                    <td></td>
-                </tr>
-                @*{{if typeof Id != "undefined" && Id > 0 }}
-            <tr id="trDiscount" class="sortActive">
+</div>
+<script type="text/html" id="invoiceTemplate">
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Item Description</th>
+                <th>Sub-total</th>
+                <th></th>
+                <th><span class="table-add glyphicon glyphicon-plus"></span></th>
+            </tr>
+        </thead>
+        <tbody id="sortableTable">
+            <tr id="trOthertax" style="display:none;" class="sortActive remove">
                 <td><span class="glyphicon glyphicon-th-list"></span></td>
-                <td>Discount</td>
-                <td>$<input id="discount" onkeyup="OnTaxValChange(event, this)" class="color-danger" value="${Discount}" /></td>
+                <td id="otherTaxText" contenteditable="true"></td>
+                <td><input id="otherTaxVal" value="0.0" onkeyup="OnTaxValChange(event, this)" /></td>
                 <td></td>
+                <td><span class="tableRow-remove glyphicon glyphicon-trash"></span></td>
+            </tr>
+            {{each Tax}}
+            {{if $value.IsDefaultCharges }}
+            <tr class="sortActive">
+                <td> <span class="glyphicon glyphicon-th-list"></span></td>
+                <td>${$value.TaxName}</td>
+                <td>
+                    @*'ROOM CHARGES' is coming from SP and is always be fixed*@
+                    {{if $value.TaxName === 'ROOM CHARGES' }}
+                    <input id="baseRoomCharge" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
+                    {{/if}}
+                    {{if $value.TaxName === 'Total Room Charge' }}
+                    <input id="totalRoomCharge" disabled="disabled" name="${$value.TaxName}" value="${$value.Value}" />
+                    {{/if}}
+                    {{if $value.TaxName !== 'Total Room Charge' && $value.TaxName !== 'ROOM CHARGES' }}
+                    <input id="taxVal" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
+                    {{/if}}
+                </td>
                 <td></td>
             </tr>
             {{else}}
+            <tr id="trOthertax" style="display:block;" class="sortActive">
+                <td><span class="glyphicon glyphicon-th-list"></span></td>
+                <td id="otherTaxText" contenteditable="true">${$value.TaxName}</td>
+                <td><input id="otherTaxVal" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" /></td>
+                <td></td>
+                <td><span class="tableRow-remove glyphicon glyphicon-trash"></span></td>
+            </tr>
+            {{/if}}
+            {{/each}}
             <tr id="trDiscount" class="sortActive">
                 <td><span class="glyphicon glyphicon-th-list"></span></td>
                 <td>Discount</td>
-                <td>$<input id="discount" onkeyup="OnTaxValChange(event, this)" class="color-danger" value="0.0" /></td>
-                <td></td>
+                <td><input id="discount" onkeyup="OnTaxValChange(event, this)" class="color-danger" value="${typeof Discount != 'undefined' && Discount > 0 ? Discount : 0 }" /></td>
                 <td></td>
             </tr>
-            {{/if}}*@
-                <tr class="sortActive tabletitle">
-                    <td><span class="glyphicon glyphicon-th-list"></span> </td>
-                    <td class="Rate">
-                        <b>Total Charges</b>
-                    </td>
-                    <td id="total" class="payment">
-                        <b class=""></b>
-                    </td>
+            @*{{if typeof Id != "undefined" && Id > 0 }}
+                <tr id="trDiscount" class="sortActive">
+                    <td><span class="glyphicon glyphicon-th-list"></span></td>
+                    <td>Discount</td>
+                    <td>$<input id="discount" onkeyup="OnTaxValChange(event, this)" class="color-danger" value="${Discount}" /></td>
+                    <td></td>
                     <td></td>
                 </tr>
-                {{if typeof InvoicePaymentDetails != "undefined" && InvoicePaymentDetails.length > 0 }}
-                {{each(i,paymentDetail) InvoicePaymentDetails}}
-                        {{if i===0}}
-                            <tr id="trPaymentType" class="sortActive remove" style="display: block;">
-                                <td id="paymentTypeAdd"><span id="addPaymentType" class="glyphicon glyphicon-plus"></span></td>
-                                <td contenteditable="true">
-                                    <select id="paymentTypeDdl" class="form-control">
-                                        <option {{if paymentDetail.PaymentMode !== 'Credit Card' && paymentDetail.PaymentMode !== 'Cash' && paymentDetail.PaymentMode !== 'Coupons'}} selected {{/if}} value="-1">Payment Type</option>
-                                        <option {{if paymentDetail.PaymentMode === 'Credit Card'}} selected {{/if}} value="1">Credit Card</option>
-                                        <option {{if paymentDetail.PaymentMode === 'Cash'}} selected {{/if}} value="2">Cash</option>
-                                        <option {{if paymentDetail.PaymentMode === 'Coupons'}} selected {{/if}} value="3">Coupons</option>
-                                    </select>
-                                </td>
-                                <td><input id="paymentVal" value="${paymentDetail.PaymentValue}" onkeyup="OnTaxValChange(event, this)" /></td>
-                                <td></td>
-                            </tr>
-                            {{else}}
-                                <tr id="trPaymentType" class="sortActive remove" style="display: block;">
-                                    <td id="paymentTypeTrash"><span class="tableRow-remove glyphicon glyphicon-trash"></span></td>
-                                    <td contenteditable="true">
-                                        <select id="paymentTypeDdl" class="form-control">
-                                            <option {{if paymentDetail.PaymentMode !== 'Credit Card' && paymentDetail.PaymentMode !== 'Cash' && paymentDetail.PaymentMode !== 'Coupons'}} selected {{/if}} value="-1">Payment Type</option>
-                                            <option {{if paymentDetail.PaymentMode === 'Credit Card'}} selected {{/if}} value="1">Credit Card</option>
-                                            <option {{if paymentDetail.PaymentMode === 'Cash'}} selected {{/if}} value="2">Cash</option>
-                                            <option {{if paymentDetail.PaymentMode === 'Coupons'}} selected {{/if}} value="3">Coupons</option>
-                                        </select>
-                                    </td>
-                                    <td><input id="paymentVal" value="${paymentDetail.PaymentValue}" onkeyup="OnTaxValChange(event, this)" /></td>
-                                    <td></td>
-                                </tr>
-                        {{/if}}
-                        
-                 {{/each}}
-                    {{else}}
-                    <tr id="trPaymentType" class="sortActive remove" style="display: block;">
-                        @*<td id="paymentTypeAdd"><span class="table-addpaymenttype glyphicon glyphicon-plus"></span></td>*@
-                        <td id="paymentTypeAdd"><span id="addPaymentType" class="glyphicon glyphicon-plus"></span></td>
-                        <td contenteditable="true">
-                            <select id="paymentTypeDdl" class="form-control">
-                                <option selected="selected" value="-1">Payment Type</option>
-                                <option value="1">Credit Card</option>
-                                <option value="2">Cash</option>
-                                <option value="3">Coupons</option>
-                            </select>
-                        </td>
-                        <td><input id="paymentVal" value="0.0" onkeyup="OnTaxValChange(event, this)" /></td>
-                        <td></td>
-                    </tr>
-                    {{/if}}
+                {{else}}
+                <tr id="trDiscount" class="sortActive">
+                    <td><span class="glyphicon glyphicon-th-list"></span></td>
+                    <td>Discount</td>
+                    <td>$<input id="discount" onkeyup="OnTaxValChange(event, this)" class="color-danger" value="0.0" /></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                {{/if}}*@
+            <tr class="sortActive tabletitle">
+                <td><span class="glyphicon glyphicon-th-list"></span> </td>
+                <td class="Rate">
+                    <b>Total Charges</b>
+                </td>
+                <td id="total" class="payment">
+                    <b class=""></b>
+                </td>
+                <td></td>
+            </tr>
+            {{if typeof InvoicePaymentDetails != "undefined" && InvoicePaymentDetails.length > 0 }}
+            {{each(i,paymentDetail) InvoicePaymentDetails}}
+            {{if i===0}}
+            <tr id="trPaymentType" class="sortActive remove" style="display: block;">
+                <td id="paymentTypeAdd"><span id="addPaymentType" class="glyphicon glyphicon-plus"></span></td>
+                <td contenteditable="true">
+                    <select id="paymentTypeDdl" class="form-control">
+                        <option {{if paymentDetail.PaymentMode !== 'Credit Card' && paymentDetail.PaymentMode !== 'Cash' && paymentDetail.PaymentMode !== 'Coupons'}} selected {{/if}} value="-1">Payment Type</option>
+                        <option {{if paymentDetail.PaymentMode === 'Credit Card'}} selected {{/if}} value="1">Credit Card</option>
+                        <option {{if paymentDetail.PaymentMode === 'Cash'}} selected {{/if}} value="2">Cash</option>
+                        <option {{if paymentDetail.PaymentMode === 'Coupons'}} selected {{/if}} value="3">Coupons</option>
+                    </select>
+                </td>
+                <td><input id="paymentVal" value="${paymentDetail.PaymentValue}" onkeyup="OnTaxValChange(event, this)" /></td>
+                <td></td>
+            </tr>
+            {{else}}
+            <tr id="trPaymentType" class="sortActive remove" style="display: block;">
+                <td id="paymentTypeTrash"><span class="tableRow-remove glyphicon glyphicon-trash"></span></td>
+                <td contenteditable="true">
+                    <select id="paymentTypeDdl" class="form-control">
+                        <option {{if paymentDetail.PaymentMode !== 'Credit Card' && paymentDetail.PaymentMode !== 'Cash' && paymentDetail.PaymentMode !== 'Coupons'}} selected {{/if}} value="-1">Payment Type</option>
+                        <option {{if paymentDetail.PaymentMode === 'Credit Card'}} selected {{/if}} value="1">Credit Card</option>
+                        <option {{if paymentDetail.PaymentMode === 'Cash'}} selected {{/if}} value="2">Cash</option>
+                        <option {{if paymentDetail.PaymentMode === 'Coupons'}} selected {{/if}} value="3">Coupons</option>
+                    </select>
+                </td>
+                <td><input id="paymentVal" value="${paymentDetail.PaymentValue}" onkeyup="OnTaxValChange(event, this)" /></td>
+                <td></td>
+            </tr>
+            {{/if}}
 
-                    <tr id="trPayment" class="sortActive">
-                        <td><span class="glyphicon glyphicon-th-list"></span></td>
-                        <td>Total Payment</td>
-                        <td><input id="payment" disabled="disabled" value="0.0" /></td>
-                        <td></td>
-                    </tr>
-                    <tr id="trBalance" class="sortActive">
-                        <td><span class="glyphicon glyphicon-th-list"></span></td>
-                        <td>Balance Summary</td>
-                        <td><input id="balance" disabled="disabled" value="0.0" /></td>
-                        <td></td>
-                    </tr>
-                    <tr id="trCredit" class="sortActive">
-                        <td><span class="glyphicon glyphicon-th-list"></span></td>
-                        <td>Credit Remaining</td>
-                        <td><input id="credit" disabled="disabled" value="0.0" /></td>
-                        <td></td>
-                    </tr>
-                    <tr id="trPaymentTypeOther" class="sortActive remove" style="display: none;">
-                        <td><span class="glyphicon glyphicon-th-list"></span></td>
-                        <td contenteditable="true">
-                            <select id="paymentTypeDdl" class="form-control">
-                                <option selected="selected" value="-1">Payment Type</option>
-                                <option value="1">Credit Card</option>
-                                <option value="2">Cash</option>
-                                <option value="3">Coupons</option>
-                            </select>
-                        </td>
-                        <td><input id="paymentVal" value="0.0" onkeyup="OnTaxValChange(event, this)" /></td>
-                        <td id="paymentTypeTrash"><span class="tableRow-remove glyphicon glyphicon-trash"></span></td>
-                    </tr>
-                </tbody>
-            </table>
-    </script>
+            {{/each}}
+            {{else}}
+            <tr id="trPaymentType" class="sortActive remove" style="display: block;">
+                @*<td id="paymentTypeAdd"><span class="table-addpaymenttype glyphicon glyphicon-plus"></span></td>*@
+                <td id="paymentTypeAdd"><span id="addPaymentType" class="glyphicon glyphicon-plus"></span></td>
+                <td contenteditable="true">
+                    <select id="paymentTypeDdl" class="form-control">
+                        <option selected="selected" value="-1">Select PaymentType</option>
+                    </select>
+                </td>
+                <td><input id="paymentVal" value="0.0" onkeyup="OnTaxValChange(event, this)" /></td>
+                <td></td>
+            </tr>
+            {{/if}}
 
+            <tr id="trPayment" class="sortActive">
+                <td><span class="glyphicon glyphicon-th-list"></span></td>
+                <td>Total Payment</td>
+                <td><input id="payment" disabled="disabled" value="0.0" /></td>
+                <td></td>
+            </tr>
+            <tr id="trBalance" class="sortActive">
+                <td><span class="glyphicon glyphicon-th-list"></span></td>
+                <td>Balance Summary</td>
+                <td><input id="balance" disabled="disabled" value="0.0" /></td>
+                <td></td>
+            </tr>
+            <tr id="trCredit" class="sortActive">
+                <td><span class="glyphicon glyphicon-th-list"></span></td>
+                <td>Credit Remaining</td>
+                <td><input id="credit" disabled="disabled" value="0.0" /></td>
+                <td></td>
+            </tr>
+            <tr id="trPaymentTypeOther" class="sortActive remove" style="display: none;">
+                <td><span class="glyphicon glyphicon-th-list"></span></td>
+                <td contenteditable="true">
+                    <select id="paymentTypeDdlOther" class="form-control">
+                        <option selected="selected" value="-1">Select PaymentType</option>
+                    </select>
+                </td>
+                <td><input id="paymentVal" value="0.0" onkeyup="OnTaxValChange(event, this)" /></td>
+                <td id="paymentTypeTrash"><span class="tableRow-remove glyphicon glyphicon-trash"></span></td>
+            </tr>
+        </tbody>
+    </table>
+</script>
+
+<div class="col-lg-12 p-r-0 p-l-0">
+    <div class="card alert bill-section-payment">
+        <div class="card-header">
+            <h4>Bill Summary</h4>
+        </div>
+    </div>
+</div>
