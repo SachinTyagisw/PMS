@@ -288,7 +288,8 @@
                 }
                 var cloneHtmlElement = $('#divInvoice').find('tr#trPaymentTypeOther:last').clone(true);
                 cloneHtmlElement[0].style = 'display:block';
-                //cloneHtmlElement[0].id = "paymentTypeDdl";
+                var ddlPaymentTypeSelector = '#' + cloneHtmlElement[0].id + " td" + " select";
+                $(ddlPaymentTypeSelector)[0].id = "paymentTypeDdl";
                 $('#divInvoice').find('#trPayment').before(cloneHtmlElement);
                 e.stopPropagation();
             });
