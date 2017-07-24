@@ -98,6 +98,15 @@
                 ddlRoomType.append(new Option(roomTypes[i].Name, roomTypes[i].Id));
             }
         },
+
+        BindPaymentTypeDdl: function (ddlPaymentType, paymentTypes) {
+            if (!ddlPaymentType || !paymentTypes || paymentTypes.length <= 0) return;
+            ddlPaymentType.empty();
+            ddlPaymentType.append(new Option("Select PaymentType", "-1"));
+            for (var i = 0; i < paymentTypes.length; i++) {
+                ddlPaymentType.append(new Option(paymentTypes[i].Description, paymentTypes[i].Id));
+            }
+        },
         
         FillHourlyDdl: function (ddlHourly) {            
             var rateTypeData = pmsSession.GetItem("roomratedata");
@@ -314,7 +323,10 @@
             booking.Status = status;
             booking.IsActive = true;
             booking.ISHOURLYCHECKIN = $('#hourCheckin')[0].checked ? true : false;
-            var noOfHours = $('#hoursComboBox').val();
+            var noOfHours = 0;
+            if ($("#hoursComboBox option:selected").text().indexOf('-') > 0) {
+                noOfHours = parseInt($("#hoursComboBox option:selected").text().split('-')[0]);
+            }
             booking.HOURSTOSTAY = $('#hourCheckin')[0].checked && parseInt(noOfHours) > 0 ? parseInt(noOfHours) : 0;
             booking.CreatedBy = getCreatedBy();            
 
@@ -466,6 +478,21 @@
             if (!data.Invoice || !data.Invoice.Id || data.Invoice.Id <= 0){
                 data = appendTotalRoomCharge(data);
                 divInvoice.html(invoiceTemplate.render(data));
+                var paymentTypes = pmsSession.GetItem("paymenttype");
+                var data = $.parseJSON(paymentTypes);
+                // data not present in session
+                if (!paymentTypes || !data || data.length <= 0) {
+                    window.GuestCheckinManager.GetPaymentType();
+                    Notifications.SubscribeActive("on-paymenttype-get-success", function (sender, args) {
+                        var paymentData = window.GuestCheckinManager.PropertySettingResponseDto.PaymentTypeSettings
+                        window.GuestCheckinManager.BindPaymentTypeDdl($('#paymentTypeDdl'), paymentData);
+                        //window.GuestCheckinManager.BindPaymentTypeDdl($('#paymentTypeDdlOther'), paymentData);
+                    });
+                } else {
+                    window.GuestCheckinManager.BindPaymentTypeDdl($('#paymentTypeDdl'), data);
+                    //window.GuestCheckinManager.BindPaymentTypeDdl($('#paymentTypeDdlOther'), data);
+                }
+                
             } else {
                 divInvoice.html(invoiceTemplate.render(data.Invoice));
             }
@@ -580,37 +607,10 @@
             var dateTo = $('#dateTo').val();
             var roomType = $('#roomTypeDdl').val();
             var rateType = $('#rateTypeDdl').val();
-            var noOfHours = $('#hoursComboBox').val();
-        
-            // check checkin date 
-            if (!dateFrom || dateFrom.length <= 0) {
-                alert("Please select checkin date");
-                $('#dateFrom').focus();
-                return false;
-            }
-
-            // check checkout date 
-            if (!dateTo || dateTo.length <= 0) {
-                alert("Please select checkout date");
-                $('#dateTo').focus();
-                return false;
-            }
-
-            if (!roomType || roomType === '-1') {
-                alert("Select proper room type");
-                return false;
-            }
-
-            if (!rateType || rateType === '-1') {
-                alert("Select proper rate type");
-                return false;
-            }
-
-            if ($('#hourCheckin')[0].checked && noOfHours === '-1') {
-                alert("Please select proper checkout hours");
-                return false;
-            }
-
+            var noOfHours = 0;
+            if ($("#hoursComboBox option:selected").text().indexOf('-') > 0) {
+                noOfHours = parseInt($("#hoursComboBox option:selected").text().split('-')[0]);
+            }            
             paymentChargeRequestDto.RoomTypeId = roomType
             paymentChargeRequestDto.RateTypeId = rateType
             paymentChargeRequestDto.IsHourly = $('#hourCheckin')[0].checked ? true : false;
@@ -819,7 +819,7 @@
         PopulateTaxGrid: function (data) {
             var divTax = $('#divTax');
             var taxTemplate = $('#taxTemplate');
-            if (!divTax || !taxTemplate) return;
+            if (!divTax || !taxTemplate || divTax.length <= 0 || taxTemplate.length <= 0) return;
             divTax.html(taxTemplate.render(data));
             $("#divTax thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
             if (data && data.Taxes && data.Taxes.length > 0) {
@@ -833,7 +833,7 @@
         PopulateExtraChargeGrid : function (data){
             var divExtraCharge = $('#divExtraCharge');
             var extrachargeTemplate = $('#extrachargeTemplate');
-            if (!divExtraCharge || !extrachargeTemplate) return;
+            if (!divExtraCharge || !extrachargeTemplate || divExtraCharge.length <= 0 || extrachargeTemplate.length <= 0) return;
             divExtraCharge.html(extrachargeTemplate.render(data));
             $("#divExtraCharge thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
             if (data && data.ExtraCharges && data.ExtraCharges.length > 0) {
@@ -847,7 +847,7 @@
         PopulatePaymentTypeGrid : function (data){
             var divPaymentType = $('#divPaymentType');
             var paymenttypeTemplate = $('#paymenttypeTemplate');
-            if (!divPaymentType || !paymenttypeTemplate) return;
+            if (!divPaymentType || !paymenttypeTemplate || divPaymentType.length <= 0 || paymenttypeTemplate.length <= 0) return;
             divPaymentType.html(paymenttypeTemplate.render(data));
             $("#divPaymentType thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
             if (data && data.PaymentTypes && data.PaymentTypes.length > 0) {
@@ -861,7 +861,7 @@
         PopulateFloorGrid: function (data) {
             var divFloor = $('#divFloor');
             var floorTemplate = $('#floorTemplate');
-            if (!divFloor || !floorTemplate) return;
+            if (!divFloor || !floorTemplate || divFloor.length <= 0 || floorTemplate.length <= 0) return;
             divFloor.html(floorTemplate.render(data));
             $("#divFloor thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
             if (data && data.PropertyFloors && data.PropertyFloors.length > 0) {
@@ -875,7 +875,7 @@
         PopulateRateTypeGrid: function (data) {
             var divRateType = $('#divRateType');
             var rateTemplate = $('#rateTemplate');
-            if (!divRateType || !rateTemplate) return;
+            if (!divRateType || !rateTemplate || divRateType.length <= 0 || rateTemplate.length <= 0) return;
             divRateType.html(rateTemplate.render(data));
             $("#divRateType thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
             if (data && data.RateTypes && data.RateTypes.length > 0) {
@@ -889,7 +889,7 @@
         PopulateRoomTypeGrid: function (data) {
             var divRoomType = $('#divRoomType');
             var roomtypeTemplate = $('#roomtypeTemplate');
-            if (!divRoomType || !roomtypeTemplate) return;
+            if (!divRoomType || !roomtypeTemplate || divRoomType.length <= 0 || roomtypeTemplate.length <= 0) return;
             divRoomType.html(roomtypeTemplate.render(data));
             $("#divRoomType thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
             if (data && data.RoomTypes && data.RoomTypes.length > 0) {
@@ -1643,6 +1643,9 @@
                 window.GuestCheckinManager.PropertySettingResponseDto.PaymentTypeSettings = null;
                 window.GuestCheckinManager.PropertySettingResponseDto.PaymentTypeSettings = data.PaymentTypes;
                 window.GuestCheckinManager.PopulatePaymentTypeGrid(data);
+                //storing payment type data into session storage
+                pmsSession.SetItem("paymenttype", JSON.stringify(data.PaymentTypes));
+                if (window.Notifications) window.Notifications.Notify("on-paymenttype-get-success", null, null);
             };
 
             pmsService.Handlers.OnGetPaymentTypeByPropertyFailure = function () {

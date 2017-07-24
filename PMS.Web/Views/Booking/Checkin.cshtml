@@ -288,6 +288,7 @@
                 }
                 var cloneHtmlElement = $('#divInvoice').find('tr#trPaymentTypeOther:last').clone(true);
                 cloneHtmlElement[0].style = 'display:block';
+                //cloneHtmlElement[0].id = "paymentTypeDdl";
                 $('#divInvoice').find('#trPayment').before(cloneHtmlElement);
                 e.stopPropagation();
             });
@@ -297,6 +298,42 @@
                 var invoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
                 if (invoiceId === -1) {
                     $('#rateTypeDdl').attr("disabled", false);
+
+                    var dateFrom = $('#dateFrom').val();
+                    var dateTo = $('#dateTo').val();
+                    var roomType = $('#roomTypeDdl').val();
+                    var rateType = $('#rateTypeDdl').val();
+                    var noOfHours = $('#hoursComboBox').val();
+
+                    // check checkin date 
+                    if (!dateFrom || dateFrom.length <= 0) {
+                        alert("Please select checkin date");
+                        $('#dateFrom').focus();
+                        return false;
+                    }
+
+                    // check checkout date 
+                    if (!dateTo || dateTo.length <= 0) {
+                        alert("Please select checkout date");
+                        $('#dateTo').focus();
+                        return false;
+                    }
+
+                    if (!roomType || roomType === '-1') {
+                        alert("Select proper room type");
+                        return false;
+                    }
+
+                    if (!rateType || rateType === '-1') {
+                        alert("Select proper rate type");
+                        return false;
+                    }
+
+                    if ($('#hourCheckin')[0].checked && noOfHours === '-1') {
+                        alert("Please select proper checkout hours");
+                        return false;
+                    }
+                    gcm.GetPaymentType();
                     gcm.GetPaymentCharges();
                 }
                 else {
