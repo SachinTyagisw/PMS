@@ -104,10 +104,13 @@
                 <td></td>
             </tr>
             <tr class="sortActive tabletitle">
-                <td><span class="glyphicon glyphicon-th-list"></span> </td>
-                <td class="Rate">
-                    <b>Payment Summary</b>
-                </td>
+                <td>
+                    <div class="card-header table-payment-header">
+                        <h4>
+                            Payment Summary
+                        </h4>
+                    </div>
+               </td>
             </tr>
             {{if typeof InvoicePaymentDetails != "undefined" && InvoicePaymentDetails.length > 0 }}
             {{each(i,paymentDetail) InvoicePaymentDetails}}
@@ -196,10 +199,3 @@
     </table>
 </script>
 
-<div class="col-lg-12 p-r-0 p-l-0">
-    <div class="card alert bill-section-payment">
-        <div class="card-header">
-            <h4>Payment Summary</h4>
-        </div>
-    </div>
-</div>

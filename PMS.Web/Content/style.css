@@ -103,6 +103,16 @@
 .card-option-dropdown li a i {
   margin-right: 10px;
 }
+.table-payment-header {
+    margin: 1rem 0;
+    padding: 0 10px;
+    height: 18px;
+    line-height: 1;
+    text-align: left;
+}
+.table-payment-header h4 {
+    font-size: 10px;
+}
 .doc-link {
   float: right;
   position: relative;
@@ -2453,11 +2463,9 @@ ul {
   min-height: 344px;
 }
 .card-section-payment {
-    height: 300px;
+    height: 505px;
 }
-.bill-section-payment {
-    height: 200px;
-}
+
 .user-profile .card-header {
     border-bottom: 1px solid #e7e7e7;
     margin-bottom: 12px;
@@ -3488,7 +3496,7 @@ a.mud-c {
   display: inline-block;
 }
 .img-no-available {
-    height: 210px; 
+    height: 415px; 
     position: relative;
 }
 .img-no-available span {
@@ -4339,7 +4347,7 @@ p
 }
 #invoice-table tbody {
     display: block;
-    height: 180px;
+    height: 380px;
     overflow-y: auto;
     width: 100%;
 }
