@@ -19,7 +19,6 @@
             } else {
                 ddlHour.removeAttr("disabled");
             }
-            
         }
     }
 
@@ -34,6 +33,16 @@
             return;
         }
         gcm.GetRoomRateType($('#ddlProperty').val());
+    }
+
+    function IsRateTypeDuplicate(rateType) {
+        var rateTypes = window.GuestCheckinManager.PropertySettingResponseDto.RateTypeSettings;
+        for (var i = 0; i < rateTypes.length; i++) {
+            if (rateTypes[i].Name == rateType.Name && rateTypes[i].Units == rateType.Units && rateTypes[i].Hours == rateType.Hours) {
+                return true;
+            }
+        }
+        return false;
     }
 
     $(document).ready(function () {
@@ -109,7 +118,16 @@
                         window.GuestCheckinManager.GetRoomRateType($('#ddlProperty').val());
                     });
                     //call UpdateRateType api
-                    gcm.UpdateRateType(existingRateType);
+
+                    if (IsRateTypeDuplicate(existingRateType))
+                    {
+                        alert("Rate Type already exists.");
+                        return;
+                    }
+                    else {
+                        gcm.UpdateRateType(existingRateType);
+                        gcm.OnGridEdit(editOn, $(thisRow), $(this));
+                    }
                 } else {
                     if (propertyId <= 0) {
                         alert("Select valid property");
@@ -124,9 +142,19 @@
                         window.GuestCheckinManager.GetRoomRateType($('#ddlProperty').val());
                     });
                     //call AddRateType api
-                    gcm.AddRateType(rateType);
+                    if (IsRateTypeDuplicate(rateType))
+                    {
+                        alert("Rate Type already exists.");
+                        return;
+                    }
+                    else {
+                        gcm.AddRateType(rateType);
+                        gcm.OnGridEdit(editOn, $(thisRow), $(this));
+                    }
+                        
                 }
-                gcm.OnGridEdit(editOn, $(thisRow), $(this));
+                
+                    
             }
         });
 
