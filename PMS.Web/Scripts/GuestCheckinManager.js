@@ -6,7 +6,7 @@
     var invoiceData = {};
     var guestCheckinManager = {
        
-        PropertySettingResponseDto: {
+        PropertySettingResponseDto:{
             PropertySetting: null,
             FloorSettings: null,
             RoomTypeSettings: null,
@@ -90,7 +90,7 @@
             }
         },
 
-        BindRoomTypeDdl: function (ddlRoomType, roomTypes) {            
+        BindRoomTypeDdl: function (ddlRoomType, roomTypes) {
             if (!ddlRoomType || !roomTypes || roomTypes.length <= 0) return;
             ddlRoomType.empty();
             ddlRoomType.append(new Option("Select RoomType", "-1"));
@@ -1212,6 +1212,12 @@
 
         FillRoomTypeData: function (ddlRoomType, propertyId) {
             if (!ddlRoomType || !propertyId || propertyId <= 0) return;
+
+            //Notifications.SubscribeActive("on-roomtype-get-success", function (sender, args) {
+            //    window.GuestCheckinManager.BindRoomTypeDdl(ddlRoomType, window.GuestCheckinManager.PropertySettingResponseDto.RoomTypeSettings);
+            //});
+            //gcm.GetRoomTypes(propertyId);
+
             var roomtypes = window.GuestCheckinManager.PropertySettingResponseDto.RoomTypeSettings;
             if (!roomtypes || roomtypes.length <= 0) {
                 Notifications.SubscribeActive("on-roomtype-get-success", function (sender, args) {
@@ -1225,6 +1231,11 @@
 
         FillFloorData: function (ddlFloor, propertyId) {
             if (!ddlFloor || !propertyId || propertyId <= 0) return;
+            //Notifications.SubscribeActive("on-floor-get-success", function (sender, args) {
+            //    window.GuestCheckinManager.BindFloorDdl(ddlFloor, window.GuestCheckinManager.PropertySettingResponseDto.FloorSettings);
+            //});
+            //gcm.GetFloorsByProperty(propertyId);
+
             var floors = window.GuestCheckinManager.PropertySettingResponseDto.FloorSettings;
             if (!floors || floors.length <= 0) {
                 Notifications.SubscribeActive("on-floor-get-success", function (sender, args) {
@@ -1504,7 +1515,7 @@
                 var status = data.StatusDescription.toLowerCase();
                 if (data.ResponseObject > 0) {                    
                     console.log(status);                    
-                    alert(status);
+                    //alert(status);
                     if (window.Notifications) window.Notifications.Notify("on-property-add-success", null, null);
                 } else {
                     console.error(status);
@@ -1525,7 +1536,7 @@
             pmsService.Handlers.OnDeletePropertySuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
-                alert(status);
+                //alert(status);
             };
 
             pmsService.Handlers.OnUpdatePropertyFailure = function () {
@@ -1537,14 +1548,14 @@
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
                 window.GuestCheckinManager.GetAllProperty();
-                alert(status);
+                //alert(status);
             };
 
             pmsService.Handlers.OnAddRoomTypeSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 if (data.ResponseObject > 0) {
                     console.log(status);                    
-                    alert(status);
+                    //alert(status);
                     // to fetch new data                    
                     if (window.Notifications) window.Notifications.Notify("on-roomtype-add-success", null, null);
                 } else {
@@ -1562,7 +1573,7 @@
                 var status = data.StatusDescription.toLowerCase();
                 if (data.ResponseObject > 0) {
                     console.log(status);                                   
-                    alert(status);
+                    //alert(status);
                     // to fetch new data     
                     if (window.Notifications) window.Notifications.Notify("on-floor-add-success", null, null);
                 } else {
@@ -1584,7 +1595,7 @@
             pmsService.Handlers.OnDeleteFloorSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
-                alert(status);
+                //alert(status);
             };
 
             pmsService.Handlers.OnUpdateFloorFailure = function () {
@@ -1595,7 +1606,7 @@
             pmsService.Handlers.OnUpdateFloorSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
-                alert(status);
+                //alert(status);
             };
 
             pmsService.Handlers.OnDeleteRoomTypeFailure = function () {
@@ -1606,7 +1617,7 @@
             pmsService.Handlers.OnDeleteRoomTypeSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
-                alert(status);
+                //alert(status);
             };
 
             pmsService.Handlers.OnUpdateRoomTypeFailure = function () {
@@ -1617,7 +1628,7 @@
             pmsService.Handlers.OnUpdateRoomTypeSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
-                alert(status);
+                //alert(status);
             };
 
             pmsService.Handlers.OnGetFloorsByPropertySuccess = function (data) {
@@ -1657,7 +1668,7 @@
                 var status = data.StatusDescription.toLowerCase();
                 if (data.ResponseObject > 0) {
                     console.log(status);
-                    alert(status);
+                    //alert(status);
                     // to fetch new data                    
                     if (window.Notifications) window.Notifications.Notify("on-paymenttype-add-success", null, null);
                     
@@ -1680,7 +1691,7 @@
             pmsService.Handlers.OnDeletePaymentTypeSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
-                alert(status);
+                //alert(status);
             };
 
             pmsService.Handlers.OnUpdatePaymentTypeFailure = function () {
@@ -1691,7 +1702,7 @@
             pmsService.Handlers.OnUpdatePaymentTypeSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
-                alert(status);
+                //alert(status);
             };
 
             pmsService.Handlers.OnGetExtraChargeByPropertySuccess = function (data) {
@@ -1709,7 +1720,7 @@
                 var status = data.StatusDescription.toLowerCase();
                 if (data.ResponseObject > 0) {
                     console.log(status);                                        
-                    alert(status);
+                    //alert(status);
                     // to fetch new data
                     if (window.Notifications) window.Notifications.Notify("on-extracharge-add-success", null, null);
                 } else {
@@ -1731,7 +1742,7 @@
             pmsService.Handlers.OnDeleteExtraChargeSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
-                alert(status);
+                //alert(status);
             };
 
             pmsService.Handlers.OnUpdateExtraChargeFailure = function () {
@@ -1742,7 +1753,7 @@
             pmsService.Handlers.OnUpdateExtraChargeSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
-                alert(status);
+                //alert(status);
             };
 
             pmsService.Handlers.OnGetTaxByPropertySuccess = function (data) {
@@ -1760,7 +1771,7 @@
                 var status = data.StatusDescription.toLowerCase();
                 if (data.ResponseObject > 0) {
                     console.log(status);
-                    alert(status);
+                    //alert(status);
                     // to fetch new data
                     if (window.Notifications) window.Notifications.Notify("on-tax-add-success", null, null);                                        
                 } else {
@@ -1782,7 +1793,7 @@
             pmsService.Handlers.OnDeleteTaxSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
-                alert(status);
+                //alert(status);
             };
 
             pmsService.Handlers.OnUpdateTaxFailure = function () {
@@ -1793,7 +1804,7 @@
             pmsService.Handlers.OnUpdateTaxSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
-                alert(status);
+                //alert(status);
             };
 
             //Room Callbacks
@@ -1815,7 +1826,7 @@
                 if (data.ResponseObject > 0) {
                     console.log(status);
                     // to fetch new data                    
-                    alert(status);
+                    //alert(status);
                     if (window.Notifications) window.Notifications.Notify("on-ratetype-add-success", null, null);
                 } else {
                     console.error(status);
@@ -1836,7 +1847,7 @@
             pmsService.Handlers.OnDeleteRateTypeSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
-                alert(status);
+                //alert(status);
             };
 
             pmsService.Handlers.OnUpdateRateTypeFailure = function () {
@@ -1847,7 +1858,7 @@
             pmsService.Handlers.OnUpdateRateTypeSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
-                alert(status);
+                //alert(status);
                 if (window.Notifications) window.Notifications.Notify("on-ratetype-update-success", null, null);
             };
 
@@ -1873,7 +1884,7 @@
                 if (data.ResponseObject > 0) {
                     console.log(status);
                     // to fetch new data                    
-                    alert(status);
+                    //alert(status);
                     if (window.Notifications) window.Notifications.Notify("on-roomrate-add-success", null, null);
                 } else {
                     console.error(status);
@@ -1894,7 +1905,7 @@
             pmsService.Handlers.OnDeleteRoomRateSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
-                alert(status);
+                //alert(status);
             };
 
             pmsService.Handlers.OnUpdateRoomRateFailure = function () {
@@ -1905,7 +1916,7 @@
             pmsService.Handlers.OnUpdateRoomRateSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
-                alert(status);
+                //alert(status);
                 if (window.Notifications) window.Notifications.Notify("on-roomrate-update-success", null, null);
             };
 
@@ -1914,7 +1925,7 @@
                 if (status.indexOf('successfully') > 0) {
                     console.log(status);
                     // to fetch new data                    
-                    alert(status);
+                    //alert(status);
                     if (window.Notifications) window.Notifications.Notify("on-room-add-success", null, null);
                 } else {
                     console.error(status);
@@ -1935,7 +1946,7 @@
             pmsService.Handlers.OnDeleteRoomSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
-                alert(status);
+                //alert(status);
             };
 
             pmsService.Handlers.OnUpdateRoomFailure = function () {
@@ -1946,7 +1957,7 @@
             pmsService.Handlers.OnUpdateRoomSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
-                alert(status);
+                //alert(status);
                 if (window.Notifications) window.Notifications.Notify("on-room-update-success", null, null);
             };
 
