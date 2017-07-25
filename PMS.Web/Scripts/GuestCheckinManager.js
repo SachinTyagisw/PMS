@@ -606,13 +606,13 @@
             var dateFrom = $('#dateFrom').val();
             var dateTo = $('#dateTo').val();
             var roomType = $('#roomTypeDdl').val();
-            var rateType = $('#rateTypeDdl').val();
+            var roomId = $('#roomddl').val();
             var noOfHours = 0;
             if ($("#hoursComboBox option:selected").text().indexOf('-') > 0) {
                 noOfHours = parseInt($("#hoursComboBox option:selected").text().split('-')[0]);
             }            
-            paymentChargeRequestDto.RoomTypeId = roomType
-            paymentChargeRequestDto.RateTypeId = rateType
+            paymentChargeRequestDto.RoomTypeId = roomType;
+            paymentChargeRequestDto.RoomId = roomId;
             paymentChargeRequestDto.IsHourly = $('#hourCheckin')[0].checked ? true : false;
             paymentChargeRequestDto.NoOfHours = $('#hourCheckin')[0].checked && parseInt(noOfHours) > 0 ? parseInt(noOfHours) : 0;
         
