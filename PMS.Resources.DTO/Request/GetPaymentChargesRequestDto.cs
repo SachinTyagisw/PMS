@@ -22,5 +22,8 @@ namespace PMS.Resources.DTO.Request
         public int? NoOfHours { get; set; }
         [DataMember]
         public Nullable<bool> IsHourly { get; set; }
+        [DataMember]
+        public int? roomId { get; set; }
+        
     }
 }

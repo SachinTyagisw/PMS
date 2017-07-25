@@ -291,7 +291,7 @@ namespace PMS.Resources.Logic
 
         public List<PmsEntity.Tax> GetPaymentCharges(GetPaymentChargesRequestDto request)
         {
-            return DalFactory.GetPaymentCharges(request.PropertyId, request.RoomTypeId, request.RateTypeId, request.NoOfHours, request.IsHourly);
+            return DalFactory.GetPaymentCharges(request.PropertyId, request.RoomTypeId, request.RateTypeId, request.NoOfHours, request.IsHourly, request.roomId);
         }
 
         public int AddInvoice(PmsEntity.Invoice invoice)

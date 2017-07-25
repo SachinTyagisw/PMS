@@ -840,12 +840,12 @@ namespace PMS.Resources.DAL
             return guest;
         }
 
-        public List<PmsEntity.Tax> GetPaymentCharges(int? propertyId, int? roomTypeId, int? rateTypeId, int? noOfHours, bool? IsHourly)
+        public List<PmsEntity.Tax> GetPaymentCharges(int? propertyId, int? roomTypeId, int? rateTypeId, int? noOfHours, bool? IsHourly, int? roomId)
         {
             var taxes = new List<PmsEntity.Tax>();
             using (var pmsContext = new PmsEntities())
             {
-                var resultSet = pmsContext.GETBOOKINGAMOUNT(propertyId, roomTypeId, rateTypeId, noOfHours, 0, IsHourly).ToList();
+                var resultSet = pmsContext.GETBOOKINGAMOUNT(propertyId, roomTypeId, rateTypeId, noOfHours, 0, IsHourly, roomId).ToList();
                 if (resultSet == null || resultSet.Count <= 0) return taxes;
                 foreach (var result in resultSet.OrderBy(x => x.OrderBy))
                 {
