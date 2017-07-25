@@ -9,7 +9,7 @@
             </div>
             <div id="invoice-table">
                 <div id="divInvoice">
-
+                    
                 </div>
             </div>
             <!--End Table-->
@@ -102,6 +102,12 @@
                     <b class=""></b>
                 </td>
                 <td></td>
+            </tr>
+            <tr class="sortActive tabletitle">
+                <td><span class="glyphicon glyphicon-th-list"></span> </td>
+                <td class="Rate">
+                    <b>Payment Summary</b>
+                </td>
             </tr>
             {{if typeof InvoicePaymentDetails != "undefined" && InvoicePaymentDetails.length > 0 }}
             {{each(i,paymentDetail) InvoicePaymentDetails}}
