@@ -281,11 +281,7 @@
                 e.stopPropagation();
             });
 
-            $('#divInvoice').on("click", "#addPaymentType", function (e) {
-                if ($('#paymentTypeDdl').val() === -1 || $('#paymentVal').val() <= 0) {
-                    alert('Please select proper payment type or value.');
-                    return;
-                }
+            $('#divInvoice').on("click", "#addPaymentType", function (e) {                
                 var cloneHtmlElement = $('#divInvoice').find('tr#trPaymentTypeOther:last').clone(true);
                 cloneHtmlElement[0].style = 'display:block';
                 var ddlPaymentTypeSelector = '#' + cloneHtmlElement[0].id + " td" + " select";

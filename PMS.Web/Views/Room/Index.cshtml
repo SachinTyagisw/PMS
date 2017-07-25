@@ -33,6 +33,8 @@
             return;
         }
         gcm.GetRoomByProperty($('#ddlProperty').val());
+        window.GuestCheckinManager.PropertySettingResponseDto.RoomTypeSettings = null;
+        window.GuestCheckinManager.PropertySettingResponseDto.FloorSettings = null;
         gcm.FillRoomTypeData($('#ddlRoomType'), $('#ddlProperty').val());
         gcm.FillFloorData($('#ddlFloor'), $('#ddlProperty').val());
     }
