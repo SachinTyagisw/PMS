@@ -9,7 +9,7 @@
             </div>
             <div id="invoice-table">
                 <div id="divInvoice">
-
+                    
                 </div>
             </div>
             <!--End Table-->
@@ -103,34 +103,48 @@
                 </td>
                 <td></td>
             </tr>
+            <tr class="sortActive tabletitle">
+                <td><span class="glyphicon glyphicon-th-list"></span> </td>
+                <td class="Rate">
+                    <b>Payment Summary</b>
+                </td>
+            </tr>
             {{if typeof InvoicePaymentDetails != "undefined" && InvoicePaymentDetails.length > 0 }}
             {{each(i,paymentDetail) InvoicePaymentDetails}}
             {{if i===0}}
             <tr id="trPaymentType" class="sortActive remove" style="display: block;">
                 <td id="paymentTypeAdd"><span id="addPaymentType" class="glyphicon glyphicon-plus"></span></td>
-                <td contenteditable="true">
-                    <select id="paymentTypeDdl" class="form-control">
+                <td>
+                    ${paymentDetail.PaymentMode}
+                    @*<select id="paymentTypeDdl" class="form-control">
                         <option {{if paymentDetail.PaymentMode !== 'Credit Card' && paymentDetail.PaymentMode !== 'Cash' && paymentDetail.PaymentMode !== 'Coupons'}} selected {{/if}} value="-1">Payment Type</option>
                         <option {{if paymentDetail.PaymentMode === 'Credit Card'}} selected {{/if}} value="1">Credit Card</option>
                         <option {{if paymentDetail.PaymentMode === 'Cash'}} selected {{/if}} value="2">Cash</option>
                         <option {{if paymentDetail.PaymentMode === 'Coupons'}} selected {{/if}} value="3">Coupons</option>
-                    </select>
+                    </select>*@
                 </td>
-                <td><input id="paymentVal" value="${paymentDetail.PaymentValue}" onkeyup="OnTaxValChange(event, this)" /></td>
+                <td>
+                    ${paymentDetail.PaymentValue}
+                @*<input id="paymentVal" value="${paymentDetail.PaymentValue}" onkeyup="OnTaxValChange(event, this)" />*@
+                </td>
                 <td></td>
             </tr>
             {{else}}
             <tr id="trPaymentType" class="sortActive remove" style="display: block;">
                 <td id="paymentTypeTrash"><span class="tableRow-remove glyphicon glyphicon-trash"></span></td>
-                <td contenteditable="true">
-                    <select id="paymentTypeDdl" class="form-control">
+                <td >
+                    ${paymentDetail.PaymentMode}
+                    @*<select id="paymentTypeDdl" class="form-control">
                         <option {{if paymentDetail.PaymentMode !== 'Credit Card' && paymentDetail.PaymentMode !== 'Cash' && paymentDetail.PaymentMode !== 'Coupons'}} selected {{/if}} value="-1">Payment Type</option>
                         <option {{if paymentDetail.PaymentMode === 'Credit Card'}} selected {{/if}} value="1">Credit Card</option>
                         <option {{if paymentDetail.PaymentMode === 'Cash'}} selected {{/if}} value="2">Cash</option>
                         <option {{if paymentDetail.PaymentMode === 'Coupons'}} selected {{/if}} value="3">Coupons</option>
-                    </select>
+                    </select>*@
                 </td>
-                <td><input id="paymentVal" value="${paymentDetail.PaymentValue}" onkeyup="OnTaxValChange(event, this)" /></td>
+                <td>
+                    ${paymentDetail.PaymentValue}
+                @*<input id="paymentVal" value="${paymentDetail.PaymentValue}" onkeyup="OnTaxValChange(event, this)" />*@
+                </td>
                 <td></td>
             </tr>
             {{/if}}

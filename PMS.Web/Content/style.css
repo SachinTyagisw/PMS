@@ -3367,7 +3367,7 @@ a.mud-c {
   padding: 0;
 }
 .photo_submit {
-  position: relative;
+  position: absolute;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3389,11 +3389,21 @@ a.mud-c {
 }
 .photo_submit:hover {
   cursor: pointer;
-  background: transparent;
+  background: transparent
 }
 .photo_submit:nth-child(2),
 .photo_submit:nth-child(4) {
-  margin-left: 1rem;
+  z-index: 1;
+}
+#imgPhoto {
+    visibility:hidden;
+    -moz-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+#imgPhoto.photo-added:hover {
+    transform: scale(3);
+    transform-origin: left;
 }
 .photo_submit:nth-child(3),
 .photo_submit:nth-child(4) {

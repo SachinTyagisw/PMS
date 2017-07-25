@@ -2134,6 +2134,7 @@
 
         var files = $("#uploadPhoto").get(0).files;
         if (files.length > 0) {
+            //TODO update photo path dynamically
             guest.PhotoPath = "D:\\PMSHosted\\PMSApi\\UploadedFiles\\" + files[0].name;
         } else {
             guest.PhotoPath = "No Image Available";

@@ -365,6 +365,8 @@
             });
 
             $("#uploadPhoto").change(function () {
+                $('#imgPhoto').css('visibility', 'visible');
+                $('#imgPhoto').addClass('photo-added');
                 previewImage(this);
             });
 
