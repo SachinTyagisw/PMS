@@ -102,7 +102,7 @@ namespace PMS.Api.Controllers
         public GetPaymentChargesResponseDto GetPaymentCharges([FromBody] GetPaymentChargesRequestDto request )
         {
             if (request == null || request.PropertyId <=0
-                || request.RateTypeId <= 0 || request.RoomTypeId <= 0 || request.roomId <= 0
+                || request.RoomTypeId <= 0 || request.roomId <= 0
                 ) throw new PmsException("Get Invoice call failed.");
 
             var response = new GetPaymentChargesResponseDto();
