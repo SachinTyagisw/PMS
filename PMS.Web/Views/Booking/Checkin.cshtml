@@ -87,7 +87,32 @@
         $(function () {
             $("#datetimepicker1").on("dp.change", function (e) {
                 $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
+                if (gcm.ShouldCallGetRoomApi()) {
+                        pmsSession.RemoveItem("roomdata");
+                        Notifications.SubscribeActive("on-roombydate-get-success", function (sender, args) {
+                            var data = pmsSession.GetItem("roomdata");
+                            var rooms = $.parseJSON(data);
+                            var ddlRoom = $('#roomddl');
+                            var roomTypeId = $('#roomTypeDdl').val();
+                            window.GuestCheckinManager.BindRoomDdl(ddlRoom, roomTypeId, rooms, true);
+                        });
+                        gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val());
+                }
                 OnCmbHourlyCheckInChange();
+            });
+
+            $("#datetimepicker2").on("dp.change", function (e) {
+                if (gcm.ShouldCallGetRoomApi()) {
+                    pmsSession.RemoveItem("roomdata");
+                    Notifications.SubscribeActive("on-roombydate-get-success", function (sender, args) {
+                        var data = pmsSession.GetItem("roomdata");
+                        var rooms = $.parseJSON(data);
+                        var ddlRoom = $('#roomddl');
+                        var roomTypeId = $('#roomTypeDdl').val();
+                        window.GuestCheckinManager.BindRoomDdl(ddlRoom, roomTypeId, rooms, true);
+                    });
+                    gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val());
+                }
             });
         });
 
@@ -419,7 +444,6 @@
                 //    OnCmbHourlyCheckInChange();
                 //});
 
-
                 //$('.ui-datepicker-calendar').detach();
                 //$('.ui-datepicker-close').click(function () {                    
                 //    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
@@ -431,9 +455,7 @@
                 //        gcm.GetRoomByDate();
                 //    }
                 //});
-
                 OnCmbHourlyCheckInChange();
-               
             });
 
 

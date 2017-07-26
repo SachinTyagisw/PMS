@@ -59,7 +59,7 @@
             var dtTo = $("#dateTo").val();
 
             if (!roomTypeId || !dtFrom || !dtTo
-                || roomTypeId === -1 || dtFrom.length <= 0 || dtTo.length <= 0) {
+                || parseInt(roomTypeId) <= -1 || dtFrom.length <= 0 || dtTo.length <= 0) {
                 return false;
             }            
             return true;
