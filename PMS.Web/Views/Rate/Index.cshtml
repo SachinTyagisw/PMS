@@ -37,7 +37,7 @@
 
     function IsRateTypeDuplicate(newRateType, rateTypes) {        
         for (var i = 0; i < rateTypes.length; i++) {
-            if ($.trim(rateTypes[i].Name.toLowerCase()) === $.trim(newRateType.Name.toLowerCase()) && rateTypes[i].Units === newRateType.Units && rateTypes[i].Hours === parseInt(newRateType.Hours)) {
+            if ($.trim(rateTypes[i].Name.toLowerCase()) === $.trim(newRateType.Name.toLowerCase()) && rateTypes[i].Units === newRateType.Units && parseInt(rateTypes[i].Hours) === parseInt(newRateType.Hours)) {
                 return true;
             }
         }
@@ -110,12 +110,14 @@
                 if (rateTypeId > 0) {
                     var existingRateType = gcm.FindSetting(rateTypeId, window.GuestCheckinManager.PropertySettingResponseDto.RateTypeSettings);
                     if (!existingRateType) return;
+                    var cloneExistingRateType = {};
+                    cloneExistingRateType = $.extend(true, {}, existingRateType); // jQuery extend method
+
+                    cloneExistingRateType.Name = rateTypeName;
+                    cloneExistingRateType.Units = units;
+                    cloneExistingRateType.Hours = hours;
                     
-                    existingRateType.Name = rateTypeName;
-                    existingRateType.Units = units;
-                    existingRateType.Hours = hours;
-                    
-                    if (IsRateTypeDuplicate(existingRateType,window.GuestCheckinManager.PropertySettingResponseDto.RateTypeSettings)) {
+                    if (IsRateTypeDuplicate(cloneExistingRateType, window.GuestCheckinManager.PropertySettingResponseDto.RateTypeSettings)) {
                         alert("Rate Type already exists.");
                         $(thisRow)[1].focus();
                         return;
@@ -125,7 +127,7 @@
                     });
                     
                     //call UpdateRateType api                    
-                    gcm.UpdateRateType(existingRateType);
+                    gcm.UpdateRateType(cloneExistingRateType);
                     gcm.OnGridEdit(editOn, $(thisRow), $(this));
 
                 } else {
