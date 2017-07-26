@@ -13,7 +13,8 @@ namespace PMS.Resources.DAL
     
     public partial class GETGUESTTRANSACTIONS_Result
     {
-        public string PROPERTY { get; set; }
+        public string PROPERTYDETAILS { get; set; }
+        public string PropertyName { get; set; }
         public Nullable<System.DateTime> CheckinTime { get; set; }
         public Nullable<System.DateTime> CheckoutTime { get; set; }
         public string ROOMTYPE { get; set; }

@@ -2261,7 +2261,8 @@
           <Property Type="String" Name="AddressCountry" Nullable="true" MaxLength="200" />
         </ComplexType>
         <ComplexType Name="GETGUESTTRANSACTIONS_Result">
-          <Property Type="String" Name="PROPERTY" Nullable="true" />
+          <Property Type="String" Name="PROPERTYDETAILS" Nullable="true" />
+          <Property Type="String" Name="PropertyName" Nullable="true" MaxLength="100" />
           <Property Type="DateTime" Name="CheckinTime" Nullable="true" Precision="23" />
           <Property Type="DateTime" Name="CheckoutTime" Nullable="true" Precision="23" />
           <Property Type="String" Name="ROOMTYPE" Nullable="true" />
@@ -2909,7 +2910,8 @@
           <FunctionImportMapping FunctionImportName="GETGUESTTRANSACTIONS" FunctionName="PmsModel.Store.GETGUESTTRANSACTIONS">
             <ResultMapping>
               <ComplexTypeMapping TypeName="PmsModel.GETGUESTTRANSACTIONS_Result">
-                <ScalarProperty Name="PROPERTY" ColumnName="PROPERTY" />
+                <ScalarProperty Name="PROPERTYDETAILS" ColumnName="PROPERTYDETAILS" />
+                <ScalarProperty Name="PropertyName" ColumnName="PropertyName" />
                 <ScalarProperty Name="CheckinTime" ColumnName="CheckinTime" />
                 <ScalarProperty Name="CheckoutTime" ColumnName="CheckoutTime" />
                 <ScalarProperty Name="ROOMTYPE" ColumnName="ROOMTYPE" />

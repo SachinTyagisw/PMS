@@ -696,7 +696,8 @@ namespace PMS.Resources.DAL
                                 },
                                 Property = new PmsEntity.Property
                                 {
-                                   PropertyDetails = result.PROPERTY
+                                   PropertyDetails = result.PROPERTYDETAILS,
+                                   PropertyName = result.PropertyName
                                 }
                             }
                         }

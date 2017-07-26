@@ -1,6 +1,6 @@
 angular.module('calendarApp', ['ngResource', 'ngRoute', 'ngGrid', 'ui.bootstrap', 'daypilot'])
     .constant('urls', {
-      BASE_URL: 'http://localhost:7070/api/v1/'
+        BASE_URL: 'http://primepms.com/pmsapi/api/v1/'
     })
     .config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
       $routeProvider
