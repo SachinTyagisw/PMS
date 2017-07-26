@@ -61,7 +61,12 @@
             for (var i = 0; i < divRoomCount; i++){
                 var room = {};
                 var roomTypeSelector = '#ddlRoomType' + (i+1);
-                var floorSelector = '#ddlFloor' + (i+1);
+                var floorSelector = '#ddlFloor' + (i + 1);
+                //first time if room is created for a property
+                //then change room and floor selector
+                roomTypeSelector = $(roomTypeSelector) && $(roomTypeSelector).length > 0 ? roomTypeSelector : '#ddlRoomTypeAdd';
+                floorSelector = $(floorSelector) && $(floorSelector).length > 0 ? floorSelector : '#ddlFloorAdd';
+
                 room.RoomTypeId = $(roomTypeSelector) && $(roomTypeSelector).length > 0 ? $(roomTypeSelector).val() : divRoom[i].cells[1].id;
                 room.FloorId = $(floorSelector) && $(floorSelector).length > 0 ? $(floorSelector).val() : divRoom[i].cells[2].id;
                 room.Number = divRoom[i].cells[3].innerText;
