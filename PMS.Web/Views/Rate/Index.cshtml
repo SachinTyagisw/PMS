@@ -35,10 +35,9 @@
         gcm.GetRoomRateType($('#ddlProperty').val());
     }
 
-    function IsRateTypeDuplicate(rateType) {
-        var rateTypes = window.GuestCheckinManager.PropertySettingResponseDto.RateTypeSettings;
+    function IsRateTypeDuplicate(newRateType, rateTypes) {        
         for (var i = 0; i < rateTypes.length; i++) {
-            if (rateTypes[i].Name == rateType.Name && rateTypes[i].Units == rateType.Units && rateTypes[i].Hours == rateType.Hours) {
+            if ($.trim(rateTypes[i].Name.toLowerCase()) === $.trim(newRateType.Name.toLowerCase()) && rateTypes[i].Units === newRateType.Units && rateTypes[i].Hours === parseInt(newRateType.Hours)) {
                 return true;
             }
         }
@@ -111,23 +110,24 @@
                 if (rateTypeId > 0) {
                     var existingRateType = gcm.FindSetting(rateTypeId, window.GuestCheckinManager.PropertySettingResponseDto.RateTypeSettings);
                     if (!existingRateType) return;
+                    
                     existingRateType.Name = rateTypeName;
                     existingRateType.Units = units;
                     existingRateType.Hours = hours;
+                    
+                    if (IsRateTypeDuplicate(existingRateType,window.GuestCheckinManager.PropertySettingResponseDto.RateTypeSettings)) {
+                        alert("Rate Type already exists.");
+                        $(thisRow)[1].focus();
+                        return;
+                    }
                     Notifications.SubscribeActive("on-ratetype-update-success", function (sender, args) {
                         window.GuestCheckinManager.GetRoomRateType($('#ddlProperty').val());
                     });
-                    //call UpdateRateType api
+                    
+                    //call UpdateRateType api                    
+                    gcm.UpdateRateType(existingRateType);
+                    gcm.OnGridEdit(editOn, $(thisRow), $(this));
 
-                    if (IsRateTypeDuplicate(existingRateType))
-                    {
-                        alert("Rate Type already exists.");
-                        return;
-                    }
-                    else {
-                        gcm.UpdateRateType(existingRateType);
-                        gcm.OnGridEdit(editOn, $(thisRow), $(this));
-                    }
                 } else {
                     if (propertyId <= 0) {
                         alert("Select valid property");
@@ -138,23 +138,20 @@
                     rateType.Units = units;
                     rateType.PropertyId = propertyId;
                     rateType.Hours = hours;
+
+                    if (IsRateTypeDuplicate(rateType, window.GuestCheckinManager.PropertySettingResponseDto.RateTypeSettings)) {
+                        alert("Rate Type already exists.");
+                        $(thisRow)[1].focus();
+                        return;
+                    }
+                  
                     Notifications.SubscribeActive("on-ratetype-add-success", function (sender, args) {
                         window.GuestCheckinManager.GetRoomRateType($('#ddlProperty').val());
                     });
                     //call AddRateType api
-                    if (IsRateTypeDuplicate(rateType))
-                    {
-                        alert("Rate Type already exists.");
-                        return;
-                    }
-                    else {
-                        gcm.AddRateType(rateType);
-                        gcm.OnGridEdit(editOn, $(thisRow), $(this));
-                    }
-                        
+                    gcm.AddRateType(rateType);
+                    gcm.OnGridEdit(editOn, $(thisRow), $(this));
                 }
-                
-                    
             }
         });
 

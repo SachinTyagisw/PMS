@@ -481,24 +481,23 @@
             // if it is not getinvoice api call
             if (!data.Invoice || !data.Invoice.Id || data.Invoice.Id <= 0){
                 data = appendTotalRoomCharge(data);
-                divInvoice.html(invoiceTemplate.render(data));
-                var paymentTypes = pmsSession.GetItem("paymenttype");
-                var data = $.parseJSON(paymentTypes);
-                // data not present in session
-                if (!paymentTypes || !data || data.length <= 0) {
-                    window.GuestCheckinManager.GetPaymentType();
-                    Notifications.SubscribeActive("on-paymenttype-get-success", function (sender, args) {
-                        var paymentData = window.GuestCheckinManager.PropertySettingResponseDto.PaymentTypeSettings
-                        window.GuestCheckinManager.BindPaymentTypeDdl($('#paymentTypeDdl'), paymentData);
-                        window.GuestCheckinManager.BindPaymentTypeDdl($('#paymentTypeDdlOther'), paymentData);
-                    });
-                } else {
-                    window.GuestCheckinManager.BindPaymentTypeDdl($('#paymentTypeDdl'), data);
-                    window.GuestCheckinManager.BindPaymentTypeDdl($('#paymentTypeDdlOther'), data);
-                }
-                
+                divInvoice.html(invoiceTemplate.render(data)); 
             } else {
                 divInvoice.html(invoiceTemplate.render(data.Invoice));
+            }
+            var paymentTypes = pmsSession.GetItem("paymenttype");
+            var data = $.parseJSON(paymentTypes);
+            // data not present in session
+            if (!paymentTypes || !data || data.length <= 0) {
+                window.GuestCheckinManager.GetPaymentType();
+                Notifications.SubscribeActive("on-paymenttype-get-success", function (sender, args) {
+                    var paymentData = window.GuestCheckinManager.PropertySettingResponseDto.PaymentTypeSettings
+                    window.GuestCheckinManager.BindPaymentTypeDdl($('#paymentTypeDdl'), paymentData);
+                    window.GuestCheckinManager.BindPaymentTypeDdl($('#paymentTypeDdlOther'), paymentData);
+                });
+            } else {
+                window.GuestCheckinManager.BindPaymentTypeDdl($('#paymentTypeDdl'), data);
+                window.GuestCheckinManager.BindPaymentTypeDdl($('#paymentTypeDdlOther'), data);
             }
             window.GuestCheckinManager.CalculateInvoice();
         },
@@ -1298,7 +1297,8 @@
                     $('#btnCheckout').attr("disabled", false);
                     $('#btnCheckin').attr("disabled", true);
                     $('#saveInvoice').attr("disabled", false);
-                    var roomnumber = $('#roomddl').val();
+                    
+                    var roomnumber = $("#roomddl option:selected").text();
                     var fname = $('#fName').val();
                     var lname = $('#lName').val();
                     var initials = $('#ddlInitials')[0].selectedOptions[0].innerText;

@@ -199,7 +199,7 @@
             $('#email').val(data.EmailAddress);
             $("#ddlInitials [value=" + data.Gender + "]").attr("selected", "true");
             $('#idDetails').val(data.GuestMappings[0].IDDETAILS);
-            $("#ddlIdType [value=" + data.GuestMappings[0].IdType.ID + "]").attr("selected", "true");
+            $("#ddlIdType").val(data.GuestMappings[0].IdType.ID);
             gcm.MakeGuestInfoReadOnly(true);
             // clear guest history if guest id is not present
             gcm.AutoCollapseGuestHistory();
