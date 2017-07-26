@@ -44,8 +44,9 @@
     @*<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
     <script src="~/Scripts/Bootstrap/datetimepicker.js"></script>*@
     <script type="text/javascript">
-        window.apiBaseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["ApiBaseUrl"].ToString())';
-        window.webBaseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["WebBaseUrl"].ToString())';
+    window.apiBaseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["ApiBaseUrl"].ToString())';
+    window.webBaseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["WebBaseUrl"].ToString())';
+    window.guestIdPath = '@(System.Configuration.ConfigurationManager.AppSettings["GuestIdPath"].ToString())';
         jQuery(document).ready(function ($) {
             //set property id on property ddl selection
             if (!window.PmsSession.GetItem("propertyid")) {
@@ -53,9 +54,9 @@
             }
             if (!window.PmsSession.GetItem("username")) {
                 window.PmsSession.SetItem("username", "@ViewBag.UserName");
-            }
-            window.GuestCheckinManager.Initialize();
-        });
+        }
+        window.GuestCheckinManager.Initialize();
+    });
     </script>
 
     <!--comment below bundling js logic to unbundle js files -->
