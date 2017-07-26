@@ -344,6 +344,7 @@
             
             $("#btnRefresh").click(function () {
                 if (confirm("Do you want clear unsaved booking data ?")) {
+                    init();
                     gcm.ClearAllFields();
                 }                
             });

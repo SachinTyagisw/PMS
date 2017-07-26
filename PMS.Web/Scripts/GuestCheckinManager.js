@@ -474,6 +474,10 @@
         PopulateCharges: function (data) {
             var divInvoice = $('#divInvoice');
             var invoiceTemplate = $('#invoiceTemplate');
+            if (divInvoice && divInvoice.length > 0) {
+                divInvoice[0].style.cssText = "display: block;"
+            }
+            
             // if it is not getinvoice api call
             if (!data.Invoice || !data.Invoice.Id || data.Invoice.Id <= 0){
                 data = appendTotalRoomCharge(data);
