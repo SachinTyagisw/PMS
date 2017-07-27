@@ -207,11 +207,11 @@
             }
         }
 
-        function previewImage(input) {
+        function previewImage(input , imgControl) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
                 reader.onload = function (e) {
-                    $('#imgPhoto').attr('src', e.target.result);
+                    imgControl.attr('src', e.target.result);
                 }
                 reader.readAsDataURL(input.files[0]);
             }
@@ -390,7 +390,13 @@
             $("#uploadPhoto").change(function () {
                 $('#imgPhoto').css('visibility', 'visible');
                 $('#imgPhoto').addClass('photo-added');
-                previewImage(this);
+                previewImage(this, $('#imgPhoto'));
+            });
+
+            $("#additionalUpload").change(function () {
+                $('#imgAdditionalPhoto').css('visibility', 'visible');
+                $('#imgAdditionalPhoto').addClass('photo-added');
+                previewImage(this, $('#imgAdditionalPhoto'));
             });
 
             $('#searchGuest').keyup(function (e) {

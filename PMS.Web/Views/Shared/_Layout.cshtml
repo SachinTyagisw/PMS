@@ -47,6 +47,7 @@
     window.apiBaseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["ApiBaseUrl"].ToString())';
     window.webBaseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["WebBaseUrl"].ToString())';
     window.guestIdPath = '@(System.Configuration.ConfigurationManager.AppSettings["GuestIdPath"].ToString())';
+    window.uploadDirectory = '@(System.Configuration.ConfigurationManager.AppSettings["UploadDirectory"].ToString())';
         jQuery(document).ready(function ($) {
             //set property id on property ddl selection
             if (!window.PmsSession.GetItem("propertyid")) {
