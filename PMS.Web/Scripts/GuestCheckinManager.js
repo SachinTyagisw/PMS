@@ -114,9 +114,8 @@
             if (!isHourlyCbChecked || !ddlHourly || !rateTypeData) return;
             var rateTypes = $.parseJSON(rateTypeData);
             if (!rateTypes || rateTypes.length <= 0) return;
-            ddlHourly.empty();
+            ddlHourly.empty();            
             ddlHourly.append(new Option("Select Hrs", "-1"));
-
             for (var i = 0; i < rateTypes.length; i++) {
                 if ((!rateTypes[i].Rates || rateTypes[i].Rates.length <= 0)
                 || (isHourlyCbChecked && rateTypes[i].Units !== "Hourly")) continue;
@@ -127,19 +126,21 @@
                     // check to avoid adding duplicate hours into hourly ddl
                     var ddlHourlyOptSelector = $("#hoursComboBox option");
                     for (var k = 0; k < ddlHourlyOptSelector.length; k++) {
-                        if(!ddlHourlyOptSelector[k].text
-                           || (ddlHourlyOptSelector[k].text) !== hrs + "-hr") continue;
+                        if (!ddlHourlyOptSelector[k].text || isNaN(ddlHourlyOptSelector[k].text)
+                           || (parseInt(ddlHourlyOptSelector[k].text) !== hrs)) continue;
                         isHourExists = true;
                         break;
                     }
                     if (isHourExists) continue;
 
-                    ddlHourly.append(new Option(hrs + "-hr", rateTypes[i].Rates[j].Id));
+                    ddlHourly.append(new Option(hrs , rateTypes[i].Rates[j].Id));
                 }
+            }            
+            if ($("#hoursComboBox option") && $("#hoursComboBox option").length > 0) {
+                sortHourlyDdl($("#hoursComboBox option"), ddlHourly);
             }
-
         },
-
+        
         FilterRateType: function (ddlRateType, selectedHr) {
             var rateTypeData = pmsSession.GetItem("roomratedata");
             var isHourlyCbChecked = $('#hourCheckin')[0].checked;
@@ -1988,6 +1989,24 @@
 
         //}
     };
+    
+    function sortHourlyDdl(ddlHourlyOptions,ddlHourly) {
+        var arr = ddlHourlyOptions.map(function (_, o) {
+            return {
+                t: $(o).text(), v : o.value
+            };
+        }).get();
+
+        arr.sort(function(o1, o2) {
+            return o1.t > o2.t ? 1 : o1.t < o2.t ? -1 : 0;
+        });
+
+        ddlHourly.empty();
+        ddlHourly.append(new Option("Select Hrs", "-1"));
+        for (var i = 0 ; i < arr.length; i++) {
+            ddlHourly.append(new Option(arr[i].t + "-hr", arr[i].v));
+        }
+    }
 
     function filterCityByStateId(stateId, data) {
         var filterData = [];
