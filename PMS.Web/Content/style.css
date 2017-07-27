@@ -4240,7 +4240,7 @@ p
 .room-filter {
     width: 97.7%;
     box-shadow: rgba(0, 0, 0, 0.26) 0px 2px 5px 0px;
-    margin: 14px 0px 10px 20px;
+    margin: 14px 0px 10px 10px;
     background: rgb(255, 255, 255);
     padding: 10px;
 }
@@ -4259,7 +4259,7 @@ p
 .cal-left {
     width: 182px;
     display: inline-block;
-    margin-left: 20px;
+    margin-left: 10px;
     margin-right: 6px;
     box-shadow: rgba(0, 0, 0, 0.26) 0px 2px 5px 0px;
     background: rgb(255, 255, 255);
@@ -4276,7 +4276,7 @@ p
     border-bottom: 1px solid rgb(160, 160, 160);
 }
 .cal-right {
-    width: 82.9%;
+    width: 84.5%;
     display: inline-block;
     vertical-align: top;
     box-shadow: rgba(0, 0, 0, 0.26) 0px 2px 5px 0px;
@@ -4378,7 +4378,7 @@ select#paymentTypeDdl {
 .room-filter {
     width: 97.7%;
     box-shadow: rgba(0, 0, 0, 0.26) 0px 2px 5px 0px;
-    margin: 14px 0px 10px 20px;
+    margin: 14px 0px 10px 10px;
     background: rgb(255, 255, 255);
     padding: 10px;
 }
@@ -4396,8 +4396,6 @@ select#paymentTypeDdl {
 }
 .cal-left {
     width: 182px;
-    display: inline-block;
-    margin-left: 20px;
     margin-right: 6px;
     box-shadow: rgba(0, 0, 0, 0.26) 0px 2px 5px 0px;
     background: rgb(255, 255, 255);
@@ -4414,8 +4412,6 @@ select#paymentTypeDdl {
     border-bottom: 1px solid rgb(160, 160, 160);
 }
 .cal-right {
-    width: 82.9%;
-    display: inline-block;
     vertical-align: top;
     box-shadow: rgba(0, 0, 0, 0.26) 0px 2px 5px 0px;
     background: rgb(255, 255, 255);
@@ -5129,7 +5125,14 @@ main.tab-main #tab4:checked ~ #content4 {
 }
 
 @media screen and (max-width: 1400px) {
-
+    .cal-right {
+        width: 83%;
+    }
+}
+@media screen and (max-width: 1280px) {
+    .cal-right {
+        width: 82.3%;
+    }
 }
 
 @media screen and (max-width: 768px) {
