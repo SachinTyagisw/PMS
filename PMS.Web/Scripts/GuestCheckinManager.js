@@ -325,7 +325,7 @@
             booking.IsActive = true;
             booking.ISHOURLYCHECKIN = $('#hourCheckin')[0].checked ? true : false;
             var noOfHours = 0;
-            if ($("#hoursComboBox option:selected").text().indexOf('-') > 0) {
+            if ($("#hoursComboBox option:selected").text().indexOf('-') >= 0) {
                 noOfHours = parseInt($("#hoursComboBox option:selected").text().split('-')[0]);
             }
             booking.HOURSTOSTAY = $('#hourCheckin')[0].checked && parseInt(noOfHours) > 0 ? parseInt(noOfHours) : 0;
@@ -422,7 +422,7 @@
             var filterGuestdata = [];
             var searchText = $('#searchGuest').val().toLowerCase();
             // if already autocomplete is performed
-            if (searchText.indexOf(',') > 0) {
+            if (searchText.indexOf(',') >= 0) {
                 searchText = searchText.split(',')[0];
             }
 
@@ -612,7 +612,7 @@
             var roomType = $('#roomTypeDdl').val();
             var roomId = $('#roomddl').val();
             var noOfHours = 0;
-            if ($("#hoursComboBox option:selected").text().indexOf('-') > 0) {
+            if ($("#hoursComboBox option:selected").text().indexOf('-') >= 0) {
                 noOfHours = parseInt($("#hoursComboBox option:selected").text().split('-')[0]);
             }            
             paymentChargeRequestDto.RoomTypeId = roomType;
@@ -1931,7 +1931,7 @@
 
             pmsService.Handlers.OnAddRoomSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
-                if (status.indexOf('successfully') > 0) {
+                if (status.indexOf('successfully') >= 0) {
                     console.log(status);
                     // to fetch new data                    
                     //alert(status);
@@ -2070,7 +2070,7 @@
         $('#imgAdditionalPhoto').css('visibility', 'visible');
         $('#imgAdditionalPhoto').addClass('photo-added');
         var url = '';
-        if (guest.PhotoPath.indexOf('ftp') > 0) {
+        if (guest.PhotoPath.indexOf('ftp') >= 0) {
             url = guest.PhotoPath;
         } else {
             var fName = extractFileNameFromFilePath(guest.PhotoPath);
@@ -2080,6 +2080,9 @@
         }
         if (url) {
             $('#imgPhoto').attr('src', url);
+        } else {
+            $('#imgPhoto').css('visibility', 'hidden');
+            $('#imgPhoto').removeClass('photo-added');
         }
     }
     
@@ -2087,7 +2090,7 @@
         var fName = "";
         if (fPath.indexOf(':') < 0) return fName;
         var idx = fPath.lastIndexOf('\\');
-        var len = fpath.length;
+        var len = fPath.length;
         fName = fPath.substr(idx + 1, len -1);
         return fName;
     }
