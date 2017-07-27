@@ -27,13 +27,16 @@
 
     function IsRatesDuplicate(rate, ratesCollection) {
         for (var i = 0; i < ratesCollection.length; i++) {
-            if (parseInt(ratesCollection[i].RoomTypeId) === parseInt(rate.RoomTypeId) 
-            && parseInt(ratesCollection[i].RoomId) === parseInt(rate.RoomId)
-            && parseInt(ratesCollection[i].PropertyId) === parseInt(rate.PropertyId)
-            && parseInt(ratesCollection[i].RateTypeId) === parseInt(rate.RateTypeId))
-            {
-                return true;
+            if (parseInt(ratesCollection[i].Id) !== parseInt(rate.RateTypeId)
+               || !ratesCollection[i].Rates || ratesCollection[i].Rates.length <= 0) continue;
+            for (var j = 0; j < ratesCollection[i].Rates.length; j++) {
+                if (parseInt(ratesCollection[i].Rates[j].Room.RoomType.Id) === parseInt(rate.RoomTypeId)
+                && parseInt(ratesCollection[i].Rates[j].Room.Id) === parseInt(rate.RoomId)
+                && parseInt(ratesCollection[i].Rates[j].PropertyId) === parseInt(rate.PropertyId)) {
+                    return true;
+                }
             }
+            break;
         }
         return false;
     }
