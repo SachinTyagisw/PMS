@@ -24,6 +24,19 @@
             currentTab.focus();
         }
     }
+
+    function IsRatesDuplicate(rate, ratesCollection) {
+        for (var i = 0; i < ratesCollection.length; i++) {
+            if (parseInt(ratesCollection[i].RoomTypeId) === parseInt(rate.RoomTypeId) 
+            && parseInt(ratesCollection[i].RoomId) === parseInt(rate.RoomId)
+            && parseInt(ratesCollection[i].PropertyId) === parseInt(rate.PropertyId)
+            && parseInt(ratesCollection[i].RateTypeId) === parseInt(rate.RateTypeId))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
    
     function onRateTabClick(tabObj) {
         rateTypeId = tabObj ? tabObj.id : -1;
@@ -163,17 +176,29 @@
                     if (idx < 0) return;
                     var existingRate = gcm.FindSetting(rateId, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings[idx].Rates);
                     if (!existingRate) return;
-                    existingRate.RoomTypeId = roomTypeId;
-                    existingRate.RoomId = roomId;
-                    existingRate.Value = rateValue;
-                    existingRate.PropertyId = propertyId;
-                    existingRate.IsActive = true;
-                    existingRate.RateTypeId = rateTypeId;
+
+                    var existingRateClone = {};
+                    existingRateClone = $.extend(true, {}, existingRate); // jQuery extend method
+
+                    existingRateClone.RoomTypeId = roomTypeId;
+                    existingRateClone.RoomId = roomId;
+                    existingRateClone.Value = rateValue;
+                    existingRateClone.PropertyId = propertyId;
+                    existingRateClone.IsActive = true;
+                    existingRateClone.RateTypeId = rateTypeId;
+
+                    if (IsRatesDuplicate(existingRateClone, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings)) {
+                        alert("Rates already exists.");
+                        $(thisRow)[1].focus();
+                        return;
+                    }
+
                     Notifications.SubscribeActive("on-roomrate-update-success", function (sender, args) {                        
                         window.GuestCheckinManager.GetRoomRateByProperty($('#ddlProperty').val());
                     });
                     //call UpdateRoomRate api
-                    gcm.UpdateRoomRate(existingRate);
+                    gcm.UpdateRoomRate(existingRateClone);
+                    gcm.OnGridEdit(editOn, $(thisRow), $(this));
                 } else {
                     if (propertyId <= 0) {
                         alert("Select valid property");
@@ -192,13 +217,20 @@
                     rate.Type = existingRoomRate.Units;
                     rate.IsActive = true;
                     rate.InputKeyHours = existingRoomRate.Units === 'Daily' ? null : existingRoomRate.Hours;
+
+                    if (IsRatesDuplicate(rate, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings)) {
+                        alert("Rates already exists.");
+                        $(thisRow)[1].focus();
+                        return;
+                    }
+
                     Notifications.SubscribeActive("on-roomrate-add-success", function (sender, args) {
                         window.GuestCheckinManager.GetRoomRateByProperty($('#ddlProperty').val());
                     });                    
                     //call AddRoomRate api
                     gcm.AddRoomRate(rate);
+                    gcm.OnGridEdit(editOn, $(thisRow), $(this));
                 }
-                gcm.OnGridEdit(editOn, $(thisRow), $(this));
             }
         });
 
