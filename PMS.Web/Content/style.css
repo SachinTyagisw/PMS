@@ -3401,7 +3401,7 @@ a.mud-c {
 }
 .photo_submit:nth-child(2),
 .photo_submit:nth-child(4) {
-  z-index: 1;
+  z-index: 99;
 }
 #imgPhoto {
     visibility:hidden;
@@ -3411,7 +3411,6 @@ a.mud-c {
 }
 #imgPhoto.photo-added:hover {
     transform: scale(3);
-    transform-origin: left;
 }
 .photo_submit:nth-child(3),
 .photo_submit:nth-child(4) {
