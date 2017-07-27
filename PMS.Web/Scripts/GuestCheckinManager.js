@@ -325,7 +325,7 @@
             booking.IsActive = true;
             booking.ISHOURLYCHECKIN = $('#hourCheckin')[0].checked ? true : false;
             var noOfHours = 0;
-            if ($("#hoursComboBox option:selected").text().indexOf('-') > 0) {
+            if ($("#hoursComboBox option:selected").text().indexOf('-') >= 0) {
                 noOfHours = parseInt($("#hoursComboBox option:selected").text().split('-')[0]);
             }
             booking.HOURSTOSTAY = $('#hourCheckin')[0].checked && parseInt(noOfHours) > 0 ? parseInt(noOfHours) : 0;
@@ -422,7 +422,7 @@
             var filterGuestdata = [];
             var searchText = $('#searchGuest').val().toLowerCase();
             // if already autocomplete is performed
-            if (searchText.indexOf(',') > 0) {
+            if (searchText.indexOf(',') >= 0) {
                 searchText = searchText.split(',')[0];
             }
 
@@ -612,7 +612,7 @@
             var roomType = $('#roomTypeDdl').val();
             var roomId = $('#roomddl').val();
             var noOfHours = 0;
-            if ($("#hoursComboBox option:selected").text().indexOf('-') > 0) {
+            if ($("#hoursComboBox option:selected").text().indexOf('-') >= 0) {
                 noOfHours = parseInt($("#hoursComboBox option:selected").text().split('-')[0]);
             }            
             paymentChargeRequestDto.RoomTypeId = roomType;
@@ -731,6 +731,10 @@
             $('#ddlIdState').append(new Option("Select State", "-1"));
             $('#ddlCity').append(new Option("Select City", "-1"));
             $('#roomddl').append(new Option("Select Room", "-1"));
+            $('#imgPhoto').css('visibility', 'hidden');
+            $('#imgPhoto').removeClass('photo-added');
+            $('#imgAdditionalPhoto').css('visibility', 'hidden');
+            $('#imgAdditionalPhoto').removeClass('photo-added');
             window.GuestCheckinManager.BookingDto.GuestId = null;
             window.GuestCheckinManager.BookingDto.InvoiceId = null;
             window.GuestCheckinManager.BookingDto.RoomBookingId = null;
@@ -1927,7 +1931,7 @@
 
             pmsService.Handlers.OnAddRoomSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
-                if (status.indexOf('successfully') > 0) {
+                if (status.indexOf('successfully') >= 0) {
                     console.log(status);
                     // to fetch new data                    
                     //alert(status);
@@ -2061,7 +2065,34 @@
         $('#email').val(guest.EmailAddress);
         $('#dob').val(guest.DOB);
         $('#ddlInitials').val(guest.Gender);
-        //$('#uploadPhoto').val(guest.PhotoPath);
+        $('#imgPhoto').css('visibility', 'visible');
+        $('#imgPhoto').addClass('photo-added');
+        $('#imgAdditionalPhoto').css('visibility', 'visible');
+        $('#imgAdditionalPhoto').addClass('photo-added');
+        var url = '';
+        if (guest.PhotoPath.indexOf('ftp') >= 0) {
+            url = guest.PhotoPath;
+        } else {
+            var fName = extractFileNameFromFilePath(guest.PhotoPath);
+            if (fName) {
+                url = window.apiBaseUrl + window.uploadDirectory + "/" + fName;
+            }
+        }
+        if (url) {
+            $('#imgPhoto').attr('src', url);
+        } else {
+            $('#imgPhoto').css('visibility', 'hidden');
+            $('#imgPhoto').removeClass('photo-added');
+        }
+    }
+    
+    function extractFileNameFromFilePath(fPath) {
+        var fName = "";
+        if (fPath.indexOf(':') < 0) return fName;
+        var idx = fPath.lastIndexOf('\\');
+        var len = fPath.length;
+        fName = fPath.substr(idx + 1, len -1);
+        return fName;
     }
 
     function populateRoomDetails(data) {
@@ -2157,7 +2188,7 @@
 
         var files = $("#uploadPhoto").get(0).files;
         if (files.length > 0) {
-            guest.PhotoPath = window.guestIdPath + files[0].name;
+            guest.PhotoPath = window.guestIdPath + window.uploadDirectory + "\\" + files[0].name;
         } else {
             guest.PhotoPath = "No Image Available";
         }
@@ -2199,10 +2230,9 @@
         additionalGuest.FirstName = $('#adFName').val();
         additionalGuest.LastName = $('#adLName').val();
         additionalGuest.IsActive = true;
-        //TODO: get value from new upload
-        var files = $("#uploadPhoto").get(0).files;
+        var files = $("#additionalUpload").get(0).files;
         if (files.length > 0) {
-            additionalGuest.GUESTIDPath = "D:\\PMSHosted\\PMSApi\\UploadedFiles\\" + files[0].name;
+            additionalGuest.GUESTIDPath = window.guestIdPath + window.uploadDirectory + "\\" + files[0].name;
         } else {
             additionalGuest.GUESTIDPath = "No Image Available";
         }
