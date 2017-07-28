@@ -4,7 +4,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     var pmsSession = window.PmsSession;
     var propertyId = pmsSession.GetItem("propertyid");
     $scope.duration = 'today';
-    $scope.roomType = 0;
+    $scope.roomType = -1;
     $scope.scale = "hour";
     var onUpdateBookingSuccess = function (response) {
         if (response && response.data && response.data.ResponseStatus){
@@ -32,6 +32,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     };
 
     var onGetRoomSuccess = function (response) {
+        pmsSession.RemoveItem("propertyrooms");
         pmsSession.SetItem("propertyrooms", JSON.stringify(response.Rooms));
         //todo: apply roomtype filter if roomtype is > 0
         var roomtype = $scope.roomType;
@@ -45,9 +46,9 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         $log.error(reason);
     };
     
-    $scope.$watch("roomType", function () {
-        loadRooms();
-    });
+    //$scope.$watch($scope.roomType, function () {
+    //    loadRooms();
+    //});
     
     $scope.filterRoom = function () {        
         loadRooms();
@@ -209,7 +210,6 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
             //    $scope.scheduler.message("Deleted.");
             //});
             $scope.scheduler.message("Deleted.");
-
         },
         
         onTimeRangeSelected: function (args) {
@@ -243,6 +243,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
 
     $timeout(function () {
         dp = $scope.scheduler;  // debug
+        loadRoomTypes();
         loadRooms();
         loadEvents(DayPilot.Date.today());
     });
@@ -306,6 +307,21 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         calendarSvc.GetRoomBooking(propertyId, params).then(onGetRoomBookingSuccess, onGetRoomBookingError)['finally'](function () {
             messageModalSvc.CloseMessage(messageModal);
         });       
+    }
+
+    function loadRoomTypes() {
+        // Show loading message
+        var roomTypeData = pmsSession.GetItem("roomtypedata");
+        //TODO make ajax call in case data is not in session 
+        //if roomtype data is not in session storage then make ajax call
+        if (!roomTypeData) {
+            var messageModal = messageModalSvc.ShowMessage("Loading...", $scope);
+            calendarSvc.GetRoomByProperty(propertyId).then(onGetRoomSuccess, onGetRoomError)['finally'](function () {
+                messageModalSvc.CloseMessage(messageModal);
+            });
+        } else {
+            $scope.roomTypes = $.parseJSON(roomTypeData);
+        }
     }
 
     function loadRooms() {                

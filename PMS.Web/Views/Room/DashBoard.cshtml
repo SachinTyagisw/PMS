@@ -18,10 +18,8 @@
     <div class="col-lg-12 p-r-0 p-l-0 room-filter">
         Room Filter:
         <select ng-model="roomType" ng-change="changeRoomType()">
-            <option value="0">All</option>
-            <option value="1">Single</option>
-            <option value="2">Double</option>
-            <option value="4">Family</option>
+            <option value="-1">Select Room Type</option>
+            <option data-ng-repeat="r in roomTypes" value="{{r.Id}}">{{r.Name}}</option>  
         </select>
     </div>
     <div class="col-lg-2 cal-left">
