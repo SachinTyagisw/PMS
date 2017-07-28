@@ -17,9 +17,17 @@
 <script type="text/ng-template" id="Calendar.html">
     <div class="col-lg-12 p-r-0 p-l-0 room-filter">
         Room Filter:
-        <select ng-model="roomType" ng-change="changeRoomType()">
-            <option value="-1">Select Room Type</option>
-            <option data-ng-repeat="r in roomTypes" value="{{r.Id}}">{{r.Name}}</option>  
+    <select ng-model="roomType" ng-change="changeRoomType()">
+        <option value="-1">Select Room Type</option>
+        <option data-ng-repeat="r in roomTypes" value="{{r.Id}}">{{r.Name}}</option>
+    </select>
+    </div>
+    <div class="col-lg-12 p-r-0 p-l-0 room-filter">
+        Room Status:
+        <select ng-model="roomStatus" ng-change="changeRoomStatus()">
+            <option value="1">Booked</option>
+            <option value="2">Available</option>
+            <option value="3">Maintenance</option>
         </select>
     </div>
     <div class="col-lg-2 cal-left">

@@ -5,6 +5,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     var propertyId = pmsSession.GetItem("propertyid");
     $scope.duration = 'today';
     $scope.roomType = -1;
+    $scope.roomStatus = 1;
     $scope.scale = "hour";
     var onUpdateBookingSuccess = function (response) {
         if (response && response.data && response.data.ResponseStatus){
@@ -62,6 +63,10 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     };
 
     $scope.changeRoomType = function () {
+        loadRooms();
+    };
+
+    $scope.changeRoomStatus = function () {
         loadRooms();
     };
 
@@ -196,7 +201,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                     args.data.barColor = "green";
                     args.data.deleteDisabled = true;  // only allow deleting in the more detailed hour scale mode
                     break;
-                case "maintainence":
+                case "maintenance":
                     args.data.barColor = "orange";
                     args.data.deleteDisabled = true;
                     break;
