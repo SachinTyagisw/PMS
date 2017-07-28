@@ -147,15 +147,16 @@ $('#toggle').click( function(){
 //        }, 16);
 //    }
 //});
-$( "#dateFrom, #dateTo" ).datetimepicker({
-    maxDate: "+2Y",
-    timeInput: true,
-    timeFormat: "hh:mm tt",
-    showHour: false,
-    showMinute: false
-});
+//$( "#dateFrom, #dateTo" ).datetimepicker({
+//    maxDate: "+2Y",
+//    timeInput: true,
+//    timeFormat: "hh:mm tt",
+//    showHour: false,
+//    showMinute: false
+//});
 
 $('#idExpiry, #dob').datepicker({
+    yearRange: "1900:2060",
     changeMonth: true,
     changeYear: true
 });

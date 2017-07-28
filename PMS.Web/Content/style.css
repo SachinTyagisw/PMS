@@ -3532,7 +3532,9 @@ text-align: center;
 vertical-align: middle;
 font-size:20px;
 }
-
+#idExpiry, #dob {
+    cursor:pointer;
+}
 
 .main-menu:hover,nav.main-menu.expanded {
 width:250px;
@@ -4251,7 +4253,6 @@ p
     color: rgb(59, 63, 81);
     font-family: MontserratLight, sans-serif;
     background-color: rgb(255, 255, 255);
-    border-radius: 3px;
     padding: 6px 2px 6px 4px;
     border-color: rgb(59, 63, 81);
 }
@@ -4389,7 +4390,6 @@ select#paymentTypeDdl {
     color: rgb(59, 63, 81);
     font-family: MontserratLight, sans-serif;
     background-color: rgb(255, 255, 255);
-    border-radius: 3px;
     padding: 6px 2px 6px 4px;
     border-color: rgb(59, 63, 81);
 }
@@ -4452,6 +4452,7 @@ select#paymentTypeDdl {
   color: #59d;
   border: 1px solid #59d;
   border-left-width: 0;
+  cursor: pointer;
 }
 
 .c-tabs label:nth-child(2) {
