@@ -24,6 +24,7 @@ namespace PMS.Web
                         .Include("~/Scripts/Jquery/jquery.validate.min.js")
                         .Include("~/Scripts/Jquery/jquery-ui.min.js")
                         .Include("~/Scripts/Jquery/lib/jquery.nanoscroller.min.js")
+                        .Include("~/Scripts/Jquery/lib/jquery-ui/jquery-ui-timepicker-addon.js")
                         .Include("~/Scripts/Jquery/jquery.tmpl.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/angular").Include("~/Scripts/Angular/angular.min.js")
