@@ -649,7 +649,7 @@
             populateRoomDetails(data);
 
             if (guest) {
-                populateGuestDetails(guest);
+                window.GuestCheckinManager.PopulateGuestDetails(guest);
             }
 
             if (guestmapping) {
@@ -1289,6 +1289,34 @@
                 ddlFloor.append(new Option(floors[i].FloorNumber, floors[i].Id));
             }
         },        
+
+        PopulateGuestDetails: function (guest) {
+            $('#fName').val(guest.FirstName);
+            $('#lName').val(guest.LastName);
+            $('#phone').val(guest.MobileNumber);
+            $('#email').val(guest.EmailAddress);
+            $('#dob').val(guest.DOB);
+            $("#ddlInitials [value=" + guest.Gender + "]").attr("selected", "true");
+            $('#imgPhoto').css('visibility', 'visible');
+            $('#imgPhoto').addClass('photo-added');
+            $('#imgAdditionalPhoto').css('visibility', 'visible');
+            $('#imgAdditionalPhoto').addClass('photo-added');
+            var url = '';
+            if (guest.PhotoPath.indexOf('ftp') >= 0) {
+                url = guest.PhotoPath;
+                } else {
+                    var fName = extractFileNameFromFilePath(guest.PhotoPath);
+                    if (fName) {
+                        url = window.apiBaseUrl + window.uploadDirectory + "/" + fName;
+                    }
+                }
+                if (url) {
+                        $('#imgPhoto').attr('src', url);
+                    } else {
+                        $('#imgPhoto').css('visibility', 'hidden');
+                        $('#imgPhoto').removeClass('photo-added');
+                }
+        },
 
         AjaxHandlers: function () {
             // ajax handlers start
@@ -2056,35 +2084,7 @@
         $('#ddlIdState').empty();
         $('#ddlIdCountry').append(new Option(guestmapping.IdIssueCountry, guestmapping.IdIssueCountry));
         $('#ddlIdState').append(new Option(guestmapping.IdIssueState, guestmapping.IdIssueState));
-    }
-
-    function populateGuestDetails(guest) {
-        $('#fName').val(guest.FirstName);
-        $('#lName').val(guest.LastName);
-        $('#phone').val(guest.MobileNumber);
-        $('#email').val(guest.EmailAddress);
-        $('#dob').val(guest.DOB);
-        $('#ddlInitials').val(guest.Gender);
-        $('#imgPhoto').css('visibility', 'visible');
-        $('#imgPhoto').addClass('photo-added');
-        $('#imgAdditionalPhoto').css('visibility', 'visible');
-        $('#imgAdditionalPhoto').addClass('photo-added');
-        var url = '';
-        if (guest.PhotoPath.indexOf('ftp') >= 0) {
-            url = guest.PhotoPath;
-        } else {
-            var fName = extractFileNameFromFilePath(guest.PhotoPath);
-            if (fName) {
-                url = window.apiBaseUrl + window.uploadDirectory + "/" + fName;
-            }
-        }
-        if (url) {
-            $('#imgPhoto').attr('src', url);
-        } else {
-            $('#imgPhoto').css('visibility', 'hidden');
-            $('#imgPhoto').removeClass('photo-added');
-        }
-    }
+    }   
     
     function extractFileNameFromFilePath(fPath) {
         var fName = "";

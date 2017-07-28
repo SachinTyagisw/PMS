@@ -218,11 +218,7 @@
         }
 
         function populateGuestUi(data) {
-            $('#fName').val(data.FirstName);
-            $('#lName').val(data.LastName);
-            $('#phone').val(data.MobileNumber);
-            $('#email').val(data.EmailAddress);
-            $("#ddlInitials [value=" + data.Gender + "]").attr("selected", "true");
+            gcm.PopulateGuestDetails(data);
             $('#idDetails').val(data.GuestMappings[0].IDDETAILS);
             $("#ddlIdType").val(data.GuestMappings[0].IdType.ID);
             gcm.MakeGuestInfoReadOnly(true);
