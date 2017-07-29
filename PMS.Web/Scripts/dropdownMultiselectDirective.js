@@ -1,6 +1,6 @@
 ﻿angular.module('calendarApp').directive('dropdownMultiselect', function () {
     return {
-        restrict: 'E',
+        restrict: 'AE',
         scope: {
             model: '=',
             options: '=',
@@ -15,7 +15,6 @@
                         "<li class='divider'></li>" +
                         "<li data-ng-repeat='option in options'><a data-ng-click='toggleSelectItem(option)'><span data-ng-class='getClassName(option)' aria-hidden='true'></span> {{option.Name}}</a></li>" +
                     "</ul></div>",
-
     controller: function ($scope) {
         $scope.openDropdown = function () {
             $scope.open = !$scope.open;
@@ -49,6 +48,7 @@
                 }
                 $scope.model.push(option.Id);
             }
+           
         };
 
         $scope.getClassName = function (option) {

@@ -35,8 +35,6 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     var onGetRoomSuccess = function (response) {
         pmsSession.RemoveItem("propertyrooms");
         pmsSession.SetItem("propertyrooms", JSON.stringify(response.Rooms));
-        //todo: apply roomtype filter if roomtype is > 0
-        var roomtype = $scope.roomType;
         var response = convertRoomResponseToDayPilotResponse(response.Rooms)
         $scope.schedulerConfig.resources = response;
         $scope.schedulerConfig.visible = true;
@@ -61,12 +59,16 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         var day = $scope.day ? $scope.day : DayPilot.Date.today();
         loadEvents(day);
     };
-
-    $scope.changeRoomType = function () {
-        loadRooms();
-    };
-
-    $scope.changeRoomStatus = function () {
+    
+    $scope.submit = function () {
+        var selectedRoomType = $scope.selectedRoomTypes;
+        //var roomStatus = $scope.selectedRoomStatus;
+        // no filter applied
+        if ((!selectedRoomType || selectedRoomType.length <= 0) //&& (!roomStatus || roomStatus.length <= 0)
+            ) {
+            alert('No filter criteria is selected');
+            return;
+        }
         loadRooms();
     };
 
@@ -255,7 +257,8 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
 
     $timeout(function () {
         dp = $scope.scheduler;  // debug
-        loadRoomTypes();
+        //loadRoomStatus();
+        //loadRoomTypes();
         loadRooms();
         loadEvents(DayPilot.Date.today());
     });
@@ -289,8 +292,20 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         var searchvalue = $('#searchRoom').val();
         dpRoomsResponseDto = [];        
         for (var i = 0; i < roomsResponse.length; i++) {
-            var room = roomsResponse[i];
+            var room = roomsResponse[i];            
             if (!room || (searchvalue && searchvalue.length > 0 && room.Number.toLowerCase().indexOf(searchvalue.toLowerCase()) < 0)) continue;
+            
+            //// applying rooomtype filter
+            //var selectedRoomType = $scope.selectedRoomTypes;
+            //if (selectedRoomType && selectedRoomType.length > 0) {
+            //    var isFound = false;
+            //    for (var j = 0; j < selectedRoomType.length; j++) {
+            //        if (parseInt(room.RoomType.Id) !== parseInt(selectedRoomType[j])) continue;
+            //        isFound = true;
+            //        break;
+            //    }
+            //    if (!isFound) continue;
+            //}
 
             var dpRoomData = {};
             dpRoomData.name = room.Number;
@@ -321,6 +336,13 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         });       
     }
 
+    function loadRoomStatus() {
+        $scope.roomStatus = [
+                { "Id": 1, "Name": "Available" },
+                { "Id": 2, "Name": "Reserved" },
+                { "Id": 3, "Name": "Booked" },
+        ];
+    }
     function loadRoomTypes() {
         // Show loading message
         var roomTypeData = pmsSession.GetItem("roomtypedata");
@@ -333,7 +355,6 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
             });
         } else {
             $scope.roomTypes = $.parseJSON(roomTypeData);
-            //$scope.selectedRoomTypes = [27, 28];
         }
     }
 
