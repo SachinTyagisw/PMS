@@ -2179,16 +2179,17 @@
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="GETALLBOOKINGS_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="Int32" Name="PROPERTYID" Nullable="false" />
+          <Property Type="Int32" Name="ID" Nullable="true" />
+          <Property Type="Int32" Name="PropertyID" Nullable="true" />
           <Property Type="DateTime" Name="CHECKINTIME" Nullable="true" Precision="23" />
           <Property Type="DateTime" Name="CHECKOUTTIME" Nullable="true" Precision="23" />
-          <Property Type="String" Name="FIRSTNAME" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="LASTNAME" Nullable="true" MaxLength="200" />
-          <Property Type="Int32" Name="GUESTID" Nullable="false" />
-          <Property Type="Int32" Name="ROOMBOOKINGID" Nullable="false" />
-          <Property Type="Int32" Name="ROOMID" Nullable="false" />
-          <Property Type="String" Name="ROOMNUMBER" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Status" Nullable="true" />
+          <Property Type="String" Name="FIRSTNAME" Nullable="true" />
+          <Property Type="String" Name="LASTNAME" Nullable="true" />
+          <Property Type="Int32" Name="GUESTID" Nullable="true" />
+          <Property Type="Int32" Name="ROOMBOOKINGID" Nullable="true" />
+          <Property Type="Int32" Name="ROOMID" Nullable="true" />
+          <Property Type="String" Name="ROOMNUMBER" Nullable="true" />
         </ComplexType>
         <ComplexType Name="GETALLGUESTS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -2813,9 +2814,10 @@
             <ResultMapping>
               <ComplexTypeMapping TypeName="PmsModel.GETALLBOOKINGS_Result">
                 <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="PROPERTYID" ColumnName="PROPERTYID" />
+                <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
                 <ScalarProperty Name="CHECKINTIME" ColumnName="CHECKINTIME" />
                 <ScalarProperty Name="CHECKOUTTIME" ColumnName="CHECKOUTTIME" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="FIRSTNAME" ColumnName="FIRSTNAME" />
                 <ScalarProperty Name="LASTNAME" ColumnName="LASTNAME" />
                 <ScalarProperty Name="GUESTID" ColumnName="GUESTID" />

@@ -30,7 +30,7 @@
             if (parseInt(ratesCollection[i].Id) !== parseInt(rate.RateTypeId)
                || !ratesCollection[i].Rates || ratesCollection[i].Rates.length <= 0) continue;
             for (var j = 0; j < ratesCollection[i].Rates.length; j++) {
-                if (parseInt(ratesCollection[i].Rates[j].Room.RoomType.Id) === parseInt(rate.RoomTypeId)
+                if (ratesCollection[i].Rates[j].IsActive && parseInt(ratesCollection[i].Rates[j].Room.RoomType.Id) === parseInt(rate.RoomTypeId)
                 && parseInt(ratesCollection[i].Rates[j].Room.Id) === parseInt(rate.RoomId)
                 && parseInt(ratesCollection[i].Rates[j].PropertyId) === parseInt(rate.PropertyId)) {
                     return true;

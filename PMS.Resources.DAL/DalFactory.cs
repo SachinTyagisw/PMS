@@ -71,7 +71,7 @@ namespace PMS.Resources.DAL
                 foreach (var result in resultSet)
                 {
                     var booking = new PmsEntity.Booking();
-                    booking.Id = result.ID;
+                    booking.Id = result.ID.Value;
                     booking.CheckinTime = result.CHECKINTIME;
                     booking.CheckoutTime = result.CHECKOUTTIME;
 
@@ -79,20 +79,19 @@ namespace PMS.Resources.DAL
                     {
                         new PmsEntity.RoomBooking
                         { 
-                            Id = result.ROOMBOOKINGID,
+                            Id = result.ROOMBOOKINGID.Value,
                             Room = new PmsEntity.Room
                             {
-                                Id = result.ROOMID,
+                                Id = result.ROOMID.Value,
                                 Number = result.ROOMNUMBER,
                                 RoomStatus = new PmsEntity.RoomStatus
                                 {
-                                    //TODO fill value from sp
-                                    Name = "Booked"//result.ROOMSTATUS
+                                    Name = result.Status
                                 }
                             },
                             Guest = new PmsEntity.Guest
                             {
-                                Id = result.GUESTID,
+                                Id = result.GUESTID.Value,
                                 FirstName = result.FIRSTNAME,
                                 LastName = result.LASTNAME
                             }                            

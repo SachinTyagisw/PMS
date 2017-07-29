@@ -196,12 +196,11 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         onBeforeEventRender: function (args) {
             args.e.bubbleHtml = "<div><b>" + args.e.text + "</b></div><div>Start: " + new DayPilot.Date(args.e.start).toString("M/d/yyyy") + "</div><div>End: " + new DayPilot.Date(args.e.end).toString("M/d/yyyy") + "</div>";
             switch (args.data.tags.status.toLowerCase()) {
-                //TODO get all possible status
                 case "available":
                     args.data.barColor = "green";
                     args.data.deleteDisabled = true;  // only allow deleting in the more detailed hour scale mode
                     break;
-                case "maintenance":
+                case "reserved":
                     args.data.barColor = "orange";
                     args.data.deleteDisabled = true;
                     break;
@@ -334,6 +333,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
             });
         } else {
             $scope.roomTypes = $.parseJSON(roomTypeData);
+            //$scope.selectedRoomTypes = [27, 28];
         }
     }
 

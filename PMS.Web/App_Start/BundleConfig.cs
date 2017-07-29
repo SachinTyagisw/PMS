@@ -50,6 +50,7 @@ namespace PMS.Web
                         .Include("~/Scripts/GuestCheckinManager.js")
                         .Include("~/Scripts/calendarModule.js")
                         .Include("~/Scripts/index.js")
+                        .Include("~/Scripts/dropdownMultiselectDirective.js")
                         .Include("~/Scripts/messageModalService.js")
                         .Include("~/Scripts/redirectionService.js")
                         .Include("~/Scripts/calendarService.js")
