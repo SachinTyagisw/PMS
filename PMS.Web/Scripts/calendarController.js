@@ -5,6 +5,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     var propertyId = pmsSession.GetItem("propertyid");
     $scope.duration = 'today';
     $scope.roomType = -1;
+    $scope.roomStatus = 1;
     $scope.scale = "hour";
     var onUpdateBookingSuccess = function (response) {
         if (response && response.data && response.data.ResponseStatus){
@@ -62,6 +63,10 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     };
 
     $scope.changeRoomType = function () {
+        loadRooms();
+    };
+
+    $scope.changeRoomStatus = function () {
         loadRooms();
     };
 
@@ -129,15 +134,21 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     $scope.schedulerConfig = {
         visible: false, // will be displayed after loading the resources
         scale: "Manual",
+        bubble: new DayPilot.Bubble(),
         timeline: getTimeline(),
         timeHeaders: getTimeHeaders(),
         useEventBoxes: "Never",
-        eventDeleteHandling: "Update",
+        eventDeleteHandling: "Disabled",
         eventClickHandling: "Disabled",
         eventMoveHandling: "Update",
         eventResizeHandling: "Disabled",
         allowEventOverlap: false,
-        eventDoubleClickHandling : "Enabled",
+        eventDoubleClickHandling: "Enabled",
+        eventHoverHandling: "Bubble",
+        timeRangeSelectingStartEndEnabled: true,
+        eventResizingStartEndEnabled: true,
+        eventMovingStartEndEnabled: true,
+        dynamicEventRenderingCacheSweeping: true,
         onEventDoubleClick: function (args) {
             pmsSession.RemoveItem("bookingId");
             pmsSession.SetItem("bookingId", args.e.id());
@@ -183,19 +194,21 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
             args.header.html = args.header.html.replace(" AM", "AM").replace(" PM", "PM");  // shorten the hour header
         },
         onBeforeEventRender: function (args) {
-            switch (args.data.tags.status) {
-                case "free":
+            args.e.bubbleHtml = "<div><b>" + args.e.text + "</b></div><div>Start: " + new DayPilot.Date(args.e.start).toString("M/d/yyyy") + "</div><div>End: " + new DayPilot.Date(args.e.end).toString("M/d/yyyy") + "</div>";
+            switch (args.data.tags.status.toLowerCase()) {
+                //TODO get all possible status
+                case "available":
                     args.data.barColor = "green";
-                    args.data.deleteDisabled = $scope.scale === "shifts";  // only allow deleting in the more detailed hour scale mode
+                    args.data.deleteDisabled = true;  // only allow deleting in the more detailed hour scale mode
                     break;
-                case "waiting":
+                case "maintenance":
                     args.data.barColor = "orange";
                     args.data.deleteDisabled = true;
                     break;
-                case "confirmed":
+                case "booked":
                     args.data.barColor = "#f41616";  // red            
                     args.data.deleteDisabled = true;
-                    status = "Confirmed";
+                    status = "Booked";
                     break;
             }
         },
@@ -223,7 +236,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
             pmsSession.RemoveItem("dtcheckin");
             pmsSession.RemoveItem("dtcheckout");
             pmsSession.SetItem("dtcheckin", params.start);
-            pmsSession.SetItem("dtcheckout", params.end);
+            pmsSession.SetItem("dtcheckout", params.end);            
             redirectionSvc.RedirectToCheckin();
         },
     };
@@ -264,7 +277,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                 dpBookingData.end = booking.CheckoutTime;
                 dpBookingData.resource = data[j].Room.Id;
                 dpBookingData.text = "Booked for : " + data[j].Guest.LastName +", " + data[j].Guest.FirstName;
-                dpBookingData.tags.status = "confirmed";
+                dpBookingData.tags.status = data[j].Room.RoomStatus.Name;
                 dpBookingData.id = booking.Id;
 
                 dpBookingResponseDto.push(dpBookingData);

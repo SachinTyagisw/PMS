@@ -83,7 +83,12 @@ namespace PMS.Resources.DAL
                             Room = new PmsEntity.Room
                             {
                                 Id = result.ROOMID,
-                                Number = result.ROOMNUMBER
+                                Number = result.ROOMNUMBER,
+                                RoomStatus = new PmsEntity.RoomStatus
+                                {
+                                    //TODO fill value from sp
+                                    Name = "Booked"//result.ROOMSTATUS
+                                }
                             },
                             Guest = new PmsEntity.Guest
                             {
