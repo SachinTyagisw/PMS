@@ -3,7 +3,7 @@
 -- Create date: April 29, 2017              
 -- Description: This stored procedure shall get the details of booking based on the checkin and checkoutdate              
 -- =============================================              
---Exec [GETALLBOOKINGS] 1, '2017-06-03', '2017-06-29'        
+--Exec [GETALLBOOKINGS] 1, '2017-06-03', '2017-06-29'  
         
 ALTER PROCEDURE [dbo].[GETALLBOOKINGS]              
  @PROPERTYID INT,              
@@ -30,7 +30,8 @@ IF(CONVERT(TIME,@CHECKOUTDATE)= '00:00:00.0000000')
  ,ROOMBOOKINGID int            
  ,ROOMID int null  
  ,ROOMNUMBER nvarchar(max)
- ,RoomTypeID int)  
+ ,RoomTypeID int
+ ,RoomTypeName nvarchar(max))  
                          
    
 Insert into @BookedRoomData                           
@@ -46,11 +47,14 @@ SELECT
  ,RB.ID AS ROOMBOOKINGID            
  ,ROOM.ID AS ROOMID            
  ,ROOM.Number AS ROOMNUMBER 
- ,ROOM.RoomTypeID as RoomTypeID             
+ ,ROOM.RoomTypeID as RoomTypeID
+ ,RoomType.NAME as RoomTypeName             
  FROM BOOKING BK INNER JOIN ROOMBOOKING RB               
  ON BK.ID = RB.BOOKINGID              
  INNER JOIN Room            
- ON RB.RoomID = Room.ID            
+ ON RB.RoomID = Room.ID
+ Inner JOIN RoomType
+ On  Room.RoomTypeID = RoomType.ID           
  INNER JOIN GUEST              
  ON RB.GUESTID = GUEST.ID              
  WHERE (BK.CHECKINTIME >= ISNULL(@CHECKINTIME,'1900-01-01')              
@@ -76,8 +80,12 @@ SELECT
  ,null AS ROOMBOOKINGID            
  ,ROOM.ID AS ROOMID            
  ,ROOM.Number AS ROOMNUMBER 
- , Room.RoomTypeID As RoomTypeID
- from Room where propertyid= @PROPERTYID and Room.ID not in     
+ ,Room.RoomTypeID As RoomTypeID
+ ,RoomType.NAME as RoomTypeName
+ from Room
+  Inner JOIN RoomType
+ On  Room.RoomTypeID = RoomType.ID 
+  where Room.propertyid= @PROPERTYID and Room.ID not in     
  (select ROOMID from @BookedRoomData)    
      
  union    
