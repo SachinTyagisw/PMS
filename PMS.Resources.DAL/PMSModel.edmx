@@ -2190,6 +2190,8 @@
           <Property Type="Int32" Name="ROOMBOOKINGID" Nullable="true" />
           <Property Type="Int32" Name="ROOMID" Nullable="true" />
           <Property Type="String" Name="ROOMNUMBER" Nullable="true" />
+          <Property Type="Int32" Name="RoomTypeID" Nullable="true" />
+          <Property Type="String" Name="RoomTypeName" Nullable="true" />
         </ComplexType>
         <ComplexType Name="GETALLGUESTS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -2296,7 +2298,6 @@
           <Property Type="Int32" Name="PropertyID" Nullable="true" />
           <Property Type="Int32" Name="RateTypeID" Nullable="true" />
           <Property Type="Int32" Name="RoomTypeID" Nullable="true" />
-          <Property Type="Int32" Name="RoomId" Nullable="true" />
           <Property Type="Int32" Name="InputKeyHours" Nullable="true" />
           <Property Type="Decimal" Name="Value" Nullable="true" Precision="19" />
           <Property Type="Boolean" Name="IsActive" Nullable="true" />
@@ -2307,12 +2308,14 @@
           <Property Type="String" Name="RoomTypeName" Nullable="true" />
           <Property Type="String" Name="RateTypeName" Nullable="true" />
           <Property Type="Int32" Name="MasterRateTypeID" Nullable="false" />
+          <Property Type="Int32" Name="Hours" Nullable="true" />
           <Property Type="Boolean" Name="RateTypeIsActive" Nullable="false" />
           <Property Type="String" Name="Units" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="RoomId" Nullable="true" />
           <Property Type="String" Name="RoomNumber" Nullable="true" MaxLength="200" />
+          <Property Type="Boolean" Name="RoomStatus" Nullable="true" />
           <Property Type="Int32" Name="FloorNumber" Nullable="true" />
           <Property Type="Int32" Name="FloorId" Nullable="true" />
-          <Property Type="Int32" Name="Hours" Nullable="true" />
         </ComplexType>
         <ComplexType Name="GETROOMSTATUS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -2824,6 +2827,8 @@
                 <ScalarProperty Name="ROOMBOOKINGID" ColumnName="ROOMBOOKINGID" />
                 <ScalarProperty Name="ROOMID" ColumnName="ROOMID" />
                 <ScalarProperty Name="ROOMNUMBER" ColumnName="ROOMNUMBER" />
+                <ScalarProperty Name="RoomTypeID" ColumnName="RoomTypeID" />
+                <ScalarProperty Name="RoomTypeName" ColumnName="RoomTypeName" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -2954,7 +2959,6 @@
                 <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
                 <ScalarProperty Name="RateTypeID" ColumnName="RateTypeID" />
                 <ScalarProperty Name="RoomTypeID" ColumnName="RoomTypeID" />
-                <ScalarProperty Name="RoomId" ColumnName="RoomId" />
                 <ScalarProperty Name="InputKeyHours" ColumnName="InputKeyHours" />
                 <ScalarProperty Name="Value" ColumnName="Value" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
@@ -2965,12 +2969,14 @@
                 <ScalarProperty Name="RoomTypeName" ColumnName="RoomTypeName" />
                 <ScalarProperty Name="RateTypeName" ColumnName="RateTypeName" />
                 <ScalarProperty Name="MasterRateTypeID" ColumnName="MasterRateTypeID" />
+                <ScalarProperty Name="Hours" ColumnName="Hours" />
                 <ScalarProperty Name="RateTypeIsActive" ColumnName="RateTypeIsActive" />
                 <ScalarProperty Name="Units" ColumnName="Units" />
+                <ScalarProperty Name="RoomId" ColumnName="RoomId" />
                 <ScalarProperty Name="RoomNumber" ColumnName="RoomNumber" />
+                <ScalarProperty Name="RoomStatus" ColumnName="RoomStatus" />
                 <ScalarProperty Name="FloorNumber" ColumnName="FloorNumber" />
                 <ScalarProperty Name="FloorId" ColumnName="FloorId" />
-                <ScalarProperty Name="Hours" ColumnName="Hours" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

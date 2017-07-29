@@ -18,7 +18,6 @@ namespace PMS.Resources.DAL
         public Nullable<int> PropertyID { get; set; }
         public Nullable<int> RateTypeID { get; set; }
         public Nullable<int> RoomTypeID { get; set; }
-        public Nullable<int> RoomId { get; set; }
         public Nullable<int> InputKeyHours { get; set; }
         public Nullable<decimal> Value { get; set; }
         public Nullable<bool> IsActive { get; set; }
@@ -29,11 +28,13 @@ namespace PMS.Resources.DAL
         public string RoomTypeName { get; set; }
         public string RateTypeName { get; set; }
         public int MasterRateTypeID { get; set; }
+        public Nullable<int> Hours { get; set; }
         public bool RateTypeIsActive { get; set; }
         public string Units { get; set; }
+        public Nullable<int> RoomId { get; set; }
         public string RoomNumber { get; set; }
+        public Nullable<bool> RoomStatus { get; set; }
         public Nullable<int> FloorNumber { get; set; }
         public Nullable<int> FloorId { get; set; }
-        public Nullable<int> Hours { get; set; }
     }
 }
