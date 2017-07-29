@@ -35,10 +35,19 @@
         gcm.GetRoomRateType($('#ddlProperty').val());
     }
 
-    function IsRateTypeDuplicate(newRateType, rateTypes) {        
-        for (var i = 0; i < rateTypes.length; i++) {
-            if ($.trim(rateTypes[i].Name.toLowerCase()) === $.trim(newRateType.Name.toLowerCase()) && rateTypes[i].Units === newRateType.Units && parseInt(rateTypes[i].Hours) === parseInt(newRateType.Hours)) {
-                return true;
+    function IsRateTypeDuplicate(newRateType, rateTypes) {
+        if (newRateType.Units == "Daily") {
+            for (var i = 0; i < rateTypes.length; i++) {
+                if ($.trim(rateTypes[i].Name.toLowerCase()) === $.trim(newRateType.Name.toLowerCase()) && rateTypes[i].Units === newRateType.Units) {
+                    return true;
+                }
+            }
+        }
+        else {
+            for (var i = 0; i < rateTypes.length; i++) {
+                if ($.trim(rateTypes[i].Name.toLowerCase()) === $.trim(newRateType.Name.toLowerCase()) && rateTypes[i].Units === newRateType.Units && parseInt(rateTypes[i].Hours) === parseInt(newRateType.Hours)) {
+                    return true;
+                }
             }
         }
         return false;
