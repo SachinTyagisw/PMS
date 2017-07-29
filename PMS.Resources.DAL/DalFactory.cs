@@ -71,7 +71,7 @@ namespace PMS.Resources.DAL
                 foreach (var result in resultSet)
                 {
                     var booking = new PmsEntity.Booking();
-                    booking.Id = result.ID.Value;
+                    booking.Id = result.ID != null ? result.ID.Value : -1;
                     booking.CheckinTime = result.CHECKINTIME;
                     booking.CheckoutTime = result.CHECKOUTTIME;
 
@@ -79,19 +79,24 @@ namespace PMS.Resources.DAL
                     {
                         new PmsEntity.RoomBooking
                         { 
-                            Id = result.ROOMBOOKINGID.Value,
+                            Id = result.ROOMBOOKINGID != null ? result.ROOMBOOKINGID.Value : -1,
                             Room = new PmsEntity.Room
                             {
-                                Id = result.ROOMID.Value,
+                                Id = result.ROOMID != null ? result.ROOMID.Value : -1,
                                 Number = result.ROOMNUMBER,
                                 RoomStatus = new PmsEntity.RoomStatus
                                 {
                                     Name = result.Status
+                                },
+                                RoomType = new PmsEntity.RoomType
+                                {
+                                    Name = result.RoomTypeName,
+                                    Id = result.RoomTypeID != null ? result.RoomTypeID.Value : -1
                                 }
                             },
                             Guest = new PmsEntity.Guest
                             {
-                                Id = result.GUESTID.Value,
+                                Id = result.GUESTID != null ? result.GUESTID.Value : -1,
                                 FirstName = result.FIRSTNAME,
                                 LastName = result.LASTNAME
                             }                            
@@ -1591,7 +1596,8 @@ namespace PMS.Resources.DAL
                     ratetype.Rates = new List<PmsEntity.Rate>();
                     foreach (var value in result)
                     {
-                        if (!value.IsActive.HasValue || !Convert.ToBoolean(value.IsActive)) continue;
+                        if (!value.IsActive.HasValue || !Convert.ToBoolean(value.IsActive)
+                            || !value.RoomStatus.HasValue || !Convert.ToBoolean(value.RoomStatus)) continue;
 
                         var rate = new PmsEntity.Rate();
                         rate.CreatedBy = value.CreatedBy;

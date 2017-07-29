@@ -19,12 +19,15 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     };
 
     var onGetRoomBookingSuccess = function (response) {
+        $scope.Bookings = response.Bookings;
+        loadRooms();
         var day = $scope.day ? $scope.day : DayPilot.Date.today();
         $scope.schedulerConfig.timeline = getTimeline(day);
         $scope.schedulerConfig.scrollTo = day;
         $scope.schedulerConfig.scrollToAnimated = "fast";
         $scope.schedulerConfig.scrollToPosition = "left";
         $scope.events = convertBookingResponseToDayPilotResponse(response.Bookings);
+        
     };   
 
     var onGetRoomBookingError = function (reason) {
@@ -32,25 +35,24 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         $log.error(reason);
     };
 
-    var onGetRoomSuccess = function (response) {
-        pmsSession.RemoveItem("propertyrooms");
-        pmsSession.SetItem("propertyrooms", JSON.stringify(response.Rooms));
-        var response = convertRoomResponseToDayPilotResponse(response.Rooms)
-        $scope.schedulerConfig.resources = response;
-        $scope.schedulerConfig.visible = true;
-    };
+    //var onGetRoomSuccess = function (response) {
+    //    pmsSession.RemoveItem("propertyrooms");
+    //    pmsSession.SetItem("propertyrooms", JSON.stringify(response.Rooms));
+    //    var response = convertRoomResponseToDayPilotResponse(response.Rooms)
+    //    $scope.schedulerConfig.resources = response;
+    //    $scope.schedulerConfig.visible = true;
+    //};
 
-    var onGetRoomError = function (reason) {
-        $scope.error = reason;
-        $log.error(reason);
-    };
+    //var onGetRoomError = function (reason) {
+    //    $scope.error = reason;
+    //    $log.error(reason);
+    //};
     
-    //$scope.$watch($scope.roomType, function () {
-    //    loadRooms();
-    //});
-    
-    $scope.filterRoom = function () {        
-        loadRooms();
+    $scope.filterRoom = function () {
+        var response = {};
+        response.Rooms = {};
+        //response.Rooms = applyRoomFilter();
+        //showRoomsOnDaypilotGrid(response.Rooms);
     };
 
     $scope.setCalendarView = function(duration) {
@@ -197,6 +199,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         },
         onBeforeEventRender: function (args) {
             args.e.bubbleHtml = "<div><b>" + args.e.text + "</b></div><div>Start: " + new DayPilot.Date(args.e.start).toString("M/d/yyyy") + "</div><div>End: " + new DayPilot.Date(args.e.end).toString("M/d/yyyy") + "</div>";
+            if (!args || !args.data || !args.data.tags || !args.data.tags.status) return;
             switch (args.data.tags.status.toLowerCase()) {
                 case "available":
                     args.data.barColor = "green";
@@ -259,7 +262,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         dp = $scope.scheduler;  // debug
         //loadRoomStatus();
         //loadRoomTypes();
-        loadRooms();
+        //loadRooms();
         loadEvents(DayPilot.Date.today());
     });
 
@@ -336,45 +339,83 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         });       
     }
 
-    function loadRoomStatus() {
-        $scope.roomStatus = [
-                { "Id": 1, "Name": "Available" },
-                { "Id": 2, "Name": "Reserved" },
-                { "Id": 3, "Name": "Booked" },
-        ];
-    }
-    function loadRoomTypes() {
-        // Show loading message
-        var roomTypeData = pmsSession.GetItem("roomtypedata");
-        //TODO make ajax call in case data is not in session 
-        //if roomtype data is not in session storage then make ajax call
-        if (!roomTypeData) {
-            var messageModal = messageModalSvc.ShowMessage("Loading...", $scope);
-            calendarSvc.GetRoomByProperty(propertyId).then(onGetRoomSuccess, onGetRoomError)['finally'](function () {
-                messageModalSvc.CloseMessage(messageModal);
-            });
-        } else {
-            $scope.roomTypes = $.parseJSON(roomTypeData);
-        }
-    }
+    //function loadRoomStatus() {
+    //    $scope.roomStatus = [
+    //            { "Id": 1, "Name": "Available" },
+    //            { "Id": 2, "Name": "Reserved" },
+    //            { "Id": 3, "Name": "Booked" },
+    //    ];
+    //}
+    //function loadRoomTypes() {
+    //    // Show loading message
+    //    var roomTypeData = pmsSession.GetItem("roomtypedata");
+    //    //TODO make ajax call in case data is not in session 
+    //    //if roomtype data is not in session storage then make ajax call
+    //    if (!roomTypeData) {
+    //        var messageModal = messageModalSvc.ShowMessage("Loading...", $scope);
+    //        calendarSvc.GetRoomByProperty(propertyId).then(onGetRoomSuccess, onGetRoomError)['finally'](function () {
+    //            messageModalSvc.CloseMessage(messageModal);
+    //        });
+    //    } else {
+    //        $scope.roomTypes = $.parseJSON(roomTypeData);
+    //    }
+    //}
 
-    function loadRooms() {                
-        // Show loading message
+    function loadRooms() {
+        var response = {};
+        response.Rooms = {};
         var roomData = pmsSession.GetItem("propertyrooms");
-        //if room data is not in session storage then make ajax call
+        //if room data is not in session storage then filter from 
         if (!roomData) {
-            var messageModal = messageModalSvc.ShowMessage("Loading...", $scope);
-            calendarSvc.GetRoomByProperty(propertyId).then(onGetRoomSuccess, onGetRoomError)['finally'](function () {
-                messageModalSvc.CloseMessage(messageModal);
-            });
+            response.Rooms = filterRoomsFromBookingResponse($scope.Bookings);
+            //if room data is not in session storage then make ajax call
+            //var messageModal = messageModalSvc.ShowMessage("Loading...", $scope);
+            //calendarSvc.GetRoomByProperty(propertyId).then(onGetRoomSuccess, onGetRoomError)['finally'](function () {
+            //    messageModalSvc.CloseMessage(messageModal);
+            //});
         }
         else {
-            var response = {};
-            response.Rooms = {};
-            response.Rooms = JSON.parse(roomData);
-            onGetRoomSuccess(response);
+            response.Rooms = JSON.parse(roomData);           
         }
-    }    
+        pmsSession.RemoveItem("propertyrooms");
+        pmsSession.SetItem("propertyrooms", JSON.stringify(response.Rooms));
+        showRoomsOnDaypilotGrid(response.Rooms);
+    }
+
+    function showRoomsOnDaypilotGrid(rooms) {
+        var response = convertRoomResponseToDayPilotResponse(rooms)
+        $scope.schedulerConfig.resources = response;
+        $scope.schedulerConfig.visible = true;
+    }
+    
+    function filterRoomsFromBookingResponse(data) {
+        var response = {};
+        response.Rooms = [];
+        if (!data || data.length <= 0) return response.Rooms;
+        // iterate Bookings
+        for (var i = 0; i < data.length; i++) {
+            if (!data[i] || !data[i].RoomBookings || data[i].RoomBookings.length <= 0) continue;
+            // iterate RoomBookings
+            for (var j = 0; j < data[i].RoomBookings.length; j++) {
+                if (!data[i] || !data[i].RoomBookings[j] || !data[i].RoomBookings[j].Room) continue;
+                if (response.Rooms && response.Rooms.length > 0) {
+                    var found = false;
+                    // check if room already added 
+                    for (var k = 0; k < response.Rooms.length; k++) {
+                        if (parseInt(data[i].RoomBookings[j].Room.Id) !== parseInt(response.Rooms[k].Id)) continue;
+                        found = true;
+                        break;
+                    }
+                    if (!found) {
+                        response.Rooms.push(data[i].RoomBookings[j].Room);
+                    }
+                } else {
+                    response.Rooms.push(data[i].RoomBookings[j].Room);
+                }
+            }
+        }
+        return response.Rooms;
+    }
 
     function getDaysBasedOnDuration() {        
         if ($scope.duration === 'daily') return 1;
