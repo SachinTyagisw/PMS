@@ -153,6 +153,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         eventResizingStartEndEnabled: true,
         eventMovingStartEndEnabled: true,
         dynamicEventRenderingCacheSweeping: true,
+        //separators : [{color:"Red", location:"2017-07-30T08:00:00"}],
         onEventDoubleClick: function (args) {
             pmsSession.RemoveItem("bookingId");
             pmsSession.SetItem("bookingId", args.e.id());
@@ -198,7 +199,10 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
             args.header.html = args.header.html.replace(" AM", "AM").replace(" PM", "PM");  // shorten the hour header
         },
         onBeforeEventRender: function (args) {
-            args.e.bubbleHtml = "<div><b>" + args.e.text + "</b></div><div>Start: " + new DayPilot.Date(args.e.start).toString("M/d/yyyy") + "</div><div>End: " + new DayPilot.Date(args.e.end).toString("M/d/yyyy") + "</div>";
+            if (args.e.id > -1) {
+                args.e.bubbleHtml = "<div><b>" + args.e.text + "</b></div><div>Start: " + new DayPilot.Date(args.e.start).toString("M/d/yyyy") + "</div><div>End: " + new DayPilot.Date(args.e.end).toString("M/d/yyyy") + "</div>";
+            }
+            args.data.cssClass = "myclass";
             if (!args || !args.data || !args.data.tags || !args.data.tags.status) return;
             switch (args.data.tags.status.toLowerCase()) {
                 case "available":
@@ -270,7 +274,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         dpBookingResponseDto = [];
         for (var i = 0; i < bookingResponse.length; i++) {
             var booking = bookingResponse[i];
-            if (!booking) continue;
+            if (!booking || booking.Id <= 0) continue;
 
             var data = booking.RoomBookings;
             for (var j = 0; j < booking.RoomBookings.length; j++) {
@@ -281,9 +285,12 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                 dpBookingData.start = booking.CheckinTime;
                 dpBookingData.end = booking.CheckoutTime;
                 dpBookingData.resource = data[j].Room.Id;
-                dpBookingData.text = "Booked for : " + data[j].Guest.LastName +", " + data[j].Guest.FirstName;
+                if (data[j].Guest.FirstName) {
+                    dpBookingData.text = "Booked for : " + data[j].Guest.LastName + ", " + data[j].Guest.FirstName;
+                }
                 dpBookingData.tags.status = data[j].Room.RoomStatus.Name;
                 dpBookingData.id = booking.Id;
+                dpBookingData.cssclass = '';
 
                 dpBookingResponseDto.push(dpBookingData);
             }
