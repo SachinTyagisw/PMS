@@ -49,13 +49,21 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     //};
     
     $scope.filterRoom = function () {
+        var searchvalue = $('#searchRoom').val();
+        if (!searchvalue || searchvalue === " " || searchvalue.length <= 0) {
+            var roomData = pmsSession.GetItem("propertyrooms");
+            showRoomsOnDaypilotGrid(JSON.parse(roomData));
+            return;
+        }
         var response = {};
         response.Rooms = {};
-        //response.Rooms = applyRoomFilter();
-        //showRoomsOnDaypilotGrid(response.Rooms);
+        var bookingData = $scope.Bookings;
+        response.Rooms = applyRoomFilter(bookingData);
+        showRoomsOnDaypilotGrid(response.Rooms);
     };
 
-    $scope.setCalendarView = function(duration) {
+    $scope.setCalendarView = function (duration) {
+        $('#searchRoom').val('');
         $scope.duration = duration;
         setSchedulerScale(duration);
         var day = $scope.day ? $scope.day : DayPilot.Date.today();
@@ -269,6 +277,35 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         //loadRooms();
         loadEvents(DayPilot.Date.today());
     });
+    
+    function applyRoomFilter(data) {
+        var response = {};
+        response.Rooms = [];
+        if (!data || data.length <= 0) return response.Rooms;
+        var searchvalue = $('#searchRoom').val();
+        // iterate Bookings
+        for (var i = 0; i < data.length; i++) {
+            if (!data[i] || !data[i].RoomBookings || data[i].RoomBookings.length <= 0) continue;
+            // iterate RoomBookings
+            for (var j = 0; j < data[i].RoomBookings.length; j++) {
+                if (!data[i] || !data[i].RoomBookings[j]) continue;
+                var room = data[i].RoomBookings[j].Room;
+                var guest = data[i].RoomBookings[j].Guest;
+                
+                if (room && $.trim(room.Number.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0) {
+                    response.Rooms.push(data[i].RoomBookings[j].Room);
+                    continue;
+                }
+                if (guest && guest.Id > 0 &&
+                    ($.trim(guest.FirstName.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0
+                    || $.trim(guest.LastName.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0)) {
+                    response.Rooms.push(data[i].RoomBookings[j].Room);
+                    continue;
+                }
+            }
+        }
+        return response.Rooms;
+    }
 
     function convertBookingResponseToDayPilotResponse(bookingResponse) {
         dpBookingResponseDto = [];
@@ -299,23 +336,10 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     }
 
     function convertRoomResponseToDayPilotResponse(roomsResponse) {
-        var searchvalue = $('#searchRoom').val();
         dpRoomsResponseDto = [];        
         for (var i = 0; i < roomsResponse.length; i++) {
             var room = roomsResponse[i];            
-            if (!room || (searchvalue && searchvalue.length > 0 && room.Number.toLowerCase().indexOf(searchvalue.toLowerCase()) < 0)) continue;
-            
-            //// applying rooomtype filter
-            //var selectedRoomType = $scope.selectedRoomTypes;
-            //if (selectedRoomType && selectedRoomType.length > 0) {
-            //    var isFound = false;
-            //    for (var j = 0; j < selectedRoomType.length; j++) {
-            //        if (parseInt(room.RoomType.Id) !== parseInt(selectedRoomType[j])) continue;
-            //        isFound = true;
-            //        break;
-            //    }
-            //    if (!isFound) continue;
-            //}
+            if (!room) continue;
 
             var dpRoomData = {};
             dpRoomData.name = room.Number;
@@ -344,29 +368,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         calendarSvc.GetRoomBooking(propertyId, params).then(onGetRoomBookingSuccess, onGetRoomBookingError)['finally'](function () {
             messageModalSvc.CloseMessage(messageModal);
         });       
-    }
-
-    //function loadRoomStatus() {
-    //    $scope.roomStatus = [
-    //            { "Id": 1, "Name": "Available" },
-    //            { "Id": 2, "Name": "Reserved" },
-    //            { "Id": 3, "Name": "Booked" },
-    //    ];
-    //}
-    //function loadRoomTypes() {
-    //    // Show loading message
-    //    var roomTypeData = pmsSession.GetItem("roomtypedata");
-    //    //TODO make ajax call in case data is not in session 
-    //    //if roomtype data is not in session storage then make ajax call
-    //    if (!roomTypeData) {
-    //        var messageModal = messageModalSvc.ShowMessage("Loading...", $scope);
-    //        calendarSvc.GetRoomByProperty(propertyId).then(onGetRoomSuccess, onGetRoomError)['finally'](function () {
-    //            messageModalSvc.CloseMessage(messageModal);
-    //        });
-    //    } else {
-    //        $scope.roomTypes = $.parseJSON(roomTypeData);
-    //    }
-    //}
+    }  
 
     function loadRooms() {
         var response = {};
@@ -483,6 +485,28 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         }
         return timeline;
     }
+
+    //function loadRoomStatus() {
+    //    $scope.roomStatus = [
+    //            { "Id": 1, "Name": "Available" },
+    //            { "Id": 2, "Name": "Reserved" },
+    //            { "Id": 3, "Name": "Booked" },
+    //    ];
+    //}
+    //function loadRoomTypes() {
+    //    // Show loading message
+    //    var roomTypeData = pmsSession.GetItem("roomtypedata");
+    //    //TODO make ajax call in case data is not in session 
+    //    //if roomtype data is not in session storage then make ajax call
+    //    if (!roomTypeData) {
+    //        var messageModal = messageModalSvc.ShowMessage("Loading...", $scope);
+    //        calendarSvc.GetRoomByProperty(propertyId).then(onGetRoomSuccess, onGetRoomError)['finally'](function () {
+    //            messageModalSvc.CloseMessage(messageModal);
+    //        });
+    //    } else {
+    //        $scope.roomTypes = $.parseJSON(roomTypeData);
+    //    }
+    //}
 
     function getTimeHeaders() {
         switch ($scope.scale) {
