@@ -481,7 +481,7 @@
             
             // if it is not getinvoice api call
             if (!data.Invoice || !data.Invoice.Id || data.Invoice.Id <= 0){
-                data = appendTotalRoomCharge(data);
+                //data = appendTotalRoomCharge(data);
                 divInvoice.html(invoiceTemplate.render(data)); 
             } else {
                 divInvoice.html(invoiceTemplate.render(data.Invoice));
@@ -735,6 +735,8 @@
             $('#imgPhoto').removeClass('photo-added');
             $('#imgAdditionalPhoto').css('visibility', 'hidden');
             $('#imgAdditionalPhoto').removeClass('photo-added');
+            $('#imgPhoto').attr('src', '');
+            $('#imgAdditionalPhoto').attr('src', '');
             window.GuestCheckinManager.BookingDto.GuestId = null;
             window.GuestCheckinManager.BookingDto.InvoiceId = null;
             window.GuestCheckinManager.BookingDto.RoomBookingId = null;
@@ -2036,6 +2038,7 @@
         ddlHourly.empty();
         ddlHourly.append(new Option("Select Hrs", "-1"));
         for (var i = 0 ; i < arr.length; i++) {
+            if (arr[i].v === "-1") continue;
             ddlHourly.append(new Option(arr[i].t + "-hr", arr[i].v));
         }
     }
