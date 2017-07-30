@@ -845,6 +845,7 @@ namespace PMS.Resources.DAL
                                               {
                                                   Id = m.ID,
                                                   IDDETAILS = m.IDDETAILS,
+                                                  IdExpiryDate = m.IdExpiryDate,
                                                   IdType = new PmsEntity.IDType
                                                   {
                                                       ID = i.ID,

@@ -221,8 +221,11 @@
 
         function populateGuestUi(data) {
             gcm.PopulateGuestDetails(data);
+            $('#address').val(data.Address1);
+            $('#zipCode').val(data.ZipCode);
             $('#idDetails').val(data.GuestMappings[0].IDDETAILS);
             $("#ddlIdType").val(data.GuestMappings[0].IdType.ID);
+            $('#idExpiry').val(data.GuestMappings[0].IdExpiryDate)
             gcm.MakeGuestInfoReadOnly(true);
             // clear guest history if guest id is not present
             gcm.AutoCollapseGuestHistory();
@@ -235,6 +238,12 @@
             $('#phone').val('');
             $('#email').val('');
             $('#idDetails').val('');
+            $('#imgPhoto').css('visibility', 'hidden');
+            $('#imgPhoto').removeClass('photo-added');
+            $('#imgAdditionalPhoto').css('visibility', 'hidden');
+            $('#imgAdditionalPhoto').removeClass('photo-added');
+            $('#imgPhoto').attr('src', '');
+            $('#imgAdditionalPhoto').attr('src', '');
             window.GuestCheckinManager.BookingDto.GuestId = null;
             // clear guest history if guest id is not present
             gcm.AutoCollapseGuestHistory();
