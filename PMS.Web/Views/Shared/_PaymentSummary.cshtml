@@ -43,7 +43,7 @@
             </tr>
             {{each Tax}}
             {{if $value.IsDefaultCharges }}
-            <tr class="sortActive">
+            <tr id="trDefaultCharges" class="sortActive">
                 <td> <span class="glyphicon glyphicon-th-list"></span></td>
                 <td>${$value.TaxName}</td>
                 <td>
