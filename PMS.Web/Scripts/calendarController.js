@@ -208,7 +208,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         },
         onBeforeEventRender: function (args) {
             if (args.e.id > -1) {
-                args.e.bubbleHtml = "<div><b>" + args.e.text + "</b></div><div>Start: " + new DayPilot.Date(args.e.start).toString("M/d/yyyy") + "</div><div>End: " + new DayPilot.Date(args.e.end).toString("M/d/yyyy") + "</div>";
+                args.e.bubbleHtml = "<div class='tooltip'><b>" + args.e.text + "</b><br>Start: " + new DayPilot.Date(args.e.start).toString("M/d/yyyy") + "<br>End: " + new DayPilot.Date(args.e.end).toString("M/d/yyyy") + "</div>";
             }
             args.data.cssClass = "myclass";
             if (!args || !args.data || !args.data.tags || !args.data.tags.status) return;
