@@ -20,6 +20,12 @@ namespace PMS.Resources.Entities
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string LastUpdatedBy { get; set; }
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string ZipCode { get; set; }
+        public string Country { get; set; }
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }                     
         public List<GuestReward> GuestRewards { get; set; }
         public List<GuestMapping> GuestMappings { get; set; }        
