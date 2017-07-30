@@ -2525,11 +2525,11 @@
         }
 
         // check id expiry details 
-        if (!idExpiry || idExpiry.length <= 0) {
-            alert("Please enter guest ID expiry details");
-            $('#idExpiry').focus();
-            return false;
-        }
+        //if (!idExpiry || idExpiry.length <= 0) {
+        //    alert("Please enter guest ID expiry details");
+        //    $('#idExpiry').focus();
+        //    return false;
+        //}
 
         var emailId = $("#email").val();
         var validEmailIdRegex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);

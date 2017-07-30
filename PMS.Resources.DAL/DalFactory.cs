@@ -820,12 +820,19 @@ namespace PMS.Resources.DAL
             using (var pmsContext = new PmsEntities())
             {
                 guest = (from x in pmsContext.Guests
+                         join a in pmsContext.Addresses on x.ID equals a.GuestID
                          where x.IsActive
                          select new PmsEntity.Guest
                          {
                              Id = x.ID,
                              DOB = x.DOB,
                              EmailAddress = x.EmailAddress,
+                             Address1 = a.Address1,
+                             Address2 = a.Address2,
+                             ZipCode = a.ZipCode,
+                             City = a.City,
+                             Country = a.Country,
+                             State = a.State,
                              FirstName = x.FirstName,
                              Gender = x.Gender,
                              LastName = x.LastName,
