@@ -199,8 +199,10 @@
                 if (gcm.ShouldCallGetRoomApi()) {
                     Notifications.SubscribeActive("on-roombydate-get-success", function (sender, args) {
                         var data = pmsSession.GetItem("roomdata");
+                        var roomDdl = $('#roomddl');
                         var rooms = $.parseJSON(data);
-                        window.GuestCheckinManager.BindRoomDdl(ddlRoom, roomTypeId, rooms, true);
+                        var rTypeId = $('#roomTypeDdl').val();
+                        window.GuestCheckinManager.BindRoomDdl(roomDdl, rTypeId, rooms, true);
                     });
                     gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val());
                 }                

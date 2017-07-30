@@ -551,7 +551,7 @@
             var paymentElementCol = $("input[id*='paymentVal']");
             var invoiceObject = window.GuestCheckinManager.invoiceData.Invoice;
             
-            //  tax charges calulations
+            //  tax charges calculations
             if (taxElementCol && taxElementCol.length > 0) {
                 for (var i = 0; i < taxElementCol.length; i++) {
                     if (!taxElementCol[i] || !taxElementCol[i].value || isNaN(taxElementCol[i].value)) continue;
@@ -559,7 +559,7 @@
                 }
             }
 
-            // other tax charges calulations
+            // other tax charges calculations
             if (otherTaxElementCol && otherTaxElementCol.length > 0) {
                 for (var i = 0; i < otherTaxElementCol.length; i++) {
                     if (!otherTaxElementCol[i] || !otherTaxElementCol[i].value || isNaN(otherTaxElementCol[i].value)) continue;
@@ -567,15 +567,16 @@
                 }
             }
             
-            //  room base charge calulations
+            //  room base charge calculations
             var baseCharge = baseRoomCharge && baseRoomCharge.val() && !isNaN(baseRoomCharge.val()) ? parseFloat(baseRoomCharge.val(), 10).toFixed(2) : 0;
             if (totalRoomCharge) {
                 totalRoomCharge.val(parseFloat(baseCharge).toFixed(2) * stayDays);
             }
             
-            //  total room charge calulations
+            //  total room charge calculations
             if (totalRoomCharge && totalRoomCharge.val() && !isNaN(totalRoomCharge.val())) {
-                totalCharge = (parseFloat(totalCharge) + parseFloat(totalRoomCharge.val(), 10)).toFixed(2);
+                var totalRoomCh = parseFloat(totalRoomCharge.val(), 10);
+                totalCharge = (totalRoomCh + (parseFloat(totalCharge) * totalRoomCh)/100).toFixed(2);
             }
 
             totalCharge = applyDiscount(totalCharge);
