@@ -2504,11 +2504,12 @@ tbody tr td:last-child {
 .table > tfoot > tr > th,
 .table > thead > tr > td,
 .table > thead > tr > th {
-  line-height: 30px;
+  line-height: 20px;
   vertical-align: top;
 }
 .table > thead > tr > th {
   border-bottom: 1px solid #e7e7e7;
+  line-height: 30px;
 }
 .table .badge {
   text-transform: uppercase;
@@ -3358,9 +3359,6 @@ a.mud-c {
 }
 
 .photo_submit-container {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
   max-width: 400px;
 
   -webkit-box-orient: horizontal;
@@ -3546,7 +3544,7 @@ overflow:visible;
 .main-menu {
 background:#57666d;
 border-right:1px solid #e5e5e5;
-position:absolute;
+position:fixed;
 top:45px;
 bottom:0;
 left:0;
@@ -3700,6 +3698,7 @@ height: 100%;
 }
 .panel-group .panel {
     border-radius: 0;
+    margin-bottom: 2.2rem;
 }
 .accordion-option {
   width: 100%;
