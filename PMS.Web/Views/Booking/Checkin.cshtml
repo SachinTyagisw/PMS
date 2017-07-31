@@ -227,9 +227,12 @@
             $("#ddlIdType").val(data.GuestMappings[0].IdType.ID);
             $('#idExpiry').val(data.GuestMappings[0].IdExpiryDate);
             $('#ddlCountry').val(data.Country.Id);
+            $('#ddlIdCountry').val(data.GuestMappings[0].IdIssueCountryID)
             gcm.BindStateDdl(data.Country.Id, $('#ddlState'));
+            gcm.BindStateDdl(data.GuestMappings[0].IdIssueCountryID, $('#ddlIdState'));
             gcm.BindCityDdl(data.State.Id, $('#ddlCity'));
             $('#ddlState').val(data.State.Id);
+            $('#ddlIdState').val(data.GuestMappings[0].IdIssueStateID);
             $('#ddlCity').val(data.City.Id);
             gcm.MakeGuestInfoReadOnly(true);
             // clear guest history if guest id is not present

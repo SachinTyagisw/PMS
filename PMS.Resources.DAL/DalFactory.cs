@@ -855,19 +855,24 @@ namespace PMS.Resources.DAL
                              PhotoPath = x.PhotoPath,
                              GuestMappings = (from m in pmsContext.GuestMappings
                                               join l in pmsContext.IDTypes on m.IDTYPEID equals l.ID
+                                              join n in pmsContext.States on m.IdIssueState equals n.Name
+                                              join o in pmsContext.Countries on m.IdIssueCountry equals o.Name
                                               where m.IsActive && m.GUESTID == x.ID
                                               select new PmsEntity.GuestMapping
                                               {
                                                   Id = m.ID,
                                                   IDDETAILS = m.IDDETAILS,
                                                   IdExpiryDate = m.IdExpiryDate,
+                                                  IdIssueState = n.Name,
+                                                  IdIssueStateID = n.ID,
+                                                  IdIssueCountry = o.Name,
+                                                  IdIssueCountryID = o.ID,
                                                   IdType = new PmsEntity.IDType
                                                   {
                                                       ID = l.ID,
                                                       Name = l.Name
                                                   }
                                               }).ToList()
-
                          }).ToList();
             }
             return guest;

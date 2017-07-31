@@ -21,5 +21,7 @@ namespace PMS.Resources.Entities
         public string IdIssueState { get; set; }
         public string IdIssueCountry { get; set; }
         public System.DateTime IdExpiryDate { get; set; }
+        public int IdIssueStateID { get; set; }
+        public int IdIssueCountryID { get; set; }
     }
 }
