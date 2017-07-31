@@ -210,7 +210,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
             if (args.e.id > -1) {
                 args.e.bubbleHtml = "<div class='tooltip'><b>" + args.e.text + "</b><br>Start: " + new DayPilot.Date(args.e.start).toString("M/d/yyyy") + "<br>End: " + new DayPilot.Date(args.e.end).toString("M/d/yyyy") + "</div>";
             }
-            args.data.cssClass = "eventseparator";
+            //args.data.cssClass = "eventseparator";
             if (!args || !args.data || !args.data.tags || !args.data.tags.status) return;
             switch (args.data.tags.status.toLowerCase()) {
                 case "available":
@@ -327,7 +327,6 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                 }
                 dpBookingData.tags.status = data[j].Room.RoomStatus.Name;
                 dpBookingData.id = booking.Id;
-                dpBookingData.cssclass = '';
 
                 dpBookingResponseDto.push(dpBookingData);
             }
