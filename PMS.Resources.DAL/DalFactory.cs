@@ -821,6 +821,9 @@ namespace PMS.Resources.DAL
             {
                 guest = (from x in pmsContext.Guests
                          join a in pmsContext.Addresses on x.ID equals a.GuestID
+                         join i in pmsContext.Cities on a.City equals i.Name
+                         join j in pmsContext.States on a.State equals j.Name
+                         join k in pmsContext.Countries on a.Country equals k.Name
                          where x.IsActive
                          select new PmsEntity.Guest
                          {
@@ -830,16 +833,28 @@ namespace PMS.Resources.DAL
                              Address1 = a.Address1,
                              Address2 = a.Address2,
                              ZipCode = a.ZipCode,
-                             City = a.City,
-                             Country = a.Country,
-                             State = a.State,
+                             City = new PmsEntity.City
+                             {
+                                 Name = i.Name,
+                                 Id = i.ID
+                             },
+                             State = new PmsEntity.State
+                             {
+                                 Name = j.Name,
+                                 Id = j.ID
+                             },
+                             Country = new PmsEntity.Country
+                             {
+                                 Name = k.Name,
+                                 Id = k.ID
+                             },
                              FirstName = x.FirstName,
                              Gender = x.Gender,
                              LastName = x.LastName,
                              MobileNumber = x.MobileNumber,
                              PhotoPath = x.PhotoPath,
                              GuestMappings = (from m in pmsContext.GuestMappings
-                                              join i in pmsContext.IDTypes on m.IDTYPEID equals i.ID
+                                              join l in pmsContext.IDTypes on m.IDTYPEID equals l.ID
                                               where m.IsActive && m.GUESTID == x.ID
                                               select new PmsEntity.GuestMapping
                                               {
@@ -848,8 +863,8 @@ namespace PMS.Resources.DAL
                                                   IdExpiryDate = m.IdExpiryDate,
                                                   IdType = new PmsEntity.IDType
                                                   {
-                                                      ID = i.ID,
-                                                      Name = i.Name
+                                                      ID = l.ID,
+                                                      Name = l.Name
                                                   }
                                               }).ToList()
 
