@@ -2438,7 +2438,7 @@
         }
 
         if ($('#hourCheckin')[0].checked && noOfHours === '-1') {
-            alert("Please select proper checkout hours");
+            alert("Please select checkout hours.");
             return false;
         }
         
