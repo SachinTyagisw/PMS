@@ -252,10 +252,25 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
             pmsSession.RemoveItem("dtcheckin");
             pmsSession.RemoveItem("dtcheckout");
             pmsSession.SetItem("dtcheckin", params.start);
-            pmsSession.SetItem("dtcheckout", params.end);            
+            pmsSession.SetItem("roomid", args.resource);
+            pmsSession.SetItem("dtcheckout", params.end);
+            var roomTypeId = getRoomTypeId($scope.Bookings, args.resource);
+            pmsSession.SetItem("roomtypeid", roomTypeId);
             redirectionSvc.RedirectToCheckin();
         },
     };
+
+    function getRoomTypeId(data, roomId) {
+        var roomTypeId = '-1';
+        var rooms = filterRoomsFromBookingResponse(data);
+        if (!rooms || rooms.length <= 0) return roomTypeId;
+        for (var i = 0; i < rooms.length; i++) {
+            if (rooms[i].Id !== roomId) continue;
+            roomTypeId = rooms[i].RoomType.Id;
+            break;
+        }
+        return roomTypeId;
+    }
 
     //$scope.clear = function () {
     //    var dp = $scope.scheduler;
@@ -293,13 +308,41 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                 var guest = data[i].RoomBookings[j].Guest;
                 
                 if (room && $.trim(room.Number.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0) {
-                    response.Rooms.push(data[i].RoomBookings[j].Room);
+                    // check if room already added 
+                    if (response.Rooms && response.Rooms.length > 0) {
+                        var found = false;
+                        for (var k = 0; k < response.Rooms.length; k++) {
+                            if (parseInt(data[i].RoomBookings[j].Room.Id) !== parseInt(response.Rooms[k].Id)) continue;
+                            found = true;
+                            break;
+                        }
+                        if (!found) {
+                            response.Rooms.push(data[i].RoomBookings[j].Room);
+                        }
+                        
+                    }else{
+                        response.Rooms.push(data[i].RoomBookings[j].Room);
+                    }
                     continue;
                 }
                 if (guest && guest.Id > 0 &&
                     ($.trim(guest.FirstName.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0
                     || $.trim(guest.LastName.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0)) {
-                    response.Rooms.push(data[i].RoomBookings[j].Room);
+
+                    if (response.Rooms && response.Rooms.length > 0) {
+                        var found = false;
+                        // check if room already added 
+                        for (var k = 0; k < response.Rooms.length; k++) {
+                            if (parseInt(data[i].RoomBookings[j].Room.Id) !== parseInt(response.Rooms[k].Id)) continue;
+                            found = true;
+                            break;
+                        }
+                        if (!found) {
+                            response.Rooms.push(data[i].RoomBookings[j].Room);
+                        }
+                    } else {
+                        response.Rooms.push(data[i].RoomBookings[j].Room);
+                    }
                     continue;
                 }
             }

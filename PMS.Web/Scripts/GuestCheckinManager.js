@@ -1408,6 +1408,9 @@
                 if (!data || !data.Rooms || data.Rooms.length <= 0) return;
 
                 pmsSession.SetItem("roomdata", JSON.stringify(data.Rooms));
+                var roomDdl = $('#roomddl');
+                var roomTypeId = $('#roomTypeDdl').val();
+                window.GuestCheckinManager.BindRoomDdl(roomDdl, roomTypeId, data.Rooms, true);
                 if (window.Notifications) window.Notifications.Notify("on-roombydate-get-success", null, null);
             };
 

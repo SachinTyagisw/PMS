@@ -89,13 +89,6 @@
                 $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
                 if (gcm.ShouldCallGetRoomApi()) {
                         pmsSession.RemoveItem("roomdata");
-                        Notifications.SubscribeActive("on-roombydate-get-success", function (sender, args) {
-                            var data = pmsSession.GetItem("roomdata");
-                            var rooms = $.parseJSON(data);
-                            var ddlRoom = $('#roomddl');
-                            var roomTypeId = $('#roomTypeDdl').val();
-                            window.GuestCheckinManager.BindRoomDdl(ddlRoom, roomTypeId, rooms, true);
-                        });
                         gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val());
                 }
                 OnCmbHourlyCheckInChange();
@@ -104,13 +97,6 @@
             $("#datetimepicker2").on("dp.change", function (e) {
                 if (gcm.ShouldCallGetRoomApi()) {
                     pmsSession.RemoveItem("roomdata");
-                    Notifications.SubscribeActive("on-roombydate-get-success", function (sender, args) {
-                        var data = pmsSession.GetItem("roomdata");
-                        var rooms = $.parseJSON(data);
-                        var ddlRoom = $('#roomddl');
-                        var roomTypeId = $('#roomTypeDdl').val();
-                        window.GuestCheckinManager.BindRoomDdl(ddlRoom, roomTypeId, rooms, true);
-                    });
                     gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val());
                 }
             });
@@ -197,13 +183,7 @@
 
             if (roomTypeId !== '-1') {
                 if (gcm.ShouldCallGetRoomApi()) {
-                    Notifications.SubscribeActive("on-roombydate-get-success", function (sender, args) {
-                        var data = pmsSession.GetItem("roomdata");
-                        var roomDdl = $('#roomddl');
-                        var rooms = $.parseJSON(data);
-                        var rTypeId = $('#roomTypeDdl').val();
-                        window.GuestCheckinManager.BindRoomDdl(roomDdl, rTypeId, rooms, true);
-                    });
+                    pmsSession.RemoveItem("roomdata");
                     gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val());
                 }                
             }
@@ -310,15 +290,30 @@
             pmsSession.RemoveItem("bookingId");
 
             //if user is navigated to checkin screen from dashboard screen
-            if (pmsSession.GetItem("dtcheckin") && pmsSession.GetItem("dtcheckout")) {
+            if (pmsSession.GetItem("dtcheckin") && pmsSession.GetItem("dtcheckout")
+                && pmsSession.GetItem("roomtypeid") && pmsSession.GetItem("roomid")) {
                 $("#dateFrom").val(pmsSession.GetItem("dtcheckin"));
                 $("#dateTo").val(pmsSession.GetItem("dtcheckout"));
+                var roomTypeId = pmsSession.GetItem("roomtypeid");
+                $('#roomTypeDdl').val(roomTypeId);
+                if (roomTypeId !== '-1') {
+                    if (gcm.ShouldCallGetRoomApi()) {
+                        Notifications.SubscribeActive("on-roombydate-get-success", function (sender, args) {
+                            var roomId = pmsSession.GetItem("roomid");
+                            if (roomId && roomId > 0) {
+                                $("#roomddl").val(roomId);
+                            }
+                            //once value is set in input date then clear sessionstorage
+                            pmsSession.RemoveItem("dtcheckin");
+                            pmsSession.RemoveItem("dtcheckout");
+                            pmsSession.RemoveItem("roomid");
+                            pmsSession.RemoveItem("roomtypeid");
+                        });
+                        gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val());
+                    }
+                }
             }
-
-            //once value is set in input date then clear sessionstorage
-            pmsSession.RemoveItem("dtcheckin");
-            pmsSession.RemoveItem("dtcheckout");
-
+            
             $("#fName").prop("readonly", false);
             $("#lName").prop("readonly", false);            
         }
