@@ -1033,7 +1033,7 @@ namespace PMS.Resources.DAL
                 {
                     foreach (var payment in distinctPaymentValues)
                     {
-                        if (payment.Detail == null || payment.Value == null || payment.Mode == null) continue;
+                        if (payment.Mode == null) continue;
                         paymentDetails.Add(new PmsEntity.InvoicePaymentDetail { PaymentDetails = payment.Detail, PaymentValue = payment.Value, PaymentMode = payment.Mode });
                     }
                 }
