@@ -986,22 +986,6 @@ namespace PMS.Resources.DAL
                     }
                 }
 
-                var distinctTaxValues = resultSet.AsEnumerable()
-                        .Select(row => new
-                        {
-                            TaxName = row.TaxShortName,
-                            TaxValue = row.TaxAmount
-                        })
-                        .Distinct().ToList();
-
-                if (distinctTaxValues != null && distinctTaxValues.Count > 0)
-                {
-                    foreach (var tax in distinctTaxValues)
-                    {
-                        taxes.Add(new PmsEntity.Tax { TaxName = tax.TaxName, Value = tax.TaxValue, IsDefaultCharges = true });
-                    }
-                }
-
                 var distinctItemValues = resultSet.AsEnumerable()
                         .Select(row => new
                         {
@@ -1020,6 +1004,22 @@ namespace PMS.Resources.DAL
                     }
                 }
 
+                var distinctTaxValues = resultSet.AsEnumerable()
+                        .Select(row => new
+                        {
+                            TaxName = row.TaxShortName,
+                            TaxValue = row.TaxAmount
+                        })
+                        .Distinct().ToList();
+
+                if (distinctTaxValues != null && distinctTaxValues.Count > 0)
+                {
+                    foreach (var tax in distinctTaxValues)
+                    {
+                        taxes.Add(new PmsEntity.Tax { TaxName = tax.TaxName, Value = tax.TaxValue, IsDefaultCharges = true });
+                    }
+                }                
+
                 var distinctPaymentValues = resultSet.AsEnumerable()
                         .Select(row => new
                         {
@@ -1033,6 +1033,7 @@ namespace PMS.Resources.DAL
                 {
                     foreach (var payment in distinctPaymentValues)
                     {
+                        if (payment.Detail == null || payment.Value == null || payment.Mode == null) continue;
                         paymentDetails.Add(new PmsEntity.InvoicePaymentDetail { PaymentDetails = payment.Detail, PaymentValue = payment.Value, PaymentMode = payment.Mode });
                     }
                 }
