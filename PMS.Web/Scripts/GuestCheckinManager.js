@@ -2426,13 +2426,13 @@
         var totalRoomCharge = $('#totalRoomCharge');
         
         if (!baseRoomCharge || baseRoomCharge.val() <= 0) {
-            alert('Enter valid base room charge.');
+            alert('Room charge is not configured for your selection. Please contact administrator.');
             baseRoomCharge.focus();
             return false;
         }
 
         if (!totalRoomCharge || totalRoomCharge.val() <= 0) {
-            alert('please verify total room charge.');
+            alert('Please contact administrator.');
             totalRoomCharge.focus();
             return false;
         }
@@ -2457,12 +2457,12 @@
         }
 
         if (!roomType || roomType === '-1') {
-            alert("Select proper room type");
+            alert("Please select room type");
             return false;
         }
 
         if (!roomId || roomId === '-1') {
-            alert("Select proper room number");
+            alert("Please select room number");
             return false;
         }
 
@@ -2478,33 +2478,35 @@
             $('#fName').focus();
             return false;
         }
-        // check last name 
+        // check last name ssss
         if (!lname || lname.length <= 0) {
             alert("Please enter the last name");
             $('#lName').focus();
             return false;
         }
         // check phone number
-        if (!phNumber || phNumber.length <= 0) {
-            alert("Please enter phone number");
-            $('#phone').focus();
-            return false;
-        }
+        //if (!phNumber || phNumber.length <= 0) {
+        //    alert("Please enter phone number");
+        //    $('#phone').focus();
+        //    return false;
+        //}
 
-        if (!city || city === '-1') {
-            alert("Select proper city");
+
+        if (!country || country === '-1') {
+            alert("Please select country");
             return false;
         }
 
         if (!state || state === '-1') {
-            alert("Select proper state");
+            alert("Please select state");
             return false;
         }
 
-        if (!country || country === '-1') {
-            alert("Select proper country");
+        if (!city || city === '-1') {
+            alert("Please select city");
             return false;
         }
+
 
         // check zipcode
         if (!zipCode || zipCode.length <= 0) {
@@ -2513,13 +2515,30 @@
             return false;
         }
 
+        var emailId = $("#email").val();
+        var validEmailIdRegex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+        // check email 
+        if (emailId && emailId.length > 0) {
+            var testemail = validEmailIdRegex.test(emailId);
+            if (testemail !== true) {
+                alert("Please enter valid email format.");
+                $('#email').focus();
+                return false;
+            }
+        } 
+        //else {
+        //    alert("Please enter valid email format.");
+        //    $('#email').focus();
+        //    return false;
+        //}
+
         if (!guestIdType || guestIdType === '-1') {
-            alert("Guest Identification type is incorrect.");
+            alert("Please select Type Of ID.");
             return false;
         }
         // check guest id details
         if (!idDetails || idDetails.length <= 0) {
-            alert("Please enter guest identification number");
+            alert("Please enter ID number");
             $('#idDetails').focus();
             return false;
         }
@@ -2531,21 +2550,6 @@
         //    return false;
         //}
 
-        var emailId = $("#email").val();
-        var validEmailIdRegex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-        // check email 
-        if (emailId && emailId.length > 0) {
-            var testemail = validEmailIdRegex.test(emailId);
-            if (testemail !== true) {
-                alert("Please enter valid email format.");
-                $('#email').focus();
-                return false;
-            }             
-        } else {
-            alert("Please enter valid email format.");
-            $('#email').focus();
-            return false;
-        }
         return true;
     }   
 
