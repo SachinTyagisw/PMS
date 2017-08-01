@@ -875,6 +875,8 @@ namespace PMS.Resources.DAL
                                               }).ToList()
                          }).ToList();
             }
+            // to have records with distinct email id
+            guest = guest.GroupBy(x => x.EmailAddress).Select(x => x.First()).ToList();
             return guest;
         }
 

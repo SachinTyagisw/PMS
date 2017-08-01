@@ -252,6 +252,23 @@
             $('#imgAdditionalPhoto').removeClass('photo-added');
             $('#imgPhoto').attr('src', '');
             $('#imgAdditionalPhoto').attr('src', '');
+            $('#address').val('');
+            $('#zipCode').val('');
+            $('#idDetails').val('');
+            $("#ddlIdType").val(-1);
+            $('#idExpiry').val('');
+            $('#ddlCountry').val(-1);
+            $('#ddlIdCountry').val(-1);
+            $('#ddlState').empty();
+            $('#ddlIdState').empty();
+            $('#ddlCity').empty();
+            $('#ddlState').append(new Option("Select State", "-1"));
+            $('#ddlIdState').append(new Option("Select State", "-1"));
+            $('#ddlCity').append(new Option("Select City", "-1"));
+            $('#ddlState').val(-1);
+            $('#ddlIdState').val(-1);
+            $('#ddlCity').val(-1);
+
             window.GuestCheckinManager.BookingDto.GuestId = null;
             // clear guest history if guest id is not present
             gcm.AutoCollapseGuestHistory();
