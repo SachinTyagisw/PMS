@@ -336,9 +336,7 @@
                 var cloneHtmlElement = $('#divInvoice').find('tr#trOthertax:first').clone(true).removeClass('remove');
                 cloneHtmlElement[0].style = 'display:block';
                 $('#divInvoice').find('#trDefaultCharges:nth-child(3)').after(cloneHtmlElement);
-                var totalElement = $('#' + cloneHtmlElement[0].id + ' td#otherTaxText').length;
-                var idx = totalElement > 0 ? totalElement -1  : 0;
-                $('#' + cloneHtmlElement[0].id + ' td#otherTaxText')[idx].focus();
+                $('#' + cloneHtmlElement[0].id + ' td#otherTaxText')[1].focus();
                 e.stopPropagation();
             });
 
