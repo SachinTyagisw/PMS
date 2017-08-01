@@ -2112,6 +2112,9 @@
         $('#roomTypeDdl').empty();
         $('#roomddl').empty();
         $('#rateTypeDdl').val('-1');
+        //TODO: need to update with actual value
+        //$('#rateTypeDdl').empty();
+        //$('#rateTypeDdl').append(new Option(data[0].RoomBookings[0].Room.RateType.Name, data[0].RoomBookings[0].Room.RateType.Id));
         $('#roomTypeDdl').append(new Option(data[0].RoomBookings[0].Room.RoomType.Name, data[0].RoomBookings[0].Room.RoomType.Id));
         $('#roomddl').append(new Option(data[0].RoomBookings[0].Room.Number, data[0].RoomBookings[0].Room.Id));
     }

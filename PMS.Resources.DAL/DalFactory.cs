@@ -1124,7 +1124,8 @@ namespace PMS.Resources.DAL
                 {
                     foreach (var roomBooking in distinctRoomBookings)
                     {
-                        booking.RoomBookings.Add(new PmsEntity.RoomBooking { Id = roomBooking.ID, GuestID = roomBooking.GuestID, Room = new PmsEntity.Room { Id = roomBooking.RoomID, Number = roomBooking.RoomNumber, RoomType = new PmsEntity.RoomType { Name = roomBooking.RoomTypeName, Id = roomBooking.RoomTypeId } } });
+                        //TODO: need to update ratetype value with actual value
+                        booking.RoomBookings.Add(new PmsEntity.RoomBooking { Id = roomBooking.ID, GuestID = roomBooking.GuestID, Room = new PmsEntity.Room { Id = roomBooking.RoomID, Number = roomBooking.RoomNumber, RateType = new PmsEntity.RateType { Name = roomBooking.RoomTypeName, Id = roomBooking.RoomTypeId }, RoomType = new PmsEntity.RoomType { Name = roomBooking.RoomTypeName, Id = roomBooking.RoomTypeId } } });
                     }
                 }
 

@@ -139,9 +139,9 @@
       <DependentUpon>PmsModel.Context.tt</DependentUpon>
     </Compile>
     <Compile Include="PmsModel.cs">
-      <DependentUpon>PmsModel.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="PmsModel.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -212,8 +212,8 @@
     </None>
     <None Include="PmsModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>PmsModel.cs</LastGenOutput>
       <DependentUpon>PmsModel.edmx</DependentUpon>
+      <LastGenOutput>PmsModel.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
