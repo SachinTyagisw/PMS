@@ -1,4 +1,4 @@
-CREATE PROCEDURE [dbo].[InsertBooking]                  
+ALTER PROCEDURE [dbo].[InsertBooking]                  
  @propertyID INT,                  
  @bookingXML XML = NULL,       
  @BOOKINGID INT OUTPUT,    
@@ -32,7 +32,8 @@ BEGIN
       XMLTable.GuestRemarks,                    
       XMLTable.TransactionRemarks,         
       XMLTable.ISHOURLYCHECKIN,        
-      XMLTable.HOURSTOSTAY,                   
+      XMLTable.HOURSTOSTAY, 
+      XMLTable.RateTypeId,                  
       XMLTable.IsActive,                    
       XMLTable.CreatedBy,                    
       XMLTable.CreatedOn,                    
@@ -50,7 +51,8 @@ BEGIN
       GuestRemarks nvarchar(200),                    
       TransactionRemarks nvarchar(200),                    
       ISHOURLYCHECKIN bit,        
-      HOURSTOSTAY int,        
+      HOURSTOSTAY int,   
+      RateTypeId int,     
       IsActive bit,                    
       CreatedBy nvarchar(200),                    
       CreatedOn Datetime,                    
@@ -69,6 +71,7 @@ BEGIN
       ,[TargetBooking].GuestRemarks = [SourceBooking].GuestRemarks                    
       ,[TargetBooking].TransactionRemarks = [SourceBooking].TransactionRemarks                  
       ,[TargetBooking].ISHOURLYCHECKIN = [SourceBooking].ISHOURLYCHECKIN                  
+      ,[TargetBooking].RateTypeId = [SourceBooking].RateTypeId                  
       ,[TargetBooking].HOURSTOSTAY = [SourceBooking].HOURSTOSTAY                  
       ,[TargetBooking].IsActive = [SourceBooking].IsActive                    
       ,[TargetBooking].CreatedBy = [SourceBooking].CreatedBy                  
@@ -85,7 +88,8 @@ BEGIN
       GuestRemarks,                    
       TransactionRemarks,        
       ISHOURLYCHECKIN,                    
-      HOURSTOSTAY,        
+      HOURSTOSTAY, 
+      RateTypeId,       
       IsActive,         
       CreatedBy,                    
       CreatedOn,                    
@@ -102,6 +106,7 @@ BEGIN
      [SourceBooking].TransactionRemarks,                    
      [SourceBooking].ISHOURLYCHECKIN,        
      [SourceBooking].HOURSTOSTAY,        
+     [SourceBooking].RateTypeId,
      [SourceBooking].IsActive,                    
      [SourceBooking].CreatedBy,                    
      [SourceBooking].CreatedOn,                    
