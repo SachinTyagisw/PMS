@@ -7,11 +7,19 @@
         var pmsSession = window.PmsSession;        
 
         function OnPropertyChange() {
-            pmsSession.RemoveItem("propertyid");
+            clearExistingSessionStorage();
             //set property id on property ddl selection
             pmsSession.SetItem("propertyid", $('#ddlProperty').val());
             gcm.Initialize();
             init();
+        }
+
+        function clearExistingSessionStorage(){
+            pmsSession.RemoveItem("propertyid");
+            pmsSession.RemoveItem("roomtypedata");
+            pmsSession.RemoveItem("roomratedata");
+            pmsSession.RemoveItem("roomdata");
+            pmsSession.RemoveItem("propertyrooms");
         }
 
         function OnHistoryClick() {
