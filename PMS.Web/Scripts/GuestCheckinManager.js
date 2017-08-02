@@ -40,6 +40,29 @@
             window.GuestCheckinManager.AjaxHandlers();
         },
 
+        BindInitDropdowns: function () {
+            if (!pmsSession.GetItem("roomtypedata")) {
+                window.GuestCheckinManager.GetRoomTypes();
+            } else {
+                    var roomTypeData = window.PmsSession.GetItem("roomtypedata");
+                    var roomTypes = $.parseJSON(roomTypeData);
+                    window.GuestCheckinManager.BindRoomTypeDdl($('#roomTypeDdl'), roomTypes);
+            }
+            if (!pmsSession.GetItem("roomratedata")) {
+                Notifications.SubscribeActive("on-roomrate-get-success", function (sender, args) {
+                    window.GuestCheckinManager.BindRateTypeDdl($('#rateTypeDdl'));
+                });
+                window.GuestCheckinManager.GetRoomRateByProperty();
+            } else {
+                window.GuestCheckinManager.BindRateTypeDdl($('#rateTypeDdl'));
+            }
+            if ($('#ddlCountry') && $('#ddlCountry').length > 0) {
+                window.GuestCheckinManager.GetCountry($('#ddlCountry'));
+            }
+            window.GuestCheckinManager.GetStateByCountry(-1);
+            window.GuestCheckinManager.GetCityByState(-1);
+        },
+
         GetRoomRateType: function (propertyId) {
             args.propertyId = propertyId && propertyId > 0 ? propertyId : getPropertyId();
             // get room rate types by api calling  

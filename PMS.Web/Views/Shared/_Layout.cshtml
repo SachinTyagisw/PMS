@@ -54,15 +54,18 @@
                 window.PmsSession.SetItem("username", "@ViewBag.UserName");
             }
             window.GuestCheckinManager.Initialize();
-            Notifications.SubscribeActive("on-allproperty-get-success", function (sender, args) {
-                $("#ddlProperty option[value='-1']").remove();
-                //set property id on property ddl selection
-                if (!window.PmsSession.GetItem("propertyid")) {
-                    window.PmsSession.SetItem("propertyid", $('#ddlProperty').val());
-                }                
-            });
-            window.GuestCheckinManager.GetAllProperty();
-    });
+            if (!window.PmsSession.GetItem("propertyid")) {
+                Notifications.SubscribeActive("on-allproperty-get-success", function (sender, args) {
+                    $("#ddlProperty option[value='-1']").remove();
+                    //set property id on property ddl selection
+                    if (!window.PmsSession.GetItem("propertyid")) {
+                        window.PmsSession.SetItem("propertyid", $('#ddlProperty').val());
+                        window.GuestCheckinManager.BindInitDropdowns();
+                    }
+                });
+                window.GuestCheckinManager.GetAllProperty();
+            }
+        });
     </script>
 
     <!--comment below bundling js logic to unbundle js files -->
