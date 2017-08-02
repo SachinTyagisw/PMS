@@ -1559,6 +1559,7 @@
                 if (!data || !data.Properties || data.Properties.length <= 0) return;
                 window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = null;
                 window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = data.Properties;
+                pmsSession.SetItem("allprops", JSON.stringify(data.Properties));
                 var divProperty = $('#divProperty');
                 var propertyTemplate = $('#propertyTemplate');
                 var ddlProperty = $('#ddlProperty');

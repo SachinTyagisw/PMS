@@ -64,6 +64,10 @@
                     }
                 });
                 window.GuestCheckinManager.GetAllProperty();
+            } else {
+                window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = $.parseJSON(window.PmsSession.GetItem("allprops"));
+                window.GuestCheckinManager.BindPropertyDdl($('#ddlProperty'));
+                $("#ddlProperty option[value='-1']").remove();
             }
         });
     </script>
