@@ -2103,18 +2103,19 @@
     }
 
     function populateRoomDetails(data) {
+        $('#roomTypeDdl').empty();
+        $('#roomddl').empty();
+        $('#rateTypeDdl').empty();
+        $('#hoursComboBox').empty();
         $('#hourCheckin')[0].checked = data[0].ISHOURLYCHECKIN;
+        $('#hourCheckin')[0].checked ? $('#hoursComboBox').append(new Option(data[0].HOURSTOSTAY, data[0].HOURSTOSTAY)) : $('#hoursComboBox').append(new Option(0, 0));
         $('#hoursComboBox').prop("disabled", !$('#hourCheckin')[0].checked);
-        $('#hourCheckin')[0].checked ? $('#hoursComboBox').val(data[0].HOURSTOSTAY) : $('#hoursComboBox').val(-1);
         $('#dateFrom').val(data[0].CheckinTime);
         $('#dateTo').val(data[0].CheckoutTime);
         data[0].NoOfAdult > 0 ? $("#ddlAdults").val(data[0].NoOfAdult) : $("#ddlAdults").val(0);
         data[0].NoOfChild > 0 ? $("#ddlChild").val(data[0].NoOfChild) : $("#ddlChild").val(0);
         $('#transRemarks').val(data[0].TransactionRemarks);
         $('#guestComments').val(data[0].GuestRemarks);
-        $('#roomTypeDdl').empty();
-        $('#roomddl').empty();
-        $('#rateTypeDdl').empty();
         $('#rateTypeDdl').append(new Option(data[0].RateType.Name, data[0].RateType.Id));
         $('#roomTypeDdl').append(new Option(data[0].RoomBookings[0].Room.RoomType.Name, data[0].RoomBookings[0].Room.RoomType.Id));
         $('#roomddl').append(new Option(data[0].RoomBookings[0].Room.Number, data[0].RoomBookings[0].Room.Id));
