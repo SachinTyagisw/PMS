@@ -7,8 +7,6 @@
         var pmsSession = window.PmsSession;        
 
         function OnPropertyChange() {
-            alert($('#ddlProperty').val());
-            return;
             pmsSession.RemoveItem("propertyid");
             //set property id on property ddl selection
             pmsSession.SetItem("propertyid", $('#ddlProperty').val());
