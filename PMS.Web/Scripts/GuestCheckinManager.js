@@ -732,12 +732,12 @@
             $('#ddlIdState').append(new Option("Select State", "-1"));
             $('#ddlCity').append(new Option("Select City", "-1"));
             $('#roomddl').append(new Option("Select Room", "-1"));
+            $('#imgPhoto').attr('src', '');
+            $('#imgAdditionalPhoto').attr('src', '');
             $('#imgPhoto').css('visibility', 'hidden');
             $('#imgPhoto').removeClass('photo-added');
             $('#imgAdditionalPhoto').css('visibility', 'hidden');
             $('#imgAdditionalPhoto').removeClass('photo-added');
-            $('#imgPhoto').attr('src', '');
-            $('#imgAdditionalPhoto').attr('src', '');
             window.GuestCheckinManager.BookingDto.GuestId = null;
             window.GuestCheckinManager.BookingDto.InvoiceId = null;
             window.GuestCheckinManager.BookingDto.RoomBookingId = null;

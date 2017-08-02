@@ -203,16 +203,28 @@
             gcm.PopulateGuestDetails(data);
             $('#address').val(data.Address1);
             $('#zipCode').val(data.ZipCode);
-            $('#idDetails').val(data.GuestMappings[0].IDDETAILS);
-            $("#ddlIdType").val(data.GuestMappings[0].IdType.ID);
-            $('#idExpiry').val(data.GuestMappings[0].IdExpiryDate);
+            if (data.GuestMappings[0] && data.GuestMappings[0].IDDETAILS) {
+                $('#idDetails').val(data.GuestMappings[0].IDDETAILS);
+            }
+            if (data.GuestMappings[0] && data.GuestMappings[0].IdType && data.GuestMappings[0].IdType.ID) {
+                $("#ddlIdType").val(data.GuestMappings[0].IdType.ID);
+            }
+            
+            if (data.GuestMappings[0] && data.GuestMappings[0].IdExpiryDate) {
+                $('#idExpiry').val(data.GuestMappings[0].IdExpiryDate);
+            }
             $('#ddlCountry').val(data.Country.Id);
-            $('#ddlIdCountry').val(data.GuestMappings[0].IdIssueCountryID)
+            if (data.GuestMappings[0] && data.GuestMappings[0].IdIssueCountryID) {
+                $('#ddlIdCountry').val(data.GuestMappings[0].IdIssueCountryID);
+                gcm.BindStateDdl(data.GuestMappings[0].IdIssueCountryID, $('#ddlIdState'));
+                
+            }
+            if (data.GuestMappings[0] && data.GuestMappings[0].IdIssueStateID) {
+                $('#ddlIdState').val(data.GuestMappings[0].IdIssueStateID);
+            }
             gcm.BindStateDdl(data.Country.Id, $('#ddlState'));
-            gcm.BindStateDdl(data.GuestMappings[0].IdIssueCountryID, $('#ddlIdState'));
             gcm.BindCityDdl(data.State.Id, $('#ddlCity'));
             $('#ddlState').val(data.State.Id);
-            $('#ddlIdState').val(data.GuestMappings[0].IdIssueStateID);
             $('#ddlCity').val(data.City.Id);
             gcm.MakeGuestInfoReadOnly(true);
             // clear guest history if guest id is not present
@@ -226,12 +238,12 @@
             $('#phone').val('');
             $('#email').val('');
             $('#idDetails').val('');
+            $('#imgPhoto').attr('src', '');
+            $('#imgAdditionalPhoto').attr('src', '');
             $('#imgPhoto').css('visibility', 'hidden');
             $('#imgPhoto').removeClass('photo-added');
             $('#imgAdditionalPhoto').css('visibility', 'hidden');
             $('#imgAdditionalPhoto').removeClass('photo-added');
-            $('#imgPhoto').attr('src', '');
-            $('#imgAdditionalPhoto').attr('src', '');
             $('#address').val('');
             $('#zipCode').val('');
             $('#idDetails').val('');
