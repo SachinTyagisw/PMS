@@ -2463,7 +2463,7 @@ ul {
   min-height: 344px;
 }
 .card-section-payment {
-    height: calc(100vh - 100px);
+    height: calc(100vh - 104px);
 }
 
 .user-profile .card-header {
@@ -3518,7 +3518,7 @@ a.mud-c {
 }
 .content-wrap {
     margin-left: 52px;
-    padding-top: 42px;
+    padding-top: 50px;
 }
 .fa-2x {
 font-size: 2em;
@@ -3545,7 +3545,7 @@ overflow:visible;
 background:#57666d;
 border-right:1px solid #e5e5e5;
 position:fixed;
-top:45px;
+top:50px;
 bottom:0;
 left:0;
 width:60px;
@@ -3615,7 +3615,16 @@ overflow-y:hidden;
 overflow-y:auto;
 overflow:visible;
 }
-
+.header-top-dd {
+    display: flex;
+}
+.header-top-dd label {
+    font-size: 12px;
+    width: 160px;
+    display: inline-flex;
+    margin-top: 8px;
+    color: #fff;
+}
 a:hover,a:focus {
 text-decoration:none;
 }
