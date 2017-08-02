@@ -31,5 +31,7 @@ namespace PMS.Resources.Entities
         public List<GuestMapping> GuestMappings { get; set; }
         public List<AdditionalGuest> AdditionalGuests { get; set; }
         public Invoice Invoice { get; set; }
+        public RateType RateType { get; set; }
+        public int RateTypeId { get; set; }
     }
 }

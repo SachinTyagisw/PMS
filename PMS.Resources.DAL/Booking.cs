@@ -38,9 +38,11 @@ namespace PMS.Resources.DAL
         public string Status { get; set; }
         public Nullable<bool> ISHOURLYCHECKIN { get; set; }
         public Nullable<int> HOURSTOSTAY { get; set; }
+        public Nullable<int> RateTypeId { get; set; }
     
         public virtual ICollection<AdditionalGuest> AdditionalGuests { get; set; }
         public virtual Property Property { get; set; }
+        public virtual RateType RateType { get; set; }
         public virtual ICollection<GuestReward> GuestRewards { get; set; }
         public virtual ICollection<Invoice> Invoices { get; set; }
         public virtual ICollection<RoomBooking> RoomBookings { get; set; }

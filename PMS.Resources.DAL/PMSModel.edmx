@@ -72,6 +72,7 @@
           <Property Name="Status" Type="nvarchar" MaxLength="50" />
           <Property Name="ISHOURLYCHECKIN" Type="bit" />
           <Property Name="HOURSTOSTAY" Type="int" />
+          <Property Name="RateTypeId" Type="int" />
         </EntityType>
         <EntityType Name="ChargableFacility">
           <Key>
@@ -501,6 +502,18 @@
             </Principal>
             <Dependent Role="Booking">
               <PropertyRef Name="PropertyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Booking__RateTyp__324172E1">
+          <End Role="RateType" Type="Self.RateType" Multiplicity="0..1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RateType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="RateTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -944,6 +957,10 @@
             <End Role="Property" EntitySet="Property" />
             <End Role="Booking" EntitySet="Booking" />
           </AssociationSet>
+          <AssociationSet Name="FK__Booking__RateTyp__324172E1" Association="Self.FK__Booking__RateTyp__324172E1">
+            <End Role="RateType" EntitySet="RateType" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
           <AssociationSet Name="FK__City__CountryID__48CFD27E" Association="Self.FK__City__CountryID__48CFD27E">
             <End Role="Country" EntitySet="Country" />
             <End Role="City" EntitySet="City" />
@@ -1133,8 +1150,10 @@
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ISHOURLYCHECKIN" Type="Boolean" />
           <Property Name="HOURSTOSTAY" Type="Int32" />
+          <Property Name="RateTypeId" Type="Int32" />
           <NavigationProperty Name="AdditionalGuests" Relationship="Self.FK__Additiona__Booki__6442E2C9" FromRole="Booking" ToRole="AdditionalGuests" />
           <NavigationProperty Name="Property" Relationship="Self.FK__Booking__Propert__1273C1CD" FromRole="Booking" ToRole="Property" />
+          <NavigationProperty Name="RateType" Relationship="Self.FK__Booking__RateTyp__324172E1" FromRole="Booking" ToRole="RateType" />
           <NavigationProperty Name="GuestRewards" Relationship="Self.FK__GuestRewa__Booki__38996AB5" FromRole="Booking" ToRole="GuestReward" />
           <NavigationProperty Name="Invoices" Relationship="Self.FK__Invoice__Booking__3C69FB99" FromRole="Booking" ToRole="Invoice" />
           <NavigationProperty Name="RoomBookings" Relationship="Self.FK__RoomBooki__Booki__33D4B598" FromRole="Booking" ToRole="RoomBooking" />
@@ -1452,6 +1471,7 @@
           <Property Name="NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Units" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Hours" Type="Int32" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK__Booking__RateTyp__324172E1" FromRole="RateType" ToRole="Booking" />
           <NavigationProperty Name="Property" Relationship="Self.FK__RateType__Proper__267ABA7A" FromRole="RateType" ToRole="Property" />
           <NavigationProperty Name="Property1" Relationship="Self.FK__RateType__Proper__27F8EE98" FromRole="RateType" ToRole="Property" />
           <NavigationProperty Name="Rates" Relationship="Self.FK__Rates__RateTypeI__251C81ED" FromRole="RateType" ToRole="Rates" />
@@ -1622,6 +1642,18 @@
             </Principal>
             <Dependent Role="Booking">
               <PropertyRef Name="PropertyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Booking__RateTyp__324172E1">
+          <End Role="RateType" Type="Self.RateType" Multiplicity="0..1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RateType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="RateTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2007,6 +2039,10 @@
             <End Role="Property" EntitySet="Properties" />
             <End Role="Booking" EntitySet="Bookings" />
           </AssociationSet>
+          <AssociationSet Name="FK__Booking__RateTyp__324172E1" Association="Self.FK__Booking__RateTyp__324172E1">
+            <End Role="RateType" EntitySet="RateTypes" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
           <AssociationSet Name="FK__GuestRewa__Booki__38996AB5" Association="Self.FK__GuestRewa__Booki__38996AB5">
             <End Role="Booking" EntitySet="Bookings" />
             <End Role="GuestReward" EntitySet="GuestRewards" />
@@ -2225,6 +2261,7 @@
           <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
           <Property Type="Boolean" Name="ISHOURLYCHECKIN" Nullable="true" />
           <Property Type="Int32" Name="HOURSTOSTAY" Nullable="true" />
+          <Property Type="Int32" Name="RateTypeId" Nullable="true" />
           <Property Type="Int32" Name="AdditionalGuestID" Nullable="true" />
           <Property Type="String" Name="AdditionalGuestFirstName" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="AdditionalGuestLastName" Nullable="true" MaxLength="100" />
@@ -2248,6 +2285,7 @@
           <Property Type="DateTime" Name="DOB" Nullable="true" />
           <Property Type="String" Name="Gender" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="PhotoPath" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="RateTypeName" Nullable="true" />
           <Property Type="Int32" Name="InvoiceId" Nullable="true" />
           <Property Type="Int32" Name="RoomTypeID" Nullable="true" />
           <Property Type="String" Name="RoomTypeName" Nullable="true" />
@@ -2402,6 +2440,7 @@
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ISHOURLYCHECKIN" ColumnName="ISHOURLYCHECKIN" />
                 <ScalarProperty Name="HOURSTOSTAY" ColumnName="HOURSTOSTAY" />
+                <ScalarProperty Name="RateTypeId" ColumnName="RateTypeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2874,6 +2913,7 @@
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ISHOURLYCHECKIN" ColumnName="ISHOURLYCHECKIN" />
                 <ScalarProperty Name="HOURSTOSTAY" ColumnName="HOURSTOSTAY" />
+                <ScalarProperty Name="RateTypeId" ColumnName="RateTypeId" />
                 <ScalarProperty Name="AdditionalGuestID" ColumnName="AdditionalGuestID" />
                 <ScalarProperty Name="AdditionalGuestFirstName" ColumnName="AdditionalGuestFirstName" />
                 <ScalarProperty Name="AdditionalGuestLastName" ColumnName="AdditionalGuestLastName" />
@@ -2897,6 +2937,7 @@
                 <ScalarProperty Name="DOB" ColumnName="DOB" />
                 <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+                <ScalarProperty Name="RateTypeName" ColumnName="RateTypeName" />
                 <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
                 <ScalarProperty Name="RoomTypeID" ColumnName="RoomTypeID" />
                 <ScalarProperty Name="RoomTypeName" ColumnName="RoomTypeName" />

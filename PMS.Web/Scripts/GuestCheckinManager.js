@@ -324,13 +324,13 @@
             booking.Status = status;
             booking.IsActive = true;
             booking.ISHOURLYCHECKIN = $('#hourCheckin')[0].checked ? true : false;
+            booking.RateTypeId = $('#rateTypeDdl').val();
             var noOfHours = 0;
             if ($("#hoursComboBox option:selected").text().indexOf('-') >= 0) {
                 noOfHours = parseInt($("#hoursComboBox option:selected").text().split('-')[0]);
             }
             booking.HOURSTOSTAY = $('#hourCheckin')[0].checked && parseInt(noOfHours) > 0 ? parseInt(noOfHours) : 0;
             booking.CreatedBy = getCreatedBy();            
-
             booking.RoomBookings = prepareRoomBooking();
             booking.Guests = prepareGuest();
             booking.GuestMappings = prepareGuestMapping();
@@ -2114,10 +2114,8 @@
         $('#guestComments').val(data[0].GuestRemarks);
         $('#roomTypeDdl').empty();
         $('#roomddl').empty();
-        $('#rateTypeDdl').val('-1');
-        //TODO: need to update with actual value
-        //$('#rateTypeDdl').empty();
-        //$('#rateTypeDdl').append(new Option(data[0].RoomBookings[0].Room.RateType.Name, data[0].RoomBookings[0].Room.RateType.Id));
+        $('#rateTypeDdl').empty();
+        $('#rateTypeDdl').append(new Option(data[0].RateType.Name, data[0].RateType.Id));
         $('#roomTypeDdl').append(new Option(data[0].RoomBookings[0].Room.RoomType.Name, data[0].RoomBookings[0].Room.RoomType.Id));
         $('#roomddl').append(new Option(data[0].RoomBookings[0].Room.Number, data[0].RoomBookings[0].Room.Id));
     }
@@ -2423,6 +2421,7 @@
         var child = $("#ddlChild").val();
         var guestIdType = $("#ddlIdType").val();
         var roomType = $('#roomTypeDdl').val();
+        var rateType = $('#rateTypeDdl').val();
         var roomId = $('#roomddl').val();
         var city = $('#ddlCity').val();
         var state = $('#ddlState').val();
@@ -2467,6 +2466,11 @@
             return false;
         }
 
+        if (!rateType || rateType === '-1') {
+            alert("Please select rate type");
+            return false;
+        }
+        
         if (!roomId || roomId === '-1') {
             alert("Please select room number");
             return false;

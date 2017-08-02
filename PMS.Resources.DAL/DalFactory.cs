@@ -1074,6 +1074,7 @@ namespace PMS.Resources.DAL
             booking.Addresses = new List<PmsEntity.Address>();
             booking.GuestMappings = new List<PmsEntity.GuestMapping>();
             booking.Invoice = new PmsEntity.Invoice();
+            booking.RateType = new PmsEntity.RateType();
 
             var roomBookings = new List<PmsEntity.RoomBooking>();
             var guests = new List<PmsEntity.Guest>();
@@ -1107,7 +1108,9 @@ namespace PMS.Resources.DAL
                 booking.LastUpdatedOn = bookingInformation.LastUpdatedOn;
                 booking.Status = bookingInformation.Status;
                 booking.Invoice.Id = bookingInformation.InvoiceId.HasValue ? Convert.ToInt32(bookingInformation.InvoiceId) : -1;
-
+                booking.RateType.Name = bookingInformation.RateTypeName;
+                booking.RateType.Id = bookingInformation.RateTypeId.HasValue ? Convert.ToInt32(bookingInformation.RateTypeId) : -1;
+               
                 //Populate RoomBooking
                 var distinctRoomBookings = resultSet.AsEnumerable()
                         .Select(row => new
@@ -1125,8 +1128,7 @@ namespace PMS.Resources.DAL
                 {
                     foreach (var roomBooking in distinctRoomBookings)
                     {
-                        //TODO: need to update ratetype value with actual value
-                        booking.RoomBookings.Add(new PmsEntity.RoomBooking { Id = roomBooking.ID, GuestID = roomBooking.GuestID, Room = new PmsEntity.Room { Id = roomBooking.RoomID, Number = roomBooking.RoomNumber, RateType = new PmsEntity.RateType { Name = roomBooking.RoomTypeName, Id = roomBooking.RoomTypeId }, RoomType = new PmsEntity.RoomType { Name = roomBooking.RoomTypeName, Id = roomBooking.RoomTypeId } } });
+                        booking.RoomBookings.Add(new PmsEntity.RoomBooking { Id = roomBooking.ID, GuestID = roomBooking.GuestID, Room = new PmsEntity.Room { Id = roomBooking.RoomID, Number = roomBooking.RoomNumber, RoomType = new PmsEntity.RoomType { Name = roomBooking.RoomTypeName, Id = roomBooking.RoomTypeId } } });
                     }
                 }
 

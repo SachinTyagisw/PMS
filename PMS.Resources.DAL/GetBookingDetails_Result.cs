@@ -29,6 +29,7 @@ namespace PMS.Resources.DAL
         public string Status { get; set; }
         public Nullable<bool> ISHOURLYCHECKIN { get; set; }
         public Nullable<int> HOURSTOSTAY { get; set; }
+        public Nullable<int> RateTypeId { get; set; }
         public Nullable<int> AdditionalGuestID { get; set; }
         public string AdditionalGuestFirstName { get; set; }
         public string AdditionalGuestLastName { get; set; }
@@ -52,6 +53,7 @@ namespace PMS.Resources.DAL
         public Nullable<System.DateTime> DOB { get; set; }
         public string Gender { get; set; }
         public string PhotoPath { get; set; }
+        public string RateTypeName { get; set; }
         public Nullable<int> InvoiceId { get; set; }
         public Nullable<int> RoomTypeID { get; set; }
         public string RoomTypeName { get; set; }
