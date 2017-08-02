@@ -6,6 +6,16 @@
         var gcm = window.GuestCheckinManager;
         var pmsSession = window.PmsSession;        
 
+        function OnPropertyChange() {
+            alert($('#ddlProperty').val());
+            return;
+            pmsSession.RemoveItem("propertyid");
+            //set property id on property ddl selection
+            pmsSession.SetItem("propertyid", $('#ddlProperty').val());
+            gcm.Initialize();
+            init();
+        }
+
         function OnHistoryClick() {
             // call api only when expand event is fire
             if ($('#collapse1').attr('aria-expanded') != 'false') return;
@@ -325,7 +335,6 @@
                     }
                 }
             }
-            
             $("#fName").prop("readonly", false);
             $("#lName").prop("readonly", false);            
         }
@@ -425,7 +434,7 @@
 
             $("#btnReserved").click(function () {
                 gcm.AddBooking('reserved');
-            });
+            });           
 
             $("#uploadPhoto").change(function () {
                 $('#imgPhoto').css('visibility', 'visible');

@@ -35,7 +35,6 @@
                 window.location.replace(window.webBaseUrl + "Account/Login");
                 return;
             }           
-            
             getAllGuest();
             //getRooms();            
             window.GuestCheckinManager.AjaxHandlers();
@@ -1547,6 +1546,7 @@
                 else if (ddlProperty &&  ddlProperty.length > 0) {
                     window.GuestCheckinManager.BindPropertyDdl(ddlProperty);
                 }
+                if (window.Notifications) window.Notifications.Notify("on-allproperty-get-success", null, null);
             };
 
             pmsService.Handlers.OnGetAllPropertyFailure = function () {

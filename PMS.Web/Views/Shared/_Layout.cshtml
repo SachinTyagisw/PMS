@@ -50,14 +50,18 @@
     window.guestIdPath = '@(System.Configuration.ConfigurationManager.AppSettings["GuestIdPath"].ToString())';
     window.uploadDirectory = '@(System.Configuration.ConfigurationManager.AppSettings["UploadDirectory"].ToString())';
         jQuery(document).ready(function ($) {
-            //set property id on property ddl selection
-            if (!window.PmsSession.GetItem("propertyid")) {
-                window.PmsSession.SetItem("propertyid", 1);
-            }
             if (!window.PmsSession.GetItem("username")) {
                 window.PmsSession.SetItem("username", "@ViewBag.UserName");
-        }
-        window.GuestCheckinManager.Initialize();
+            }
+            window.GuestCheckinManager.Initialize();
+            Notifications.SubscribeActive("on-allproperty-get-success", function (sender, args) {
+                $("#ddlProperty option[value='-1']").remove();
+                //set property id on property ddl selection
+                if (!window.PmsSession.GetItem("propertyid")) {
+                    window.PmsSession.SetItem("propertyid", $('#ddlProperty').val());
+                }                
+            });
+            window.GuestCheckinManager.GetAllProperty();
     });
     </script>
 
@@ -144,6 +148,13 @@
                 <span class="line"></span>
                 <span class="line"></span>
                 <span class="line"></span>
+            </div>
+        </div>
+        <div class="col-lg-2 p-l-10 p-r-5 m-t-10">
+            <div class="form-group">
+                <label>Select Property</label>
+                <select id="ddlProperty" onchange="OnPropertyChange();">
+                </select>
             </div>
         </div>
         <div class="pull-right p-r-15">
