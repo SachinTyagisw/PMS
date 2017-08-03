@@ -17,6 +17,9 @@ namespace PMS.Web
         private IPmsService _iPMSService = null;
         protected void Application_Start()
         {
+            var logService = LoggingManager.GetLogInstance();
+            logService.LogInformationFormat("PMS web call start :" + DateTime.Now);
+
             BundleTable.EnableOptimizations = true;
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
@@ -29,6 +32,7 @@ namespace PMS.Web
             {
                 HttpContext.Current.Application["PMSService"] = _iPMSService;
             }
+            logService.LogInformationFormat("PMS web call stop :" + DateTime.Now);
         }
 
         protected void Application_Error(object sender, EventArgs e)
