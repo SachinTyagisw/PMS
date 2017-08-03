@@ -50,11 +50,12 @@
     window.guestIdPath = '@(System.Configuration.ConfigurationManager.AppSettings["GuestIdPath"].ToString())';
     window.uploadDirectory = '@(System.Configuration.ConfigurationManager.AppSettings["UploadDirectory"].ToString())';
         jQuery(document).ready(function ($) {
+            var propertyId = window.PmsSession.GetItem("propertyid");
             if (!window.PmsSession.GetItem("username")) {
                 window.PmsSession.SetItem("username", "@ViewBag.UserName");
             }
             window.GuestCheckinManager.Initialize();
-            if (!window.PmsSession.GetItem("propertyid")) {
+            if (!propertyId) {
                 Notifications.SubscribeActive("on-allproperty-get-success", function (sender, args) {
                     $("#ddlProperty option[value='-1']").remove();
                     //set property id on property ddl selection
@@ -68,6 +69,7 @@
                 window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = $.parseJSON(window.PmsSession.GetItem("allprops"));
                 window.GuestCheckinManager.BindPropertyDdl($('#ddlProperty'));
                 $("#ddlProperty option[value='-1']").remove();
+                $('#ddlProperty').val(propertyId);
             }
         });
     </script>
