@@ -57,19 +57,21 @@
             window.GuestCheckinManager.Initialize();
             if (!propertyId) {
                 Notifications.SubscribeActive("on-allproperty-get-success", function (sender, args) {
-                    $("#ddlProperty option[value='-1']").remove();
                     //set property id on property ddl selection
-                    if (!window.PmsSession.GetItem("propertyid")) {
-                        window.PmsSession.SetItem("propertyid", $('#ddlProperty').val());
+                    if (!window.PmsSession.GetItem("propertyid")) {                        
+                        window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = $.parseJSON(window.PmsSession.GetItem("allprops"));
+                        window.GuestCheckinManager.BindPropertyDdl($('#ddlGlobalProperty'));
+                        $("#ddlGlobalProperty option[value='-1']").remove();
+                        window.PmsSession.SetItem("propertyid", $('#ddlGlobalProperty').val());
                         window.GuestCheckinManager.BindInitDropdowns();
                     }
                 });
                 window.GuestCheckinManager.GetAllProperty();
             } else {
                 window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = $.parseJSON(window.PmsSession.GetItem("allprops"));
-                window.GuestCheckinManager.BindPropertyDdl($('#ddlProperty'));
-                $("#ddlProperty option[value='-1']").remove();
-                $('#ddlProperty').val(propertyId);
+                window.GuestCheckinManager.BindPropertyDdl($('#ddlGlobalProperty'));
+                $("#ddlGlobalProperty option[value='-1']").remove();
+                $('#ddlGlobalProperty').val(propertyId);
             }
         });
     </script>
@@ -161,8 +163,7 @@
         </div>*@
         <div class="col-lg-3 p-l-10 p-r-5 m-t-10">
             <div class="form-group header-top-dd">
-                <label>Select Property</label>
-                <select id="ddlProperty" class="form-control" onchange="OnPropertyChange();">
+                <select id="ddlGlobalProperty" class="form-control" onchange="OnPropertyChange();">
                 </select>
             </div>
         </div>

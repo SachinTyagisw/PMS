@@ -162,6 +162,8 @@
             var roomId = $(thisRow)[0].innerText;
             var propertyId = $('#ddlProperty').val();
             var roomNumber = $(thisRow)[3].innerText;
+            var preRoomType = $(thisRow)[1].innerText;
+            var preFloor = $(thisRow)[2].innerText;
             var roomRequestDto = {};
             roomRequestDto.Rooms = [];
 
@@ -171,10 +173,16 @@
                 var cloneRoomType = $('#ddlRoomType').clone(true);
                 cloneRoomType[0].style = 'display:block';
                 cloneRoomType[0].id = 'ddlRoomType' + roomId;
-                var roomTypeSelector = '#' + cloneRoomType[0].id;
+                var roomTypeSelector = '#' + cloneRoomType[0].id;                
                 $(thisRow)[1].innerText = "";
                 $(thisRow[1]).attr('contenteditable', 'false');
                 $(thisRow[1]).append(cloneRoomType);
+
+                $(roomTypeSelector + " option").each(function () {
+                    if ($(this).text() == preRoomType) {
+                        $(this).attr('selected', 'selected');
+                    }
+                });
 
                 var cloneFloor = $('#ddlFloor').clone(true);
                 cloneFloor[0].style = 'display:block';
@@ -184,6 +192,11 @@
                 $(thisRow[2]).attr('contenteditable', 'false');
                 $(thisRow[2]).append(cloneFloor);
 
+                $(floorSelector + " option").each(function () {
+                    if ($(this).text() == preFloor) {
+                        $(this).attr('selected', 'selected');
+                    }
+                });
                 makeFieldsReadonly($(thisRow[0]));
 
             } else if (editOn == true) {

@@ -79,6 +79,8 @@
             var rateTypeId = $(thisRow)[0].innerText;
             var propertyId = $('#ddlProperty').val();
             var rateTypeName = $(thisRow)[1].innerText;
+            var preUnit = $(thisRow)[2].innerText;
+            var preHour = $(thisRow)[3].innerText;
             if (editOn == false) {
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
 
@@ -89,6 +91,11 @@
                 $(thisRow)[2].innerText = "";
                 $(thisRow[2]).attr('contenteditable', 'false');
                 $(thisRow[2]).append(cloneUnit);
+                $(unitSelector + " option").each(function () {
+                    if ($(this).text() == preUnit) {
+                        $(this).attr('selected', 'selected');
+                    }
+                });
 
                 var cloneHour = $('#ddlHourClone').clone(true);
                 cloneHour[0].style = 'display:block';
@@ -98,6 +105,11 @@
                 $(thisRow)[3].innerText = "";
                 $(thisRow[3]).attr('contenteditable', 'false');
                 $(thisRow[3]).append(cloneHour);
+                $(hourSelector + " option").each(function () {
+                    if ($(this).text() == preHour) {
+                        $(this).attr('selected', 'selected');
+                    }
+                });
 
                 $(document).on('change', unitSelector, function () {
                     OnUnitChange($(cloneUnit)[0], $(cloneHour));
