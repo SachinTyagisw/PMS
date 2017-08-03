@@ -2463,7 +2463,7 @@ ul {
   min-height: 344px;
 }
 .card-section-payment {
-    height: calc(100vh - 104px);
+    height: calc(100vh - 108px);
 }
 
 .user-profile .card-header {
@@ -3408,7 +3408,8 @@ a.mud-c {
     transition: all 0.3s;
 }
 #imgPhoto.photo-added:hover {
-    transform: scale(2);
+    transform: scale(1.5);
+    transform-origin: top right;
 }
 .photo_submit:nth-child(3),
 .photo_submit:nth-child(4) {
@@ -3492,9 +3493,12 @@ a.mud-c {
 }
 .photo_submit--image .photo_submit-delete {
   display: inline-block;
+    z-index: 99;
+    background: #fff;
+    border: 2px solid #888;
 }
 .img-no-available {
-    height:calc(100vh - 188px); 
+    height:calc(100vh - 196px); 
     position: relative;
 }
 .img-no-available span {

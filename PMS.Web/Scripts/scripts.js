@@ -176,7 +176,7 @@ class PhotoSubmission {
     uploadImage(e) {
         const fileInput = e.target;
         const uploadBtn = e.target.parentNode;
-        const deleteBtn = e.target.parentNode.childNodes[7];
+        const deleteBtn = e.target.parentNode.childNodes[9];
 
         const reader = new FileReader();
 
@@ -190,6 +190,8 @@ class PhotoSubmission {
 
         deleteBtn.addEventListener('click', () => {
             uploadBtn.removeAttribute('style');
+            document.getElementById('imgPhoto').removeAttribute('src');
+            document.getElementById('imgPhoto').removeAttribute('style');
             uploadBtn.classList.remove('photo_submit--image');
 
             setTimeout(() => {
@@ -202,6 +204,8 @@ class PhotoSubmission {
 new PhotoSubmission;
 
 })(jQuery);
+
+
 
 //$(function(){
 //  $(window).scroll(function() {
