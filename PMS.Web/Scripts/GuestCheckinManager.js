@@ -98,6 +98,7 @@
                     if (shouldSkipBookedRoom && rooms[i].RoomStatus.Name.toLowerCase() === 'booked') continue;
                     ddlRoom.append(new Option(rooms[i].Number, rooms[i].Id));
                 }
+                if (window.Notifications) window.Notifications.Notify("on-resume-roomvalue", null, null);
             }
         },
 
@@ -119,6 +120,7 @@
             for (var i = 0; i < roomTypes.length; i++) {
                 ddlRoomType.append(new Option(roomTypes[i].Name, roomTypes[i].Id));
             }
+            if (window.Notifications) window.Notifications.Notify("on-resume-roomtypevalue", null, null);
         },
 
         BindPaymentTypeDdl: function (ddlPaymentType, paymentTypes) {
@@ -1259,7 +1261,7 @@
                 gcm.GetRoomTypes(propertyId);
             } else {
                 window.GuestCheckinManager.BindRoomTypeDdl(ddlRoomType, roomtypes);
-            }
+            }            
         },
 
         FillFloorData: function (ddlFloor, propertyId) {

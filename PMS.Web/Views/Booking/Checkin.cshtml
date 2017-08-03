@@ -9,7 +9,7 @@
         function OnPropertyChange() {
             clearExistingSessionStorage();
             //set property id on property ddl selection
-            pmsSession.SetItem("propertyid", $('#ddlProperty').val());
+            pmsSession.SetItem("propertyid", $('#ddlGlobalProperty').val());
             gcm.Initialize();
             init();
         }
