@@ -77,8 +77,8 @@
     function onRoomTypeChange(ddlRoomType, ddlRoom) {
         if (!ddlRoom) {
             ddlRoom = $('#ddlRoomAdd');
-       }
-      gcm.FillRoomData(ddlRoomType, ddlRoom, $('#ddlProperty').val());
+        }       
+        gcm.FillRoomData(ddlRoomType, ddlRoom, $('#ddlProperty').val());        
     }
 
     function makeFieldsReadonly(rowObject) {
@@ -119,8 +119,8 @@
             var editOn = $(this).hasClass("editMode");
             var rateId = $(thisRow)[0].innerText;
             var propertyId = $('#ddlProperty').val();
-            var preRoomType = $(thisRow)[1].innerText;
-            var preRoom = $(thisRow)[2].innerText;
+            var preRoomType = $(thisRow)[1].innerText.toLowerCase();
+            var preRoom = $(thisRow)[2].innerText.toLowerCase();
             if (editOn == false) {
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
 
@@ -141,12 +141,7 @@
                 $(thisRow[2]).append(cloneRoom);                
 
                 $(document).on('change', roomTypeSelector, function () {
-                    onRoomTypeChange($(cloneRoomType)[0], $(cloneRoom));
-                    $(roomSelector + " option").each(function () {
-                        if ($(this).text() == preRoom) {
-                            $(this).attr('selected', 'selected');
-                        }
-                    });
+                    onRoomTypeChange($(cloneRoomType)[0], $(cloneRoom));                    
                 });
 
                 $(document).on('change', roomSelector, function () {
@@ -155,12 +150,22 @@
 
                 makeFieldsReadonly($(thisRow[0]));
                 makeFieldsReadonly($(thisRow[3]));
-                gcm.FillRoomTypeData($(roomTypeSelector), $('#ddlProperty').val());
-                $(roomTypeSelector + " option").each(function () {
-                    if ($(this).text() == preRoomType) {
-                        $(this).attr('selected', 'selected');
-                    }
+                Notifications.Subscribe("on-resume-roomvalue", function (sender, args) {
+                    $(roomSelector + " option").each(function () {
+                        if ($(this).text() == preRoom) {
+                            $(this).attr('selected', 'selected');
+                        }
+                    });
                 });
+                Notifications.Subscribe("on-resume-roomtypevalue", function (sender, args) {
+                    $(roomTypeSelector + " option").each(function () {
+                        if ($(this).text().toLowerCase() == preRoomType) {
+                            $(this).attr('selected', 'selected');                            
+                        }
+                    });
+                    gcm.FillRoomData($(cloneRoomType)[0], $(cloneRoom), $('#ddlProperty').val());
+                });
+                gcm.FillRoomTypeData($(roomTypeSelector), $('#ddlProperty').val());
 
             } else if (editOn == true) {
                 var roomTypeId = $(thisRow)[1].children[0].value;
