@@ -14,6 +14,20 @@
         </div>
     </div>
 </div>
+<script type='text/javascript'>
+    var gcm = window.GuestCheckinManager;
+    var pmsSession = window.PmsSession;
+    function OnPropertyChange() {
+        gcm.ClearExistingSessionStorage();
+        pmsSession.RemoveItem("propertyrooms");
+        //set property id on property ddl selection
+        pmsSession.SetItem("propertyid", $('#ddlGlobalProperty').val());
+        gcm.Initialize();
+        angular.element('#ddlGlobalProperty').scope().$apply();
+        angular.element('#ddlGlobalProperty').scope().loadEvents(DayPilot.Date.today());
+    }
+</script>
+
 <script type="text/ng-template" id="Calendar.html">
     @*<div class="col-lg-12 p-r-0 p-l-0 room-filter">
         <div class="col-xs-6">
@@ -101,6 +115,6 @@
                     <span class="loader-img"></span>
                 </div>
             </div>
-        </script>
+</script>
     </div>
 </script>
