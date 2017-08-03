@@ -1344,6 +1344,14 @@
                         $('#imgPhoto').removeClass('photo-added');
                 }
         },
+        
+        ClearExistingSessionStorage: function () {
+            pmsSession.RemoveItem("propertyid");
+            pmsSession.RemoveItem("roomtypedata");
+            pmsSession.RemoveItem("roomratedata");
+            pmsSession.RemoveItem("roomdata");
+            pmsSession.RemoveItem("propertyrooms");
+        },
 
         AjaxHandlers: function () {
             // ajax handlers start

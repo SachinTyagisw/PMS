@@ -67,7 +67,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         $scope.duration = duration;
         setSchedulerScale(duration);
         var day = $scope.day ? $scope.day : DayPilot.Date.today();
-        loadEvents(day);
+        $scope.loadEvents(day);
     };
     
     $scope.submit = function () {
@@ -138,7 +138,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                 $scope.scheduler.scrollTo(args.day, "fast");  // just scroll
             }
             else {
-                loadEvents(args.day);  // reload and scroll
+                $scope.loadEvents(args.day);  // reload and scroll
             }
         }
     };
@@ -286,11 +286,11 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     //};
 
     $timeout(function () {
-        dp = $scope.scheduler;  // debug
+        //dp = $scope.scheduler;  // debug
         //loadRoomStatus();
         //loadRoomTypes();
         //loadRooms();
-        loadEvents(DayPilot.Date.today());
+        $scope.loadEvents(DayPilot.Date.today());
     });
     
     function applyRoomFilter(data) {
@@ -392,12 +392,13 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         return dpRoomsResponseDto;
     }
 
-    function loadEvents(day) {
+    $scope.loadEvents = function (day) {
+        dp = $scope.scheduler;  // debug
         var duration = getDaysBasedOnDuration();
         var from = new DayPilot.Date(day);
         //var to = $scope.scheduler.visibleEnd();
         if (!day) {
-            from = $scope.scheduler.visibleStart();            
+            from = $scope.scheduler.visibleStart();
         }
         var to = from.addDays(duration);
         var params = {
@@ -405,12 +406,13 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
             end: to.toString()
         };
 
+        propertyId = pmsSession.GetItem("propertyid");
         // Show loading message
         var messageModal = messageModalSvc.ShowMessage("Loading ...", $scope);
         calendarSvc.GetRoomBooking(propertyId, params).then(onGetRoomBookingSuccess, onGetRoomBookingError)['finally'](function () {
             messageModalSvc.CloseMessage(messageModal);
-        });       
-    }  
+        });
+    };
 
     function loadRooms() {
         var response = {};

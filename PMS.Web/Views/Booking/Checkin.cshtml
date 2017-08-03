@@ -2,24 +2,15 @@
         ViewBag.Title = "Guest Checkin";
     }
     <script type='text/javascript'>
-
         var gcm = window.GuestCheckinManager;
         var pmsSession = window.PmsSession;        
 
         function OnPropertyChange() {
-            clearExistingSessionStorage();
+            gcm.ClearExistingSessionStorage();
             //set property id on property ddl selection
             pmsSession.SetItem("propertyid", $('#ddlGlobalProperty').val());
             gcm.Initialize();
             init();
-        }
-
-        function clearExistingSessionStorage(){
-            pmsSession.RemoveItem("propertyid");
-            pmsSession.RemoveItem("roomtypedata");
-            pmsSession.RemoveItem("roomratedata");
-            pmsSession.RemoveItem("roomdata");
-            pmsSession.RemoveItem("propertyrooms");
         }
 
         function OnHistoryClick() {
