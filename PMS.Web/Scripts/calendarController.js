@@ -27,6 +27,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         $scope.schedulerConfig.scrollToAnimated = "fast";
         $scope.schedulerConfig.scrollToPosition = "left";
         $scope.events = convertBookingResponseToDayPilotResponse(response.Bookings);
+        scheduler.dp.update();
         
     };   
 
@@ -286,7 +287,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     //};
 
     $timeout(function () {
-        //dp = $scope.scheduler;  // debug
+        dp = $scope.scheduler;  // debug
         //loadRoomStatus();
         //loadRoomTypes();
         //loadRooms();
@@ -392,8 +393,12 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         return dpRoomsResponseDto;
     }
 
+    $scope.update = function () {
+        
+    };
+
     $scope.loadEvents = function (day) {
-        dp = $scope.scheduler;  // debug
+        
         var duration = getDaysBasedOnDuration();
         var from = new DayPilot.Date(day);
         //var to = $scope.scheduler.visibleEnd();

@@ -25,6 +25,7 @@
         gcm.Initialize();
         angular.element('#ddlGlobalProperty').scope().$apply();
         angular.element('#ddlGlobalProperty').scope().loadEvents(DayPilot.Date.today());
+        angular.element('#ddlGlobalProperty').scope().update();
     }
 </script>
 

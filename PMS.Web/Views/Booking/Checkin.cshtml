@@ -7,6 +7,7 @@
 
         function OnPropertyChange() {
             gcm.ClearExistingSessionStorage();
+            gcm.ClearAllFields();
             //set property id on property ddl selection
             pmsSession.SetItem("propertyid", $('#ddlGlobalProperty').val());
             gcm.Initialize();
@@ -403,6 +404,12 @@
 
             $("#btnCheckin").click(function () {
                 gcm.AddBooking('booked');
+            });
+
+            $("#btnCheckout").click(function () {
+                if (confirm("Do you want checkout ?")) {
+                    gcm.UpdateBooking('checkout');
+                }
             });
 
             $("#btnSave").click(function () {

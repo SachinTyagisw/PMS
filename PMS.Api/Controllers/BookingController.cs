@@ -65,7 +65,12 @@ namespace PMS.Api.Controllers
              constraints: new { bookingId = RegExConstants.NumericRegEx }
              );
 
-            
+            config.Routes.MapHttpRoute(
+             "UpdateStatus",
+             "api/v1/Booking/UpdateStatus",
+             new { controller = "Booking", action = "UpdateStatus" }
+             );
+
             config.Routes.MapHttpRoute(
              "UpdateBooking",
              "api/v1/Booking/UpdateBooking",
