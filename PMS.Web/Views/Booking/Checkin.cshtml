@@ -449,7 +449,7 @@
                     filtereGuestdata = gcm.SearchGuest();
                     response($.map(filtereGuestdata, function (value, key) {
                         return {
-                            label: value.LastName + ", " + value.FirstName,
+                            label: value.Id + ": " + value.LastName + ", " + value.FirstName,
                             value: value.Id
                         }
                     }));
