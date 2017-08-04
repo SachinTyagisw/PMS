@@ -282,9 +282,9 @@
             if (pmsSession.GetItem("bookingId")) {
                 $('#btnCheckin').attr("disabled", true);
                 $('#btnSave').attr("disabled", true);
-                $('#btnCheckout').attr("disabled", false);
+                $('#btnCheckout').attr("disabled", false);                
                 var bookingId = pmsSession.GetItem("bookingId");                
-                gcm.GetBookingById(bookingId);
+                gcm.GetBookingById(bookingId);                
             }
             //once bookingId is retrive then clear sessionstorage
             pmsSession.RemoveItem("bookingId");
@@ -302,6 +302,7 @@
                             var roomId = pmsSession.GetItem("roomid");
                             if (roomId && roomId > 0) {
                                 $("#roomddl").val(roomId);
+                                gcm.LoadInvoice();
                             }
                             //once value is set in input date then clear sessionstorage
                             pmsSession.RemoveItem("dtcheckin");
@@ -319,7 +320,7 @@
 
         $(document).ready(function () {
 
-            init();           
+            init();
 
             $('#divInvoice').on("click", ".tableRow-remove", function () {
                 $(this).parents('tr').detach();
@@ -346,55 +347,12 @@
             });
 
             $("#loadInvoice").click(function () {
-                $('.img-no-available').hide();
-                var invoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-                if (invoiceId === -1) {
-                    $('#rateTypeDdl').attr("disabled", false);
-
-                    var dateFrom = $('#dateFrom').val();
-                    var dateTo = $('#dateTo').val();
-                    var roomType = $('#roomTypeDdl').val();
-                    var roomId = $('#roomddl').val();
-                    var noOfHours = $('#hoursComboBox').val();
-
-                    // check checkin date 
-                    if (!dateFrom || dateFrom.length <= 0) {
-                        alert("Please select checkin date");
-                        $('#dateFrom').focus();
-                        return false;
-                    }
-
-                    // check checkout date 
-                    if (!dateTo || dateTo.length <= 0) {
-                        alert("Please select checkout date");
-                        $('#dateTo').focus();
-                        return false;
-                    }
-
-                    if (!roomType || roomType === '-1') {
-                        alert("Select proper room type");
-                        return false;
-                    }
-
-                    if (!roomId || roomId === '-1') {
-                        alert("Select proper room");
-                        return false;
-                    }
-
-                    if ($('#hourCheckin')[0].checked && noOfHours === '-1') {
-                        alert("Please select proper checkout hours");
-                        return false;
-                    }
-                    gcm.GetPaymentType();
-                    gcm.GetPaymentCharges();
-                }
-                else {
-                    gcm.GetInvoiceById(invoiceId);
-                }
+                gcm.LoadInvoice();
             });
 
             $("#saveInvoice").click(function () {
                 gcm.AddInvoice();
+                gcm.LoadInvoice();
             });
             
             $("#btnRefresh").click(function () {
@@ -405,6 +363,8 @@
             });
 
             $("#btnCheckin").click(function () {
+                if (!gcm.ValidateInputs()) return;
+                gcm.LoadInvoice();
                 gcm.AddBooking('booked');
             });
 
@@ -415,10 +375,14 @@
             });
 
             $("#btnSave").click(function () {
+                if (!gcm.ValidateInputs()) return;
+                gcm.LoadInvoice();
                 gcm.AddBooking('booked');
             });
 
             $("#btnReserved").click(function () {
+                if (!gcm.ValidateInputs()) return;
+                gcm.LoadInvoice();
                 gcm.AddBooking('reserved');
             });           
 

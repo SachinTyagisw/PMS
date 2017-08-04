@@ -337,13 +337,11 @@
             pmsService.AddInvoice(invoiceRequestDto);
         },
 
-        AddBooking: function(status) {
-            if (!validateInputs()) return;
+        AddBooking: function(status) {            
             bookingStatus = status;
             var bookingRequestDto = {};
             bookingRequestDto.Booking = {};
             var booking = {};
-
             // for new booking Id = -1 
             booking.Id = window.GuestCheckinManager.BookingDto.BookingId ? window.GuestCheckinManager.BookingDto.BookingId : -1;
             booking.CheckinTime = $('#dateFrom').val();
@@ -375,7 +373,6 @@
                 alert("Room Booking can not be done.");
                 return;
             }
-
             bookingRequestDto.Booking = booking;
             // add booking by api calling  
             pmsService.AddBooking(bookingRequestDto);
@@ -677,6 +674,54 @@
             window.GuestCheckinManager.BookingDto.BookingId = bookingId;
             pmsService.GetBookingById(args);
         },
+        
+        LoadInvoice: function () {
+            $('.img-no-available').hide();
+            var invoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
+            if (invoiceId === -1) {
+                $('#rateTypeDdl').attr("disabled", false);
+                var dateFrom = $('#dateFrom').val();
+                var dateTo = $('#dateTo').val();
+                var roomType = $('#roomTypeDdl').val();
+                var roomId = $('#roomddl').val();
+                var noOfHours = $('#hoursComboBox').val();
+
+                // check checkin date 
+                if (!dateFrom || dateFrom.length <= 0) {
+                    alert("Please select checkin date");
+                    $('#dateFrom').focus();
+                    return false;
+                }
+
+                // check checkout date 
+                if (!dateTo || dateTo.length <= 0) {
+                    alert("Please select checkout date");
+                    $('#dateTo').focus();
+                    return false;
+                }
+
+                if (!roomType || roomType === '-1') {
+                    alert("Select proper room type");
+                    return false;
+                }
+
+                if (!roomId || roomId === '-1') {
+                    alert("Select proper room");
+                    return false;
+                }
+
+                if ($('#hourCheckin')[0].checked && noOfHours === '-1') {
+                    alert("Please select proper checkout hours");
+                    return false;
+                }
+                window.GuestCheckinManager.GetPaymentType();
+                window.GuestCheckinManager.GetPaymentCharges();
+            }
+            else {
+                window.GuestCheckinManager.GetInvoiceById(invoiceId);
+            }
+
+        },
 
         PopulateUi: function(data) {
             var guest = data[0].Guests[0];
@@ -712,6 +757,7 @@
                 populateAddress(address);
             }
             window.GuestCheckinManager.MakeReadOnly(true);
+            window.GuestCheckinManager.LoadInvoice();
         },
 
         ClearPropertyFields: function() {
@@ -1375,6 +1421,160 @@
             pmsSession.RemoveItem("roomratedata");
             pmsSession.RemoveItem("roomdata");
             pmsSession.RemoveItem("propertyrooms");
+        },
+
+        ValidateInputs: function() {
+            var fname = $("#fName").val();
+            var lname = $("#lName").val();
+            var phNumber = $("#phone").val();
+            var zipCode = $("#zipCode").val();
+            var idDetails = $("#idDetails").val();
+            var idExpiry = $("#idExpiry").val();
+            var dateFrom = $("#dateFrom").val();
+            var dateTo = $("#dateTo").val();
+            var adult = $("#ddlAdults").val();
+            var child = $("#ddlChild").val();
+            var guestIdType = $("#ddlIdType").val();
+            var roomType = $('#roomTypeDdl').val();
+            var rateType = $('#rateTypeDdl').val();
+            var roomId = $('#roomddl').val();
+            var city = $('#ddlCity').val();
+            var state = $('#ddlState').val();
+            var country = $('#ddlCountry').val();
+            var noOfHours = $('#hoursComboBox').val();
+            var baseRoomCharge = $("#baseRoomCharge");
+            var totalRoomCharge = $('#totalRoomCharge');
+
+            if (!baseRoomCharge || baseRoomCharge.val() <= 0) {
+                alert('Room charge is not configured for your selection. Please contact administrator.');
+                baseRoomCharge.focus();
+                return false;
+            }
+
+            if (!totalRoomCharge || totalRoomCharge.val() <= 0) {
+                alert('Please contact administrator.');
+                totalRoomCharge.focus();
+                return false;
+            }
+
+            if ($('#hourCheckin')[0].checked && noOfHours === '-1') {
+                alert("Please select checkout hours.");
+                return false;
+            }
+
+            // check checkin date 
+            if (!dateFrom || dateFrom.length <= 0) {
+                alert("Please select checkin date");
+                $('#dateFrom').focus();
+                return false;
+            }
+
+            // check checkout date 
+            if (!dateTo || dateTo.length <= 0) {
+                alert("Please select checkout date");
+                $('#dateTo').focus();
+                return false;
+            }
+
+            if (!roomType || roomType === '-1') {
+                alert("Please select room type");
+                return false;
+            }
+
+            if (!rateType || rateType === '-1') {
+                alert("Please select rate type");
+                return false;
+            }
+
+            if (!roomId || roomId === '-1') {
+                alert("Please select room number");
+                return false;
+            }
+
+            // check adult or child value
+            if ((!adult || adult <= 0) && (!child || child <= 0)) {
+                alert("Please select atleast an adult or child");
+                return false;
+            }
+
+            // check first name 
+            if (!fname || fname.length <= 0) {
+                alert("Please enter the first name");
+                $('#fName').focus();
+                return false;
+            }
+            // check last name ssss
+            if (!lname || lname.length <= 0) {
+                alert("Please enter the last name");
+                $('#lName').focus();
+                return false;
+            }
+            // check phone number
+            //if (!phNumber || phNumber.length <= 0) {
+            //    alert("Please enter phone number");
+            //    $('#phone').focus();
+            //    return false;
+            //}
+
+
+            if (!country || country === '-1') {
+                alert("Please select country");
+                return false;
+            }
+
+            if (!state || state === '-1') {
+                alert("Please select state");
+                return false;
+            }
+
+            if (!city || city === '-1') {
+                alert("Please select city");
+                return false;
+            }
+
+
+            // check zipcode
+            if (!zipCode || zipCode.length <= 0) {
+                alert("Please enter zip code");
+                $('#zipCode').focus();
+                return false;
+            }
+
+            var emailId = $("#email").val();
+            var validEmailIdRegex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+            // check email 
+            if (emailId && emailId.length > 0) {
+                var testemail = validEmailIdRegex.test(emailId);
+                if (testemail !== true) {
+                    alert("Please enter valid email format.");
+                    $('#email').focus();
+                    return false;
+                }
+            }
+            //else {
+            //    alert("Please enter valid email format.");
+            //    $('#email').focus();
+            //    return false;
+            //}
+
+            if (!guestIdType || guestIdType === '-1') {
+                alert("Please select Type Of ID.");
+                return false;
+            }
+            // check guest id details
+            if (!idDetails || idDetails.length <= 0) {
+                alert("Please enter ID number");
+                $('#idDetails').focus();
+                return false;
+            }
+
+            // check id expiry details 
+            //if (!idExpiry || idExpiry.length <= 0) {
+            //    alert("Please enter guest ID expiry details");
+            //    $('#idExpiry').focus();
+            //    return false;
+            //}
+            return true;
         },
 
         AjaxHandlers: function() {
@@ -2475,162 +2675,7 @@
 
         var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
         return dateOutput + ' ' + time;
-    }
-
-    function validateInputs() {
-        var fname = $("#fName").val();
-        var lname = $("#lName").val();
-        var phNumber = $("#phone").val();
-        var zipCode = $("#zipCode").val();
-        var idDetails = $("#idDetails").val();
-        var idExpiry = $("#idExpiry").val();
-        var dateFrom = $("#dateFrom").val();
-        var dateTo = $("#dateTo").val();
-        var adult = $("#ddlAdults").val();
-        var child = $("#ddlChild").val();
-        var guestIdType = $("#ddlIdType").val();
-        var roomType = $('#roomTypeDdl').val();
-        var rateType = $('#rateTypeDdl').val();
-        var roomId = $('#roomddl').val();
-        var city = $('#ddlCity').val();
-        var state = $('#ddlState').val();
-        var country = $('#ddlCountry').val();
-        var noOfHours = $('#hoursComboBox').val();
-        var baseRoomCharge = $("#baseRoomCharge");
-        var totalRoomCharge = $('#totalRoomCharge');
-
-        if (!baseRoomCharge || baseRoomCharge.val() <= 0) {
-            alert('Room charge is not configured for your selection. Please contact administrator.');
-            baseRoomCharge.focus();
-            return false;
-        }
-
-        if (!totalRoomCharge || totalRoomCharge.val() <= 0) {
-            alert('Please contact administrator.');
-            totalRoomCharge.focus();
-            return false;
-        }
-
-        if ($('#hourCheckin')[0].checked && noOfHours === '-1') {
-            alert("Please select checkout hours.");
-            return false;
-        }
-
-        // check checkin date 
-        if (!dateFrom || dateFrom.length <= 0) {
-            alert("Please select checkin date");
-            $('#dateFrom').focus();
-            return false;
-        }
-
-        // check checkout date 
-        if (!dateTo || dateTo.length <= 0) {
-            alert("Please select checkout date");
-            $('#dateTo').focus();
-            return false;
-        }
-
-        if (!roomType || roomType === '-1') {
-            alert("Please select room type");
-            return false;
-        }
-
-        if (!rateType || rateType === '-1') {
-            alert("Please select rate type");
-            return false;
-        }
-
-        if (!roomId || roomId === '-1') {
-            alert("Please select room number");
-            return false;
-        }
-
-        // check adult or child value
-        if ((!adult || adult <= 0) && (!child || child <= 0)) {
-            alert("Please select atleast an adult or child");
-            return false;
-        }
-
-        // check first name 
-        if (!fname || fname.length <= 0) {
-            alert("Please enter the first name");
-            $('#fName').focus();
-            return false;
-        }
-        // check last name ssss
-        if (!lname || lname.length <= 0) {
-            alert("Please enter the last name");
-            $('#lName').focus();
-            return false;
-        }
-        // check phone number
-        //if (!phNumber || phNumber.length <= 0) {
-        //    alert("Please enter phone number");
-        //    $('#phone').focus();
-        //    return false;
-        //}
-
-
-        if (!country || country === '-1') {
-            alert("Please select country");
-            return false;
-        }
-
-        if (!state || state === '-1') {
-            alert("Please select state");
-            return false;
-        }
-
-        if (!city || city === '-1') {
-            alert("Please select city");
-            return false;
-        }
-
-
-        // check zipcode
-        if (!zipCode || zipCode.length <= 0) {
-            alert("Please enter zip code");
-            $('#zipCode').focus();
-            return false;
-        }
-
-        var emailId = $("#email").val();
-        var validEmailIdRegex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-        // check email 
-        if (emailId && emailId.length > 0) {
-            var testemail = validEmailIdRegex.test(emailId);
-            if (testemail !== true) {
-                alert("Please enter valid email format.");
-                $('#email').focus();
-                return false;
-            }
-        }
-        //else {
-        //    alert("Please enter valid email format.");
-        //    $('#email').focus();
-        //    return false;
-        //}
-
-        if (!guestIdType || guestIdType === '-1') {
-            alert("Please select Type Of ID.");
-            return false;
-        }
-        // check guest id details
-        if (!idDetails || idDetails.length <= 0) {
-            alert("Please enter ID number");
-            $('#idDetails').focus();
-            return false;
-        }
-
-        // check id expiry details 
-        //if (!idExpiry || idExpiry.length <= 0) {
-        //    alert("Please enter guest ID expiry details");
-        //    $('#idExpiry').focus();
-        //    return false;
-        //}
-
-        return true;
-    }
+    }   
 
     function bindGuestHistory(data) {
         var divHistory = $('#divHistory');
