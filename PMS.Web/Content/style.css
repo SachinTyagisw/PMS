@@ -3422,8 +3422,14 @@ a.mud-c {
 .photo_submit.photo_submit--image:hover {
   cursor: default;
 }
+#imgPhoto.photo-added:hover ~ .photo_submit-delete {
+  opacity:0;
+}
+.photo_submit-delete {
+    opacity:1;
+    transition:opacity 100ms;
+}
 
-#imgPhoto.photo-added:hover ~ .photo_submit-delete,
 .photo_submit-container .photo_submit-input {
   display: none;
 }
@@ -4396,6 +4402,11 @@ p
 }
 select#paymentTypeDdl {
     width: 70%;
+}
+#divInvoice .table select {
+    height: 22px;
+    padding: 1px 4px;
+    font-size: 11px;
 }
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
     padding: 1px 4px;
