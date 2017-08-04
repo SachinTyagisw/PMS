@@ -36,7 +36,11 @@
         <tbody id="sortableTable">
             <tr id="trOthertax" style="display:none;" class="sortActive remove">
                 <td><span class="glyphicon glyphicon-th-list"></span></td>
-                <td id="otherTaxText" contenteditable="true"></td>
+                <td id="otherTaxText" contenteditable="true">
+                    @*<select id="ddlExtraChargesClone" class="form-control">
+                        <option selected="selected" value="-1">Select Extracharge</option>
+                   </select>*@
+                </td>
                 <td><input id="otherTaxVal" value="0.0" onkeyup="OnTaxValChange(event, this)" /></td>
                 <td></td>
                 <td><span class="tableRow-remove glyphicon glyphicon-trash"></span></td>

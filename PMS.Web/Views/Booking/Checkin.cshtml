@@ -329,6 +329,8 @@
             $('#divInvoice').on("click", ".table-add", function (e) {
                 var cloneHtmlElement = $('#divInvoice').find('tr#trOthertax:first').clone(true).removeClass('remove');
                 cloneHtmlElement[0].style = 'display:block';
+                //var ddlExtraChargesSelector = '#' + cloneHtmlElement[0].id + " td" + " select";
+                //$(ddlExtraChargesSelector)[0].id = "ddlExtraCharges";
                 $('#divInvoice').find('#trDefaultCharges:nth-child(3)').after(cloneHtmlElement);
                 $('#' + cloneHtmlElement[0].id + ' td#otherTaxText')[1].focus();
                 e.stopPropagation();
@@ -408,7 +410,7 @@
 
             $("#btnCheckout").click(function () {
                 if (confirm("Do you want checkout ?")) {
-                    gcm.UpdateBooking('checkout');
+                    gcm.AddBooking('checkout');
                 }
             });
 
