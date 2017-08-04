@@ -50,12 +50,12 @@
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
                 makeFieldsReadonly($(thisRow[0]));
             } else if (editOn == true) {
-                if (!taxName || taxName.length <= 0) {
+                if (!taxName || taxName.length <= 0 || taxName.trim() === "") {
                     alert("Tax Name is required");
                     $(thisRow)[1].focus();
                     return;
                 }
-                if (isNaN(taxAmount)) {
+                if (isNaN(taxAmount) || taxAmount.trim() === "") {
                     alert("Value should be numeric");
                     $(thisRow)[2].focus();
                     return;

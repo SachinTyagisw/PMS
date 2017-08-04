@@ -49,7 +49,7 @@
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
                 makeFieldsReadonly($(thisRow[0]));
             } else if (editOn == true) {
-                if (isNaN(floorNumber)) {
+                if (isNaN(floorNumber) || floorNumber.trim() === "") {
                     alert("Floor Number should be numeric");
                     $(thisRow)[1].focus();
                     return;

@@ -180,7 +180,7 @@
                     alert("Select proper room number");
                     return;
                 }
-                if (isNaN(rateValue)) {
+                if (isNaN(rateValue) || rateValue.trim() === "") {
                     alert("Rate should be numeric");
                     return;
                 }

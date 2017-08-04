@@ -123,7 +123,7 @@
                     hours = null;
                 }
 
-                if (!rateTypeName || rateTypeName.length <= 0) {
+                if (!rateTypeName || rateTypeName.length <= 0 || rateTypeName.trim() === "") {
                     alert("Rate type name is required");
                     $(thisRow)[1].focus();
                     return;

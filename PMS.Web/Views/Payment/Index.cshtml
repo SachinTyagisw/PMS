@@ -50,12 +50,12 @@
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
                 makeFieldsReadonly($(thisRow[0]));
             } else if (editOn == true) {
-                if (!paymentTypeName || paymentTypeName.length <= 0) {
+                if (!paymentTypeName || paymentTypeName.length <= 0 || paymentTypeName.trim() === "") {
                     alert("Payment type name is required");
                     $(thisRow)[1].focus();
                     return;
                 }
-                if (!shortCode || shortCode.length <= 0) {
+                if (!shortCode || shortCode.length <= 0 || shortCode.trim() === "") {
                     alert("Short code is required");
                     $(thisRow)[2].focus();
                     return;

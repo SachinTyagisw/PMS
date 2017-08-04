@@ -50,12 +50,12 @@
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
                 makeFieldsReadonly($(thisRow[0]));
             } else if (editOn == true) {
-                if (!facilityName || facilityName.length <= 0) {
+                if (!facilityName || facilityName.length <= 0 || facilityName.trim() === "") {
                     alert("Facility Name is required");
                     $(thisRow)[1].focus();
                     return;
                 }
-                if (isNaN(facilityAmount)) {
+                if (isNaN(facilityAmount) || facilityAmount.trim() === "") {
                     alert("Value should be numeric");
                     $(thisRow)[2].focus();
                     return;

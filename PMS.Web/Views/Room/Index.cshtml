@@ -211,7 +211,7 @@
                     alert("Select valid floor");
                     return;
                 }
-                if (!roomNumber || roomNumber.length <= 0) {
+                if (!roomNumber || roomNumber.length <= 0 || roomNumber.trim() === "") {
                     alert("Room Number is required");
                     $(thisRow)[3].focus();
                     return;
