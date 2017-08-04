@@ -4,6 +4,7 @@
     var args = {};
     var ddlCountryObj = null;
     var invoiceData = {};
+    var bookingStatus = '';
     var guestCheckinManager = {
 
         PropertySettingResponseDto: {
@@ -338,7 +339,7 @@
 
         AddBooking: function(status) {
             if (!validateInputs()) return;
-
+            bookingStatus = status;
             var bookingRequestDto = {};
             bookingRequestDto.Booking = {};
             var booking = {};
@@ -1378,7 +1379,16 @@
 
         AjaxHandlers: function() {
             // ajax handlers start
-            pmsService.Handlers.OnAddBookingSuccess = function(data) {
+                pmsService.Handlers.OnAddBookingSuccess = function (data) {
+                    if (bookingStatus === "checkout") {
+                        $('#btnSave').attr("disabled", true);
+                        $('#btnCheckout').attr("disabled", true);
+                        $('#btnCheckin').attr("disabled", true);
+                        $('#saveInvoice').attr("disabled", true);
+                        alert("Checkout is completed");
+                        return;
+                   }
+
                 var status = data.StatusDescription.toLowerCase();
                 if (data.BookingId > 0 && data.GuestId > 0) {
                     window.GuestCheckinManager.BookingDto.BookingId = data.BookingId;
