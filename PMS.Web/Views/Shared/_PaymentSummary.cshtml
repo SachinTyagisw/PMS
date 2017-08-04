@@ -49,7 +49,11 @@
             {{if $value.IsDefaultCharges }}
             <tr id="trDefaultCharges" class="sortActive">
                 <td> <span class="glyphicon glyphicon-th-list"></span></td>
+                {{if $value.TaxName !== 'Total Room Charge' && $value.TaxName !== 'ROOM CHARGES' }}
+                <td>${$value.TaxName} (%)</td>
+                {{else}}
                 <td>${$value.TaxName}</td>
+                {{/if}}
                 <td>
                     @*'ROOM CHARGES' is coming from SP and is always be fixed*@
                     {{if $value.TaxName === 'ROOM CHARGES' }}
@@ -76,7 +80,7 @@
             {{/each}}
             <tr id="trDiscount" class="sortActive">
                 <td><span class="glyphicon glyphicon-th-list"></span></td>
-                <td>Discount(%)</td>
+                <td>Discount (%)</td>
                 <td><input id="discount" onkeyup="OnTaxValChange(event, this)" class="color-danger" value="${typeof Discount != 'undefined' && Discount > 0 ? Discount : 0 }" /></td>
                 <td></td>
             </tr>
