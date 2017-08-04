@@ -23,9 +23,11 @@
         //set property id on property ddl selection
         pmsSession.SetItem("propertyid", $('#ddlGlobalProperty').val());
         gcm.Initialize();
-        angular.element('#ddlGlobalProperty').scope().$apply();
+        //angular.element('#ddlGlobalProperty').scope().init();
         angular.element('#ddlGlobalProperty').scope().loadEvents(DayPilot.Date.today());
-        angular.element('#ddlGlobalProperty').scope().update();
+        //angular.element('#ddlGlobalProperty').scope().update();
+        //angular.element('#ddlGlobalProperty').scope().$apply();
+        window.location.reload(true);
     }
 </script>
 
@@ -84,7 +86,7 @@
             </div>
         </div>
         @*<daypilot-scheduler id="dp" daypilot-config="config" daypilot-events="events"></daypilot-scheduler>*@
-        <daypilot-scheduler cellwidthspec="Auto" id="scheduler" daypilot-config="schedulerConfig" daypilot-events="events"></daypilot-scheduler>
+            <daypilot-scheduler cellwidthspec="Auto" id="scheduler" daypilot-config="schedulerConfig" daypilot-events="events"></daypilot-scheduler>
         @*<div>
                 New event:
                 <button ng-click="add()">Add</button>
