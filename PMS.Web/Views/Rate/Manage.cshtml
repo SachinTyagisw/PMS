@@ -7,6 +7,23 @@
     var gcm = window.GuestCheckinManager;
     var rateTypeId = -1;
 
+    function getCreatedBy() {
+        return window.PmsSession.GetItem("username");
+    }
+
+    function getCurrentDate() {
+        // date format yyyy/mm/dd
+        var dt = new Date();
+        var month = dt.getMonth() + 1;
+        var day = dt.getDate();
+        var dateOutput = dt.getFullYear() + '/' +
+            (month < 10 ? '0' : '') + month + '/' +
+            (day < 10 ? '0' : '') + day;
+
+        var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+        return dateOutput + ' ' + time;
+    }
+
     function getRateTypeId() {
         rateTypeId = rateTypeId === -1 ? $('input[name=firsttab]')[0].id : rateTypeId;
         return rateTypeId;
@@ -103,6 +120,103 @@
 
     $(document).ready(function () {
         gcm.GetAllProperty();
+
+        $("#btnsave").click(function () {
+            var propertyId = $('#ddlProperty').val();
+            var divManageRate = $("#divManageRate table tbody tr");
+            var divManageRateCount = divManageRate ? divManageRate.length : 0;
+            if (divManageRateCount <= 0 || propertyId <= 0) return;
+
+            var createdBy = getCreatedBy();
+            var createdOn = getCurrentDate();
+            rateTypeId = getRateTypeId();
+            var existingRoomRate = gcm.FindSetting(rateTypeId, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings);
+            if (!existingRoomRate) return;
+            var rateRequestDto = {};
+            rateRequestDto.Rates = [];
+
+            for (var i = 0; i < divManageRateCount; i++) {
+                var rate = {};
+                var roomTypeSelector = '#ddlRoomType' + (i + 1);
+                var roomSelector = '#ddlRoom' + (i + 1);
+                //first time if room is created for a property
+                //then change room and roomtype selector
+                roomTypeSelector = $(roomTypeSelector) && $(roomTypeSelector).length > 0 ? roomTypeSelector : '#ddlRoomTypeAdd';
+                roomSelector = $(roomSelector) && $(roomSelector).length > 0 ? roomSelector : '#ddlRoomAdd';
+
+                rate.RateTypeId = rateTypeId;
+                rate.RoomTypeId = $(roomTypeSelector) && $(roomTypeSelector).length > 0 ? $(roomTypeSelector).val() : divManageRate[i].cells[1].id;
+                rate.RoomId = $(roomSelector) && $(roomSelector).length > 0 ? $(roomSelector).val() : divManageRate[i].cells[2].id;
+                rate.Value = divManageRate[i].cells[4].innerText;;
+                rate.PropertyId = propertyId;
+                rate.IsActive = true;
+                rate.Type = existingRoomRate.Units;
+                rate.InputKeyHours = existingRoomRate.Units === 'Daily' ? null : existingRoomRate.Hours;
+
+                //default rateid incase of add request
+                rate.Id = divManageRate[i].cells[0].innerText > 0 ? divManageRate[i].cells[0].innerText : -1;
+                rate.CreatedBy = createdBy;
+                rate.CreatedOn = createdOn;
+
+                rateRequestDto.Rates.push(rate);
+            }
+
+            Notifications.SubscribeActive("on-roomrate-add-success", function (sender, args) {
+                window.GuestCheckinManager.GetRoomRateByProperty($('#ddlProperty').val());
+            });
+
+            //call AddRoomRate api
+            //gcm.AddRoomRate(rateRequestDto);
+        });
+
+        $("#btncreate").click(function () {            
+            var roomTypeId = $('#ddlRoomType').val();
+            var roomId = $('#ddlRoom').val();
+            var rowCount = 0;
+            if ($('#ddlProperty').val() <= 0) {
+                alert('Select valid property');
+                return;
+            }
+            if (roomTypeId <= 0) {
+                alert('Select valid roomtype');
+                return;
+            }
+            if (roomId <= 0) {
+                alert('Select valid Room');
+                return;
+            }
+            if (rowCount <= 0) {
+                alert('No of rows should be greater than 0');                
+                return;
+            }
+            var totalTr = $("tr").length - 1;
+            for (var i = 1; i <= rowCount; i++) {
+                $("tr:last").after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="false" style="background-color: rgba(255,255,255,0.7);"></td><td contenteditable="false" style="background-color: rgba(255,255,255,0.7);"></td><td id="tdFloorAdd" class="idRow" contenteditable="false"></td><td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i><i class="fa fa-minus-circle" aria-hidden="true"></i><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td></tr>');
+                var lastRow = $("tr:last");
+                var cloneRoomType = $('#ddlRoomType').clone(true);
+                cloneRoomType[0].style = 'display:block';
+                cloneRoomType[0].id = 'ddlRoomType' + (totalTr + parseInt(i));
+                var roomTypeSelector = '#' + cloneRoomType[0].id;
+
+                $(lastRow[0].cells[1]).innerText = "";
+                $(lastRow[0].cells[1]).attr('contenteditable', 'false');
+                $(lastRow[0].cells[1]).append(cloneRoomType);
+
+                var cloneRoom = $('#ddlRoom').clone(true);
+                cloneRoom[0].style = 'display:block';
+                cloneRoom[0].id = 'ddlRoom' + (totalTr + parseInt(i));
+                var roomSelector = '#' + cloneRoom[0].id;
+
+                $(lastRow[0].cells[2]).innerText = "";
+                $(lastRow[0].cells[2]).attr('contenteditable', 'false');
+                $(lastRow[0].cells[2]).append(cloneRoom);
+
+                gcm.FillRoomTypeData($(roomTypeSelector), $('#ddlProperty').val());
+                $(roomTypeSelector).val(roomTypeId);
+                gcm.FillRoomData($(roomTypeSelector)[0], $(roomSelector), $('#ddlProperty').val());
+                $(roomSelector).val(roomId);
+            }
+        });
 
         $("#divManageRate").on("click", ".fa-plus-circle", function () {
             $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="false" style="background-color: rgba(255,255,255,0.7);"><select style="display:block" id="ddlRoomTypeAdd" onchange="onRoomTypeChange(this,null);" class="form-control"><option value="-1">Select RoomType</option></select></td><td contenteditable="false" style="background-color: rgba(255,255,255,0.7);"><select style="display:block" id="ddlRoomAdd" onchange="onRoomChange(this,null);" class="form-control"><option value="-1">Select Room</option></select></td><td id="tdFloorAdd" class="idRow" contenteditable="false"></td><td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i><i class="fa fa-minus-circle" aria-hidden="true"></i><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td></tr>');
@@ -308,11 +422,6 @@
                                     <div class="col-lg-1 p-l-10 p-r-5 m-t-25">
                                         <div class="form-group">
                                             <input id="rate" type="text" placeholder="Enter Rate" class="form-control" name="example-input-normal">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-1 p-l-10 p-r-5 m-t-25">
-                                        <div class="form-group">
-                                            <input id="noofrow" type="text" placeholder="No of Rows" class="form-control" name="example-input-normal">
                                         </div>
                                     </div>
                                     <div class="col-lg-2 p-l-10 p-r-5 m-t-10">

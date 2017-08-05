@@ -104,7 +104,7 @@
                 alert('Select valid floor');
                 return;
             }
-            if (rowCount <= 0) {
+            if (rowCount <= 0 || rowCount.trim() === "") {
                 alert('No of rows should be greater than 0');
                 $('#noofrow').focus();
                 return;
