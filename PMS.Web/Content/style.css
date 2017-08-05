@@ -4848,14 +4848,14 @@ main.tab-main + .table-data {
   transition: opacity 0.5s;
 }
 
-ul li ul {
+#side-nav ul li ul {
   position: absolute;
   background: rgba(95, 162, 219, 0.9);
   width: 8rem;
   top: 0;
   display: none;
 }
-ul li ul li {
+#side-nav ul li ul li {
   display: inline;
 }
 .main-menu ul li ul li a {
@@ -4863,7 +4863,7 @@ ul li ul li {
   padding: 0.6em;
   font-size:1.3rem;
 }
-ul li ul li a:hover {
+#side-nav ul li ul li a:hover {
   color: #3ed8b5;
   -webkit-transition: color 0.2s;
   transition: color 0.2s;
