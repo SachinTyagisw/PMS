@@ -291,7 +291,9 @@
 
             //if user is navigated to checkin screen from dashboard screen
             if (pmsSession.GetItem("dtcheckin") && pmsSession.GetItem("dtcheckout")
-                && pmsSession.GetItem("roomtypeid") && pmsSession.GetItem("roomid")) {
+                && pmsSession.GetItem("roomtypeid") && pmsSession.GetItem("roomid"))
+            {
+//TODO:Sachin 
                 $("#dateFrom").val(pmsSession.GetItem("dtcheckin"));
                 $("#dateTo").val(pmsSession.GetItem("dtcheckout"));
                 var roomTypeId = pmsSession.GetItem("roomtypeid");
@@ -304,6 +306,31 @@
                                 $("#roomddl").val(roomId);
                                 gcm.LoadInvoice();
                             }
+
+                            //Set the hourly checkin information if diference in checkin-checkout is less than 6 hours
+                            var timeDiffInHours = (new Date(pmsSession.GetItem("dtcheckout")).getTime() - new Date(pmsSession.GetItem("dtcheckin")).getTime()) / 3600000;
+                            if (timeDiffInHours < 6) {
+                                document.getElementById('hourCheckin').checked = true;
+                                OnChkHourlyCheckInChange();
+                                //document.getElementById('hoursComboBox').value = timeDiffInHours;
+                                //document.getElementById('hoursComboBox').value = timeDiffInHours + '-' + 'hr';
+
+                                document.getElementById("hoursComboBox").selectedIndex = 2;
+
+                                //alert(timeDiffInHours + '-' + 'hr');
+
+                                //$('#hoursComboBox').val(timeDiffInHours + '-' + 'hr');
+
+                                if (document.getElementById("hoursComboBox").selectedIndex > 0) {
+                                    var selectedHr = $("#hoursComboBox option:selected").text();
+                                    gcm.FilterRateType($('#rateTypeDdl'), selectedHr);
+                                }
+                                else {
+                                    document.getElementById('hourCheckin').checked = false;
+                                }
+                                
+                            }
+
                             //once value is set in input date then clear sessionstorage
                             pmsSession.RemoveItem("dtcheckin");
                             pmsSession.RemoveItem("dtcheckout");
