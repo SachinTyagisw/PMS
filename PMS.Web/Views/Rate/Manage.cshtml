@@ -91,7 +91,12 @@
             alert('Select valid property');
             return;
         }
+        Notifications.SubscribeActive("on-roomrate-get-success", function (sender, args) {
+            $('#divDynamicRateRow')[0].style.cssText = "display: block;"
+        });
         gcm.GetRoomRateByProperty($('#ddlProperty').val());
+        gcm.FillRoomTypeData($('#ddlRoomType'), $('#ddlProperty').val());
+        gcm.FillRoomData($('#ddlRoomType'), $('#ddlRoom'), $('#ddlProperty').val());
     }
 
     $(document).ready(function () {
@@ -124,21 +129,33 @@
             if (editOn == false) {
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
 
-                var cloneRoomType = $('#ddlRoomTypeClone').clone(true);
+                var cloneRoomType = $('#ddlRoomType').clone(true);
                 cloneRoomType[0].style = 'display:block';
-                cloneRoomType[0].id = 'ddlRoomTypeClone' + rateId;
+                cloneRoomType[0].id = 'ddlRoomType' + rateId;
                 var roomTypeSelector = '#' + cloneRoomType[0].id;
                 $(thisRow)[1].innerText = "";
                 $(thisRow[1]).attr('contenteditable', 'false');
                 $(thisRow[1]).append(cloneRoomType);                
 
-                var cloneRoom = $('#ddlRoomClone').clone(true);
+                $(roomTypeSelector + " option").each(function () {
+                    if ($(this).text() == preRoomType) {
+                        $(this).attr('selected', 'selected');
+                    }
+                });
+
+                var cloneRoom = $('#ddlRoom').clone(true);
                 cloneRoom[0].style = 'display:block';
-                cloneRoom[0].id = 'ddlRoomClone' + rateId;
+                cloneRoom[0].id = 'ddlRoom' + rateId;
                 var roomSelector = '#' + cloneRoom[0].id;
                 $(thisRow)[2].innerText = "";
                 $(thisRow[2]).attr('contenteditable', 'false');
                 $(thisRow[2]).append(cloneRoom);                
+
+                $(roomSelector + " option").each(function () {
+                    if ($(this).text() == preRoom) {
+                        $(this).attr('selected', 'selected');
+                    }
+                });
 
                 $(document).on('change', roomTypeSelector, function () {
                     onRoomTypeChange($(cloneRoomType)[0], $(cloneRoom));                    
@@ -150,22 +167,6 @@
 
                 makeFieldsReadonly($(thisRow[0]));
                 makeFieldsReadonly($(thisRow[3]));
-                Notifications.Subscribe("on-resume-roomvalue", function (sender, args) {
-                    $(roomSelector + " option").each(function () {
-                        if ($(this).text() == preRoom) {
-                            $(this).attr('selected', 'selected');
-                        }
-                    });
-                });
-                Notifications.Subscribe("on-resume-roomtypevalue", function (sender, args) {
-                    $(roomTypeSelector + " option").each(function () {
-                        if ($(this).text().toLowerCase() == preRoomType) {
-                            $(this).attr('selected', 'selected');                            
-                        }
-                    });
-                    gcm.FillRoomData($(cloneRoomType)[0], $(cloneRoom), $('#ddlProperty').val());
-                });
-                gcm.FillRoomTypeData($(roomTypeSelector), $('#ddlProperty').val());
 
             } else if (editOn == true) {
                 var roomTypeId = $(thisRow)[1].children[0].value;
@@ -284,6 +285,41 @@
                                     <div id="divRoomRate">
                                     </div>
                                 </main>
+                                <div id="divDynamicRateRow" class="row" style="display:none">
+                                    <div class="col-lg-2 p-l-10 p-r-5 m-t-10">
+                                        <div class="form-group">
+                                            <label>Select RoomType</label>
+                                            <select id="ddlRoomType" onchange="onRoomTypeChange(this, $('#ddlRoom'));">
+                                                <option value="-1">Select RoomType</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 p-l-10 p-r-5 m-t-10">
+                                        <div class="form-group">
+                                            <label>Select Room</label>
+                                            <select id="ddlRoom" onchange="onRoomChange(this, $('#tdFloorAdd'));">
+                                                <option value="-1">Select Room</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-1 p-l-10 p-r-5 m-t-25">
+                                        <div class="form-group">
+                                            <input id="rate" type="text" placeholder="Enter Rate" class="form-control" name="example-input-normal">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-1 p-l-10 p-r-5 m-t-25">
+                                        <div class="form-group">
+                                            <input id="noofrow" type="text" placeholder="No of Rows" class="form-control" name="example-input-normal">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 p-l-10 p-r-5 m-t-10">
+                                        <div class="button-section btn-section-form">
+                                            <button id="btncreate" type="button" class="btn btn-primary m-l-5 m-t-15">Create Rows</button>
+                                            <button id="btnsave" type="button" class="btn btn-primary m-l-5 m-t-15">Save Rates</button>
+                                        </div>
+                                    </div>
+
+                                </div>
                                 <div id="divManageRate" class="table-data">
                                     <span class="counter"></span>
                                 </div>
@@ -296,12 +332,6 @@
     </section>
 </div>
 
-<select style="display:none" id="ddlRoomTypeClone" class="form-control">
-    <option value="-1">Select Roomtype</option>
-</select>
-<select style="display:none" id="ddlRoomClone" class="form-control">
-    <option value="-1">Select Room</option>
-</select>
 <input type="hidden" value="" id='hdnRateTypeId'>
 <div id="divLoader">
     <div class="loader" style="display:none;">
