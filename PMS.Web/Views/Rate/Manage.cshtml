@@ -94,6 +94,8 @@
         Notifications.SubscribeActive("on-roomrate-get-success", function (sender, args) {
             $('#divDynamicRateRow')[0].style.cssText = "display: block;"
         });
+        window.GuestCheckinManager.PropertySettingResponseDto.RoomTypeSettings = null;
+        window.GuestCheckinManager.PropertySettingResponseDto.RoomSettings = null;
         gcm.GetRoomRateByProperty($('#ddlProperty').val());
         gcm.FillRoomTypeData($('#ddlRoomType'), $('#ddlProperty').val());
         gcm.FillRoomData($('#ddlRoomType'), $('#ddlRoom'), $('#ddlProperty').val());
@@ -135,13 +137,7 @@
                 var roomTypeSelector = '#' + cloneRoomType[0].id;
                 $(thisRow)[1].innerText = "";
                 $(thisRow[1]).attr('contenteditable', 'false');
-                $(thisRow[1]).append(cloneRoomType);                
-
-                $(roomTypeSelector + " option").each(function () {
-                    if ($(this).text() == preRoomType) {
-                        $(this).attr('selected', 'selected');
-                    }
-                });
+                $(thisRow[1]).append(cloneRoomType);          
 
                 var cloneRoom = $('#ddlRoom').clone(true);
                 cloneRoom[0].style = 'display:block';
@@ -151,9 +147,16 @@
                 $(thisRow[2]).attr('contenteditable', 'false');
                 $(thisRow[2]).append(cloneRoom);                
 
-                $(roomSelector + " option").each(function () {
-                    if ($(this).text() == preRoom) {
+                $(roomTypeSelector + " option").each(function () {
+                    if ($(this).text().toLowerCase() == preRoomType) {
                         $(this).attr('selected', 'selected');
+                        gcm.FillRoomData($(roomTypeSelector)[0], $(roomSelector), $('#ddlProperty').val());
+                    }
+                });
+
+                $(roomSelector + " option").each(function () {
+                    if ($(this).text().toLowerCase() == preRoom) {
+                        $(this).attr('selected', 'selected');                        
                     }
                 });
 
