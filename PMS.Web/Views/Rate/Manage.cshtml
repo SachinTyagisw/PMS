@@ -125,6 +125,7 @@
         gcm.GetAllProperty();
 
         $('#ddlRoom').multiselect({
+                includeSelectAllOption: true
         });
 
         $("#btnsave").click(function () {
@@ -420,7 +421,7 @@
                                     <div class="col-lg-2 p-l-10 p-r-5 m-t-10">
                                         <div class="form-group">
                                             <label>Select Room</label>
-                                            <select id="ddlRoom" multiple="multiple" onchange="onRoomChange(this, $('#tdFloorAdd'));">
+                                            <select id="ddlRoom" onchange="onRoomChange(this, $('#tdFloorAdd'));">
                                             </select>
                                         </div>
                                     </div>
