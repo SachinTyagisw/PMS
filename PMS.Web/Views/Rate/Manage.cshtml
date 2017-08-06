@@ -94,7 +94,10 @@
     function onRoomTypeChange(ddlRoomType, ddlRoom) {
         if (!ddlRoom) {
             ddlRoom = $('#ddlRoomAdd');
-        }       
+        }
+        Notifications.SubscribeActive("on-resume-roomvalue", function (sender, args) {
+            //$('#ddlRoom').attr("multiple", "multiple");
+        });
         gcm.FillRoomData(ddlRoomType, ddlRoom, $('#ddlProperty').val());        
     }
 
@@ -120,6 +123,10 @@
 
     $(document).ready(function () {
         gcm.GetAllProperty();
+
+        $('#ddlRoom').multiselect({
+            includeSelectAllOption: true
+        });
 
         $("#btnsave").click(function () {
             var propertyId = $('#ddlProperty').val();
@@ -414,7 +421,7 @@
                                     <div class="col-lg-2 p-l-10 p-r-5 m-t-10">
                                         <div class="form-group">
                                             <label>Select Room</label>
-                                            <select id="ddlRoom" onchange="onRoomChange(this, $('#tdFloorAdd'));">
+                                            <select id="ddlRoom" multiple="multiple" onchange="onRoomChange(this, $('#tdFloorAdd'));">
                                                 <option value="-1">Select Room</option>
                                             </select>
                                         </div>

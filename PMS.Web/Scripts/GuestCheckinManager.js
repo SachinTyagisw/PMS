@@ -99,7 +99,7 @@
                     if (shouldSkipBookedRoom && rooms[i].RoomStatus.Name.toLowerCase() === 'booked') continue;
                     ddlRoom.append(new Option(rooms[i].Number, rooms[i].Id));
                 }
-                //if (window.Notifications) window.Notifications.Notify("on-resume-roomvalue", null, null);
+                if (window.Notifications) window.Notifications.Notify("on-resume-roomvalue", null, null);
             }
         },
 

@@ -41,7 +41,8 @@ namespace PMS.Web
             bundles.Add(new ScriptBundle("~/bundles/js/bootstrap").Include("~/Scripts/Bootstrap/bootstrap.min.js")
                        .Include("~/Scripts/Bootstrap/ui-bootstrap-tpls.min.js")
                        .Include("~/Scripts/Bootstrap/moment.js")
-                       .Include("~/Scripts/Bootstrap/datetimepicker.js"));
+                       .Include("~/Scripts/Bootstrap/datetimepicker.js")
+                       .Include("~/Scripts/Bootstrap/bootstrap-multiselect.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/custom").Include("~/Scripts/Notifications.js")
                         .Include("~/Scripts/PmsSession.js")
@@ -61,8 +62,8 @@ namespace PMS.Web
             //bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
             //            "~/Scripts/modernizr-*"));
 
-            //bundles.Add(new StyleBundle("~/bundles/css/bootstrap")
-            //           .Include("~/Content/Bootstrap/bootstrap.min.css"));
+            bundles.Add(new StyleBundle("~/bundles/css/bootstrap").Include("~/Content/Bootstrap/bootstrap.min.css")
+                       .Include("~/Content/Bootstrap/bootstrap-multiselect.css"));
 
             bundles.Add(new StyleBundle("~/bundles/daypilotmedia/css").Include("~/Content/daypilot-media/layout.css")
                        .Include("~/Content/daypilot-media/custom.css")
