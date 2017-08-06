@@ -96,7 +96,7 @@
             ddlRoom = $('#ddlRoomAdd');
         }
         Notifications.SubscribeActive("on-resume-roomvalue", function (sender, args) {
-            //$('#ddlRoom').attr("multiple", "multiple");
+            $("#ddlRoom option[value='-1']").remove();
         });
         gcm.FillRoomData(ddlRoomType, ddlRoom, $('#ddlProperty').val());        
     }
@@ -125,7 +125,6 @@
         gcm.GetAllProperty();
 
         $('#ddlRoom').multiselect({
-            includeSelectAllOption: true
         });
 
         $("#btnsave").click(function () {
@@ -269,14 +268,14 @@
                 $(thisRow[2]).append(cloneRoom);                
 
                 $(roomTypeSelector + " option").each(function () {
-                    if ($(this).text().toLowerCase() == preRoomType) {
+                    if ($(this).text().toLowerCase() === preRoomType) {
                         $(this).attr('selected', 'selected');
                         gcm.FillRoomData($(roomTypeSelector)[0], $(roomSelector), $('#ddlProperty').val());
                     }
                 });
 
                 $(roomSelector + " option").each(function () {
-                    if ($(this).text().toLowerCase() == preRoom) {
+                    if ($(this).text().toLowerCase() === preRoom) {
                         $(this).attr('selected', 'selected');                        
                     }
                 });
@@ -422,7 +421,6 @@
                                         <div class="form-group">
                                             <label>Select Room</label>
                                             <select id="ddlRoom" multiple="multiple" onchange="onRoomChange(this, $('#tdFloorAdd'));">
-                                                <option value="-1">Select Room</option>
                                             </select>
                                         </div>
                                     </div>
