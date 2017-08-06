@@ -180,6 +180,7 @@
             var isHourlyCbChecked = $('#hourCheckin')[0].checked;
             if (!ddlRateType || !rateTypeData) return;
             var rateTypes = $.parseJSON(rateTypeData);
+            // if hourly cb is not checked then return 
             if (!rateTypes || rateTypes.length <= 0 || !isHourlyCbChecked) return;
 
             ddlRateType.empty();

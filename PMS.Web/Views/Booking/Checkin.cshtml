@@ -151,6 +151,7 @@
                 checkOutDate.value = dateOutput + ' ' + time; 
             }
             var selectedHr = $("#hoursComboBox option:selected").text();
+            // filter only hourly rate type  
             gcm.FilterRateType($('#rateTypeDdl'), selectedHr);
          }
        
@@ -165,7 +166,6 @@
             checkOutDate.disabled = chkHours.checked ? true : false;
 
             var checkInDate = document.getElementById('dateFrom');
-
             var dtStart = new Date($('#dateFrom').val());
             var dtEnd = new Date($('#dateTo').val());
 
@@ -274,6 +274,28 @@
             gcm.AutoCollapseGuestHistory();
         }        
 
+        function toggleHourlyCbBaseOnTimeDiff(timeDiffInHours) {      
+
+            timeDiffInHours = timeDiffInHours + "-hr";
+            $('#hourCheckin').attr("checked", "checked");            
+            $("#hoursComboBox option").each(function () {
+                if ($(this).text().toLowerCase() === timeDiffInHours.toLowerCase()) {
+                    $(this).attr('selected', 'selected');
+                }
+            });
+
+            OnChkHourlyCheckInChange();
+
+            // if hourly cb is checked then show only hourly rate type
+            if ($("#hoursComboBox").selectedIndex > 0) {
+                var selectedHr = $("#hoursComboBox option:selected").text();
+                gcm.FilterRateType($('#rateTypeDdl'), selectedHr);
+            }
+            else {
+                $('#hourCheckin').removeAttr('checked');
+            }
+        }
+
         function init() {
             if (pmsSession.GetItem("propertyid")) {
                 gcm.BindInitDropdowns();
@@ -291,9 +313,8 @@
 
             //if user is navigated to checkin screen from dashboard screen
             if (pmsSession.GetItem("dtcheckin") && pmsSession.GetItem("dtcheckout")
-                && pmsSession.GetItem("roomtypeid") && pmsSession.GetItem("roomid"))
-            {
-//TODO:Sachin 
+                && pmsSession.GetItem("roomtypeid") && pmsSession.GetItem("roomid")) {
+             
                 $("#dateFrom").val(pmsSession.GetItem("dtcheckin"));
                 $("#dateTo").val(pmsSession.GetItem("dtcheckout"));
                 var roomTypeId = pmsSession.GetItem("roomtypeid");
@@ -308,26 +329,8 @@
                             }
                             //Set the hourly checkin information if diference in checkin-checkout is less than 6 hours
                             var timeDiffInHours = (new Date(pmsSession.GetItem("dtcheckout")).getTime() - new Date(pmsSession.GetItem("dtcheckin")).getTime()) / 3600000;
-                            if (timeDiffInHours < 6) {                                
-                                // TODO: set timeDiffInHours value b/w 1 to 6 only 
-                                //remove hard coded value
-                                timeDiffInHours = 2;
-                                timeDiffInHours = timeDiffInHours + "-hr";
-                                $('#hourCheckin').attr("checked", "checked");
-                                OnChkHourlyCheckInChange();
-                                $("#hoursComboBox option").each(function () {
-                                    if ($(this).text().toLowerCase() === timeDiffInHours.toLowerCase()) {
-                                        $(this).attr('selected', 'selected');
-                                    }
-                                });
-
-                                if ($("#hoursComboBox").selectedIndex > 0) {
-                                    var selectedHr = $("#hoursComboBox option:selected").text();
-                                    gcm.FilterRateType($('#rateTypeDdl'), selectedHr);
-                                }
-                                else {
-                                    $('#hourCheckin').checked = false;
-                                }
+                            if (timeDiffInHours && timeDiffInHours <= 6) {
+                                toggleHourlyCbBaseOnTimeDiff(timeDiffInHours);
                             }
 
                             //once value is set in input date then clear sessionstorage
