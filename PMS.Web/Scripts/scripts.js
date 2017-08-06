@@ -238,6 +238,8 @@ new PhotoSubmission;
 //});
 
 $(function () {
+    $('#roomddl').multiselect('rebuild');
+
     $(".search").keyup(function () {
         var searchTerm = $(".search").val();
         var listItem = $('.results tbody').children('tr');

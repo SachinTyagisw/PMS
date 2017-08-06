@@ -4868,7 +4868,9 @@ main.tab-main + .table-data {
   -webkit-transition: color 0.2s;
   transition: color 0.2s;
 }
-
+#divManageRate {
+    max-height: calc(55vh - 20px);
+}
 #logo {
   height: 48px;
   background: #333;
