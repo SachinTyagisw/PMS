@@ -112,7 +112,7 @@
             return;
         }
         Notifications.SubscribeActive("on-roomrate-get-success", function (sender, args) {
-            $('#divDynamicRateRow')[0].style.cssText = "display: block;"
+            $('#divDynamicRateRow')[0].style.cssText = "display: inline-table;"
         });
         window.GuestCheckinManager.PropertySettingResponseDto.RoomTypeSettings = null;
         window.GuestCheckinManager.PropertySettingResponseDto.RoomSettings = null;
@@ -409,8 +409,8 @@
                                     <div id="divRoomRate">
                                     </div>
                                 </main>
-                                <div id="divDynamicRateRow" class="row" style="display:none">
-                                    <div class="col-lg-2 p-l-10 p-r-5 m-t-10">
+                                <div id="divDynamicRateRow" class="" style="display:none">
+                                    <div class="col-lg-4 p-l-15 p-r-5 m-t-10">
                                         <div class="form-group">
                                             <label>Select RoomType</label>
                                             <select id="ddlRoomType" onchange="onRoomTypeChange(this, $('#ddlRoom'));">
@@ -418,18 +418,18 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-2 p-l-10 p-r-5 m-t-10">
+                                    <div class="col-lg-3 p-l-10 p-r-5 m-t-10">
                                         <div class="form-group">
                                             <label>Select Room</label>
                                             <select id="ddlRoom" multiple="multiple" onchange="onRoomChange(this, $('#tdFloorAdd'));"></select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-1 p-l-10 p-r-5 m-t-25">
+                                    <div class="col-lg-2 p-l-10 p-r-5 m-t-25">
                                         <div class="form-group">
                                             <input id="rate" type="text" placeholder="Enter Rate" class="form-control" name="example-input-normal">
                                         </div>
                                     </div>
-                                    <div class="col-lg-2 p-l-10 p-r-5 m-t-10">
+                                    <div class="col-lg-3 p-l-10 p-r-5 m-t-10">
                                         <div class="button-section btn-section-form">
                                             <button id="btncreate" type="button" class="btn btn-primary m-l-5 m-t-15">Create Rows</button>
                                             <button id="btnsave" type="button" class="btn btn-primary m-l-5 m-t-15">Save Rates</button>
