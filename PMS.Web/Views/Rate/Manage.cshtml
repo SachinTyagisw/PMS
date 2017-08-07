@@ -95,14 +95,34 @@
         tdFloor[0].innerText = floorNumber;
     }
 
-    function onRoomTypeChange(ddlRoomType, ddlRoom) {
-        if (!ddlRoom) {
-            ddlRoom = $('#ddlRoomAdd');
+    function getRooms(roomTypeId, propertyId) {
+        if (roomTypeId <= 0 || propertyId <= 0) return;
+        var divMultiSelectRooms = $('#divMultiSelectRooms');
+        var rooms = window.GuestCheckinManager.PropertySettingResponseDto.RoomSettings;
+        if (!rooms || rooms.length <= 0) {
+            Notifications.SubscribeActive("on-room-get-success", function (sender, args) {
+                var data = window.GuestCheckinManager.PropertySettingResponseDto.RoomSettings;
+                window.GuestCheckinManager.BindMultiSelectRoomDdl(divMultiSelectRooms, roomTypeId, data);
+            });
+            gcm.GetRoomByProperty(propertyId);
+        } else {
+            window.GuestCheckinManager.BindMultiSelectRoomDdl(divMultiSelectRooms, roomTypeId, rooms);
         }
-        Notifications.SubscribeActive("on-resume-roomvalue", function (sender, args) {
-            $("#ddlRoom option[value='-1']").remove();
-        });
-        gcm.FillRoomData(ddlRoomType, ddlRoom, $('#ddlProperty').val());        
+    }
+
+    function onRoomTypeChange(ddlRoomType, ddlRoom) {
+        if (ddlRoomType.id === 'ddlRoomType') {
+            getRooms(ddlRoomType.value, $('#ddlProperty').val());
+            return;
+        } else {
+            if (!ddlRoom) {
+                ddlRoom = $('#ddlRoomAdd');
+            }
+            Notifications.SubscribeActive("on-resume-roomvalue", function (sender, args) {
+                $("#ddlRoom option[value='-1']").remove();
+            });
+            gcm.FillRoomData(ddlRoomType, ddlRoom, $('#ddlProperty').val());
+        }
     }
 
     function makeFieldsReadonly(rowObject) {
@@ -122,15 +142,11 @@
         window.GuestCheckinManager.PropertySettingResponseDto.RoomSettings = null;
         gcm.GetRoomRateByProperty($('#ddlProperty').val());
         gcm.FillRoomTypeData($('#ddlRoomType'), $('#ddlProperty').val());
-        gcm.FillRoomData($('#ddlRoomType'), $('#ddlRoom'), $('#ddlProperty').val());
+        //gcm.FillRoomData($('#ddlRoomType'), $('#ddlRoom'), $('#ddlProperty').val());
     }
 
     $(document).ready(function () {
-        gcm.GetAllProperty();
-
-        //$('#ddlRoom').multiselect({
-        //  includeSelectAllOption: true
-        //});
+        gcm.GetAllProperty();        
 
         $("dl.dropdown dt a").on('click', function () {
             $("dl.dropdown dd ul").slideToggle('fast');
@@ -456,7 +472,7 @@
                                     <div class="col-lg-3 p-l-10 p-r-5 m-t-10">
                                         <div class="form-group">
                                             <label>Select Room</label>
-                                            @*<select id="ddlRoom" multiple="multiple" onchange="onRoomChange(this, $('#tdFloorAdd'));"></select>*@
+                                            @*<select id="ddlRoom" multiple="multiple" onchange="onRoomChange(this, $('#tdFloorAdd'));"></select>*@                                        
                                             <dl class="dropdown">
                                                 <dt>
                                                     <a href="#">
@@ -466,7 +482,7 @@
                                                 </dt>
 
                                                 <dd>
-                                                    <div class="mutliSelect">
+                                                    <div id ="divMultiSelectRooms"class="mutliSelect">
                                                         <ul>
                                                             <li>
                                                                 <input type="checkbox" value="Apple" />Apple
@@ -527,7 +543,7 @@
         <div class="dot"></div>
     </div>
 </div>
-
+<select id="ddlRoom" style="display:none" onchange="onRoomChange(this, $('#tdFloorAdd'));"></select>
 <script type="text/html" id="roomRateTemplate">
         {{if typeof RoomRate != "undefined" && RoomRate != "null" && RoomRate.length > 0 }}
         <ul class="flexi-tabs">

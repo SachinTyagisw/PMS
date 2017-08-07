@@ -1316,6 +1316,10 @@
             }
         },
 
+        BindMultiSelectRoomDdl: function (divMultiSelectRooms, roomTypeId, rooms ) {
+           
+        },
+
         FillRoomTypeData: function(ddlRoomType, propertyId) {
             if (!ddlRoomType || !propertyId || propertyId <= 0) return;
 
