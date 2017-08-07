@@ -152,11 +152,14 @@
             if ($(this).is(':checked')) {
                 var html = '<span title="' + title + '">' + title + '</span>';
                 $('.multiSel').append(html);
-                //$(".hida").hide();
+                $(".hida").hide();
             } else {
                 $('span[title="' + title + '"]').remove();
                 var ret = $(".hida");
                 $('.dropdown dt a').append(ret);
+                if ($('.multiSel').text() === "") {
+                    $(".hida").show();
+                }
             }
         });
 
