@@ -5,7 +5,11 @@
 }
 <script type='text/javascript'>
     var gcm = window.GuestCheckinManager;
-    var rateTypeId = -1;
+    var rateTypeId = -1;    
+
+    function getSelectedValue(id) {
+        return $("#" + id).find("dt a span.value").html();
+    }
 
     function getCreatedBy() {
         return window.PmsSession.GetItem("username");
@@ -124,8 +128,36 @@
     $(document).ready(function () {
         gcm.GetAllProperty();
 
-        $('#ddlRoom').multiselect({
-                includeSelectAllOption: true
+        //$('#ddlRoom').multiselect({
+        //  includeSelectAllOption: true
+        //});
+
+        $(".dropdown dt a").on('click', function () {
+            $(".dropdown dd ul").slideToggle('fast');
+        });
+
+        $(".dropdown dd ul li a").on('click', function () {
+            $(".dropdown dd ul").hide();
+        });        
+
+        $(document).bind('click', function (e) {
+            var $clicked = $(e.target);
+            if (!$clicked.parents().hasClass("dropdown")) $(".dropdown dd ul").hide();
+        });
+
+        $('.mutliSelect input[type="checkbox"]').on('click', function () {
+            var title = $(this).closest('.mutliSelect').find('input[type="checkbox"]').val(),
+              title = $(this).val() + ",";
+
+            if ($(this).is(':checked')) {
+                var html = '<span title="' + title + '">' + title + '</span>';
+                //$('.multiSel').append(html);
+                //$(".hida").hide();
+            } else {
+                $('span[title="' + title + '"]').remove();
+                var ret = $(".hida");
+                $('.dropdown dt a').append(ret);
+            }
         });
 
         $("#btnsave").click(function () {
@@ -417,11 +449,43 @@
                                                 <option value="-1">Select RoomType</option>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div>                                   
                                     <div class="col-lg-3 p-l-10 p-r-5 m-t-10">
                                         <div class="form-group">
-                                            <label>Select Room</label>
-                                            <select id="ddlRoom" multiple="multiple" onchange="onRoomChange(this, $('#tdFloorAdd'));"></select>
+                                            @*<label>Select Room</label>*@
+                                            @*<select id="ddlRoom" multiple="multiple" onchange="onRoomChange(this, $('#tdFloorAdd'));"></select>*@
+                                            <dl class="dropdown">
+                                                <dt>
+                                                    <a href="#">
+                                                        <span class="hida">Select Rooms</span>
+                                                    </a>
+                                                </dt>
+
+                                                <dd>
+                                                    <div class="mutliSelect">
+                                                        <ul>
+                                                            <li>
+                                                                <input type="checkbox" value="Apple" />Apple
+                                                            </li>
+                                                            <li>
+                                                                <input type="checkbox" value="Blackberry" />Blackberry
+                                                            </li>
+                                                            <li>
+                                                                <input type="checkbox" value="HTC" />HTC
+                                                            </li>
+                                                            <li>
+                                                                <input type="checkbox" value="Sony Ericson" />Sony Ericson
+                                                            </li>
+                                                            <li>
+                                                                <input type="checkbox" value="Motorola" />Motorola
+                                                            </li>
+                                                            <li>
+                                                                <input type="checkbox" value="Nokia" />Nokia
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </dd>
+                                            </dl>
                                         </div>
                                     </div>
                                     <div class="col-lg-2 p-l-10 p-r-5 m-t-25">
@@ -459,6 +523,7 @@
         <div class="dot"></div>
     </div>
 </div>
+
 <script type="text/html" id="roomRateTemplate">
         {{if typeof RoomRate != "undefined" && RoomRate != "null" && RoomRate.length > 0 }}
         <ul class="flexi-tabs">
