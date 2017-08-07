@@ -4871,6 +4871,9 @@ main.tab-main + .table-data {
 #divManageRate {
     max-height: calc(55vh - 20px);
 }
+#divRoom {
+    max-height: calc(67vh - 20px);
+}
 #logo {
   height: 48px;
   background: #333;
@@ -5226,9 +5229,15 @@ width: 0;
 }
 
 
-@media screen and (max-width: 1400px) {
+@media screen and (max-width: 1440px) {
     .cal-right {
         width: 83%;
+    }
+    #divManageRate {
+        max-height: calc(49vh - 20px);
+    }
+    #divRoom {
+        max-height: calc(62vh - 20px);
     }
 }
 @media screen and (max-width: 1280px) {
