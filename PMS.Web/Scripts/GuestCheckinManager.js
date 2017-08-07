@@ -1316,8 +1316,34 @@
             }
         },
 
-        BindMultiSelectRoomDdl: function (divMultiSelectRooms, roomTypeId, rooms ) {
-           
+        BindMultiSelectRoomDdl: function (divMultiSelectRooms, roomTypeId, rooms) {
+            if (!divMultiSelectRooms || roomTypeId <= 0 || !rooms || rooms.length <= 0) return;
+            $('#divMultiSelectRooms ul').html('');
+            for (var i = 0 ; i < rooms.length; i++) {
+                if (rooms[i].RoomType.Id !== parseInt(roomTypeId)) continue;
+                var buildListElementItem = $("<li><input type='checkbox' value='" + rooms[i].Id + "' />" + rooms[i].Number + "</li>");                
+                buildListElementItem.bind('click', function () {
+                    //processing stuff
+                    var title = $(this).closest('#divMultiSelectRooms').find('input[type="checkbox"]').text(),
+                                  title = $(this).text() + ",";
+                    var isChecked = $(this).find('input[type="checkbox"]').prop('checked');
+                    var titleVal = $(this).find('input[type="checkbox"]').val();
+
+                    if (isChecked) {
+                        var html = '<span title="' + titleVal + '">' + title + '</span>';
+                        $('.multiSel').append(html);
+                        $(".hida").hide();
+                    } else {
+                        $('span[title="' + titleVal + '"]').remove();
+                        var ret = $(".hida");
+                        $('dl.dropdown dt a').append(ret);
+                        if ($('.multiSel').text() === "") {
+                            $(".hida").show();
+                        }
+                    }
+                });
+                $('#divMultiSelectRooms ul').append(buildListElementItem);
+            }
         },
 
         FillRoomTypeData: function(ddlRoomType, propertyId) {
