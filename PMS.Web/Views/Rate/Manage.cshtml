@@ -132,17 +132,17 @@
         //  includeSelectAllOption: true
         //});
 
-        $(".dropdown dt a").on('click', function () {
-            $(".dropdown dd ul").slideToggle('fast');
+        $("dl.dropdown dt a").on('click', function () {
+            $("dl.dropdown dd ul").slideToggle('fast');
         });
 
-        $(".dropdown dd ul li a").on('click', function () {
-            $(".dropdown dd ul").hide();
+        $("dl.dropdown dd ul li a").on('click', function () {
+            $("dl.dropdown dd ul").hide();
         });        
 
         $(document).bind('click', function (e) {
             var $clicked = $(e.target);
-            if (!$clicked.parents().hasClass("dropdown")) $(".dropdown dd ul").hide();
+            if (!$clicked.parents().hasClass("dropdown")) $("dl.dropdown dd ul").hide();
         });
 
         $('.mutliSelect input[type="checkbox"]').on('click', function () {
@@ -156,7 +156,7 @@
             } else {
                 $('span[title="' + title + '"]').remove();
                 var ret = $(".hida");
-                $('.dropdown dt a').append(ret);
+                $('dl.dropdown dt a').append(ret);
                 if ($('.multiSel').text() === "") {
                     $(".hida").show();
                 }
@@ -455,7 +455,7 @@
                                     </div>                                   
                                     <div class="col-lg-3 p-l-10 p-r-5 m-t-10">
                                         <div class="form-group">
-                                            @*<label>Select Room</label>*@
+                                            <label>Select Room</label>
                                             @*<select id="ddlRoom" multiple="multiple" onchange="onRoomChange(this, $('#tdFloorAdd'));"></select>*@
                                             <dl class="dropdown">
                                                 <dt>

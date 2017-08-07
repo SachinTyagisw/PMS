@@ -5228,6 +5228,98 @@ position: absolute;
 width: 0;
 }
 
+dl.dropdown {
+
+}
+
+dl.dropdown dd,
+dl.dropdown dt {
+  margin: 0px;
+  padding: 0px;
+}
+
+dl.dropdown ul {
+  margin: -1px 0 0 0;
+}
+
+dl.dropdown dd {
+  position: relative;
+  z-index: 99;
+}
+
+dl.dropdown a,
+dl.dropdown a:visited {
+  color: #fff;
+  text-decoration: none;
+  outline: none;
+  font-size: 12px;
+}
+
+dl.dropdown dt a {
+    display: block;
+    width: 212px;
+    height: 28px;
+    padding: 5px 4px;
+    font-size: 12px;
+    line-height: 1.428571;
+    color: #758494;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #c1c8d0;
+    border-radius: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+  overflow: hidden;
+}
+
+dl.dropdown dt a span,
+.multiSel span {
+  cursor: pointer;
+  display: inline-block;
+  padding: 0 3px 2px 0;
+  font-weight: normal;
+}
+
+dl.dropdown dd ul {
+  background-color: #fff;
+  border: 0;
+  color: #878787;
+  display: none;
+  left: 0px;
+  padding: 2px 15px 2px 5px;
+  position: absolute;
+  top: 2px;
+  width: 212px;
+  list-style: none;
+  height: 100px;
+  overflow: auto;
+  border: 1px solid #dadada;
+}
+.multiSel {
+    margin: 0;
+    font-size: 11px;
+    text-align: left;
+    line-height:1;
+}
+
+dl.dropdown span.value {
+  display: none;
+}
+
+dl.dropdown dd ul li a {
+  padding: 5px;
+  display: block;
+}
+
+dl.dropdown dd ul li a:hover {
+  background-color: #fff;
+}
 
 @media screen and (max-width: 1440px) {
     .cal-right {
