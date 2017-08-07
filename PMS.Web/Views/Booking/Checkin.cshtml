@@ -277,23 +277,30 @@
         function toggleHourlyCbBaseOnTimeDiff(timeDiffInHours) {      
 
             timeDiffInHours = timeDiffInHours + "-hr";
-            $('#hourCheckin').attr("checked", "checked");            
+            $('#hourCheckin').attr("checked", "checked");
+            OnChkHourlyCheckInChange();
             $("#hoursComboBox option").each(function () {
                 if ($(this).text().toLowerCase() === timeDiffInHours.toLowerCase()) {
                     $(this).attr('selected', 'selected');
                 }
             });
-
-            OnChkHourlyCheckInChange();
-
-            // if hourly cb is checked then show only hourly rate type
-            if ($("#hoursComboBox").selectedIndex > 0) {
+            
+            var selectedHr = $("#hoursComboBox option:selected").text();
+            if (selectedHr == "Select Hrs") {
+                $('#hourCheckin').removeAttr('checked');
+                OnChkHourlyCheckInChange();
+            }
+            else {
                 var selectedHr = $("#hoursComboBox option:selected").text();
                 gcm.FilterRateType($('#rateTypeDdl'), selectedHr);
             }
-            else {
-                $('#hourCheckin').removeAttr('checked');
-            }
+            //// if hourly cb is checked then show only hourly rate type
+            //if ($("#hoursComboBox").selectedIndex > 0) {
+
+            //}
+            //else {
+
+            //}
         }
 
         function init() {
@@ -329,7 +336,7 @@
                             }
                             //Set the hourly checkin information if diference in checkin-checkout is less than 6 hours
                             var timeDiffInHours = (new Date(pmsSession.GetItem("dtcheckout")).getTime() - new Date(pmsSession.GetItem("dtcheckin")).getTime()) / 3600000;
-                            if (timeDiffInHours && timeDiffInHours <= 6) {
+                            if (timeDiffInHours && timeDiffInHours <= 12) {
                                 toggleHourlyCbBaseOnTimeDiff(timeDiffInHours);
                             }
 
