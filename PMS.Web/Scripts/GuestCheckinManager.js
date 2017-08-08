@@ -1359,23 +1359,15 @@
             pmsService.DeleteRoomRate(args);
         },
 
-        AddRoomRate: function(rate) {
-            rate.CreatedBy = getCreatedBy();
-            rate.CreatedOn = getCurrentDate();
-            var rateRequestDto = {};
-            rateRequestDto.Rate = {};
+        AddRoomRate: function(rates) {
+            var rateRequestDto = rates;
             // AddRoomRate by api calling  
-            rateRequestDto.Rate = rate;
             pmsService.AddRoomRate(rateRequestDto);
         },
 
-        UpdateRoomRate: function(rate) {
-            rate.LastUpdatedBy = getCreatedBy();
-            rate.LastUpdatedOn = getCurrentDate();
+        UpdateRoomRate: function(rates) {
+            var rateRequestDto = rates;
             // UpdateRoomRate by api calling 
-            var rateRequestDto = {};
-            rateRequestDto.Rate = {};
-            rateRequestDto.Rate = rate;
             pmsService.UpdateRoomRate(rateRequestDto);
         },
 
@@ -2192,7 +2184,7 @@
 
             pmsService.Handlers.OnAddRoomRateSuccess = function(data) {
                 var status = data.StatusDescription.toLowerCase();
-                if (data.ResponseObject > 0) {
+                if (status.indexOf('successfully') >= 0) {
                     console.log(status);
                     // to fetch new data                    
                     //alert(status);

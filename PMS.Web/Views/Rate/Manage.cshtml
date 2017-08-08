@@ -242,7 +242,7 @@
             });
 
             //call AddRoomRate api
-            //gcm.AddRoomRate(rateRequestDto);
+            gcm.AddRoomRate(rateRequestDto);
         });
 
         $("#btncreate").click(function () {            
@@ -339,6 +339,8 @@
             var propertyId = $('#ddlProperty').val();
             var preRoomType = $(thisRow)[1].innerText.toLowerCase();
             preRoom = $(thisRow)[2].innerText.toLowerCase();
+            var rateRequestDto = {};
+            rateRequestDto.Rates = [];
             if (editOn == false) {
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
 
@@ -425,6 +427,10 @@
                     existingRateClone.PropertyId = propertyId;
                     existingRateClone.IsActive = true;
                     existingRateClone.RateTypeId = rateTypeId;
+                    existingRateClone.LastUpdatedBy = getCreatedBy();
+                    existingRateClone.LastUpdatedOn = getCurrentDate();
+
+                    rateRequestDto.Rates.push(existingRateClone);
 
                     if (IsRatesDuplicate(existingRateClone, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings)) {
                         alert("Rates already exists.");
@@ -436,7 +442,7 @@
                         window.GuestCheckinManager.GetRoomRateByProperty($('#ddlProperty').val());
                     });
                     //call UpdateRoomRate api
-                    gcm.UpdateRoomRate(existingRateClone);
+                    gcm.UpdateRoomRate(rateRequestDto);
                     gcm.OnGridEdit(editOn, $(thisRow), $(this));
                 } else {
                     if (propertyId <= 0) {
@@ -447,6 +453,7 @@
                     rateTypeId = getRateTypeId();
                     var existingRoomRate = gcm.FindSetting(rateTypeId, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings);
                     if (!existingRoomRate) return;
+                    //default rateid incase of add request
                     rate.Id = -1;
                     rate.RateTypeId = rateTypeId;
                     rate.RoomTypeId = roomTypeId;
@@ -456,6 +463,10 @@
                     rate.Type = existingRoomRate.Units;
                     rate.IsActive = true;
                     rate.InputKeyHours = existingRoomRate.Units === 'Daily' ? null : existingRoomRate.Hours;
+                    rate.CreatedBy = getCreatedBy();
+                    rate.CreatedOn = getCurrentDate();
+
+                    rateRequestDto.Rates.push(rate);
 
                     if (IsRatesDuplicate(rate, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings)) {
                         alert("Rates already exists.");
@@ -467,7 +478,7 @@
                         window.GuestCheckinManager.GetRoomRateByProperty($('#ddlProperty').val());
                     });                    
                     //call AddRoomRate api
-                    gcm.AddRoomRate(rate);
+                    gcm.AddRoomRate(rateRequestDto);
                     gcm.OnGridEdit(editOn, $(thisRow), $(this));
                 }
             }
