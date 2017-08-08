@@ -5,7 +5,46 @@
 }
 <script type='text/javascript'>
     var gcm = window.GuestCheckinManager;
-    var rateTypeId = -1;    
+    var rateTypeId = -1;
+    var selectedRoomId = [];
+    var cloneRoom = null;
+    var preRoom = null;
+
+    function bindMultiSelectRoomDdl(divMultiSelectRooms, roomTypeId, rooms) {
+        if (!divMultiSelectRooms || roomTypeId <= 0 || !rooms || rooms.length <= 0) return;
+        $('#divMultiSelectRooms ul').html('');
+        selectedRoomId = [];
+        $('.multiSel').html('');
+        for (var i = 0 ; i < rooms.length; i++) {
+            if (rooms[i].RoomType.Id !== parseInt(roomTypeId)) continue;
+            var buildListElementItem = $("<li><input type='checkbox' value='" + rooms[i].Id + "' />" + rooms[i].Number + "</li>");                
+            buildListElementItem.bind('click', function () {
+                //processing stuff
+                var title = $(this).closest('#divMultiSelectRooms').find('input[type="checkbox"]').text(),
+                              title = $(this).text() + ",";
+                var isChecked = $(this).find('input[type="checkbox"]').prop('checked');
+                var titleVal = $(this).find('input[type="checkbox"]').val();
+
+                if (isChecked) {
+                    var html = '<span title="' + titleVal + '">' + title + '</span>';
+                    $('.multiSel').append(html);
+                    $(".hida").hide();
+                    selectedRoomId.push(titleVal);
+                } else {
+                    $('span[title="' + titleVal + '"]').remove();
+                    var ret = $(".hida");
+                    $('dl.dropdown dt a').append(ret);
+                    if ($('.multiSel').text() === "") {
+                        $(".hida").show();
+                    }
+                    if (selectedRoomId && selectedRoomId.length > 0) {
+                        selectedRoomId.splice($.inArray(titleVal, selectedRoomId), 1);
+                    }                    
+                }
+            });
+            $('#divMultiSelectRooms ul').append(buildListElementItem);
+        }
+    }
 
     function getSelectedValue(id) {
         return $("#" + id).find("dt a span.value").html();
@@ -102,11 +141,11 @@
         if (!rooms || rooms.length <= 0) {
             Notifications.SubscribeActive("on-room-get-success", function (sender, args) {
                 var data = window.GuestCheckinManager.PropertySettingResponseDto.RoomSettings;
-                window.GuestCheckinManager.BindMultiSelectRoomDdl(divMultiSelectRooms, roomTypeId, data);
+                bindMultiSelectRoomDdl(divMultiSelectRooms, roomTypeId, data);
             });
             gcm.GetRoomByProperty(propertyId);
         } else {
-            window.GuestCheckinManager.BindMultiSelectRoomDdl(divMultiSelectRooms, roomTypeId, rooms);
+            bindMultiSelectRoomDdl(divMultiSelectRooms, roomTypeId, rooms);
         }
     }
 
@@ -117,10 +156,7 @@
         } else {
             if (!ddlRoom) {
                 ddlRoom = $('#ddlRoomAdd');
-            }
-            Notifications.SubscribeActive("on-resume-roomvalue", function (sender, args) {
-                $("#ddlRoom option[value='-1']").remove();
-            });
+            }            
             gcm.FillRoomData(ddlRoomType, ddlRoom, $('#ddlProperty').val());
         }
     }
@@ -142,7 +178,7 @@
         window.GuestCheckinManager.PropertySettingResponseDto.RoomSettings = null;
         gcm.GetRoomRateByProperty($('#ddlProperty').val());
         gcm.FillRoomTypeData($('#ddlRoomType'), $('#ddlProperty').val());
-        //gcm.FillRoomData($('#ddlRoomType'), $('#ddlRoom'), $('#ddlProperty').val());
+        gcm.FillRoomData($('#ddlRoomType'), $('#ddlRoom'), $('#ddlProperty').val());
     }
 
     $(document).ready(function () {
@@ -211,8 +247,8 @@
 
         $("#btncreate").click(function () {            
             var roomTypeId = $('#ddlRoomType').val();
-            var roomId = $('#ddlRoom').val();
-            var rowCount = 0;
+            var rateValue = $('#rate').val();
+            var rowCount = selectedRoomId.length;
             if ($('#ddlProperty').val() <= 0) {
                 alert('Select valid property');
                 return;
@@ -221,41 +257,62 @@
                 alert('Select valid roomtype');
                 return;
             }
-            if (roomId <= 0) {
-                alert('Select valid Room');
-                return;
-            }
             if (rowCount <= 0) {
                 alert('No of rows should be greater than 0');                
                 return;
             }
+            if (isNaN(rateValue) || rateValue.trim() === "") {
+                alert("Rate should be numeric");
+                $('#rate').focus();
+                return;
+            }
+            if (!rateValue || rateValue <= 0) {
+                alert("Rate should be greater than 0");
+                $('#rate').focus();
+                return;
+            }
+
             var totalTr = $("tr").length - 1;
             for (var i = 1; i <= rowCount; i++) {
                 $("tr:last").after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="false" style="background-color: rgba(255,255,255,0.7);"></td><td contenteditable="false" style="background-color: rgba(255,255,255,0.7);"></td><td id="tdFloorAdd" class="idRow" contenteditable="false"></td><td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i><i class="fa fa-minus-circle" aria-hidden="true"></i><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td></tr>');
                 var lastRow = $("tr:last");
+                var roomId = selectedRoomId[i - 1];
+                var floorNumber = getFloorNumberByRoomId(parseInt(roomId));
                 var cloneRoomType = $('#ddlRoomType').clone(true);
                 cloneRoomType[0].style = 'display:block';
                 cloneRoomType[0].id = 'ddlRoomType' + (totalTr + parseInt(i));
                 var roomTypeSelector = '#' + cloneRoomType[0].id;
-
+                
                 $(lastRow[0].cells[1]).innerText = "";
                 $(lastRow[0].cells[1]).attr('contenteditable', 'false');
                 $(lastRow[0].cells[1]).append(cloneRoomType);
 
-                var cloneRoom = $('#ddlRoom').clone(true);
-                cloneRoom[0].style = 'display:block';
-                cloneRoom[0].id = 'ddlRoom' + (totalTr + parseInt(i));
-                var roomSelector = '#' + cloneRoom[0].id;
+                var cloneRoomDynamic = $('#ddlRoom').clone(true);
+                cloneRoomDynamic[0].style = 'display:block';
+                cloneRoomDynamic[0].id = 'ddlRoom' + (totalTr + parseInt(i));
+                var roomSelector = '#' + cloneRoomDynamic[0].id;
 
                 $(lastRow[0].cells[2]).innerText = "";
                 $(lastRow[0].cells[2]).attr('contenteditable', 'false');
-                $(lastRow[0].cells[2]).append(cloneRoom);
+                $(lastRow[0].cells[2]).append(cloneRoomDynamic);
+
+                $(lastRow[0].cells[2]).innerText = "";
+                $(lastRow[0].cells[2]).attr('contenteditable', 'false');
+                $(lastRow[0].cells[2]).append(cloneRoomDynamic);
+
+                $(lastRow[0].cells[3]).innerText = floorNumber;
+                $(lastRow[0].cells[3]).attr('contenteditable', 'false');
+
+                $(lastRow[0].cells[4]).innerText = rateValue;
+                $(lastRow[0].cells[4]).attr('contenteditable', 'true');
 
                 gcm.FillRoomTypeData($(roomTypeSelector), $('#ddlProperty').val());
                 $(roomTypeSelector).val(roomTypeId);
                 gcm.FillRoomData($(roomTypeSelector)[0], $(roomSelector), $('#ddlProperty').val());
                 $(roomSelector).val(roomId);
             }
+            // clearing already added roomid 
+            selectedRoomId = [];
         });
 
         $("#divManageRate").on("click", ".fa-plus-circle", function () {
@@ -281,7 +338,7 @@
             var rateId = $(thisRow)[0].innerText;
             var propertyId = $('#ddlProperty').val();
             var preRoomType = $(thisRow)[1].innerText.toLowerCase();
-            var preRoom = $(thisRow)[2].innerText.toLowerCase();
+            preRoom = $(thisRow)[2].innerText.toLowerCase();
             if (editOn == false) {
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
 
@@ -293,7 +350,7 @@
                 $(thisRow[1]).attr('contenteditable', 'false');
                 $(thisRow[1]).append(cloneRoomType);          
 
-                var cloneRoom = $('#ddlRoom').clone(true);
+                cloneRoom = $('#ddlRoom').clone(true);
                 cloneRoom[0].style = 'display:block';
                 cloneRoom[0].id = 'ddlRoom' + rateId;
                 var roomSelector = '#' + cloneRoom[0].id;
@@ -301,16 +358,19 @@
                 $(thisRow[2]).attr('contenteditable', 'false');
                 $(thisRow[2]).append(cloneRoom);                
 
+                Notifications.SubscribeActive("on-resume-roomvalue", function (sender, args) {
+                    var roomSelectorClone = '#' + cloneRoom[0].id;
+                    $(roomSelectorClone + " option").each(function () {
+                        if ($(this).text().toLowerCase() === preRoom) {
+                            $(this).attr('selected', 'selected');
+                        }
+                    });
+                });
+
                 $(roomTypeSelector + " option").each(function () {
                     if ($(this).text().toLowerCase() === preRoomType) {
                         $(this).attr('selected', 'selected');
                         gcm.FillRoomData($(roomTypeSelector)[0], $(roomSelector), $('#ddlProperty').val());
-                    }
-                });
-
-                $(roomSelector + " option").each(function () {
-                    if ($(this).text().toLowerCase() === preRoom) {
-                        $(this).attr('selected', 'selected');                        
                     }
                 });
 
@@ -340,6 +400,7 @@
                 }
                 if (isNaN(rateValue) || rateValue.trim() === "") {
                     alert("Rate should be numeric");
+                    $(thisRow)[4].focus();
                     return;
                 }
                 if (!rateValue || rateValue <= 0) {
