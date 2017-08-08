@@ -217,15 +217,13 @@ namespace PMS.Api.Controllers
         [HttpPost, ActionName("AddRoomRate")]
         public PmsResponseDto AddRoomRate([FromBody] RoomRateRequestDto request)
         {
-            if (request == null || request.Rate == null) throw new PmsException("Invalid Room Rate add request.");
+            if (request == null || request.Rates == null || request.Rates.Count <= 0) throw new PmsException("Invalid Room Rate add request.");
 
             var response = new PmsResponseDto();
-            var Id = _iPmsLogic.AddRoomRate(request.Rate);
-            if (Id > 0)
+            if (_iPmsLogic.AddRoomRate(request.Rates))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Record(s) saved successfully.";
-                response.ResponseObject = Id;
             }
             else
             {
@@ -238,10 +236,10 @@ namespace PMS.Api.Controllers
         [HttpPut, ActionName("UpdateRoomRate")]
         public PmsResponseDto UpdateRoomRate([FromBody] RoomRateRequestDto request)
         {
-            if (request == null || request.Rate == null || request.Rate.Id <= 0) throw new PmsException("Room Rate can not be updated.");
+            if (request == null || request.Rates == null || request.Rates.Count <= 0) throw new PmsException("Room Rate can not be updated.");
 
             var response = new PmsResponseDto();
-            if (_iPmsLogic.UpdateRoomRate(request.Rate))
+            if (_iPmsLogic.UpdateRoomRate(request.Rates))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Record(s) saved successfully.";

@@ -1677,10 +1677,10 @@ namespace PMS.Resources.DAL
             return rateTypes;
         }
 
-        public int AddRoomRate(int propertyId, string rateXml)
+        public bool AddRoomRate(int propertyId, string rateXml)
         {
             var rateId = SaveRoomRateIndDb(propertyId, rateXml);
-            return rateId;
+            return rateId > 0;
         }
         public bool UpdateRoomRate(int propertyId, string rateXml)
         {

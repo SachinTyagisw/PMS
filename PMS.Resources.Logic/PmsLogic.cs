@@ -90,27 +90,29 @@ namespace PMS.Resources.Logic
             return DalFactory.GetAllPropertyType();
         }
 
-        public int AddRoomRate(PmsEntity.Rate rate)
+        public bool AddRoomRate(List<PmsEntity.Rate> rates)
         {
-            var propertyId = rate.PropertyId.Value;
-            var rateXml = PmsConverter.SerializeObjectToXmlString(rate);
-            if (string.IsNullOrWhiteSpace(rateXml)) return -1;
+            var propertyId = rates[0].PropertyId.Value;
+            var rateXml = PmsConverter.SerializeObjectToXmlString(rates);
+            if (string.IsNullOrWhiteSpace(rateXml)) return false;
             
             rateXml = RemoveXmlDefaultNode(rateXml);
+            rateXml = rateXml.Replace("ArrayOfRate", "Rates");
             //var logService = LoggingManager.GetLogInstance();
-            //logService.LogException("ratexml :" + rateXml);
+            //logService.LogInformation("ratexml :" + rateXml);
 
             return DalFactory.AddRoomRate(propertyId, rateXml);
         }
-        public bool UpdateRoomRate(PmsEntity.Rate rate)
+        public bool UpdateRoomRate(List<PmsEntity.Rate> rates)
         {
-            var propertyId = rate.PropertyId.Value;
-            var rateXml = PmsConverter.SerializeObjectToXmlString(rate);
+            var propertyId = rates[0].PropertyId.Value;
+            var rateXml = PmsConverter.SerializeObjectToXmlString(rates);
             if (string.IsNullOrWhiteSpace(rateXml)) return false;
 
             rateXml = RemoveXmlDefaultNode(rateXml);
+            rateXml = rateXml.Replace("ArrayOfRate", "Rates");
             //var logService = LoggingManager.GetLogInstance();
-            //logService.LogException("ratexml :" + rateXml);
+            //logService.LogInformation("ratexml :" + rateXml);
 
             return DalFactory.UpdateRoomRate(propertyId, rateXml);
 
