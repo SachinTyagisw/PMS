@@ -39,7 +39,6 @@ namespace PMS.Web
                        //.Include("~/Scripts/scripts.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/bootstrap").Include("~/Scripts/Bootstrap/bootstrap.min.js")
-                       //.Include("~/Scripts/Bootstrap/bootstrap-multiselect.min.js")
                        .Include("~/Scripts/Bootstrap/ui-bootstrap-tpls.min.js")
                        .Include("~/Scripts/Bootstrap/moment.js")
                        .Include("~/Scripts/Bootstrap/datetimepicker.js"));
@@ -74,7 +73,6 @@ namespace PMS.Web
                        .Include("~/Content/lib/themify-icons.css")
                        .Include("~/Content/lib/owl.theme.default.min.css")
                        .Include("~/Content/lib/bootstrap.min.css")
-                       //.Include("~/Content/Bootstrap/bootstrap-multiselect.css")
                        .Include("~/Content/lib/unix.css")
                        .Include("~/Content/Jquery/jquery-ui.min.css")
                        .Include("~/Content/Bootstrap/bootstrap-datetimepicker.css"));
