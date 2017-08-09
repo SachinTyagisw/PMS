@@ -4870,7 +4870,7 @@ main.tab-main + .table-data {
   transition: color 0.2s;
 }
 #divManageRate {
-    max-height: calc(55vh - 20px);
+    max-height: calc(53vh - 20px);
 }
 #divRoom {
     max-height: calc(67vh - 20px);
@@ -5230,7 +5230,7 @@ width: 0;
 }
 
 dl.dropdown {
-
+    display: inline-block;
 }
 
 dl.dropdown dd,
@@ -5258,7 +5258,7 @@ dl.dropdown a:visited {
 
 dl.dropdown dt a {
     display: block;
-    width: 212px;
+    width: 204px;
     height: 28px;
     padding: 5px 4px;
     font-size: 12px;
@@ -5296,7 +5296,7 @@ dl.dropdown dd ul {
   padding: 2px 15px 2px 5px;
   position: absolute;
   top: 2px;
-  width: 212px;
+  width: 204px;
   list-style: none;
   height: 100px;
   overflow: auto;
