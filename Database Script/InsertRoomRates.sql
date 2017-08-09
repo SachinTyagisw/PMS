@@ -1,14 +1,14 @@
-  
-Alter PROCEDURE [dbo].[InsertRoomRates]                                
+    
+ALTER PROCEDURE [dbo].[InsertRoomRates]                                
  @propertyID INT,                                
  @RateXML XML = NULL,             
- @RateID INT OUTPUT                                
+ @Status Bit OUTPUT                                     
 AS                                
 BEGIN                                
  SET NOCOUNT ON                                
  BEGIN TRAN                                 
  BEGIN TRY                                
-                                  
+ Set @Status = 1                             
  DECLARE @hDoc INT                                
   IF @RateXML IS NOT NULL                                
   BEGIN                                
@@ -35,7 +35,7 @@ BEGIN
       XMLTable.LastUpdatedBy,                                  
       XMLTable.LastUpdatedOn                                
     FROM                                 
-     OPENXML(@hDoc, 'Rate',2)                                
+     OPENXML(@hDoc, 'Rates/Rate',2)                                
      WITH                                
      (                                
       Id int,                                  
@@ -69,7 +69,6 @@ BEGIN
       ,[TargetRates].CreatedOn = [SourceRates].CreatedOn                                 
       ,[TargetRates].LastUpdatedBy = [SourceRates].LastUpdatedBy                                 
       ,[TargetRates].LastUpdatedOn = [SourceRates].LastUpdatedOn        
-      ,@RateID = [SourceRates].ID            
   WHEN NOT MATCHED THEN                                
   INSERT (                                  
       Type,                                  
@@ -102,16 +101,19 @@ BEGIN
     )                                
    OUTPUT [SourceRates].ID, inserted.ID INTO @SavedRateIDTable(OldRateID,NewRateID);                                
              
-   IF(@RateID is null)            
-   BEGIN            
-    SELECT @RateID = NewRateID FROM @SavedRateIDTable                  
-   END             
-    SELECT @RateID                
- END                                
+   --IF(@RateID is null)            
+   --BEGIN            
+   -- SELECT @RateID = NewRateID FROM @SavedRateIDTable                  
+   --END             
+   -- SELECT @RateID                
+ END        
+ SELECT @STATUS                        
  COMMIT TRAN                                
  END TRY                                
                                 
-    BEGIN CATCH                                
+    BEGIN CATCH                        
+    Set @STATUS = 0
+    Select @STATUS                            
   ROLLBACK TRAN;                                
  END CATCH                                
                                     
