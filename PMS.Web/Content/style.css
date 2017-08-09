@@ -7,7 +7,8 @@
 /*    Brand color
 ----------------------*/
 /*----------------font-------------------*/
-@import 'https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700';
+@import 'https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700';
+
 @font-face {
   font-family: 'MontserratLight';
   src: url('../fonts/MontserratLight.eot');
@@ -4752,7 +4753,7 @@ a.animated-button:link, a.animated-button:visited {
     background: #e3e8ea;
     display: block;
     width: 98%;
-    max-height: calc(75vh - 20px);
+    max-height: calc(74vh - 20px);
     overflow-x: hidden;
     /*max-width: 1242px;*/
 }
