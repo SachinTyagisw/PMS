@@ -54,23 +54,11 @@
         return window.PmsSession.GetItem("username");
     }
 
-    function getCurrentDate() {
-        // date format yyyy/mm/dd
-        var dt = new Date();
-        var month = dt.getMonth() + 1;
-        var day = dt.getDate();
-        var dateOutput = dt.getFullYear() + '/' +
-            (month < 10 ? '0' : '') + month + '/' +
-            (day < 10 ? '0' : '') + day;
-
-        var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
-        return dateOutput + ' ' + time;
-    }
-
     function getRateTypeId() {
         rateTypeId = rateTypeId === -1 ? $('input[name=firsttab]')[0].id : rateTypeId;
         return rateTypeId;
     }
+
     function setFocusOnCurrentTab(currentTabId) {
         if ($('input[type=radio]').length > 0) {
             var tabSelector = $('input[type=radio]');
@@ -204,7 +192,7 @@
             if (divManageRateCount <= 0 || propertyId <= 0) return;
 
             var createdBy = getCreatedBy();
-            var createdOn = getCurrentDate();
+            var createdOn = gcm.GetCurrentDate();
             rateTypeId = getRateTypeId();
             var existingRoomRate = gcm.FindSetting(rateTypeId, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings);
             if (!existingRoomRate) return;
@@ -428,7 +416,7 @@
                     existingRateClone.IsActive = true;
                     existingRateClone.RateTypeId = rateTypeId;
                     existingRateClone.LastUpdatedBy = getCreatedBy();
-                    existingRateClone.LastUpdatedOn = getCurrentDate();
+                    existingRateClone.LastUpdatedOn = gcm.GetCurrentDate();
 
                     rateRequestDto.Rates.push(existingRateClone);
 
@@ -464,7 +452,7 @@
                     rate.IsActive = true;
                     rate.InputKeyHours = existingRoomRate.Units === 'Daily' ? null : existingRoomRate.Hours;
                     rate.CreatedBy = getCreatedBy();
-                    rate.CreatedOn = getCurrentDate();
+                    rate.CreatedOn = gcm.GetCurrentDate();
 
                     rateRequestDto.Rates.push(rate);
 

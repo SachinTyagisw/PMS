@@ -3,7 +3,8 @@
     }
     <script type='text/javascript'>
         var gcm = window.GuestCheckinManager;
-        var pmsSession = window.PmsSession;        
+        var pmsSession = window.PmsSession;
+        var invoiceId = -1;
 
         function OnPropertyChange() {
             gcm.ClearExistingSessionStorage();
@@ -405,8 +406,54 @@
 
             $("#btnCheckout").click(function () {
                 if (confirm("Do you want checkout ?")) {
-                    gcm.AddBooking('checkout');
-                }
+                    var balance = $('#balance');
+                    var payment = $('#payment');
+                    var shouldRefund = false;
+                    if (!balance || balance.length <= 0) {
+                        alert('Please check the balance amount.');
+                        return;
+                    }
+                    var daysDiff = gcm.GetDays(gcm.GetCurrentDate(), new Date($("#dateTo").val())) + 1;
+                    // if current date is not same as of checkout date
+                    if (daysDiff !== 0) {
+                        $("#dateTo").val(gcm.GetCurrentDate());
+                        //previous invoice id can be used for saving invoice again
+                        invoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
+                        // to get updated invoice info as checkout date is updated so reset invoiceid = -1
+                        window.GuestCheckinManager.BookingDto.InvoiceId = -1;
+                        Notifications.SubscribeActive("on-checkout-date-change", function (sender, args) {
+                            var dueAmt = parseInt($('#balance').val());
+                            var refund = false;
+                            if (dueAmt > 0) {
+                                alert('Balance amount should not be greater than 0.');
+                                $('#payment').focus();
+                                return;
+                            } else if (dueAmt < 0) {
+                                if (confirm("Refund $" + dueAmt + "to the Guest ?")) {
+                                    refund = true;
+                                    $('#payment').focus();
+                                    return;
+                                }
+                            }
+                            gcm.AddBooking('checkout', refund);
+                        });
+                        gcm.LoadInvoice();
+                    } else {
+                        var amt = parseInt(balance.val());
+                        if (amt > 0) {
+                            alert('Balance amount should not be greater than 0.');
+                            payment.focus();
+                            return;
+                        } else if (amt < 0) {
+                            if (confirm("Refund $" + amt + "to the Guest ?")) {
+                                shouldRefund = true;
+                                payment.focus();
+                                return;
+                            } 
+                        } 
+                        gcm.AddBooking('checkout', shouldRefund);
+                    }
+                }                
             });
 
             $("#btnSave").click(function () {

@@ -320,7 +320,7 @@
 
             invoice.Id = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
             invoice.GuestId = window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;
-            invoice.CreatedOn = getCurrentDate();
+            invoice.CreatedOn = window.GuestCheckinManager.window.GuestCheckinManager.GetCurrentDate();
             invoice.IsActive = true;
             invoice.TotalAmount = $('#total') && $('#total')[0] ? $('#total')[0].innerText : 0;
             invoice.Discount = $('#discount') && $('#discount')[0] ? $('#discount')[0].value : 0;
@@ -338,8 +338,10 @@
             pmsService.AddInvoice(invoiceRequestDto);
         },
 
-        AddBooking: function(status) {            
+        AddBooking: function(status, shouldRefund) {            
             bookingStatus = status;
+            // default value as false
+            shouldRefund = !shouldRefund ? false : shouldRefund;
             var bookingRequestDto = {};
             bookingRequestDto.Booking = {};
             var booking = {};
@@ -352,8 +354,9 @@
             booking.PropertyId = getPropertyId();
             booking.GuestRemarks = $('#guestComments').val();
             booking.TransactionRemarks = $('#transRemarks').val();
-            booking.CreatedOn = getCurrentDate();
+            booking.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             booking.Status = status;
+            booking.ShouldRefund = shouldRefund;
             booking.IsActive = true;
             booking.ISHOURLYCHECKIN = $('#hourCheckin')[0].checked ? true : false;
             booking.RateTypeId = $('#rateTypeDdl').val();
@@ -547,6 +550,7 @@
             //    window.GuestCheckinManager.BindExtraChargesDdl($('#ddlExtraChargesClone'), extraChargesdata);
             //}
             window.GuestCheckinManager.CalculateInvoice();
+            if (window.Notifications) window.Notifications.Notify("on-checkout-date-change", null, null);
         },
 
         IsTime: function(e) {
@@ -589,7 +593,8 @@
             if (!dateFrom || !dateTo) {
                 stayDays = 1;
             } else {
-                stayDays = getDays(dateFrom, dateTo)
+                var daysDiff = window.GuestCheckinManager.GetDays(dateFrom, dateTo);
+                stayDays = daysDiff <= 0 ? 1 : daysDiff;
             }
             var baseRoomCharge = $('#baseRoomCharge');
             var totalRoomCharge = $('#totalRoomCharge');
@@ -1009,7 +1014,7 @@
         AddProperty: function(property) {
             var propertyRequestDto = {};
             propertyRequestDto.Property = {};
-            property.CreatedOn = getCurrentDate();
+            property.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             property.CreatedBy = getCreatedBy();
             // AddProperty by api calling  
             propertyRequestDto.Property = property;
@@ -1039,7 +1044,7 @@
 
         AddFloor: function(floor) {
             floor.CreatedBy = getCreatedBy();
-            floor.CreatedOn = getCurrentDate();
+            floor.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             var floorRequestDto = {};
             floorRequestDto.PropertyFloor = {};
             // AddFloor by api calling  
@@ -1049,7 +1054,7 @@
 
         UpdateFloor: function(floor) {
             floor.LastUpdatedBy = getCreatedBy();
-            floor.LastUpdatedOn = getCurrentDate();
+            floor.LastUpdatedOn = window.GuestCheckinManager.GetCurrentDate();
             // UpdateFloor by api calling 
             var floorRequestDto = {};
             floorRequestDto.PropertyFloor = {};
@@ -1059,7 +1064,7 @@
 
         AddRoomType: function(roomType) {
             roomType.CreatedBy = getCreatedBy();
-            roomType.CreatedOn = getCurrentDate();
+            roomType.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             var roomTypeRequestDto = {};
             roomTypeRequestDto.RoomType = {};
             // AddRoomType by api calling  
@@ -1072,14 +1077,14 @@
             var propertyRequestDto = {};
             propertyRequestDto.Property = {};
             property.LastUpdatedBy = getCreatedBy();
-            property.LastUpdatedOn = getCurrentDate();
+            property.LastUpdatedOn = window.GuestCheckinManager.GetCurrentDate();
             propertyRequestDto.Property = property;
             pmsService.UpdateProperty(propertyRequestDto);
         },
 
         UpdateRoomType: function(roomType) {
             roomType.LastUpdatedBy = getCreatedBy();
-            roomType.LastUpdatedOn = getCurrentDate();
+            roomType.LastUpdatedOn = window.GuestCheckinManager.GetCurrentDate();
             // UpdateRoomType by api calling 
             var roomTypeRequestDto = {};
             roomTypeRequestDto.RoomType = {};
@@ -1152,7 +1157,7 @@
 
         AddPaymentType: function(paymentType) {
             paymentType.CreatedBy = getCreatedBy();
-            paymentType.CreatedOn = getCurrentDate();
+            paymentType.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             var paymentTypeRequestDto = {};
             paymentTypeRequestDto.PaymentType = {};
             // AddPaymentType by api calling  
@@ -1162,7 +1167,7 @@
 
         UpdatePaymentType: function(paymentType) {
             paymentType.LastUpdatedBy = getCreatedBy();
-            paymentType.LastUpdatedOn = getCurrentDate();
+            paymentType.LastUpdatedOn = window.GuestCheckinManager.GetCurrentDate();
             // UpdatePaymentType by api calling 
             var paymentTypeRequestDto = {};
             paymentTypeRequestDto.PaymentType = {};
@@ -1184,7 +1189,7 @@
 
         AddExtraCharge: function(extracharge) {
             extracharge.CreatedBy = getCreatedBy();
-            extracharge.CreatedOn = getCurrentDate();
+            extracharge.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             var extraChargeRequestDto = {};
             extraChargeRequestDto.ExtraCharge = {};
             // AddExtraCharge by api calling  
@@ -1194,7 +1199,7 @@
 
         UpdateExtraCharge: function(extracharge) {
             extracharge.LastUpdatedBy = getCreatedBy();
-            extracharge.LastUpdatedOn = getCurrentDate();
+            extracharge.LastUpdatedOn = window.GuestCheckinManager.GetCurrentDate();
             // UpdateExtraCharge by api calling 
             var extraChargeRequestDto = {};
             extraChargeRequestDto.ExtraCharge = {};
@@ -1216,7 +1221,7 @@
 
         AddTax: function(tax) {
             tax.CreatedBy = getCreatedBy();
-            tax.CreatedOn = getCurrentDate();
+            tax.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             var taxRequestDto = {};
             taxRequestDto.Tax = {};
             // AddTax by api calling  
@@ -1226,7 +1231,7 @@
 
         UpdateTax: function(tax) {
             tax.LastUpdatedBy = getCreatedBy();
-            tax.LastUpdatedOn = getCurrentDate();
+            tax.LastUpdatedOn = window.GuestCheckinManager.GetCurrentDate();
             // UpdateTax by api calling 
             var taxRequestDto = {};
             taxRequestDto.Tax = {};
@@ -1242,7 +1247,7 @@
 
         AddRateType: function(rateType) {
             rateType.CreatedBy = getCreatedBy();
-            rateType.CreatedOn = getCurrentDate();
+            rateType.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             var rateTypeDto = {};
             rateTypeDto.RateType = {};
             // AddRateType by api calling  
@@ -1252,7 +1257,7 @@
 
         UpdateRateType: function(existingRateType) {
             existingRateType.LastUpdatedBy = getCreatedBy();
-            existingRateType.LastUpdatedOn = getCurrentDate();
+            existingRateType.LastUpdatedOn = window.GuestCheckinManager.GetCurrentDate();
             // UpdateRateType by api calling 
             var rateTypeDto = {};
             rateTypeDto.RateType = {};
@@ -1568,6 +1573,25 @@
             //    return false;
             //}
             return true;
+        },
+
+        GetCurrentDate: function () {
+            // date format yyyy/mm/dd
+            var dt = new Date();
+            var month = dt.getMonth() + 1;
+            var day = dt.getDate();
+            var dateOutput = dt.getFullYear() + '/' +
+                (month < 10 ? '0' : '') + month + '/' +
+                (day < 10 ? '0' : '') + day;
+
+            var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+            return dateOutput + ' ' + time;
+        },
+
+        GetDays: function (startDate, endDate) {
+            var millisecondsPerDay = 24 * 60 * 60 * 1000;
+            var result = Math.floor((getDate(endDate) - getDate(startDate)) / millisecondsPerDay);
+            return result;
         },
 
         AjaxHandlers: function() {
@@ -2386,16 +2410,7 @@
         var result = new Date(date);
         result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
         return result;
-    }
-
-    function getDays(startDate, endDate) {
-        var millisecondsPerDay = 24 * 60 * 60 * 1000;
-        var result = Math.floor((getDate(endDate) - getDate(startDate)) / millisecondsPerDay);
-        if (result <= 0)
-            result = 1;
-
-        return result;
-    }
+    }    
 
     function getPropertyId() {
         window.GuestCheckinManager.BookingDto.PropertyId = pmsSession.GetItem("propertyid");
@@ -2432,7 +2447,7 @@
         //TODO : update with address2 field
         address.Address2 = $('#address').val();
         address.GuestID = window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;
-        address.CreatedOn = getCurrentDate();
+        address.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
         address.IsActive = true;
         address.CreatedBy = getCreatedBy();
         //TODO: addresstype to be selected from address type ddl
@@ -2464,7 +2479,7 @@
         }
 
         guest.IsActive = true;
-        guest.CreatedOn = getCurrentDate();
+        guest.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
         guest.CreatedBy = getCreatedBy();
 
         guests.push(guest);
@@ -2482,7 +2497,7 @@
         guestMapping.IdExpiryDate = $('#idExpiry').val();
         guestMapping.IdIssueState = $("#ddlIdState option:selected").text();
         guestMapping.IdIssueCountry = $("#ddlIdCountry option:selected").text();
-        guestMapping.CreatedOn = getCurrentDate();
+        guestMapping.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
         guestMapping.IsActive = true;
         guestMapping.CreatedBy = getCreatedBy();
 
@@ -2509,7 +2524,7 @@
 
         //TODO: get value from initial selection eg: mr,ms,mrs
         additionalGuest.Gender = "M";
-        additionalGuest.CreatedOn = getCurrentDate();
+        additionalGuest.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
         additionalGuest.CreatedBy = getCreatedBy();
 
         additionalGuests.push(additionalGuest);
@@ -2538,7 +2553,7 @@
                 //TODO : need mechanism for input
                 payment.PaymentDetails = "50% payment is done.";
                 payment.IsActive = true;
-                payment.CreatedOn = getCurrentDate();
+                payment.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
                 payment.CreatedBy = getCreatedBy();
                 payment.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
 
@@ -2565,7 +2580,7 @@
                 otherTax.ItemName = name;
                 otherTax.ItemValue = value;
                 otherTax.IsActive = true;
-                otherTax.CreatedOn = getCurrentDate();
+                otherTax.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
                 otherTax.CreatedBy = getCreatedBy();
                 otherTax.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
 
@@ -2577,7 +2592,7 @@
         baseRoomCharge.ItemName = $('#baseRoomCharge')[0].name;
         baseRoomCharge.ItemValue = $("#baseRoomCharge").val();
         baseRoomCharge.IsActive = true;
-        baseRoomCharge.CreatedOn = getCurrentDate();
+        baseRoomCharge.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
         baseRoomCharge.CreatedBy = getCreatedBy();
         baseRoomCharge.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
 
@@ -2587,7 +2602,7 @@
         totalRoomCharge.ItemName = $('#totalRoomCharge')[0].name;
         totalRoomCharge.ItemValue = $("#totalRoomCharge").val();
         totalRoomCharge.IsActive = true;
-        totalRoomCharge.CreatedOn = getCurrentDate();
+        totalRoomCharge.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
         totalRoomCharge.CreatedBy = getCreatedBy();
         totalRoomCharge.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
 
@@ -2609,7 +2624,7 @@
             tax.TaxShortName = taxName;
             tax.TaxAmount = taxValue;
             tax.IsActive = true;
-            tax.CreatedOn = getCurrentDate();
+            tax.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             tax.CreatedBy = getCreatedBy();
             tax.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
 
@@ -2627,7 +2642,7 @@
         // for new booking id = -1
         roomBooking.BookingId = window.GuestCheckinManager.BookingDto.BookingId ? window.GuestCheckinManager.BookingDto.BookingId : -1;
         roomBooking.Id = window.GuestCheckinManager.BookingDto.RoomBookingId ? window.GuestCheckinManager.BookingDto.RoomBookingId : -1;
-        roomBooking.CreatedOn = getCurrentDate();
+        roomBooking.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
         roomBooking.IsActive = true;
         roomBooking.CreatedBy = getCreatedBy();
         roomBooking.IsExtra = false;
@@ -2655,20 +2670,7 @@
 
     function getCreatedBy() {
         return window.PmsSession.GetItem("username");
-    }
-
-    function getCurrentDate() {
-        // date format yyyy/mm/dd
-        var dt = new Date();
-        var month = dt.getMonth() + 1;
-        var day = dt.getDate();
-        var dateOutput = dt.getFullYear() + '/' +
-            (month < 10 ? '0' : '') + month + '/' +
-            (day < 10 ? '0' : '') + day;
-
-        var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
-        return dateOutput + ' ' + time;
-    }   
+    }    
 
     function bindGuestHistory(data) {
         var divHistory = $('#divHistory');

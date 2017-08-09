@@ -14,19 +14,6 @@
         return window.PmsSession.GetItem("username");
     }
 
-    function getCurrentDate() {
-        // date format yyyy/mm/dd
-        var dt = new Date();
-        var month = dt.getMonth() + 1;
-        var day = dt.getDate();
-        var dateOutput = dt.getFullYear() + '/' +
-            (month < 10 ? '0' : '') + month + '/' +
-            (day < 10 ? '0' : '') + day;
-
-        var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
-        return dateOutput + ' ' + time;
-    }
-
     function OnPropertyChange() {
         if ($('#ddlProperty').val() <= 0) {
             alert('Select valid property');
@@ -54,7 +41,7 @@
             if (divRoomCount <= 0 || propertyId <= 0) return;
 
             var createdBy = getCreatedBy();
-            var createdOn = getCurrentDate();
+            var createdOn = gcm.GetCurrentDate();
             var roomRequestDto = {};
             roomRequestDto.Rooms = [];
 
@@ -225,7 +212,7 @@
                     existingRoom.Number = roomNumber;
                     existingRoom.IsActive = true;
                     existingRoom.LastUpdatedBy = getCreatedBy();
-                    existingRoom.LastUpdatedOn = getCurrentDate();
+                    existingRoom.LastUpdatedOn = gcm.GetCurrentDate();
 
                     roomRequestDto.Rooms.push(existingRoom);
 
@@ -248,7 +235,7 @@
                     //default roomid incase of add request
                     room.Id = "-1";
                     room.CreatedBy = getCreatedBy();
-                    room.CreatedOn = getCurrentDate();
+                    room.CreatedOn = gcm.GetCurrentDate();
 
                     roomRequestDto.Rooms.push(room);
                     Notifications.SubscribeActive("on-room-add-success", function (sender, args) {
