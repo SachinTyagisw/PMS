@@ -4752,7 +4752,7 @@ a.animated-button:link, a.animated-button:visited {
     background: #e3e8ea;
     display: block;
     width: 98%;
-    max-height: calc(77vh - 20px);
+    max-height: calc(75vh - 20px);
     overflow-x: hidden;
     /*max-width: 1242px;*/
 }
@@ -5326,10 +5326,10 @@ dl.dropdown dd ul li a:hover {
         width: 83%;
     }
     #divManageRate {
-        max-height: calc(49vh - 20px);
+        max-height: calc(47vh - 20px);
     }
     #divRoom {
-        max-height: calc(62vh - 20px);
+        max-height: calc(61vh - 20px);
     }
 }
 @media screen and (max-width: 1280px) {
