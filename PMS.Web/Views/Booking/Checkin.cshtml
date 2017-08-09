@@ -422,6 +422,8 @@
                         // to get updated invoice info as checkout date is updated so reset invoiceid = -1
                         window.GuestCheckinManager.BookingDto.InvoiceId = -1;
                         Notifications.SubscribeActive("on-checkout-date-change", function (sender, args) {
+                            // restoring invoiceid again when invoice is loaded after change in checkout date
+                            window.GuestCheckinManager.BookingDto.InvoiceId = invoiceId;
                             var dueAmt = parseInt($('#balance').val());
                             var refund = false;
                             if (dueAmt > 0) {

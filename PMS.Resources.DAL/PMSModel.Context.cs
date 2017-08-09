@@ -204,7 +204,7 @@ namespace PMS.Resources.DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertRoom", propertyIDParameter, roomXMLParameter);
         }
     
-        public virtual ObjectResult<Nullable<int>> InsertRoomRates(Nullable<int> propertyID, string rateXML, ObjectParameter rateID)
+        public virtual ObjectResult<Nullable<bool>> InsertRoomRates(Nullable<int> propertyID, string rateXML, ObjectParameter status)
         {
             var propertyIDParameter = propertyID.HasValue ?
                 new ObjectParameter("propertyID", propertyID) :
@@ -214,7 +214,7 @@ namespace PMS.Resources.DAL
                 new ObjectParameter("RateXML", rateXML) :
                 new ObjectParameter("RateXML", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("InsertRoomRates", propertyIDParameter, rateXMLParameter, rateID);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<bool>>("InsertRoomRates", propertyIDParameter, rateXMLParameter, status);
         }
     
         public virtual int UpdateBooking(Nullable<int> bOOKINGID, Nullable<System.DateTime> cHECKINTIME, Nullable<System.DateTime> cHECKOUTTIME, Nullable<int> roomID)

@@ -1679,18 +1679,11 @@ namespace PMS.Resources.DAL
 
         public bool AddRoomRate(int propertyId, string rateXml)
         {
-            var rateId = SaveRoomRateIndDb(propertyId, rateXml);
-            return rateId > 0;
+            return SaveRoomRateIndDb(propertyId, rateXml);
         }
         public bool UpdateRoomRate(int propertyId, string rateXml)
         {
-            var isUpdated = false;
-            var rateId = SaveRoomRateIndDb(propertyId, rateXml);
-            if (rateId > 0)
-            {
-                isUpdated = true;
-            }
-            return isUpdated;
+            return SaveRoomRateIndDb(propertyId, rateXml);
         }
         public bool DeleteRoomRate(int rateId)
         {
@@ -1713,7 +1706,7 @@ namespace PMS.Resources.DAL
             return isDeleted;
         }
 
-        private int SaveRoomRateIndDb(int propertyId, string rateXml)
+        private bool SaveRoomRateIndDb(int propertyId, string rateXml)
         {
             using (var pmsContext = new PmsEntities())
             {
@@ -1731,14 +1724,14 @@ namespace PMS.Resources.DAL
                     Value = rateXml
                 };
 
-                var rateId = new SqlParameter
+                var status = new SqlParameter
                 {
-                    ParameterName = "RateID",
-                    DbType = DbType.Int32,
+                    ParameterName = "Status",
+                    DbType = DbType.Boolean,
                     Direction = ParameterDirection.Output
                 };
-                var result = pmsContext.Database.ExecuteSqlCommand("InsertRoomRates @propertyID, @RateXML, @RateID OUTPUT", propId, roomRateXml, rateId);
-                return rateId.Value != null ? Convert.ToInt32(rateId.Value) : -1;                
+                var result = pmsContext.Database.ExecuteSqlCommand("InsertRoomRates @propertyID, @RateXML, @Status OUTPUT", propId, roomRateXml, status);
+                return status.Value != null ? Convert.ToBoolean(status.Value) : false;                
             }
             
         }

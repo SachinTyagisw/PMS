@@ -903,7 +903,7 @@
         <Function Name="InsertRoomRates" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="propertyID" Type="int" Mode="In" />
           <Parameter Name="RateXML" Type="xml" Mode="In" />
-          <Parameter Name="RateID" Type="int" Mode="InOut" />
+          <Parameter Name="Status" Type="bit" Mode="InOut" />
         </Function>
         <Function Name="UpdateBooking" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="BOOKINGID" Type="int" Mode="In" />
@@ -2202,10 +2202,10 @@
             <Parameter Name="propertyID" Mode="In" Type="Int32" />
             <Parameter Name="RoomXML" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="InsertRoomRates" ReturnType="Collection(Int32)">
+          <FunctionImport Name="InsertRoomRates" ReturnType="Collection(Boolean)">
             <Parameter Name="propertyID" Mode="In" Type="Int32" />
             <Parameter Name="RateXML" Mode="In" Type="String" />
-            <Parameter Name="RateID" Mode="InOut" Type="Int32" />
+            <Parameter Name="Status" Mode="InOut" Type="Boolean" />
           </FunctionImport>
           <FunctionImport Name="UpdateBooking">
             <Parameter Name="BOOKINGID" Mode="In" Type="Int32" />
