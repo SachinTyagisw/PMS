@@ -116,6 +116,7 @@
     function onRoomChange(ddlRoom, tdFloor) {
         var roomId = ddlRoom.value;
         var floorNumber = getFloorNumberByRoomId(roomId);
+        // when plus is clicked
         if (!tdFloor) {
             tdFloor = $('#tdFloorAdd');
         }
@@ -142,6 +143,7 @@
             getRooms(ddlRoomType.value, $('#ddlProperty').val());
             return;
         } else {
+            // when plus is clicked
             if (!ddlRoom) {
                 ddlRoom = $('#ddlRoomAdd');
             }            
@@ -203,7 +205,7 @@
                 var rate = {};
                 var roomTypeSelector = '#ddlRoomType' + (i + 1);
                 var roomSelector = '#ddlRoom' + (i + 1);
-                //first time if room is created for a property
+                //first time if rate is created for a property
                 //then change room and roomtype selector
                 roomTypeSelector = $(roomTypeSelector) && $(roomTypeSelector).length > 0 ? roomTypeSelector : '#ddlRoomTypeAdd';
                 roomSelector = $(roomSelector) && $(roomSelector).length > 0 ? roomSelector : '#ddlRoomAdd';
@@ -271,7 +273,6 @@
                 cloneRoomType[0].id = 'ddlRoomType' + (totalTr + parseInt(i));
                 var roomTypeSelector = '#' + cloneRoomType[0].id;
                 
-                $(lastRow[0].cells[1]).innerText = "";
                 $(lastRow[0].cells[1]).attr('contenteditable', 'false');
                 $(lastRow[0].cells[1]).append(cloneRoomType);
 
@@ -280,7 +281,6 @@
                 cloneRoomDynamic[0].id = 'ddlRoom' + (totalTr + parseInt(i));
                 var roomSelector = '#' + cloneRoomDynamic[0].id;
 
-                $(lastRow[0].cells[2]).innerText = "";
                 $(lastRow[0].cells[2]).attr('contenteditable', 'false');
                 $(lastRow[0].cells[2]).append(cloneRoomDynamic);
 
@@ -288,16 +288,25 @@
                 $(lastRow[0].cells[2]).attr('contenteditable', 'false');
                 $(lastRow[0].cells[2]).append(cloneRoomDynamic);
 
-                $(lastRow[0].cells[3]).innerText = floorNumber;
+                $(lastRow[0].cells[3])[0].innerText = floorNumber;
                 $(lastRow[0].cells[3]).attr('contenteditable', 'false');
 
-                $(lastRow[0].cells[4]).innerText = rateValue;
+                $(lastRow[0].cells[4])[0].innerText = rateValue;
                 $(lastRow[0].cells[4]).attr('contenteditable', 'true');
 
                 gcm.FillRoomTypeData($(roomTypeSelector), $('#ddlProperty').val());
                 $(roomTypeSelector).val(roomTypeId);
                 gcm.FillRoomData($(roomTypeSelector)[0], $(roomSelector), $('#ddlProperty').val());
                 $(roomSelector).val(roomId);
+
+                $(document).on('change', roomTypeSelector, function () {
+                    onRoomTypeChange($(cloneRoomType)[0], $(cloneRoomDynamic));
+                });
+
+                $(document).on('change', roomSelector, function () {
+                    onRoomChange($(cloneRoomDynamic)[0], $(lastRow[0].cells[3]));
+                });
+
             }
             // clearing already added roomid 
             selectedRoomId = [];
@@ -506,7 +515,7 @@
                                     <div class="col-lg-4 p-l-15 p-r-5 m-t-10">
                                         <div class="form-group">
                                             <label>Select RoomType</label>
-                                            <select id="ddlRoomType" onchange="onRoomTypeChange(this, $('#ddlRoom'));">
+                                            <select id="ddlRoomType" onchange="onRoomTypeChange(this, null);">
                                                 <option value="-1">Select RoomType</option>
                                             </select>
                                         </div>
@@ -514,7 +523,6 @@
                                     <div class="col-lg-3 p-l-10 p-r-5 m-t-10">
                                         <div class="form-group">
                                             <label>Select Room</label>
-                                            @*<select id="ddlRoom" multiple="multiple" onchange="onRoomChange(this, $('#tdFloorAdd'));"></select>*@                                        
                                             <dl class="dropdown">
                                                 <dt>
                                                     <a href="#">
@@ -567,7 +575,7 @@
         <div class="dot"></div>
     </div>
 </div>
-<select id="ddlRoom" style="display:none" onchange="onRoomChange(this, $('#tdFloorAdd'));"></select>
+<select id="ddlRoom" style="display:none"></select>
 <script type="text/html" id="roomRateTemplate">
         {{if typeof RoomRate != "undefined" && RoomRate != "null" && RoomRate.length > 0 }}
         <ul class="flexi-tabs">
@@ -604,8 +612,8 @@
             {{each Rates}}
             <tr id="${$value.Id}">
                 <td class="idRow" contenteditable="false">${$value.Id}</td>                
-                <td contenteditable="false">${$value.Room.RoomType.Name}</td>
-                <td contenteditable="false">${$value.Room.Number}</td>
+                <td id=${$value.Room.RoomType.Id} contenteditable="false">${$value.Room.RoomType.Name}</td>
+                <td id=${$value.Room.Id} contenteditable ="false">${$value.Room.Number}</td>
                 <td contenteditable="false">${$value.Room.Floor.FloorNumber}</td>
                 <td contenteditable="false">${$value.Value}</td>
             </tr>
