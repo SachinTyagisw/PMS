@@ -2557,7 +2557,7 @@
                 }
 
                 paymentType = paymentTypeCol[i].innerText;
-                if (paymentType.trim() === "") {
+                if (paymentType.trim() === "" || paymentType.indexOf("Select") >= 0) {
                     var idx = 0;
                     if (i > 0) {
                         idx = i - 1;
