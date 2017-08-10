@@ -427,7 +427,7 @@
                             var dueAmt = parseInt($('#balance').val());
                             var refund = false;
                             if (dueAmt > 0) {
-                                alert('Balance amount should not be greater than 0.');
+                                alert('Checkout can not be initiated without making full payment. Kindly make payment.');
                                 $('#payment').focus();
                                 return;
                             } else if (dueAmt < 0) {
@@ -443,7 +443,7 @@
                     } else {
                         var amt = parseInt(balance.val());
                         if (amt > 0) {
-                            alert('Balance amount should not be greater than 0.');
+                            alert('Checkout can not be initiated without making full payment. Kindly make payment.');
                             payment.focus();
                             return;
                         } else if (amt < 0) {
