@@ -311,7 +311,7 @@
 
             invoice.PropertyId = getPropertyId();
             invoice.BookingId = window.GuestCheckinManager.BookingDto.BookingId ? window.GuestCheckinManager.BookingDto.BookingId : -1;
-
+            //invoice.BookingId = 2116;
             if (invoice.PropertyId <= -1 || invoice.BookingId <= -1) {
                 $('#saveInvoice').attr("disabled", true);
                 alert('Invalid bookingid or propertyid.');
@@ -319,8 +319,10 @@
             }
 
             invoice.Id = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
+            //invoice.Id = 1038;
             invoice.GuestId = window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;
-            invoice.CreatedOn = window.GuestCheckinManager.window.GuestCheckinManager.GetCurrentDate();
+            //invoice.GuestId = 2082;
+            invoice.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             invoice.IsActive = true;
             invoice.TotalAmount = $('#total') && $('#total')[0] ? $('#total')[0].innerText : 0;
             invoice.Discount = $('#discount') && $('#discount')[0] ? $('#discount')[0].value : 0;
@@ -529,12 +531,10 @@
                 Notifications.SubscribeActive("on-paymenttype-get-success", function(sender, args) {
                     var paymentData = window.GuestCheckinManager.PropertySettingResponseDto.PaymentTypeSettings;
                     window.GuestCheckinManager.BindPaymentTypeDdl($('#paymentTypeDdl'), paymentData);
-                    window.GuestCheckinManager.BindPaymentTypeDdl($('#paymentTypeDdlOther'), paymentData);
                 });
                 window.GuestCheckinManager.GetPaymentType();
             } else {
                 window.GuestCheckinManager.BindPaymentTypeDdl($('#paymentTypeDdl'), data);
-                window.GuestCheckinManager.BindPaymentTypeDdl($('#paymentTypeDdlOther'), data);
             }
 
             // data not present in session
@@ -684,6 +684,7 @@
         LoadInvoice: function () {
             $('.img-no-available').hide();
             var invoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
+            //invoiceId = 1038;
             if (invoiceId === -1) {
                 $('#rateTypeDdl').attr("disabled", false);
                 var dateFrom = $('#dateFrom').val();
@@ -1438,7 +1439,7 @@
             var baseRoomCharge = $("#baseRoomCharge");
             var totalRoomCharge = $('#totalRoomCharge');
 
-            if (!baseRoomCharge || baseRoomCharge.val() <= 0) {
+            if (!baseRoomCharge || baseRoomCharge.val().trim() === "" || baseRoomCharge.val() <= 0) {
                 alert('Room charge is not configured for your selection. Please contact administrator.');
                 baseRoomCharge.focus();
                 return false;
@@ -1456,14 +1457,14 @@
             }
 
             // check checkin date 
-            if (!dateFrom || dateFrom.length <= 0) {
+            if (!dateFrom || dateFrom.trim() === "" || dateFrom.length <= 0) {
                 alert("Please select checkin date");
                 $('#dateFrom').focus();
                 return false;
             }
 
             // check checkout date 
-            if (!dateTo || dateTo.length <= 0) {
+            if (!dateTo || dateTo.trim() === "" || dateTo.length <= 0) {
                 alert("Please select checkout date");
                 $('#dateTo').focus();
                 return false;
@@ -1491,13 +1492,13 @@
             }
 
             // check first name 
-            if (!fname || fname.length <= 0) {
+            if (!fname || fname.trim() === "" ||  fname.length <= 0) {
                 alert("Please enter the first name");
                 $('#fName').focus();
                 return false;
             }
-            // check last name ssss
-            if (!lname || lname.length <= 0) {
+            // check last name
+            if (!lname || lname.trim() === "" || lname.length <= 0) {
                 alert("Please enter the last name");
                 $('#lName').focus();
                 return false;
@@ -1525,7 +1526,6 @@
                 return false;
             }
 
-
             // check zipcode
             if (!zipCode || zipCode.length <= 0) {
                 alert("Please enter zip code");
@@ -1536,7 +1536,7 @@
             var emailId = $("#email").val();
             var validEmailIdRegex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
             // check email 
-            if (emailId && emailId.length > 0) {
+            if (emailId && emailId.trim() !== "" && emailId.length > 0) {
                 var testemail = validEmailIdRegex.test(emailId);
                 if (testemail !== true) {
                     alert("Please enter valid email format.");
@@ -1544,18 +1544,18 @@
                     return false;
                 }
             }
-            //else {
-            //    alert("Please enter valid email format.");
-            //    $('#email').focus();
-            //    return false;
-            //}
+            else {
+                alert("Please enter valid email format.");
+                $('#email').focus();
+                return false;
+            }
 
             if (!guestIdType || guestIdType === '-1') {
                 alert("Please select Type Of ID.");
                 return false;
             }
             // check guest id details
-            if (!idDetails || idDetails.length <= 0) {
+            if (!idDetails || idDetails.trim() === "" || idDetails.length <= 0) {
                 alert("Please enter ID number");
                 $('#idDetails').focus();
                 return false;
@@ -2535,25 +2535,49 @@
 
     function preparePaymentDetail() {
         var paymentDetail = [];
-        var paymentTypeElementCol = $("select[id*='paymentTypeDdl']");
-        var paymentElementCol = $("input[id*='paymentVal']");
+        var paymentTypeCol = $("td[id*='tdPaymentMode']");
+        var paymentTypeColNew = $("td[id*='tdPaymentMode'] select");
+        var paymentValueCol = $("td[id*='tdPaymentValue']");
+        var paymentValueColNew = $("td[id*='tdPaymentValue'] input");
+        var creditName = $('#creditName').val();
+        var creditNumber = $('#creditNumber').val();
+        var creditExpiry = $('#creditExpiry').val();
 
-        if (paymentElementCol && paymentElementCol.length > 0) {
-            for (var i = 0; i < paymentElementCol.length; i++) {
-                if (!paymentElementCol[i] || !paymentElementCol[i].value || isNaN(paymentElementCol[i].value) ||
-                    !paymentTypeElementCol[i] || !paymentTypeElementCol[i].options || paymentTypeElementCol[i].options.length <= 0) continue;
+        if (paymentValueCol && paymentValueCol.length > 0) {
+            for (var i = 0; i < paymentValueCol.length; i++) {
+                if (!paymentValueCol[i] || !paymentTypeCol[i]) continue;
+                var value = 0;
+                var paymentType = '';
+                value = paymentValueCol[i].innerText;
+                if (value.trim() === "") {
+                    value = i === 0 ? paymentValueColNew[i].value : paymentValueColNew[i - 1].value;
+                    if (value.trim() === "") {
+                        value = 0;
+                    }
+                }
 
-                var selectedIdx = paymentTypeElementCol[i].options.selectedIndex;
-                if (paymentTypeElementCol[i].options[selectedIdx].value <= -1) continue;
-
+                paymentType = paymentTypeCol[i].innerText;
+                if (paymentType.trim() === "") {
+                    var idx = 0;
+                    if (i > 0) {
+                        idx = i - 1;
+                    }
+                    var selectedIdx = paymentTypeColNew[idx].options.selectedIndex;
+                    if (paymentTypeColNew[idx].options[selectedIdx].value <= -1) continue;
+                    paymentType = paymentTypeColNew[idx].options[selectedIdx].text;
+                }
+                
                 var payment = {};
-                var value = paymentElementCol[i].value;
-                var paymentType = paymentTypeElementCol[i].options[selectedIdx].text;
-
                 payment.PaymentMode = paymentType;
                 payment.PaymentValue = value;
-                //TODO : need mechanism for input
-                payment.PaymentDetails = "50% payment is done.";
+                //if all the 3 information of credit card exists then add payment details else not
+                if(creditName && creditName.trim() !== "" && creditName.length > 0
+                  && creditNumber && creditNumber.trim() !== "" && creditNumber.length > 0
+                  && creditExpiry && creditExpiry.trim() !== "" && creditExpiry.length > 0){
+                    payment.PaymentDetails = creditNumber + "|" + creditName + "|" + creditExpiry;
+                } else{
+                    payment.PaymentDetails = "";
+                }
                 payment.IsActive = true;
                 payment.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
                 payment.CreatedBy = getCreatedBy();

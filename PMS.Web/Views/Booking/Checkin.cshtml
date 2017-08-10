@@ -21,6 +21,14 @@
             gcm.GetGuestHistory();
         }      
 
+        function validateNumeric(e) {
+            gcm.IsNumeric(e);
+        }
+
+        $('#phone').keydown(function (e) {
+            gcm.IsNumeric(e);
+        });
+
         function OnTaxValChange(e, htmlElement) {
             if (!htmlElement.value || isNaN(htmlElement.value)) {
                 htmlElement.value = '';
@@ -377,8 +385,8 @@
             $('#divInvoice').on("click", "#addPaymentType", function (e) {                
                 var cloneHtmlElement = $('#divInvoice').find('tr#trPaymentTypeOther:last').clone(true);
                 cloneHtmlElement[0].style = 'display:block';
-                var ddlPaymentTypeSelector = '#' + cloneHtmlElement[0].id + " td" + " select";
-                $(ddlPaymentTypeSelector)[0].id = "paymentTypeDdl";
+                //var ddlPaymentTypeSelector = '#' + cloneHtmlElement[0].id + " td" + " select";
+                //$(ddlPaymentTypeSelector)[0].id = "paymentTypeDdl";
                 $('#divInvoice').find('#trPayment').before(cloneHtmlElement);
                 e.stopPropagation();
             });
