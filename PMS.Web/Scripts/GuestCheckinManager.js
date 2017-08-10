@@ -1324,11 +1324,6 @@
         FillRoomTypeData: function(ddlRoomType, propertyId) {
             if (!ddlRoomType || !propertyId || propertyId <= 0) return;
 
-            //Notifications.SubscribeActive("on-roomtype-get-success", function (sender, args) {
-            //    window.GuestCheckinManager.BindRoomTypeDdl(ddlRoomType, window.GuestCheckinManager.PropertySettingResponseDto.RoomTypeSettings);
-            //});
-            //gcm.GetRoomTypes(propertyId);
-
             var roomtypes = window.GuestCheckinManager.PropertySettingResponseDto.RoomTypeSettings;
             if (!roomtypes || roomtypes.length <= 0) {
                 Notifications.SubscribeActive("on-roomtype-get-success", function(sender, args) {
@@ -1417,7 +1412,7 @@
             pmsSession.RemoveItem("propertyid");
             pmsSession.RemoveItem("roomtypedata");
             pmsSession.RemoveItem("roomratedata");
-            pmsSession.RemoveItem("roomdata");
+//            pmsSession.RemoveItem("roomdata");
             pmsSession.RemoveItem("propertyrooms");
         },
 
@@ -1642,8 +1637,11 @@
             pmsService.Handlers.OnGetRoomTypeByPropertySuccess = function(data) {
                 window.GuestCheckinManager.PropertySettingResponseDto.RoomTypeSettings = null;
                 window.GuestCheckinManager.PropertySettingResponseDto.RoomTypeSettings = data.RoomTypes;
-                //storing room type data into session storage
-                pmsSession.SetItem("roomtypedata", JSON.stringify(data.RoomTypes));
+                //storing room type data into session storage only for checkin screen exclude admin screen
+                var divRoomTypeForCheckin = $('#divRoomTypeForCheckin');
+                if (divRoomTypeForCheckin && divRoomTypeForCheckin.length > 0) {
+                    pmsSession.SetItem("roomtypedata", JSON.stringify(data.RoomTypes));
+                }                
                 var roomTypeDdl = $('#roomTypeDdl');
                 if (roomTypeDdl && roomTypeDdl.length > 0) {
                     window.GuestCheckinManager.BindRoomTypeDdl(roomTypeDdl, window.GuestCheckinManager.PropertySettingResponseDto.RoomTypeSettings);
@@ -1688,7 +1686,7 @@
             pmsService.Handlers.OnGetRoomByDateSuccess = function(data) {
                 if (!data || !data.Rooms || data.Rooms.length <= 0) return;
 
-                pmsSession.SetItem("roomdata", JSON.stringify(data.Rooms));
+                //pmsSession.SetItem("roomdata", JSON.stringify(data.Rooms));
                 var roomDdl = $('#roomddl');
                 var roomTypeId = $('#roomTypeDdl').val();
                 window.GuestCheckinManager.BindRoomDdl(roomDdl, roomTypeId, data.Rooms, true);
@@ -1966,7 +1964,6 @@
                 } else {
                     if (window.Notifications) window.Notifications.Notify("on-floor-get-success", null, null);
                 }
-
             };
 
             pmsService.Handlers.OnGetFloorsByPropertyFailure = function() {
@@ -1978,9 +1975,14 @@
                 window.GuestCheckinManager.PropertySettingResponseDto.PaymentTypeSettings = null;
                 window.GuestCheckinManager.PropertySettingResponseDto.PaymentTypeSettings = data.PaymentTypes;
                 window.GuestCheckinManager.PopulatePaymentTypeGrid(data);
-                //storing payment type data into session storage
-                pmsSession.SetItem("paymenttype", JSON.stringify(data.PaymentTypes));
-                if (window.Notifications) window.Notifications.Notify("on-paymenttype-get-success", null, null);
+
+                var divInvoice = $('#divInvoice');
+                var invoiceTemplate = $('#invoiceTemplate');
+                if (divInvoice && divInvoice.length > 0 && invoiceTemplate && invoiceTemplate.length > 0) {
+                    //storing payment type data into session storage only for checkin screen exclude paymenttype admin screen
+                    pmsSession.SetItem("paymenttype", JSON.stringify(data.PaymentTypes));
+                    if (window.Notifications) window.Notifications.Notify("on-paymenttype-get-success", null, null);
+                }
             };
 
             pmsService.Handlers.OnGetPaymentTypeByPropertyFailure = function() {
@@ -2658,15 +2660,6 @@
             pmsService.GetGuest(args);
         }
     }
-
-    //function getRooms(){
-    //    args.propertyId = getPropertyId();
-    //    var roomData = pmsSession.GetItem("roomdata");
-    //    if (!roomData) {
-    //        // get room by api calling  
-    //        pmsService.GetRoomByProperty(args);
-    //    }
-    //}     
 
     function getCreatedBy() {
         return window.PmsSession.GetItem("username");

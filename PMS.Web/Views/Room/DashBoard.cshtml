@@ -18,6 +18,7 @@
     var gcm = window.GuestCheckinManager;
     var pmsSession = window.PmsSession;
     function OnPropertyChange() {
+        if (window.location.pathname.toLowerCase().indexOf('dashboard') < 0) return;
         gcm.ClearExistingSessionStorage();
         pmsSession.RemoveItem("propertyrooms");
         //set property id on property ddl selection

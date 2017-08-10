@@ -112,7 +112,9 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     };  
 
     $scope.$watch("scale", function () {
-        $scope.schedulerConfig.timeline = getTimeline($scope.scheduler.visibleStart());
+        if (window.location.pathname.toLowerCase().indexOf('dashboard') < 0) return;
+        var selectedDate = $scope.scheduler && $scope.scheduler.visibleStart() ? $scope.scheduler.visibleStart() : null;
+        $scope.schedulerConfig.timeline = getTimeline(selectedDate);
         $scope.schedulerConfig.timeHeaders = getTimeHeaders();
         $scope.schedulerConfig.scrollToAnimated = "fast";
         $scope.schedulerConfig.scrollTo = $scope.scheduler.getViewPort().start;  // keep the scrollbar position/by date
@@ -286,6 +288,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     //};
 
     $timeout(function () {
+        if (window.location.pathname.toLowerCase().indexOf('dashboard') < 0) return;
         dp = $scope.scheduler;  // debug
         //loadRoomStatus();
         //loadRoomTypes();
