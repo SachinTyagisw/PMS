@@ -406,6 +406,18 @@
                 }                
             });
 
+            $("#btnPrintReceipt").click(function () {
+                if (confirm("Do you want to print receipt ?")) {
+                    var printSource = window.GuestCheckinManager.invoiceData;
+                    var printableData = gcm.PopulatePrintData(printSource);
+                    var newWin = window.open('', 'Print-Window');
+                    newWin.document.open();
+                    newWin.document.write('<html><body onload="window.print()">' + printableData + '</body></html>');
+                    newWin.document.close();
+                    setTimeout(function () { newWin.close(); }, 10);
+                }
+            });
+
             $("#btnCheckin").click(function () {
                 if (!gcm.ValidateInputs()) return;
                 gcm.LoadInvoice();

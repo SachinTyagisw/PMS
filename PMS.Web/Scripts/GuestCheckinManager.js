@@ -319,9 +319,9 @@
             }
 
             invoice.Id = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-            //invoice.Id = 1038;
+            invoice.Id = 1038;
             invoice.GuestId = window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;
-            //invoice.GuestId = 2082;
+            invoice.GuestId = 2082;
             invoice.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             invoice.IsActive = true;
             invoice.TotalAmount = $('#total') && $('#total')[0] ? $('#total')[0].innerText : 0;
@@ -1597,6 +1597,18 @@
             var millisecondsPerDay = 24 * 60 * 60 * 1000;
             var result = Math.floor((getDate(endDate) - getDate(startDate)) / millisecondsPerDay);
             return result;
+        },
+        
+        PopulatePrintData: function(data) {
+            var divToPrint = $('#divToPrint');
+            var printTemplate = $('#printTemplate');
+            if (data && data.Invoice && divToPrint && divToPrint.length > 0
+                && printTemplate && printTemplate.length > 0) {
+                divToPrint.html(printTemplate.render(data.Invoice));
+                window.GuestCheckinManager.CalculateInvoice();
+                return divToPrint[0].innerText;
+            }
+            return "No data is available fot printing";
         },
 
         AjaxHandlers: function() {
