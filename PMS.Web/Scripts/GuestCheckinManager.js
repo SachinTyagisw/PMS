@@ -600,7 +600,8 @@
             var totalRoomCharge = $('#totalRoomCharge');
             var taxElementCol = $("input[id*='taxVal']");
             var otherTaxElementCol = $("input[id*='otherTaxVal']");
-            var paymentElementCol = $("input[id*='paymentVal']");
+            var paymentValueCol = $("td[id*='tdPaymentValue']");
+            var paymentValueColNew = $("td[id*='tdPaymentValue'] input");
             var invoiceObject = window.GuestCheckinManager.invoiceData.Invoice;
 
             //  tax charges calculations
@@ -632,11 +633,20 @@
 
             $('#total')[0].innerText = totalCharge;
 
+            var idx = 0;
             //  payment calulations
-            if (paymentElementCol && paymentElementCol.length > 0) {
-                for (var i = 0; i < paymentElementCol.length; i++) {
-                    if (!paymentElementCol[i] || !paymentElementCol[i].value || isNaN(paymentElementCol[i].value)) continue;
-                    paymentAmt = (parseFloat(paymentAmt) + parseFloat(paymentElementCol[i].value, 10)).toFixed(2);
+            if (paymentValueCol && paymentValueCol.length > 0) {
+                for (var i = 0; i < paymentValueCol.length; i++) {
+                    if (!paymentValueCol[i]) continue;                    
+                    var value = paymentValueCol[i].innerText;
+                    if (value.trim() === "") {
+                        value = paymentValueColNew[idx].value;
+                        idx++;
+                        if (value.trim() === "") {
+                            value = 0;
+                        }
+                    }
+                    paymentAmt = (parseFloat(paymentAmt) + parseFloat(value)).toFixed(2);
                 }
             }
 
@@ -2542,7 +2552,8 @@
         var creditName = $('#creditName').val();
         var creditNumber = $('#creditNumber').val();
         var creditExpiry = $('#creditExpiry').val();
-
+        var valueIdx = 0;
+        var typeIdx = 0;
         if (paymentValueCol && paymentValueCol.length > 0) {
             for (var i = 0; i < paymentValueCol.length; i++) {
                 if (!paymentValueCol[i] || !paymentTypeCol[i]) continue;
@@ -2550,7 +2561,8 @@
                 var paymentType = '';
                 value = paymentValueCol[i].innerText;
                 if (value.trim() === "") {
-                    value = i === 0 ? paymentValueColNew[i].value : paymentValueColNew[i - 1].value;
+                    value = paymentValueColNew[valueIdx].value;
+                    valueIdx++;
                     if (value.trim() === "") {
                         value = 0;
                     }
@@ -2558,13 +2570,10 @@
 
                 paymentType = paymentTypeCol[i].innerText;
                 if (paymentType.trim() === "" || paymentType.indexOf("Select") >= 0) {
-                    var idx = 0;
-                    if (i > 0) {
-                        idx = i - 1;
-                    }
-                    var selectedIdx = paymentTypeColNew[idx].options.selectedIndex;
-                    if (paymentTypeColNew[idx].options[selectedIdx].value <= -1) continue;
-                    paymentType = paymentTypeColNew[idx].options[selectedIdx].text;
+                    var selectedIdx = paymentTypeColNew[typeIdx].options.selectedIndex;
+                    if (paymentTypeColNew[typeIdx].options[selectedIdx].value <= -1) continue;
+                    paymentType = paymentTypeColNew[typeIdx].options[selectedIdx].text;
+                    typeIdx++;
                 }
                 
                 var payment = {};
@@ -2582,7 +2591,7 @@
                 payment.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
                 payment.CreatedBy = getCreatedBy();
                 payment.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-
+                //payment.InvoiceId = 1038;
                 paymentDetail.push(payment);
 
             }
@@ -2609,7 +2618,7 @@
                 otherTax.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
                 otherTax.CreatedBy = getCreatedBy();
                 otherTax.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-
+                //otherTax.InvoiceId = 1038;
                 invoiceItem.push(otherTax);
             }
         }
@@ -2621,6 +2630,7 @@
         baseRoomCharge.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
         baseRoomCharge.CreatedBy = getCreatedBy();
         baseRoomCharge.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
+        //baseRoomCharge.InvoiceId = 1038;
 
         invoiceItem.push(baseRoomCharge);
 
@@ -2631,6 +2641,7 @@
         totalRoomCharge.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
         totalRoomCharge.CreatedBy = getCreatedBy();
         totalRoomCharge.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
+        //totalRoomCharge.InvoiceId = 1038;
 
         invoiceItem.push(totalRoomCharge);
 
@@ -2653,7 +2664,7 @@
             tax.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             tax.CreatedBy = getCreatedBy();
             tax.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-
+            //tax.InvoiceId = 1038;
             taxDetails.push(tax);
         }
         return taxDetails;
