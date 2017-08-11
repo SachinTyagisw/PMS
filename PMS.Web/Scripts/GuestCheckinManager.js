@@ -2559,14 +2559,6 @@
                 if (!paymentValueCol[i] || !paymentTypeCol[i]) continue;
                 var value = 0;
                 var paymentType = '';
-                value = paymentValueCol[i].innerText;
-                if (value.trim() === "") {
-                    value = paymentValueColNew[valueIdx].value;
-                    valueIdx++;
-                    if (value.trim() === "") {
-                        value = 0;
-                    }
-                }
 
                 paymentType = paymentTypeCol[i].innerText;
                 if (paymentType.trim() === "" || paymentType.indexOf("Select") >= 0) {
@@ -2575,6 +2567,16 @@
                     paymentType = paymentTypeColNew[typeIdx].options[selectedIdx].text;
                     typeIdx++;
                 }
+
+                value = paymentValueCol[i].innerText;
+                if (value.trim() === "") {
+                    value = paymentValueColNew[valueIdx].value;
+                    valueIdx++;
+                    if (value.trim() === "") {
+                        value = 0;
+                    }
+                    if (parseFloat(value) <= 0) continue;
+                }              
                 
                 var payment = {};
                 payment.PaymentMode = paymentType;
