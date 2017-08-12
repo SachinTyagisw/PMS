@@ -205,7 +205,7 @@
                     </div>
                 </td>
             </tr>
-            {{if CreditCardDetail != "undefined" && CreditCardDetail != "" && CreditCardDetail.split('|').length > 1 }}
+            {{if typeof CreditCardDetail != "undefined" && CreditCardDetail != null && CreditCardDetail != "" && CreditCardDetail.split('|').length > 1 }}
             <tr id="trCreditNumber" class="sortActive remove">
                 <td><span class="glyphicon glyphicon-th-list"></span></td>
                 <td>Credit Card Number</td>
