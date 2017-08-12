@@ -1601,7 +1601,22 @@
         
         PreparePrintingData: function () {
             var data = {};
-            data.GuestName = "Test";
+            data.PropertyName = "Test Property";
+            data.Address = "Test Address";
+            data.GuestName = "Test Guest";
+            data.FullAddress = "City1,State1,11111";
+            data.AdditionalGuest = "Additional Test";
+            data.Room = "101" + "King Smoking";
+            data.Arrival = "2017/08/12";
+            data.Departure = "2017/08/13";
+            data.StayDays = "2";
+            data.Folio = "Test Folio";
+            data.Rate = "Weekday";
+            data.TotalRoomCharges = "150";
+            data.Taxes = [];
+            data.Taxes = prepareTax();
+            data.PaymentDetails = [];
+            data.PaymentDetails = preparePaymentDetail();
             return data;
         },
 
