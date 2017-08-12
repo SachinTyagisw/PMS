@@ -438,10 +438,6 @@
                     // if current date is not same as of checkout date
                     if (daysDiff !== 0) {
                         $("#dateTo").val(gcm.GetCurrentDate());
-                        //previous invoice id can be used for saving invoice again
-                        invoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-                        // to get updated invoice info as checkout date is updated so reset invoiceid = -1
-                        window.GuestCheckinManager.BookingDto.InvoiceId = -1;
                         Notifications.SubscribeActive("on-checkout-date-change", function (sender, args) {
                             // restoring invoiceid again when invoice is loaded after change in checkout date
                             window.GuestCheckinManager.BookingDto.InvoiceId = invoiceId;
