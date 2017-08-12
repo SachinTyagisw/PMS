@@ -293,6 +293,29 @@
             </tr>
         </thead>
         <tbody id="sortableTable">
+            <tr class="sortActive">
+                <td>Item1</td>
+                <td></td>
+            </tr>           
+            <tr class="sortActive">
+                <td>Item2</td>
+                <td>${GuestName}</td>
+            </tr>   
+        </tbody>
+    </table>
+</script>
+
+@*<script type="text/html" id="printTemplate">
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Item Description</th>
+                <th>Sub-total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="sortableTable">
             {{each Tax}}
             {{if $value.IsDefaultCharges }}
             <tr class="sortActive">
@@ -404,5 +427,5 @@
             {{/if}}
         </tbody>
     </table>
-</script> 
+</script>*@ 
 

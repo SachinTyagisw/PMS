@@ -408,8 +408,9 @@
 
             $("#btnPrintReceipt").click(function () {
                 if (confirm("Do you want to print receipt ?")) {
-                    var printSource = window.GuestCheckinManager.invoiceData;
-                    var printableData = gcm.PopulatePrintData(printSource);
+                    //var printSource = window.GuestCheckinManager.invoiceData;
+                    //var printableData = gcm.PopulatePrintData(printSource);
+                    var printableData = gcm.PopulatePrintData();
                     var newWin = window.open('', 'Print-Window');
                     newWin.document.open();
                     newWin.document.write('<html><body onload="window.print()">' + printableData + '</body></html>');

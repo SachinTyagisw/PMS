@@ -311,7 +311,7 @@
 
             invoice.PropertyId = getPropertyId();
             invoice.BookingId = window.GuestCheckinManager.BookingDto.BookingId ? window.GuestCheckinManager.BookingDto.BookingId : -1;
-            //invoice.BookingId = 2116;
+            invoice.BookingId = 2116;
             if (invoice.PropertyId <= -1 || invoice.BookingId <= -1) {
                 $('#saveInvoice').attr("disabled", true);
                 alert('Invalid bookingid or propertyid.');
@@ -694,7 +694,7 @@
         LoadInvoice: function () {
             $('.img-no-available').hide();
             var invoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-            //invoiceId = 1038;
+            invoiceId = 1038;
             if (invoiceId === -1) {
                 $('#rateTypeDdl').attr("disabled", false);
                 var dateFrom = $('#dateFrom').val();
@@ -1599,16 +1599,22 @@
             return result;
         },
         
-        PopulatePrintData: function(data) {
+        PreparePrintingData: function () {
+            var data = {};
+            data.GuestName = "Test";
+            return data;
+        },
+
+        PopulatePrintData: function() {
             var divToPrint = $('#divToPrint');
             var printTemplate = $('#printTemplate');
-            if (data && data.Invoice && divToPrint && divToPrint.length > 0
+            var data = window.GuestCheckinManager.PreparePrintingData();
+            if (data && divToPrint && divToPrint.length > 0
                 && printTemplate && printTemplate.length > 0) {
-                divToPrint.html(printTemplate.render(data.Invoice));
-                window.GuestCheckinManager.CalculateInvoice();
+                divToPrint.html(printTemplate.render(data));
                 return divToPrint[0].innerText;
             }
-            return "No data is available fot printing";
+            return "No data is available for printing";
         },
 
         AjaxHandlers: function() {
@@ -2605,7 +2611,7 @@
                 payment.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
                 payment.CreatedBy = getCreatedBy();
                 payment.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-                //payment.InvoiceId = 1038;
+                payment.InvoiceId = 1038;
                 paymentDetail.push(payment);
 
             }
@@ -2632,7 +2638,7 @@
                 otherTax.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
                 otherTax.CreatedBy = getCreatedBy();
                 otherTax.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-                //otherTax.InvoiceId = 1038;
+                otherTax.InvoiceId = 1038;
                 invoiceItem.push(otherTax);
             }
         }
@@ -2644,7 +2650,7 @@
         baseRoomCharge.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
         baseRoomCharge.CreatedBy = getCreatedBy();
         baseRoomCharge.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-        //baseRoomCharge.InvoiceId = 1038;
+        baseRoomCharge.InvoiceId = 1038;
 
         invoiceItem.push(baseRoomCharge);
 
@@ -2655,7 +2661,7 @@
         totalRoomCharge.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
         totalRoomCharge.CreatedBy = getCreatedBy();
         totalRoomCharge.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-        //totalRoomCharge.InvoiceId = 1038;
+        totalRoomCharge.InvoiceId = 1038;
 
         invoiceItem.push(totalRoomCharge);
 
@@ -2678,7 +2684,7 @@
             tax.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             tax.CreatedBy = getCreatedBy();
             tax.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-            //tax.InvoiceId = 1038;
+            tax.InvoiceId = 1038;
             taxDetails.push(tax);
         }
         return taxDetails;
