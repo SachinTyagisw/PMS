@@ -220,6 +220,7 @@
           <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
           <Property Name="LastUpdatedOn" Type="datetime" />
           <Property Name="DISCOUNT" Type="money" />
+          <Property Name="CreditCardDetail" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="InvoiceItems">
           <Key>
@@ -1319,6 +1320,7 @@
           <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
           <Property Name="DISCOUNT" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="CreditCardDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Booking" Relationship="Self.FK__Invoice__Booking__3C69FB99" FromRole="Invoice" ToRole="Booking" />
           <NavigationProperty Name="Guest" Relationship="Self.FK__Invoice__GuestID__3D5E1FD2" FromRole="Invoice" ToRole="Guest" />
           <NavigationProperty Name="InvoiceTaxDetails" Relationship="Self.FK__InvoiceTa__Invoi__403A8C7D" FromRole="Invoice" ToRole="InvoiceTaxDetail" />
@@ -2329,6 +2331,7 @@
           <Property Type="String" Name="PaymentDetails" Nullable="true" />
           <Property Type="String" Name="TaxShortName" Nullable="true" />
           <Property Type="Decimal" Name="TaxAmount" Nullable="true" Precision="7" Scale="2" />
+          <Property Type="String" Name="CreditCardDetail" Nullable="true" />
         </ComplexType>
         <ComplexType Name="GetRoomRates_Result">
           <Property Type="Int32" Name="ID" Nullable="true" />
@@ -2598,6 +2601,7 @@
                 <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
                 <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
                 <ScalarProperty Name="DISCOUNT" ColumnName="DISCOUNT" />
+                <ScalarProperty Name="CreditCardDetail" ColumnName="CreditCardDetail" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2989,6 +2993,7 @@
                 <ScalarProperty Name="PaymentDetails" ColumnName="PaymentDetails" />
                 <ScalarProperty Name="TaxShortName" ColumnName="TaxShortName" />
                 <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
+                <ScalarProperty Name="CreditCardDetail" ColumnName="CreditCardDetail" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

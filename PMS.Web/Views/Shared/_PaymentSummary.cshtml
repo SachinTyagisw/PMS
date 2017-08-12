@@ -205,25 +205,23 @@
                     </div>
                 </td>
             </tr>
-            {{if typeof InvoicePaymentDetails != "undefined" && InvoicePaymentDetails.length > 0 }}
-            {{each(i,paymentDetail) InvoicePaymentDetails}}            
-            {{if paymentDetail.PaymentDetails != "undefined" && paymentDetail.PaymentDetails != "" && paymentDetail.PaymentDetails.split('|').length > 1 }}
+            {{if CreditCardDetail != "undefined" && CreditCardDetail != "" && CreditCardDetail.split('|').length > 1 }}
             <tr id="trCreditNumber" class="sortActive remove">
                 <td><span class="glyphicon glyphicon-th-list"></span></td>
                 <td>Credit Card Number</td>
-                <td><input id="creditNumber" onkeydown="validateNumeric(event)" value=" ${paymentDetail.PaymentDetails.split('|')[0]}" /></td>
+                <td><input id="creditNumber" onkeydown="validateNumeric(event)" value=" ${CreditCardDetail.split('|')[0]}" /></td>
                 <td></td>
             </tr>
             <tr id="trCreditName" class="sortActive remove">
                 <td><span class="glyphicon glyphicon-th-list"></span></td>
                 <td>Name On Card</td>
-                <td><input id="creditName" value=" ${paymentDetail.PaymentDetails.split('|')[1]}" /></td>
+                <td><input id="creditName" value=" ${CreditCardDetail.split('|')[1]}" /></td>
                 <td></td>
             </tr>
             <tr id="trCreditExpiry" class="sortActive remove">
                 <td><span class="glyphicon glyphicon-th-list"></span></td>
                 <td>Valid Till</td>
-                <td><input id="creditExpiry" value=" ${paymentDetail.PaymentDetails.split('|')[2]}" /></td>
+                <td><input id="creditExpiry" value=" ${CreditCardDetail.split('|')[2]}" /></td>
                 <td></td>
             </tr>
             {{else}}
@@ -246,28 +244,6 @@
                 <td></td>
             </tr>
             {{/if}}
-            {{/each}}
-            {{else}}
-            <tr id="trCreditNumber" class="sortActive remove">
-                <td><span class="glyphicon glyphicon-th-list"></span></td>
-                <td>Credit Card Number</td>
-                <td><input id="creditNumber" onkeydown="validateNumeric(event)" value="" /></td>
-                <td></td>
-            </tr>
-            <tr id="trCreditName" class="sortActive remove">
-                <td><span class="glyphicon glyphicon-th-list"></span></td>
-                <td>Name On Card</td>
-                <td><input id="creditName" value="" /></td>
-                <td></td>
-            </tr>
-            <tr id="trCreditExpiry" class="sortActive remove">
-                <td><span class="glyphicon glyphicon-th-list"></span></td>
-                <td>Valid Till</td>
-                <td><input id="creditExpiry" value="" /></td>
-                <td></td>
-            </tr>
-            {{/if}}
-
             <tr id="trPaymentTypeOther" class="sortActive remove" style="display: none;">
                 <td><span class="glyphicon glyphicon-th-list"></span></td>
                 <td id="tdPaymentMode" contenteditable="true">

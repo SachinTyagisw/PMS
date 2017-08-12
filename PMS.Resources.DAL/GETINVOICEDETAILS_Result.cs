@@ -32,5 +32,6 @@ namespace PMS.Resources.DAL
         public string PaymentDetails { get; set; }
         public string TaxShortName { get; set; }
         public Nullable<decimal> TaxAmount { get; set; }
+        public string CreditCardDetail { get; set; }
     }
 }

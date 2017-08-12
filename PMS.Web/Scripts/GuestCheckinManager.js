@@ -308,7 +308,7 @@
             invoice.InvoiceTaxDetails = [];
             invoice.InvoiceItems = [];
             invoice.InvoicePaymentDetails = [];
-
+            
             invoice.PropertyId = getPropertyId();
             invoice.BookingId = window.GuestCheckinManager.BookingDto.BookingId ? window.GuestCheckinManager.BookingDto.BookingId : -1;
             invoice.BookingId = 2116;
@@ -334,6 +334,18 @@
             // dynamic tax and other payment charges
             invoice.InvoiceItems = prepareOtherCharges();
             invoice.InvoicePaymentDetails = preparePaymentDetail();
+
+            var creditName = $('#creditName').val();
+            var creditNumber = $('#creditNumber').val();
+            var creditExpiry = $('#creditExpiry').val();
+            //if all the 3 information of credit card exists then add CreditCard Detail else not
+            if (creditName && creditName.trim() !== "" && creditName.length > 0
+              && creditNumber && creditNumber.trim() !== "" && creditNumber.length > 0
+              && creditExpiry && creditExpiry.trim() !== "" && creditExpiry.length > 0) {
+                invoice.CreditCardDetail = creditNumber + "|" + creditName + "|" + creditExpiry;
+            } else {
+                invoice.CreditCardDetail = "";
+            }
 
             invoiceRequestDto.Invoice = invoice;
             // add invoice by api calling  
@@ -2581,10 +2593,7 @@
         var paymentTypeCol = $("td[id*='tdPaymentMode']");
         var paymentTypeColNew = $("td[id*='tdPaymentMode'] select");
         var paymentValueCol = $("td[id*='tdPaymentValue']");
-        var paymentValueColNew = $("td[id*='tdPaymentValue'] input");
-        var creditName = $('#creditName').val();
-        var creditNumber = $('#creditNumber').val();
-        var creditExpiry = $('#creditExpiry').val();
+        var paymentValueColNew = $("td[id*='tdPaymentValue'] input");       
         var valueIdx = 0;
         var typeIdx = 0;
         if (paymentValueCol && paymentValueCol.length > 0) {
@@ -2613,15 +2622,7 @@
                 
                 var payment = {};
                 payment.PaymentMode = paymentType;
-                payment.PaymentValue = value;
-                //if all the 3 information of credit card exists then add payment details else not
-                if(creditName && creditName.trim() !== "" && creditName.length > 0
-                  && creditNumber && creditNumber.trim() !== "" && creditNumber.length > 0
-                  && creditExpiry && creditExpiry.trim() !== "" && creditExpiry.length > 0){
-                    payment.PaymentDetails = creditNumber + "|" + creditName + "|" + creditExpiry;
-                } else{
-                    payment.PaymentDetails = "";
-                }
+                payment.PaymentValue = value;                
                 payment.IsActive = true;
                 payment.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
                 payment.CreatedBy = getCreatedBy();

@@ -1045,6 +1045,11 @@ namespace PMS.Resources.DAL
                             TotalAmt = row.TotalAmount,
                             BookingId = row.BookingID,
                             InvoiceId = row.InvoiceId,
+                            CreditCardDetail = row.CreditCardDetail,
+                            CreatedOn = row.CreatedOn,
+                            CreateBy = row.CreatedBy,
+                            LastUpdateOn = row.LastUpdatedOn,
+                            LastUpdatedBy = row.LastUpdatedBy
                         })
                         .Distinct().ToList();
 
@@ -1056,6 +1061,11 @@ namespace PMS.Resources.DAL
                         invoice.TotalAmount = otherCharges.TotalAmt;
                         invoice.BookingId = otherCharges.BookingId;
                         invoice.Id = otherCharges.InvoiceId;
+                        invoice.CreditCardDetail = otherCharges.CreditCardDetail;
+                        invoice.CreatedOn = otherCharges.CreatedOn;
+                        invoice.CreatedBy = otherCharges.CreateBy;
+                        invoice.LastUpdatedOn = otherCharges.LastUpdateOn;
+                        invoice.LastUpdatedBy = otherCharges.LastUpdatedBy;
                     }
                 }
             }
