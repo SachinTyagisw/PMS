@@ -338,11 +338,9 @@
             var creditName = $('#creditName').val();
             var creditNumber = $('#creditNumber').val();
             var creditExpiry = $('#creditExpiry').val();
-            //if all the 3 information of credit card exists then add CreditCard Detail else not
-            if (creditName && creditName.trim() !== "" && creditName.length > 0
-              && creditNumber && creditNumber.trim() !== "" && creditNumber.length > 0
-              && creditExpiry && creditExpiry.trim() !== "" && creditExpiry.length > 0) {
-                invoice.CreditCardDetail = creditNumber + "|" + creditName + "|" + creditExpiry;
+            var cardType = $('#cardType').val();
+            if (creditNumber && creditNumber.trim() !== "" && creditNumber.length > 0) {
+                invoice.CreditCardDetail = creditNumber + "|" + creditName + "|" + creditExpiry + "|" + cardType;
             } else {
                 invoice.CreditCardDetail = "";
             }
@@ -828,6 +826,7 @@
             window.GuestCheckinManager.BookingDto.AddressId = null;
             window.GuestCheckinManager.BookingDto.AdditionalGuestId = null;
             window.GuestCheckinManager.BookingDto.GuestMappingId = null;
+            window.GuestCheckinManager.BookingDto.BookingId = null;
             window.GuestCheckinManager.AutoCollapseGuestHistory();
         },
 
