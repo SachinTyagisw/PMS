@@ -1398,6 +1398,11 @@
             pmsSession.RemoveItem("roomratedata");
 //            pmsSession.RemoveItem("roomdata");
             pmsSession.RemoveItem("propertyrooms");
+            pmsSession.RemoveItem("bookingId");
+            pmsSession.RemoveItem("dtcheckin");
+            pmsSession.RemoveItem("dtcheckout");
+            pmsSession.RemoveItem("roomtypeid");
+            pmsSession.RemoveItem("roomid");
         },
 
         ValidateInputs: function() {
@@ -2480,8 +2485,8 @@
         $('#hourCheckin')[0].checked = data[0].ISHOURLYCHECKIN;
         $('#hourCheckin')[0].checked ? $('#hoursComboBox').append(new Option(data[0].HOURSTOSTAY, data[0].HOURSTOSTAY)) : $('#hoursComboBox').append(new Option(0, 0));
         $('#hoursComboBox').prop("disabled", !$('#hourCheckin')[0].checked);
-        $('#dateFrom').val(data[0].CheckinTime);
-        $('#dateTo').val(data[0].CheckoutTime);
+        $('#dateFrom').val(data[0].CheckinTime.replace('T', ' '));
+        $('#dateTo').val(data[0].CheckoutTime.replace('T', ' '));
         data[0].NoOfAdult > 0 ? $("#ddlAdults").val(data[0].NoOfAdult) : $("#ddlAdults").val(0);
         data[0].NoOfChild > 0 ? $("#ddlChild").val(data[0].NoOfChild) : $("#ddlChild").val(0);
         $('#transRemarks').val(data[0].TransactionRemarks);

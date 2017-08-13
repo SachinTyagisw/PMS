@@ -330,9 +330,9 @@
             //if user is navigated to checkin screen from dashboard screen
             if (pmsSession.GetItem("dtcheckin") && pmsSession.GetItem("dtcheckout")
                 && pmsSession.GetItem("roomtypeid") && pmsSession.GetItem("roomid")) {
-             
-                $("#dateFrom").val(pmsSession.GetItem("dtcheckin"));
-                $("#dateTo").val(pmsSession.GetItem("dtcheckout"));
+                
+                $("#dateFrom").val(pmsSession.GetItem("dtcheckin").replace('T', ' '));
+                $("#dateTo").val(pmsSession.GetItem("dtcheckout").replace('T', ' '));
                 var roomTypeId = pmsSession.GetItem("roomtypeid");
                 $('#roomTypeDdl').val(roomTypeId);
                 if (roomTypeId !== '-1') {
