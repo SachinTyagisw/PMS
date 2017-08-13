@@ -51,6 +51,20 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="AllTaxes">
+      <EntityTypeMapping TypeName="PmsModel.AllTax">
+        <MappingFragment StoreEntitySet="AllTaxes">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="TaxShortName" ColumnName="TaxShortName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+          <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+          <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Bookings">
       <EntityTypeMapping TypeName="PmsModel.Booking">
         <MappingFragment StoreEntitySet="Booking">
@@ -70,7 +84,6 @@
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="ISHOURLYCHECKIN" ColumnName="ISHOURLYCHECKIN" />
           <ScalarProperty Name="HOURSTOSTAY" ColumnName="HOURSTOSTAY" />
-          <ScalarProperty Name="RateTypeId" ColumnName="RateTypeId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -135,7 +148,7 @@
         <MappingFragment StoreEntitySet="ExtraCharges">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
-          <ScalarProperty Name="FacilityName" ColumnName="FacilityName" />
+          <ScalarProperty Name="FacilityKey" ColumnName="FacilityKey" />
           <ScalarProperty Name="Value" ColumnName="Value" />
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
           <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
@@ -228,7 +241,6 @@
           <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
           <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
           <ScalarProperty Name="DISCOUNT" ColumnName="DISCOUNT" />
-          <ScalarProperty Name="CreditCardDetail" ColumnName="CreditCardDetail" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -278,21 +290,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="PaymentTypes">
-      <EntityTypeMapping TypeName="PmsModel.PaymentType">
-        <MappingFragment StoreEntitySet="PaymentType">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
-          <ScalarProperty Name="ShortName" ColumnName="ShortName" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-          <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
-          <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Properties">
       <EntityTypeMapping TypeName="PmsModel.Property">
         <MappingFragment StoreEntitySet="Property">
@@ -312,28 +309,10 @@
           <ScalarProperty Name="LogoPath" ColumnName="LogoPath" />
           <ScalarProperty Name="WebSiteAddress" ColumnName="WebSiteAddress" />
           <ScalarProperty Name="TimeZone" ColumnName="TimeZone" />
-          <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
+          <ScalarProperty Name="CurrencyID" ColumnName="CurrencyID" />
           <ScalarProperty Name="CheckinTime" ColumnName="CheckinTime" />
           <ScalarProperty Name="CheckoutTime" ColumnName="CheckoutTime" />
           <ScalarProperty Name="CloseOfDayTime" ColumnName="CloseOfDayTime" />
-          <ScalarProperty Name="State" ColumnName="State" />
-          <ScalarProperty Name="Country" ColumnName="Country" />
-          <ScalarProperty Name="City" ColumnName="City" />
-          <ScalarProperty Name="Zipcode" ColumnName="Zipcode" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="PropertyFloors">
-      <EntityTypeMapping TypeName="PmsModel.PropertyFloor">
-        <MappingFragment StoreEntitySet="PropertyFloor">
-          <ScalarProperty Name="PropertyId" ColumnName="PropertyId" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="FloorNumber" ColumnName="FloorNumber" />
-          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-          <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
-          <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -352,7 +331,6 @@
           <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
           <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
           <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
-          <ScalarProperty Name="RoomId" ColumnName="RoomId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -367,8 +345,8 @@
           <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
           <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
           <ScalarProperty Name="NAME" ColumnName="NAME" />
-          <ScalarProperty Name="Units" ColumnName="Units" />
-          <ScalarProperty Name="Hours" ColumnName="Hours" />
+          <ScalarProperty Name="RoomTypeID" ColumnName="RoomTypeID" />
+          <ScalarProperty Name="ShortName" ColumnName="ShortName" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -399,7 +377,6 @@
           <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
           <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
           <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
-          <ScalarProperty Name="FloorId" ColumnName="FloorId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -479,7 +456,6 @@
           <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
           <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
           <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
-          <ScalarProperty Name="TaxName" ColumnName="TaxName" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -487,18 +463,15 @@
       <ResultMapping>
         <ComplexTypeMapping TypeName="PmsModel.GETALLBOOKINGS_Result">
           <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
+          <ScalarProperty Name="PROPERTYID" ColumnName="PROPERTYID" />
           <ScalarProperty Name="CHECKINTIME" ColumnName="CHECKINTIME" />
           <ScalarProperty Name="CHECKOUTTIME" ColumnName="CHECKOUTTIME" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="FIRSTNAME" ColumnName="FIRSTNAME" />
           <ScalarProperty Name="LASTNAME" ColumnName="LASTNAME" />
           <ScalarProperty Name="GUESTID" ColumnName="GUESTID" />
           <ScalarProperty Name="ROOMBOOKINGID" ColumnName="ROOMBOOKINGID" />
           <ScalarProperty Name="ROOMID" ColumnName="ROOMID" />
           <ScalarProperty Name="ROOMNUMBER" ColumnName="ROOMNUMBER" />
-          <ScalarProperty Name="RoomTypeID" ColumnName="RoomTypeID" />
-          <ScalarProperty Name="RoomTypeName" ColumnName="RoomTypeName" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -525,131 +498,14 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="GetBookingDetails" FunctionName="PmsModel.Store.GetBookingDetails">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="PmsModel.GetBookingDetails_Result">
-          <ScalarProperty Name="BookingID" ColumnName="BookingID" />
-          <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
-          <ScalarProperty Name="CheckinTime" ColumnName="CheckinTime" />
-          <ScalarProperty Name="CheckoutTime" ColumnName="CheckoutTime" />
-          <ScalarProperty Name="NoOfAdult" ColumnName="NoOfAdult" />
-          <ScalarProperty Name="NoOfChild" ColumnName="NoOfChild" />
-          <ScalarProperty Name="GuestRemarks" ColumnName="GuestRemarks" />
-          <ScalarProperty Name="TransactionRemarks" ColumnName="TransactionRemarks" />
-          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-          <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
-          <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
-          <ScalarProperty Name="ISHOURLYCHECKIN" ColumnName="ISHOURLYCHECKIN" />
-          <ScalarProperty Name="HOURSTOSTAY" ColumnName="HOURSTOSTAY" />
-          <ScalarProperty Name="RateTypeId" ColumnName="RateTypeId" />
-          <ScalarProperty Name="AdditionalGuestID" ColumnName="AdditionalGuestID" />
-          <ScalarProperty Name="AdditionalGuestFirstName" ColumnName="AdditionalGuestFirstName" />
-          <ScalarProperty Name="AdditionalGuestLastName" ColumnName="AdditionalGuestLastName" />
-          <ScalarProperty Name="AdditionalGuestIDPath" ColumnName="AdditionalGuestIDPath" />
-          <ScalarProperty Name="AdditionalGuestGender" ColumnName="AdditionalGuestGender" />
-          <ScalarProperty Name="RoomBookingRoomId" ColumnName="RoomBookingRoomId" />
-          <ScalarProperty Name="RoomBookingID" ColumnName="RoomBookingID" />
-          <ScalarProperty Name="RoomBookingGuestID" ColumnName="RoomBookingGuestID" />
-          <ScalarProperty Name="GuestMappingId" ColumnName="GuestMappingId" />
-          <ScalarProperty Name="IDTYPEID" ColumnName="IDTYPEID" />
-          <ScalarProperty Name="GuestMappingGuestID" ColumnName="GuestMappingGuestID" />
-          <ScalarProperty Name="GuestMappingIDDETAILS" ColumnName="GuestMappingIDDETAILS" />
-          <ScalarProperty Name="IDExpiryDate" ColumnName="IDExpiryDate" />
-          <ScalarProperty Name="IDIssueState" ColumnName="IDIssueState" />
-          <ScalarProperty Name="IDIssueCountry" ColumnName="IDIssueCountry" />
-          <ScalarProperty Name="GuestID" ColumnName="GuestID" />
-          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-          <ScalarProperty Name="LastName" ColumnName="LastName" />
-          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
-          <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
-          <ScalarProperty Name="DOB" ColumnName="DOB" />
-          <ScalarProperty Name="Gender" ColumnName="Gender" />
-          <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
-          <ScalarProperty Name="RateTypeName" ColumnName="RateTypeName" />
-          <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
-          <ScalarProperty Name="RoomTypeID" ColumnName="RoomTypeID" />
-          <ScalarProperty Name="RoomTypeName" ColumnName="RoomTypeName" />
-          <ScalarProperty Name="RoomTypeShortName" ColumnName="RoomTypeShortName" />
-          <ScalarProperty Name="RoomID" ColumnName="RoomID" />
-          <ScalarProperty Name="RoomNumber" ColumnName="RoomNumber" />
-          <ScalarProperty Name="AddressID" ColumnName="AddressID" />
-          <ScalarProperty Name="AddressTypeID" ColumnName="AddressTypeID" />
-          <ScalarProperty Name="Address1" ColumnName="Address1" />
-          <ScalarProperty Name="Address2" ColumnName="Address2" />
-          <ScalarProperty Name="AddressCity" ColumnName="AddressCity" />
-          <ScalarProperty Name="AddressState" ColumnName="AddressState" />
-          <ScalarProperty Name="AddressZipCode" ColumnName="AddressZipCode" />
-          <ScalarProperty Name="AddressCountry" ColumnName="AddressCountry" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="GETGUESTTRANSACTIONS" FunctionName="PmsModel.Store.GETGUESTTRANSACTIONS">
       <ResultMapping>
         <ComplexTypeMapping TypeName="PmsModel.GETGUESTTRANSACTIONS_Result">
-          <ScalarProperty Name="PROPERTYDETAILS" ColumnName="PROPERTYDETAILS" />
-          <ScalarProperty Name="PropertyName" ColumnName="PropertyName" />
+          <ScalarProperty Name="PROPERTY" ColumnName="PROPERTY" />
           <ScalarProperty Name="CheckinTime" ColumnName="CheckinTime" />
           <ScalarProperty Name="CheckoutTime" ColumnName="CheckoutTime" />
           <ScalarProperty Name="ROOMTYPE" ColumnName="ROOMTYPE" />
           <ScalarProperty Name="ROOMNUMBER" ColumnName="ROOMNUMBER" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="GETINVOICEDETAILS" FunctionName="PmsModel.Store.GETINVOICEDETAILS">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="PmsModel.GETINVOICEDETAILS_Result">
-          <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
-          <ScalarProperty Name="GuestID" ColumnName="GuestID" />
-          <ScalarProperty Name="BookingID" ColumnName="BookingID" />
-          <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
-          <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
-          <ScalarProperty Name="FolioNumber" ColumnName="FolioNumber" />
-          <ScalarProperty Name="InvoiceActive" ColumnName="InvoiceActive" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-          <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
-          <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
-          <ScalarProperty Name="DISCOUNT" ColumnName="DISCOUNT" />
-          <ScalarProperty Name="ItemName" ColumnName="ItemName" />
-          <ScalarProperty Name="ItemValue" ColumnName="ItemValue" />
-          <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
-          <ScalarProperty Name="PaymentValue" ColumnName="PaymentValue" />
-          <ScalarProperty Name="PaymentDetails" ColumnName="PaymentDetails" />
-          <ScalarProperty Name="TaxShortName" ColumnName="TaxShortName" />
-          <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
-          <ScalarProperty Name="CreditCardDetail" ColumnName="CreditCardDetail" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="GetRoomRates" FunctionName="PmsModel.Store.GetRoomRates">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="PmsModel.GetRoomRates_Result">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="Type" ColumnName="Type" />
-          <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
-          <ScalarProperty Name="RateTypeID" ColumnName="RateTypeID" />
-          <ScalarProperty Name="RoomTypeID" ColumnName="RoomTypeID" />
-          <ScalarProperty Name="InputKeyHours" ColumnName="InputKeyHours" />
-          <ScalarProperty Name="Value" ColumnName="Value" />
-          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-          <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
-          <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
-          <ScalarProperty Name="RoomTypeName" ColumnName="RoomTypeName" />
-          <ScalarProperty Name="RateTypeName" ColumnName="RateTypeName" />
-          <ScalarProperty Name="MasterRateTypeID" ColumnName="MasterRateTypeID" />
-          <ScalarProperty Name="Hours" ColumnName="Hours" />
-          <ScalarProperty Name="RateTypeIsActive" ColumnName="RateTypeIsActive" />
-          <ScalarProperty Name="Units" ColumnName="Units" />
-          <ScalarProperty Name="RoomId" ColumnName="RoomId" />
-          <ScalarProperty Name="RoomNumber" ColumnName="RoomNumber" />
-          <ScalarProperty Name="RoomStatus" ColumnName="RoomStatus" />
-          <ScalarProperty Name="FloorNumber" ColumnName="FloorNumber" />
-          <ScalarProperty Name="FloorId" ColumnName="FloorId" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -663,17 +519,8 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="InsertBooking" FunctionName="PmsModel.Store.InsertBooking">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="PmsModel.InsertBooking_Result">
-          <ScalarProperty Name="Column1" ColumnName="Column1" />
-          <ScalarProperty Name="Column2" ColumnName="Column2" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="InsertBooking" FunctionName="PmsModel.Store.InsertBooking" />
     <FunctionImportMapping FunctionImportName="InsertInvoice" FunctionName="PmsModel.Store.InsertInvoice" />
-    <FunctionImportMapping FunctionImportName="InsertRoom" FunctionName="PmsModel.Store.InsertRoom" />
-    <FunctionImportMapping FunctionImportName="InsertRoomRates" FunctionName="PmsModel.Store.InsertRoomRates" />
     <FunctionImportMapping FunctionImportName="UpdateBooking" FunctionName="PmsModel.Store.UpdateBooking" />
   </EntityContainerMapping>
 </Mapping>

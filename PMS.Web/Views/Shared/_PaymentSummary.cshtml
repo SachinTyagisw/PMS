@@ -271,101 +271,26 @@
 </script>
 
 <script type="text/html" id="printTemplate">
-    <div id="print">
-        <div id="printarea" class="ql-align-right">
-            <div class="row">
-                <div class="col-sm-6">
-                    <p>Company Name</p>
-                    <p>Guest Full Name</p>
-                    <p>Guest Full Address</p>
-                    <p>Tel.: +43 1 12345</p>
-                    <p><span>City</span> <span>State</span> <span>Zip</span></p>
-                    <p> Additional Guest Name</p>
-                </div>
-                <div class="col-sm-6">
-                    <p><b>Folio #:</b> Registration No #</p>
-                    <p><b>Room :</b> <span>Room #</span> <span>Room Type Code</span></p>
-                    <p><b>Rate :</b> <span>Room Rate</span></p>
-                    <p><b>Arrival :</b> <span>Checkin Date & Time</span></p>
-                    <p><b>Departure :</b> <span>Checkout Date & Time</span></p>
-                    <p><b>Total Nights :</b> <span>Sum of Hours</span></p>
-                </div>
-
-            </div>
-
-            <div>
-
-                <table class="table" style="margin-bottom: 0px;">
-                    <thead style="font-size: 0.7em">
-                        <tr>
-                            <th>Date</th>
-                            <th>Charges Description</th>
-                            <th>Charges</th>
-                            <th>Credit</th>
-                            <th>Balance</th>
-                        </tr>
-                    </thead>
-                    <tbody style="font-size: 0.7em">
-                        <tr>
-                            <td>06.07.2017</td>
-                            <td>Guest Room</td>
-                            <td>150.00</td>
-                            <td>0</td>
-                            <td>150.00</td>
-                        </tr>
-                        <tr>
-                            <td>06.07.2017</td>
-                            <td>Guest Room</td>
-                            <td>150.00</td>
-                            <td>0</td>
-                            <td>150.00</td>
-                        </tr>
-                        <tr>
-                            <td>06.07.2017</td>
-                            <td>Guest Room</td>
-                            <td>150.00</td>
-                            <td>0</td>
-                            <td>150.00</td>
-                        </tr>
-                        <tr>
-                            <td>06.07.2017</td>
-                            <td>Guest Room</td>
-                            <td>150.00</td>
-                            <td>0</td>
-                            <td>150.00</td>
-                        </tr>
-                        <tr>
-                            <td>06.07.2017</td>
-                            <td>PAYMENT</td>
-                            <td></td>
-                            <td>Visa | 0</td>
-                            <td>150.00</td>
-                        </tr>
-                        <tr>
-                            <td>06.07.2017</td>
-                            <td>PAYMENT</td>
-                            <td></td>
-                            <td>Cash | 0</td>
-                            <td>150.00</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-            </div>
-
-
-
-            <p>Thanks for your staying at <b>Property Name</b>, <b>Property City</b>. We look forward to welcoming you back soon.</p>
-            <div class="row">
-                <div class="col-sm-4">
-                    <p>Guest Signature</p>
-                </div>
-                <div class="col-sm-8">
-                    <p>I have received the good and/or services in the amount shown hereon.  I agree that my liability for this bill is not waived and agree to be held personally liable in the even that the indicated person, company, or associate fails to pay for any part or the full amount of these charges.  If a credit card charge, I further agree to perform the obligation set forth in the cardholder's agreement with the issuer.</p>
-                </div>
-            </div>
-        </div>
-    </div>    
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Item Description</th>
+                <th>Sub-total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="sortableTable">
+            <tr class="sortActive">
+                <td>Item1</td>
+                <td></td>
+            </tr>           
+            <tr class="sortActive">
+                <td>Item2</td>
+                <td>${GuestName}</td>
+            </tr>   
+        </tbody>
+    </table>
 </script>
 
 @*<script type="text/html" id="printTemplate">
