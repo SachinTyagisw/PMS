@@ -1580,7 +1580,7 @@
             return result;
         },
         
-        PreparePrintingData: function () {
+        PrepareFolioData: function () {
             var data = {};
             data.PropertyName = "Test Property";
             data.Address = "Test Address";
@@ -1601,14 +1601,42 @@
             return data;
         },
 
-        PopulatePrintData: function() {
+        PrepareReceiptData: function () {
+            var data = {};
+            data.PropertyName = "Test Property";
+            data.Address = "Test Address";
+            data.GuestName = "Test Guest";
+            data.FullAddress = "City1,State1,11111";
+            data.AdditionalGuest = "Additional Test";
+            data.Room = "101" + "King Smoking";
+            data.Arrival = "2017/08/12";
+            data.Departure = "2017/08/13";
+            data.StayDays = "2";
+            data.Folio = "Test Folio";
+            data.Rate = "Weekday";
+            data.TotalRoomCharges = "150";
+            data.Taxes = [];
+            data.Taxes = prepareTax();
+            data.PaymentDetails = [];
+            data.PaymentDetails = preparePaymentDetail();
+            return data;
+        },
+
+        PopulatePrintData: function(printType) {
             var divToPrint = $('#divToPrint');
-            var printTemplate = $('#printTemplate');
-            var data = window.GuestCheckinManager.PreparePrintingData();
+            var data = {};
+            var printTemplate = '';
+            divToPrint.html('');
+            printTemplate = printType === "receipt" ? $('#receiptTemplate') : $('#folioTemplate');
+            if (printType === "receipt") {
+                data = window.GuestCheckinManager.PrepareReceiptData();
+            } else {
+                data = window.GuestCheckinManager.PrepareFolioData();
+            }
             if (data && divToPrint && divToPrint.length > 0
                 && printTemplate && printTemplate.length > 0) {
-                divToPrint.html(printTemplate.render(data));
-                return divToPrint[0].innerText;
+                    divToPrint.html(printTemplate.render(data));
+                    return divToPrint[0].innerText;
             }
             return "No data is available for printing";
         },        
