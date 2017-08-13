@@ -33,6 +33,13 @@
 
         Initialize: function() {
             if (!window.PmsSession.GetItem("username")) {
+                window.GuestCheckinManager.BookingDto.GuestId = null;
+                window.GuestCheckinManager.BookingDto.InvoiceId = null;
+                window.GuestCheckinManager.BookingDto.RoomBookingId = null;
+                window.GuestCheckinManager.BookingDto.AddressId = null;
+                window.GuestCheckinManager.BookingDto.AdditionalGuestId = null;
+                window.GuestCheckinManager.BookingDto.GuestMappingId = null;
+                window.GuestCheckinManager.BookingDto.BookingId = null;
                 window.location.replace(window.webBaseUrl + "Account/Login");
                 return;
             }
@@ -372,10 +379,7 @@
             booking.IsActive = true;
             booking.ISHOURLYCHECKIN = $('#hourCheckin')[0].checked ? true : false;
             booking.RateTypeId = $('#rateTypeDdl').val();
-            var noOfHours = 0;
-            if ($("#hoursComboBox option:selected").text().indexOf('-') >= 0) {
-                noOfHours = parseInt($("#hoursComboBox option:selected").text().split('-')[0]);
-            }
+            var noOfHours = getSelectedCheckoutHrs();
             booking.HOURSTOSTAY = $('#hourCheckin')[0].checked && parseInt(noOfHours) > 0 ? parseInt(noOfHours) : 0;
             booking.CreatedBy = getCreatedBy();
             booking.RoomBookings = prepareRoomBooking();
@@ -1421,8 +1425,7 @@
             var roomId = $('#roomddl').val();
             var city = $('#ddlCity').val();
             var state = $('#ddlState').val();
-            var country = $('#ddlCountry').val();
-            var noOfHours = "-1";
+            var country = $('#ddlCountry').val();            
             var baseRoomCharge = $("#baseRoomCharge");
             var totalRoomCharge = $('#totalRoomCharge');
             
@@ -1438,11 +1441,8 @@
                 return false;
             }
 
-            if ($("#hoursComboBox option:selected").text().indexOf('-') >= 0) {
-                noOfHours = parseInt($("#hoursComboBox option:selected").text().split('-')[0]);
-            }
-
-            if ($('#hourCheckin')[0].checked && noOfHours === '-1') {
+            var noOfHours = getSelectedCheckoutHrs();
+            if ($('#hourCheckin')[0].checked && parseInt(noOfHours) <= 0) {
                 alert("Please select checkout hours.");
                 return false;
             }
@@ -2342,6 +2342,14 @@
         //}
     };
     
+    function getSelectedCheckoutHrs(){
+        var noOfHours = -1;
+        if ($("#hoursComboBox option:selected").text().indexOf('-') >= 0) {
+            noOfHours = parseInt($("#hoursComboBox option:selected").text().split('-')[0]);
+        }
+        return noOfHours;
+    }
+
     function prepareLoadInvoiceRequestDto() {
         var getInvoiceRequestDto = {};
 
@@ -2358,9 +2366,7 @@
             noOfDays = daysDiff <= 0 ? 1 : daysDiff;
         }
 
-        if ($("#hoursComboBox option:selected").text().indexOf('-') >= 0) {
-            noOfHours = parseInt($("#hoursComboBox option:selected").text().split('-')[0]);
-        }
+        noOfHours = getSelectedCheckoutHrs();
         getInvoiceRequestDto.PropertyId = getPropertyId();
         getInvoiceRequestDto.RoomTypeId = roomType;
         getInvoiceRequestDto.RoomId = roomId;
