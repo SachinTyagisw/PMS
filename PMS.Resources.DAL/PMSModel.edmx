@@ -877,6 +877,13 @@
         </Function>
         <Function Name="GETINVOICEDETAILS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="INVOICEID" Type="int" Mode="In" />
+          <Parameter Name="PROPERTYID" Type="int" Mode="In" />
+          <Parameter Name="ROOMTYPEID" Type="int" Mode="In" />
+          <Parameter Name="RATETYPEID" Type="int" Mode="In" />
+          <Parameter Name="NOOFHOURS" Type="int" Mode="In" />
+          <Parameter Name="NOOFDAYS" Type="int" Mode="In" />
+          <Parameter Name="ISHOURLY" Type="bit" Mode="In" />
+          <Parameter Name="RoomID" Type="int" Mode="In" />
         </Function>
         <Function Name="GetRoomRates" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PropertyId" Type="int" Mode="In" />
@@ -2180,6 +2187,13 @@
           </FunctionImport>
           <FunctionImport Name="GETINVOICEDETAILS" ReturnType="Collection(PmsModel.GETINVOICEDETAILS_Result)">
             <Parameter Name="INVOICEID" Mode="In" Type="Int32" />
+            <Parameter Name="PROPERTYID" Mode="In" Type="Int32" />
+            <Parameter Name="ROOMTYPEID" Mode="In" Type="Int32" />
+            <Parameter Name="RATETYPEID" Mode="In" Type="Int32" />
+            <Parameter Name="NOOFHOURS" Mode="In" Type="Int32" />
+            <Parameter Name="NOOFDAYS" Mode="In" Type="Int32" />
+            <Parameter Name="ISHOURLY" Mode="In" Type="Boolean" />
+            <Parameter Name="RoomID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetRoomRates" ReturnType="Collection(PmsModel.GetRoomRates_Result)">
             <Parameter Name="PropertyId" Mode="In" Type="Int32" />

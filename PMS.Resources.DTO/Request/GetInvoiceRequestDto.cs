@@ -10,7 +10,7 @@ namespace PMS.Resources.DTO.Request
 {
     [DataContract]
     [Serializable]
-    public class GetPaymentChargesRequestDto
+    public class GetInvoiceRequestDto
     {
         [DataMember]
         public int? PropertyId { get; set; }
@@ -24,6 +24,9 @@ namespace PMS.Resources.DTO.Request
         public Nullable<bool> IsHourly { get; set; }
         [DataMember]
         public int? RoomId { get; set; }
-        
+        [DataMember]
+        public int InvoiceId { get; set; }
+        [DataMember]
+        public int? NoOfDays { get; set; }
     }
 }

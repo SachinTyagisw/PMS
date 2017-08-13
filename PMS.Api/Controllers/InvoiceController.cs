@@ -59,19 +59,20 @@ namespace PMS.Api.Controllers
 
             config.Routes.MapHttpRoute(
               "GetInvoiceById",
-              "api/v1/Invoice/GetInvoiceById/{invoiceId}",
-              new { controller = "Invoice", action = "GetInvoiceById" },
-              constraints: new { invoiceId = RegExConstants.NumericRegEx }
+              "api/v1/Invoice/GetInvoiceById",
+              new { controller = "Invoice", action = "GetInvoiceById" }
               );
         }
 
-        [HttpGet, ActionName("GetInvoiceById")]
-        public GetInvoiceResponseDto GetInvoiceById(int invoiceId)
+        [HttpPost, ActionName("GetInvoiceById")]
+        public GetInvoiceResponseDto GetInvoiceById([FromBody] GetInvoiceRequestDto request)
         {
-            if (invoiceId <= 0) throw new PmsException("Invoice id is not valid.");
+            if (request == null || request.PropertyId <= 0
+                || request.RoomTypeId <= 0 || request.RoomId <= 0 || request.InvoiceId <=0
+                ) throw new PmsException("Get Invoice call failed.");
 
             var response = new GetInvoiceResponseDto();
-            response.Invoice = _iPmsLogic.GetInvoiceById(invoiceId);
+            response.Invoice = _iPmsLogic.GetInvoiceById(request);
 
             return response;
         }
@@ -99,7 +100,7 @@ namespace PMS.Api.Controllers
         }
 
         [HttpPost, ActionName("GetPaymentCharges")]
-        public GetPaymentChargesResponseDto GetPaymentCharges([FromBody] GetPaymentChargesRequestDto request )
+        public GetPaymentChargesResponseDto GetPaymentCharges([FromBody] GetInvoiceRequestDto request )
         {
             if (request == null || request.PropertyId <=0
                 || request.RoomTypeId <= 0 || request.RoomId <= 0

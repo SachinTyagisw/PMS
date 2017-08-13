@@ -941,14 +941,14 @@ namespace PMS.Resources.DAL
             return id;
         }
 
-        public PmsEntity.Invoice GetInvoiceById(int invoiceId)
+        public PmsEntity.Invoice GetInvoiceById(int invoiceId, int? propertyId, int? roomTypeId, int? rateTypeId, int? noOfHours, int? noOfDays, bool? IsHourly, int? roomId)
         {
             var invoice = new PmsEntity.Invoice();
             var taxes = new List<PmsEntity.Tax>();
             var paymentDetails = new List<PmsEntity.InvoicePaymentDetail>();
             using (var pmsContext = new PmsEntities())
             {
-                var resultSet = pmsContext.GETINVOICEDETAILS(invoiceId).ToList();
+                var resultSet = pmsContext.GETINVOICEDETAILS(invoiceId, propertyId, roomTypeId, rateTypeId, noOfHours, noOfDays, IsHourly, roomId).ToList();
                 if (resultSet == null || resultSet.Count <= 0) return invoice;
 
                 var distinctBaseRoomCharge = resultSet.AsEnumerable()

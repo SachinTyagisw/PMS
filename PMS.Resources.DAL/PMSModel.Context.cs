@@ -130,13 +130,41 @@ namespace PMS.Resources.DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GETGUESTTRANSACTIONS_Result>("GETGUESTTRANSACTIONS", gUESTIDParameter);
         }
     
-        public virtual ObjectResult<GETINVOICEDETAILS_Result> GETINVOICEDETAILS(Nullable<int> iNVOICEID)
+        public virtual ObjectResult<GETINVOICEDETAILS_Result> GETINVOICEDETAILS(Nullable<int> iNVOICEID, Nullable<int> pROPERTYID, Nullable<int> rOOMTYPEID, Nullable<int> rATETYPEID, Nullable<int> nOOFHOURS, Nullable<int> nOOFDAYS, Nullable<bool> iSHOURLY, Nullable<int> roomID)
         {
             var iNVOICEIDParameter = iNVOICEID.HasValue ?
                 new ObjectParameter("INVOICEID", iNVOICEID) :
                 new ObjectParameter("INVOICEID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GETINVOICEDETAILS_Result>("GETINVOICEDETAILS", iNVOICEIDParameter);
+            var pROPERTYIDParameter = pROPERTYID.HasValue ?
+                new ObjectParameter("PROPERTYID", pROPERTYID) :
+                new ObjectParameter("PROPERTYID", typeof(int));
+    
+            var rOOMTYPEIDParameter = rOOMTYPEID.HasValue ?
+                new ObjectParameter("ROOMTYPEID", rOOMTYPEID) :
+                new ObjectParameter("ROOMTYPEID", typeof(int));
+    
+            var rATETYPEIDParameter = rATETYPEID.HasValue ?
+                new ObjectParameter("RATETYPEID", rATETYPEID) :
+                new ObjectParameter("RATETYPEID", typeof(int));
+    
+            var nOOFHOURSParameter = nOOFHOURS.HasValue ?
+                new ObjectParameter("NOOFHOURS", nOOFHOURS) :
+                new ObjectParameter("NOOFHOURS", typeof(int));
+    
+            var nOOFDAYSParameter = nOOFDAYS.HasValue ?
+                new ObjectParameter("NOOFDAYS", nOOFDAYS) :
+                new ObjectParameter("NOOFDAYS", typeof(int));
+    
+            var iSHOURLYParameter = iSHOURLY.HasValue ?
+                new ObjectParameter("ISHOURLY", iSHOURLY) :
+                new ObjectParameter("ISHOURLY", typeof(bool));
+    
+            var roomIDParameter = roomID.HasValue ?
+                new ObjectParameter("RoomID", roomID) :
+                new ObjectParameter("RoomID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GETINVOICEDETAILS_Result>("GETINVOICEDETAILS", iNVOICEIDParameter, pROPERTYIDParameter, rOOMTYPEIDParameter, rATETYPEIDParameter, nOOFHOURSParameter, nOOFDAYSParameter, iSHOURLYParameter, roomIDParameter);
         }
     
         public virtual ObjectResult<GetRoomRates_Result> GetRoomRates(Nullable<int> propertyId)

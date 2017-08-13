@@ -83,9 +83,9 @@ namespace PMS.Resources.Logic
         List<PmsEntity.City> GetCityByState(int id);
         List<PmsEntity.Country> GetCountry();
         List<PmsEntity.Guest>  GetAllGuest();
-        List<PmsEntity.Tax> GetPaymentCharges(GetPaymentChargesRequestDto request);
+        List<PmsEntity.Tax> GetPaymentCharges(GetInvoiceRequestDto request);
         int AddInvoice(PmsEntity.Invoice invoice);
-        PmsEntity.Invoice GetInvoiceById(int invoiceId);
+        PmsEntity.Invoice GetInvoiceById(GetInvoiceRequestDto request);
         PmsEntity.Booking GetBookingById(int bookingId);
         List<PmsEntity.RateType> GetRoomRateByProperty(int propertyId);
         bool AddRoomRate(List<PmsEntity.Rate> rates);

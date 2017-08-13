@@ -291,7 +291,7 @@ namespace PMS.Resources.Logic
             return DalFactory.GetAllGuest();
         }
 
-        public List<PmsEntity.Tax> GetPaymentCharges(GetPaymentChargesRequestDto request)
+        public List<PmsEntity.Tax> GetPaymentCharges(GetInvoiceRequestDto request)
         {
             return DalFactory.GetPaymentCharges(request.PropertyId, request.RoomTypeId, request.RateTypeId, request.NoOfHours, request.IsHourly, request.RoomId);
         }
@@ -311,9 +311,9 @@ namespace PMS.Resources.Logic
             return DalFactory.AddInvoice(propertyId, invoiceXml);
 
         }
-        public PmsEntity.Invoice GetInvoiceById(int invoiceId)
+        public PmsEntity.Invoice GetInvoiceById(GetInvoiceRequestDto request)
         {
-            return DalFactory.GetInvoiceById(invoiceId);
+            return DalFactory.GetInvoiceById(request.InvoiceId,request.PropertyId, request.RoomTypeId, request.RateTypeId, request.NoOfHours, request.NoOfDays, request.IsHourly, request.RoomId);
         }
 
         public PmsEntity.Booking GetBookingById(int bookingId)

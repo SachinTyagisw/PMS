@@ -87,7 +87,7 @@ namespace PMS.Resources.DAL
         List<PmsEntity.Guest> GetAllGuest();
         List<PmsEntity.Tax> GetPaymentCharges(int? propertyId, int? roomTypeId, int? rateTypeId, int? noOfHours, bool? IsHourly, int? roomId);
         int AddInvoice(int propertyId, string invoiceXml);
-        PmsEntity.Invoice GetInvoiceById(int invoiceId);
+        PmsEntity.Invoice GetInvoiceById(int invoiceId, int? propertyId, int? roomTypeId, int? rateTypeId, int? noOfHours, int? noOfDays, bool? IsHourly, int? roomId);
         PmsEntity.Booking GetBookingById(int bookingId);
         List<PmsEntity.RateType> GetRoomRateByProperty(int propertyId);
         bool AddRoomRate(int propertyId, string rateXml);

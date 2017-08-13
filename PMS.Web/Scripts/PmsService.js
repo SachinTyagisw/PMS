@@ -247,7 +247,7 @@
         };
 
         this.GetInvoiceById = function (args) {
-            makeAjaxRequestGet(args, "GetInvoiceById", this, "api/v1/Invoice/GetInvoiceById/" + args.invoiceId);
+            makeAjaxRequestPost(args, "GetInvoiceById", this, "api/v1/Invoice/GetInvoiceById");
         };
 
         this.GetPaymentCharges = function (args) {
