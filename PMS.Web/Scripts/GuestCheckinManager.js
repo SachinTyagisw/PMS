@@ -1636,7 +1636,7 @@
             if (data && divToPrint && divToPrint.length > 0
                 && printTemplate && printTemplate.length > 0) {
                     divToPrint.html(printTemplate.render(data));
-                    return divToPrint[0].innerText;
+                    return divToPrint[0].innerHTML;
             }
             return "No data is available for printing";
         },        
