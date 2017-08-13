@@ -122,10 +122,8 @@
         function OnCmbHourlyCheckInChange() {
             var checkOutDate = document.getElementById('dateTo');
             var checkInDate = document.getElementById('dateFrom');
-            var hrsToAdd = 0;               
-            if ($("#hoursComboBox option:selected").text().indexOf('-') >= 0){
-                hrsToAdd = parseInt($("#hoursComboBox option:selected").text().split('-')[0]);
-            }
+            var checkoutHrs = gcm.GetSelectedCheckoutHrs();
+            var hrsToAdd = checkoutHrs > 0 ? checkoutHrs : 0;
             var chkHours = document.getElementById('hourCheckin');
             var dt = new Date($('#dateFrom').val());
             

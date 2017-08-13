@@ -379,7 +379,7 @@
             booking.IsActive = true;
             booking.ISHOURLYCHECKIN = $('#hourCheckin')[0].checked ? true : false;
             booking.RateTypeId = $('#rateTypeDdl').val();
-            var noOfHours = getSelectedCheckoutHrs();
+            var noOfHours = window.GuestCheckinManager.GetSelectedCheckoutHrs();
             booking.HOURSTOSTAY = $('#hourCheckin')[0].checked && parseInt(noOfHours) > 0 ? parseInt(noOfHours) : 0;
             booking.CreatedBy = getCreatedBy();
             booking.RoomBookings = prepareRoomBooking();
@@ -1441,7 +1441,7 @@
                 return false;
             }
 
-            var noOfHours = getSelectedCheckoutHrs();
+            var noOfHours = window.GuestCheckinManager.GetSelectedCheckoutHrs();
             if ($('#hourCheckin')[0].checked && parseInt(noOfHours) <= 0) {
                 alert("Please select checkout hours.");
                 return false;
@@ -1613,6 +1613,14 @@
             return "No data is available for printing";
         },        
         
+        GetSelectedCheckoutHrs: function(){
+            var noOfHours = -1;
+            if ($("#hoursComboBox option:selected").text().indexOf('-') >= 0) {
+                noOfHours = parseInt($("#hoursComboBox option:selected").text().split('-')[0]);
+            }
+            return noOfHours;
+        },
+
         AjaxHandlers: function() {
             // ajax handlers start
                 pmsService.Handlers.OnAddBookingSuccess = function (data) {
@@ -2340,15 +2348,7 @@
         //    alert(HH);
 
         //}
-    };
-    
-    function getSelectedCheckoutHrs(){
-        var noOfHours = -1;
-        if ($("#hoursComboBox option:selected").text().indexOf('-') >= 0) {
-            noOfHours = parseInt($("#hoursComboBox option:selected").text().split('-')[0]);
-        }
-        return noOfHours;
-    }
+    };   
 
     function prepareLoadInvoiceRequestDto() {
         var getInvoiceRequestDto = {};
@@ -2366,7 +2366,7 @@
             noOfDays = daysDiff <= 0 ? 1 : daysDiff;
         }
 
-        noOfHours = getSelectedCheckoutHrs();
+        noOfHours = window.GuestCheckinManager.GetSelectedCheckoutHrs();
         getInvoiceRequestDto.PropertyId = getPropertyId();
         getInvoiceRequestDto.RoomTypeId = roomType;
         getInvoiceRequestDto.RoomId = roomId;
