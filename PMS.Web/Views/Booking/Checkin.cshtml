@@ -443,7 +443,7 @@
                         alert('Please check the balance amount.');
                         return;
                     }
-                    var daysDiff = gcm.GetDays(gcm.GetCurrentDate(), new Date($("#dateTo").val())) + 1;
+                    var daysDiff = gcm.GetDays(gcm.GetCurrentDate(), new Date($("#dateTo").val()));
                     // if current date is not same as of checkout date
                     if (daysDiff !== 0) {
                         $("#dateTo").val(gcm.GetCurrentDate());

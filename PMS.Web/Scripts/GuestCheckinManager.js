@@ -1575,9 +1575,15 @@
         },
 
         GetDays: function (startDate, endDate) {
-            var millisecondsPerDay = 24 * 60 * 60 * 1000;
-            var result = Math.floor((getDate(endDate) - getDate(startDate)) / millisecondsPerDay);
-            return result;
+            var oneDay = 1000 * 60 * 60 * 24;
+            var fromDate = new Date(startDate);
+            var toDate = new Date(endDate);
+            fromDate.setHours(0, 0, 0);
+            toDate.setHours(0,0,0);
+
+            var dateDiff = Math.abs(toDate.getTime() - fromDate.getTime());
+            var noOfDays = Math.ceil(dateDiff / oneDay);
+            return noOfDays;
         },
         
         PrepareFolioData: function () {
