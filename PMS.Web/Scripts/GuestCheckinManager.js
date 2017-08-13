@@ -2215,8 +2215,12 @@
             pmsService.Handlers.OnGetRoomRateByPropertySuccess = function(data) {
                 window.GuestCheckinManager.PropertySettingResponseDto.RateSettings = null;
                 window.GuestCheckinManager.PropertySettingResponseDto.RateSettings = data.RoomRate;
-                //storing room rate data into session storage
-                pmsSession.SetItem("roomratedata", JSON.stringify(data.RoomRate));
+
+                //storing room rate data into session storage only for checkin screen exclude admin screen
+                var divRateTypeForCheckin = $('#divRateTypeForCheckin');
+                if (divRateTypeForCheckin && divRateTypeForCheckin.length > 0) {
+                    pmsSession.SetItem("roomratedata", JSON.stringify(data.RoomRate));
+                } 
 
                 window.GuestCheckinManager.PopulateRateTab(data);
                 // to show default 1st tab data hence pass index 0
