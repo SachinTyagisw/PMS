@@ -1368,7 +1368,7 @@
             $('#lName').val(guest.LastName);
             $('#phone').val(guest.MobileNumber);
             $('#email').val(guest.EmailAddress);
-            $('#dob').val(guest.DOB);
+            $('#dob').val(guest.DOB.replace('T', ' '));
             $("#ddlInitials [value=" + guest.Gender + "]").attr("selected", "true");
             $('#imgPhoto').css('visibility', 'visible');
             $('#imgPhoto').addClass('photo-added');
@@ -1422,20 +1422,24 @@
             var city = $('#ddlCity').val();
             var state = $('#ddlState').val();
             var country = $('#ddlCountry').val();
-            var noOfHours = $('#hoursComboBox').val();
+            var noOfHours = "-1";
             var baseRoomCharge = $("#baseRoomCharge");
             var totalRoomCharge = $('#totalRoomCharge');
-
-            if (!baseRoomCharge || baseRoomCharge.val().trim() === "" || baseRoomCharge.val() <= 0) {
+            
+            if (baseRoomCharge.length > 0 && (baseRoomCharge.val().trim() === "" || baseRoomCharge.val() <= 0)) {
                 alert('Room charge is not configured for your selection. Please contact administrator.');
                 baseRoomCharge.focus();
                 return false;
             }
 
-            if (!totalRoomCharge || totalRoomCharge.val() <= 0) {
+            if (totalRoomCharge.length > 0 && (totalRoomCharge.val().trim() === "" || totalRoomCharge.val() <= 0)) {
                 alert('Please contact administrator.');
                 totalRoomCharge.focus();
                 return false;
+            }
+
+            if ($("#hoursComboBox option:selected").text().indexOf('-') >= 0) {
+                noOfHours = parseInt($("#hoursComboBox option:selected").text().split('-')[0]);
             }
 
             if ($('#hourCheckin')[0].checked && noOfHours === '-1') {
@@ -2464,7 +2468,7 @@
     function populateGuestMapping(guestmapping) {
         $("#ddlIdType").val(guestmapping.IDTYPEID);
         $("#idDetails").val(guestmapping.IDDETAILS);
-        $("#idExpiry").val(guestmapping.IdExpiryDate);
+        $("#idExpiry").val(guestmapping.IdExpiryDate.replace('T', ' '));
         $('#ddlIdCountry').empty();
         $('#ddlIdState').empty();
         $('#ddlIdCountry').append(new Option(guestmapping.IdIssueCountry, guestmapping.IdIssueCountry));

@@ -228,7 +228,7 @@
             }
             
             if (data.GuestMappings[0] && data.GuestMappings[0].IdExpiryDate) {
-                $('#idExpiry').val(data.GuestMappings[0].IdExpiryDate);
+                $('#idExpiry').val(data.GuestMappings[0].IdExpiryDate.replace('T', ' '));
             }
             $('#ddlCountry').val(data.Country.Id);
             if (data.GuestMappings[0] && data.GuestMappings[0].IdIssueCountryID) {
