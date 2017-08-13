@@ -311,7 +311,7 @@
             
             invoice.PropertyId = getPropertyId();
             invoice.BookingId = window.GuestCheckinManager.BookingDto.BookingId ? window.GuestCheckinManager.BookingDto.BookingId : -1;
-            invoice.BookingId = 2116;
+            //invoice.BookingId = 2116;
             if (invoice.PropertyId <= -1 || invoice.BookingId <= -1) {
                 $('#saveInvoice').attr("disabled", true);
                 alert('Invalid bookingid or propertyid.');
@@ -319,9 +319,9 @@
             }
 
             invoice.Id = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-            invoice.Id = 1038;
+            //invoice.Id = 1038;
             invoice.GuestId = window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;
-            invoice.GuestId = 2082;
+            //invoice.GuestId = 2082;
             invoice.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             invoice.IsActive = true;
             invoice.TotalAmount = $('#total') && $('#total')[0] ? $('#total')[0].innerText : 0;
@@ -670,30 +670,21 @@
             return totalCharge;
         },
 
-        GetInvoiceById: function(invoiceId) {
-            args.invoiceId = invoiceId;
-            pmsService.GetInvoiceById(args);
+        GetInvoiceById: function(invoiceId) {            
+            // GetInvoiceById details by api calling 
+            var getInvoiceRequestDto = {};
+            getInvoiceRequestDto = prepareLoadInvoiceRequestDto();
+            getInvoiceRequestDto.InvoiceId = invoiceId;
+
+            pmsService.GetInvoiceById(getInvoiceRequestDto);
         },
 
         GetPaymentCharges: function() {
             // get paymentCharge details by api calling 
-            var paymentChargeRequestDto = {};
-            paymentChargeRequestDto.PropertyId = getPropertyId();
+            var getInvoiceRequestDto = {};
+            getInvoiceRequestDto = prepareLoadInvoiceRequestDto();
 
-            var dateFrom = $('#dateFrom').val();
-            var dateTo = $('#dateTo').val();
-            var roomType = $('#roomTypeDdl').val();
-            var roomId = $('#roomddl').val();
-            var noOfHours = 0;
-            if ($("#hoursComboBox option:selected").text().indexOf('-') >= 0) {
-                noOfHours = parseInt($("#hoursComboBox option:selected").text().split('-')[0]);
-            }
-            paymentChargeRequestDto.RoomTypeId = roomType;
-            paymentChargeRequestDto.RoomId = roomId;
-            paymentChargeRequestDto.IsHourly = $('#hourCheckin')[0].checked ? true : false;
-            paymentChargeRequestDto.NoOfHours = $('#hourCheckin')[0].checked && parseInt(noOfHours) > 0 ? parseInt(noOfHours) : 0;
-
-            pmsService.GetPaymentCharges(paymentChargeRequestDto);
+            pmsService.GetPaymentCharges(getInvoiceRequestDto);
         },
 
         GetBookingById: function(bookingId) {
@@ -705,44 +696,13 @@
         
         LoadInvoice: function () {
             $('.img-no-available').hide();
+            if (!validateLoadInvoiceCall()) return;
+
             var invoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-            invoiceId = 1038;
-            if (invoiceId === -1) {
-                $('#rateTypeDdl').attr("disabled", false);
-                var dateFrom = $('#dateFrom').val();
-                var dateTo = $('#dateTo').val();
-                var roomType = $('#roomTypeDdl').val();
-                var roomId = $('#roomddl').val();
-                var noOfHours = $('#hoursComboBox').val();
-
-                // check checkin date 
-                if (!dateFrom || dateFrom.length <= 0) {
-                    alert("Please select checkin date");
-                    $('#dateFrom').focus();
-                    return false;
-                }
-
-                // check checkout date 
-                if (!dateTo || dateTo.length <= 0) {
-                    alert("Please select checkout date");
-                    $('#dateTo').focus();
-                    return false;
-                }
-
-                if (!roomType || roomType === '-1') {
-                    alert("Select proper room type");
-                    return false;
-                }
-
-                if (!roomId || roomId === '-1') {
-                    alert("Select proper room");
-                    return false;
-                }
-
-                if ($('#hourCheckin')[0].checked && noOfHours === '-1') {
-                    alert("Please select proper checkout hours");
-                    return false;
-                }
+            //invoiceId = 1038;
+            $('#rateTypeDdl').attr("disabled", false);
+            
+            if (invoiceId === -1) {                
                 window.GuestCheckinManager.GetPaymentType();
                 window.GuestCheckinManager.GetPaymentCharges();
             }
@@ -785,7 +745,8 @@
             if (address) {
                 populateAddress(address);
             }
-            window.GuestCheckinManager.MakeReadOnly(true);
+            // As of now business reqs doesnt want to make UI fields readonly
+            //window.GuestCheckinManager.MakeReadOnly(true);
             window.GuestCheckinManager.LoadInvoice();
         },
 
@@ -1642,8 +1603,8 @@
                 return divToPrint[0].innerText;
             }
             return "No data is available for printing";
-        },
-
+        },        
+        
         AjaxHandlers: function() {
             // ajax handlers start
                 pmsService.Handlers.OnAddBookingSuccess = function (data) {
@@ -2368,6 +2329,73 @@
 
         //}
     };
+    
+    function prepareLoadInvoiceRequestDto() {
+        var getInvoiceRequestDto = {};
+
+        var dateFrom = $('#dateFrom').val();
+        var dateTo = $('#dateTo').val();
+        var roomType = $('#roomTypeDdl').val();
+        var roomId = $('#roomddl').val();
+        var noOfHours = 0;
+        var noOfDays = 1;
+        if (!dateFrom || !dateTo) {
+            noOfDays = 1;
+        } else {
+            var daysDiff = window.GuestCheckinManager.GetDays(dateFrom, dateTo);
+            noOfDays = daysDiff <= 0 ? 1 : daysDiff;
+        }
+
+        if ($("#hoursComboBox option:selected").text().indexOf('-') >= 0) {
+            noOfHours = parseInt($("#hoursComboBox option:selected").text().split('-')[0]);
+        }
+        getInvoiceRequestDto.PropertyId = getPropertyId();
+        getInvoiceRequestDto.RoomTypeId = roomType;
+        getInvoiceRequestDto.RoomId = roomId;
+        getInvoiceRequestDto.IsHourly = $('#hourCheckin')[0].checked ? true : false;
+        getInvoiceRequestDto.NoOfHours = $('#hourCheckin')[0].checked && parseInt(noOfHours) > 0 ? parseInt(noOfHours) : 0;        
+        getInvoiceRequestDto.NoOfDays = noOfDays;
+       
+        return getInvoiceRequestDto;
+    }
+
+    function validateLoadInvoiceCall(){
+        var dateFrom = $('#dateFrom').val();
+        var dateTo = $('#dateTo').val();
+        var roomType = $('#roomTypeDdl').val();
+        var roomId = $('#roomddl').val();
+        var noOfHours = $('#hoursComboBox').val();
+
+        // check checkin date 
+        if (!dateFrom || dateFrom.length <= 0) {
+            alert("Please select checkin date");
+            $('#dateFrom').focus();
+            return false;
+        }
+
+        // check checkout date 
+        if (!dateTo || dateTo.length <= 0) {
+            alert("Please select checkout date");
+            $('#dateTo').focus();
+            return false;
+        }
+
+        if (!roomType || roomType === '-1') {
+            alert("Select proper room type");
+            return false;
+        }
+
+        if (!roomId || roomId === '-1') {
+            alert("Select proper room");
+            return false;
+        }
+
+        if ($('#hourCheckin')[0].checked && noOfHours === '-1') {
+            alert("Please select proper checkout hours");
+            return false;
+        }
+        return true;
+    }
 
     function sortHourlyDdl(ddlHourlyOptions, ddlHourly) {
         var arr = ddlHourlyOptions.map(function(_, o) {
@@ -2627,7 +2655,7 @@
                 payment.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
                 payment.CreatedBy = getCreatedBy();
                 payment.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-                payment.InvoiceId = 1038;
+                //payment.InvoiceId = 1038;
                 paymentDetail.push(payment);
 
             }
@@ -2654,7 +2682,7 @@
                 otherTax.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
                 otherTax.CreatedBy = getCreatedBy();
                 otherTax.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-                otherTax.InvoiceId = 1038;
+                //otherTax.InvoiceId = 1038;
                 invoiceItem.push(otherTax);
             }
         }
@@ -2666,7 +2694,7 @@
         baseRoomCharge.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
         baseRoomCharge.CreatedBy = getCreatedBy();
         baseRoomCharge.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-        baseRoomCharge.InvoiceId = 1038;
+        //baseRoomCharge.InvoiceId = 1038;
 
         invoiceItem.push(baseRoomCharge);
 
@@ -2677,7 +2705,7 @@
         totalRoomCharge.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
         totalRoomCharge.CreatedBy = getCreatedBy();
         totalRoomCharge.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-        totalRoomCharge.InvoiceId = 1038;
+        //totalRoomCharge.InvoiceId = 1038;
 
         invoiceItem.push(totalRoomCharge);
 
@@ -2700,7 +2728,7 @@
             tax.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             tax.CreatedBy = getCreatedBy();
             tax.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-            tax.InvoiceId = 1038;
+            //tax.InvoiceId = 1038;
             taxDetails.push(tax);
         }
         return taxDetails;
