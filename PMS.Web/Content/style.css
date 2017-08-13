@@ -5321,6 +5321,10 @@ dl.dropdown dd ul li a {
 dl.dropdown dd ul li a:hover {
   background-color: #fff;
 }
+#invoice-table #creditNumber, #invoice-table #creditName, #invoice-table #creditExpiry, #invoice-table #cardType {
+    border: 1px solid #ddd;
+    width: 120px;
+}
 /*-- Print --*/
 #printarea .row .col-sm-6{
     text-align: left;
