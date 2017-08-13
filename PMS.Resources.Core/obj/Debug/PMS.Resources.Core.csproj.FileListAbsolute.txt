@@ -15,16 +15,3 @@ D:\PMS\PMS.Resources.Core\bin\Debug\System.Web.Http.WebHost.xml
 D:\PMS\PMS.Resources.Core\obj\Debug\PMS.Resources.Core.csprojResolveAssemblyReference.cache
 D:\PMS\PMS.Resources.Core\obj\Debug\PMS.Resources.Core.dll
 D:\PMS\PMS.Resources.Core\obj\Debug\PMS.Resources.Core.pdb
-D:\Training_Stuffs\PMS\PMS.Resources.Core\bin\Debug\PMS.Resources.Core.dll
-D:\Training_Stuffs\PMS\PMS.Resources.Core\bin\Debug\PMS.Resources.Core.pdb
-D:\Training_Stuffs\PMS\PMS.Resources.Core\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Caching.dll
-D:\Training_Stuffs\PMS\PMS.Resources.Core\bin\Debug\Microsoft.Practices.ServiceLocation.dll
-D:\Training_Stuffs\PMS\PMS.Resources.Core\bin\Debug\Microsoft.Practices.Unity.Configuration.dll
-D:\Training_Stuffs\PMS\PMS.Resources.Core\bin\Debug\Microsoft.Practices.Unity.Interception.Configuration.dll
-D:\Training_Stuffs\PMS\PMS.Resources.Core\bin\Debug\Microsoft.Practices.Unity.Interception.dll
-D:\Training_Stuffs\PMS\PMS.Resources.Core\bin\Debug\System.Web.Http.dll
-D:\Training_Stuffs\PMS\PMS.Resources.Core\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Common.dll
-D:\Training_Stuffs\PMS\PMS.Resources.Core\bin\Debug\System.Web.Http.xml
-D:\Training_Stuffs\PMS\PMS.Resources.Core\obj\Debug\PMS.Resources.Core.csprojResolveAssemblyReference.cache
-D:\Training_Stuffs\PMS\PMS.Resources.Core\obj\Debug\PMS.Resources.Core.dll
-D:\Training_Stuffs\PMS\PMS.Resources.Core\obj\Debug\PMS.Resources.Core.pdb

@@ -51,6 +51,20 @@
     <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <NavigationProperty Name="Addresses" Relationship="Self.FK__Address__Address__1920BF5C" FromRole="AddressType" ToRole="Address" />
   </EntityType>
+  <EntityType Name="AllTax">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TaxShortName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+    <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Taxes" Relationship="Self.FK__Taxes__TaxId__39237A9A" FromRole="AllTaxes" ToRole="Taxes" />
+  </EntityType>
   <EntityType Name="Booking">
     <Key>
       <PropertyRef Name="ID" />
@@ -71,10 +85,8 @@
     <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="ISHOURLYCHECKIN" Type="Boolean" />
     <Property Name="HOURSTOSTAY" Type="Int32" />
-    <Property Name="RateTypeId" Type="Int32" />
     <NavigationProperty Name="AdditionalGuests" Relationship="Self.FK__Additiona__Booki__6442E2C9" FromRole="Booking" ToRole="AdditionalGuests" />
     <NavigationProperty Name="Property" Relationship="Self.FK__Booking__Propert__1273C1CD" FromRole="Booking" ToRole="Property" />
-    <NavigationProperty Name="RateType" Relationship="Self.FK__Booking__RateTyp__324172E1" FromRole="Booking" ToRole="RateType" />
     <NavigationProperty Name="GuestRewards" Relationship="Self.FK__GuestRewa__Booki__38996AB5" FromRole="Booking" ToRole="GuestReward" />
     <NavigationProperty Name="Invoices" Relationship="Self.FK__Invoice__Booking__3C69FB99" FromRole="Booking" ToRole="Invoice" />
     <NavigationProperty Name="RoomBookings" Relationship="Self.FK__RoomBooki__Booki__33D4B598" FromRole="Booking" ToRole="RoomBooking" />
@@ -91,6 +103,7 @@
     <Property Name="CreatedOn" Type="DateTime" Precision="3" />
     <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="ExtraCharges" Relationship="Self.FK__ExtraChar__Facil__2057CCD0" FromRole="ChargableFacility" ToRole="ExtraCharges" />
   </EntityType>
   <EntityType Name="City">
     <Key>
@@ -141,13 +154,14 @@
     </Key>
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="PropertyID" Type="Int32" />
-    <Property Name="FacilityName" Type="String" MaxLength="400" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="FacilityKey" Type="Int32" />
     <Property Name="Value" Type="Decimal" Precision="19" Scale="4" />
     <Property Name="IsActive" Type="Boolean" Nullable="false" />
     <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="CreatedOn" Type="DateTime" Precision="3" />
     <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="ChargableFacility" Relationship="Self.FK__ExtraChar__Facil__2057CCD0" FromRole="ExtraCharges" ToRole="ChargableFacility" />
     <NavigationProperty Name="Property" Relationship="Self.FK__ExtraChar__Prope__214BF109" FromRole="ExtraCharges" ToRole="Property" />
   </EntityType>
   <EntityType Name="Guest">
@@ -240,7 +254,6 @@
     <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
     <Property Name="DISCOUNT" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="CreditCardDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Booking" Relationship="Self.FK__Invoice__Booking__3C69FB99" FromRole="Invoice" ToRole="Booking" />
     <NavigationProperty Name="Guest" Relationship="Self.FK__Invoice__GuestID__3D5E1FD2" FromRole="Invoice" ToRole="Guest" />
     <NavigationProperty Name="InvoiceTaxDetails" Relationship="Self.FK__InvoiceTa__Invoi__403A8C7D" FromRole="Invoice" ToRole="InvoiceTaxDetail" />
@@ -289,21 +302,6 @@
     <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
     <NavigationProperty Name="Invoice" Relationship="Self.FK__InvoiceTa__Invoi__403A8C7D" FromRole="InvoiceTaxDetail" ToRole="Invoice" />
   </EntityType>
-  <EntityType Name="PaymentType">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="PropertyID" Type="Int32" />
-    <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="IsActive" Type="Boolean" Nullable="false" />
-    <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
-    <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="Property" Relationship="Self.FK__PaymentTy__Prope__0C1BC9F9" FromRole="PaymentType" ToRole="Property" />
-  </EntityType>
   <EntityType Name="Property">
     <Key>
       <PropertyRef Name="ID" />
@@ -324,17 +322,12 @@
     <Property Name="LogoPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="WebSiteAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="TimeZone" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="CurrencyId" Type="Int32" />
+    <Property Name="CurrencyID" Type="Int32" />
     <Property Name="CheckinTime" Type="Time" Precision="7" />
     <Property Name="CheckoutTime" Type="Time" Precision="7" />
     <Property Name="CloseOfDayTime" Type="Time" Precision="7" />
-    <Property Name="State" Type="Int32" />
-    <Property Name="Country" Type="Int32" />
-    <Property Name="City" Type="Int32" />
-    <Property Name="Zipcode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Bookings" Relationship="Self.FK__Booking__Propert__1273C1CD" FromRole="Property" ToRole="Booking" />
     <NavigationProperty Name="ExtraCharges" Relationship="Self.FK__ExtraChar__Prope__214BF109" FromRole="Property" ToRole="ExtraCharges" />
-    <NavigationProperty Name="PaymentTypes" Relationship="Self.FK__PaymentTy__Prope__0C1BC9F9" FromRole="Property" ToRole="PaymentType" />
     <NavigationProperty Name="Rates" Relationship="Self.FK__Rates__PropertyI__24285DB4" FromRole="Property" ToRole="Rates" />
     <NavigationProperty Name="RateTypes" Relationship="Self.FK__RateType__Proper__267ABA7A" FromRole="Property" ToRole="RateType" />
     <NavigationProperty Name="RateTypes1" Relationship="Self.FK__RateType__Proper__27F8EE98" FromRole="Property" ToRole="RateType" />
@@ -342,20 +335,6 @@
     <NavigationProperty Name="RoomPricings" Relationship="Self.FK__RoomPrici__Prope__2A4B4B5E" FromRole="Property" ToRole="RoomPricing" />
     <NavigationProperty Name="RoomTypes" Relationship="Self.FK__RoomType__Proper__22AA2996" FromRole="Property" ToRole="RoomType" />
     <NavigationProperty Name="Taxes" Relationship="Self.FK__Taxes__PropertyI__382F5661" FromRole="Property" ToRole="Taxes" />
-  </EntityType>
-  <EntityType Name="PropertyFloor">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="PropertyId" Type="Int32" />
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="FloorNumber" Type="Int32" />
-    <Property Name="IsActive" Type="Boolean" Nullable="false" />
-    <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="CreatedOn" Type="DateTime" Precision="3" />
-    <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="Rooms" Relationship="Self.FK__Room__FloorId__2AA05119" FromRole="PropertyFloor" ToRole="Room" />
   </EntityType>
   <EntityType Name="Rate">
     <Key>
@@ -373,10 +352,8 @@
     <Property Name="CreatedOn" Type="DateTime" Precision="3" />
     <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
-    <Property Name="RoomId" Type="Int32" />
     <NavigationProperty Name="Property" Relationship="Self.FK__Rates__PropertyI__24285DB4" FromRole="Rates" ToRole="Property" />
     <NavigationProperty Name="RateType" Relationship="Self.FK__Rates__RateTypeI__251C81ED" FromRole="Rates" ToRole="RateType" />
-    <NavigationProperty Name="Room" Relationship="Self.FK__Rates__RoomId__2B947552" FromRole="Rates" ToRole="Room" />
     <NavigationProperty Name="RoomType" Relationship="Self.FK__Rates__RoomTypeI__2610A626" FromRole="Rates" ToRole="RoomType" />
   </EntityType>
   <EntityType Name="RateType">
@@ -390,10 +367,9 @@
     <Property Name="CreatedOn" Type="DateTime" Precision="3" />
     <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
-    <Property Name="NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="Units" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Hours" Type="Int32" />
-    <NavigationProperty Name="Bookings" Relationship="Self.FK__Booking__RateTyp__324172E1" FromRole="RateType" ToRole="Booking" />
+    <Property Name="NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="RoomTypeID" Type="Int32" />
+    <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Property" Relationship="Self.FK__RateType__Proper__267ABA7A" FromRole="RateType" ToRole="Property" />
     <NavigationProperty Name="Property1" Relationship="Self.FK__RateType__Proper__27F8EE98" FromRole="RateType" ToRole="Property" />
     <NavigationProperty Name="Rates" Relationship="Self.FK__Rates__RateTypeI__251C81ED" FromRole="RateType" ToRole="Rates" />
@@ -426,10 +402,7 @@
     <Property Name="CreatedOn" Type="DateTime" Precision="3" />
     <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
-    <Property Name="FloorId" Type="Int32" />
     <NavigationProperty Name="Property" Relationship="Self.FK__Room__PropertyID__2F10007B" FromRole="Room" ToRole="Property" />
-    <NavigationProperty Name="PropertyFloor" Relationship="Self.FK__Room__FloorId__2AA05119" FromRole="Room" ToRole="PropertyFloor" />
-    <NavigationProperty Name="Rates" Relationship="Self.FK__Rates__RoomId__2B947552" FromRole="Room" ToRole="Rates" />
     <NavigationProperty Name="RoomType" Relationship="Self.FK__Room__RoomTypeID__2E1BDC42" FromRole="Room" ToRole="RoomType" />
   </EntityType>
   <EntityType Name="RoomBooking">
@@ -481,7 +454,7 @@
     <Property Name="CreatedOn" Type="DateTime" Precision="3" />
     <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
-    <Property Name="NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Property" Relationship="Self.FK__RoomType__Proper__22AA2996" FromRole="RoomType" ToRole="Property" />
     <NavigationProperty Name="Rates" Relationship="Self.FK__Rates__RoomTypeI__2610A626" FromRole="RoomType" ToRole="Rates" />
@@ -516,7 +489,7 @@
     <Property Name="CreatedOn" Type="DateTime" Precision="3" />
     <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
     <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
-    <Property Name="TaxName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AllTax" Relationship="Self.FK__Taxes__TaxId__39237A9A" FromRole="Taxes" ToRole="AllTaxes" />
     <NavigationProperty Name="Property" Relationship="Self.FK__Taxes__PropertyI__382F5661" FromRole="Taxes" ToRole="Property" />
   </EntityType>
   <Association Name="FK__Additiona__Booki__6442E2C9">
@@ -555,6 +528,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__Taxes__TaxId__39237A9A">
+    <End Role="AllTaxes" Type="Self.AllTax" Multiplicity="0..1" />
+    <End Role="Taxes" Type="Self.Tax" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AllTaxes">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Taxes">
+        <PropertyRef Name="TaxId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__Booking__Propert__1273C1CD">
     <End Role="Property" Type="Self.Property" Multiplicity="1" />
     <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
@@ -564,18 +549,6 @@
       </Principal>
       <Dependent Role="Booking">
         <PropertyRef Name="PropertyID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__Booking__RateTyp__324172E1">
-    <End Role="RateType" Type="Self.RateType" Multiplicity="0..1" />
-    <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="RateType">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="Booking">
-        <PropertyRef Name="RateTypeId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -612,6 +585,18 @@
       </Principal>
       <Dependent Role="RoomBooking">
         <PropertyRef Name="BookingID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ExtraChar__Facil__2057CCD0">
+    <End Role="ChargableFacility" Type="Self.ChargableFacility" Multiplicity="0..1" />
+    <End Role="ExtraCharges" Type="Self.ExtraCharge" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ChargableFacility">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ExtraCharges">
+        <PropertyRef Name="FacilityKey" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -735,18 +720,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PaymentTy__Prope__0C1BC9F9">
-    <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
-    <End Role="PaymentType" Type="Self.PaymentType" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Property">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="PaymentType">
-        <PropertyRef Name="PropertyID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK__Rates__PropertyI__24285DB4">
     <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
     <End Role="Rates" Type="Self.Rate" Multiplicity="*" />
@@ -831,18 +804,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Room__FloorId__2AA05119">
-    <End Role="PropertyFloor" Type="Self.PropertyFloor" Multiplicity="0..1" />
-    <End Role="Room" Type="Self.Room" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PropertyFloor">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="Room">
-        <PropertyRef Name="FloorId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK__Rates__RateTypeI__251C81ED">
     <End Role="RateType" Type="Self.RateType" Multiplicity="0..1" />
     <End Role="Rates" Type="Self.Rate" Multiplicity="*" />
@@ -852,18 +813,6 @@
       </Principal>
       <Dependent Role="Rates">
         <PropertyRef Name="RateTypeID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__Rates__RoomId__2B947552">
-    <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
-    <End Role="Rates" Type="Self.Rate" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Room">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="Rates">
-        <PropertyRef Name="RoomId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -919,6 +868,7 @@
     <EntitySet Name="AdditionalGuests" EntityType="Self.AdditionalGuest" />
     <EntitySet Name="Addresses" EntityType="Self.Address" />
     <EntitySet Name="AddressTypes" EntityType="Self.AddressType" />
+    <EntitySet Name="AllTaxes" EntityType="Self.AllTax" />
     <EntitySet Name="Bookings" EntityType="Self.Booking" />
     <EntitySet Name="ChargableFacilities" EntityType="Self.ChargableFacility" />
     <EntitySet Name="Cities" EntityType="Self.City" />
@@ -933,9 +883,7 @@
     <EntitySet Name="InvoiceItems" EntityType="Self.InvoiceItem" />
     <EntitySet Name="InvoicePaymentDetails" EntityType="Self.InvoicePaymentDetail" />
     <EntitySet Name="InvoiceTaxDetails" EntityType="Self.InvoiceTaxDetail" />
-    <EntitySet Name="PaymentTypes" EntityType="Self.PaymentType" />
     <EntitySet Name="Properties" EntityType="Self.Property" />
-    <EntitySet Name="PropertyFloors" EntityType="Self.PropertyFloor" />
     <EntitySet Name="Rates" EntityType="Self.Rate" />
     <EntitySet Name="RateTypes" EntityType="Self.RateType" />
     <EntitySet Name="RewardCategories" EntityType="Self.RewardCategory" />
@@ -957,12 +905,12 @@
       <End Role="Guest" EntitySet="Guests" />
       <End Role="Address" EntitySet="Addresses" />
     </AssociationSet>
+    <AssociationSet Name="FK__Taxes__TaxId__39237A9A" Association="Self.FK__Taxes__TaxId__39237A9A">
+      <End Role="AllTaxes" EntitySet="AllTaxes" />
+      <End Role="Taxes" EntitySet="Taxes" />
+    </AssociationSet>
     <AssociationSet Name="FK__Booking__Propert__1273C1CD" Association="Self.FK__Booking__Propert__1273C1CD">
       <End Role="Property" EntitySet="Properties" />
-      <End Role="Booking" EntitySet="Bookings" />
-    </AssociationSet>
-    <AssociationSet Name="FK__Booking__RateTyp__324172E1" Association="Self.FK__Booking__RateTyp__324172E1">
-      <End Role="RateType" EntitySet="RateTypes" />
       <End Role="Booking" EntitySet="Bookings" />
     </AssociationSet>
     <AssociationSet Name="FK__GuestRewa__Booki__38996AB5" Association="Self.FK__GuestRewa__Booki__38996AB5">
@@ -976,6 +924,10 @@
     <AssociationSet Name="FK__RoomBooki__Booki__33D4B598" Association="Self.FK__RoomBooki__Booki__33D4B598">
       <End Role="Booking" EntitySet="Bookings" />
       <End Role="RoomBooking" EntitySet="RoomBookings" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ExtraChar__Facil__2057CCD0" Association="Self.FK__ExtraChar__Facil__2057CCD0">
+      <End Role="ChargableFacility" EntitySet="ChargableFacilities" />
+      <End Role="ExtraCharges" EntitySet="ExtraCharges" />
     </AssociationSet>
     <AssociationSet Name="FK__City__CountryID__48CFD27E" Association="Self.FK__City__CountryID__48CFD27E">
       <End Role="Country" EntitySet="Countries" />
@@ -1017,10 +969,6 @@
       <End Role="Invoice" EntitySet="Invoices" />
       <End Role="InvoiceTaxDetail" EntitySet="InvoiceTaxDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__PaymentTy__Prope__0C1BC9F9" Association="Self.FK__PaymentTy__Prope__0C1BC9F9">
-      <End Role="Property" EntitySet="Properties" />
-      <End Role="PaymentType" EntitySet="PaymentTypes" />
-    </AssociationSet>
     <AssociationSet Name="FK__Rates__PropertyI__24285DB4" Association="Self.FK__Rates__PropertyI__24285DB4">
       <End Role="Property" EntitySet="Properties" />
       <End Role="Rates" EntitySet="Rates" />
@@ -1049,16 +997,8 @@
       <End Role="Property" EntitySet="Properties" />
       <End Role="Taxes" EntitySet="Taxes" />
     </AssociationSet>
-    <AssociationSet Name="FK__Room__FloorId__2AA05119" Association="Self.FK__Room__FloorId__2AA05119">
-      <End Role="PropertyFloor" EntitySet="PropertyFloors" />
-      <End Role="Room" EntitySet="Rooms" />
-    </AssociationSet>
     <AssociationSet Name="FK__Rates__RateTypeI__251C81ED" Association="Self.FK__Rates__RateTypeI__251C81ED">
       <End Role="RateType" EntitySet="RateTypes" />
-      <End Role="Rates" EntitySet="Rates" />
-    </AssociationSet>
-    <AssociationSet Name="FK__Rates__RoomId__2B947552" Association="Self.FK__Rates__RoomId__2B947552">
-      <End Role="Room" EntitySet="Rooms" />
       <End Role="Rates" EntitySet="Rates" />
     </AssociationSet>
     <AssociationSet Name="FK__Rates__RoomTypeI__2610A626" Association="Self.FK__Rates__RoomTypeI__2610A626">
@@ -1090,51 +1030,22 @@
       <Parameter Name="NOOFHOURS" Mode="In" Type="Int32" />
       <Parameter Name="NOOFDAYS" Mode="In" Type="Int32" />
       <Parameter Name="ISHOURLY" Mode="In" Type="Boolean" />
-      <Parameter Name="RoomID" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="GetBookingDetails" ReturnType="Collection(PmsModel.GetBookingDetails_Result)">
-      <Parameter Name="BookingID" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="GETGUESTTRANSACTIONS" ReturnType="Collection(PmsModel.GETGUESTTRANSACTIONS_Result)">
       <Parameter Name="GUESTID" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="GETINVOICEDETAILS" ReturnType="Collection(PmsModel.GETINVOICEDETAILS_Result)">
-      <Parameter Name="INVOICEID" Mode="In" Type="Int32" />
-      <Parameter Name="PROPERTYID" Mode="In" Type="Int32" />
-      <Parameter Name="ROOMTYPEID" Mode="In" Type="Int32" />
-      <Parameter Name="RATETYPEID" Mode="In" Type="Int32" />
-      <Parameter Name="NOOFHOURS" Mode="In" Type="Int32" />
-      <Parameter Name="NOOFDAYS" Mode="In" Type="Int32" />
-      <Parameter Name="ISHOURLY" Mode="In" Type="Boolean" />
-      <Parameter Name="RoomID" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="GetRoomRates" ReturnType="Collection(PmsModel.GetRoomRates_Result)">
-      <Parameter Name="PropertyId" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="GETROOMSTATUS" ReturnType="Collection(PmsModel.GETROOMSTATUS_Result)">
       <Parameter Name="PROPERTYID" Mode="In" Type="Int32" />
       <Parameter Name="CHECKINTIME" Mode="In" Type="DateTime" />
       <Parameter Name="CHECKOUTDATE" Mode="In" Type="DateTime" />
     </FunctionImport>
-    <FunctionImport Name="InsertBooking" ReturnType="Collection(PmsModel.InsertBooking_Result)">
+    <FunctionImport Name="InsertBooking">
       <Parameter Name="propertyID" Mode="In" Type="Int32" />
       <Parameter Name="bookingXML" Mode="In" Type="String" />
-      <Parameter Name="BOOKINGID" Mode="InOut" Type="Int32" />
-      <Parameter Name="GUESTID" Mode="InOut" Type="Int32" />
     </FunctionImport>
-    <FunctionImport Name="InsertInvoice" ReturnType="Collection(Int32)">
+    <FunctionImport Name="InsertInvoice">
       <Parameter Name="propertyID" Mode="In" Type="Int32" />
       <Parameter Name="InvoiceXML" Mode="In" Type="String" />
-      <Parameter Name="INVOICEID" Mode="InOut" Type="Int32" />
-    </FunctionImport>
-    <FunctionImport Name="InsertRoom">
-      <Parameter Name="propertyID" Mode="In" Type="Int32" />
-      <Parameter Name="RoomXML" Mode="In" Type="String" />
-    </FunctionImport>
-    <FunctionImport Name="InsertRoomRates" ReturnType="Collection(Boolean)">
-      <Parameter Name="propertyID" Mode="In" Type="Int32" />
-      <Parameter Name="RateXML" Mode="In" Type="String" />
-      <Parameter Name="Status" Mode="InOut" Type="Boolean" />
     </FunctionImport>
     <FunctionImport Name="UpdateBooking">
       <Parameter Name="BOOKINGID" Mode="In" Type="Int32" />
@@ -1144,19 +1055,16 @@
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="GETALLBOOKINGS_Result">
-    <Property Type="Int32" Name="ID" Nullable="true" />
-    <Property Type="Int32" Name="PropertyID" Nullable="true" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="Int32" Name="PROPERTYID" Nullable="false" />
     <Property Type="DateTime" Name="CHECKINTIME" Nullable="true" Precision="23" />
     <Property Type="DateTime" Name="CHECKOUTTIME" Nullable="true" Precision="23" />
-    <Property Type="String" Name="Status" Nullable="true" />
-    <Property Type="String" Name="FIRSTNAME" Nullable="true" />
-    <Property Type="String" Name="LASTNAME" Nullable="true" />
-    <Property Type="Int32" Name="GUESTID" Nullable="true" />
-    <Property Type="Int32" Name="ROOMBOOKINGID" Nullable="true" />
-    <Property Type="Int32" Name="ROOMID" Nullable="true" />
-    <Property Type="String" Name="ROOMNUMBER" Nullable="true" />
-    <Property Type="Int32" Name="RoomTypeID" Nullable="true" />
-    <Property Type="String" Name="RoomTypeName" Nullable="true" />
+    <Property Type="String" Name="FIRSTNAME" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="LASTNAME" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="GUESTID" Nullable="false" />
+    <Property Type="Int32" Name="ROOMBOOKINGID" Nullable="false" />
+    <Property Type="Int32" Name="ROOMID" Nullable="false" />
+    <Property Type="String" Name="ROOMNUMBER" Nullable="true" MaxLength="200" />
   </ComplexType>
   <ComplexType Name="GETALLGUESTS_Result">
     <Property Type="Int32" Name="ID" Nullable="false" />
@@ -1173,126 +1081,17 @@
     <Property Type="Decimal" Name="ITEMAMOUNT" Nullable="true" Precision="19" />
     <Property Type="Int32" Name="OrderBy" Nullable="false" />
   </ComplexType>
-  <ComplexType Name="GetBookingDetails_Result">
-    <Property Type="Int32" Name="BookingID" Nullable="false" />
-    <Property Type="Int32" Name="PropertyID" Nullable="false" />
-    <Property Type="DateTime" Name="CheckinTime" Nullable="true" Precision="23" />
-    <Property Type="DateTime" Name="CheckoutTime" Nullable="true" Precision="23" />
-    <Property Type="Int32" Name="NoOfAdult" Nullable="true" />
-    <Property Type="Int32" Name="NoOfChild" Nullable="true" />
-    <Property Type="String" Name="GuestRemarks" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="TransactionRemarks" Nullable="true" MaxLength="200" />
-    <Property Type="Boolean" Name="IsActive" Nullable="false" />
-    <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="200" />
-    <Property Type="DateTime" Name="CreatedOn" Nullable="true" Precision="23" />
-    <Property Type="String" Name="LastUpdatedBy" Nullable="true" MaxLength="200" />
-    <Property Type="DateTime" Name="LastUpdatedOn" Nullable="true" Precision="23" />
-    <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
-    <Property Type="Boolean" Name="ISHOURLYCHECKIN" Nullable="true" />
-    <Property Type="Int32" Name="HOURSTOSTAY" Nullable="true" />
-    <Property Type="Int32" Name="RateTypeId" Nullable="true" />
-    <Property Type="Int32" Name="AdditionalGuestID" Nullable="true" />
-    <Property Type="String" Name="AdditionalGuestFirstName" Nullable="true" MaxLength="100" />
-    <Property Type="String" Name="AdditionalGuestLastName" Nullable="true" MaxLength="100" />
-    <Property Type="String" Name="AdditionalGuestIDPath" Nullable="true" />
-    <Property Type="String" Name="AdditionalGuestGender" Nullable="true" MaxLength="10" />
-    <Property Type="Int32" Name="RoomBookingRoomId" Nullable="true" />
-    <Property Type="Int32" Name="RoomBookingID" Nullable="true" />
-    <Property Type="Int32" Name="RoomBookingGuestID" Nullable="true" />
-    <Property Type="Int32" Name="GuestMappingId" Nullable="true" />
-    <Property Type="Int32" Name="IDTYPEID" Nullable="true" />
-    <Property Type="Int32" Name="GuestMappingGuestID" Nullable="true" />
-    <Property Type="String" Name="GuestMappingIDDETAILS" Nullable="true" />
-    <Property Type="DateTime" Name="IDExpiryDate" Nullable="true" Precision="23" />
-    <Property Type="String" Name="IDIssueState" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="IDIssueCountry" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="GuestID" Nullable="true" />
-    <Property Type="String" Name="FirstName" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="LastName" Nullable="true" MaxLength="200" />
-    <Property Type="Int64" Name="MobileNumber" Nullable="true" />
-    <Property Type="String" Name="EmailAddress" Nullable="true" MaxLength="500" />
-    <Property Type="DateTime" Name="DOB" Nullable="true" />
-    <Property Type="String" Name="Gender" Nullable="true" MaxLength="10" />
-    <Property Type="String" Name="PhotoPath" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="RateTypeName" Nullable="true" />
-    <Property Type="Int32" Name="InvoiceId" Nullable="true" />
-    <Property Type="Int32" Name="RoomTypeID" Nullable="true" />
-    <Property Type="String" Name="RoomTypeName" Nullable="true" />
-    <Property Type="String" Name="RoomTypeShortName" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="RoomID" Nullable="true" />
-    <Property Type="String" Name="RoomNumber" Nullable="true" MaxLength="200" />
-    <Property Type="Int32" Name="AddressID" Nullable="true" />
-    <Property Type="Int32" Name="AddressTypeID" Nullable="true" />
-    <Property Type="String" Name="Address1" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="Address2" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="AddressCity" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="AddressState" Nullable="true" MaxLength="200" />
-    <Property Type="String" Name="AddressZipCode" Nullable="true" MaxLength="40" />
-    <Property Type="String" Name="AddressCountry" Nullable="true" MaxLength="200" />
-  </ComplexType>
   <ComplexType Name="GETGUESTTRANSACTIONS_Result">
-    <Property Type="String" Name="PROPERTYDETAILS" Nullable="true" />
-    <Property Type="String" Name="PropertyName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="PROPERTY" Nullable="true" />
     <Property Type="DateTime" Name="CheckinTime" Nullable="true" Precision="23" />
     <Property Type="DateTime" Name="CheckoutTime" Nullable="true" Precision="23" />
-    <Property Type="String" Name="ROOMTYPE" Nullable="true" />
+    <Property Type="String" Name="ROOMTYPE" Nullable="false" />
     <Property Type="String" Name="ROOMNUMBER" Nullable="true" MaxLength="200" />
-  </ComplexType>
-  <ComplexType Name="GETINVOICEDETAILS_Result">
-    <Property Type="Int32" Name="InvoiceId" Nullable="false" />
-    <Property Type="Int32" Name="GuestID" Nullable="false" />
-    <Property Type="Int32" Name="BookingID" Nullable="false" />
-    <Property Type="Boolean" Name="IsPaid" Nullable="true" />
-    <Property Type="Decimal" Name="TotalAmount" Nullable="true" Precision="19" />
-    <Property Type="String" Name="FolioNumber" Nullable="true" MaxLength="200" />
-    <Property Type="Boolean" Name="InvoiceActive" Nullable="false" />
-    <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="200" />
-    <Property Type="DateTime" Name="CreatedOn" Nullable="true" Precision="23" />
-    <Property Type="String" Name="LastUpdatedBy" Nullable="true" MaxLength="200" />
-    <Property Type="DateTime" Name="LastUpdatedOn" Nullable="true" Precision="23" />
-    <Property Type="Decimal" Name="DISCOUNT" Nullable="true" Precision="19" />
-    <Property Type="String" Name="ItemName" Nullable="true" />
-    <Property Type="Decimal" Name="ItemValue" Nullable="true" Precision="19" />
-    <Property Type="String" Name="PaymentMode" Nullable="true" />
-    <Property Type="Decimal" Name="PaymentValue" Nullable="true" Precision="19" />
-    <Property Type="String" Name="PaymentDetails" Nullable="true" />
-    <Property Type="String" Name="TaxShortName" Nullable="true" />
-    <Property Type="Decimal" Name="TaxAmount" Nullable="true" Precision="7" Scale="2" />
-    <Property Type="String" Name="CreditCardDetail" Nullable="true" />
-  </ComplexType>
-  <ComplexType Name="GetRoomRates_Result">
-    <Property Type="Int32" Name="ID" Nullable="true" />
-    <Property Type="String" Name="Type" Nullable="true" MaxLength="20" />
-    <Property Type="Int32" Name="PropertyID" Nullable="true" />
-    <Property Type="Int32" Name="RateTypeID" Nullable="true" />
-    <Property Type="Int32" Name="RoomTypeID" Nullable="true" />
-    <Property Type="Int32" Name="InputKeyHours" Nullable="true" />
-    <Property Type="Decimal" Name="Value" Nullable="true" Precision="19" />
-    <Property Type="Boolean" Name="IsActive" Nullable="true" />
-    <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="200" />
-    <Property Type="DateTime" Name="CreatedOn" Nullable="true" Precision="23" />
-    <Property Type="String" Name="LastUpdatedBy" Nullable="true" MaxLength="200" />
-    <Property Type="DateTime" Name="LastUpdatedOn" Nullable="true" Precision="23" />
-    <Property Type="String" Name="RoomTypeName" Nullable="true" />
-    <Property Type="String" Name="RateTypeName" Nullable="true" />
-    <Property Type="Int32" Name="MasterRateTypeID" Nullable="false" />
-    <Property Type="Int32" Name="Hours" Nullable="true" />
-    <Property Type="Boolean" Name="RateTypeIsActive" Nullable="false" />
-    <Property Type="String" Name="Units" Nullable="true" MaxLength="50" />
-    <Property Type="Int32" Name="RoomId" Nullable="true" />
-    <Property Type="String" Name="RoomNumber" Nullable="true" MaxLength="200" />
-    <Property Type="Boolean" Name="RoomStatus" Nullable="true" />
-    <Property Type="Int32" Name="FloorNumber" Nullable="true" />
-    <Property Type="Int32" Name="FloorId" Nullable="true" />
   </ComplexType>
   <ComplexType Name="GETROOMSTATUS_Result">
     <Property Type="Int32" Name="ID" Nullable="false" />
     <Property Type="Int32" Name="ROOMTypeID" Nullable="false" />
     <Property Type="String" Name="NUMBER" Nullable="true" MaxLength="200" />
     <Property Type="String" Name="ROOMSTATUS" Nullable="false" MaxLength="9" />
-  </ComplexType>
-  <ComplexType Name="InsertBooking_Result">
-    <Property Type="Int32" Name="Column1" Nullable="true" />
-    <Property Type="Int32" Name="Column2" Nullable="true" />
   </ComplexType>
 </Schema>
