@@ -5,3 +5,10 @@ D:\PMS\PMS.Resources.DTO\bin\Debug\PMS.Resources.Entities.pdb
 D:\PMS\PMS.Resources.DTO\obj\Debug\PMS.Resources.DTO.csprojResolveAssemblyReference.cache
 D:\PMS\PMS.Resources.DTO\obj\Debug\PMS.Resources.DTO.dll
 D:\PMS\PMS.Resources.DTO\obj\Debug\PMS.Resources.DTO.pdb
+D:\Training_Stuffs\PMS\PMS.Resources.DTO\bin\Debug\PMS.Resources.DTO.dll
+D:\Training_Stuffs\PMS\PMS.Resources.DTO\bin\Debug\PMS.Resources.DTO.pdb
+D:\Training_Stuffs\PMS\PMS.Resources.DTO\bin\Debug\PMS.Resources.Entities.dll
+D:\Training_Stuffs\PMS\PMS.Resources.DTO\bin\Debug\PMS.Resources.Entities.pdb
+D:\Training_Stuffs\PMS\PMS.Resources.DTO\obj\Debug\PMS.Resources.DTO.csprojResolveAssemblyReference.cache
+D:\Training_Stuffs\PMS\PMS.Resources.DTO\obj\Debug\PMS.Resources.DTO.dll
+D:\Training_Stuffs\PMS\PMS.Resources.DTO\obj\Debug\PMS.Resources.DTO.pdb

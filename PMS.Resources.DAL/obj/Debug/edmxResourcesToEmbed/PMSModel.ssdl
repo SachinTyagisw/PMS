@@ -47,19 +47,6 @@
     <Property Name="LastUpdatedOn" Type="datetime" />
     <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
   </EntityType>
-  <EntityType Name="AllTaxes">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="TaxShortName" Type="nvarchar" MaxLength="100" />
-    <Property Name="Description" Type="nvarchar(max)" />
-    <Property Name="IsActive" Type="bit" Nullable="false" />
-    <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
-    <Property Name="CreatedOn" Type="datetime" />
-    <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
-    <Property Name="LastUpdatedOn" Type="datetime" />
-  </EntityType>
   <EntityType Name="Booking">
     <Key>
       <PropertyRef Name="ID" />
@@ -80,6 +67,7 @@
     <Property Name="Status" Type="nvarchar" MaxLength="50" />
     <Property Name="ISHOURLYCHECKIN" Type="bit" />
     <Property Name="HOURSTOSTAY" Type="int" />
+    <Property Name="RateTypeId" Type="int" />
   </EntityType>
   <EntityType Name="ChargableFacility">
     <Key>
@@ -139,7 +127,7 @@
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="PropertyID" Type="int" />
-    <Property Name="FacilityKey" Type="int" />
+    <Property Name="FacilityName" Type="nvarchar" MaxLength="400" Nullable="false" />
     <Property Name="Value" Type="money" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
@@ -227,6 +215,7 @@
     <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="LastUpdatedOn" Type="datetime" />
     <Property Name="DISCOUNT" Type="money" />
+    <Property Name="CreditCardDetail" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="InvoiceItems">
     <Key>
@@ -271,6 +260,20 @@
     <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="LastUpdatedOn" Type="datetime" />
   </EntityType>
+  <EntityType Name="PaymentType">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PropertyID" Type="int" />
+    <Property Name="ShortName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Description" Type="nvarchar(max)" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
+    <Property Name="LastUpdatedOn" Type="datetime" />
+  </EntityType>
   <EntityType Name="Property">
     <Key>
       <PropertyRef Name="ID" />
@@ -291,10 +294,27 @@
     <Property Name="LogoPath" Type="nvarchar(max)" />
     <Property Name="WebSiteAddress" Type="nvarchar" MaxLength="100" />
     <Property Name="TimeZone" Type="nvarchar" MaxLength="100" />
-    <Property Name="CurrencyID" Type="int" />
+    <Property Name="CurrencyId" Type="int" />
     <Property Name="CheckinTime" Type="time" Precision="7" />
     <Property Name="CheckoutTime" Type="time" Precision="7" />
     <Property Name="CloseOfDayTime" Type="time" Precision="7" />
+    <Property Name="State" Type="int" />
+    <Property Name="Country" Type="int" />
+    <Property Name="City" Type="int" />
+    <Property Name="Zipcode" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="PropertyFloor">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="PropertyId" Type="int" />
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FloorNumber" Type="int" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
+    <Property Name="LastUpdatedOn" Type="datetime" />
   </EntityType>
   <EntityType Name="Rates">
     <Key>
@@ -312,6 +332,7 @@
     <Property Name="CreatedOn" Type="datetime" />
     <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="LastUpdatedOn" Type="datetime" />
+    <Property Name="RoomId" Type="int" />
   </EntityType>
   <EntityType Name="RateType">
     <Key>
@@ -324,9 +345,9 @@
     <Property Name="CreatedOn" Type="datetime" />
     <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="LastUpdatedOn" Type="datetime" />
-    <Property Name="NAME" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="RoomTypeID" Type="int" />
-    <Property Name="ShortName" Type="nvarchar" MaxLength="50" />
+    <Property Name="NAME" Type="nvarchar(max)" />
+    <Property Name="Units" Type="nvarchar" MaxLength="50" />
+    <Property Name="Hours" Type="int" />
   </EntityType>
   <EntityType Name="RewardCategory">
     <Key>
@@ -355,6 +376,7 @@
     <Property Name="CreatedOn" Type="datetime" />
     <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="LastUpdatedOn" Type="datetime" />
+    <Property Name="FloorId" Type="int" />
   </EntityType>
   <EntityType Name="RoomBooking">
     <Key>
@@ -400,7 +422,7 @@
     <Property Name="CreatedOn" Type="datetime" />
     <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="LastUpdatedOn" Type="datetime" />
-    <Property Name="NAME" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="NAME" Type="nvarchar(max)" />
     <Property Name="ShortName" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="State">
@@ -429,6 +451,7 @@
     <Property Name="CreatedOn" Type="datetime" />
     <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
     <Property Name="LastUpdatedOn" Type="datetime" />
+    <Property Name="TaxName" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <Association Name="FK__Additiona__Booki__6442E2C9">
     <End Role="Booking" Type="Self.Booking" Multiplicity="0..1" />
@@ -478,6 +501,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__Booking__RateTyp__324172E1">
+    <End Role="RateType" Type="Self.RateType" Multiplicity="0..1" />
+    <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RateType">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Booking">
+        <PropertyRef Name="RateTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__City__CountryID__48CFD27E">
     <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
     <End Role="City" Type="Self.City" Multiplicity="*" />
@@ -499,18 +534,6 @@
       </Principal>
       <Dependent Role="City">
         <PropertyRef Name="StateID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__ExtraChar__Facil__2057CCD0">
-    <End Role="ChargableFacility" Type="Self.ChargableFacility" Multiplicity="0..1" />
-    <End Role="ExtraCharges" Type="Self.ExtraCharges" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ChargableFacility">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="ExtraCharges">
-        <PropertyRef Name="FacilityKey" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -610,6 +633,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__PaymentTy__Prope__0C1BC9F9">
+    <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
+    <End Role="PaymentType" Type="Self.PaymentType" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Property">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PaymentType">
+        <PropertyRef Name="PropertyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__Rates__PropertyI__24285DB4">
     <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
     <End Role="Rates" Type="Self.Rates" Multiplicity="*" />
@@ -631,6 +666,18 @@
       </Principal>
       <Dependent Role="Rates">
         <PropertyRef Name="RateTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Rates__RoomId__2B947552">
+    <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
+    <End Role="Rates" Type="Self.Rates" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Room">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Rates">
+        <PropertyRef Name="RoomId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -667,6 +714,18 @@
       </Principal>
       <Dependent Role="RateType">
         <PropertyRef Name="PropertyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Room__FloorId__2AA05119">
+    <End Role="PropertyFloor" Type="Self.PropertyFloor" Multiplicity="0..1" />
+    <End Role="Room" Type="Self.Room" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PropertyFloor">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Room">
+        <PropertyRef Name="FloorId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -790,18 +849,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Taxes__TaxId__39237A9A">
-    <End Role="AllTaxes" Type="Self.AllTaxes" Multiplicity="0..1" />
-    <End Role="Taxes" Type="Self.Taxes" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AllTaxes">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="Taxes">
-        <PropertyRef Name="TaxId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Function Name="GETALLBOOKINGS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="PROPERTYID" Type="int" Mode="In" />
     <Parameter Name="CHECKINTIME" Type="datetime" Mode="In" />
@@ -815,9 +862,19 @@
     <Parameter Name="NOOFHOURS" Type="int" Mode="In" />
     <Parameter Name="NOOFDAYS" Type="int" Mode="In" />
     <Parameter Name="ISHOURLY" Type="bit" Mode="In" />
+    <Parameter Name="RoomID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="GetBookingDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="BookingID" Type="int" Mode="In" />
   </Function>
   <Function Name="GETGUESTTRANSACTIONS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="GUESTID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="GETINVOICEDETAILS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="INVOICEID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="GetRoomRates" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PropertyId" Type="int" Mode="In" />
   </Function>
   <Function Name="GETROOMSTATUS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="PROPERTYID" Type="int" Mode="In" />
@@ -827,10 +884,22 @@
   <Function Name="InsertBooking" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="propertyID" Type="int" Mode="In" />
     <Parameter Name="bookingXML" Type="xml" Mode="In" />
+    <Parameter Name="BOOKINGID" Type="int" Mode="InOut" />
+    <Parameter Name="GUESTID" Type="int" Mode="InOut" />
   </Function>
   <Function Name="InsertInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="propertyID" Type="int" Mode="In" />
     <Parameter Name="InvoiceXML" Type="xml" Mode="In" />
+    <Parameter Name="INVOICEID" Type="int" Mode="InOut" />
+  </Function>
+  <Function Name="InsertRoom" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="propertyID" Type="int" Mode="In" />
+    <Parameter Name="RoomXML" Type="xml" Mode="In" />
+  </Function>
+  <Function Name="InsertRoomRates" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="propertyID" Type="int" Mode="In" />
+    <Parameter Name="RateXML" Type="xml" Mode="In" />
+    <Parameter Name="Status" Type="bit" Mode="InOut" />
   </Function>
   <Function Name="UpdateBooking" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="BOOKINGID" Type="int" Mode="In" />
@@ -842,7 +911,6 @@
     <EntitySet Name="AdditionalGuests" EntityType="Self.AdditionalGuests" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AddressType" EntityType="Self.AddressType" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="AllTaxes" EntityType="Self.AllTaxes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Booking" EntityType="Self.Booking" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ChargableFacility" EntityType="Self.ChargableFacility" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
@@ -857,7 +925,9 @@
     <EntitySet Name="InvoiceItems" EntityType="Self.InvoiceItems" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="InvoicePaymentDetails" EntityType="Self.InvoicePaymentDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="InvoiceTaxDetail" EntityType="Self.InvoiceTaxDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PaymentType" EntityType="Self.PaymentType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Property" EntityType="Self.Property" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PropertyFloor" EntityType="Self.PropertyFloor" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Rates" EntityType="Self.Rates" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="RateType" EntityType="Self.RateType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="RewardCategory" EntityType="Self.RewardCategory" Schema="dbo" store:Type="Tables" />
@@ -883,6 +953,10 @@
       <End Role="Property" EntitySet="Property" />
       <End Role="Booking" EntitySet="Booking" />
     </AssociationSet>
+    <AssociationSet Name="FK__Booking__RateTyp__324172E1" Association="Self.FK__Booking__RateTyp__324172E1">
+      <End Role="RateType" EntitySet="RateType" />
+      <End Role="Booking" EntitySet="Booking" />
+    </AssociationSet>
     <AssociationSet Name="FK__City__CountryID__48CFD27E" Association="Self.FK__City__CountryID__48CFD27E">
       <End Role="Country" EntitySet="Country" />
       <End Role="City" EntitySet="City" />
@@ -890,10 +964,6 @@
     <AssociationSet Name="FK__City__StateID__47DBAE45" Association="Self.FK__City__StateID__47DBAE45">
       <End Role="State" EntitySet="State" />
       <End Role="City" EntitySet="City" />
-    </AssociationSet>
-    <AssociationSet Name="FK__ExtraChar__Facil__2057CCD0" Association="Self.FK__ExtraChar__Facil__2057CCD0">
-      <End Role="ChargableFacility" EntitySet="ChargableFacility" />
-      <End Role="ExtraCharges" EntitySet="ExtraCharges" />
     </AssociationSet>
     <AssociationSet Name="FK__ExtraChar__Prope__214BF109" Association="Self.FK__ExtraChar__Prope__214BF109">
       <End Role="Property" EntitySet="Property" />
@@ -927,12 +997,20 @@
       <End Role="Invoice" EntitySet="Invoice" />
       <End Role="InvoiceTaxDetail" EntitySet="InvoiceTaxDetail" />
     </AssociationSet>
+    <AssociationSet Name="FK__PaymentTy__Prope__0C1BC9F9" Association="Self.FK__PaymentTy__Prope__0C1BC9F9">
+      <End Role="Property" EntitySet="Property" />
+      <End Role="PaymentType" EntitySet="PaymentType" />
+    </AssociationSet>
     <AssociationSet Name="FK__Rates__PropertyI__24285DB4" Association="Self.FK__Rates__PropertyI__24285DB4">
       <End Role="Property" EntitySet="Property" />
       <End Role="Rates" EntitySet="Rates" />
     </AssociationSet>
     <AssociationSet Name="FK__Rates__RateTypeI__251C81ED" Association="Self.FK__Rates__RateTypeI__251C81ED">
       <End Role="RateType" EntitySet="RateType" />
+      <End Role="Rates" EntitySet="Rates" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Rates__RoomId__2B947552" Association="Self.FK__Rates__RoomId__2B947552">
+      <End Role="Room" EntitySet="Room" />
       <End Role="Rates" EntitySet="Rates" />
     </AssociationSet>
     <AssociationSet Name="FK__Rates__RoomTypeI__2610A626" Association="Self.FK__Rates__RoomTypeI__2610A626">
@@ -946,6 +1024,10 @@
     <AssociationSet Name="FK__RateType__Proper__27F8EE98" Association="Self.FK__RateType__Proper__27F8EE98">
       <End Role="Property" EntitySet="Property" />
       <End Role="RateType" EntitySet="RateType" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Room__FloorId__2AA05119" Association="Self.FK__Room__FloorId__2AA05119">
+      <End Role="PropertyFloor" EntitySet="PropertyFloor" />
+      <End Role="Room" EntitySet="Room" />
     </AssociationSet>
     <AssociationSet Name="FK__Room__PropertyID__2F10007B" Association="Self.FK__Room__PropertyID__2F10007B">
       <End Role="Property" EntitySet="Property" />
@@ -985,10 +1067,6 @@
     </AssociationSet>
     <AssociationSet Name="FK__Taxes__PropertyI__382F5661" Association="Self.FK__Taxes__PropertyI__382F5661">
       <End Role="Property" EntitySet="Property" />
-      <End Role="Taxes" EntitySet="Taxes" />
-    </AssociationSet>
-    <AssociationSet Name="FK__Taxes__TaxId__39237A9A" Association="Self.FK__Taxes__TaxId__39237A9A">
-      <End Role="AllTaxes" EntitySet="AllTaxes" />
       <End Role="Taxes" EntitySet="Taxes" />
     </AssociationSet>
   </EntityContainer>
