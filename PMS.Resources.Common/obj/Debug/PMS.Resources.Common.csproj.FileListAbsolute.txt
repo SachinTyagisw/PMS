@@ -13,3 +13,14 @@ D:\PMS\PMS.Resources.Common\bin\Debug\System.Web.Http.WebHost.xml
 D:\PMS\PMS.Resources.Common\obj\Debug\PMS.Resources.Common.csprojResolveAssemblyReference.cache
 D:\PMS\PMS.Resources.Common\obj\Debug\PMS.Resources.Common.dll
 D:\PMS\PMS.Resources.Common\obj\Debug\PMS.Resources.Common.pdb
+D:\Training_Stuffs\PMS\PMS.Resources.Common\bin\Debug\PMS.Resources.Common.dll
+D:\Training_Stuffs\PMS\PMS.Resources.Common\bin\Debug\PMS.Resources.Common.pdb
+D:\Training_Stuffs\PMS\PMS.Resources.Common\bin\Debug\Newtonsoft.Json.dll
+D:\Training_Stuffs\PMS\PMS.Resources.Common\bin\Debug\RestSharp.dll
+D:\Training_Stuffs\PMS\PMS.Resources.Common\bin\Debug\System.Web.Http.dll
+D:\Training_Stuffs\PMS\PMS.Resources.Common\bin\Debug\Newtonsoft.Json.xml
+D:\Training_Stuffs\PMS\PMS.Resources.Common\bin\Debug\RestSharp.xml
+D:\Training_Stuffs\PMS\PMS.Resources.Common\bin\Debug\System.Web.Http.xml
+D:\Training_Stuffs\PMS\PMS.Resources.Common\obj\Debug\PMS.Resources.Common.csprojResolveAssemblyReference.cache
+D:\Training_Stuffs\PMS\PMS.Resources.Common\obj\Debug\PMS.Resources.Common.dll
+D:\Training_Stuffs\PMS\PMS.Resources.Common\obj\Debug\PMS.Resources.Common.pdb
