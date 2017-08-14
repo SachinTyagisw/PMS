@@ -29,6 +29,11 @@
             gcm.IsNumeric(e);
         });
 
+        
+        function OnChkTaxIncludeChange(e, htmlElement) {
+            gcm.CalculateInvoice();
+        }
+
         function OnTaxValChange(e, htmlElement) {
             if (!htmlElement.value || isNaN(htmlElement.value)) {
                 htmlElement.value = '';

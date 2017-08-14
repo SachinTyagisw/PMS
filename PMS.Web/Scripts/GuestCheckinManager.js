@@ -620,24 +620,32 @@
             var paymentValueCol = $("td[id*='tdPaymentValue']");
             var paymentValueColNew = $("td[id*='tdPaymentValue'] input");
             var invoiceObject = window.GuestCheckinManager.invoiceData.Invoice;
+            var totRoomCharge = 0;
+            //  room base charge calculations
+            var baseCharge = baseRoomCharge && baseRoomCharge.val() && !isNaN(baseRoomCharge.val()) ? parseFloat(baseRoomCharge.val(), 10).toFixed(2) : 0;
+            if (totalRoomCharge && baseCharge > 0) {
+                //  total room charge calculations
+                totalRoomCharge.val(parseFloat(baseCharge).toFixed(2) * stayDays);
+                totRoomCharge = parseFloat(totalRoomCharge.val(), 10);                
+            }
 
             //  tax charges calculations
             if (taxElementCol && taxElementCol.length > 0) {
                 for (var i = 0; i < taxElementCol.length; i++) {
-                    if (!taxElementCol[i] || !taxElementCol[i].value || isNaN(taxElementCol[i].value)) continue;
+                    var taxName = taxElementCol[i].name;                    
+                    if (!taxElementCol[i] || !taxElementCol[i].value || !taxName || isNaN(taxElementCol[i].value)) continue;
+                    var taxNameSelector = $('#' + taxName);
+                    var taxCalulatedSelector = $('#taxCalulatedVal' + taxName);
+                    if(!taxNameSelector[0].checked) {
+                        taxCalulatedSelector[0].value = 0;
+                        continue;
+                    }
+                    taxCalulatedSelector[0].value = ((parseFloat(taxElementCol[i].value, 10) * totRoomCharge) / 100).toFixed(2);
                     totalTax = (parseFloat(totalTax) + parseFloat(taxElementCol[i].value, 10)).toFixed(2);
                 }
             }
 
-            //  room base charge calculations
-            var baseCharge = baseRoomCharge && baseRoomCharge.val() && !isNaN(baseRoomCharge.val()) ? parseFloat(baseRoomCharge.val(), 10).toFixed(2) : 0;
-            if (totalRoomCharge && baseCharge > 0) {
-                totalRoomCharge.val(parseFloat(baseCharge).toFixed(2) * stayDays);
-                //  total room charge calculations
-                var totRoomCharge = parseFloat(totalRoomCharge.val(), 10);
-                totalCharge = (totRoomCharge + (parseFloat(totalTax) * totRoomCharge) / 100).toFixed(2);
-            }
-
+            totalCharge = (totRoomCharge + (parseFloat(totalTax) * totRoomCharge) / 100).toFixed(2);
             totalCharge = applyDiscount(totalCharge);
 
             //other tax charges calculations
