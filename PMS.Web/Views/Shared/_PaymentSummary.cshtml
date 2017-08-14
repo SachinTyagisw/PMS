@@ -67,8 +67,8 @@
                     <input id="totalRoomCharge" disabled="disabled" name="${$value.TaxName}" value="${$value.Value}" />
                     {{/if}}
                     {{if $value.TaxName !== 'Total Room Charge' && $value.TaxName !== 'ROOM CHARGES' }}
-                    <input id="taxVal" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
-                    <input id="taxCalulatedVal${$value.TaxName}" name="${$value.TaxName}" disabled="disabled" value="" />
+                    <input id="taxVal" class="part-input" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
+                    <input id="taxCalulatedVal${$value.TaxName}" class="part-input" name="${$value.TaxName}" disabled="disabled" value="" />
                     {{/if}}
                 </td>
                 <td></td>
