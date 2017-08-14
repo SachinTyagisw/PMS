@@ -5,6 +5,7 @@
     var ddlCountryObj = null;
     var invoiceData = {};
     var bookingStatus = '';
+    var isCheckoutDateModified = false;
     var guestCheckinManager = {
 
         PropertySettingResponseDto: {
@@ -564,7 +565,9 @@
             //    window.GuestCheckinManager.BindExtraChargesDdl($('#ddlExtraChargesClone'), extraChargesdata);
             //}
             window.GuestCheckinManager.CalculateInvoice();
-            if (window.Notifications) window.Notifications.Notify("on-checkout-date-change", null, null);
+            if (isCheckoutDateModified) {
+                if (window.Notifications) window.Notifications.Notify("on-checkout-date-change", null, null);
+            }
         },
 
         IsTime: function(e) {
@@ -696,7 +699,7 @@
             pmsService.GetBookingById(args);
         },
         
-        LoadInvoice: function () {
+        LoadInvoice: function (checkoutDateModified) {
             $('.img-no-available').hide();
             if (!validateLoadInvoiceCall()) return;
 
@@ -709,6 +712,7 @@
                 window.GuestCheckinManager.GetPaymentCharges();
             }
             else {
+                isCheckoutDateModified = !checkoutDateModified ? false : true;
                 window.GuestCheckinManager.GetInvoiceById(invoiceId);
             }
 
@@ -1566,8 +1570,8 @@
             var dt = new Date();
             var month = dt.getMonth() + 1;
             var day = dt.getDate();
-            var dateOutput = dt.getFullYear() + '/' +
-                (month < 10 ? '0' : '') + month + '/' +
+            var dateOutput = dt.getFullYear() + '-' +
+                (month < 10 ? '0' : '') + month + '-' +
                 (day < 10 ? '0' : '') + day;
 
             var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
@@ -1674,7 +1678,7 @@
 
                     $('#btnSave').attr("disabled", false);
                     $('#btnCheckout').attr("disabled", false);
-                    $('#btnCheckin').attr("disabled", true);
+                    //$('#btnCheckin').attr("disabled", true);
                     $('#saveInvoice').attr("disabled", false);
 
                     var roomnumber = $("#roomddl option:selected").text();

@@ -459,13 +459,11 @@
                             } else if (dueAmt < 0) {
                                 if (confirm("Refund $" + dueAmt + "to the Guest ?")) {
                                     refund = true;
-                                    $('#payment').focus();
-                                    return;
                                 }
+                                gcm.AddBooking('checkout', refund);
                             }
-                            gcm.AddBooking('checkout', refund);
                         });
-                        gcm.LoadInvoice();
+                        gcm.LoadInvoice(true);
                     } else {
                         var amt = parseInt(balance.val());
                         if (amt > 0) {
@@ -475,11 +473,9 @@
                         } else if (amt < 0) {
                             if (confirm("Refund $" + amt + "to the Guest ?")) {
                                 shouldRefund = true;
-                                payment.focus();
-                                return;
-                            } 
+                            }
+                            gcm.AddBooking('checkout', shouldRefund);
                         } 
-                        gcm.AddBooking('checkout', shouldRefund);
                     }
                 }                
             });
