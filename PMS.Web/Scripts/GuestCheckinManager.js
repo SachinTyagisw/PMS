@@ -2793,9 +2793,9 @@
             if (!htmlElementCol[i] || !htmlElementCol[i].name) continue;
             var tax = {};
 
-            var taxValue = 0;
             var taxName = htmlElementCol[i].name;
             tax.TaxShortName = taxName;
+            var taxValue = 0;
             var taxNameSelector = $('#' + taxName);
             var taxCalulatedSelector = $('#taxCalulatedVal' + taxName);
             if(!taxNameSelector[0].checked) {
@@ -2803,7 +2803,12 @@
             } else {
                 taxValue = taxCalulatedSelector[0].value;
             }
-            tax.TaxAmount = taxValue;
+            //TODO need to updates with correct property name
+            //tax.TaxAmount = taxValue;
+            //tax.IsTaxIncluded = taxNameSelector[0].checked;
+            var taxValueInPercent = !htmlElementCol[i].value || isNaN(htmlElementCol[i].value) ? 0 : parseFloat(htmlElementCol[i].value, 10).toFixed(2);
+            tax.TaxAmount = taxNameSelector[0].checked ? taxValueInPercent : 0;
+            
             tax.IsActive = true;
             tax.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             tax.CreatedBy = getCreatedBy();
