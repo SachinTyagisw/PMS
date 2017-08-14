@@ -362,12 +362,24 @@
         }
 
         function printData(data) {
-            var newWin = window.open('', 'Print-Window');
-            newWin.document.open();
-            newWin.document.write('<html><body onload="window.print()">' + data + '</body></html>');
-            newWin.document.close();
-            setTimeout(function () { newWin.close(); }, 10);
-        
+            var printWindow = window.open('', '', '');
+            printWindow.document.write('<html><head><title>Print Invoice</title>');
+    
+            // Make sure the relative URL to the stylesheet works:
+            printWindow.document.write('<base href="' + location.origin + location.pathname + '">');
+            printWindow.document.write('</base>');
+            // Add the stylesheet link and inline styles to the new document:
+            printWindow.document.write('<link rel="stylesheet" href="' + location.origin + '/Content/style.css">');
+            printWindow.document.write('<style type="text/css">.style1{width: 100%;}</style>');
+    
+            printWindow.document.write('</head><body >');
+            printWindow.document.write(data);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            setTimeout(function () {
+                printWindow.print();
+            }, 500);
+            return false;
         }
 
         $(document).ready(function () {
@@ -605,7 +617,7 @@
             </div><!-- /# main content -->
         </div><!-- /# container-fluid -->
     </div><!-- /# main -->
-    <div class="footer-nav">
+    <div class="footer-nav">        
         <div class="show">
             <input id="btnRefresh" type="button" class="btn btn-primary m-b-10 m-l-5" value="New Booking" />
             <input id="btnCheckin" type="button" class="btn btn-primary m-b-10 m-l-5" value="Checkin" />
