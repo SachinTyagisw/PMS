@@ -18,5 +18,7 @@ namespace PMS.Resources.Entities
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
         public string TaxName { get; set; }
         public bool IsDefaultCharges { get; set; }
+        public bool IsTaxIncluded { get; set; }
+        public Nullable<decimal> Amount { get; set; }
     }
 }
