@@ -51,10 +51,11 @@
             {{each Tax}}
             {{if $value.IsDefaultCharges }}
             <tr id="trDefaultCharges" class="sortActive">
-                <td> <span class="glyphicon glyphicon-th-list"></span></td>
                 {{if $value.TaxName !== 'Total Room Charge' && $value.TaxName !== 'ROOM CHARGES' }}
-                <td>${$value.TaxName} (%)</td>
+                <td> <input type="checkbox" id="${$value.TaxName}" class="form-control hour-input" /></td>
+                <td>${$value.TaxName} (${$value.Value}%)</td>
                 {{else}}
+                <td> <span class="glyphicon glyphicon-th-list"></span></td>
                 <td>${$value.TaxName}</td>
                 {{/if}}
                 <td>
