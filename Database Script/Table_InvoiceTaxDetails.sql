@@ -1,7 +1,7 @@
 USE [PMS]
 GO
 
-/****** Object:  Table [dbo].[InvoiceTaxDetail]    Script Date: 06/11/2017 10:49:48 ******/
+/****** Object:  Table [dbo].[InvoiceTaxDetail]    Script Date: 08/14/2017 11:49:46 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -18,6 +18,8 @@ CREATE TABLE [dbo].[InvoiceTaxDetail](
 	[CreatedOn] [datetime] NULL,
 	[LastUpdatedBy] [nvarchar](200) NULL,
 	[LastUpdatedOn] [datetime] NULL,
+	[TaxValue] [decimal](18, 0) NULL,
+	[IsConsidered] [bit] NULL,
  CONSTRAINT [PK__InvoiceT__3214EC27D12730CC] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
