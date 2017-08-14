@@ -2403,6 +2403,7 @@
         var dateTo = $('#dateTo').val();
         var roomType = $('#roomTypeDdl').val();
         var roomId = $('#roomddl').val();
+        var rateTypeId = $('#rateTypeDdl').val();
         var noOfHours = 0;
         var noOfDays = 1;
         if (!dateFrom || !dateTo) {
@@ -2419,6 +2420,7 @@
         getInvoiceRequestDto.IsHourly = $('#hourCheckin')[0].checked ? true : false;
         getInvoiceRequestDto.NoOfHours = $('#hourCheckin')[0].checked && parseInt(noOfHours) > 0 ? parseInt(noOfHours) : 0;        
         getInvoiceRequestDto.NoOfDays = noOfDays;
+        getInvoiceRequestDto.RateTypeId = rateTypeId;
        
         return getInvoiceRequestDto;
     }
