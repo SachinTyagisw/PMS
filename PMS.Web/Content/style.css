@@ -4399,7 +4399,7 @@ p
     margin: 0 8px;
 }
 #invoice-table tr.sortActive td:nth-child(3) {
-    width: 23%;
+    width: 27%;
     text-align: left;
     margin: 2px;
 }
