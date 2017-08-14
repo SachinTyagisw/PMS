@@ -2786,8 +2786,9 @@
             var tax = {};
             var taxName = htmlElementCol[i].name;
             var taxValue = !htmlElementCol[i].value || isNaN(htmlElementCol[i].value) ? 0 : parseFloat(htmlElementCol[i].value, 10).toFixed(2);
+            var taxNameSelector = $('#' + taxName);
             tax.TaxShortName = taxName;
-            tax.TaxAmount = taxValue;
+            tax.TaxAmount = taxNameSelector[0].checked ? taxValue : 0;
             tax.IsActive = true;
             tax.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             tax.CreatedBy = getCreatedBy();
