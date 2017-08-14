@@ -5,6 +5,7 @@
     var ddlCountryObj = null;
     var invoiceData = {};
     var bookingStatus = '';
+    var isCheckoutDateModified = false;
     var guestCheckinManager = {
 
         PropertySettingResponseDto: {
@@ -564,7 +565,9 @@
             //    window.GuestCheckinManager.BindExtraChargesDdl($('#ddlExtraChargesClone'), extraChargesdata);
             //}
             window.GuestCheckinManager.CalculateInvoice();
-            if (window.Notifications) window.Notifications.Notify("on-checkout-date-change", null, null);
+            if (isCheckoutDateModified) {
+                if (window.Notifications) window.Notifications.Notify("on-checkout-date-change", null, null);
+            }
         },
 
         IsTime: function(e) {
@@ -617,24 +620,32 @@
             var paymentValueCol = $("td[id*='tdPaymentValue']");
             var paymentValueColNew = $("td[id*='tdPaymentValue'] input");
             var invoiceObject = window.GuestCheckinManager.invoiceData.Invoice;
+            var totRoomCharge = 0;
+            //  room base charge calculations
+            var baseCharge = baseRoomCharge && baseRoomCharge.val() && !isNaN(baseRoomCharge.val()) ? parseFloat(baseRoomCharge.val(), 10).toFixed(2) : 0;
+            if (totalRoomCharge && baseCharge > 0) {
+                //  total room charge calculations
+                totalRoomCharge.val(parseFloat(baseCharge).toFixed(2) * stayDays);
+                totRoomCharge = parseFloat(totalRoomCharge.val(), 10);                
+            }
 
             //  tax charges calculations
             if (taxElementCol && taxElementCol.length > 0) {
                 for (var i = 0; i < taxElementCol.length; i++) {
-                    if (!taxElementCol[i] || !taxElementCol[i].value || isNaN(taxElementCol[i].value)) continue;
+                    var taxName = taxElementCol[i].name;                    
+                    if (!taxElementCol[i] || !taxElementCol[i].value || !taxName || isNaN(taxElementCol[i].value)) continue;
+                    var taxNameSelector = $('#' + taxName);
+                    var taxCalulatedSelector = $('#taxCalulatedVal' + taxName);
+                    if(!taxNameSelector[0].checked) {
+                        taxCalulatedSelector[0].value = 0;
+                        continue;
+                    }
+                    taxCalulatedSelector[0].value = ((parseFloat(taxElementCol[i].value, 10) * totRoomCharge) / 100).toFixed(2);
                     totalTax = (parseFloat(totalTax) + parseFloat(taxElementCol[i].value, 10)).toFixed(2);
                 }
             }
 
-            //  room base charge calculations
-            var baseCharge = baseRoomCharge && baseRoomCharge.val() && !isNaN(baseRoomCharge.val()) ? parseFloat(baseRoomCharge.val(), 10).toFixed(2) : 0;
-            if (totalRoomCharge && baseCharge > 0) {
-                totalRoomCharge.val(parseFloat(baseCharge).toFixed(2) * stayDays);
-                //  total room charge calculations
-                var totRoomCharge = parseFloat(totalRoomCharge.val(), 10);
-                totalCharge = (totRoomCharge + (parseFloat(totalTax) * totRoomCharge) / 100).toFixed(2);
-            }
-
+            totalCharge = (totRoomCharge + (parseFloat(totalTax) * totRoomCharge) / 100).toFixed(2);
             totalCharge = applyDiscount(totalCharge);
 
             //other tax charges calculations
@@ -696,7 +707,7 @@
             pmsService.GetBookingById(args);
         },
         
-        LoadInvoice: function () {
+        LoadInvoice: function (checkoutDateModified) {
             $('.img-no-available').hide();
             if (!validateLoadInvoiceCall()) return;
 
@@ -709,6 +720,7 @@
                 window.GuestCheckinManager.GetPaymentCharges();
             }
             else {
+                isCheckoutDateModified = !checkoutDateModified ? false : true;
                 window.GuestCheckinManager.GetInvoiceById(invoiceId);
             }
 
@@ -1566,8 +1578,8 @@
             var dt = new Date();
             var month = dt.getMonth() + 1;
             var day = dt.getDate();
-            var dateOutput = dt.getFullYear() + '/' +
-                (month < 10 ? '0' : '') + month + '/' +
+            var dateOutput = dt.getFullYear() + '-' +
+                (month < 10 ? '0' : '') + month + '-' +
                 (day < 10 ? '0' : '') + day;
 
             var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
@@ -1674,7 +1686,7 @@
 
                     $('#btnSave').attr("disabled", false);
                     $('#btnCheckout').attr("disabled", false);
-                    $('#btnCheckin').attr("disabled", true);
+                    //$('#btnCheckin').attr("disabled", true);
                     $('#saveInvoice').attr("disabled", false);
 
                     var roomnumber = $("#roomddl option:selected").text();
@@ -2391,6 +2403,7 @@
         var dateTo = $('#dateTo').val();
         var roomType = $('#roomTypeDdl').val();
         var roomId = $('#roomddl').val();
+        var rateTypeId = $('#rateTypeDdl').val();
         var noOfHours = 0;
         var noOfDays = 1;
         if (!dateFrom || !dateTo) {
@@ -2407,6 +2420,7 @@
         getInvoiceRequestDto.IsHourly = $('#hourCheckin')[0].checked ? true : false;
         getInvoiceRequestDto.NoOfHours = $('#hourCheckin')[0].checked && parseInt(noOfHours) > 0 ? parseInt(noOfHours) : 0;        
         getInvoiceRequestDto.NoOfDays = noOfDays;
+        getInvoiceRequestDto.RateTypeId = rateTypeId;
        
         return getInvoiceRequestDto;
     }
@@ -2415,6 +2429,7 @@
         var dateFrom = $('#dateFrom').val();
         var dateTo = $('#dateTo').val();
         var roomType = $('#roomTypeDdl').val();
+        var rateType = $('#rateTypeDdl').val();
         var roomId = $('#roomddl').val();
         var noOfHours = $('#hoursComboBox').val();
 
@@ -2434,6 +2449,11 @@
 
         if (!roomType || roomType === '-1') {
             alert("Select proper room type");
+            return false;
+        }
+
+        if (!rateType || rateType === '-1') {
+            alert("Select proper rate type");
             return false;
         }
 
@@ -2772,10 +2792,23 @@
         for (var i = 0; i < htmlElementCol.length; i++) {
             if (!htmlElementCol[i] || !htmlElementCol[i].name) continue;
             var tax = {};
+
             var taxName = htmlElementCol[i].name;
-            var taxValue = !htmlElementCol[i].value || isNaN(htmlElementCol[i].value) ? 0 : parseFloat(htmlElementCol[i].value, 10).toFixed(2);
             tax.TaxShortName = taxName;
-            tax.TaxAmount = taxValue;
+            var taxValue = 0;
+            var taxNameSelector = $('#' + taxName);
+            var taxCalulatedSelector = $('#taxCalulatedVal' + taxName);
+            if(!taxNameSelector[0].checked) {
+                taxValue = 0;
+            } else {
+                taxValue = taxCalulatedSelector[0].value;
+            }
+            //TODO need to updates with correct property name
+            //tax.TaxAmount = taxValue;
+            //tax.IsTaxIncluded = taxNameSelector[0].checked;
+            var taxValueInPercent = !htmlElementCol[i].value || isNaN(htmlElementCol[i].value) ? 0 : parseFloat(htmlElementCol[i].value, 10).toFixed(2);
+            tax.TaxAmount = taxNameSelector[0].checked ? taxValueInPercent : 0;
+            
             tax.IsActive = true;
             tax.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             tax.CreatedBy = getCreatedBy();

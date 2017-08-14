@@ -51,10 +51,11 @@
             {{each Tax}}
             {{if $value.IsDefaultCharges }}
             <tr id="trDefaultCharges" class="sortActive">
-                <td> <span class="glyphicon glyphicon-th-list"></span></td>
                 {{if $value.TaxName !== 'Total Room Charge' && $value.TaxName !== 'ROOM CHARGES' }}
+                <td><input {{if $value.IsTaxIncluded}} checked="checked" {{/if}} type="checkbox" id="${$value.TaxName}" onclick="OnChkTaxIncludeChange(this);" class="form-control hour-input" /></td>
                 <td>${$value.TaxName} (%)</td>
                 {{else}}
+                <td> <span class="glyphicon glyphicon-th-list"></span></td>
                 <td>${$value.TaxName}</td>
                 {{/if}}
                 <td>
@@ -66,7 +67,8 @@
                     <input id="totalRoomCharge" disabled="disabled" name="${$value.TaxName}" value="${$value.Value}" />
                     {{/if}}
                     {{if $value.TaxName !== 'Total Room Charge' && $value.TaxName !== 'ROOM CHARGES' }}
-                    <input id="taxVal" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
+                    <input id="taxVal" disabled="disabled" class="part-input" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
+                    <input id="taxCalulatedVal${$value.TaxName}" class="part-input" name="${$value.TaxName}" disabled="disabled" value="" />
                     {{/if}}
                 </td>
                 <td></td>
@@ -271,6 +273,92 @@
 </script>
 
 <script type="text/html" id="receiptTemplate">
+<style type="text/css">
+    #printarea {
+        font-size: 12px;
+    }
+
+    #printarea .row .col-sm-6 {
+        text-align: left;
+        width: 40%;
+        float: left;
+        margin-bottom: 20px;
+    }
+
+    #printarea p {
+        font-size: 12px;
+        text-align: left;
+        margin: 0;
+        line-height: 18px;
+    }
+
+    #printarea th {
+        font-weight: bold;
+    }
+
+    #printarea table {
+        font-size: 11px;
+        border-spacing: 0;
+        border-collapse: collapse;
+        background-color: transparent;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    #printarea table, #printarea th, #printarea td {
+        padding: 4px;
+        line-height: 1.42857143;
+        vertical-align: top;
+        border: 1px solid #ddd;
+        margin: 20px 0;
+        text-align: left;
+        font-size: 11px;
+    }
+
+    #printarea .row .col-sm-6 b {
+        display: inline-block;
+        width: 90px;
+    }
+
+    #printarea table tr td.partial {
+        padding: 0;
+    }
+
+    #printarea table tr td.partial span {
+        display: inline-block;
+        text-align: right !important;
+        width: 35%;
+        padding: 4px;
+    }
+
+    #printarea table tr td.partial span:nth-child(1) {
+        border-right: 1px solid #ddd;
+    }
+
+    #printarea p.msg {
+        font-size: 12px;
+        text-align: left;
+        margin-bottom: 40px;
+    }
+
+    #printarea table tr th:nth-child(3), #printarea table tr th:nth-child(4), #printarea table tr th:nth-child(5),
+    #printarea table tr td:nth-child(3), #printarea table tr td:nth-child(4), #printarea tbody tr td:nth-child(5) {
+        text-align: right;
+    }
+
+    #printarea .row .col-sm-3 {
+        width: 20%;
+        float: left;
+    }
+
+    #printarea .row .col-sm-9 {
+        width: 80%;
+        float: left;
+    }
+
+    html, body { height: auto; }
+
+</style>
     <div id="print">
         <div id="printarea" class="ql-align-right">
             <div class="row">
@@ -369,102 +457,195 @@
 </script>
 
 <script type="text/html" id="folioTemplate">
+    <style type="text/css">
+        #printarea {
+            font-size: 12px;
+        }
+
+            #printarea .row {
+                clear: both;
+            }
+
+                #printarea .row .col-sm-6 {
+                    text-align: left;
+                    width: 45%;
+                    float: left;
+                    margin-bottom: 20px;
+                }
+
+            #printarea p {
+                font-size: 12px;
+                text-align: left;
+                margin: 0;
+                line-height: 18px;
+            }
+
+            #printarea th {
+                font-weight: bold;
+            }
+
+            #printarea table {
+                font-size: 11px;
+                border-spacing: 0;
+                border-collapse: collapse;
+                background-color: transparent;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            #printarea table, #printarea th, #printarea td {
+                padding: 4px;
+                line-height: 1.42857143;
+                vertical-align: top;
+                border: 1px solid #ddd;
+                margin: 20px 0;
+                text-align: left;
+                font-size: 11px;
+            }
+
+            #printarea .row .col-sm-6 b {
+                display: inline-block;
+                width: 100px;
+            }
+
+            #printarea table tr td.partial {
+                padding: 0;
+            }
+
+                #printarea table tr td.partial span {
+                    display: inline-block;
+                    text-align: right !important;
+                    width: 35%;
+                    padding: 4px;
+                }
+
+                    #printarea table tr td.partial span:nth-child(1) {
+                        border-right: 1px solid #ddd;
+                    }
+
+            #printarea p.msg {
+                font-size: 12px;
+                text-align: left;
+                margin-bottom: 40px;
+            }
+
+            #printarea table tr th:nth-child(3), #printarea table tr th:nth-child(4), #printarea table tr th:nth-child(5),
+            #printarea table tr td:nth-child(3), #printarea table tr td:nth-child(4), #printarea tbody tr td:nth-child(5) {
+                text-align: right;
+            }
+
+
+            #printarea .row .col-sm-12 {
+                width: 90%;
+            }
+
+        html, body {
+            height: auto;
+        }
+
+        #printarea .border-btm {
+            border-bottom: 1px solid #ddd;
+        }
+
+        #printarea b {
+            letter-spacing: 1px;
+        }
+    </style>
     <div id="print">
         <div id="printarea" class="ql-align-right">
             <div class="row">
                 <div class="col-sm-6">
-                    <p>Company Name</p>
-                    <p>Guest Full Name</p>
-                    <p>Guest Full Address</p>
-                    <p>Tel.: +43 1 12345</p>
-                    <p><span>City</span> <span>State</span> <span>Zip</span></p>
-                    <p> Additional Guest Name</p>
+                    <p>Hotel Name</p>
+                    <p>Hotel Address</p>
+                    <p><span>Hotel City</span> <span>State</span> <span>Zip</span></p>
+                    <p>Hotel Phone No.</p>
                 </div>
                 <div class="col-sm-6">
-                    <p><b>Folio #:</b> Registration No #</p>
-                    <p><b>Room :</b> <span>Room #</span> <span>Room Type Code</span></p>
-                    <p><b>Rate :</b> <span>Room Rate</span></p>
-                    <p><b>Arrival :</b> <span>Checkin Date & Time</span></p>
-                    <p><b>Departure :</b> <span>Checkout Date & Time</span></p>
-                    <p><b>Total Nights :</b> <span>Sum of Hours</span></p>
+                    <p><b>Room #:</b> 101</p>
+                    <p><b>Today's Date :</b> <span>14-08-2017</span></p>
                 </div>
-
             </div>
-
-            <div>
-
-                <table class="table" style="margin-bottom: 0px;">
-                    <thead style="font-size: 0.7em">
-                        <tr>
-                            <th>Date</th>
-                            <th>Charges Description</th>
-                            <th>Charges</th>
-                            <th>Credit</th>
-                            <th>Balance</th>
-                        </tr>
-                    </thead>
-                    <tbody style="font-size: 0.7em">
-                        <tr>
-                            <td>06.07.2017</td>
-                            <td>Guest Room</td>
-                            <td>150.00</td>
-                            <td>0</td>
-                            <td>150.00</td>
-                        </tr>
-                        <tr>
-                            <td>06.07.2017</td>
-                            <td>Guest Room</td>
-                            <td>150.00</td>
-                            <td>0</td>
-                            <td>150.00</td>
-                        </tr>
-                        <tr>
-                            <td>06.07.2017</td>
-                            <td>Guest Room</td>
-                            <td>150.00</td>
-                            <td>0</td>
-                            <td>150.00</td>
-                        </tr>
-                        <tr>
-                            <td>06.07.2017</td>
-                            <td>Guest Room</td>
-                            <td>150.00</td>
-                            <td>0</td>
-                            <td>150.00</td>
-                        </tr>
-                        <tr>
-                            <td>06.07.2017</td>
-                            <td>PAYMENT</td>
-                            <td></td>
-                            <td>Visa | 0</td>
-                            <td>150.00</td>
-                        </tr>
-                        <tr>
-                            <td>06.07.2017</td>
-                            <td>PAYMENT</td>
-                            <td></td>
-                            <td>Cash | 0</td>
-                            <td>150.00</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-            </div>
-
-
-
-            <p>Thanks for your staying at <b>Property Name</b>, <b>Property City</b>. We look forward to welcoming you back soon.</p>
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-6" style="border-top: 1px solid #ddd; padding: 10px 0;">
+                    <p>Customer Last, First Name</p>
+                    <p>Address</p>
+                    <p><span>City</span> <span>State</span> <span>Zip</span></p>
+                    <p>ID#</p>
+                    <p>Vehicle Make, Model #, License Plate</p>
+                    <p style="margin-top: 30px;"><b># Guests:</b> ###, <b># Nights:</b> ###</p>
+                    <p><b>Check-In:</b> Arrival Date &amp; Time</p>
+                    <p><b>Check-Out:</b> Expected Check-Out Date</p>
+                </div>
+                <div class="col-sm-6" style="border-top: 1px solid #ddd; padding: 10px 0;">
+                    <p style="margin-bottom: 20px;"><b>Room Rate:</b> 3450.00</p>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td style="width: 48%;">Room: </td>
+                                <td style="width: 48%;">Room Charge</td>
+                            </tr>
+                            <tr>
+                                <td>Tax 1:</td>
+                                <td>Tax 1</td>
+                            </tr>
+                            <tr>
+                                <td>Tax 2:</td>
+                                <td>Tax 2</td>
+                            </tr>
+                            <tr>
+                                <td>Tax 3:</td>
+                                <td>Tax 3</td>
+                            </tr>
+                            <tr>
+                                <td>Extras</td>
+                                <td>Extra Charges</td>
+                            </tr>
+                            <tr>
+                                <td>Total</td>
+                                <td>Sum of </td>
+                            </tr>
+                            <tr>
+                                <td>Cash :</td>
+                                <td>4800.00</td>
+                            </tr>
+                            <tr>
+                                <td>Credit :</td>
+                                <td>2000.00 </td>
+                            </tr>
+                            <tr>
+                                <td>Balance :</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-12">
+                    <p>NO PET ALLOWED</p>
+                    <p>STRICTLY NO REFUNDS</p>
+                    <p style="border-top: 1px solid #ddd; margin: 10px 0;">ADVANCED PAYMENT REQUIRED FOR ALL RENTALS</p>
+                </div>
+                <div class="col-sm-12">
+                    <p><b style="border-bottom:1px solid #888;">NOTICE TO GUESTS:</b></p>
+                </div>
+            </div>
+
+
+            <p class="msg">
+                This property is privately owned and operated and the management reserves the right to refuse service<br />
+                to anyone and will not be responsible for accidents or injuries to any guests or loss of money, jewelry,<br /> or valuables of any kind.
+            </p>
+            <div class="row">
+                <div class="col-sm-6" style="border-top: 1px solid #ddd; margin: 10px 10px 10px 0;">
                     <p>Guest Signature</p>
                 </div>
-                <div class="col-sm-8">
-                    <p>I have received the good and/or services in the amount shown hereon.  I agree that my liability for this bill is not waived and agree to be held personally liable in the even that the indicated person, company, or associate fails to pay for any part or the full amount of these charges.  If a credit card charge, I further agree to perform the obligation set forth in the cardholder's agreement with the issuer.</p>
+                <div class="col-sm-6" style="border-top: 1px solid #ddd; margin: 10px 0;">
+                    <p>Date</p>
                 </div>
             </div>
         </div>
     </div>
 </script>
+
 @*<script type="text/html" id="receiptTemplate">
         <table class="table">
             <thead>

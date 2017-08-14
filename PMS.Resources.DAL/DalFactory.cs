@@ -893,6 +893,7 @@ namespace PMS.Resources.DAL
                     tax.TaxName = result.ITEM;
                     tax.Value = result.ITEMAMOUNT;
                     tax.IsDefaultCharges = true;
+                    tax.IsTaxIncluded = true;
 
                     taxes.Add(tax);
                     if (taxes != null && taxes[0].TaxName.Equals("ROOM CHARGES") && taxes.Count == 1)
@@ -990,7 +991,7 @@ namespace PMS.Resources.DAL
                         .Select(row => new
                         {
                             ItemName = row.ItemName,
-                            ItemValue = row.ItemValue
+                            ItemValue = row.ItemValue                            
                         })
                         .Where(x => !x.ItemName.Equals("ROOM CHARGES") && !x.ItemName.Equals("Total Room Charge"))
                         .Distinct().ToList();
@@ -1008,7 +1009,10 @@ namespace PMS.Resources.DAL
                         .Select(row => new
                         {
                             TaxName = row.TaxShortName,
-                            TaxValue = row.TaxAmount
+                            TaxValue = row.TaxAmount,
+                            //TODO remove hardcoded value
+                            IsTaxIncluded = true,
+                            Amount = 40
                         })
                         .Distinct().ToList();
 
@@ -1016,7 +1020,7 @@ namespace PMS.Resources.DAL
                 {
                     foreach (var tax in distinctTaxValues)
                     {
-                        taxes.Add(new PmsEntity.Tax { TaxName = tax.TaxName, Value = tax.TaxValue, IsDefaultCharges = true });
+                        taxes.Add(new PmsEntity.Tax { TaxName = tax.TaxName, Value = tax.TaxValue, IsDefaultCharges = true, IsTaxIncluded = tax.IsTaxIncluded, Amount = tax.Amount  });
                     }
                 }                
 

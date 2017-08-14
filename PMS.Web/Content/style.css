@@ -2498,6 +2498,7 @@ tbody tr td {
 }
 tbody tr td:last-child {
   text-align: right;
+  width: 20%;
 }
 .table > tbody > tr > td,
 .table > tbody > tr > th,
@@ -4368,6 +4369,7 @@ p
     padding: 0 2px;
     border:none;
     width: 80px;
+    border: 1px solid #ddd;
 }
 /*#invoice-table tbody tr td {
     display: inline-table;
@@ -4390,14 +4392,14 @@ p
     display: inline-table;
 }
 #invoice-table tr.sortActive td:nth-child(1) {
-    width: 5%;
+    width: 4%;
 }
 #invoice-table tr.sortActive td:nth-child(2) {
     width: 52%;
     margin: 0 8px;
 }
 #invoice-table tr.sortActive td:nth-child(3) {
-    width: 18%;
+    width: 27%;
     text-align: left;
     margin: 2px;
 }
@@ -5317,6 +5319,11 @@ dl.dropdown dd ul li a {
   padding: 5px;
   display: block;
 }
+#invoice-table input.hour-input {
+    width: 11px;
+    height: 11px;
+    min-width: 11px;
+}
 
 dl.dropdown dd ul li a:hover {
   background-color: #fff;
@@ -5324,6 +5331,14 @@ dl.dropdown dd ul li a:hover {
 #invoice-table #creditNumber, #invoice-table #creditName, #invoice-table #creditExpiry, #invoice-table #cardType {
     border: 1px solid #ddd;
     width: 120px;
+}
+.additional-details {
+    height: 294px;
+    overflow: auto;
+}
+#invoice-table input.part-input {
+    width: 40px;
+    float: left;
 }
 /*-- Print --*/
 #printarea .row .col-sm-6{
