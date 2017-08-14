@@ -2784,11 +2784,18 @@
         for (var i = 0; i < htmlElementCol.length; i++) {
             if (!htmlElementCol[i] || !htmlElementCol[i].name) continue;
             var tax = {};
+
+            var taxValue = 0;
             var taxName = htmlElementCol[i].name;
-            var taxValue = !htmlElementCol[i].value || isNaN(htmlElementCol[i].value) ? 0 : parseFloat(htmlElementCol[i].value, 10).toFixed(2);
-            var taxNameSelector = $('#' + taxName);
             tax.TaxShortName = taxName;
-            tax.TaxAmount = taxNameSelector[0].checked ? taxValue : 0;
+            var taxNameSelector = $('#' + taxName);
+            var taxCalulatedSelector = $('#taxCalulatedVal' + taxName);
+            if(!taxNameSelector[0].checked) {
+                taxValue = 0;
+            } else {
+                taxValue = taxCalulatedSelector[0].value;
+            }
+            tax.TaxAmount = taxValue;
             tax.IsActive = true;
             tax.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             tax.CreatedBy = getCreatedBy();
