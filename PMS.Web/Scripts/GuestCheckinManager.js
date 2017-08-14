@@ -2429,6 +2429,7 @@
         var dateFrom = $('#dateFrom').val();
         var dateTo = $('#dateTo').val();
         var roomType = $('#roomTypeDdl').val();
+        var rateType = $('#rateTypeDdl').val();
         var roomId = $('#roomddl').val();
         var noOfHours = $('#hoursComboBox').val();
 
@@ -2448,6 +2449,11 @@
 
         if (!roomType || roomType === '-1') {
             alert("Select proper room type");
+            return false;
+        }
+
+        if (!rateType || rateType === '-1') {
+            alert("Select proper rate type");
             return false;
         }
 
