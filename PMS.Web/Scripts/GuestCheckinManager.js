@@ -1639,13 +1639,14 @@
             data.Phone = $("#phone").val();
             data.StayDays = window.GuestCheckinManager.GetDays(data.Arrival, data.Departure);
             data.Folio = "N/A";
-            data.Rate = $("#rateTypeDdl option:selected").text() ;
+            data.Rate = $("#rateTypeDdl option:selected").text();
             data.TotalRoomCharges = $('#totalRoomCharge').val();
             data.Credit = 0;
             data.Taxes = [];
-            data.Taxes = prepareTax();
+            data.Taxes = prepareTaxForPrint(parseFloat(data.TotalRoomCharges));
             data.PaymentDetails = [];
-            data.PaymentDetails = preparePaymentDetail();
+            var totalAmount = $('#total') && $('#total')[0] ? $('#total')[0].innerText : 0;
+            data.PaymentDetails = preparePaymentDetailForPrint(totalAmount);
             return data;
         },
 
@@ -2707,6 +2708,56 @@
         return additionalGuests;
     }
 
+    function preparePaymentDetailForPrint(totalCharges) {
+        var paymentDetail = [];
+        var paymentTypeCol = $("td[id*='tdPaymentMode']");
+        var paymentTypeColNew = $("td[id*='tdPaymentMode'] select");
+        var paymentValueCol = $("td[id*='tdPaymentValue']");
+        var paymentValueColNew = $("td[id*='tdPaymentValue'] input");       
+        var valueIdx = 0;
+        var typeIdx = 0;
+        var balance = 0;
+        if (paymentValueCol && paymentValueCol.length > 0) {
+            for (var i = 0; i < paymentValueCol.length; i++) {
+                if (!paymentValueCol[i] || !paymentTypeCol[i]) continue;
+                var value = 0;
+                var paymentType = '';
+
+                paymentType = paymentTypeCol[i].innerText;
+                if (paymentType.trim() === "" || paymentType.indexOf("Select") >= 0) {
+                    var selectedIdx = paymentTypeColNew[typeIdx].options.selectedIndex;
+                    if (paymentTypeColNew[typeIdx].options[selectedIdx].value <= -1) continue;
+                    paymentType = paymentTypeColNew[typeIdx].options[selectedIdx].text;
+                    typeIdx++;
+                }
+
+                value = paymentValueCol[i].innerText;
+                if (value.trim() === "") {
+                    value = paymentValueColNew[valueIdx].value;
+                    valueIdx++;
+                    if (value.trim() === "") {
+                        value = 0;
+                    }
+                    if (parseFloat(value) <= 0) continue;
+                }              
+                
+                var payment = {};
+                payment.PaymentMode = paymentType;
+                payment.PaymentValue = value;                
+                payment.IsActive = true;
+                payment.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
+                payment.CreatedBy = getCreatedBy();
+                payment.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
+                balance =  parseFloat(balance) + parseFloat(value);
+                payment.Balance = parseFloat(totalCharges) - parseFloat(balance);
+                //payment.InvoiceId = 1038;
+                paymentDetail.push(payment);
+            }
+        }
+
+        return paymentDetail;
+    }
+
     function preparePaymentDetail() {
         var paymentDetail = [];
         var paymentTypeCol = $("td[id*='tdPaymentMode']");
@@ -2801,6 +2852,46 @@
         invoiceItem.push(totalRoomCharge);
 
         return invoiceItem;
+    }
+
+    function prepareTaxForPrint(totalRoomCharges) {
+        var taxDetails = [];
+        var balance = 0;
+        var htmlElementCol = $("input[id*='taxVal']");
+        if (!htmlElementCol || htmlElementCol.length <= 0) return taxDetails;
+
+        for (var i = 0; i < htmlElementCol.length; i++) {
+            if (!htmlElementCol[i] || !htmlElementCol[i].name) continue;
+            var tax = {};
+
+            var taxName = htmlElementCol[i].name;
+            tax.TaxShortName = taxName;
+            var taxValue = 0;
+            var taxNameSelector = $('#' + taxName);
+            var taxCalulatedSelector = $('#taxCalulatedVal' + taxName);
+            if(!taxNameSelector[0].checked) {
+                taxValue = 0;
+            } else {
+                taxValue = taxCalulatedSelector[0].value;
+            }
+            // TaxValue is absolute tax calculated
+            tax.TaxValue = taxValue;
+            tax.IsConsidered = taxNameSelector[0].checked;
+            var taxPercent = htmlElementCol[i].value.replace('%', '');
+            var taxValueInPercent = !taxPercent || isNaN(taxPercent) ? 0 : parseFloat(taxPercent, 10).toFixed(2);
+            // TaxAmount is tax in percentage
+            tax.TaxAmount = taxValueInPercent;
+            
+            tax.IsActive = true;
+            tax.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
+            tax.CreatedBy = getCreatedBy();
+            tax.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
+            balance =  parseFloat(balance) + parseFloat(taxValue);
+            tax.Balance = parseFloat(balance) + parseFloat(totalRoomCharges);
+            //tax.InvoiceId = 1038;
+            taxDetails.push(tax);
+        }
+        return taxDetails;
     }
 
     function prepareTax() {
