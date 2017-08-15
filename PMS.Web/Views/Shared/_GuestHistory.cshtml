@@ -40,8 +40,8 @@
                     <td>${$value.CheckinTime}</td>
                     <td>${$value.DurationOfStay}</td>
                     <td class="color-success">${$value.RoomBookings[0].Room.RoomType.Name}</td>
-                    <td>$1200.00</td>
-                    <td>$1400.00</td>
+                    <td>${$value.RoomBookings[0].Room.RateType.Rates[0].Value}</td>
+                    <td>${$value.Invoice.TotalAmount}</td>
                 </tr>
                 {{/each}}
             </tbody>

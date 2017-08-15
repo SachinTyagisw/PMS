@@ -87,7 +87,7 @@ namespace PMS.Api.Controllers
             if (id > 0)
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
-                response.StatusDescription = "Invoice is added successfully.";
+                response.StatusDescription = "Invoice saved successfully.";
                 response.ResponseObject = id;
             }
             else
