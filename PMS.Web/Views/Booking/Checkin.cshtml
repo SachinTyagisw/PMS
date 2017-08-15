@@ -408,9 +408,7 @@
 
             $('#divInvoice').on("click", "#addPaymentType", function (e) {                
                 var cloneHtmlElement = $('#divInvoice').find('tr#trPaymentTypeOther:last').clone(true);
-                cloneHtmlElement[0].style = 'display:block';
-                //var ddlPaymentTypeSelector = '#' + cloneHtmlElement[0].id + " td" + " select";
-                //$(ddlPaymentTypeSelector)[0].id = "paymentTypeDdl";
+                cloneHtmlElement[0].style = 'display:block';                
                 $('#divInvoice').find('#trPayment').before(cloneHtmlElement);
                 e.stopPropagation();
             });

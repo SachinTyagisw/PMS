@@ -547,10 +547,12 @@
                 Notifications.SubscribeActive("on-paymenttype-get-success", function(sender, args) {
                     var paymentData = window.GuestCheckinManager.PropertySettingResponseDto.PaymentTypeSettings;
                     window.GuestCheckinManager.BindPaymentTypeDdl($('#paymentTypeDdl'), paymentData);
+                    window.GuestCheckinManager.BindPaymentTypeDdl($('#paymentTypeDdlOther'), paymentData);
                 });
                 window.GuestCheckinManager.GetPaymentType();
             } else {
                 window.GuestCheckinManager.BindPaymentTypeDdl($('#paymentTypeDdl'), data);
+                window.GuestCheckinManager.BindPaymentTypeDdl($('#paymentTypeDdlOther'), data);
             }
 
             // data not present in session
