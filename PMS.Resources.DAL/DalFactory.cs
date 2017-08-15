@@ -692,6 +692,10 @@ namespace PMS.Resources.DAL
                     booking.CheckoutTime = result.CheckoutTime;
                     TimeSpan? ts = booking.CheckoutTime - booking.CheckinTime;
                     booking.DurationOfStay = ts.HasValue ? ts.Value.TotalHours : 0;
+                    booking.Invoice = new PmsEntity.Invoice
+                    {
+                        TotalAmount = result.InvoiceAmount
+                    };
                     booking.RoomBookings = new List<PmsEntity.RoomBooking>
                     {
                         new PmsEntity.RoomBooking
@@ -707,6 +711,16 @@ namespace PMS.Resources.DAL
                                 {
                                    PropertyDetails = result.PROPERTYDETAILS,
                                    PropertyName = result.PropertyName
+                                },
+                                RateType = new PmsEntity.RateType
+                                {
+                                     Rates = new List<PmsEntity.Rate>
+                                     {
+                                        new PmsEntity.Rate
+                                        {
+                                            Value = result.ROOMCHARGE
+                                        }
+                                     }
                                 }
                             }
                         }

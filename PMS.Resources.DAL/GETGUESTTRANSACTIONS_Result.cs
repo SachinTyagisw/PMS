@@ -19,5 +19,7 @@ namespace PMS.Resources.DAL
         public Nullable<System.DateTime> CheckoutTime { get; set; }
         public string ROOMTYPE { get; set; }
         public string ROOMNUMBER { get; set; }
+        public Nullable<decimal> ROOMCHARGE { get; set; }
+        public Nullable<decimal> InvoiceAmount { get; set; }
     }
 }

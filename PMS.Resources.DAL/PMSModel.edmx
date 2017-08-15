@@ -2330,6 +2330,8 @@
           <Property Type="DateTime" Name="CheckoutTime" Nullable="true" Precision="23" />
           <Property Type="String" Name="ROOMTYPE" Nullable="true" />
           <Property Type="String" Name="ROOMNUMBER" Nullable="true" MaxLength="200" />
+          <Property Type="Decimal" Name="ROOMCHARGE" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="InvoiceAmount" Nullable="true" Precision="19" />
         </ComplexType>
         <ComplexType Name="GETINVOICEDETAILS_Result">
           <Property Type="Int32" Name="InvoiceId" Nullable="false" />
@@ -2994,6 +2996,8 @@
                 <ScalarProperty Name="CheckoutTime" ColumnName="CheckoutTime" />
                 <ScalarProperty Name="ROOMTYPE" ColumnName="ROOMTYPE" />
                 <ScalarProperty Name="ROOMNUMBER" ColumnName="ROOMNUMBER" />
+                <ScalarProperty Name="ROOMCHARGE" ColumnName="ROOMCHARGE" />
+                <ScalarProperty Name="InvoiceAmount" ColumnName="InvoiceAmount" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
