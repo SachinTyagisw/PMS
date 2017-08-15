@@ -85,8 +85,11 @@
             {{/each}}
             <tr id="trDiscount" class="sortActive">
                 <td><span class="glyphicon glyphicon-th-list"></span></td>
-                <td>Discount (%)</td>
-                <td><input id="discount" onkeyup="OnTaxValChange(event, this)" class="color-danger" value="${typeof Discount != 'undefined' && Discount > 0 ? Discount : 0 }" /></td>
+                <td>Discount</td>
+                <td>
+                    <input id="discountPercent" placeholder="0%" onkeyup="OnTaxValChange(event, this)" class="part-input color-danger" value="${typeof DiscountPercent != 'undefined' && DiscountPercent > 0 ? DiscountPercent : 0 }%" />
+                    <input id="discountAmt" placeholder="0.0" onkeyup="OnTaxValChange(event, this)" class="part-input color-danger" value="${typeof DiscountAmount != 'undefined' && DiscountAmount > 0 ? DiscountAmount : 0 }" />
+                </td>
                 <td></td>
             </tr>
             @*{{if typeof Id != "undefined" && Id > 0 }}

@@ -1060,7 +1060,9 @@ namespace PMS.Resources.DAL
                 {
                     foreach (var otherCharges in distinctOtherCharges)
                     {
-                        invoice.Discount = otherCharges.Discount;
+                        invoice.DiscountPercent = otherCharges.Discount;
+                        //TODO replace with actual discount amount
+                        invoice.DiscountAmount = otherCharges.Discount;
                         invoice.TotalAmount = otherCharges.TotalAmt;
                         invoice.BookingId = otherCharges.BookingId;
                         invoice.Id = otherCharges.InvoiceId;

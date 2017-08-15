@@ -20,7 +20,8 @@ namespace PMS.Resources.Entities
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string LastUpdatedBy { get; set; }
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
-        public Nullable<decimal> Discount { get; set; }
+        public Nullable<decimal> DiscountPercent { get; set; }
+        public Nullable<decimal> DiscountAmount { get; set; }
         public string CreditCardDetail { get; set; }
         public List<InvoiceTaxDetail> InvoiceTaxDetails { get; set; }
         public List<InvoiceItem> InvoiceItems { get; set; }

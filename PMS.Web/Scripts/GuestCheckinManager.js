@@ -333,7 +333,8 @@
             invoice.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             invoice.IsActive = true;
             invoice.TotalAmount = $('#total') && $('#total')[0] ? $('#total')[0].innerText : 0;
-            invoice.Discount = $('#discount') && $('#discount')[0] ? $('#discount')[0].value : 0;
+            invoice.DiscountPercent = $('#discountPercent') && $('#discountPercent')[0] ? $('#discountPercent')[0].value.replace('%', '') : 0;
+            invoice.DiscountAmount = $('#discountAmt') && $('#discountAmt')[0] ? $('#discountAmt')[0].value : 0;
             invoice.IsPaid = $('#balance') && $('#balance').val() > 0 ? false : true;
             invoice.CreatedBy = getCreatedBy();
 
@@ -355,7 +356,7 @@
 
             invoiceRequestDto.Invoice = invoice;
             // add invoice by api calling  
-            pmsService.AddInvoice(invoiceRequestDto);
+            //pmsService.AddInvoice(invoiceRequestDto);
         },
 
         AddBooking: function(status, shouldRefund) {            
@@ -2578,9 +2579,15 @@
 
     function applyDiscount(totalCharge) {
         if (!totalCharge || isNaN(totalCharge)) return 0;
-        var discount = $('#discount').val();
-        discount = !discount || isNaN(discount) ? 0 : parseFloat(discount, 10).toFixed(2);
-        totalCharge = (parseFloat(totalCharge) - (parseFloat(discount) * parseFloat(totalCharge)) / 100).toFixed(2);
+        var discountPercent = $('#discountPercent').val().replace('%', '');
+        discountPercent = !discountPercent || isNaN(discountPercent) ? 0 : parseFloat(discountPercent, 10).toFixed(2);
+        var disAmtFromPercent = (parseFloat(discountPercent) * parseFloat(totalCharge)) / 100;
+        var directDiscountAmt = $('#discountAmt').val();
+        if(parseFloat(directDiscountAmt) === 0 || directDiscountAmt.trim() === ''){
+            $('#discountAmt').val(disAmtFromPercent);
+        }
+        var discountedAmount = parseFloat($('#discountAmt').val());
+        totalCharge = (parseFloat(totalCharge) - discountedAmount).toFixed(2);
         return totalCharge;
     }
 

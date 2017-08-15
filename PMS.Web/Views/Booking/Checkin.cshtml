@@ -35,8 +35,8 @@
         }
 
         function OnTaxValChange(e, htmlElement) {
-            if (!htmlElement.value || isNaN(htmlElement.value)) {
-                htmlElement.value = '';
+            if (!htmlElement.value || htmlElement.value.trim() === "" || isNaN(htmlElement.value)) {
+                htmlElement.value = 0;
             }
             gcm.CalculateInvoice();
         }
