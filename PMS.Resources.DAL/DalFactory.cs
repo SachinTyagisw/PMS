@@ -688,8 +688,8 @@ namespace PMS.Resources.DAL
                 foreach (var result in resultSet)
                 {
                     var booking = new PmsEntity.Booking();
-                    booking.CheckinTime = Convert.ToDateTime(result.CheckinTime.ToString().Replace('T' ,' '));
-                    booking.CheckoutTime = Convert.ToDateTime(result.CheckoutTime.ToString().Replace('T', ' '));
+                    booking.CheckinTime = result.CheckinTime;
+                    booking.CheckoutTime = result.CheckoutTime;
                     TimeSpan? ts = booking.CheckoutTime - booking.CheckinTime;
                     booking.DurationOfStay = ts.HasValue ? ts.Value.TotalHours : 0;
                     booking.RoomBookings = new List<PmsEntity.RoomBooking>
