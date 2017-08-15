@@ -1,7 +1,7 @@
 USE [PMS]
 GO
 
-/****** Object:  Table [dbo].[Invoice]    Script Date: 08/12/2017 01:09:17 ******/
+/****** Object:  Table [dbo].[Invoice]    Script Date: 08/15/2017 04:53:41 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -22,6 +22,7 @@ CREATE TABLE [dbo].[Invoice](
 	[LastUpdatedOn] [datetime] NULL,
 	[DISCOUNT] [money] NULL,
 	[CreditCardDetail] [nvarchar](max) NULL,
+	[DiscountAmount] [decimal](18, 0) NULL,
  CONSTRAINT [PK__Invoice__3214EC2766CAD2C9] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
