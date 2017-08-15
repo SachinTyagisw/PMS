@@ -88,7 +88,7 @@
                 <td>Discount</td>
                 <td>
                     <input id="discountPercent" placeholder="0%" onkeyup="OnTaxValChange(event, this)" class="part-input color-danger" value="${typeof DiscountPercent != 'undefined' && DiscountPercent > 0 ? DiscountPercent : 0 }%" />
-                    <input id="discountAmt" placeholder="0.0" onkeyup="OnTaxValChange(event, this)" class="part-input color-danger" value="${typeof DiscountAmount != 'undefined' && DiscountAmount > 0 ? DiscountAmount : 0 }" />
+                    <input id="discountAmt" placeholder="0.0" onkeyup="OnTaxValChange(event, this, true)" class="part-input color-danger" value="${typeof DiscountAmount != 'undefined' && DiscountAmount > 0 ? DiscountAmount : 0 }" />
                 </td>
                 <td></td>
             </tr>

@@ -34,11 +34,11 @@
             gcm.CalculateInvoice();
         }
 
-        function OnTaxValChange(e, htmlElement) {
+        function OnTaxValChange(e, htmlElement, isElementDiscountAmt) {
             if (!htmlElement.value || htmlElement.value.trim() === "" || isNaN(htmlElement.value)) {
-                htmlElement.value = 0;
+                htmlElement.value = '';
             }
-            gcm.CalculateInvoice();
+            gcm.CalculateInvoice(isElementDiscountAmt);
         }
 
         //function OnHourlyCbChecked() {

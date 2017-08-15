@@ -601,7 +601,7 @@
             return true;
         },
 
-        CalculateInvoice: function() {
+        CalculateInvoice: function(isElementDiscountAmt) {
             var totalCharge = 0;
             var totalTax = 0;
             var paymentAmt = 0;
@@ -649,7 +649,7 @@
             }
 
             totalCharge = (totRoomCharge + (parseFloat(totalTax) * totRoomCharge) / 100).toFixed(2);
-            totalCharge = applyDiscount(totalCharge);
+            totalCharge = applyDiscount(totalCharge,isElementDiscountAmt);
 
             //other tax charges calculations
             if (otherTaxElementCol && otherTaxElementCol.length > 0) {
@@ -2577,16 +2577,20 @@
         return window.GuestCheckinManager.BookingDto.PropertyId;
     }
 
-    function applyDiscount(totalCharge) {
+    function applyDiscount(totalCharge, isElementDiscountAmt) {
         if (!totalCharge || isNaN(totalCharge)) return 0;
         var discountPercent = $('#discountPercent').val().replace('%', '');
         discountPercent = !discountPercent || isNaN(discountPercent) ? 0 : parseFloat(discountPercent, 10).toFixed(2);
         var disAmtFromPercent = (parseFloat(discountPercent) * parseFloat(totalCharge)) / 100;
         var directDiscountAmt = $('#discountAmt').val();
-        if(parseFloat(directDiscountAmt) === 0 || directDiscountAmt.trim() === ''){
+        // if no direct discount amount is provided
+        if(!isElementDiscountAmt){
             $('#discountAmt').val(disAmtFromPercent);
         }
-        var discountedAmount = parseFloat($('#discountAmt').val());
+        if(isElementDiscountAmt && disAmtFromPercent > 0 && (parseFloat(directDiscountAmt) === 0 || directDiscountAmt.trim() === '')){
+            $('#discountAmt').val(disAmtFromPercent);
+        }
+        var discountedAmount = $('#discountAmt').val().trim() === '' || isNaN($('#discountAmt').val()) || parseFloat($('#discountAmt').val()) <= 0 ? 0 : parseFloat($('#discountAmt').val());
         totalCharge = (parseFloat(totalCharge) - discountedAmount).toFixed(2);
         return totalCharge;
     }
