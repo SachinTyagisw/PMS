@@ -221,6 +221,7 @@
           <Property Name="LastUpdatedOn" Type="datetime" />
           <Property Name="DISCOUNT" Type="money" />
           <Property Name="CreditCardDetail" Type="nvarchar(max)" />
+          <Property Name="DiscountAmount" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="InvoiceItems">
           <Key>
@@ -1330,6 +1331,7 @@
           <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
           <Property Name="DISCOUNT" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="CreditCardDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DiscountAmount" Type="Decimal" Precision="18" Scale="0" />
           <NavigationProperty Name="Booking" Relationship="Self.FK__Invoice__Booking__3C69FB99" FromRole="Invoice" ToRole="Booking" />
           <NavigationProperty Name="Guest" Relationship="Self.FK__Invoice__GuestID__3D5E1FD2" FromRole="Invoice" ToRole="Guest" />
           <NavigationProperty Name="InvoiceTaxDetails" Relationship="Self.FK__InvoiceTa__Invoi__403A8C7D" FromRole="Invoice" ToRole="InvoiceTaxDetail" />
@@ -2342,6 +2344,7 @@
           <Property Type="String" Name="LastUpdatedBy" Nullable="true" MaxLength="200" />
           <Property Type="DateTime" Name="LastUpdatedOn" Nullable="true" Precision="23" />
           <Property Type="Decimal" Name="DISCOUNT" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="DISCOUNTAmount" Nullable="true" Precision="18" Scale="0" />
           <Property Type="String" Name="CreditCardDetail" Nullable="true" />
           <Property Type="String" Name="ItemName" Nullable="true" />
           <Property Type="Decimal" Name="ItemValue" Nullable="true" Precision="19" />
@@ -2622,6 +2625,7 @@
                 <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
                 <ScalarProperty Name="DISCOUNT" ColumnName="DISCOUNT" />
                 <ScalarProperty Name="CreditCardDetail" ColumnName="CreditCardDetail" />
+                <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3008,6 +3012,7 @@
                 <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
                 <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
                 <ScalarProperty Name="DISCOUNT" ColumnName="DISCOUNT" />
+                <ScalarProperty Name="DISCOUNTAmount" ColumnName="DISCOUNTAmount" />
                 <ScalarProperty Name="CreditCardDetail" ColumnName="CreditCardDetail" />
                 <ScalarProperty Name="ItemName" ColumnName="ItemName" />
                 <ScalarProperty Name="ItemValue" ColumnName="ItemValue" />

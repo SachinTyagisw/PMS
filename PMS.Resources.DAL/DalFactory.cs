@@ -1044,7 +1044,8 @@ namespace PMS.Resources.DAL
                 var distinctOtherCharges = resultSet.AsEnumerable()
                         .Select(row => new
                         {
-                            Discount = row.DISCOUNT,
+                            DiscountPercent = row.DISCOUNT,
+                            DiscountAmount = row.DISCOUNTAmount,
                             TotalAmt = row.TotalAmount,
                             BookingId = row.BookingID,
                             InvoiceId = row.InvoiceId,
@@ -1060,9 +1061,8 @@ namespace PMS.Resources.DAL
                 {
                     foreach (var otherCharges in distinctOtherCharges)
                     {
-                        invoice.DiscountPercent = otherCharges.Discount;
-                        //TODO replace with actual discount amount
-                        invoice.DiscountAmount = otherCharges.Discount;
+                        invoice.DiscountPercent = otherCharges.DiscountPercent;
+                        invoice.DiscountAmount = otherCharges.DiscountAmount;
                         invoice.TotalAmount = otherCharges.TotalAmt;
                         invoice.BookingId = otherCharges.BookingId;
                         invoice.Id = otherCharges.InvoiceId;

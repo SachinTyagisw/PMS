@@ -1624,17 +1624,20 @@
 
         PrepareReceiptData: function () {
             var data = {};
-            data.PropertyName = "Test Property";
-            data.Address = "Test Address";
-            data.GuestName = "Test Guest";
-            data.FullAddress = "City1,State1,11111";
-            data.AdditionalGuest = "Additional Test";
-            data.Room = "101" + "King Smoking";
-            data.Arrival = "2017/08/12";
-            data.Departure = "2017/08/13";
-            data.StayDays = "2";
-            data.Folio = "Test Folio";
-            data.Rate = "Weekday";
+            data.PropertyName = $("#ddlGlobalProperty option:selected").text();
+            data.Address = $("#address").val();
+            data.GuestName = $("#lName").val() + ", " + $("#fName").val();
+            data.City = $("#ddlCity option:selected").text();
+            data.State = $("#ddlState option:selected").text();
+            data.Zip = $("#zipCode").val();
+            data.AdditionalGuest = $("#adLName").val() + ", " + $("#adFName").val();
+            data.Room = $("#roomddl option:selected").text() + " " + $("#roomTypeDdl option:selected").text();
+            data.Arrival = $("#dateFrom").val();
+            data.Departure = $("#dateTo").val();
+            data.Phone = $("#phone").val();
+            data.StayDays = window.GuestCheckinManager.GetDays(data.Arrival, data.Departure);
+            data.Folio = "N/A";
+            data.Rate = $("#rateTypeDdl option:selected").text() ;
             data.TotalRoomCharges = "150";
             data.Taxes = [];
             data.Taxes = prepareTax();

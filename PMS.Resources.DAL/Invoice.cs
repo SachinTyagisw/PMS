@@ -32,6 +32,7 @@ namespace PMS.Resources.DAL
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
         public Nullable<decimal> DISCOUNT { get; set; }
         public string CreditCardDetail { get; set; }
+        public Nullable<decimal> DiscountAmount { get; set; }
     
         public virtual Booking Booking { get; set; }
         public virtual Guest Guest { get; set; }
