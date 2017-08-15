@@ -319,7 +319,7 @@
             
             invoice.PropertyId = getPropertyId();
             invoice.BookingId = window.GuestCheckinManager.BookingDto.BookingId ? window.GuestCheckinManager.BookingDto.BookingId : -1;
-            //invoice.BookingId = 2116;
+            invoice.BookingId = 2116;
             if (invoice.PropertyId <= -1 || invoice.BookingId <= -1) {
                 $('#saveInvoice').attr("disabled", true);
                 alert('Invalid bookingid or propertyid.');
@@ -327,9 +327,9 @@
             }
 
             invoice.Id = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-            //invoice.Id = 1038;
+            invoice.Id = 1038;
             invoice.GuestId = window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;
-            //invoice.GuestId = 2082;
+            invoice.GuestId = 2082;
             invoice.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             invoice.IsActive = true;
             invoice.TotalAmount = $('#total') && $('#total')[0] ? $('#total')[0].innerText : 0;
@@ -712,7 +712,7 @@
             if (!validateLoadInvoiceCall()) return;
 
             var invoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-            //invoiceId = 1038;
+            invoiceId = 1038;
             $('#rateTypeDdl').attr("disabled", false);
             
             if (invoiceId === -1) {                
@@ -2727,7 +2727,7 @@
                 payment.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
                 payment.CreatedBy = getCreatedBy();
                 payment.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-                //payment.InvoiceId = 1038;
+                payment.InvoiceId = 1038;
                 paymentDetail.push(payment);
 
             }
@@ -2754,7 +2754,7 @@
                 otherTax.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
                 otherTax.CreatedBy = getCreatedBy();
                 otherTax.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-                //otherTax.InvoiceId = 1038;
+                otherTax.InvoiceId = 1038;
                 invoiceItem.push(otherTax);
             }
         }
@@ -2766,7 +2766,7 @@
         baseRoomCharge.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
         baseRoomCharge.CreatedBy = getCreatedBy();
         baseRoomCharge.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-        //baseRoomCharge.InvoiceId = 1038;
+        baseRoomCharge.InvoiceId = 1038;
 
         invoiceItem.push(baseRoomCharge);
 
@@ -2777,7 +2777,7 @@
         totalRoomCharge.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
         totalRoomCharge.CreatedBy = getCreatedBy();
         totalRoomCharge.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-        //totalRoomCharge.InvoiceId = 1038;
+        totalRoomCharge.InvoiceId = 1038;
 
         invoiceItem.push(totalRoomCharge);
 
@@ -2803,17 +2803,18 @@
             } else {
                 taxValue = taxCalulatedSelector[0].value;
             }
-            //TODO need to updates with correct property name
-            //tax.TaxAmount = taxValue;
-            //tax.IsTaxIncluded = taxNameSelector[0].checked;
+            // TaxValue is absolute tax calculated
+            tax.TaxValue = taxValue;
+            tax.IsConsidered = taxNameSelector[0].checked;
             var taxValueInPercent = !htmlElementCol[i].value || isNaN(htmlElementCol[i].value) ? 0 : parseFloat(htmlElementCol[i].value, 10).toFixed(2);
+            // TaxAmount is tax in percentage
             tax.TaxAmount = taxNameSelector[0].checked ? taxValueInPercent : 0;
             
             tax.IsActive = true;
             tax.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             tax.CreatedBy = getCreatedBy();
             tax.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-            //tax.InvoiceId = 1038;
+            tax.InvoiceId = 1038;
             taxDetails.push(tax);
         }
         return taxDetails;

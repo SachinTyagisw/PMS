@@ -264,6 +264,8 @@
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
           <Property Name="LastUpdatedOn" Type="datetime" />
+          <Property Name="TaxValue" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="IsConsidered" Type="bit" />
         </EntityType>
         <EntityType Name="PaymentType">
           <Key>
@@ -1374,6 +1376,8 @@
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+          <Property Name="TaxValue" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="IsConsidered" Type="Boolean" />
           <NavigationProperty Name="Invoice" Relationship="Self.FK__InvoiceTa__Invoi__403A8C7D" FromRole="InvoiceTaxDetail" ToRole="Invoice" />
         </EntityType>
         <EntityType Name="PaymentType">
@@ -2338,6 +2342,7 @@
           <Property Type="String" Name="LastUpdatedBy" Nullable="true" MaxLength="200" />
           <Property Type="DateTime" Name="LastUpdatedOn" Nullable="true" Precision="23" />
           <Property Type="Decimal" Name="DISCOUNT" Nullable="true" Precision="19" />
+          <Property Type="String" Name="CreditCardDetail" Nullable="true" />
           <Property Type="String" Name="ItemName" Nullable="true" />
           <Property Type="Decimal" Name="ItemValue" Nullable="true" Precision="19" />
           <Property Type="String" Name="PaymentMode" Nullable="true" />
@@ -2345,7 +2350,8 @@
           <Property Type="String" Name="PaymentDetails" Nullable="true" />
           <Property Type="String" Name="TaxShortName" Nullable="true" />
           <Property Type="Decimal" Name="TaxAmount" Nullable="true" Precision="7" Scale="2" />
-          <Property Type="String" Name="CreditCardDetail" Nullable="true" />
+          <Property Type="Decimal" Name="TaxValue" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Boolean" Name="IsConsidered" Nullable="true" />
         </ComplexType>
         <ComplexType Name="GetRoomRates_Result">
           <Property Type="Int32" Name="ID" Nullable="true" />
@@ -2662,6 +2668,8 @@
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
                 <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+                <ScalarProperty Name="TaxValue" ColumnName="TaxValue" />
+                <ScalarProperty Name="IsConsidered" ColumnName="IsConsidered" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3000,6 +3008,7 @@
                 <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
                 <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
                 <ScalarProperty Name="DISCOUNT" ColumnName="DISCOUNT" />
+                <ScalarProperty Name="CreditCardDetail" ColumnName="CreditCardDetail" />
                 <ScalarProperty Name="ItemName" ColumnName="ItemName" />
                 <ScalarProperty Name="ItemValue" ColumnName="ItemValue" />
                 <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
@@ -3007,7 +3016,8 @@
                 <ScalarProperty Name="PaymentDetails" ColumnName="PaymentDetails" />
                 <ScalarProperty Name="TaxShortName" ColumnName="TaxShortName" />
                 <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
-                <ScalarProperty Name="CreditCardDetail" ColumnName="CreditCardDetail" />
+                <ScalarProperty Name="TaxValue" ColumnName="TaxValue" />
+                <ScalarProperty Name="IsConsidered" ColumnName="IsConsidered" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

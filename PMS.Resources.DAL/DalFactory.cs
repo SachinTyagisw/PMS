@@ -688,8 +688,8 @@ namespace PMS.Resources.DAL
                 foreach (var result in resultSet)
                 {
                     var booking = new PmsEntity.Booking();
-                    booking.CheckinTime = result.CheckinTime;
-                    booking.CheckoutTime = result.CheckoutTime;
+                    booking.CheckinTime = Convert.ToDateTime(result.CheckinTime.ToString().Replace('T' ,' '));
+                    booking.CheckoutTime = Convert.ToDateTime(result.CheckoutTime.ToString().Replace('T', ' '));
                     TimeSpan? ts = booking.CheckoutTime - booking.CheckinTime;
                     booking.DurationOfStay = ts.HasValue ? ts.Value.TotalHours : 0;
                     booking.RoomBookings = new List<PmsEntity.RoomBooking>
@@ -1010,9 +1010,8 @@ namespace PMS.Resources.DAL
                         {
                             TaxName = row.TaxShortName,
                             TaxValue = row.TaxAmount,
-                            //TODO remove hardcoded value
-                            IsTaxIncluded = true,
-                            Amount = 40
+                            IsTaxIncluded = row.IsConsidered.Value,
+                            Amount = row.TaxValue.Value
                         })
                         .Distinct().ToList();
 
