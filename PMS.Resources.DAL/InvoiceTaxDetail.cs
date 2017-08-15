@@ -23,6 +23,8 @@ namespace PMS.Resources.DAL
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string LastUpdatedBy { get; set; }
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
+        public Nullable<decimal> TaxValue { get; set; }
+        public Nullable<bool> IsConsidered { get; set; }
     
         public virtual Invoice Invoice { get; set; }
     }

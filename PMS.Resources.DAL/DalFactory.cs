@@ -1010,9 +1010,8 @@ namespace PMS.Resources.DAL
                         {
                             TaxName = row.TaxShortName,
                             TaxValue = row.TaxAmount,
-                            //TODO remove hardcoded value
-                            IsTaxIncluded = true,
-                            Amount = 40
+                            IsTaxIncluded = row.IsConsidered.HasValue ? row.IsConsidered.Value : false,
+                            Amount = row.TaxValue.HasValue ? row.TaxValue.Value : 0
                         })
                         .Distinct().ToList();
 
@@ -1061,7 +1060,9 @@ namespace PMS.Resources.DAL
                 {
                     foreach (var otherCharges in distinctOtherCharges)
                     {
-                        invoice.Discount = otherCharges.Discount;
+                        invoice.DiscountPercent = otherCharges.Discount;
+                        //TODO replace with actual discount amount
+                        invoice.DiscountAmount = otherCharges.Discount;
                         invoice.TotalAmount = otherCharges.TotalAmt;
                         invoice.BookingId = otherCharges.BookingId;
                         invoice.Id = otherCharges.InvoiceId;

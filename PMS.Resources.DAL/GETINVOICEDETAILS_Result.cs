@@ -25,6 +25,7 @@ namespace PMS.Resources.DAL
         public string LastUpdatedBy { get; set; }
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
         public Nullable<decimal> DISCOUNT { get; set; }
+        public string CreditCardDetail { get; set; }
         public string ItemName { get; set; }
         public Nullable<decimal> ItemValue { get; set; }
         public string PaymentMode { get; set; }
@@ -32,6 +33,7 @@ namespace PMS.Resources.DAL
         public string PaymentDetails { get; set; }
         public string TaxShortName { get; set; }
         public Nullable<decimal> TaxAmount { get; set; }
-        public string CreditCardDetail { get; set; }
+        public Nullable<decimal> TaxValue { get; set; }
+        public Nullable<bool> IsConsidered { get; set; }
     }
 }

@@ -333,7 +333,8 @@
             invoice.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             invoice.IsActive = true;
             invoice.TotalAmount = $('#total') && $('#total')[0] ? $('#total')[0].innerText : 0;
-            invoice.Discount = $('#discount') && $('#discount')[0] ? $('#discount')[0].value : 0;
+            invoice.DiscountPercent = $('#discountPercent') && $('#discountPercent')[0] ? $('#discountPercent')[0].value.replace('%', '') : 0;
+            invoice.DiscountAmount = $('#discountAmt') && $('#discountAmt')[0] ? $('#discountAmt')[0].value : 0;
             invoice.IsPaid = $('#balance') && $('#balance').val() > 0 ? false : true;
             invoice.CreatedBy = getCreatedBy();
 
@@ -355,7 +356,7 @@
 
             invoiceRequestDto.Invoice = invoice;
             // add invoice by api calling  
-            pmsService.AddInvoice(invoiceRequestDto);
+            //pmsService.AddInvoice(invoiceRequestDto);
         },
 
         AddBooking: function(status, shouldRefund) {            
@@ -600,7 +601,7 @@
             return true;
         },
 
-        CalculateInvoice: function() {
+        CalculateInvoice: function(isElementDiscountAmt) {
             var totalCharge = 0;
             var totalTax = 0;
             var paymentAmt = 0;
@@ -633,20 +634,22 @@
             if (taxElementCol && taxElementCol.length > 0) {
                 for (var i = 0; i < taxElementCol.length; i++) {
                     var taxName = taxElementCol[i].name;                    
-                    if (!taxElementCol[i] || !taxElementCol[i].value || !taxName || isNaN(taxElementCol[i].value)) continue;
+                    if (!taxElementCol[i] || !taxElementCol[i].value || !taxName) continue;
+                    var taxPercent = taxElementCol[i].value.replace('%', '');
+                    if(isNaN(taxPercent)) continue;
                     var taxNameSelector = $('#' + taxName);
                     var taxCalulatedSelector = $('#taxCalulatedVal' + taxName);
                     if(!taxNameSelector[0].checked) {
                         taxCalulatedSelector[0].value = 0;
                         continue;
                     }
-                    taxCalulatedSelector[0].value = ((parseFloat(taxElementCol[i].value, 10) * totRoomCharge) / 100).toFixed(2);
-                    totalTax = (parseFloat(totalTax) + parseFloat(taxElementCol[i].value, 10)).toFixed(2);
+                    taxCalulatedSelector[0].value = ((parseFloat(taxPercent, 10) * totRoomCharge) / 100).toFixed(2);
+                    totalTax = (parseFloat(totalTax) + parseFloat(taxPercent, 10)).toFixed(2);
                 }
             }
 
             totalCharge = (totRoomCharge + (parseFloat(totalTax) * totRoomCharge) / 100).toFixed(2);
-            totalCharge = applyDiscount(totalCharge);
+            totalCharge = applyDiscount(totalCharge,isElementDiscountAmt);
 
             //other tax charges calculations
             if (otherTaxElementCol && otherTaxElementCol.length > 0) {
@@ -2574,11 +2577,21 @@
         return window.GuestCheckinManager.BookingDto.PropertyId;
     }
 
-    function applyDiscount(totalCharge) {
+    function applyDiscount(totalCharge, isElementDiscountAmt) {
         if (!totalCharge || isNaN(totalCharge)) return 0;
-        var discount = $('#discount').val();
-        discount = !discount || isNaN(discount) ? 0 : parseFloat(discount, 10).toFixed(2);
-        totalCharge = (parseFloat(totalCharge) - (parseFloat(discount) * parseFloat(totalCharge)) / 100).toFixed(2);
+        var discountPercent = $('#discountPercent').val().replace('%', '');
+        discountPercent = !discountPercent || isNaN(discountPercent) ? 0 : parseFloat(discountPercent, 10).toFixed(2);
+        var disAmtFromPercent = (parseFloat(discountPercent) * parseFloat(totalCharge)) / 100;
+        var directDiscountAmt = $('#discountAmt').val();
+        // if no direct discount amount is provided
+        if(!isElementDiscountAmt){
+            $('#discountAmt').val(disAmtFromPercent);
+        }
+        if(isElementDiscountAmt && disAmtFromPercent > 0 && (parseFloat(directDiscountAmt) === 0 || directDiscountAmt.trim() === '')){
+            $('#discountAmt').val(disAmtFromPercent);
+        }
+        var discountedAmount = $('#discountAmt').val().trim() === '' || isNaN($('#discountAmt').val()) || parseFloat($('#discountAmt').val()) <= 0 ? 0 : parseFloat($('#discountAmt').val());
+        totalCharge = (parseFloat(totalCharge) - discountedAmount).toFixed(2);
         return totalCharge;
     }
 
@@ -2803,11 +2816,13 @@
             } else {
                 taxValue = taxCalulatedSelector[0].value;
             }
-            //TODO need to updates with correct property name
-            //tax.TaxAmount = taxValue;
-            //tax.IsTaxIncluded = taxNameSelector[0].checked;
-            var taxValueInPercent = !htmlElementCol[i].value || isNaN(htmlElementCol[i].value) ? 0 : parseFloat(htmlElementCol[i].value, 10).toFixed(2);
-            tax.TaxAmount = taxNameSelector[0].checked ? taxValueInPercent : 0;
+            // TaxValue is absolute tax calculated
+            tax.TaxValue = taxValue;
+            tax.IsConsidered = taxNameSelector[0].checked;
+            var taxPercent = htmlElementCol[i].value.replace('%', '');
+            var taxValueInPercent = !taxPercent || isNaN(taxPercent) ? 0 : parseFloat(taxPercent, 10).toFixed(2);
+            // TaxAmount is tax in percentage
+            tax.TaxAmount = taxValueInPercent;
             
             tax.IsActive = true;
             tax.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
