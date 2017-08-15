@@ -1010,8 +1010,8 @@ namespace PMS.Resources.DAL
                         {
                             TaxName = row.TaxShortName,
                             TaxValue = row.TaxAmount,
-                            IsTaxIncluded = row.IsConsidered.Value,
-                            Amount = row.TaxValue.Value
+                            IsTaxIncluded = row.IsConsidered.HasValue ? row.IsConsidered.Value : false,
+                            Amount = row.TaxValue.HasValue ? row.TaxValue.Value : 0
                         })
                         .Distinct().ToList();
 

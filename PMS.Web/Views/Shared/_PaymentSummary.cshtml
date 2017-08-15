@@ -53,7 +53,7 @@
             <tr id="trDefaultCharges" class="sortActive">
                 {{if $value.TaxName !== 'Total Room Charge' && $value.TaxName !== 'ROOM CHARGES' }}
                 <td><input {{if $value.IsTaxIncluded}} checked="checked" {{/if}} type="checkbox" id="${$value.TaxName}" onclick="OnChkTaxIncludeChange(this);" class="form-control hour-input" /></td>
-                <td>${$value.TaxName} (%)</td>
+                <td>${$value.TaxName}</td>
                 {{else}}
                 <td> <span class="glyphicon glyphicon-th-list"></span></td>
                 <td>${$value.TaxName}</td>
@@ -67,7 +67,7 @@
                     <input id="totalRoomCharge" disabled="disabled" name="${$value.TaxName}" value="${$value.Value}" />
                     {{/if}}
                     {{if $value.TaxName !== 'Total Room Charge' && $value.TaxName !== 'ROOM CHARGES' }}
-                    <input id="taxVal" disabled="disabled" class="part-input" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
+                    <input id="taxVal" disabled="disabled" class="part-input" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}%" />
                     <input id="taxCalulatedVal${$value.TaxName}" class="part-input" name="${$value.TaxName}" disabled="disabled" value="" />
                     {{/if}}
                 </td>
