@@ -356,7 +356,7 @@
 
             invoiceRequestDto.Invoice = invoice;
             // add invoice by api calling  
-            //pmsService.AddInvoice(invoiceRequestDto);
+            pmsService.AddInvoice(invoiceRequestDto);
         },
 
         AddBooking: function(status, shouldRefund) {            
@@ -1624,6 +1624,7 @@
 
         PrepareReceiptData: function () {
             var data = {};
+            data.CreatedOn =  window.GuestCheckinManager.GetCurrentDate();
             data.PropertyName = $("#ddlGlobalProperty option:selected").text();
             data.Address = $("#address").val();
             data.GuestName = $("#lName").val() + ", " + $("#fName").val();
@@ -1631,14 +1632,16 @@
             data.State = $("#ddlState option:selected").text();
             data.Zip = $("#zipCode").val();
             data.AdditionalGuest = $("#adLName").val() + ", " + $("#adFName").val();
-            data.Room = $("#roomddl option:selected").text() + " " + $("#roomTypeDdl option:selected").text();
+            data.Room = $("#roomddl option:selected").text() 
+            data.RoomType = $("#roomTypeDdl option:selected").text();
             data.Arrival = $("#dateFrom").val();
             data.Departure = $("#dateTo").val();
             data.Phone = $("#phone").val();
             data.StayDays = window.GuestCheckinManager.GetDays(data.Arrival, data.Departure);
             data.Folio = "N/A";
             data.Rate = $("#rateTypeDdl option:selected").text() ;
-            data.TotalRoomCharges = "150";
+            data.TotalRoomCharges = $('#totalRoomCharge').val();
+            data.Credit = 0;
             data.Taxes = [];
             data.Taxes = prepareTax();
             data.PaymentDetails = [];

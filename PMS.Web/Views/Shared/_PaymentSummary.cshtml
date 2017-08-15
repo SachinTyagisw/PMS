@@ -374,18 +374,15 @@
                     <p>${AdditionalGuest}</p>
                 </div>
                 <div class="col-sm-6">
-                    <p><b>Folio #:</b> ${Folio}</p>
-                    <p><b>Room :</b> <span>Room #</span> <span>Room Type Code</span></p>
-                    <p><b>Rate :</b> <span>Room Rate</span></p>
-                    <p><b>Arrival :</b> <span>Checkin Date & Time</span></p>
-                    <p><b>Departure :</b> <span>Checkout Date & Time</span></p>
-                    <p><b>Total Nights :</b> <span>Sum of Hours</span></p>
+                    <p><b>Folio #:</b>${Folio}</p>
+                    <p><b>Room :</b> <span>${Room}</span> <span>${RoomType}</span></p>
+                    <p><b>Rate :</b> <span>${Rate}</span></p>
+                    <p><b>Arrival :</b> <span>${Arrival}</span></p>
+                    <p><b>Departure :</b> <span>${Departure}</span></p>
+                    <p><b>Total Nights :</b> <span>${StayDays}</span></p>
                 </div>
-
             </div>
-
             <div>
-
                 <table class="table">
                     <thead>
                         <tr>
@@ -398,55 +395,39 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>06.07.2017</td>
+                            <td>${CreatedOn}</td>
                             <td>Guest Room</td>
-                            <td>150.00</td>
-                            <td>0</td>
-                            <td>150.00</td>
+                            <td>${TotalRoomCharges}</td>
+                            <td>${Credit}</td>
+                            <td>${TotalRoomCharges}</td>
                         </tr>
+                        {{if typeof Taxes != "undefined" && Taxes.length > 0 }}
+                        {{each Taxes}}
                         <tr>
-                            <td>06.07.2017</td>
-                            <td>Guest Room</td>
-                            <td>150.00</td>
+                            <td>${$value.CreatedOn}</td>
+                            <td>${$value.TaxShortName}(${$value.TaxAmount}%)</td>
+                            <td>${$value.TaxValue}</td>
                             <td>0</td>
-                            <td>150.00</td>
-                        </tr>
+                            <td>${TotalRoomCharges}</td>
+                        </tr>     
+                        {{/each}}
+                        {{/if}}
+                        {{if typeof PaymentDetails != "undefined" && PaymentDetails.length > 0 }}
+                        {{each PaymentDetails}}
                         <tr>
-                            <td>06.07.2017</td>
-                            <td>Guest Room</td>
-                            <td>150.00</td>
-                            <td>0</td>
-                            <td>150.00</td>
-                        </tr>
-                        <tr>
-                            <td>06.07.2017</td>
-                            <td>Guest Room</td>
-                            <td>150.00</td>
-                            <td>0</td>
-                            <td>150.00</td>
-                        </tr>
-                        <tr>
-                            <td>06.07.2017</td>
+                            <td>${$value.CreatedOn}</td>
                             <td>PAYMENT</td>
                             <td></td>
-                            <td class="partial"><span>Visa</span><span>0</span></td>
-                            <td>150.00</td>
+                            <td class="partial"><span>${$value.PaymentMode}</span><span>${$value.PaymentValue}</span></td>
+                            <td>${TotalRoomCharges}</td>
                         </tr>
-                        <tr>
-                            <td>06.07.2017</td>
-                            <td>PAYMENT</td>
-                            <td></td>
-                            <td class="partial"><span>Cash</span><span>0</span></td>
-                            <td>150.00</td>
-                        </tr>
+                        {{/each}}
+                        {{/if}}
                     </tbody>
                 </table>
 
             </div>
-
-
-
-            <p class="msg">Thanks for your staying at <b>Property Name</b>, <b>Property City</b>. We look forward to welcoming you back soon.</p>
+            <p class="msg">Thanks for your staying at <b>${PropertyName}</b>, <b>${City}</b>. We look forward to welcoming you back soon.</p>
             <div class="row">
                 <div class="col-sm-3">
                     <p>Guest Signature</p>
