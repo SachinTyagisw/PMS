@@ -1612,29 +1612,13 @@
         
         PrepareFolioData: function () {
             var data = {};
-            data.PropertyName = "Test Property";
-            data.Address = "Test Address";
-            data.GuestName = "Test Guest";
-            data.FullAddress = "City1,State1,11111";
-            data.AdditionalGuest = "Additional Test";
-            data.Room = "101" + "King Smoking";
-            data.Arrival = "2017/08/12";
-            data.Departure = "2017/08/13";
-            data.StayDays = "2";
-            data.Folio = "Test Folio";
-            data.Rate = "Weekday";
-            data.TotalRoomCharges = "150";
-            data.Taxes = [];
-            data.Taxes = prepareTax();
-            data.PaymentDetails = [];
-            data.PaymentDetails = preparePaymentDetail();
+            data = window.GuestCheckinManager.PrepareReceiptData();
             return data;
         },
 
         PrepareReceiptData: function () {
             var data = {};
-            data.CreatedOn =  window.GuestCheckinManager.GetCurrentDate();
-            data.PropertyName = $("#ddlGlobalProperty option:selected").text();
+            data.CreatedOn =  window.GuestCheckinManager.GetCurrentDate();            
             data.Address = $("#address").val();
             data.GuestName = $("#lName").val() + ", " + $("#fName").val();
             data.City = $("#ddlCity option:selected").text();
@@ -1656,6 +1640,7 @@
             data.PaymentDetails = [];
             var totalAmount = $('#total') && $('#total')[0] ? $('#total')[0].innerText : 0;
             data.PaymentDetails = preparePaymentDetailForPrint(totalAmount);
+            data = preparePropertyData(data);
             return data;
         },
 
@@ -2414,6 +2399,28 @@
 
         //}
     };   
+    
+    function preparePropertyData(data){
+        var propertyData = $.parseJSON(window.PmsSession.GetItem("allprops"));
+        if(!propertyData || propertyData.length <= 0 ) return data;
+        var selectedProperty = $('#ddlGlobalProperty').val();
+        if(selectedProperty === "-1") return data;
+        var idx = gcm.CheckIfKeyPresent(parseInt(selectedProperty), propertyData);
+        if(idx < 0) return data;
+        var selectedPropertyInfo = propertyData[idx];
+        data.PropertyName = selectedPropertyInfo.PropertyName;
+        data.PropertyPhone = selectedPropertyInfo.Phone;
+        data.PropertyCode = selectedPropertyInfo.PropertyCode;
+        data.PropertyCity = selectedPropertyInfo.City.Name;
+        data.PropertyCountry = selectedPropertyInfo.Country.Name;
+        data.PropertyState = selectedPropertyInfo.State.Name;
+        data.SecondaryName = selectedPropertyInfo.SecondaryName;
+        data.PropertyZip = selectedPropertyInfo.Zipcode;
+        data.PropertyAddress = selectedPropertyInfo.FullAddress;
+        data.Website = selectedPropertyInfo.WebSiteAddress;
+        data.Fax = selectedPropertyInfo.Fax;
+        return data;
+    }
 
     function prepareLoadInvoiceRequestDto() {
         var getInvoiceRequestDto = {};
