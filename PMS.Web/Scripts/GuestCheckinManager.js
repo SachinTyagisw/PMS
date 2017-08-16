@@ -2593,8 +2593,7 @@
         $('#guestComments').val(data[0].GuestRemarks);
         //$('#rateTypeDdl').append(new Option(data[0].RateType.Name, data[0].RateType.Id));
         //$('#roomTypeDdl').append(new Option(data[0].RoomBookings[0].Room.RoomType.Name, data[0].RoomBookings[0].Room.RoomType.Id));                
-
-        $('#rateTypeDdl').val(data[0].RateType.Id);
+        
         $('#roomTypeDdl').val(data[0].RoomBookings[0].Room.RoomType.Id);
         // use this room number if calendar change event is fired
         roomSelectedFromDashBoard = parseInt(data[0].RoomBookings[0].Room.Id);
@@ -2605,10 +2604,13 @@
         Notifications.SubscribeActive("on-roombydate-get-success", function(sender, args) {
                $('#roomddl').append(new Option(data[0].RoomBookings[0].Room.Number, data[0].RoomBookings[0].Room.Id));
                $('#roomddl').val(data[0].RoomBookings[0].Room.Id);
+               $('#rateTypeDdl').val(data[0].RateType.Id);
                // when all the pre-requisite ddl data is populated call load invoice
                window.GuestCheckinManager.LoadInvoice();
         });
-        window.GuestCheckinManager.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val());
+        if(window.GuestCheckinManager.ShouldCallGetRoomApi()){
+           window.GuestCheckinManager.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val());
+        }
     }
 
     function getDate(date) {
