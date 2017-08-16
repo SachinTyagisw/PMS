@@ -6,6 +6,7 @@
     var invoiceData = {};
     var bookingStatus = '';
     var isCheckoutDateModified = false;
+    var roomSelectedFromDashBoard = -1;
     var guestCheckinManager = {
 
         PropertySettingResponseDto: {
@@ -97,6 +98,7 @@
         },
 
         BindRoomDdl: function(ddlRoom, roomTypeId, rooms, shouldSkipBookedRoom) {
+            var shouldNotifyRoomDashboardEvent = false;
             if (!ddlRoom || !rooms || rooms.length <= 0) return;
             ddlRoom.empty();
             ddlRoom.append(new Option("Select Room", "-1"));
@@ -105,9 +107,15 @@
                 for (var i = 0; i < rooms.length; i++) {
                     if (rooms[i].RoomType.Id !== roomTypeId) continue;
                     if (shouldSkipBookedRoom && rooms[i].RoomStatus.Name.toLowerCase() === 'booked') continue;
+                    if (parseInt(roomSelectedFromDashBoard) === parseInt(rooms[i].Id)) {
+                        shouldNotifyRoomDashboardEvent = true;
+                    }
                     ddlRoom.append(new Option(rooms[i].Number, rooms[i].Id));
                 }
                 if (window.Notifications) window.Notifications.Notify("on-resume-roomvalue", null, null);
+                if (shouldNotifyRoomDashboardEvent && parseInt(roomSelectedFromDashBoard) > 0) {
+                    if (window.Notifications) window.Notifications.Notify("on-sel-room-dashboard", null, null);
+                }
             }
         },
 
@@ -2588,6 +2596,11 @@
 
         $('#rateTypeDdl').val(data[0].RateType.Id);
         $('#roomTypeDdl').val(data[0].RoomBookings[0].Room.RoomType.Id);
+        // use this room number if calendar change event is fired
+        roomSelectedFromDashBoard = parseInt(data[0].RoomBookings[0].Room.Id);
+        Notifications.SubscribeActive("on-sel-room-dashboard", function(sender, args) {
+               $('#roomddl').val(roomSelectedFromDashBoard);
+        });
         // since room data is not available so we have subscribe the event
         Notifications.SubscribeActive("on-roombydate-get-success", function(sender, args) {
                $('#roomddl').append(new Option(data[0].RoomBookings[0].Room.Number, data[0].RoomBookings[0].Room.Id));
