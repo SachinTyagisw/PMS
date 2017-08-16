@@ -2523,12 +2523,17 @@
     function populateAddress(address) {
         $('#address').val(address.Address1);
         $('#zipCode').val(address.ZipCode);
-        $('#ddlCountry').empty();
-        $('#ddlState').empty();
-        $('#ddlCity').empty();
-        $('#ddlCountry').append(new Option(address.Country, address.Country));
-        $('#ddlState').append(new Option(address.State, address.State));
-        $('#ddlCity').append(new Option(address.City, address.City));
+        //$('#ddlCountry').empty();
+        //$('#ddlState').empty();
+        //$('#ddlCity').empty();
+        //$('#ddlCountry').append(new Option(address.Country, address.Country));
+        //$('#ddlState').append(new Option(address.State, address.State));
+        //$('#ddlCity').append(new Option(address.City, address.City));
+        $("#ddlCountry option:contains(" + address.Country + ")").attr('selected', 'selected');
+        window.GuestCheckinManager.BindStateDdl($("#ddlCountry").val(), $('#ddlState'));
+        $("#ddlState option:contains(" + address.State + ")").attr('selected', 'selected');
+        window.GuestCheckinManager.BindCityDdl($("#ddlState").val(), $('#ddlCity'));
+        $("#ddlCity option:contains(" + address.City + ")").attr('selected', 'selected');
     }
 
     function populateAdditionalGuest(additionalguest) {
@@ -2544,8 +2549,9 @@
         //$('#ddlIdState').empty();
         //$('#ddlIdCountry').append(new Option(guestmapping.IdIssueCountry, guestmapping.IdIssueCountry));
         //$('#ddlIdState').append(new Option(guestmapping.IdIssueState, guestmapping.IdIssueState));
-        $("#ddlIdState [value=" + guestmapping.IdIssueState + "]").attr("selected", "true");
-        $("#ddlIdCountry [value=" + guestmapping.IdIssueCountry + "]").attr("selected", "true");
+        $("#ddlIdCountry option:contains(" + guestmapping.IdIssueCountry + ")").attr('selected', 'selected');
+        window.GuestCheckinManager.BindStateDdl($("#ddlIdCountry").val(), $('#ddlIdState'));
+        $("#ddlIdState option:contains(" + guestmapping.IdIssueState + ")").attr('selected', 'selected');
     }
 
     function extractFileNameFromFilePath(fPath) {
@@ -2563,7 +2569,13 @@
         //$('#rateTypeDdl').empty();
         //$('#hoursComboBox').empty();
         $('#hourCheckin')[0].checked = data[0].ISHOURLYCHECKIN;
-        $('#hourCheckin')[0].checked ? $('#hoursComboBox').append(new Option(data[0].HOURSTOSTAY, data[0].HOURSTOSTAY)) : $('#hoursComboBox').append(new Option(0, 0));
+        if(data[0].ISHOURLYCHECKIN){
+            window.GuestCheckinManager.FillHourlyDdl($('#hoursComboBox'));
+            $("#hoursComboBox option:contains(" + data[0].HOURSTOSTAY+"-hr" + ")").attr('selected', 'selected');
+            var selectedHr = $("#hoursComboBox option:selected").text();
+            // filter only hourly rate type  
+            window.GuestCheckinManager.FilterRateType($('#rateTypeDdl'), selectedHr);
+        }
         $('#hoursComboBox').prop("disabled", !$('#hourCheckin')[0].checked);
         $('#dateFrom').val(data[0].CheckinTime.replace('T', ' '));
         $('#dateTo').val(data[0].CheckoutTime.replace('T', ' '));
@@ -2572,9 +2584,11 @@
         $('#transRemarks').val(data[0].TransactionRemarks);
         $('#guestComments').val(data[0].GuestRemarks);
         //$('#rateTypeDdl').append(new Option(data[0].RateType.Name, data[0].RateType.Id));
-        //$('#roomTypeDdl').append(new Option(data[0].RoomBookings[0].Room.RoomType.Name, data[0].RoomBookings[0].Room.RoomType.Id));        
+        //$('#roomTypeDdl').append(new Option(data[0].RoomBookings[0].Room.RoomType.Name, data[0].RoomBookings[0].Room.RoomType.Id));                
+
         $('#rateTypeDdl').val(data[0].RateType.Id);
         $('#roomTypeDdl').val(data[0].RoomBookings[0].Room.RoomType.Id);
+        // since room data is not available so we have subscribe the event
         Notifications.SubscribeActive("on-roombydate-get-success", function(sender, args) {
                $('#roomddl').append(new Option(data[0].RoomBookings[0].Room.Number, data[0].RoomBookings[0].Room.Id));
                $('#roomddl').val(data[0].RoomBookings[0].Room.Id);
