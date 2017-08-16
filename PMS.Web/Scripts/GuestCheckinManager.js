@@ -765,8 +765,7 @@
                 populateAddress(address);
             }
             // As of now business reqs doesnt want to make UI fields readonly
-            //window.GuestCheckinManager.MakeReadOnly(true);
-            window.GuestCheckinManager.LoadInvoice();
+            //window.GuestCheckinManager.MakeReadOnly(true);            
         },
 
         ClearPropertyFields: function() {
@@ -2541,10 +2540,12 @@
         $("#ddlIdType").val(guestmapping.IDTYPEID);
         $("#idDetails").val(guestmapping.IDDETAILS);
         $("#idExpiry").val(guestmapping.IdExpiryDate.replace('T', ' '));
-        $('#ddlIdCountry').empty();
-        $('#ddlIdState').empty();
-        $('#ddlIdCountry').append(new Option(guestmapping.IdIssueCountry, guestmapping.IdIssueCountry));
-        $('#ddlIdState').append(new Option(guestmapping.IdIssueState, guestmapping.IdIssueState));
+        //$('#ddlIdCountry').empty();
+        //$('#ddlIdState').empty();
+        //$('#ddlIdCountry').append(new Option(guestmapping.IdIssueCountry, guestmapping.IdIssueCountry));
+        //$('#ddlIdState').append(new Option(guestmapping.IdIssueState, guestmapping.IdIssueState));
+        $("#ddlIdState [value=" + guestmapping.IdIssueState + "]").attr("selected", "true");
+        $("#ddlIdCountry [value=" + guestmapping.IdIssueCountry + "]").attr("selected", "true");
     }
 
     function extractFileNameFromFilePath(fPath) {
@@ -2557,10 +2558,10 @@
     }
 
     function populateRoomDetails(data) {
-        $('#roomTypeDdl').empty();
-        $('#roomddl').empty();
-        $('#rateTypeDdl').empty();
-        $('#hoursComboBox').empty();
+        //$('#roomTypeDdl').empty();
+        //$('#roomddl').empty();
+        //$('#rateTypeDdl').empty();
+        //$('#hoursComboBox').empty();
         $('#hourCheckin')[0].checked = data[0].ISHOURLYCHECKIN;
         $('#hourCheckin')[0].checked ? $('#hoursComboBox').append(new Option(data[0].HOURSTOSTAY, data[0].HOURSTOSTAY)) : $('#hoursComboBox').append(new Option(0, 0));
         $('#hoursComboBox').prop("disabled", !$('#hourCheckin')[0].checked);
@@ -2570,9 +2571,17 @@
         data[0].NoOfChild > 0 ? $("#ddlChild").val(data[0].NoOfChild) : $("#ddlChild").val(0);
         $('#transRemarks').val(data[0].TransactionRemarks);
         $('#guestComments').val(data[0].GuestRemarks);
-        $('#rateTypeDdl').append(new Option(data[0].RateType.Name, data[0].RateType.Id));
-        $('#roomTypeDdl').append(new Option(data[0].RoomBookings[0].Room.RoomType.Name, data[0].RoomBookings[0].Room.RoomType.Id));
-        $('#roomddl').append(new Option(data[0].RoomBookings[0].Room.Number, data[0].RoomBookings[0].Room.Id));
+        //$('#rateTypeDdl').append(new Option(data[0].RateType.Name, data[0].RateType.Id));
+        //$('#roomTypeDdl').append(new Option(data[0].RoomBookings[0].Room.RoomType.Name, data[0].RoomBookings[0].Room.RoomType.Id));        
+        $('#rateTypeDdl').val(data[0].RateType.Id);
+        $('#roomTypeDdl').val(data[0].RoomBookings[0].Room.RoomType.Id);
+        Notifications.SubscribeActive("on-roombydate-get-success", function(sender, args) {
+               $('#roomddl').append(new Option(data[0].RoomBookings[0].Room.Number, data[0].RoomBookings[0].Room.Id));
+               $('#roomddl').val(data[0].RoomBookings[0].Room.Id);
+               // when all the pre-requisite ddl data is populated call load invoice
+               window.GuestCheckinManager.LoadInvoice();
+        });
+        window.GuestCheckinManager.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val());
     }
 
     function getDate(date) {
