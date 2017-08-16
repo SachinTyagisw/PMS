@@ -1621,6 +1621,8 @@
             data.CreatedOn =  window.GuestCheckinManager.GetCurrentDate();            
             data.Address = $("#address").val();
             data.GuestName = $("#lName").val() + ", " + $("#fName").val();
+            //TODO remove hardcoded value
+            data.GuestCount = 1;
             data.City = $("#ddlCity option:selected").text();
             data.State = $("#ddlState option:selected").text();
             data.Zip = $("#zipCode").val();
@@ -1641,6 +1643,10 @@
             var totalAmount = $('#total') && $('#total')[0] ? $('#total')[0].innerText : 0;
             data.PaymentDetails = preparePaymentDetailForPrint(totalAmount);
             data = preparePropertyData(data);
+            data.TotalAmount = totalAmount;
+            data.TotalBalance = $("#balance").val();
+            data.InvoiceItems = [];
+            data.InvoiceItems = prepareOtherCharges();
             return data;
         },
 
@@ -2852,7 +2858,7 @@
 
         return paymentDetail;
     }
-
+        
     function prepareOtherCharges() {
         var invoiceItem = [];
         var htmlElementCol = $("tr#trOthertax");

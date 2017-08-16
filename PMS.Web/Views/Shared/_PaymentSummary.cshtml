@@ -539,66 +539,67 @@
         <div id="printarea" class="ql-align-right">
             <div class="row">
                 <div class="col-sm-6">
-                    <p>Hotel Name</p>
-                    <p>Hotel Address</p>
-                    <p><span>Hotel City</span> <span>State</span> <span>Zip</span></p>
-                    <p>Hotel Phone No.</p>
+                    <p>${PropertyName}</p>
+                    <p>${PropertyAddress}</p>
+                    <p><span>${PropertyCity}</span> <span>${PropertyState}</span> <span>${PropertyZip}</span></p>
+                    <p>${PropertyPhone}</p>
                 </div>
                 <div class="col-sm-6">
-                    <p><b>Room #:</b> 101</p>
-                    <p><b>Today's Date :</b> <span>14-08-2017</span></p>
+                    <p><b>Room #:</b> ${Room}</p>
+                    <p><b>Today's Date :</b> <span>${CreatedOn}</span></p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-6" style="border-top: 1px solid #ddd; padding: 10px 0;">
-                    <p>Customer Last, First Name</p>
-                    <p>Address</p>
-                    <p><span>City</span> <span>State</span> <span>Zip</span></p>
+                    <p>${GuestName}</p>
+                    <p>${Address}</p>
+                    <p><span>${City}</span>,<span>${State}</span>,<span>${Zip}</span></p>
                     <p>ID#</p>
                     <p>Vehicle Make, Model #, License Plate</p>
-                    <p style="margin-top: 30px;"><b># Guests:</b> ###, <b># Nights:</b> ###</p>
-                    <p><b>Check-In:</b> Arrival Date &amp; Time</p>
-                    <p><b>Check-Out:</b> Expected Check-Out Date</p>
+                    <p style="margin-top: 30px;"><b># Guests:</b> ${GuestCount} <b># Nights:</b> ${StayDays}</p>
+                    <p><b>Check-In:</b> ${Arrival}</p>
+                    <p><b>Check-Out:</b> ${Departure}</p>
                 </div>
                 <div class="col-sm-6" style="border-top: 1px solid #ddd; padding: 10px 0;">
-                    <p style="margin-bottom: 20px;"><b>Room Rate:</b> 3450.00</p>
+                    <p style="margin-bottom: 20px;"><b>Room Rate:</b> ${Rate}</p>
                     <table class="table">
                         <tbody>
                             <tr>
                                 <td style="width: 48%;">Room: </td>
-                                <td style="width: 48%;">Room Charge</td>
+                                <td style="width: 48%;">${TotalRoomCharges}</td>
                             </tr>
+                            {{if typeof Taxes != "undefined" && Taxes.length > 0 }}
+                            {{each Taxes}}
                             <tr>
-                                <td>Tax 1:</td>
-                                <td>Tax 1</td>
+                                <td>${$value.TaxShortName}(${$value.TaxAmount}%):</td>
+                                <td>${$value.TaxValue}</td>
                             </tr>
+                            {{/each}}
+                            {{/if}}
+                            {{if typeof InvoiceItems != "undefined" && InvoiceItems.length > 0 }}
+                            {{each InvoiceItems}}
                             <tr>
-                                <td>Tax 2:</td>
-                                <td>Tax 2</td>
+                                <td>${$value.ItemName}:</td>
+                                <td>${$value.ItemValue}</td>
                             </tr>
-                            <tr>
-                                <td>Tax 3:</td>
-                                <td>Tax 3</td>
-                            </tr>
-                            <tr>
-                                <td>Extras</td>
-                                <td>Extra Charges</td>
-                            </tr>
+                            {{/each}}
+                            {{/if}}
                             <tr>
                                 <td>Total</td>
-                                <td>Sum of </td>
+                                <td>${TotalAmount}</td>
                             </tr>
+                            
+                            {{if typeof PaymentDetails != "undefined" && PaymentDetails.length > 0 }}
+                            {{each PaymentDetails}}
                             <tr>
-                                <td>Cash :</td>
-                                <td>4800.00</td>
+                                <td>${$value.PaymentMode}</td>
+                                <td>${$value.PaymentValue}</td>
                             </tr>
-                            <tr>
-                                <td>Credit :</td>
-                                <td>2000.00 </td>
-                            </tr>
+                            {{/each}}
+                            {{/if}}
                             <tr>
                                 <td>Balance :</td>
-                                <td></td>
+                                <td>${TotalBalance}</td>
                             </tr>
                         </tbody>
                     </table>
