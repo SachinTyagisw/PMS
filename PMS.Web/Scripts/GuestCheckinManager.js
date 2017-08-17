@@ -1831,7 +1831,12 @@
                 var roomDdl = $('#roomddl');
                 var roomTypeId = $('#roomTypeDdl').val();
                 window.GuestCheckinManager.BindRoomDdl(roomDdl, roomTypeId, data.Rooms, true);
-                if (window.Notifications) window.Notifications.Notify("on-roombydate-get-success", null, null);
+                //once booking detail is retrieve then clear bookingId from sessionstorage
+                var sessionBookingId = pmsSession.GetItem("bookingId");
+                if(sessionBookingId && !isNaN(parseInt(sessionBookingId)) && parseInt(sessionBookingId) > 0){
+                    pmsSession.RemoveItem("bookingId");
+                    if (window.Notifications) window.Notifications.Notify("on-roombydate-get-success", null, null);
+                }
             };
 
             pmsService.Handlers.OnGetRoomByDateFailure = function() {
@@ -2811,7 +2816,7 @@
             //} else {
             //    additionalGuest.GUESTIDPath = "No Image Available";
             //}
-            //additionalGuest.BookingId = window.GuestCheckinManager.BookingDto.BookingId ? window.GuestCheckinManager.BookingDto.BookingId : -1;
+            additionalGuest.BookingId = window.GuestCheckinManager.BookingDto.BookingId ? window.GuestCheckinManager.BookingDto.BookingId : -1;
             additionalGuests.push(additionalGuest);
         }
         return additionalGuests;
