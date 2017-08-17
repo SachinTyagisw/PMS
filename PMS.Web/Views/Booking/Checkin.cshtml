@@ -114,7 +114,7 @@
                         //pmsSession.RemoveItem("roomdata");
                         gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val());
                 }
-                OnCmbHourlyCheckInChange();
+                //OnCmbHourlyCheckInChange();
             });
 
             $("#datetimepicker2").on("dp.change", function (e) {
@@ -577,44 +577,9 @@
                 gcm.IsNumeric(e);
             });
 
-            $("#dateFrom").focus(function () {                
-                var thisCalendar = $(this);
-                //thisCalendar.click(function () {
-                //    OnCmbHourlyCheckInChange();
-                //});
-
-                //thisCalendar.button.click(function () {s
-                //    OnCmbHourlyCheckInChange();
-                //});
-
-                //$('.ui-datepicker-calendar').detach();
-                //$('.ui-datepicker-close').click(function () {                    
-                //    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-                //    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-                //    thisCalendar.datepicker('setDate', new Date(year, month, 1));
-
-                //    if (gcm.ShouldCallGetRoomApi()) {
-                //        pmsSession.RemoveItem("roomdata");
-                //        gcm.GetRoomByDate();
-                //    }
-                //});
-                OnCmbHourlyCheckInChange();
-            });
-
-
-            //$("#dateTo").focus(function () {
+            //$("#dateFrom").focus(function () {                
             //    var thisCalendar = $(this);
-            //    //$('.ui-datepicker-calendar').detach();
-            //    $('.ui-datepicker-close').click(function () {
-            //        var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-            //        var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-            //        thisCalendar.datepicker('setDate', new Date(year, month, 1));
-
-            //        if (gcm.ShouldCallGetRoomApi()) {
-            //            pmsSession.RemoveItem("roomdata");
-            //            gcm.GetRoomByDate();
-            //        }
-            //    });
+            //    OnCmbHourlyCheckInChange();
             //});
         });
 
