@@ -44,7 +44,7 @@
         $(function () {
 
             $("#btnAddGuest").click(function (e) {
-                var cloneHtmlElement = $('#divAddDetails').find('#divGuestDetails').clone(true);
+                var cloneHtmlElement = $('#divAddDetails').find('#divGuestDetails:first').clone(true);
                 $('#divAddDetails').find('#divAddGuest').before(cloneHtmlElement);
                 e.stopPropagation();
             });
