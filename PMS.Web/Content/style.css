@@ -5336,8 +5336,12 @@ dl.dropdown dd ul li a:hover {
     height: 294px;
     overflow: auto;
 }
-#invoice-table input.part-input {
-    width: 40px;
+#invoice-table input.part-input:first-child {
+    width: 30px;
+    float: left;
+}
+#invoice-table input.part-input:last-child {
+    width: 50px;
     float: left;
 }
 /*-- Print --*/

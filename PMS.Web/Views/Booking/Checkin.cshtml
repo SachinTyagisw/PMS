@@ -174,6 +174,8 @@
             var cmbHours = document.getElementById("hoursComboBox");
             var chkHours = document.getElementById("hourCheckin");
             var checkOutDate = document.getElementById('dateTo');
+            if (!chkHours.checked)
+                cmbHours.selectedIndex = 0;
             cmbHours.disabled = chkHours.checked ? false : true;
             checkOutDate.disabled = chkHours.checked ? true : false;
 
@@ -423,6 +425,7 @@
             
             $("#btnRefresh").click(function () {
                 if (confirm("Do you want clear unsaved booking data ?")) {
+                    OnChkHourlyCheckInChange();
                     init();
                     gcm.ClearAllFields();
                 }                
