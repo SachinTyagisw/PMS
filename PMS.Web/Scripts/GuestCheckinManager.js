@@ -1864,7 +1864,7 @@
             };
 
             pmsService.Handlers.OnAddInvoiceSuccess = function(data) {
-                var status = data.StatusDescription.toLowerCase();
+                var status = data.StatusDescription;
                 if (data.ResponseObject > 0) {
                     window.GuestCheckinManager.BookingDto.InvoiceId = data.ResponseObject;
                     console.log(status);
