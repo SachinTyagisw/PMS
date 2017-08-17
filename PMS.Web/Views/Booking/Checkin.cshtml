@@ -48,6 +48,9 @@
                 $('#divAddDetails').find('#divAddGuest').before(cloneHtmlElement);
                 e.stopPropagation();
             });
+            $('.add-guest-delete').click(function (e) {
+                $(this).parents('#divGuestDetails').remove();
+            });
 
             $("#datetimepicker1").on("dp.change", function (e) {
                 $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
