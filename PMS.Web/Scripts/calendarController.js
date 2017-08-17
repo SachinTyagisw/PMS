@@ -163,14 +163,19 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         eventResizingStartEndEnabled: true,
         eventMovingStartEndEnabled: true,
         dynamicEventRenderingCacheSweeping: true,
+        showCurrentTime : true,
         //separators : [{color:"Red", location:"2017-07-30T08:00:00"}],
         onEventDoubleClick: function (args) {
             pmsSession.RemoveItem("bookingId");
             pmsSession.SetItem("bookingId", args.e.id());
             redirectionSvc.RedirectToCheckin();
         },
-        //onBeforeCellRender: function (args) {
-        //},
+        onBeforeCellRender: function (args) {
+            var now = new DayPilot.Date().getTime();
+            if (args.cell.start.getTime() <= now && now < args.cell.end.getTime()) {
+                args.cell.backColor = "#ffcccc";
+            }
+        },
         onEventMoved: function (args) {
             var bookingRequestDto = {};
             bookingRequestDto.Booking = {};
