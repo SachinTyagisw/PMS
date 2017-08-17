@@ -109,6 +109,7 @@
         $(function () {
             $("#datetimepicker1").on("dp.change", function (e) {
                 $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
+                shouldCallLoadInvoiceApi();
                 if (gcm.ShouldCallGetRoomApi()) {
                         //pmsSession.RemoveItem("roomdata");
                         gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val());
@@ -117,6 +118,7 @@
             });
 
             $("#datetimepicker2").on("dp.change", function (e) {
+                shouldCallLoadInvoiceApi();
                 if (gcm.ShouldCallGetRoomApi()) {
                     //pmsSession.RemoveItem("roomdata");
                     gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val());
@@ -165,8 +167,15 @@
             var selectedHr = $("#hoursComboBox option:selected").text();
             // filter only hourly rate type  
             gcm.FilterRateType($('#rateTypeDdl'), selectedHr);
+            shouldCallLoadInvoiceApi();
          }
-       
+        
+        function shouldCallLoadInvoiceApi(){
+            if (gcm.ShouldShowLoadInvoiceWarning()) {
+                gcm.ToggleInvoiceWarning($('#invoiceWarning'), true);
+            }
+        }
+
         function OnChkHourlyCheckInChange() {
             gcm.BindRateTypeDdl($('#rateTypeDdl'));
             gcm.FillHourlyDdl($('#hoursComboBox'));
@@ -195,6 +204,14 @@
             gcm.OnStateChange(ddlState, ddlCity);
         }
 
+        function OnRateTypeChange() {
+            shouldCallLoadInvoiceApi();
+        }
+
+        function OnRoomChange() {
+            shouldCallLoadInvoiceApi();
+        }
+        
         function OnRoomTypeChange() {
             var ddlRoom = $('#roomddl');
             var roomTypeId = $('#roomTypeDdl').val();
@@ -205,7 +222,8 @@
                 if (gcm.ShouldCallGetRoomApi()) {
                     //pmsSession.RemoveItem("roomdata");
                     gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val());
-                }                
+                }
+                shouldCallLoadInvoiceApi();                
             }
         }
 

@@ -96,6 +96,56 @@
             }
             return true;
         },
+        
+        ToggleInvoiceWarning: function(htmlElement, shouldShow){
+            if(shouldShow){
+                htmlElement[0].style = 'display: block;color: red;';
+                return;
+            }
+            htmlElement[0].style = 'display:none';
+            return;
+        },
+            
+        ShouldShowLoadInvoiceWarning: function() {
+            var dateFrom = $('#dateFrom').val();
+            var dateTo = $('#dateTo').val();
+            var roomType = $('#roomTypeDdl').val();
+            var rateType = $('#rateTypeDdl').val();
+            var roomId = $('#roomddl').val();
+            var noOfHours = $('#hoursComboBox').val();
+
+            if (!$('#divInvoice') || !$('#divInvoice')[0] || !$('#divInvoice')[0].innerText 
+                || $('#divInvoice')[0].innerText.trim().length <= 0) {
+                return false;
+            }
+
+            // check checkin date 
+            if (!dateFrom || dateFrom.length <= 0) {
+                return false;
+            }
+
+            // check checkout date 
+            if (!dateTo || dateTo.length <= 0) {
+                return false;
+            }
+
+            if (!roomType || roomType === '-1') {
+                return false;
+            }
+
+            if (!rateType || rateType === '-1') {
+                return false;
+            }
+
+            if (!roomId || roomId === '-1') {
+                return false;
+            }
+
+            if ($('#hourCheckin')[0].checked && noOfHours === '-1') {
+                return false;
+            }
+            return true;
+        },
 
         BindRoomDdl: function(ddlRoom, roomTypeId, rooms, shouldSkipBookedRoom) {
             var shouldNotifyRoomDashboardEvent = false;
@@ -721,9 +771,9 @@
         },
         
         LoadInvoice: function (checkoutDateModified) {
-            $('.img-no-available').hide();
             if (!validateLoadInvoiceCall()) return;
-
+            window.GuestCheckinManager.ToggleInvoiceWarning($('#invoiceWarning'), false);    
+            $('.img-no-available').hide();
             var invoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
             //invoiceId = 1038;
             $('#rateTypeDdl').attr("disabled", false);
@@ -2407,8 +2457,8 @@
         //    alert(HH);
 
         //}
-    };   
-    
+    };       
+   
     function preparePropertyData(data){
         var propertyData = $.parseJSON(window.PmsSession.GetItem("allprops"));
         if(!propertyData || propertyData.length <= 0 ) return data;
