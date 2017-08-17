@@ -805,8 +805,7 @@
             $("#lName").val('');
             $("#dateFrom").val('');
             $("#dateTo").val('');
-            $('#roomTypeDdl').val('-1');
-            $('#rateTypeDdl').val('-1');
+            $('#roomTypeDdl').val('-1');            
             $('#ddlIdType').val('-1');
             $('#roomddl').empty();
             $("#searchGuest").val('');
@@ -836,8 +835,6 @@
             $('.img-no-available').show();
             $('#divInvoice').html('');
             $('#divInvoice').hide();
-            $('#hourCheckin')[0].checked = false;
-            $('#hoursComboBox').prop("disabled", true);
             $('#ddlState').append(new Option("Select State", "-1"));
             $('#ddlIdState').append(new Option("Select State", "-1"));
             $('#ddlCity').append(new Option("Select City", "-1"));
@@ -848,6 +845,12 @@
             $('#imgPhoto').removeClass('photo-added');
             $('#imgAdditionalPhoto').css('visibility', 'hidden');
             $('#imgAdditionalPhoto').removeClass('photo-added');
+            $('#hourCheckin')[0].checked = false;
+            $('#hoursComboBox').val(-1);
+            $('#hoursComboBox').prop("disabled", true);
+            $('#rateTypeDdl').empty();            
+            window.GuestCheckinManager.BindRateTypeDdl($('#rateTypeDdl'));
+            $('#rateTypeDdl').val('-1');
             window.GuestCheckinManager.BookingDto.GuestId = null;
             window.GuestCheckinManager.BookingDto.InvoiceId = null;
             window.GuestCheckinManager.BookingDto.RoomBookingId = null;
