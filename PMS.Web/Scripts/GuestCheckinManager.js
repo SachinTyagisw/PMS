@@ -417,7 +417,7 @@
             pmsService.AddInvoice(invoiceRequestDto);
         },
 
-        AddBooking: function(status, shouldRefund) {            
+        AddBooking: function(status, shouldRefund) { 
             bookingStatus = status;
             // default value as false
             shouldRefund = !shouldRefund ? false : shouldRefund;
@@ -2788,29 +2788,32 @@
         return guestMappings;
     }
 
-    function prepareAdditionalGuest() {
-        var additionalGuest = {};
+    function prepareAdditionalGuest() {        
         var additionalGuests = [];
-
-        additionalGuest.Id = window.GuestCheckinManager.BookingDto.AdditionalGuestId ? window.GuestCheckinManager.BookingDto.AdditionalGuestId : -1;
-        additionalGuest.BookingId = window.GuestCheckinManager.BookingDto.BookingId ? window.GuestCheckinManager.BookingDto.BookingId : -1;
-        //TODO:reading additional guest info from grid 
-        additionalGuest.FirstName = $('#adFName').val();
-        additionalGuest.LastName = $('#adLName').val();
-        additionalGuest.IsActive = true;
-        var files = $("#additionalUpload").get(0).files;
-        if (files.length > 0) {
-            additionalGuest.GUESTIDPath = window.guestIdPath + window.uploadDirectory + "\\" + files[0].name;
-        } else {
-            additionalGuest.GUESTIDPath = "No Image Available";
+        var additionalGuestHtmlCol = $('div#divGuestDetails');
+        if(!additionalGuestHtmlCol || additionalGuestHtmlCol.length <= 0) return additionalGuests;
+        for(var i=0; i < additionalGuestHtmlCol.length; i++){
+            var additionalGuest = {};
+            var divGuestDetails = additionalGuestHtmlCol[i];
+            additionalGuest.Id = window.GuestCheckinManager.BookingDto.AdditionalGuestId ? window.GuestCheckinManager.BookingDto.AdditionalGuestId : -1;
+            if($('input#adFName') && $('input#adFName')[i]){
+                additionalGuest.FirstName = $('input#adFName')[i].value;
+            }
+            if($('input#adLName') && $('input#adLName')[i]){
+                additionalGuest.LastName = $('input#adLName')[i].value;
+            }
+            additionalGuest.IsActive = true;
+            additionalGuest.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
+            additionalGuest.CreatedBy = getCreatedBy();
+            //var files = $("#additionalUpload").get(0).files;
+            //if (files.length > 0) {
+            //    additionalGuest.GUESTIDPath = window.guestIdPath + window.uploadDirectory + "\\" + files[0].name;
+            //} else {
+            //    additionalGuest.GUESTIDPath = "No Image Available";
+            //}
+            //additionalGuest.BookingId = window.GuestCheckinManager.BookingDto.BookingId ? window.GuestCheckinManager.BookingDto.BookingId : -1;
+            additionalGuests.push(additionalGuest);
         }
-
-        //TODO: get value from initial selection eg: mr,ms,mrs
-        additionalGuest.Gender = "M";
-        additionalGuest.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
-        additionalGuest.CreatedBy = getCreatedBy();
-
-        additionalGuests.push(additionalGuest);
         return additionalGuests;
     }
 

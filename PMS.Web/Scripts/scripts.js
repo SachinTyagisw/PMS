@@ -427,8 +427,3 @@ $(function () {
     //    return false;
     //});
 });
-$(function () {
-    $(".btn-addon").click(function () {
-        $(".add-details").clone().insertAfter(".add-details");
-    });
-});

@@ -40,73 +40,15 @@
             }
             gcm.CalculateInvoice(isElementDiscountAmt);
         }
-
-        //function OnHourlyCbChecked() {
-        //    var cmbHours = $('#hoursComboBox');
-        //    var chkHours = $('#hourCheckin')[0];
-        //    var checkOutDate = $('#dateTo');
-        //    var checkInDate = $('#dateFrom');
-
-        //    cmbHours.prop("disabled", !chkHours.checked);
-        //    checkOutDate.prop("disabled", chkHours.checked);
-
-        //    //  hrs checkbox is not checked clear hrs in checkOutDate
-        //    if (!chkHours.checked) {
-        //        checkOutDate.val('');
-        //        return;
-        //    }
-
-        //    if (!checkInDate.val() || checkInDate.val().length <= 0) {
-        //        alert("Please select checkin date");
-        //        return;
-        //    }
-        //};
-
-        //function OnCheckinHourChange() {
-        //    var chkHours = $('#hourCheckin')[0];
-        //    var checkOutDate = $('#dateTo');
-        //    var checkInDate = $('#dateFrom');
-        //    var cmbHours = $('#hoursComboBox');
-            
-        //    if (cmbHours.val() === '-1') {
-        //        alert("Please select checkin hrs");
-        //        return;
-        //    }
-
-        //    if (!checkInDate.val() || checkInDate.val().length <= 0) {
-        //        alert("Please select checkin date");
-        //        return;
-        //    }
-
-        //    // date format mm/dd/yyyy
-        //    var dt = new Date(checkInDate.val());
-        //    var month = dt.getMonth() + 1;
-        //    var day = dt.getDate();
-        //    var dateOutput = (month < 10 ? '0' : '') + month + '/' +
-        //                     (day < 10 ? '0' : '') + day + '/' +
-        //                      dt.getFullYear();
-        //    var hrsToAdd = parseInt(cmbHours.val());
-        //    var currentHrs = dt.getHours();
-        //    var am = null;
-        //    var hrs = null;
-        //    if (currentHrs === 0 || currentHrs + hrsToAdd < 12) {
-        //        hrs = currentHrs + hrsToAdd;
-        //        am = "am";
-        //    }
-        //    else if (currentHrs + hrsToAdd >= 24) {
-        //        hrs = currentHrs + hrsToAdd - 24 === 0 ? 12 : currentHrs + hrsToAdd - 24;
-        //        am = "am";
-        //    }
-        //    else if (currentHrs + hrsToAdd >= 12 && currentHrs + hrsToAdd < 24) {
-        //        hrs = currentHrs + hrsToAdd - 12 === 0 ? 12 : currentHrs + hrsToAdd - 12;
-        //        am = "pm";
-        //    }
-        //    var mins = dt.getMinutes() < 10 ? "0" + dt.getMinutes() : dt.getMinutes();
-        //    var time = hrs + ":" + mins + " " + am;
-        //    checkOutDate.val(dateOutput + ' ' + time);            
-        //};
-
+       
         $(function () {
+
+            $("#btnAddGuest").click(function (e) {
+                var cloneHtmlElement = $('#divAddDetails').find('#divGuestDetails').clone(true);
+                $('#divAddDetails').find('#divAddGuest').before(cloneHtmlElement);
+                e.stopPropagation();
+            });
+
             $("#datetimepicker1").on("dp.change", function (e) {
                 $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
                 shouldCallLoadInvoiceApi();
@@ -114,7 +56,6 @@
                         //pmsSession.RemoveItem("roomdata");
                         gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val());
                 }
-                //OnCmbHourlyCheckInChange();
             });
 
             $("#datetimepicker2").on("dp.change", function (e) {
@@ -575,12 +516,7 @@
 
             $('#zipCode').keydown(function (e) {
                 gcm.IsNumeric(e);
-            });
-
-            //$("#dateFrom").focus(function () {                
-            //    var thisCalendar = $(this);
-            //    OnCmbHourlyCheckInChange();
-            //});
+            });           
         });
 
     </script>
