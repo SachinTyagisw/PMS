@@ -15,5 +15,7 @@ namespace PMS.Resources.DTO.Response
         public int BookingId { get; set; }
         [DataMember]
         public int GuestId { get; set; }
+        [DataMember]
+        public int RoomBookingId { get; set; }
     }
 }

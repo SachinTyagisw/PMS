@@ -13,7 +13,7 @@ namespace PMS.Resources.Logic
     public interface IPmsLogic
     {
         bool UpdateBooking(PmsEntity.Booking booking);
-        bool AddBooking(PmsEntity.Booking booking, ref int bookingId, ref int guestId);
+        bool AddBooking(PmsEntity.Booking booking, ref int bookingId, ref int guestId, ref int roomBookingId);
         List<PmsEntity.Booking> GetBooking(int propertyId, DateTime startDate, DateTime endDate);
         int AddProperty(PmsEntity.Property property);
         bool UpdateProperty(PmsEntity.Property property);
