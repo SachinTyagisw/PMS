@@ -39,5 +39,11 @@ namespace PMS.Web.Controllers
             ViewBag.UserName = pmsUser;
             return View();
         }
+
+        [HttpGet]
+        public ActionResult Manage()
+        {
+            return View();
+        }
     }
 }
