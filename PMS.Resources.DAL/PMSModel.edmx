@@ -2250,6 +2250,7 @@
           <Property Type="String" Name="ROOMNUMBER" Nullable="true" />
           <Property Type="Int32" Name="RoomTypeID" Nullable="true" />
           <Property Type="String" Name="RoomTypeName" Nullable="true" />
+          <Property Type="String" Name="RoomTypeShortName" Nullable="true" />
         </ComplexType>
         <ComplexType Name="GETALLGUESTS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -2900,6 +2901,7 @@
                 <ScalarProperty Name="ROOMNUMBER" ColumnName="ROOMNUMBER" />
                 <ScalarProperty Name="RoomTypeID" ColumnName="RoomTypeID" />
                 <ScalarProperty Name="RoomTypeName" ColumnName="RoomTypeName" />
+                <ScalarProperty Name="RoomTypeShortName" ColumnName="RoomTypeShortName" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

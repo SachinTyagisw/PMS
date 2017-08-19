@@ -26,5 +26,6 @@ namespace PMS.Resources.DAL
         public string ROOMNUMBER { get; set; }
         public Nullable<int> RoomTypeID { get; set; }
         public string RoomTypeName { get; set; }
+        public string RoomTypeShortName { get; set; }
     }
 }

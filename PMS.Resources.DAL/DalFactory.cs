@@ -99,7 +99,8 @@ namespace PMS.Resources.DAL
                                 RoomType = new PmsEntity.RoomType
                                 {
                                     Name = result.RoomTypeName,
-                                    Id = result.RoomTypeID != null ? result.RoomTypeID.Value : -1
+                                    Id = result.RoomTypeID != null ? result.RoomTypeID.Value : -1,
+                                    ShortName = result.RoomTypeShortName
                                 }
                             },
                             Guest = new PmsEntity.Guest
