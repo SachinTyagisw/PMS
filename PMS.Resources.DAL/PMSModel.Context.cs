@@ -193,7 +193,7 @@ namespace PMS.Resources.DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GETROOMSTATUS_Result>("GETROOMSTATUS", pROPERTYIDParameter, cHECKINTIMEParameter, cHECKOUTDATEParameter);
         }
     
-        public virtual ObjectResult<InsertBooking_Result> InsertBooking(Nullable<int> propertyID, string bookingXML, ObjectParameter bOOKINGID, ObjectParameter gUESTID)
+        public virtual ObjectResult<InsertBooking_Result> InsertBooking(Nullable<int> propertyID, string bookingXML, ObjectParameter bOOKINGID, ObjectParameter gUESTID, ObjectParameter rOOMBOOKINGID)
         {
             var propertyIDParameter = propertyID.HasValue ?
                 new ObjectParameter("propertyID", propertyID) :
@@ -203,7 +203,7 @@ namespace PMS.Resources.DAL
                 new ObjectParameter("bookingXML", bookingXML) :
                 new ObjectParameter("bookingXML", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertBooking_Result>("InsertBooking", propertyIDParameter, bookingXMLParameter, bOOKINGID, gUESTID);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertBooking_Result>("InsertBooking", propertyIDParameter, bookingXMLParameter, bOOKINGID, gUESTID, rOOMBOOKINGID);
         }
     
         public virtual ObjectResult<Nullable<int>> InsertInvoice(Nullable<int> propertyID, string invoiceXML, ObjectParameter iNVOICEID)

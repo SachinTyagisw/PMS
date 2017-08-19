@@ -124,7 +124,8 @@ namespace PMS.Api.Controllers
             var response = new AddBookingResponseDto();
             var bookingId = -1;
             var guestId = -1;
-            if (_iPmsLogic.AddBooking(request.Booking, ref bookingId, ref guestId))
+            var roomBookingId = -1;
+            if (_iPmsLogic.AddBooking(request.Booking, ref bookingId, ref guestId, ref roomBookingId))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Booking is done successfully.";

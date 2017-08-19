@@ -1746,7 +1746,7 @@
                 if (data.BookingId > 0 && data.GuestId > 0) {
                     window.GuestCheckinManager.BookingDto.BookingId = data.BookingId;
                     window.GuestCheckinManager.BookingDto.GuestId = data.GuestId;
-
+                    window.GuestCheckinManager.BookingDto.RoomBookingId = data.RoomBookingId;
                     $('#btnSave').attr("disabled", false);
                     $('#btnCheckout').attr("disabled", false);
                     //$('#btnCheckin').attr("disabled", true);

@@ -15,5 +15,6 @@ namespace PMS.Resources.DAL
     {
         public Nullable<int> Column1 { get; set; }
         public Nullable<int> Column2 { get; set; }
+        public Nullable<int> Column3 { get; set; }
     }
 }

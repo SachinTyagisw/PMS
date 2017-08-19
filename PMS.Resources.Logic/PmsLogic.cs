@@ -40,7 +40,7 @@ namespace PMS.Resources.Logic
             }
         }
 
-        public bool AddBooking(PmsEntity.Booking booking, ref int bookingId, ref int guestId)
+        public bool AddBooking(PmsEntity.Booking booking, ref int bookingId, ref int guestId, ref int roomBookingId)
         {
             var propertyId = booking.PropertyId;
             var bookingXml = PmsConverter.SerializeObjectToXmlString(booking);
@@ -51,7 +51,7 @@ namespace PMS.Resources.Logic
             //var logService = LoggingManager.GetLogInstance();
             //logService.LogInformation("booking xml:" + bookingXml);
 
-            return DalFactory.AddBooking(propertyId, bookingXml, ref bookingId, ref guestId);
+            return DalFactory.AddBooking(propertyId, bookingXml, ref bookingId, ref guestId, ref roomBookingId);
         }       
         public List<PmsEntity.Booking> GetBooking(int propertyId, DateTime startDate, DateTime endDate)
         {
