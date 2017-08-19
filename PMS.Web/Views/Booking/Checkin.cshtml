@@ -44,12 +44,14 @@
         $(function () {
 
             $("#btnAddGuest").click(function (e) {
-                var cloneHtmlElement = $('#divAddDetails').find('#divGuestDetails:first').clone(true);
+                var cloneHtmlElement = $('#divAddDetails').find('#divGuestDetailsClone:first').clone(true);
+                cloneHtmlElement[0].style = 'display:block';
+                cloneHtmlElement[0].id = 'divGuestDetails' + parseInt($('.add-details').length);
                 $('#divAddDetails').find('#divAddGuest').before(cloneHtmlElement);
                 e.stopPropagation();
             });
             $('.add-guest-delete').click(function (e) {
-                $(this).parents('#divGuestDetails').remove();
+                $(this).parents('.add-details').remove();
             });
 
             $("#datetimepicker1").on("dp.change", function (e) {

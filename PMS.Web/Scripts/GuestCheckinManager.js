@@ -417,7 +417,7 @@
             pmsService.AddInvoice(invoiceRequestDto);
         },
 
-        AddBooking: function(status, shouldRefund) { 
+        AddBooking: function(status, shouldRefund) {            
             bookingStatus = status;
             // default value as false
             shouldRefund = !shouldRefund ? false : shouldRefund;
@@ -2795,18 +2795,22 @@
 
     function prepareAdditionalGuest() {        
         var additionalGuests = [];
-        var additionalGuestHtmlCol = $('div#divGuestDetails');
+        var additionalGuestHtmlCol = $('.add-details');
         if(!additionalGuestHtmlCol || additionalGuestHtmlCol.length <= 0) return additionalGuests;
         for(var i=0; i < additionalGuestHtmlCol.length; i++){
             var additionalGuest = {};
             var divGuestDetails = additionalGuestHtmlCol[i];
             additionalGuest.Id = window.GuestCheckinManager.BookingDto.AdditionalGuestId ? window.GuestCheckinManager.BookingDto.AdditionalGuestId : -1;
+
             if($('input#adFName') && $('input#adFName')[i]){
                 additionalGuest.FirstName = $('input#adFName')[i].value;
             }
             if($('input#adLName') && $('input#adLName')[i]){
                 additionalGuest.LastName = $('input#adLName')[i].value;
             }
+
+            if (additionalGuest.FirstName.trim() === '' || additionalGuest.LastName.trim() === '') continue;
+
             additionalGuest.IsActive = true;
             additionalGuest.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             additionalGuest.CreatedBy = getCreatedBy();
