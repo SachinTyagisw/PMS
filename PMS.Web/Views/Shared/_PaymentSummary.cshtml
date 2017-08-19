@@ -3,6 +3,7 @@
         <div class="card-header">
             <h4>Invoice Summary</h4>
         </div>
+        <span id="invoiceWarning" style="display:none;">Please refresh invoice data</span>
         <div id="invoice-bot">
             <div class="img-no-available">
                 <span>Click load to get invoice summary</span>
@@ -124,7 +125,6 @@
                             Payment Summary
                         </h4>
                     </div>
-                    <span id="invoiceWarning" style="display:none;">Please refresh invoice data</span>
                </td>
             </tr>
             {{if typeof InvoicePaymentDetails != "undefined" && InvoicePaymentDetails.length > 0 }}
