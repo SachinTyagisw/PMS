@@ -464,9 +464,11 @@
     <Content Include="Views\ExtraCharge\Index.cshtml" />
     <Content Include="Views\Tax\Index.cshtml" />
     <Content Include="Views\Rate\Manage.cshtml" />
+    <Content Include="Views\Booking\Manage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
