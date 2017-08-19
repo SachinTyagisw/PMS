@@ -392,7 +392,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
             if (!room) continue;
 
             var dpRoomData = {};
-            dpRoomData.name = room.Number;
+            dpRoomData.name = !room.RoomType.ShortName || room.RoomType.ShortName.trim() === '' ? room.Number : room.RoomType.ShortName + "-" + room.Number
             dpRoomData.id = room.Id;
 
             dpRoomsResponseDto.push(dpRoomData);
