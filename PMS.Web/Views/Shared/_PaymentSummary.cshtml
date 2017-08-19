@@ -3,7 +3,6 @@
         <div class="card-header">
             <h4>Invoice Summary</h4>
         </div>
-        <span id="invoiceWarning" style="display:none;">Please refresh invoice data</span>
         <div id="invoice-bot">
             <div class="img-no-available">
                 <span>Click load to get invoice summary</span>
@@ -46,7 +45,6 @@
                    </select>*@
                 </td>
                 <td><input id="otherTaxVal" value="0.0" onkeyup="OnTaxValChange(event, this)" /></td>
-                <td></td>
                 <td><span class="tableRow-remove glyphicon glyphicon-trash"></span></td>
             </tr>
             {{each Tax}}
@@ -109,7 +107,7 @@
                     <td></td>
                 </tr>
                 {{/if}}*@
-            <tr class="sortActive tabletitle">
+            <tr class="sortActive">
                 <td><span class="glyphicon glyphicon-th-list"></span> </td>
                 <td class="Rate">
                     <b>Total Charges</b>
@@ -126,6 +124,7 @@
                             Payment Summary
                         </h4>
                     </div>
+                    <span id="invoiceWarning" style="display:none;">Please refresh invoice data</span>
                </td>
             </tr>
             {{if typeof InvoicePaymentDetails != "undefined" && InvoicePaymentDetails.length > 0 }}
