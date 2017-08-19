@@ -55,12 +55,18 @@
             });
 
             $("#datetimepicker1").on("dp.change", function (e) {
-                $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
+                //$('#datetimepicker2').data("DateTimePicker").minDate(e.date);
                 shouldCallLoadInvoiceApi();
                 if (gcm.ShouldCallGetRoomApi()) {
                         //pmsSession.RemoveItem("roomdata");
                         gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val());
                 }
+
+                var chkHours = document.getElementById('hourCheckin');
+                if (chkHours.checked == true) {
+                    setCheckoutHours();
+                }
+
             });
 
             $("#datetimepicker2").on("dp.change", function (e) {
@@ -72,16 +78,16 @@
             });
         });
 
-        function OnCmbHourlyCheckInChange() {
+
+        function setCheckoutHours() {
             var checkOutDate = document.getElementById('dateTo');
             var checkInDate = document.getElementById('dateFrom');
             var checkoutHrs = gcm.GetSelectedCheckoutHrs();
             var hrsToAdd = checkoutHrs > 0 ? checkoutHrs : 0;
             var chkHours = document.getElementById('hourCheckin');
             var dt = new Date($('#dateFrom').val());
-            
-            if (!dt.toLocaleString().includes("Invalid") && (hrsToAdd != '-1') && (chkHours.checked == true))
-            {
+
+            if (!dt.toLocaleString().includes("Invalid") && (hrsToAdd != '-1') && (chkHours.checked == true)) {
                 //dt.setHours(dt.getHours() + hoursToAdd);
                 //TODO: Needs to change it with  correct code base
                 var month = dt.getMonth() + 1;
@@ -89,7 +95,7 @@
                 var dateOutput = (month < 10 ? '0' : '') + month + '/' +
                                  (day < 10 ? '0' : '') + day + '/' +
                                   dt.getFullYear();
-                
+
                 var currentHrs = dt.getHours();
                 var am = null;
                 var hrs = null;
@@ -108,8 +114,51 @@
                 var mins = dt.getMinutes() < 10 ? "0" + dt.getMinutes() : dt.getMinutes();
                 var time = hrs + ":" + mins + " " + am;
                 //checkOutDate.val(dateOutput + ' ' + time);            
-                checkOutDate.value = dateOutput + ' ' + time; 
+                checkOutDate.value = dateOutput + ' ' + time;
             }
+        }
+
+
+
+        function OnCmbHourlyCheckInChange() {
+            setCheckoutHours();
+            //var checkOutDate = document.getElementById('dateTo');
+            //var checkInDate = document.getElementById('dateFrom');
+            //var checkoutHrs = gcm.GetSelectedCheckoutHrs();
+            //var hrsToAdd = checkoutHrs > 0 ? checkoutHrs : 0;
+            //var chkHours = document.getElementById('hourCheckin');
+            //var dt = new Date($('#dateFrom').val());
+            
+            //if (!dt.toLocaleString().includes("Invalid") && (hrsToAdd != '-1') && (chkHours.checked == true))
+            //{
+            //    //dt.setHours(dt.getHours() + hoursToAdd);
+            //    //TODO: Needs to change it with  correct code base
+            //    var month = dt.getMonth() + 1;
+            //    var day = dt.getDate();
+            //    var dateOutput = (month < 10 ? '0' : '') + month + '/' +
+            //                     (day < 10 ? '0' : '') + day + '/' +
+            //                      dt.getFullYear();
+                
+            //    var currentHrs = dt.getHours();
+            //    var am = null;
+            //    var hrs = null;
+            //    if (currentHrs === 0 || currentHrs + hrsToAdd < 12) {
+            //        hrs = currentHrs + hrsToAdd;
+            //        am = "am";
+            //    }
+            //    else if (currentHrs + hrsToAdd >= 24) {
+            //        hrs = currentHrs + hrsToAdd - 24 === 0 ? 12 : currentHrs + hrsToAdd - 24;
+            //        am = "am";
+            //    }
+            //    else if (currentHrs + hrsToAdd >= 12 && currentHrs + hrsToAdd < 24) {
+            //        hrs = currentHrs + hrsToAdd - 12 === 0 ? 12 : currentHrs + hrsToAdd - 12;
+            //        am = "pm";
+            //    }
+            //    var mins = dt.getMinutes() < 10 ? "0" + dt.getMinutes() : dt.getMinutes();
+            //    var time = hrs + ":" + mins + " " + am;
+            //    //checkOutDate.val(dateOutput + ' ' + time);            
+            //    checkOutDate.value = dateOutput + ' ' + time; 
+            //}
             var selectedHr = $("#hoursComboBox option:selected").text();
             // filter only hourly rate type  
             gcm.FilterRateType($('#rateTypeDdl'), selectedHr);
