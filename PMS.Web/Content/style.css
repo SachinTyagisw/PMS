@@ -4364,6 +4364,13 @@ p
 .table-add:hover {
   color: #00ac98;
 }
+#divHistory .table tbody tr td:nth-child(3), #divHistory .table tbody tr td:nth-child(5), #divHistory .table tbody tr td:nth-child(6),
+#divHistory .table thead tr th:nth-child(3), #divHistory .table thead tr th:nth-child(5), #divHistory .table thead tr th:nth-child(6) {
+    text-align:center;
+}
+#divHistory .table tbody tr {
+    border-bottom: 1px solid #eee;
+}
 
 #invoice-table input{
     padding: 0 2px;
