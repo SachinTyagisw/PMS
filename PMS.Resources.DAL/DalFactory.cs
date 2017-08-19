@@ -51,12 +51,12 @@ namespace PMS.Resources.DAL
 
                 var roombookingid = new SqlParameter
                 {
-                    ParameterName = "RoomBookingId",
+                    ParameterName = "ROOMBOOKINGID",
                     DbType = DbType.Int32,
                     Direction = ParameterDirection.Output
                 };
 
-                var result = pmsContext.Database.ExecuteSqlCommand("InsertBooking @propertyID, @bookingXML, @BOOKINGID OUTPUT, @GUESTID OUTPUT, @RoomBookingId OUTPUT", propId, roomBookingXml, bookingid, guestid, roombookingid);
+                var result = pmsContext.Database.ExecuteSqlCommand("InsertBooking @propertyID, @bookingXML, @BOOKINGID OUTPUT, @GUESTID OUTPUT, @ROOMBOOKINGID OUTPUT", propId, roomBookingXml, bookingid, guestid, roombookingid);
 
                 bookingId = Convert.ToInt32(bookingid.Value);
                 guestId = Convert.ToInt32(guestid.Value);

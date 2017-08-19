@@ -901,6 +901,7 @@
           <Parameter Name="bookingXML" Type="xml" Mode="In" />
           <Parameter Name="BOOKINGID" Type="int" Mode="InOut" />
           <Parameter Name="GUESTID" Type="int" Mode="InOut" />
+          <Parameter Name="ROOMBOOKINGID" Type="int" Mode="InOut" />
         </Function>
         <Function Name="InsertInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="propertyID" Type="int" Mode="In" />
@@ -2214,6 +2215,7 @@
             <Parameter Name="bookingXML" Mode="In" Type="String" />
             <Parameter Name="BOOKINGID" Mode="InOut" Type="Int32" />
             <Parameter Name="GUESTID" Mode="InOut" Type="Int32" />
+            <Parameter Name="ROOMBOOKINGID" Mode="InOut" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="InsertInvoice" ReturnType="Collection(Int32)">
             <Parameter Name="propertyID" Mode="In" Type="Int32" />
@@ -2393,6 +2395,7 @@
         <ComplexType Name="InsertBooking_Result">
           <Property Type="Int32" Name="Column1" Nullable="true" />
           <Property Type="Int32" Name="Column2" Nullable="true" />
+          <Property Type="Int32" Name="Column3" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3076,6 +3079,7 @@
               <ComplexTypeMapping TypeName="PmsModel.InsertBooking_Result">
                 <ScalarProperty Name="Column1" ColumnName="Column1" />
                 <ScalarProperty Name="Column2" ColumnName="Column2" />
+                <ScalarProperty Name="Column3" ColumnName="Column3" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
