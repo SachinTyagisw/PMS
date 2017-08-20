@@ -1835,7 +1835,17 @@
                 var sessionBookingId = pmsSession.GetItem("bookingId");
                 if(sessionBookingId && !isNaN(parseInt(sessionBookingId)) && parseInt(sessionBookingId) > 0){
                     pmsSession.RemoveItem("bookingId");
-                    if (window.Notifications) window.Notifications.Notify("on-roombydate-get-success", null, null);
+                    if (window.Notifications) window.Notifications.Notify("on-roombydate-get-success-dashboard-bookingid", null, null);
+                }
+
+                //once checkin detail is retrieve then clear roomid from sessionstorage
+                var sessionRoomId = pmsSession.GetItem("roomid");
+                if (sessionRoomId && !isNaN(parseInt(sessionRoomId)) && parseInt(sessionRoomId) > 0) {
+                    //once value is set in input date then clear sessionstorage
+                    pmsSession.RemoveItem("dtcheckin");
+                    pmsSession.RemoveItem("dtcheckout");
+                    pmsSession.RemoveItem("roomtypeid");
+                    if (window.Notifications) window.Notifications.Notify("on-roombydate-get-success-dashboard-roomid", null, null);
                 }
             };
 
@@ -2672,7 +2682,7 @@
                $('#roomddl').val(roomSelectedFromDashBoard);
         });
         // since room data is not available so we have subscribe the event
-        Notifications.SubscribeActive("on-roombydate-get-success", function(sender, args) {
+        Notifications.SubscribeActive("on-roombydate-get-success-dashboard-bookingid", function(sender, args) {
                $('#roomddl').append(new Option(data[0].RoomBookings[0].Room.Number, data[0].RoomBookings[0].Room.Id));
                $('#roomddl').val(data[0].RoomBookings[0].Room.Id);
                $('#rateTypeDdl').val(data[0].RateType.Id);

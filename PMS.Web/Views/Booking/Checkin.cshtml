@@ -58,8 +58,12 @@
                 //$('#datetimepicker2').data("DateTimePicker").minDate(e.date);
                 shouldCallLoadInvoiceApi();
                 if (gcm.ShouldCallGetRoomApi()) {
-                        //pmsSession.RemoveItem("roomdata");
+                    //pmsSession.RemoveItem("roomdata");
+                    // call GetRoomByDate api only when roomid doesnt exists in session
+                    var roomIdFromDashboard = pmsSession.GetItem("roomid");
+                    if (!roomIdFromDashboard) {
                         gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val());
+                    }                        
                 }
 
                 var chkHours = document.getElementById('hourCheckin');
@@ -73,7 +77,11 @@
                 shouldCallLoadInvoiceApi();
                 if (gcm.ShouldCallGetRoomApi()) {
                     //pmsSession.RemoveItem("roomdata");
-                    gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val());
+                    // call GetRoomByDate api only when roomid doesnt exists in session
+                    var roomIdFromDashboard = pmsSession.GetItem("roomid");
+                    if (!roomIdFromDashboard) {
+                        gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val());
+                    }
                 }
             });
         });
@@ -351,23 +359,19 @@
                 $('#roomTypeDdl').val(roomTypeId);
                 if (roomTypeId !== '-1') {
                     if (gcm.ShouldCallGetRoomApi()) {
-                        Notifications.SubscribeActive("on-roombydate-get-success", function (sender, args) {
+                        Notifications.SubscribeActive("on-roombydate-get-success-dashboard-roomid", function (sender, args) {
                             var roomId = pmsSession.GetItem("roomid");
-                            if (roomId && roomId > 0) {
+                            if (roomId && parseInt(roomId) > 0) {
                                 $("#roomddl").val(roomId);
-                                gcm.LoadInvoice();
+                                //gcm.LoadInvoice();
                             }
                             //Set the hourly checkin information if diference in checkin-checkout is less than 6 hours
                             var timeDiffInHours = (new Date(pmsSession.GetItem("dtcheckout")).getTime() - new Date(pmsSession.GetItem("dtcheckin")).getTime()) / 3600000;
                             if (timeDiffInHours && timeDiffInHours <= 12) {
                                 toggleHourlyCbBaseOnTimeDiff(timeDiffInHours);
                             }
-
-                            //once value is set in input date then clear sessionstorage
-                            pmsSession.RemoveItem("dtcheckin");
-                            pmsSession.RemoveItem("dtcheckout");
+                            //once value is set in room ddl then clear sessionstorage
                             pmsSession.RemoveItem("roomid");
-                            pmsSession.RemoveItem("roomtypeid");
                         });
                         gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val());
                     }
