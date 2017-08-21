@@ -1,8 +1,185 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Manage";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Manage</h2>
+<div class="content-wrap">
+    <div class="main controls">
+        <div class="container-fluid">
+            <div class="col-lg-12 p-r-0 p-l-0">
+                <div class="card alert create-room">
+                    <div class="card-header">
+                        <h4>Data Management</h4>
+                    </div>
+                    <div class="card-body room-details">
+                        <div class="row" style="">
+                            <div class="form-group col-lg-5 p-r-5 m-t-10">
+                                <label>Search</label>
+                                <input type="text" class="search form-control" placeholder="Search by Room Number, Room Type, Floor...">
+                            </div>
 
+                            <div class="col-lg-2 p-l-10 p-r-5 m-t-10">
+                                <div class="form-group">
+                                    <label>Select Property</label>
+                                    <select id="ddlProperty" onchange="OnPropertyChange();">
+                                        <option value="-1">Select Property</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="">
+                            <div class="col-lg-2 p-r-5 m-t-10">
+                                <div class="form-group">
+                                    <label>Transaction Date Range</label>
+                                    <div class="form-group">
+                                        <input id="noofrow" type="text" placeholder="Date Range" class="form-control" name="example-input-normal">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 p-l-10 p-r-5 m-t-10">
+                                <div class="form-group">
+                                    <label>Customer Name</label>
+                                    <div class="form-group">
+                                        <input id="noofrow" type="text" placeholder="Customer Name" class="form-control" name="example-input-normal">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 p-l-10 p-r-5 m-t-10">
+                                <div class="form-group">
+                                    <label>Select RoomType</label>
+                                    <select id="ddlRoomType">
+                                        <option value="-1">Select RoomType</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-1 p-l-10 p-r-5 m-t-10">
+                                <div class="form-group">
+                                    <label>Amount Paid</label>
+                                    <div class="form-group">
+                                        <input id="noofrow" type="text" placeholder="Amount Paid" class="form-control" name="example-input-normal">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-2 p-l-10 p-r-5 m-t-10">
+                                <div class="form-group">
+                                    <label>Payment Mode</label>
+                                    <div class="form-group">
+                                        <input id="noofrow" type="text" placeholder="Payment Mode" class="form-control" name="example-input-normal">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-2 p-l-10 p-r-5 m-t-10">
+                                <div class="form-group">
+                                    <label>Transcation Status</label>
+                                    <div class="form-group">
+                                        <input id="noofrow" type="text" placeholder="Tran. Status" class="form-control" name="example-input-normal">
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- Table -->
+                        <div id="transProperty" class="table-data">
+                            <table class="table table-hover table-bordered results tableContents">
+                                <thead>
+                                    <tr>
+                                        <th id="IDCol">ID #</th>
+                                        <th id="transDate" contenteditable="false">Transaction Date</th>
+                                        <th id="customerNameCol" contenteditable="false">Customer Name</th>
+                                        <th id="amountPaidCol" contenteditable="false">Amount Paid</th>
+                                        <th id="paymentModeCol" contenteditable="false">Mode of Payment</th>
+                                        <th id="roomTypeCol" contenteditable="false">Room Type</th>
+                                        <th id="roomRateCol" contenteditable="false">Room Rate</th>
+                                        <th id="transCol" contenteditable="false">Transaction #</th>
+                                        <th id="taxCollectedCol" contenteditable="false">Tax Collected</th>
+                                        <th id="statusCol" contenteditable="false">Status</th>
+                                        <th class="actionsCol" contenteditable="false"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr id="20">
+                                        <td class="idRow" contenteditable="false">121#</td>
+                                        <td contenteditable="false">11/10/2016</td>
+                                        <td contenteditable="false">my customer</td>
+                                        <td contenteditable="false">100</td>
+                                        <td contenteditable="false">Cash</td>
+                                        <td contenteditable="false"> </td>
+                                        <td contenteditable="false"> </td>
+                                        <td contenteditable="false">ABC123</td>
+                                        <td contenteditable="false"></td>
+                                        <td contenteditable="false">ACTIVE / INACTIVE</td>
+                                        <td class="finalActionsCol"><i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>
+                                    </tr>
+                                    <tr id="21">
+                                        <td class="idRow" contenteditable="false">122#</td>
+                                        <td contenteditable="false">11/10/2016</td>
+                                        <td contenteditable="false">my customer</td>
+                                        <td contenteditable="false">100</td>
+                                        <td contenteditable="false">Cash</td>
+                                        <td contenteditable="false"> </td>
+                                        <td contenteditable="false"> </td>
+                                        <td contenteditable="false">ABC123</td>
+                                        <td contenteditable="false"></td>
+                                        <td contenteditable="false">ACTIVE / INACTIVE</td>
+                                        <td class="finalActionsCol"><i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <!-- Small Table -->
+                        <div id="rangeProperty" class="table-data" style="width:60%; margin-top: 4rem;">
+                            <table class="table table-hover table-bordered results tableContents">
+                                <thead>
+                                    <tr>
+                                        <th id="IDCol">ID #</th>
+                                        <th id="transDate" contenteditable="false">Date Range</th>
+                                        <th id="statusCol" contenteditable="false">Status</th>
+                                        <th id="customerNameCol" contenteditable="false"># of Records</th>
+                                        <th id="amountPaidCol" contenteditable="false">Amount Paid</th>
+                                        <th id="taxCollectedCol" contenteditable="false">Tax Collected</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr id="20">
+                                        <td class="idRow" contenteditable="false">121#</td>
+                                        <td contenteditable="false">11/10/2016 10/11/2016</td>
+                                        <td contenteditable="false">Active</td>
+                                        <td contenteditable="false">1000</td>
+                                        <td contenteditable="false">25000</td>
+                                        <td contenteditable="false">2500</td>
+                                    </tr>
+                                    <tr id="21">
+                                        <td class="idRow" contenteditable="false">122#</td>
+                                        <td contenteditable="false">11/10/2016 10/11/2016</td>
+                                        <td contenteditable="false">Active</td>
+                                        <td contenteditable="false">1000</td>
+                                        <td contenteditable="false">25000</td>
+                                        <td contenteditable="false">2500</td>                                    
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id="divLoader">
+    <div class="loader" style="display:none;">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+</div>
