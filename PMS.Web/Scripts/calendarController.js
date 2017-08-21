@@ -166,9 +166,23 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         showCurrentTime : true,
         //separators : [{color:"Red", location:"2017-07-30T08:00:00"}],
         onEventDoubleClick: function (args) {
-            pmsSession.RemoveItem("bookingId");
-            pmsSession.SetItem("bookingId", args.e.id());
-            redirectionSvc.RedirectToCheckin();
+            if (args.e.data.tags.status.toLowerCase() ==="booked"
+                || args.e.data.tags.status.toLowerCase() === "reserved") {
+                pmsSession.RemoveItem("bookingId");
+                pmsSession.SetItem("bookingId", args.e.id());
+                redirectionSvc.RedirectToCheckin();
+                return;
+            }
+            //var modal = new DayPilot.Modal();
+            //modal.top = 100;
+            ////modal.right = 4;
+            //modal.height = 524;
+            //modal.width = 724;
+            //modal.css = "icon icon-edit";
+            ////modal.onClosed = function (args) {
+            ////    loadResources();
+            ////};
+            //modal.showUrl("http://localhost:50059/Booking/Manage");
         },
         onBeforeCellRender: function (args) {
             var now = new DayPilot.Date().getTime();
@@ -220,7 +234,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
             //args.data.cssClass = "eventseparator";
             if (!args || !args.data || !args.data.tags || !args.data.tags.status) return;
             switch (args.data.tags.status.toLowerCase()) {
-                case "available":
+                case "dirty":
                     args.data.barColor = "green";
                     args.data.deleteDisabled = true;  // only allow deleting in the more detailed hour scale mode
                     break;
