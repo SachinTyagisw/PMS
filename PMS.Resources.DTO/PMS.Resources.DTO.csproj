@@ -50,6 +50,7 @@
     <Compile Include="Request\AddRewardRequestDto.cs" />
     <Compile Include="Request\AddRewardCategoryRequestDto.cs" />
     <Compile Include="Request\AddRoomPriceRequestDto.cs" />
+    <Compile Include="Request\BookingTransactionRequestDto.cs" />
     <Compile Include="Request\RoomRateRequestDto.cs" />
     <Compile Include="Request\AddRoomRequestDto.cs" />
     <Compile Include="Request\AddRoomStatusRequestDto.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Request\UpdateRoomTypeRequestDto.cs" />
     <Compile Include="Response\AddBookingResponseDto.cs" />
     <Compile Include="Response\GetBookingResponseDto.cs" />
+    <Compile Include="Response\BookingTransactionResponseDto.cs" />
     <Compile Include="Response\GetCityResponseDto.cs" />
     <Compile Include="Response\GetCountryResponseDto.cs" />
     <Compile Include="Response\GetExpenseResponseDto.cs" />

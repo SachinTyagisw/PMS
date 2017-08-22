@@ -412,6 +412,11 @@ namespace PMS.Resources.Logic
             return DalFactory.GetRoomRateByProperty(propertyId);
         }
 
+        public List<PmsEntity.Booking> GetBookingTransaction(BookingTransactionRequestDto request)
+        {
+            return DalFactory.GetBookingTransaction(request.StartDate, request.EndDate, request.GuestName, request.RoomType, request.AmountPaid, request.PaymentMode, request.TransactionStatus);
+        }
+
         #region Helper method
 
         private string RemoveXmlDefaultNode(string xml)

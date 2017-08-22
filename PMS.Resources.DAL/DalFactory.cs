@@ -1744,6 +1744,12 @@ namespace PMS.Resources.DAL
             return isDeleted;
         }
 
+        public List<PmsEntity.Booking> GetBookingTransaction(DateTime startDate, DateTime endDate, string guestName, string roomType, decimal amountPaid, string paymentMode, bool transactionStatus)
+        {
+            var bookings = new List<PmsEntity.Booking>();
+            return bookings;
+        }
+
         private bool SaveRoomRateIndDb(int propertyId, string rateXml)
         {
             using (var pmsContext = new PmsEntities())
