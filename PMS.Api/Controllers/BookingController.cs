@@ -388,7 +388,7 @@ namespace PMS.Api.Controllers
         }
 
 
-        [HttpGet, ActionName("GetBookingTransaction")]
+        [HttpPost, ActionName("GetBookingTransaction")]
         public BookingTransactionResponseDto GetBookingTransaction(BookingTransactionRequestDto request)
         {
             var response = new BookingTransactionResponseDto();

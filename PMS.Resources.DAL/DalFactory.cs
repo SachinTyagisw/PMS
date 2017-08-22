@@ -1744,9 +1744,70 @@ namespace PMS.Resources.DAL
             return isDeleted;
         }
 
-        public List<PmsEntity.Booking> GetBookingTransaction(DateTime startDate, DateTime endDate, string guestName, string roomType, decimal amountPaid, string paymentMode, bool transactionStatus)
+        public List<PmsEntity.Booking> GetBookingTransaction(DateTime? startDate, DateTime? endDate, string guestName, string roomType, decimal amountPaid, string paymentMode, bool transactionStatus, string propertyId)
         {
             var bookings = new List<PmsEntity.Booking>();
+            using (var pmsContext = new PmsEntities())
+            {
+                startDate = startDate == null ? DateTime.Now : startDate;
+                endDate = endDate == null ? DateTime.Now.AddDays(1) : endDate;
+                var resultSet = pmsContext.GetTransactionData(startDate, endDate, guestName, roomType, amountPaid, paymentMode, transactionStatus, propertyId).ToList();
+                if (resultSet == null || resultSet.Count <= 0) return bookings;
+                foreach (var result in resultSet)
+                {
+                    var booking = new PmsEntity.Booking();
+                    booking.Id = result.TransactionNumber;
+                    booking.CheckinTime = result.TransactionDate;
+                    booking.IsActive = result.Status;
+                    booking.RateType = new PmsEntity.RateType
+                    {
+                        Rates = new List<PmsEntity.Rate>
+                        {
+                            new PmsEntity.Rate
+                            {
+                                Value = result.RoomRate
+                            }
+                        }
+                    };
+                    booking.Invoice = new PmsEntity.Invoice
+                    {
+                        TotalAmount = result.AmountPaid,
+                        InvoicePaymentDetails = new List<PmsEntity.InvoicePaymentDetail>
+                        {
+                            new PmsEntity.InvoicePaymentDetail
+                            { 
+                                PaymentMode = result.ModeOfPayment
+                            }
+                        },
+                        InvoiceTaxDetails = new List<PmsEntity.InvoiceTaxDetail>
+                        {
+                            new PmsEntity.InvoiceTaxDetail
+                            {
+                                 TaxAmount = result.TaxCollected
+                            }
+                        }
+                    };
+                    booking.RoomBookings = new List<PmsEntity.RoomBooking>
+                    {
+                        new PmsEntity.RoomBooking
+                        { 
+                            Room = new PmsEntity.Room
+                            {
+                                RoomType = new PmsEntity.RoomType
+                                {
+                                    Name = result.RoomType
+                                }
+                            },
+                            Guest = new PmsEntity.Guest
+                            {   
+                                // GuestName include both fname and lname
+                                FirstName = result.GuestName,
+                            }                            
+                        }
+                    };
+                    bookings.Add(booking);
+                }
+            }
             return bookings;
         }
 

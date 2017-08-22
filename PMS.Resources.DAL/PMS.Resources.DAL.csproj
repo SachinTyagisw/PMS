@@ -102,6 +102,9 @@
     <Compile Include="GETROOMSTATUS_Result.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="GetTransactionData_Result.cs">
+      <DependentUpon>PmsModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Guest.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>

@@ -857,6 +857,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="fnGetPaymentOption" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar(max)">
+          <Parameter Name="invoiceId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="fnGetRoomRates" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="money">
+          <Parameter Name="invoiceId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="fnGetTaxAmount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="money">
+          <Parameter Name="invoiceId" Type="int" Mode="In" />
+        </Function>
         <Function Name="GETALLBOOKINGS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PROPERTYID" Type="int" Mode="In" />
           <Parameter Name="CHECKINTIME" Type="datetime" Mode="In" />
@@ -895,6 +904,16 @@
           <Parameter Name="PROPERTYID" Type="int" Mode="In" />
           <Parameter Name="CHECKINTIME" Type="datetime" Mode="In" />
           <Parameter Name="CHECKOUTDATE" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="GetTransactionData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="StartDate" Type="datetime" Mode="In" />
+          <Parameter Name="EndDate" Type="datetime" Mode="In" />
+          <Parameter Name="CustomerName" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="RoomType" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="AmountPaid" Type="money" Mode="In" />
+          <Parameter Name="paymentmode" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="TransactionStatus" Type="bit" Mode="In" />
+          <Parameter Name="PropertyId" Type="nvarchar(max)" Mode="In" />
         </Function>
         <Function Name="InsertBooking" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="propertyID" Type="int" Mode="In" />
@@ -2210,6 +2229,16 @@
             <Parameter Name="CHECKINTIME" Mode="In" Type="DateTime" />
             <Parameter Name="CHECKOUTDATE" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="GetTransactionData" ReturnType="Collection(PmsModel.GetTransactionData_Result)">
+            <Parameter Name="StartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="CustomerName" Mode="In" Type="String" />
+            <Parameter Name="RoomType" Mode="In" Type="String" />
+            <Parameter Name="AmountPaid" Mode="In" Type="Decimal" />
+            <Parameter Name="paymentmode" Mode="In" Type="String" />
+            <Parameter Name="TransactionStatus" Mode="In" Type="Boolean" />
+            <Parameter Name="PropertyId" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="InsertBooking" ReturnType="Collection(PmsModel.InsertBooking_Result)">
             <Parameter Name="propertyID" Mode="In" Type="Int32" />
             <Parameter Name="bookingXML" Mode="In" Type="String" />
@@ -2391,6 +2420,17 @@
           <Property Type="Int32" Name="ROOMTypeID" Nullable="false" />
           <Property Type="String" Name="NUMBER" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="ROOMSTATUS" Nullable="false" MaxLength="9" />
+        </ComplexType>
+        <ComplexType Name="GetTransactionData_Result">
+          <Property Type="DateTime" Name="TransactionDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="GuestName" Nullable="true" MaxLength="401" />
+          <Property Type="Decimal" Name="AmountPaid" Nullable="true" Precision="19" />
+          <Property Type="String" Name="RoomType" Nullable="true" />
+          <Property Type="String" Name="ModeOfPayment" Nullable="true" />
+          <Property Type="Decimal" Name="RoomRate" Nullable="true" Precision="19" />
+          <Property Type="Int32" Name="TransactionNumber" Nullable="false" />
+          <Property Type="Decimal" Name="TaxCollected" Nullable="true" Precision="19" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
         </ComplexType>
         <ComplexType Name="InsertBooking_Result">
           <Property Type="Int32" Name="Column1" Nullable="true" />
@@ -3071,6 +3111,21 @@
                 <ScalarProperty Name="ROOMTypeID" ColumnName="ROOMTypeID" />
                 <ScalarProperty Name="NUMBER" ColumnName="NUMBER" />
                 <ScalarProperty Name="ROOMSTATUS" ColumnName="ROOMSTATUS" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetTransactionData" FunctionName="PmsModel.Store.GetTransactionData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PmsModel.GetTransactionData_Result">
+                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+                <ScalarProperty Name="GuestName" ColumnName="GuestName" />
+                <ScalarProperty Name="AmountPaid" ColumnName="AmountPaid" />
+                <ScalarProperty Name="RoomType" ColumnName="RoomType" />
+                <ScalarProperty Name="ModeOfPayment" ColumnName="ModeOfPayment" />
+                <ScalarProperty Name="RoomRate" ColumnName="RoomRate" />
+                <ScalarProperty Name="TransactionNumber" ColumnName="TransactionNumber" />
+                <ScalarProperty Name="TaxCollected" ColumnName="TaxCollected" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

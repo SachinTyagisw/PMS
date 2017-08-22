@@ -414,7 +414,7 @@ namespace PMS.Resources.Logic
 
         public List<PmsEntity.Booking> GetBookingTransaction(BookingTransactionRequestDto request)
         {
-            return DalFactory.GetBookingTransaction(request.StartDate, request.EndDate, request.GuestName, request.RoomType, request.AmountPaid, request.PaymentMode, request.TransactionStatus);
+            return DalFactory.GetBookingTransaction(request.StartDate, request.EndDate, request.GuestName, request.RoomType, request.AmountPaid, request.PaymentMode, request.TransactionStatus, request.PropertyId);
         }
 
         #region Helper method

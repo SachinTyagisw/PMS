@@ -193,6 +193,43 @@ namespace PMS.Resources.DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GETROOMSTATUS_Result>("GETROOMSTATUS", pROPERTYIDParameter, cHECKINTIMEParameter, cHECKOUTDATEParameter);
         }
     
+        public virtual ObjectResult<GetTransactionData_Result> GetTransactionData(Nullable<System.DateTime> startDate, Nullable<System.DateTime> endDate, string customerName, string roomType, Nullable<decimal> amountPaid, string paymentmode, Nullable<bool> transactionStatus, string propertyId)
+        {
+            var startDateParameter = startDate.HasValue ?
+                new ObjectParameter("StartDate", startDate) :
+                new ObjectParameter("StartDate", typeof(System.DateTime));
+    
+            var endDateParameter = endDate.HasValue ?
+                new ObjectParameter("EndDate", endDate) :
+                new ObjectParameter("EndDate", typeof(System.DateTime));
+    
+            var customerNameParameter = customerName != null ?
+                new ObjectParameter("CustomerName", customerName) :
+                new ObjectParameter("CustomerName", typeof(string));
+    
+            var roomTypeParameter = roomType != null ?
+                new ObjectParameter("RoomType", roomType) :
+                new ObjectParameter("RoomType", typeof(string));
+    
+            var amountPaidParameter = amountPaid.HasValue ?
+                new ObjectParameter("AmountPaid", amountPaid) :
+                new ObjectParameter("AmountPaid", typeof(decimal));
+    
+            var paymentmodeParameter = paymentmode != null ?
+                new ObjectParameter("paymentmode", paymentmode) :
+                new ObjectParameter("paymentmode", typeof(string));
+    
+            var transactionStatusParameter = transactionStatus.HasValue ?
+                new ObjectParameter("TransactionStatus", transactionStatus) :
+                new ObjectParameter("TransactionStatus", typeof(bool));
+    
+            var propertyIdParameter = propertyId != null ?
+                new ObjectParameter("PropertyId", propertyId) :
+                new ObjectParameter("PropertyId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetTransactionData_Result>("GetTransactionData", startDateParameter, endDateParameter, customerNameParameter, roomTypeParameter, amountPaidParameter, paymentmodeParameter, transactionStatusParameter, propertyIdParameter);
+        }
+    
         public virtual ObjectResult<InsertBooking_Result> InsertBooking(Nullable<int> propertyID, string bookingXML, ObjectParameter bOOKINGID, ObjectParameter gUESTID, ObjectParameter rOOMBOOKINGID)
         {
             var propertyIDParameter = propertyID.HasValue ?

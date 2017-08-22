@@ -13,11 +13,11 @@ namespace PMS.Resources.DTO.Request
     public class BookingTransactionRequestDto
     {
         [DataMember]
-        public int PropertyId { get; set; }
+        public string PropertyId { get; set; }
         [DataMember]
-        public DateTime StartDate {get;set;}
+        public DateTime? StartDate {get;set;}
         [DataMember]
-        public DateTime EndDate {get;set;}
+        public DateTime? EndDate {get;set;}
         [DataMember]
         public String GuestName {get;set;}
         [DataMember]
