@@ -1811,6 +1811,30 @@ namespace PMS.Resources.DAL
             return bookings;
         }
 
+        public bool UpdateStatus(int bookingId, bool status, int propertyId)
+        {
+            var isUpdated = false;
+            if (bookingId <= 0) return isUpdated;
+
+            var booking = new DAL.Booking
+            {
+                CreatedOn = DateTime.Now,
+                IsActive = status,
+                ID = bookingId,
+                LastUpdatedOn = DateTime.Now,
+                PropertyID = propertyId
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Entry(booking).State = System.Data.Entity.EntityState.Modified;
+                var result = pmsContext.SaveChanges();
+                isUpdated = result == 1 ? true : false;
+            }
+
+            return isUpdated;
+        }
+
         private bool SaveRoomRateIndDb(int propertyId, string rateXml)
         {
             using (var pmsContext = new PmsEntities())

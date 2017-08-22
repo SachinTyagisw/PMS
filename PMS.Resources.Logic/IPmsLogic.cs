@@ -12,7 +12,6 @@ namespace PMS.Resources.Logic
 {
     public interface IPmsLogic
     {
-        List<PmsEntity.Booking> GetBookingTransaction(BookingTransactionRequestDto request);
         bool UpdateBooking(PmsEntity.Booking booking);
         bool AddBooking(PmsEntity.Booking booking, ref int bookingId, ref int guestId, ref int roomBookingId);
         List<PmsEntity.Booking> GetBooking(int propertyId, DateTime startDate, DateTime endDate);
@@ -92,5 +91,7 @@ namespace PMS.Resources.Logic
         bool AddRoomRate(List<PmsEntity.Rate> rates);
         bool UpdateRoomRate(List<PmsEntity.Rate> rates);
         bool DeleteRoomRate(int rateId);
+        List<PmsEntity.Booking> GetBookingTransaction(BookingTransactionRequestDto request);
+        bool UpdateStatus(UpdateStatusRequestDto request);
     }
 }

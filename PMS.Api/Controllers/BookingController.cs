@@ -102,6 +102,28 @@ namespace PMS.Api.Controllers
              );
         }
 
+
+        [HttpPut, ActionName("UpdateStatus")]
+        public PmsResponseDto UpdateStatus(UpdateStatusRequestDto request)
+        {
+            if (request == null || request.BookingId <= 0) throw new PmsException("Update status call for booking failed.");
+
+            var response = new PmsResponseDto();
+            if (_iPmsLogic.UpdateStatus(request))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "Booking status updated successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "Booking status update failed.Contact administrator.";
+            }
+
+            return response;
+
+        }
+
         [HttpPut, ActionName("UpdateBooking")]
         public PmsResponseDto UpdateBooking([FromBody] AddBookingRequestDto request)
         {

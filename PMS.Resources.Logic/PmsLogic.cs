@@ -417,6 +417,11 @@ namespace PMS.Resources.Logic
             return DalFactory.GetBookingTransaction(request.StartDate, request.EndDate, request.GuestName, request.RoomType, request.AmountPaid, request.PaymentMode, request.TransactionStatus, request.PropertyId);
         }
 
+        public bool UpdateStatus(UpdateStatusRequestDto request)
+        {
+            return DalFactory.UpdateStatus(request.BookingId, request.Status, request.PropertyId);
+        }
+
         #region Helper method
 
         private string RemoveXmlDefaultNode(string xml)
