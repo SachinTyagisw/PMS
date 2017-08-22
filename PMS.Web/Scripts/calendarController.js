@@ -166,23 +166,23 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         showCurrentTime : true,
         //separators : [{color:"Red", location:"2017-07-30T08:00:00"}],
         onEventDoubleClick: function (args) {
-            if (args.e.data.tags.status.toLowerCase() ==="booked"
-                || args.e.data.tags.status.toLowerCase() === "reserved") {
+            if (args.e.data && args.e.data.tags && args.e.data.tags.status
+                && (args.e.data.tags.status.toLowerCase() === "booked"
+                || args.e.data.tags.status.toLowerCase() === "reserved")) {
                 pmsSession.RemoveItem("bookingId");
                 pmsSession.SetItem("bookingId", args.e.id());
                 redirectionSvc.RedirectToCheckin();
                 return;
             }
-            //var modal = new DayPilot.Modal();
-            //modal.top = 100;
-            ////modal.right = 4;
-            //modal.height = 524;
-            //modal.width = 724;
-            //modal.css = "icon icon-edit";
-            ////modal.onClosed = function (args) {
-            ////    loadResources();
-            ////};
-            //modal.showUrl("http://localhost:50059/Booking/Manage");
+            var modal = new DayPilot.Modal();
+            modal.top = 150;
+            modal.height = 324;
+            modal.width = 524;
+            modal.css = "icon icon-edit";
+            //modal.onClosed = function (args) {
+            //    loadResources();
+            //};
+            modal.showUrl("http://localhost:50059/Room/Manage?id=" + args.e.data.resource);
         },
         onBeforeCellRender: function (args) {
             var now = new DayPilot.Date().getTime();
@@ -378,6 +378,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         for (var i = 0; i < bookingResponse.length; i++) {
             var booking = bookingResponse[i];
             if (!booking || booking.Id <= 0) continue;
+            //            if (!booking) continue;
 
             var data = booking.RoomBookings;
             for (var j = 0; j < booking.RoomBookings.length; j++) {
@@ -391,6 +392,13 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                 if (data[j].Guest.FirstName) {
                     dpBookingData.text = "Booked for : " + data[j].Guest.LastName + ", " + data[j].Guest.FirstName;
                 }
+                //if (data[j].Guest.FirstName && data[j].Room && data[j].Room.RoomStatus && data[j].Room.RoomStatus.Name
+                //    && (data[j].Room.RoomStatus.Name.toLowerCase() === "booked"
+                //    || data[j].Room.RoomStatus.Name.toLowerCase() === "reserved")) {
+                //    dpBookingData.text = data[j].Room.RoomStatus.Name.toLowerCase() + " for : " + data[j].Guest.LastName + ", " + data[j].Guest.FirstName;
+                //} else {
+                //    dpBookingData.text = "Room is " + data[j].Room.RoomStatus.Name.toLowerCase();
+                //}
                 dpBookingData.tags.status = data[j].Room.RoomStatus.Name;
                 dpBookingData.id = booking.Id;
 

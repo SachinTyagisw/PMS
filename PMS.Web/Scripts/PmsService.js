@@ -104,6 +104,12 @@
             OnUpdateRoomRateFailure: null,
             OnDeleteRoomRateSuccess: null,
             OnDeleteRoomRateFailure: null,
+            OnUpdateRoomStatusSuccess: null,
+            OnUpdateRoomStatusFailure: null,
+        };
+
+        this.UpdateRoomStatus = function (args) {
+            makeAjaxRequestPut(args, "UpdateRoomStatus", this, "api/v1/Room/" + args.roomId + "/UpdateRoomStatus/" + args.roomStatus);
         };
 
         this.UpdateRoomRate = function (args) {

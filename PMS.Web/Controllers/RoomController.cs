@@ -31,5 +31,11 @@ namespace PMS.Web.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public ActionResult Manage()
+        {
+            return View();
+        }
     }
 }

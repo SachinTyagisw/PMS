@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewBag.Title = "Manage Room";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type='text/javascript'>
+    var gcm = window.GuestCheckinManager;
+    var pmsSession = window.PmsSession; 
+
+    function getQueryStringParams(sParam){
+        var sPageURL = window.location.search.substring(1);
+        var sURLVariables = sPageURL.split('&');
+        for (var i = 0; i < sURLVariables.length; i++){
+            var sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0] == sParam){     
+                return sParameterName[1];
+            }
+        }
+    }
+
+    $(document).ready(function () {
+        $("#btnSubmit").click(function () {
+            var ddlRoomStatuses = $('#ddlRoomStatuses').val();
+            if (ddlRoomStatuses && ddlRoomStatuses != "-1") {
+                //Todo remove hardcoded value
+                var roomId = getQueryStringParams("id");
+                if(!roomId || parseInt(roomId) <= 0){
+                    alert('Incorrect room id');
+                    return;
+                }
+                gcm.UpdateRoomStatus(ddlRoomStatuses.val(), roomId);
+            } else {
+                alert('Select proper room status');
+                return;
+            }
+        });
+    });
+
+</script>
+
+    <div class="content-wrap">
+        <div class="main controls">
+            <div class="container-fluid">
+                <div class="main-content">
+                    <div class="row">
+                        <div class="col-lg-8 p-r-0">
+                            <label>Change Room Status</label>
+                            <select id="ddlRoomStatuses" class="form-control">
+                                <option selected="selected" value="-1">Select Room Status</option>
+                                <option value="Dirty">Dirty</option>
+                                <option value="Reserved">Reserved</option>
+                                <option value="Booked">Booked</option>
+                            </select>
+                        </div>
+                    </div><!-- /# column -->
+                </div>
+            </div><!-- /# main content -->
+        </div><!-- /# container-fluid -->
+    </div><!-- /# main -->
+    <div class="footer-nav">
+        <div class="show">
+            <input id="btnSubmit" type="button" class="btn btn-primary m-b-10 m-l-5" value="Submit" />
+            <input id="btnCancel" type="button" class="btn btn-primary m-b-10 m-l-5" value="Cancel" onclick="window.close();" />
+        </div>
+    </div>
+
+    <div id="divLoader">
+        <div class="loader" style="display:none;">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+</div>

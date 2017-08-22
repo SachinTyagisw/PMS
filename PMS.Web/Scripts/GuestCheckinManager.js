@@ -1730,6 +1730,13 @@
             return noOfHours;
         },
 
+        UpdateRoomStatus: function (status, roomId) {
+            args.roomId = roomId;
+            args.roomStatus = status;
+            // UpdateRoomStatus by api calling  
+            pmsService.UpdateRoomStatus(args);
+        },
+
         AjaxHandlers: function() {
             // ajax handlers start
                 pmsService.Handlers.OnAddBookingSuccess = function (data) {

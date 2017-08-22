@@ -252,8 +252,6 @@ namespace PMS.Api.Controllers
             return response;
         }
 
-
-
         [HttpGet, ActionName("GetBookingById")]
         public GetBookingResponseDto GetBookingById(int bookingId)
         {
