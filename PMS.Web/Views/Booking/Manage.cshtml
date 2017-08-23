@@ -37,8 +37,8 @@
             bookingTransactionRequestDto.GuestName = guestName && guestName.trim() !== '' ? guestName : null;
             bookingTransactionRequestDto.RoomType = roomType && roomType.trim() !== '' ? roomType : null;
             bookingTransactionRequestDto.PaymentMode = paymentMode && paymentMode.trim() !== '' ? paymentMode : null;
-            bookingTransactionRequestDto.TransactionStatus = status && status.trim() !== '' ? status : 1;
-            bookingTransactionRequestDto.TransactionStatus = status && status.trim() !== '' ? status : 1;
+            bookingTransactionRequestDto.AmountPaid = amountPaid && amountPaid.trim() !== '' ? AmountPaid : null;
+            bookingTransactionRequestDto.TransactionStatus = status && status.trim() !== '' ? status : null;
             bookingTransactionRequestDto.PropertyId = propertyId;
             gcm.GetBookingTransaction(bookingTransactionRequestDto);
         });

@@ -1745,7 +1745,7 @@ namespace PMS.Resources.DAL
             return isDeleted;
         }
 
-        public List<PmsEntity.Booking> GetBookingTransaction(DateTime? startDate, DateTime? endDate, string guestName, string roomType, decimal amountPaid, string paymentMode, bool transactionStatus, string propertyId, List<BookingSummary> bookingSummary)
+        public List<PmsEntity.Booking> GetBookingTransaction(DateTime? startDate, DateTime? endDate, string guestName, string roomType, decimal amountPaid, string paymentMode, bool? transactionStatus, string propertyId, List<BookingSummary> bookingSummary)
         {
             var bookings = new List<PmsEntity.Booking>();
             //dummy data
@@ -1769,8 +1769,6 @@ namespace PMS.Resources.DAL
             bookingSummary.Add(bs2);
             using (var pmsContext = new PmsEntities())
             {
-                startDate = startDate == null ? DateTime.Now : startDate;
-                endDate = endDate == null ? DateTime.Now.AddDays(1) : endDate;
                 var resultSet = pmsContext.GetTransactionData(startDate, endDate, guestName, roomType, amountPaid, paymentMode, transactionStatus, propertyId).ToList();
                 if (resultSet == null || resultSet.Count <= 0) return bookings;
                 foreach (var result in resultSet)
