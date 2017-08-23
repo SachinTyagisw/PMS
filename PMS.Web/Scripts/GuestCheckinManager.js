@@ -955,6 +955,16 @@
             pmsService.GetAllProperty(args);
         },
 
+        PopulateBookingGrid: function (data) {
+            var divBooking = $('#divBooking');
+            var bookingTemplate = $('#bookingTemplate');
+            if (!divBooking || !bookingTemplate) return;
+            divBooking.html('');
+            divBooking.html(bookingTemplate.render(data));
+            //$("#divBooking thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
+            //$("#divBooking tbody tr").append('<td class="finalActionsCol"><i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+        },
+
         PopulatePropertyGrid: function(data) {
             var divProperty = $('#divProperty');
             var propertyTemplate = $('#propertyTemplate');
@@ -1737,6 +1747,12 @@
             pmsService.UpdateRoomStatus(args);
         },
 
+        GetBookingTransaction: function (requestDto) {
+            args = requestDto;
+            // GetBookingTransaction by api calling  
+            pmsService.GetBookingTransaction(args);
+        },
+
         AjaxHandlers: function() {
             // ajax handlers start
                 pmsService.Handlers.OnAddBookingSuccess = function (data) {
@@ -2455,6 +2471,32 @@
                 console.log(status);
                 //alert(status);
                 if (window.Notifications) window.Notifications.Notify("on-room-update-success", null, null);
+            };
+            
+            pmsService.Handlers.OnUpdateRoomStatusFailure = function () {
+                // show error log
+                console.error("Room status is not updated.");
+            };
+
+            pmsService.Handlers.OnUpdateRoomStatusSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                //alert(status);
+            };
+
+            pmsService.Handlers.OnGetBookingTransactionFailure = function () {
+                // show error log
+                console.error("Get booking transaction failed.");
+            };
+
+            pmsService.Handlers.OnGetBookingTransactionSuccess = function (data) {
+                if (!data || !data.Bookings || data.Bookings.length <= 0) return;
+                var divBooking = $('#divBooking');
+                var bookingTemplate = $('#bookingTemplate');
+                if (divBooking && bookingTemplate && divBooking.length > 0 && bookingTemplate.length > 0) {
+                    window.GuestCheckinManager.PopulateBookingGrid(data);
+                }
+                //if (window.Notifications) window.Notifications.Notify("on-allproperty-get-success", null, null);
             };
 
             // ajax handlers end

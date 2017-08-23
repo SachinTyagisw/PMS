@@ -409,7 +409,6 @@ namespace PMS.Api.Controllers
             return response;
         }
 
-
         [HttpPost, ActionName("GetBookingTransaction")]
         public BookingTransactionResponseDto GetBookingTransaction(BookingTransactionRequestDto request)
         {
