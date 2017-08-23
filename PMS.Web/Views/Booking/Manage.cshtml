@@ -26,20 +26,21 @@
         $("#btnShow").click(function () {
             var propertyId = $('#ddlProperty').val();
             var roomType = $("#ddlRoomType option:selected").text();
+            var roomTypeId = $("#ddlRoomType").val();
             var guestName = $('#guestName').val();
             var amountPaid = $('#amountPaid').val();
             var dtRange = $('#dtRange').val();
             var paymentMode = $('#paymentMode').val();
             var status = $('#status').val();
             var bookingTransactionRequestDto = {};
-            bookingTransactionRequestDto.StartDate = "05/05/2017 10:16 am";
-            bookingTransactionRequestDto.EndDate = "05/06/2017 12:00 am";
+            bookingTransactionRequestDto.StartDate = null;
+            bookingTransactionRequestDto.EndDate = null;
             bookingTransactionRequestDto.GuestName = guestName && guestName.trim() !== '' ? guestName : null;
-            bookingTransactionRequestDto.RoomType = roomType && roomType.trim() !== '' ? roomType : null;
+            bookingTransactionRequestDto.RoomType = roomTypeId && roomTypeId !== '-1' ? roomType : null;
             bookingTransactionRequestDto.PaymentMode = paymentMode && paymentMode.trim() !== '' ? paymentMode : null;
             bookingTransactionRequestDto.AmountPaid = amountPaid && amountPaid.trim() !== '' ? AmountPaid : null;
             bookingTransactionRequestDto.TransactionStatus = status && status.trim() !== '' ? status : null;
-            bookingTransactionRequestDto.PropertyId = propertyId;
+            bookingTransactionRequestDto.PropertyId = propertyId && propertyId != '-1' ? propertyId : null;
             gcm.GetBookingTransaction(bookingTransactionRequestDto);
         });
 
@@ -231,36 +232,25 @@
                 <th id="transCol" contenteditable="false">Transaction #</th>
                 <th id="taxCollectedCol" contenteditable="false">Tax Collected</th>
                 <th id="statusCol" contenteditable="false">Status</th>
-                <th class="actionsCol" contenteditable="false"></th>
             </tr>
         </thead>
         <tbody>
-            <tr id="20">
-                <td class="idRow" contenteditable="false">121#</td>
-                <td contenteditable="false">11/10/2016</td>
-                <td contenteditable="false">my customer</td>
-                <td contenteditable="false">100</td>
-                <td contenteditable="false">Cash</td>
-                <td contenteditable="false"> </td>
-                <td contenteditable="false"> </td>
-                <td contenteditable="false">ABC123</td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false">ACTIVE / INACTIVE</td>
-                <td class="finalActionsCol"><i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>
+            {{if typeof Bookings != "undefined" && Bookings != "null" && Bookings.length > 0 }}
+            {{each Bookings}}
+            <tr id="${$value.Id}">
+                <td class="idRow" contenteditable="false">${$value.Id}</td>
+                <td contenteditable="false">${$value.CheckinTime}</td>
+                <td contenteditable="false">${$value.RoomBookings[0].Guest.FirstName}</td>
+                <td contenteditable="false">${$value.Invoice.TotalAmount}</td>
+                <td contenteditable="false">${$value.Invoice.InvoicePaymentDetails[0].PaymentMode}</td>
+                <td contenteditable="false">${$value.RoomBookings[0].Room.RoomType.Name}</td>
+                <td contenteditable="false">${$value.RateType.Rates[0].Value} </td>
+                <td contenteditable="false">${$value.Id}</td>
+                <td contenteditable="false">${$value.Invoice.InvoiceTaxDetails[0].TaxAmount}</td>
+                <td contenteditable="false">{{if $value.IsActive }}Active{{else}}Inactive{{/if}}</td>
             </tr>
-            <tr id="21">
-                <td class="idRow" contenteditable="false">122#</td>
-                <td contenteditable="false">11/10/2016</td>
-                <td contenteditable="false">my customer</td>
-                <td contenteditable="false">100</td>
-                <td contenteditable="false">Cash</td>
-                <td contenteditable="false"> </td>
-                <td contenteditable="false"> </td>
-                <td contenteditable="false">ABC123</td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false">ACTIVE / INACTIVE</td>
-                <td class="finalActionsCol"><i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>
-            </tr>
+            {{/each}}
+            {{/if}}
         </tbody>
     </table>
 </script>
