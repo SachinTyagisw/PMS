@@ -961,8 +961,10 @@
             if (!divBooking || !bookingTemplate) return;
             divBooking.html('');
             divBooking.html(bookingTemplate.render(data));
-            //$("#divBooking thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
-            //$("#divBooking tbody tr").append('<td class="finalActionsCol"><i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+            $("#divBooking thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
+            if (data && data.Bookings && data.Bookings.length > 0) {
+                $("#divBooking tbody tr").append('<td class="finalActionsCol"><i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+            }
         },
 
         PopulatePropertyGrid: function(data) {
