@@ -412,9 +412,12 @@ namespace PMS.Resources.Logic
             return DalFactory.GetRoomRateByProperty(propertyId);
         }
 
-        public List<PmsEntity.Booking> GetBookingTransaction(BookingTransactionRequestDto request)
+        public BookingTransactionResponseDto GetBookingTransaction(BookingTransactionRequestDto request)
         {
-            return DalFactory.GetBookingTransaction(request.StartDate, request.EndDate, request.GuestName, request.RoomType, request.AmountPaid, request.PaymentMode, request.TransactionStatus, request.PropertyId);
+            var response = new BookingTransactionResponseDto();
+            response.BookingSummary = new List<PmsEntity.BookingSummary>();
+            response.Bookings = DalFactory.GetBookingTransaction(request.StartDate, request.EndDate, request.GuestName, request.RoomType, request.AmountPaid, request.PaymentMode, request.TransactionStatus, request.PropertyId, response.BookingSummary);
+            return response;
         }
 
         public bool UpdateStatus(UpdateStatusRequestDto request)

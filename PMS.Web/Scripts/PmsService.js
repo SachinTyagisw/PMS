@@ -106,6 +106,12 @@
             OnDeleteRoomRateFailure: null,
             OnUpdateRoomStatusSuccess: null,
             OnUpdateRoomStatusFailure: null,
+            OnGetBookingTransactionSuccess: null,
+            OnGetBookingTransactionFailure: null,
+        };
+
+        this.GetBookingTransaction = function (args) {
+            makeAjaxRequestPost(args, "GetBookingTransaction", this, "api/v1/Booking/GetBookingTransaction");
         };
 
         this.UpdateRoomStatus = function (args) {

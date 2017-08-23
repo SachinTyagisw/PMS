@@ -409,13 +409,10 @@ namespace PMS.Api.Controllers
             return response;
         }
 
-
         [HttpPost, ActionName("GetBookingTransaction")]
         public BookingTransactionResponseDto GetBookingTransaction(BookingTransactionRequestDto request)
         {
-            var response = new BookingTransactionResponseDto();
-            response.Bookings = _iPmsLogic.GetBookingTransaction(request);
-            return response;
+            return _iPmsLogic.GetBookingTransaction(request);
         }   
 
         [HttpGet, ActionName("GetCountry")]

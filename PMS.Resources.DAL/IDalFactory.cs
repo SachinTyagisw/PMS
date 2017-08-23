@@ -93,7 +93,7 @@ namespace PMS.Resources.DAL
         bool AddRoomRate(int propertyId, string rateXml);
         bool UpdateRoomRate(int propertyId, string rateXml);
         bool DeleteRoomRate(int rateId);
-        List<PmsEntity.Booking> GetBookingTransaction(DateTime? startDate, DateTime? endDate, string guestName, string roomType, decimal amountPaid, string paymentMode, bool transactionStatus, string propertyId);
+        List<PmsEntity.Booking> GetBookingTransaction(DateTime? startDate, DateTime? endDate, string guestName, string roomType, decimal amountPaid, string paymentMode, bool? transactionStatus, string propertyId, List<BookingSummary> bookingSummary);
         bool UpdateStatus(int bookingId, bool status, int propertyId);
     }
 }

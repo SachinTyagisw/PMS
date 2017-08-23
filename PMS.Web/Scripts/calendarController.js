@@ -165,6 +165,10 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         dynamicEventRenderingCacheSweeping: true,
         showCurrentTime : true,
         //separators : [{color:"Red", location:"2017-07-30T08:00:00"}],
+        onBeforeResHeaderRender: function (args) {
+            //alert('ggg');
+            //args.e.Areas.Add(new Area().Width(17).Bottom(0).Right(0).Top(0).CssClass("resource_action_menu").Html("<div><div></div></div>").JavaScript("alert(e.Value);"));
+        },
         onEventDoubleClick: function (args) {
             if (args.e.data && args.e.data.tags && args.e.data.tags.status
                 && (args.e.data.tags.status.toLowerCase() === "booked"
@@ -174,15 +178,15 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                 redirectionSvc.RedirectToCheckin();
                 return;
             }
-            var modal = new DayPilot.Modal();
-            modal.top = 150;
-            modal.height = 324;
-            modal.width = 524;
-            modal.css = "icon icon-edit";
-            //modal.onClosed = function (args) {
-            //    loadResources();
-            //};
-            modal.showUrl("http://localhost:50059/Room/Manage?id=" + args.e.data.resource);
+            //var modal = new DayPilot.Modal();
+            //modal.top = 150;
+            //modal.height = 324;
+            //modal.width = 524;
+            //modal.css = "icon icon-edit";
+            ////modal.onClosed = function (args) {
+            ////    loadResources();
+            ////};
+            //modal.showUrl("http://localhost:50059/Room/Manage?id=" + args.e.data.resource);
         },
         onBeforeCellRender: function (args) {
             var now = new DayPilot.Date().getTime();
@@ -417,7 +421,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
             var dpRoomData = {};
             dpRoomData.name = !room.RoomType.ShortName || room.RoomType.ShortName.trim() === '' ? room.Number : room.RoomType.ShortName + "-" + room.Number
             dpRoomData.id = room.Id;
-
+            dpRoomData.areas = { "action": "JavaScript", "js": "(function(e) { alert(e.Value);; })", "bottom": 0, "w": 17, "v": "Hover", "html": "<div><div><\/div><\/div>", "css": "resource_action_menu", "top": 0, "right": 0 };
             dpRoomsResponseDto.push(dpRoomData);
         }
         return dpRoomsResponseDto;

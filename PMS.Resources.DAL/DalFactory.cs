@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using PMS.Resources.Common.Converter;
 using System.Data.SqlClient;
 using System.Data;
+using PMS.Resources.Entities;
 
 namespace PMS.Resources.DAL
 {
@@ -1744,13 +1745,30 @@ namespace PMS.Resources.DAL
             return isDeleted;
         }
 
-        public List<PmsEntity.Booking> GetBookingTransaction(DateTime? startDate, DateTime? endDate, string guestName, string roomType, decimal amountPaid, string paymentMode, bool transactionStatus, string propertyId)
+        public List<PmsEntity.Booking> GetBookingTransaction(DateTime? startDate, DateTime? endDate, string guestName, string roomType, decimal amountPaid, string paymentMode, bool? transactionStatus, string propertyId, List<BookingSummary> bookingSummary)
         {
             var bookings = new List<PmsEntity.Booking>();
+            //dummy data
+            var bs1 = new PmsEntity.BookingSummary();
+            bs1.DateRange = "2017/08/23 2017/08/25";
+            bs1.Id = 1;
+            bs1.TotalAmount = 100;
+            bs1.TotalBooking = 40;
+            bs1.TotalTax = 30;
+            bs1.Status = true;
+
+            var bs2 = new PmsEntity.BookingSummary();
+            bs2.DateRange = "2017/08/25 2017/08/26";
+            bs2.Id = 1;
+            bs2.TotalAmount = 10;
+            bs2.TotalBooking = 4;
+            bs2.TotalTax = 30;
+            bs1.Status = false;
+
+            bookingSummary.Add(bs1);
+            bookingSummary.Add(bs2);
             using (var pmsContext = new PmsEntities())
             {
-                startDate = startDate == null ? DateTime.Now : startDate;
-                endDate = endDate == null ? DateTime.Now.AddDays(1) : endDate;
                 var resultSet = pmsContext.GetTransactionData(startDate, endDate, guestName, roomType, amountPaid, paymentMode, transactionStatus, propertyId).ToList();
                 if (resultSet == null || resultSet.Count <= 0) return bookings;
                 foreach (var result in resultSet)
@@ -1806,7 +1824,7 @@ namespace PMS.Resources.DAL
                         }
                     };
                     bookings.Add(booking);
-                }
+                }                
             }
             return bookings;
         }

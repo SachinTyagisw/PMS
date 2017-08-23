@@ -27,6 +27,6 @@ namespace PMS.Resources.DTO.Request
         [DataMember]
         public String PaymentMode {get;set;}
         [DataMember]
-        public bool TransactionStatus {get;set;}
+        public bool? TransactionStatus {get;set;}
     }
 }
