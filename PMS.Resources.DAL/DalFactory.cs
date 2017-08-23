@@ -1767,10 +1767,12 @@ namespace PMS.Resources.DAL
 
             bookingSummary.Add(bs1);
             bookingSummary.Add(bs2);
+            List<GetTransactionData_Result> resultSet;
             using (var pmsContext = new PmsEntities())
             {
-                var resultSet = pmsContext.GetTransactionData(startDate, endDate, guestName, roomType, amountPaid, paymentMode, transactionStatus, propertyId).ToList();
+                resultSet = pmsContext.GetTransactionData(startDate, endDate, guestName, roomType, amountPaid, paymentMode, transactionStatus, propertyId).ToList();
                 if (resultSet == null || resultSet.Count <= 0) return bookings;
+
                 foreach (var result in resultSet)
                 {
                     var booking = new PmsEntity.Booking();
@@ -1826,6 +1828,23 @@ namespace PMS.Resources.DAL
                     bookings.Add(booking);
                 }                
             }
+
+            if (resultSet != null && resultSet.Count > 0)
+            {
+                bookingSummary = resultSet.GroupBy(result => result.Status).Select(summary => new BookingSummary
+                {
+                    DateRange = startDate.HasValue?startDate.ToString(): DateTime.MinValue.ToShortDateString() + " - " + (endDate.HasValue? endDate.ToString(): DateTime.Now.ToShortDateString()),
+                    TotalAmount = summary.Sum(record => record.AmountPaid).Value,
+                    TotalTax = summary.Sum(record => record.TaxCollected).Value,
+                    TotalBooking = summary.Count(),
+                    Status = summary.First().Status
+                }).ToList();
+            }
+            else
+            {
+                bookingSummary = new List<BookingSummary>();
+            }
+
             return bookings;
         }
 
