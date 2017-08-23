@@ -14,5 +14,8 @@ namespace PMS.Resources.DTO.Response
     {
         [DataMember]
         public List<Booking> Bookings { get; set; }
+        [DataMember]
+        public List<BookingSummary> BookingSummary { get; set; }
+        
     }
 }
