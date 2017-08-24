@@ -23,7 +23,7 @@ namespace PMS.Resources.DTO.Request
         [DataMember]
         public String RoomType {get;set;}
         [DataMember]
-        public decimal AmountPaid {get;set;}
+        public decimal? AmountPaid {get;set;}
         [DataMember]
         public String PaymentMode {get;set;}
         [DataMember]

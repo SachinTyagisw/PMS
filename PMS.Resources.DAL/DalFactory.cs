@@ -1745,34 +1745,14 @@ namespace PMS.Resources.DAL
             return isDeleted;
         }
 
-        public List<PmsEntity.Booking> GetBookingTransaction(DateTime? startDate, DateTime? endDate, string guestName, string roomType, decimal amountPaid, string paymentMode, bool? transactionStatus, string propertyId, List<BookingSummary> bookingSummary)
+        public List<PmsEntity.Booking> GetBookingTransaction(DateTime? startDate, DateTime? endDate, string guestName, string roomType, decimal? amountPaid, string paymentMode, bool? transactionStatus, string propertyId, out List<BookingSummary> bookingSummary)
         {
             var bookings = new List<PmsEntity.Booking>();
-            //dummy data
-            var bs1 = new PmsEntity.BookingSummary();
-            bs1.DateRange = "2017/08/23 2017/08/25";
-            bs1.Id = 1;
-            bs1.TotalAmount = 100;
-            bs1.TotalBooking = 40;
-            bs1.TotalTax = 30;
-            bs1.Status = true;
-
-            var bs2 = new PmsEntity.BookingSummary();
-            bs2.DateRange = "2017/08/25 2017/08/26";
-            bs2.Id = 1;
-            bs2.TotalAmount = 10;
-            bs2.TotalBooking = 4;
-            bs2.TotalTax = 30;
-            bs1.Status = false;
-
-            bookingSummary.Add(bs1);
-            bookingSummary.Add(bs2);
-            List<GetTransactionData_Result> resultSet;
+            bookingSummary = new List<BookingSummary>();
             using (var pmsContext = new PmsEntities())
             {
-                resultSet = pmsContext.GetTransactionData(startDate, endDate, guestName, roomType, amountPaid, paymentMode, transactionStatus, propertyId).ToList();
+                var resultSet = pmsContext.GetTransactionData(startDate, endDate, guestName, roomType, amountPaid, paymentMode, transactionStatus, propertyId).ToList();
                 if (resultSet == null || resultSet.Count <= 0) return bookings;
-
                 foreach (var result in resultSet)
                 {
                     var booking = new PmsEntity.Booking();
@@ -1826,24 +1806,19 @@ namespace PMS.Resources.DAL
                         }
                     };
                     bookings.Add(booking);
-                }                
-            }
-
-            if (resultSet != null && resultSet.Count > 0)
-            {
-                bookingSummary = resultSet.GroupBy(result => result.Status).Select(summary => new BookingSummary
+                }
+                if (resultSet != null && resultSet.Count > 0)
                 {
-                    DateRange = startDate.HasValue?startDate.ToString(): DateTime.MinValue.ToShortDateString() + " - " + (endDate.HasValue? endDate.ToString(): DateTime.Now.ToShortDateString()),
-                    TotalAmount = summary.Sum(record => record.AmountPaid).Value,
-                    TotalTax = summary.Sum(record => record.TaxCollected).Value,
-                    TotalBooking = summary.Count(),
-                    Status = summary.First().Status
-                }).ToList();
-            }
-            else
-            {
-                bookingSummary = new List<BookingSummary>();
-            }
+                    bookingSummary = resultSet.GroupBy(result => result.Status).Select(summary => new BookingSummary
+                    {
+                        DateRange = startDate.HasValue ? startDate.ToString() : DateTime.MinValue.ToShortDateString() + " - " + (endDate.HasValue ? endDate.ToString() : DateTime.Now.ToShortDateString()),
+                        TotalAmount = summary.Sum(record => record.AmountPaid).Value,
+                        TotalTax = summary.Sum(record => record.TaxCollected).Value,
+                        TotalBooking = summary.Count(),
+                        Status = summary.FirstOrDefault().Status
+                    }).ToList();
+                }
+            }            
 
             return bookings;
         }

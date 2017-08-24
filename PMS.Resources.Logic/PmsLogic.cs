@@ -415,8 +415,9 @@ namespace PMS.Resources.Logic
         public BookingTransactionResponseDto GetBookingTransaction(BookingTransactionRequestDto request)
         {
             var response = new BookingTransactionResponseDto();
-            response.BookingSummary = new List<PmsEntity.BookingSummary>();
-            response.Bookings = DalFactory.GetBookingTransaction(request.StartDate, request.EndDate, request.GuestName, request.RoomType, request.AmountPaid, request.PaymentMode, request.TransactionStatus, request.PropertyId, response.BookingSummary);
+            var bookingSummary = new List<PmsEntity.BookingSummary>();
+            response.Bookings = DalFactory.GetBookingTransaction(request.StartDate, request.EndDate, request.GuestName, request.RoomType, request.AmountPaid, request.PaymentMode, request.TransactionStatus, request.PropertyId, out bookingSummary);
+            response.BookingSummary = bookingSummary;
             return response;
         }
 
