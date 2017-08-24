@@ -4435,6 +4435,7 @@ select#paymentTypeDdl {
     font-size: 12px;
     text-align: center;
 }
+
 /*-- Tabs CSS --*/
 .room-filter {
     width: 97.7%;
@@ -5350,7 +5351,10 @@ dl.dropdown dd ul li a:hover {
 }
 #invoice-table #creditNumber, #invoice-table #creditName, #invoice-table #creditExpiry, #invoice-table #cardType {
     border: 1px solid #ddd;
-    width: 120px;
+    width: 140px;
+}
+#invoice-table tr.sortActive.cdtCard td:nth-child(3) {
+    width: 37%;
 }
 .additional-details {
     height: 294px;
