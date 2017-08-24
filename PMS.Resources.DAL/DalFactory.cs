@@ -1847,6 +1847,26 @@ namespace PMS.Resources.DAL
             return isUpdated;
         }
 
+        public bool DeleteBooking(int bookingId)
+        {
+            var isDeleted = false;
+            if (bookingId <= 0) return isDeleted;
+
+            var booking = new DAL.Booking
+            {
+                IsActive = false,
+                ID = bookingId
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Bookings.Attach(booking);
+                pmsContext.Entry(booking).Property(x => x.IsActive).IsModified = true;
+                var result = pmsContext.SaveChanges();
+                isDeleted = result == 1 ? true : false;
+            }
+            return isDeleted;
+        }
         private bool SaveRoomRateIndDb(int propertyId, string rateXml)
         {
             using (var pmsContext = new PmsEntities())

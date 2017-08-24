@@ -1100,6 +1100,12 @@
             pmsService.AddProperty(propertyRequestDto);
         },
 
+        DeleteBooking: function (bookingId) {
+            // DeleteBooking by api calling  
+            args.bookingId = bookingId;
+            pmsService.DeleteBooking(args);
+        },
+
         DeleteProperty: function(propertyId) {
             // DeleteProperty by api calling  
             args.propertyId = propertyId;
@@ -2031,6 +2037,17 @@
                 // show error log
                 console.error("Property is not added.");
             };
+
+            pmsService.Handlers.OnDeleteBookingFailure = function () {
+                // show error log
+                console.error("Booking is not deleted.");
+            };
+
+            pmsService.Handlers.OnDeleteBookingSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                //alert(status);
+            };            
 
             pmsService.Handlers.OnDeletePropertyFailure = function() {
                 // show error log

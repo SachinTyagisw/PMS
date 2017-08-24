@@ -4,6 +4,11 @@
 }
 <script type='text/javascript'>
     var gcm = window.GuestCheckinManager;
+    var statusVal = 1;
+
+    function OnStatusChange(ddlStatus) {
+        statusVal = ddlStatus.value;        
+    }
 
     function makeFieldsReadonly(rowObject) {
         rowObject.attr('contenteditable', 'false');
@@ -15,6 +20,9 @@
             alert('Select valid property');
             return;
         }
+        var divBooking = $('#divBooking');
+        divBooking.html('');
+
         window.GuestCheckinManager.PropertySettingResponseDto.RoomTypeSettings = null;
         gcm.FillRoomTypeData($('#ddlRoomType'), $('#ddlProperty').val());
     }
@@ -40,46 +48,59 @@
             bookingTransactionRequestDto.PaymentMode = paymentMode && paymentMode.trim() !== '' ? paymentMode : null;
             bookingTransactionRequestDto.AmountPaid = amountPaid && amountPaid.trim() !== '' ? AmountPaid : null;
             bookingTransactionRequestDto.TransactionStatus = status && status.trim() !== '' ? status : null;
-            bookingTransactionRequestDto.PropertyId = propertyId && propertyId != '-1' ? propertyId : null;
+            bookingTransactionRequestDto.PropertyId = propertyId && propertyId != '-1' ? parseInt(propertyId) : null;
             gcm.GetBookingTransaction(bookingTransactionRequestDto);
         });
 
-        //$("#divRoom").on("click", ".fa-minus-circle", function () {
-        //    if (confirm("Are you sure you want to delete ?")) {
-        //        var roomId = $(this).closest('tr')[0].id;
-        //        $(this).closest('tr').remove();
-        //        if (roomId <= 0) return;
-        //        gcm.DeleteRoom(roomId);
-        //        if ($('#divRoom tbody tr').length <= 0) {
-        //            $('#ddlProperty').val('-1');
-        //        }
-        //    }
-        //});
+        $("#divBooking").on("click", ".fa-minus-circle", function () {
+            if (confirm("Are you sure you want to delete ?")) {
+                var bookingId = $(this).closest('tr')[0].id;
+                $(this).closest('tr').remove();
+                if (bookingId <= 0) return;
+                gcm.DeleteBooking(bookingId);
+                if ($('#divBooking tbody tr').length <= 0) {
+                    $('#ddlProperty').val('-1');
+                }
+            }
+        });
 
-        //$("#divRoom").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {
-        //    var thisRow = $(this).parent().siblings();
-        //    var editOn = $(this).hasClass("editMode");
-        //    var bookingId = $(thisRow)[0].innerText;
-        //    var propertyId = $('#ddlProperty').val();
-        //    var roomRequestDto = {};
-        //    roomRequestDto.Rooms = [];
+        $("#divBooking").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {
+            var thisRow = $(this).parent().siblings();
+            var editOn = $(this).hasClass("editMode");
+            var bookingId = $(thisRow)[0].innerText;
+            var propertyId = $('#ddlProperty').val();
+            var bookingTransactionRequestDto = {};
 
-        //    if (editOn == false) {
-        //        gcm.OnGridEdit(editOn, $(thisRow), $(this));
-        //        makeFieldsReadonly($(thisRow[0]));
-        //        makeFieldsReadonly($(thisRow[1]));
-        //        makeFieldsReadonly($(thisRow[2]));
-        //        makeFieldsReadonly($(thisRow[3]));
-        //        makeFieldsReadonly($(thisRow[4]));
-        //        makeFieldsReadonly($(thisRow[5]));
-        //        makeFieldsReadonly($(thisRow[6]));
-        //        makeFieldsReadonly($(thisRow[7]));
-        //        makeFieldsReadonly($(thisRow[8]));
-        //    } else if (editOn == true) {
-        //        var status = $(thisRow)[9].children[0].value;
-        //        gcm.OnGridEdit(editOn, $(thisRow), $(this));
-        //    }
-        //});
+            if (editOn == false) {
+                gcm.OnGridEdit(editOn, $(thisRow), $(this));
+
+                var cloneStatus = $('#ddlStatus').clone(true);
+                cloneStatus[0].style = 'display:block';
+                cloneStatus[0].id = 'ddlStatus' + bookingId;
+                var statusSelector = '#' + cloneStatus[0].id;
+                $(thisRow)[9].innerText = "";
+                $(thisRow[9]).attr('contenteditable', 'false');
+                $(thisRow[9]).append(cloneStatus);
+
+                makeFieldsReadonly($(thisRow[0]));
+                makeFieldsReadonly($(thisRow[1]));
+                makeFieldsReadonly($(thisRow[2]));
+                makeFieldsReadonly($(thisRow[3]));
+                makeFieldsReadonly($(thisRow[4]));
+                makeFieldsReadonly($(thisRow[5]));
+                makeFieldsReadonly($(thisRow[6]));
+                makeFieldsReadonly($(thisRow[7]));
+                makeFieldsReadonly($(thisRow[8]));
+
+                $(document).on('change', statusSelector, function () {
+                    OnStatusChange($(cloneStatus)[0]);
+                });
+
+            } else if (editOn == true) {
+                var status = $(thisRow)[9].children[0].value;
+                gcm.OnGridEdit(editOn, $(thisRow), $(this));
+            }
+        });
 
     });
 </script>
@@ -218,6 +239,11 @@
     </div>
 </div>
 
+<select style="display:none" id="ddlStatus" class="form-control">
+    <option value="1">Active</option>
+    <option value="0">Inactive</option>
+</select>
+
 <script type="text/html" id="bookingTemplate">
     <table class="table table-hover table-bordered results tableContents">
         <thead>
@@ -239,7 +265,7 @@
             {{each Bookings}}
             <tr id="${$value.Id}">
                 <td class="idRow" contenteditable="false">${$value.Id}</td>
-                <td contenteditable="false">${$value.CheckinTime}</td>
+                <td contenteditable="false">${String($value.CheckinTime).replace('T', ' ')}</td>
                 <td contenteditable="false">${$value.RoomBookings[0].Guest.FirstName}</td>
                 <td contenteditable="false">${$value.Invoice.TotalAmount}</td>
                 <td contenteditable="false">${$value.Invoice.InvoicePaymentDetails[0].PaymentMode}</td>

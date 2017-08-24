@@ -100,6 +100,13 @@ namespace PMS.Api.Controllers
              "api/v1/Booking/GetBookingTransaction",
              new { controller = "Booking", action = "GetBookingTransaction" }
              );
+
+            config.Routes.MapHttpRoute(
+             "DeleteBooking",
+             "api/v1/Booking/DeleteBooking/{bookingId}",
+             new { controller = "Booking", action = "DeleteBooking" },
+             constraints: new { bookingId = RegExConstants.NumericRegEx }
+             );
         }
 
 
@@ -421,6 +428,25 @@ namespace PMS.Api.Controllers
             var response = new GetCountryResponseDto();
             response.Country = _iPmsLogic.GetCountry();
             return response;
-        }        
+        }
+
+        [HttpDelete, ActionName("DeleteBooking")]
+        public PmsResponseDto DeleteBooking(int bookingId)
+        {
+            if (bookingId <= 0) throw new PmsException("BookingId is not valid. Hence Booking can not be deleted.");
+
+            var response = new PmsResponseDto();
+            if (_iPmsLogic.DeleteBooking(bookingId))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "Booking Deleted successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "Booking Deletion failed.Contact administrator.";
+            }
+            return response;
+        }
     }
 }

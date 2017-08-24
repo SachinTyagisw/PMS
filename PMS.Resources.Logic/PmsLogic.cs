@@ -426,6 +426,11 @@ namespace PMS.Resources.Logic
             return DalFactory.UpdateStatus(request.BookingId, request.Status, request.PropertyId);
         }
 
+        public bool DeleteBooking(int bookingId)
+        {
+            return DalFactory.DeleteBooking(bookingId);
+        }
+
         #region Helper method
 
         private string RemoveXmlDefaultNode(string xml)

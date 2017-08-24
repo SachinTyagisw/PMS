@@ -93,5 +93,6 @@ namespace PMS.Resources.Logic
         bool DeleteRoomRate(int rateId);
         BookingTransactionResponseDto GetBookingTransaction(BookingTransactionRequestDto request);
         bool UpdateStatus(UpdateStatusRequestDto request);
+        bool DeleteBooking(int bookingId);
     }
 }
