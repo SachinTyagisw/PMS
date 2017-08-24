@@ -1106,6 +1106,11 @@
             pmsService.DeleteBooking(args);
         },
 
+        UpdateBookingStatus: function (args) {
+            // UpdateStatus by api calling  
+            pmsService.UpdateStatus(args);
+        },
+
         DeleteProperty: function(propertyId) {
             // DeleteProperty by api calling  
             args.propertyId = propertyId;
@@ -1756,9 +1761,8 @@
         },
 
         GetBookingTransaction: function (requestDto) {
-            args = requestDto;
             // GetBookingTransaction by api calling  
-            pmsService.GetBookingTransaction(args);
+            pmsService.GetBookingTransaction(requestDto);
         },
 
         AjaxHandlers: function() {
@@ -2500,6 +2504,18 @@
             pmsService.Handlers.OnUpdateRoomStatusSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
+                //alert(status);
+            };
+
+            pmsService.Handlers.OnUpdateStatusFailure = function () {
+                // show error log
+                console.error("Booking status is not updated.");
+            };
+
+            pmsService.Handlers.OnUpdateStatusSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                if (window.Notifications) window.Notifications.Notify("on-booking-status-success", null, null);
                 //alert(status);
             };
 

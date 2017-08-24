@@ -110,6 +110,12 @@
             OnGetBookingTransactionFailure: null,
             OnDeleteBookingSuccess: null,
             OnDeleteBookingFailure: null,
+            OnUpdateStatusSuccess: null,
+            OnUpdateStatusFailure: null,
+        };
+
+        this.UpdateStatus = function (args) {
+            makeAjaxRequestPut(args, "UpdateStatus", this, "api/v1/Booking/UpdateStatus");
         };
 
         this.DeleteBooking = function (args) {
