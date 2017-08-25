@@ -213,22 +213,22 @@
             <tr id="trCreditNumber" class="cdtCard sortActive remove">
                 <td><span class="glyphicon glyphicon-th-list"></span></td>
                 <td>Credit Card Number</td>
-                <td><input id="creditNumber" value=" ${CreditCardDetail.split('|')[0]}" /></td>
+                <td><input id="creditNumber" value="${CreditCardDetail.split('|')[0]}" /></td>
             </tr>
             <tr id="trCreditName" class="cdtCard sortActive remove">
                 <td><span class="glyphicon glyphicon-th-list"></span></td>
                 <td>Name On Card</td>
-                <td><input id="creditName" value=" ${CreditCardDetail.split('|')[1]}" /></td>
+                <td><input id="creditName" value="${CreditCardDetail.split('|')[1]}" /></td>
             </tr>
             <tr id="trCreditExpiry" class="cdtCard sortActive remove">
                 <td><span class="glyphicon glyphicon-th-list"></span></td>
                 <td>Valid Till</td>
-                <td><input id="creditExpiry" value=" ${CreditCardDetail.split('|')[2]}" /></td>
+                <td><input id="creditExpiry" placeholder="MM/YY" value="${CreditCardDetail.split('|')[2]}" /></td>
             </tr>
             <tr id="trCardType" class="cdtCard sortActive remove">
                 <td><span class="glyphicon glyphicon-th-list"></span></td>
                 <td>Type of Credit Card</td>
-                <td><input id="cardType" value=" ${CreditCardDetail.split('|')[3]}" /></td>
+                <td><input id="cardType" value="${CreditCardDetail.split('|')[3]}" /></td>
             </tr>
             {{else}}
             <tr id="trCreditNumber" class="cdtCard sortActive remove">
@@ -244,7 +244,7 @@
             <tr id="trCreditExpiry" class="cdtCard sortActive remove">
                 <td><span class="glyphicon glyphicon-th-list"></span></td>
                 <td>Valid Till</td>
-                <td><input id="creditExpiry" value="MM/YY" /></td>
+                <td><input id="creditExpiry" value="" placeholder="MM/YY" /></td>
             </tr>
             <tr id="trCardType" class="cdtCard sortActive remove">
                 <td><span class="glyphicon glyphicon-th-list"></span></td>
