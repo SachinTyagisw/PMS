@@ -272,7 +272,6 @@
     <table class="table table-hover table-bordered results tableContents">
         <thead>
             <tr>
-                <th id="IDCol">ID #</th>
                 <th id="transDate" contenteditable="false">Date Range</th>
                 <th id="statusCol" contenteditable="false">Status</th>
                 <th id="customerNameCol" contenteditable="false"># of Records</th>
@@ -284,9 +283,8 @@
             {{if typeof BookingSummary != "undefined" && BookingSummary != "null" && BookingSummary.length > 0 }}
             {{each BookingSummary}}
             <tr>
-                <td class="idRow" contenteditable="false">121#</td>
                 <td contenteditable="false">${$value.DateRange}</td>
-                <td contenteditable="false">${$value.Active}</td>
+                <td contenteditable="false">{{if typeof $value.Status != "undefined" && $value.Status }}True{{else}}False{{/if}}</td>                
                 <td contenteditable="false">${$value.TotalBooking}</td>
                 <td contenteditable="false">${$value.TotalAmount}</td>
                 <td contenteditable="false">${$value.TotalTax}</td>
