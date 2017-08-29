@@ -131,73 +131,82 @@
                     </div>
                     <div class="card-body room-details">
                         <div class="row" style="">
-                            <div class="form-group col-lg-5 p-r-5 m-t-10">
-                                <label>Search</label>
-                                <input type="text" class="search form-control" placeholder="Search by Room Number, Room Type, Floor...">
-                            </div>
-
-                            <div class="col-lg-2 p-l-10 p-r-5 m-t-10">
+                            <div class="col-md-2 p-r-0">
                                 <div class="form-group">
-                                    <label>Select Property</label>
-                                    <select id="ddlProperty" onchange="OnPropertyChange();">
-                                        <option value="-1">Select Property</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" style="">
-                            <div class="col-lg-2 p-r-5 m-t-10">
-                                <div class="form-group">
-                                    <label>Transaction Date Range</label>
-                                    <div class="form-group">
-                                        <input id="dtRange" type="text" placeholder="Date Range" class="form-control" name="example-input-normal">
+                                    <div class='input-group date' id='datetimepicker1'>
+                                        <label>Start Date &nbsp;&nbsp;</label>
+                                        <input id="dateFrom" type='text' class="form-control calendar" />
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
                                     </div>
+                                    <script type="text/javascript">
+                                    $(function () {
+                                        $('#datetimepicker1').datetimepicker();
+                                    });
+                                    </script>
                                 </div>
                             </div>
-                            <div class="col-lg-2 p-l-10 p-r-5 m-t-10">
+                            <div class="col-md-2 p-r-0">
+                                <div class="form-group">
+                                    <div class='input-group date' id='datetimepicker2'>
+                                        <label>End Date</label>
+                                        <input id="dateTo" type='text' class="form-control calendar" />
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                    <script type="text/javascript">
+                                    $(function () {
+                                        $('#datetimepicker2').datetimepicker();
+                                    });
+                                    </script>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 p-r-5">
                                 <div class="form-group">
                                     <label>Customer Name</label>
                                     <div class="form-group">
-                                        <input id="guestName" type="text" placeholder="Customer Name" class="form-control" name="example-input-normal">
+                                        <input id="guestName" type="text" class="form-control" name="example-input-normal">
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-2 p-l-10 p-r-5 m-t-10">
+                            <div class="col-lg-1 p-l-10 p-r-5">
                                 <div class="form-group">
-                                    <label>Select RoomType</label>
+                                    <label>Room Type</label>
                                     <select id="ddlRoomType">
-                                        <option value="-1">Select RoomType</option>
+                                        <option value="-1">Room Type</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-1 p-l-10 p-r-5 m-t-10">
+                            <div class="col-lg-1 p-l-10 p-r-5">
                                 <div class="form-group">
                                     <label>Amount Paid</label>
                                     <div class="form-group">
-                                        <input id="amountPaid" type="text" placeholder="Amount Paid" class="form-control" name="example-input-normal">
+                                        <input id="amountPaid" type="text" class="form-control" name="example-input-normal">
                                     </div>
 
                                 </div>
                             </div>
-                            <div class="col-lg-2 p-l-10 p-r-5 m-t-10">
+                            <div class="col-lg-1 p-l-10 p-r-5">
                                 <div class="form-group">
                                     <label>Payment Mode</label>
                                     <div class="form-group">
-                                        <input id="paymentMode" type="text" placeholder="Payment Mode" class="form-control" name="example-input-normal">
+                                        <input id="paymentMode" type="text" class="form-control" name="example-input-normal">
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-2 p-l-10 p-r-20 m-t-10">
+                            <div class="col-lg-2 p-l-10 p-r-20">
                                 <div class="form-group">
                                     <label>Transaction Status</label>
                                     <div class="form-group">
-                                        <input id="status" type="text" placeholder="Trans. Status" class="form-control" name="example-input-normal">
+                                        <input id="status" type="text" class="form-control" name="example-input-normal">
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-1 p-l-1 m-t-10">
-                                <div class="button-section btn-section-form">
-                                    <button id="btnSearch" type="button" class="btn btn-primary m-l-5 m-t-15">Search</button>
+                            <div class="col-lg-1">
+                                <div class="form-group">
+                                    <button id="btnSearch" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button">Search</button>
                                 </div>
                             </div>
                         </div>
@@ -232,7 +241,7 @@
 </select>
 
 <script type="text/html" id="bookingTemplate">
-    <table class="table table-hover table-bordered results tableContents">
+    <table class="table table-hover table-bordered results tableContents table-trans-manage">
         <thead>
             <tr>
                 <th id="IDCol">ID #</th>

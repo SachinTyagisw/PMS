@@ -2513,6 +2513,10 @@ tbody tr td:last-child {
   border-bottom: 1px solid #e7e7e7;
   line-height: 30px;
 }
+.table-trans-manage.table > thead > tr > th {
+    line-height: 15px;
+    padding: 5px 6px!important;
+}
 .table .badge {
   text-transform: uppercase;
 }
@@ -5348,6 +5352,9 @@ dl.dropdown dd ul li a {
 
 dl.dropdown dd ul li a:hover {
   background-color: #fff;
+}
+#btnSearch.btn-search-line {
+    padding: 5px 25px;
 }
 #invoice-table #creditNumber, #invoice-table #creditName, #invoice-table #creditExpiry, #invoice-table #cardType {
     border: 1px solid #ddd;
