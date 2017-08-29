@@ -23,6 +23,9 @@
         var divBooking = $('#divBooking');
         divBooking.html('');
 
+        var rangeProperty = $('#rangeProperty');
+        rangeProperty.html('');
+        
         window.GuestCheckinManager.PropertySettingResponseDto.RoomTypeSettings = null;
         gcm.FillRoomTypeData($('#ddlRoomType'), $('#ddlProperty').val());
     }
@@ -103,7 +106,7 @@
 
             } else if (editOn == true) {
                 var bookingStatusRequestDto = {};
-                var status = $(thisRow)[9].children[0].value;
+                var status = parseInt($(thisRow)[9].children[0].value);
                 bookingStatusRequestDto.Status = status;
                 bookingStatusRequestDto.BookingId = bookingId;
                 bookingStatusRequestDto.PropertyId = propertyId;                
@@ -205,36 +208,7 @@
 
                         <!-- Small Table -->
                         <div id="rangeProperty" class="table-data" style="width:60%; margin-top: 4rem;">
-                            <table class="table table-hover table-bordered results tableContents">
-                                <thead>
-                                    <tr>
-                                        <th id="IDCol">ID #</th>
-                                        <th id="transDate" contenteditable="false">Date Range</th>
-                                        <th id="statusCol" contenteditable="false">Status</th>
-                                        <th id="customerNameCol" contenteditable="false"># of Records</th>
-                                        <th id="amountPaidCol" contenteditable="false">Amount Paid</th>
-                                        <th id="taxCollectedCol" contenteditable="false">Tax Collected</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr id="20">
-                                        <td class="idRow" contenteditable="false">121#</td>
-                                        <td contenteditable="false">11/10/2016 10/11/2016</td>
-                                        <td contenteditable="false">Active</td>
-                                        <td contenteditable="false">1000</td>
-                                        <td contenteditable="false">25000</td>
-                                        <td contenteditable="false">2500</td>
-                                    </tr>
-                                    <tr id="21">
-                                        <td class="idRow" contenteditable="false">122#</td>
-                                        <td contenteditable="false">11/10/2016 10/11/2016</td>
-                                        <td contenteditable="false">Active</td>
-                                        <td contenteditable="false">1000</td>
-                                        <td contenteditable="false">25000</td>
-                                        <td contenteditable="false">2500</td>                                    
-                                    </tr>
-                                </tbody>
-                            </table>
+                            
                         </div>
                     </div>
                 </div>
@@ -292,4 +266,34 @@
             {{/if}}
         </tbody>
     </table>
+</script>
+
+<script type="text/html" id="rangeTemplate">
+    <table class="table table-hover table-bordered results tableContents">
+        <thead>
+            <tr>
+                <th id="IDCol">ID #</th>
+                <th id="transDate" contenteditable="false">Date Range</th>
+                <th id="statusCol" contenteditable="false">Status</th>
+                <th id="customerNameCol" contenteditable="false"># of Records</th>
+                <th id="amountPaidCol" contenteditable="false">Amount Paid</th>
+                <th id="taxCollectedCol" contenteditable="false">Tax Collected</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{if typeof BookingSummary != "undefined" && BookingSummary != "null" && BookingSummary.length > 0 }}
+            {{each BookingSummary}}
+            <tr>
+                <td class="idRow" contenteditable="false">121#</td>
+                <td contenteditable="false">${$value.DateRange}</td>
+                <td contenteditable="false">${$value.Active}</td>
+                <td contenteditable="false">${$value.TotalBooking}</td>
+                <td contenteditable="false">${$value.TotalAmount}</td>
+                <td contenteditable="false">${$value.TotalTax}</td>
+            </tr>
+            {{/each}}
+            {{/if}}
+        </tbody>
+    </table>
+
 </script>

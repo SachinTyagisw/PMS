@@ -958,13 +958,19 @@
         PopulateBookingGrid: function (data) {
             var divBooking = $('#divBooking');
             var bookingTemplate = $('#bookingTemplate');
-            if (!divBooking || !bookingTemplate) return;
+            var rangeProperty = $('#rangeProperty');
+            var rangeTemplate = $('#rangeTemplate');
+
+            if (!divBooking || !bookingTemplate || !rangeProperty || !rangeTemplate) return;
+
             divBooking.html('');
             divBooking.html(bookingTemplate.render(data));
             $("#divBooking thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
             if (data && data.Bookings && data.Bookings.length > 0) {
                 $("#divBooking tbody tr").append('<td class="finalActionsCol"><i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
             }
+            rangeProperty.html('');
+            rangeProperty.html(rangeTemplate.render(data));
         },
 
         PopulatePropertyGrid: function(data) {
