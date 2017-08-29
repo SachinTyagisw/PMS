@@ -130,86 +130,91 @@
                         <h4>Data Management</h4>
                     </div>
                     <div class="card-body room-details">
-                        <div class="row" style="">
-                            <div class="col-md-2 p-r-0">
-                                <div class="form-group">
-                                    <div class='input-group date' id='datetimepicker1'>
-                                        <label>Start Date &nbsp;&nbsp;</label>
-                                        <input id="dateFrom" type='text' class="form-control calendar" />
-                                        <span class="input-group-addon">
-                                            <span class="glyphicon glyphicon-calendar"></span>
-                                        </span>
-                                    </div>
-                                    <script type="text/javascript">
-                                    $(function () {
-                                        $('#datetimepicker1').datetimepicker();
-                                    });
-                                    </script>
-                                </div>
-                            </div>
-                            <div class="col-md-2 p-r-0">
-                                <div class="form-group">
-                                    <div class='input-group date' id='datetimepicker2'>
-                                        <label>End Date</label>
-                                        <input id="dateTo" type='text' class="form-control calendar" />
-                                        <span class="input-group-addon">
-                                            <span class="glyphicon glyphicon-calendar"></span>
-                                        </span>
-                                    </div>
-                                    <script type="text/javascript">
-                                    $(function () {
-                                        $('#datetimepicker2').datetimepicker();
-                                    });
-                                    </script>
-                                </div>
-                            </div>
-                            <div class="col-lg-2 p-r-5">
-                                <div class="form-group">
-                                    <label>Customer Name</label>
+                        <fieldset class="data-mgmt-section">
+                            <legend>Search Criteria:</legend>
+                            <div class="row" style="">
+                                <div class="col-md-3 p-r-0">
                                     <div class="form-group">
-                                        <input id="guestName" type="text" class="form-control" name="example-input-normal">
+                                        <div class='input-group date' id='datetimepicker1'>
+                                            <label>Start Date &nbsp;&nbsp;</label>
+                                            <input id="dateFrom" type='text' class="form-control calendar" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                        <script type="text/javascript">
+                                            $(function () {
+                                                $('#datetimepicker1').datetimepicker();
+                                            });
+                                        </script>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-1 p-l-10 p-r-5">
-                                <div class="form-group">
-                                    <label>Room Type</label>
-                                    <select id="ddlRoomType">
-                                        <option value="-1">Room Type</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-1 p-l-10 p-r-5">
-                                <div class="form-group">
-                                    <label>Amount Paid</label>
+                                <div class="col-md-3 p-r-0">
                                     <div class="form-group">
-                                        <input id="amountPaid" type="text" class="form-control" name="example-input-normal">
+                                        <div class='input-group date' id='datetimepicker2'>
+                                            <label>End Date</label>
+                                            <input id="dateTo" type='text' class="form-control calendar" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                        <script type="text/javascript">
+                                            $(function () {
+                                                $('#datetimepicker2').datetimepicker();
+                                            });
+                                        </script>
                                     </div>
+                                </div>
+                                <div class="col-lg-3 p-r-0">
+                                    <div class="form-group">
+                                        <label>Customer Name</label>
+                                        <div class="form-group">
+                                            <input id="guestName" type="text" class="form-control" name="example-input-normal">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="">
+                                <div class="col-lg-2 p-r-0 p-t-10">
+                                    <div class="form-group">
+                                        <label>Room Type</label>
+                                        <select id="ddlRoomType">
+                                            <option value="-1">Room Type</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 p-r-0 p-t-10">
+                                    <div class="form-group">
+                                        <label>Amount Paid</label>
+                                        <div class="form-group">
+                                            <input id="amountPaid" type="text" class="form-control" name="example-input-normal">
+                                        </div>
 
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-1 p-l-10 p-r-5">
-                                <div class="form-group">
-                                    <label>Payment Mode</label>
+                                <div class="col-lg-2 p-r-0 p-t-10">
                                     <div class="form-group">
-                                        <input id="paymentMode" type="text" class="form-control" name="example-input-normal">
+                                        <label>Payment Mode</label>
+                                        <div class="form-group">
+                                            <input id="paymentMode" type="text" class="form-control" name="example-input-normal">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 p-r-0 p-t-10">
+                                    <div class="form-group">
+                                        <label>Transaction Status</label>
+                                        <div class="form-group">
+                                            <input id="status" type="text" class="form-control" name="example-input-normal">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 p-t-10">
+                                    <div class="form-group">
+                                        <button id="btnSearch" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button">Search</button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-2 p-l-10 p-r-20">
-                                <div class="form-group">
-                                    <label>Transaction Status</label>
-                                    <div class="form-group">
-                                        <input id="status" type="text" class="form-control" name="example-input-normal">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-1">
-                                <div class="form-group">
-                                    <button id="btnSearch" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button">Search</button>
-                                </div>
-                            </div>
-                        </div>
+                        </fieldset>
                         <!-- Table -->
                         <div id="divBooking" class="table-data">
 
@@ -217,7 +222,7 @@
 
                         <!-- Small Table -->
                         <div id="rangeProperty" class="table-data" style="width:60%; margin-top: 4rem;">
-                            
+
                         </div>
                     </div>
                 </div>
