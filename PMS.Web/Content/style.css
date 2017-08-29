@@ -2568,6 +2568,9 @@ tbody tr td:last-child {
     width: 50%;
     float: left;
 }
+.data-mgmt-section + .table-data {
+    width: 100%;
+}
 .current-progress {
   margin-top: 15px;
 }
