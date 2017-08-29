@@ -2520,6 +2520,35 @@ tbody tr td:last-child {
 .table .badge {
   text-transform: uppercase;
 }
+.room-status-section {
+    padding: .35em .625em .75em;
+    margin: 10px 2px;
+    border: 1px solid silver;
+}
+.room-status-section legend {
+    font-size: 12px;
+    border-bottom: 0 none;
+    padding: 0 6px;
+    margin-bottom: 0;
+}
+.room-status-section .yellow-c,.room-status-section .red-c,.room-status-section .orange-c {
+    width: 18px;
+    height: 18px;
+    border-radius: 15px;
+    display: inline-block;
+    margin: 8px 8px 0 0;
+    vertical-align: bottom;
+    border: 1px solid #888;
+}
+.room-status-section .yellow-c {
+    background: #FFFF00;
+} 
+.room-status-section .red-c {
+    background: #FF0000;
+} 
+.room-status-section .orange-c {
+    background: #f39c12;
+}
 .current-progress {
   margin-top: 15px;
 }
