@@ -1840,6 +1840,18 @@ namespace PMS.Resources.DAL
             using (var pmsContext = new PmsEntities())
             {
                 pmsContext.Entry(booking).State = System.Data.Entity.EntityState.Modified;
+                pmsContext.Entry(booking).Property(x => x.CheckinTime).IsModified = false;
+                pmsContext.Entry(booking).Property(x => x.CheckoutTime).IsModified = false;
+                pmsContext.Entry(booking).Property(x => x.CreatedBy).IsModified = false;
+                pmsContext.Entry(booking).Property(x => x.CreatedOn).IsModified = false;
+                pmsContext.Entry(booking).Property(x => x.GuestRemarks).IsModified = false;
+                pmsContext.Entry(booking).Property(x => x.HOURSTOSTAY).IsModified = false;
+                pmsContext.Entry(booking).Property(x => x.ISHOURLYCHECKIN).IsModified = false;
+                pmsContext.Entry(booking).Property(x => x.Status).IsModified = false;
+                pmsContext.Entry(booking).Property(x => x.NoOfAdult).IsModified = false;
+                pmsContext.Entry(booking).Property(x => x.NoOfChild).IsModified = false;
+                pmsContext.Entry(booking).Property(x => x.GuestRemarks).IsModified = false;
+                pmsContext.Entry(booking).Property(x => x.TransactionRemarks).IsModified = false;
                 var result = pmsContext.SaveChanges();
                 isUpdated = result == 1 ? true : false;
             }

@@ -16,10 +16,6 @@
     }
 
     function OnPropertyChange() {
-        if ($('#ddlProperty').val() <= 0) {
-            alert('Select valid property');
-            return;
-        }
         var divBooking = $('#divBooking');
         divBooking.html('');
 

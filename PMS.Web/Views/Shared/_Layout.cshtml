@@ -74,7 +74,8 @@
                 $('#ddlGlobalProperty').val(propertyId);
             }
             if (window.location.pathname.toLowerCase().indexOf('checkin') >= 0
-            || window.location.pathname.toLowerCase().indexOf('dashboard') >= 0) {
+            || window.location.pathname.toLowerCase().indexOf('dashboard') >= 0
+            || window.location.pathname.toLowerCase().indexOf('booking/manage') >= 0) {
                 $('#ddlGlobalProperty')[0].style.cssText = "display: block;"
             } else {
                 $('#ddlGlobalProperty')[0].style.cssText = "display: none;"
