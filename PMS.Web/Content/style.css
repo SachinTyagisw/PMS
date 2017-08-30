@@ -2552,7 +2552,7 @@ tbody tr td:last-child {
 }
 
 .data-mgmt-section {
-    padding: .35em 1em .75em;
+    padding: .35em 1em .25em;
     margin: 10px 2px;
     border: 1px solid silver;
 }
@@ -2564,13 +2564,26 @@ tbody tr td:last-child {
     width: 100px;
 }
 .data-mgmt-section #btnSearch.btn-search-line {
-    padding: 5px 25px;
-    width: 50%;
+    padding: 5px 15px;
+    width: 45%;
     float: left;
 }
 .data-mgmt-section + .table-data {
     width: 100%;
 }
+.data-mgmt-section + .table-data #roomTypeCol {
+    width: 20%;
+}
+.data-mgmt-section + .table-data .tableContents thead tr th.actionsCol {
+    width: 100px;
+}
+#btnExport.btn-search-line {
+    padding: 5px 8px;
+    width: 45%;
+    float: left;
+    margin-left: 10px;
+}
+
 .current-progress {
   margin-top: 15px;
 }
