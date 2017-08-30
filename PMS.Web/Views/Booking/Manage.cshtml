@@ -23,33 +23,35 @@
         rangeProperty.html('');
         
         window.GuestCheckinManager.PropertySettingResponseDto.RoomTypeSettings = null;
-        gcm.FillRoomTypeData($('#ddlRoomType'), $('#ddlProperty').val());
+        gcm.FillRoomTypeData($('#ddlRoomType'), $('#ddlGlobalProperty').val());
     }
 
     function searchBooking() {
-        var propertyId = $('#ddlProperty').val();
+        var propertyId = $('#ddlGlobalProperty').val();
         var roomType = $("#ddlRoomType option:selected").text();
         var roomTypeId = $("#ddlRoomType").val();
         var guestName = $('#guestName').val();
         var amountPaid = $('#amountPaid').val();
         var dtRange = $('#dtRange').val();
         var paymentMode = $('#paymentMode').val();
-        var status = $('#status').val();
+        var status = $('#ddlStatus').val();
+        var dateFrom = $('#dateFrom').val();
+        var dateTo = $('#dateTo').val();
         var bookingTransactionRequestDto = {};
-        bookingTransactionRequestDto.StartDate = null;
-        bookingTransactionRequestDto.EndDate = null;
+        bookingTransactionRequestDto.StartDate = dateFrom && dateFrom.trim() !== '' ? dateFrom : null;
+        bookingTransactionRequestDto.EndDate = dateTo && dateTo.trim() !== '' ? dateTo : null;
         bookingTransactionRequestDto.GuestName = guestName && guestName.trim() !== '' ? guestName : null;
         bookingTransactionRequestDto.RoomType = roomTypeId && roomTypeId !== '-1' ? roomType : null;
         bookingTransactionRequestDto.PaymentMode = paymentMode && paymentMode.trim() !== '' ? paymentMode : null;
         bookingTransactionRequestDto.AmountPaid = amountPaid && amountPaid.trim() !== '' ? AmountPaid : null;
-        bookingTransactionRequestDto.TransactionStatus = status && status.trim() !== '' ? status : null;
+        bookingTransactionRequestDto.TransactionStatus = parseInt(status);
         bookingTransactionRequestDto.PropertyId = propertyId && propertyId != '-1' ? parseInt(propertyId) : null;
         gcm.GetBookingTransaction(bookingTransactionRequestDto);
     }
 
     $(document).ready(function () {
 
-        gcm.GetAllProperty();
+        gcm.FillRoomTypeData($('#ddlRoomType'), $('#ddlGlobalProperty').val());
 
         $("#btnSearch").click(function () {
             searchBooking();
@@ -62,7 +64,7 @@
                 if (bookingId <= 0) return;
                 gcm.DeleteBooking(bookingId);
                 if ($('#divBooking tbody tr').length <= 0) {
-                    $('#ddlProperty').val('-1');
+                    $('#ddlGlobalProperty').val('-1');
                 }
             }
         });
@@ -71,7 +73,7 @@
             var thisRow = $(this).parent().siblings();
             var editOn = $(this).hasClass("editMode");
             var bookingId = $(thisRow)[0].innerText;
-            var propertyId = $('#ddlProperty').val();
+            var propertyId = $('#ddlGlobalProperty').val();
 
             if (editOn == false) {
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
@@ -199,9 +201,10 @@
                                 <div class="col-lg-2 p-r-0 p-t-10">
                                     <div class="form-group">
                                         <label>Transaction Status</label>
-                                        <div class="form-group">
-                                            <input id="status" type="text" class="form-control" name="example-input-normal">
-                                        </div>
+                                        <select id="ddlStatus">
+                                            <option value="1">Active</option>
+                                            <option value="0">Inactive</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 p-t-10">
@@ -235,11 +238,6 @@
         <div class="dot"></div>
     </div>
 </div>
-
-<select style="display:none" id="ddlStatus" class="form-control">
-    <option value="1">Active</option>
-    <option value="0">Inactive</option>
-</select>
 
 <script type="text/html" id="bookingTemplate">
     <table class="table table-hover table-bordered results tableContents table-trans-manage">
