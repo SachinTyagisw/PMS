@@ -44,7 +44,7 @@
         bookingTransactionRequestDto.RoomType = roomTypeId && roomTypeId !== '-1' ? roomType : null;
         bookingTransactionRequestDto.PaymentMode = paymentMode && paymentMode.trim() !== '' ? paymentMode : null;
         bookingTransactionRequestDto.AmountPaid = amountPaid && amountPaid.trim() !== '' ? AmountPaid : null;
-        bookingTransactionRequestDto.TransactionStatus = parseInt(status);
+        bookingTransactionRequestDto.TransactionStatus = status != "-1" ? parseInt(status) : null;
         bookingTransactionRequestDto.PropertyId = propertyId && propertyId != '-1' ? parseInt(propertyId) : null;
         gcm.GetBookingTransaction(bookingTransactionRequestDto);
     }
@@ -202,6 +202,7 @@
                                     <div class="form-group">
                                         <label>Transaction Status</label>
                                         <select id="ddlStatus">
+                                            <option value="-1">Select Status</option>
                                             <option value="1">Active</option>
                                             <option value="0">Inactive</option>
                                         </select>
