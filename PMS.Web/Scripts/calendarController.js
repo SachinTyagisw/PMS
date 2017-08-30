@@ -421,6 +421,16 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
             var dpRoomData = {};
             dpRoomData.name = !room.RoomType.ShortName || room.RoomType.ShortName.trim() === '' ? room.Number : room.RoomType.ShortName + "-" + room.Number
             dpRoomData.id = room.Id;
+
+            var temp = Number(room.Number.slice(-2)) % 3;
+            switch (temp) {
+                case 0: dpRoomData.backColor = "#c4efc4"; break;
+                case 1: dpRoomData.backColor = "#f9b2b2"; break;
+                default: dpRoomData.backColor = "#8abff5"; break;
+            }
+            dpRoomData.html = dpRoomData.name;
+            dpRoomData.html += "<img style='float:right' src='/images/right-arrow-dp.png' onclick='openContextMenu(" + room.Id + "," + temp + ",this )'/>";
+
             dpRoomData.areas = { "action": "JavaScript", "js": "(function(e) { alert(e.Value);; })", "bottom": 0, "w": 17, "v": "Hover", "html": "<div><div><\/div><\/div>", "css": "resource_action_menu", "top": 0, "right": 0 };
             dpRoomsResponseDto.push(dpRoomData);
         }
