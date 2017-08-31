@@ -23,7 +23,9 @@
         rangeProperty.html('');
         
         window.GuestCheckinManager.PropertySettingResponseDto.RoomTypeSettings = null;
+        window.GuestCheckinManager.PropertySettingResponseDto.PaymentTypeSettings = null;
         gcm.FillRoomTypeData($('#ddlRoomType'), $('#ddlGlobalProperty').val());
+        gcm.FillPaymentMode($('#ddlPaymentMode'), $('#ddlGlobalProperty').val());
     }
 
     function searchBooking() {
@@ -33,7 +35,8 @@
         var guestName = $('#guestName').val();
         var amountPaid = $('#amountPaid').val();
         var dtRange = $('#dtRange').val();
-        var paymentMode = $('#paymentMode').val();
+        var paymentMode = $("#ddlPaymentMode option:selected").text();
+        var paymentTypeId = $("#ddlPaymentMode").val();
         var status = $('#ddlStatus').val();
         var dateFrom = $('#dateFrom').val();
         var dateTo = $('#dateTo').val();
@@ -42,7 +45,7 @@
         bookingTransactionRequestDto.EndDate = dateTo && dateTo.trim() !== '' ? dateTo : null;
         bookingTransactionRequestDto.GuestName = guestName && guestName.trim() !== '' ? guestName : null;
         bookingTransactionRequestDto.RoomType = roomTypeId && roomTypeId !== '-1' ? roomType : null;
-        bookingTransactionRequestDto.PaymentMode = paymentMode && paymentMode.trim() !== '' ? paymentMode : null;
+        bookingTransactionRequestDto.PaymentMode = paymentTypeId != "-1" ? paymentMode : null;
         bookingTransactionRequestDto.AmountPaid = amountPaid && amountPaid.trim() !== '' ? AmountPaid : null;
         bookingTransactionRequestDto.TransactionStatus = status != "-1" ? parseInt(status) : null;
         bookingTransactionRequestDto.PropertyId = propertyId && propertyId != '-1' ? parseInt(propertyId) : null;
@@ -52,6 +55,7 @@
     $(document).ready(function () {
 
         gcm.FillRoomTypeData($('#ddlRoomType'), $('#ddlGlobalProperty').val());
+        gcm.FillPaymentMode($('#ddlPaymentMode'), $('#ddlGlobalProperty').val());
 
         $("#btnSearch").click(function () {
             searchBooking();
@@ -193,9 +197,9 @@
                                 <div class="col-lg-2 p-r-0 p-t-5">
                                     <div class="form-group">
                                         <label>Payment Mode</label>
-                                        <div class="form-group">
-                                            <input id="paymentMode" type="text" class="form-control" name="example-input-normal">
-                                        </div>
+                                        <select id="ddlPaymentMode">
+                                            <option value="-1">Select Payment type</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 p-r-0 p-t-5">
@@ -261,7 +265,7 @@
             {{if typeof Bookings != "undefined" && Bookings != "null" && Bookings.length > 0 }}
             {{each Bookings}}
             <tr id="${$value.Id}">
-                <td class="idRow" contenteditable="false">${$value.Id}</td>
+                <td class="idRow" contenteditable="false"><a href="Checkin?id=${$value.Id}">${$value.Id}</a></td>
                 <td contenteditable="false">${String($value.CheckinTime).replace('T', ' ')}</td>
                 <td contenteditable="false">${$value.RoomBookings[0].Guest.FirstName}</td>
                 <td contenteditable="false">${$value.Invoice.TotalAmount}</td>
@@ -294,7 +298,7 @@
             {{each BookingSummary}}
             <tr>
                 <td contenteditable="false">${$value.DateRange}</td>
-                <td contenteditable="false">{{if typeof $value.Status != "undefined" && $value.Status }}True{{else}}False{{/if}}</td>                
+                <td contenteditable="false">{{if typeof $value.Status != "undefined" && $value.Status }}Active{{else}}Inactive{{/if}}</td>                
                 <td contenteditable="false">${$value.TotalBooking}</td>
                 <td contenteditable="false">${$value.TotalAmount}</td>
                 <td contenteditable="false">${$value.TotalTax}</td>

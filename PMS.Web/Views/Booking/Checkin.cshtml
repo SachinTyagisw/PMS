@@ -5,6 +5,7 @@
         var gcm = window.GuestCheckinManager;
         var pmsSession = window.PmsSession;
         var invoiceId = -1;
+        var bookingIdFromQp = -1;
 
         function OnPropertyChange() {
             gcm.ClearExistingSessionStorage();
@@ -41,7 +42,7 @@
             gcm.CalculateInvoice(isElementDiscountAmt);
         }
        
-        $(function () {
+        $(function () {            
 
             $("#btnAddGuest").click(function (e) {
                 var cloneHtmlElement = $('#divAddDetails').find('#divGuestDetailsClone:first').clone(true);
@@ -349,6 +350,12 @@
                 gcm.GetBookingById(bookingId);                
             }           
 
+            //if user is navigated to checkin screen from booking manage screen with bookingid in QP
+            bookingIdFromQp = gcm.GetQueryStringParams("id");
+            if (bookingIdFromQp != '' && parseInt(bookingIdFromQp) > 0) {
+                gcm.GetBookingById(bookingIdFromQp);
+            }
+            
             //if user is navigated to checkin screen from dashboard screen
             if (pmsSession.GetItem("dtcheckin") && pmsSession.GetItem("dtcheckout")
                 && pmsSession.GetItem("roomtypeid") && pmsSession.GetItem("roomid")) {

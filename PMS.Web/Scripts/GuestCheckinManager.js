@@ -180,6 +180,15 @@
             }
         },
 
+        BindPaymentModeDdl: function (ddlPaymentType, paymentTypes) {
+            if (!ddlPaymentType || !paymentTypes || paymentTypes.length <= 0) return;
+            ddlPaymentType.empty();
+            ddlPaymentType.append(new Option("Select PaymentType", "-1"));
+            for (var i = 0; i < paymentTypes.length; i++) {
+                ddlPaymentType.append(new Option(paymentTypes[i].Description, paymentTypes[i].Id));
+            }
+        },
+
         BindRoomTypeDdl: function(ddlRoomType, roomTypes) {
             if (!ddlRoomType || !roomTypes || roomTypes.length <= 0) return;
             ddlRoomType.empty();
@@ -478,7 +487,7 @@
                 }
                 var guestSessionData = $.parseJSON(guestData);
                 if (!guestSessionData || guestSessionData.length <= 0) return;
-                var idx = gcm.CheckIfKeyPresent(args.guestId, guestSessionData);
+                var idx = window.GuestCheckinManager.CheckIfKeyPresent(args.guestId, guestSessionData);
                 // guestid does not exists in session then call api 
                 if (idx < 0) {
                     pmsService.GetGuestHistoryById(args);
@@ -1408,11 +1417,25 @@
                     var data = window.GuestCheckinManager.PropertySettingResponseDto.RoomSettings;
                     window.GuestCheckinManager.BindRoomDdl(ddlRoom, ddlRoomType.value, data, false);
                 });
-                gcm.GetRoomByProperty(propertyId);
+                window.GuestCheckinManager.GetRoomByProperty(propertyId);
             } else {
                 window.GuestCheckinManager.BindRoomDdl(ddlRoom, ddlRoomType.value, rooms, false);
             }
         },     
+
+        FillPaymentMode: function (ddlPaymentMode, propertyId) {
+            if (!ddlPaymentMode || !propertyId || propertyId <= 0) return;
+
+            var paymentTypes = window.GuestCheckinManager.PropertySettingResponseDto.PaymentTypeSettings;
+            if (!paymentTypes || paymentTypes.length <= 0) {
+                Notifications.SubscribeActive("on-paymenttype-get-success-booking", function (sender, args) {
+                    window.GuestCheckinManager.BindPaymentModeDdl(ddlPaymentMode, window.GuestCheckinManager.PropertySettingResponseDto.PaymentTypeSettings);
+                });
+                window.GuestCheckinManager.GetPaymentType(propertyId);
+            } else {
+                window.GuestCheckinManager.BindPaymentModeDdl(ddlPaymentMode, paymentTypes);
+            }
+        },
 
         FillRoomTypeData: function(ddlRoomType, propertyId) {
             if (!ddlRoomType || !propertyId || propertyId <= 0) return;
@@ -1422,7 +1445,7 @@
                 Notifications.SubscribeActive("on-roomtype-get-success", function(sender, args) {
                     window.GuestCheckinManager.BindRoomTypeDdl(ddlRoomType, window.GuestCheckinManager.PropertySettingResponseDto.RoomTypeSettings);
                 });
-                gcm.GetRoomTypes(propertyId);
+                window.GuestCheckinManager.GetRoomTypes(propertyId);
             } else {
                 window.GuestCheckinManager.BindRoomTypeDdl(ddlRoomType, roomtypes);
             }
@@ -1433,14 +1456,14 @@
             //Notifications.SubscribeActive("on-floor-get-success", function (sender, args) {
             //    window.GuestCheckinManager.BindFloorDdl(ddlFloor, window.GuestCheckinManager.PropertySettingResponseDto.FloorSettings);
             //});
-            //gcm.GetFloorsByProperty(propertyId);
+            //window.GuestCheckinManager.GetFloorsByProperty(propertyId);
 
             var floors = window.GuestCheckinManager.PropertySettingResponseDto.FloorSettings;
             if (!floors || floors.length <= 0) {
                 Notifications.SubscribeActive("on-floor-get-success", function(sender, args) {
                     window.GuestCheckinManager.BindFloorDdl(ddlFloor, window.GuestCheckinManager.PropertySettingResponseDto.FloorSettings);
                 });
-                gcm.GetFloorsByProperty(propertyId);
+                window.GuestCheckinManager.GetFloorsByProperty(propertyId);
             } else {
                 window.GuestCheckinManager.BindFloorDdl(ddlFloor, floors);
             }
@@ -1771,6 +1794,17 @@
             pmsService.GetBookingTransaction(requestDto);
         },
 
+        GetQueryStringParams: function (sParam) {
+            var sPageURL = window.location.search.substring(1);
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++){
+                var sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] == sParam){     
+                    return sParameterName[1];
+                }
+            }
+       },
+
         AjaxHandlers: function() {
             // ajax handlers start
                 pmsService.Handlers.OnAddBookingSuccess = function (data) {
@@ -1901,7 +1935,7 @@
                 var guestId = window.GuestCheckinManager.BookingDto.GuestId ? window.GuestCheckinManager.BookingDto.GuestId : -1;
                 if (guestId === -1) return;
 
-                var idx = gcm.CheckIfKeyPresent(guestId, pmsSession.GuestSessionKey);
+                var idx = window.GuestCheckinManager.CheckIfKeyPresent(guestId, pmsSession.GuestSessionKey);
                 // store guesthistory data in session storage only when guestid is not present in session
                 if (idx === -1) {
                     pmsSession.GuestSessionKey.push({
@@ -2190,6 +2224,11 @@
                     //storing payment type data into session storage only for checkin screen exclude paymenttype admin screen
                     pmsSession.SetItem("paymenttype", JSON.stringify(data.PaymentTypes));
                     if (window.Notifications) window.Notifications.Notify("on-paymenttype-get-success", null, null);
+                }
+                
+                var divBooking = $('#divBooking');
+                if (divBooking && divBooking.length > 0) {
+                    if (window.Notifications) window.Notifications.Notify("on-paymenttype-get-success-booking", null, null);
                 }
             };
 
@@ -2569,7 +2608,7 @@
         if(!propertyData || propertyData.length <= 0 ) return data;
         var selectedProperty = $('#ddlGlobalProperty').val();
         if(selectedProperty === "-1") return data;
-        var idx = gcm.CheckIfKeyPresent(parseInt(selectedProperty), propertyData);
+        var idx = window.GuestCheckinManager.CheckIfKeyPresent(parseInt(selectedProperty), propertyData);
         if(idx < 0) return data;
         var selectedPropertyInfo = propertyData[idx];
         data.PropertyName = selectedPropertyInfo.PropertyName;
@@ -2756,8 +2795,14 @@
             window.GuestCheckinManager.FilterRateType($('#rateTypeDdl'), selectedHr);
         }
         $('#hoursComboBox').prop("disabled", !$('#hourCheckin')[0].checked);
-        $('#dateFrom').val(data[0].CheckinTime.replace('T', ' '));
-        $('#dateTo').val(data[0].CheckoutTime.replace('T', ' '));
+        if(data[0].CheckinTime){
+            $('#dateFrom').val(data[0].CheckinTime.replace('T', ' '));
+        }
+        
+        if (data[0].CheckoutTime) {
+            $('#dateTo').val(data[0].CheckoutTime.replace('T', ' '));
+        }
+        
         data[0].NoOfAdult > 0 ? $("#ddlAdults").val(data[0].NoOfAdult) : $("#ddlAdults").val(0);
         data[0].NoOfChild > 0 ? $("#ddlChild").val(data[0].NoOfChild) : $("#ddlChild").val(0);
         $('#transRemarks').val(data[0].TransactionRemarks);

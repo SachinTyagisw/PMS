@@ -5,25 +5,14 @@
 }
 <script type='text/javascript'>
     var gcm = window.GuestCheckinManager;
-    var pmsSession = window.PmsSession; 
-
-    function getQueryStringParams(sParam){
-        var sPageURL = window.location.search.substring(1);
-        var sURLVariables = sPageURL.split('&');
-        for (var i = 0; i < sURLVariables.length; i++){
-            var sParameterName = sURLVariables[i].split('=');
-            if (sParameterName[0] == sParam){     
-                return sParameterName[1];
-            }
-        }
-    }
+    var pmsSession = window.PmsSession;
 
     $(document).ready(function () {
         $("#btnSubmit").click(function () {
             var ddlRoomStatuses = $('#ddlRoomStatuses').val();
             if (ddlRoomStatuses && ddlRoomStatuses != "-1") {
                 //Todo remove hardcoded value
-                var roomId = getQueryStringParams("id");
+                var roomId = gcm.GetQueryStringParams("id");
                 if(!roomId || parseInt(roomId) <= 0){
                     alert('Incorrect room id');
                     return;
