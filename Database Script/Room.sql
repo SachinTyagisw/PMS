@@ -1,7 +1,7 @@
 USE [PMS]
 GO
 
-/****** Object:  Table [dbo].[Room]    Script Date: 07/14/2017 21:25:23 ******/
+/****** Object:  Table [dbo].[Room]    Script Date: 08/31/2017 07:29:40 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -19,6 +19,7 @@ CREATE TABLE [dbo].[Room](
 	[LastUpdatedBy] [nvarchar](200) NULL,
 	[LastUpdatedOn] [datetime] NULL,
 	[FloorId] [int] NULL,
+	[STATUS] [nvarchar](100) NULL,
  CONSTRAINT [PK__Room__3214EC278D6C9E74] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
