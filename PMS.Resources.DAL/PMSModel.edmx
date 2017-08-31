@@ -385,6 +385,7 @@
           <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
           <Property Name="LastUpdatedOn" Type="datetime" />
           <Property Name="FloorId" Type="int" />
+          <Property Name="STATUS" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="RoomBooking">
           <Key>
@@ -1540,6 +1541,7 @@
           <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
           <Property Name="FloorId" Type="Int32" />
+          <Property Name="STATUS" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Property" Relationship="Self.FK__Room__PropertyID__2F10007B" FromRole="Room" ToRole="Property" />
           <NavigationProperty Name="PropertyFloor" Relationship="Self.FK__Room__FloorId__2AA05119" FromRole="Room" ToRole="PropertyFloor" />
           <NavigationProperty Name="Rates" Relationship="Self.FK__Rates__RoomId__2B947552" FromRole="Room" ToRole="Rates" />
@@ -2282,6 +2284,7 @@
           <Property Type="Int32" Name="RoomTypeID" Nullable="true" />
           <Property Type="String" Name="RoomTypeName" Nullable="true" />
           <Property Type="String" Name="RoomTypeShortName" Nullable="true" />
+          <Property Type="String" Name="RoomStatus" Nullable="true" MaxLength="100" />
         </ComplexType>
         <ComplexType Name="GETALLGUESTS_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -2845,6 +2848,7 @@
                 <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
                 <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
                 <ScalarProperty Name="FloorId" ColumnName="FloorId" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2945,6 +2949,7 @@
                 <ScalarProperty Name="RoomTypeID" ColumnName="RoomTypeID" />
                 <ScalarProperty Name="RoomTypeName" ColumnName="RoomTypeName" />
                 <ScalarProperty Name="RoomTypeShortName" ColumnName="RoomTypeShortName" />
+                <ScalarProperty Name="RoomStatus" ColumnName="RoomStatus" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

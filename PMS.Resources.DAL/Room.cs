@@ -29,6 +29,7 @@ namespace PMS.Resources.DAL
         public string LastUpdatedBy { get; set; }
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
         public Nullable<int> FloorId { get; set; }
+        public string STATUS { get; set; }
     
         public virtual Property Property { get; set; }
         public virtual PropertyFloor PropertyFloor { get; set; }
