@@ -265,14 +265,15 @@
             {{if typeof Bookings != "undefined" && Bookings != "null" && Bookings.length > 0 }}
             {{each Bookings}}
             <tr id="${$value.Id}">
-                <td class="idRow" contenteditable="false"><a href="Checkin?id=${$value.Id}">${$value.Id}</a></td>
+
+                <td class="idRow" contenteditable="false">${$value.Id}</td>
                 <td contenteditable="false">${String($value.CheckinTime).replace('T', ' ')}</td>
                 <td contenteditable="false">${$value.RoomBookings[0].Guest.FirstName}</td>
                 <td contenteditable="false">${$value.Invoice.TotalAmount}</td>
                 <td contenteditable="false">${$value.Invoice.InvoicePaymentDetails[0].PaymentMode}</td>
                 <td contenteditable="false">${$value.RoomBookings[0].Room.RoomType.Name}</td>
                 <td contenteditable="false">${$value.RateType.Rates[0].Value} </td>
-                <td contenteditable="false">${$value.Id}</td>
+                <td contenteditable="false"><a href="Checkin?id=${$value.Id}">${$value.Id}</a></td>
                 <td contenteditable="false">${$value.Invoice.InvoiceTaxDetails[0].TaxAmount}</td>
                 <td contenteditable="false">{{if typeof $value.IsActive != "undefined" && $value.IsActive }}Active{{else}}Inactive{{/if}}</td>
             </tr>
