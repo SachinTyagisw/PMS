@@ -430,10 +430,9 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                 case "maintenance": dpRoomData.backColor = "#f39c12"; break;
                 default: dpRoomData.backColor = "#8abff5"; break;
             }
-            dpRoomData.html = dpRoomData.name;
-            dpRoomData.html += "<img style='float:right' src='/images/right-arrow-dp.png' onclick='openContextMenu(" + room.Id + "," + status + ",this )'/>";
 
-            dpRoomData.areas = { "action": "JavaScript", "js": "(function(e) { alert(e.Value);; })", "bottom": 0, "w": 17, "v": "Hover", "html": "<div><div><\/div><\/div>", "css": "resource_action_menu", "top": 0, "right": 0 };
+            dpRoomData.html = dpRoomData.name + "<img style='float:right' src='/images/right-arrow-dp.png' onclick='openContextMenu(this)' />";
+            dpRoomData.areas = { "action": "JavaScript", "js": "(function(e) { alert(e.Value); })", "bottom": 0, "w": 17, "v": "Hover", "html": "<div><div><\/div><\/div>", "css": "resource_action_menu", "top": 0, "right": 0 };
             dpRoomsResponseDto.push(dpRoomData);
         }
         return dpRoomsResponseDto;

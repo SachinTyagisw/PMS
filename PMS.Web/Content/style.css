@@ -2550,6 +2550,9 @@ tbody tr td:last-child {
 .room-status-section .orange-c {
     background: #f39c12;
 }
+.room-status-section .blue-c {
+    background: #8abff5;
+}
 
 .data-mgmt-section {
     padding: .35em 1em .25em;

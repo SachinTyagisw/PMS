@@ -32,7 +32,7 @@
     }
 
    //Changes related to the Room Status change from dashboard
-    var openContextMenu = function (roomId, color, e) {
+    var openContextMenu = function (e) {
         var pos = getPos(e);
         $('#dp-contextMenu').show();
         $("#dp-contextMenu").css({ top: pos.y - 60, left: pos.x - 230 });
@@ -86,6 +86,7 @@
                 <li><span class="yellow-c"></span>Dirty</li>
                 <li><span class="red-c"></span>Out of Order</li>
                 <li><span class="orange-c"></span>Maintenance</li>
+                <li><span class="blue-c"></span>Available</li>
             </ul>
         </fieldset>
     </div>
@@ -132,10 +133,11 @@
                 </div>
             </div>*@
 
-        <div id="dp-contextMenu">
-            <input type="radio" name="A" value="1" />Out Of Order<br />
-            <input type="radio" name="A" value="2" />Dirty<br />
-            <input type="radio" name="A" value="3" />Maintenance<br />
+        <div id="dp-contextMenu" style="display:none">
+            <input type="radio" value="outoforder" />Out Of Order<br />
+            <input type="radio" value="dirty" />Dirty<br />
+            <input type="radio" value="maintenance" />Maintenance<br />
+            <input type="radio" value="available" />Available<br />
         </div>
 
     </div>
