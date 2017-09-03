@@ -3,6 +3,14 @@
     ViewBag.Title = "DashBoard";
 }
 
+<style>
+    #dp-contextMenu {
+        display: none;
+        width: 100px;
+        position: absolute;
+        background: antiquewhite;
+    }
+</style>
 <div class="content-wrap">
     <div class="main controls">
         <div class="container-fluid">
@@ -30,13 +38,38 @@
         //angular.element('#ddlGlobalProperty').scope().$apply();
         window.location.reload(true);
     }
-
-   //Changes related to the Room Status change from dashboard
-    var openContextMenu = function (e) {
+    
+    //Changes related to the Room Status change from dashboard
+    var openContextMenu = function (e, status) {
+        alert(status);
+        currentSelectedRoomId = e.id;
         var pos = getPos(e);
         $('#dp-contextMenu').show();
         $("#dp-contextMenu").css({ top: pos.y - 60, left: pos.x - 230 });
+        switch (status) {
+            case "dirty": $('input[name="roomStatus"][value="dirty"]').prop('checked', 'checked'); break;
+            case "outoforder": $('input[name="roomStatus"][value="outoforder"]').prop('checked', 'checked'); break;
+            case "maintenance": $('input[name="roomStatus"][value="maintenance"]').prop('checked', 'checked'); break;
+            default: $('input[name="roomStatus"]').prop('checked', false);
+        }
     };
+
+    
+    function onchangeContextMenu(status) {
+        
+        //TODO: write code to update the room status
+
+       //After succerssful save please use mention below code to update the UI instead of fetching the complete data.
+        var colorCode = "";
+        switch (status) {
+            case "dirty": colorCode = "#FFFF00"; break;
+            case "outoforder": colorCode = "#FF0000"; break;
+            case "maintenance": colorCode = "#F39C12"; break;
+            default: colorCode = "#8aBFF5";
+        }
+        $('img#' + currentSelectedRoomId).parent().parent().css('background', colorCode);
+        $('#dp-contextMenu').hide();
+    }
 
     function getPos(el) {
         for (var lx = 0, ly = 0;
@@ -44,7 +77,8 @@
              lx += el.offsetLeft, ly += el.offsetTop, el = el.offsetParent);
         return { x: lx, y: ly };
     }
-
+    
+    var currentSelectedRoomId;
 
 </script>
 
@@ -86,7 +120,6 @@
                 <li><span class="yellow-c"></span>Dirty</li>
                 <li><span class="red-c"></span>Out of Order</li>
                 <li><span class="orange-c"></span>Maintenance</li>
-                <li><span class="blue-c"></span>Available</li>
             </ul>
         </fieldset>
     </div>
@@ -134,10 +167,9 @@
             </div>*@
 
         <div id="dp-contextMenu" style="display:none">
-            <input type="radio" value="outoforder" />Out Of Order<br />
-            <input type="radio" value="dirty" />Dirty<br />
-            <input type="radio" value="maintenance" />Maintenance<br />
-            <input type="radio" value="available" />Available<br />
+            <input type="radio" name="roomStatus" value="outoforder" onchange="onchangeContextMenu('outoforder');" />Out Of Order<br />
+            <input type="radio" name="roomStatus" value="dirty" onchange="onchangeContextMenu('dirty');"/>Dirty<br />
+            <input type="radio" name="roomStatus" value="maintenance" onchange="onchangeContextMenu('maintenance');"/>Maintenance<br />
         </div>
 
     </div>

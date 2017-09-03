@@ -8,9 +8,9 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     $scope.roomStatus = 1;
     $scope.scale = "hour";
     var onUpdateBookingSuccess = function (response) {
-        if (response && response.data && response.data.ResponseStatus){
+        if (response && response.data && response.data.ResponseStatus) {
             $scope.message = response.data.StatusDescription;
-        }        
+        }
     };
 
     var onUpdateBookingError = function (reason) {
@@ -26,9 +26,9 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         $scope.schedulerConfig.scrollTo = day;
         $scope.schedulerConfig.scrollToAnimated = "fast";
         $scope.schedulerConfig.scrollToPosition = "left";
-        $scope.events = convertBookingResponseToDayPilotResponse(response.Bookings);     
-        
-    };   
+        $scope.events = convertBookingResponseToDayPilotResponse(response.Bookings);
+
+    };
 
     var onGetRoomBookingError = function (reason) {
         $scope.error = reason;
@@ -47,7 +47,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     //    $scope.error = reason;
     //    $log.error(reason);
     //};
-    
+
     $scope.filterRoom = function () {
         var searchvalue = $('#searchRoom').val();
         if (!searchvalue || searchvalue === " " || searchvalue.length <= 0) {
@@ -69,7 +69,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         var day = $scope.day ? $scope.day : DayPilot.Date.today();
         $scope.loadEvents(day);
     };
-    
+
     $scope.submit = function () {
         var selectedRoomType = $scope.selectedRoomTypes;
         //var roomStatus = $scope.selectedRoomStatus;
@@ -109,7 +109,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
 
     $scope.message = function () {
         $scope.scheduler.message("Hi");
-    };  
+    };
 
     $scope.$watch("scale", function () {
         if (window.location.pathname.toLowerCase().indexOf('dashboard') < 0) return;
@@ -164,7 +164,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         eventResizingStartEndEnabled: true,
         eventMovingStartEndEnabled: true,
         dynamicEventRenderingCacheSweeping: true,
-        showCurrentTime : true,
+        showCurrentTime: true,
         //separators : [{color:"Red", location:"2017-07-30T08:00:00"}],
         onBeforeResHeaderRender: function (args) {
             //alert('ggg');
@@ -266,7 +266,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
             //});
             $scope.scheduler.message("Deleted.");
         },
-        
+
         onTimeRangeSelected: function (args) {
             var params = {
                 start: new DayPilot.Date(args.start).toString("MM/dd/yyyy h:mm tt"),
@@ -274,7 +274,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                 resource: args.resource,
                 scale: $scope.scale
             };
-            
+
             pmsSession.RemoveItem("dtcheckin");
             pmsSession.RemoveItem("dtcheckout");
             pmsSession.SetItem("dtcheckin", params.start);
@@ -319,7 +319,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         //loadRooms();
         $scope.loadEvents(DayPilot.Date.today());
     });
-    
+
     function applyRoomFilter(data) {
         var response = {};
         response.Rooms = [];
@@ -333,7 +333,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                 if (!data[i] || !data[i].RoomBookings[j]) continue;
                 var room = data[i].RoomBookings[j].Room;
                 var guest = data[i].RoomBookings[j].Guest;
-                
+
                 if (room && ($.trim(room.Number.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0)
                           || $.trim(room.RoomType.ShortName.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0) {
                     // check if room already added 
@@ -347,8 +347,8 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                         if (!found) {
                             response.Rooms.push(data[i].RoomBookings[j].Room);
                         }
-                        
-                    }else{
+
+                    } else {
                         response.Rooms.push(data[i].RoomBookings[j].Room);
                     }
                     continue;
@@ -414,16 +414,25 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     }
 
     function convertRoomResponseToDayPilotResponse(roomsResponse) {
-        dpRoomsResponseDto = [];        
+        dpRoomsResponseDto = [];
         for (var i = 0; i < roomsResponse.length; i++) {
-            var room = roomsResponse[i];            
+            var room = roomsResponse[i];
             if (!room) continue;
 
             var dpRoomData = {};
             dpRoomData.name = !room.RoomType.ShortName || room.RoomType.ShortName.trim() === '' ? room.Number : room.RoomType.ShortName + "-" + room.Number
             dpRoomData.id = room.Id;
-            
+
             var status = room && room.RoomStatus && room.RoomStatus.Name ? room.RoomStatus.Name.toLowerCase() : room.RoomStatus.Name;
+
+            //// Temp Code
+            //if (i % 5 == 0)
+            //    status = "dirty";
+            //else if (i % 6 == 0)
+            //    status = "outoforder";
+            //else if (i % 7 == 0)
+            //    status = "maintenance";
+
             switch (status) {
                 case "dirty": dpRoomData.backColor = "#FFFF00"; break;
                 case "outoforder": dpRoomData.backColor = "#FF0000"; break;
@@ -431,7 +440,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                 default: dpRoomData.backColor = "#8abff5"; break;
             }
 
-            dpRoomData.html = dpRoomData.name + "<img style='float:right' src='/images/right-arrow-dp.png' onclick='openContextMenu(this)' />";
+            dpRoomData.html = dpRoomData.name + "<img id='" + room.Id + "' style='float:right' src='/images/right-arrow-dp.png' onclick='openContextMenu(this, \"" + status + "\");'" + " />";
             dpRoomData.areas = { "action": "JavaScript", "js": "(function(e) { alert(e.Value); })", "bottom": 0, "w": 17, "v": "Hover", "html": "<div><div><\/div><\/div>", "css": "resource_action_menu", "top": 0, "right": 0 };
             dpRoomsResponseDto.push(dpRoomData);
         }
@@ -440,7 +449,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
 
     $scope.update = function () {
         //scheduler.dp.update();
-        $scope.scheduler.update();        
+        $scope.scheduler.update();
     };
 
     $scope.init = function () {
@@ -451,7 +460,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     };
 
     $scope.loadEvents = function (day) {
-        
+
         var duration = getDaysBasedOnDuration();
         var from = new DayPilot.Date(day);
         //var to = $scope.scheduler.visibleEnd();
@@ -486,7 +495,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
             //});
         }
         else {
-            response.Rooms = JSON.parse(roomData);           
+            response.Rooms = JSON.parse(roomData);
         }
         pmsSession.RemoveItem("propertyrooms");
         pmsSession.SetItem("propertyrooms", JSON.stringify(response.Rooms));
@@ -498,7 +507,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         $scope.schedulerConfig.resources = response;
         $scope.schedulerConfig.visible = true;
     }
-    
+
     function filterRoomsFromBookingResponse(data) {
         var response = {};
         response.Rooms = [];
@@ -528,7 +537,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         return response.Rooms;
     }
 
-    function getDaysBasedOnDuration() {        
+    function getDaysBasedOnDuration() {
         if ($scope.duration === 'daily') return 1;
         if ($scope.duration === 'weekly') return 7;
         if ($scope.duration === 'monthly') return 30;
@@ -540,7 +549,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
             $scope.scale = "hour";
             $scope.day = DayPilot.Date.today();
         }
-            
+
         if (duration === 'daily') $scope.scale = "hour";
         if (duration === 'weekly') $scope.scale = "week";
         if (duration === 'monthly') $scope.scale = "month";
@@ -553,7 +562,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         } else {
             date = selecteddate || DayPilot.Date.today();
         }
-         
+
         //var start = new DayPilot.Date(date).firstDayOfMonth();
         var start = new DayPilot.Date(date);
         //days on the basis of UI selection
