@@ -3,14 +3,6 @@
     ViewBag.Title = "DashBoard";
 }
 
-<style>
-    #dp-contextMenu {
-        display: none;
-        width: 100px;
-        position: absolute;
-        background: antiquewhite;
-    }
-</style>
 <div class="content-wrap">
     <div class="main controls">
         <div class="container-fluid">
@@ -67,8 +59,18 @@
             default: colorCode = "#8aBFF5";
         }
         $('img#' + currentSelectedRoomId).parent().parent().css('background', colorCode);
-        $('#dp-contextMenu').hide();
+        //$('#dp-contextMenu').hide();
     }
+    $(document).mouseup(function(e) 
+    {
+        var container = $("#dp-contextMenu");
+
+        // if the target of the click isn't the container nor a descendant of the container
+        if (!container.is(e.target) && container.has(e.target).length === 0) 
+        {
+            container.hide();
+        }
+    });
 
     function getPos(el) {
         for (var lx = 0, ly = 0;
@@ -166,9 +168,15 @@
             </div>*@
 
         <div id="dp-contextMenu" style="display:none">
-            <input type="radio" name="roomStatus" value="outoforder" onchange="onchangeContextMenu('outoforder');" />Out Of Order<br />
-            <input type="radio" name="roomStatus" value="dirty" onchange="onchangeContextMenu('dirty');"/>Dirty<br />
-            <input type="radio" name="roomStatus" value="maintenance" onchange="onchangeContextMenu('maintenance');"/>Maintenance<br />
+            <label>
+                <input type="radio" class="option-input radio" name="roomStatus" value="outoforder" onchange="onchangeContextMenu('outoforder');" />Out Of Order
+            </label>
+            <label>
+                <input type="radio" class="option-input radio" name="roomStatus" value="dirty" onchange="onchangeContextMenu('dirty');" />Dirty
+            </label>
+            <label>
+                <input type="radio" class="option-input radio" name="roomStatus" value="maintenance" onchange="onchangeContextMenu('maintenance');" />Maintenance
+            </label>
         </div>
 
     </div>
