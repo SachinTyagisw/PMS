@@ -45,21 +45,33 @@
         }
     };
 
-    
+    function getCreatedBy() {
+        return window.PmsSession.GetItem("username");
+    }
+
     function onchangeContextMenu(status) {
         
-        //TODO: write code to update the room status
+        var updateRoomStatusRequestDto = {};
+        updateRoomStatusRequestDto.Room = {};
+        updateRoomStatusRequestDto.Room.Id = currentSelectedRoomId;
+        updateRoomStatusRequestDto.Room.LastUpdatedOn = gcm.GetCurrentDate();
+        updateRoomStatusRequestDto.Room.LastUpdatedBy = getCreatedBy();
+        updateRoomStatusRequestDto.Room.RoomStatus = {};
+        updateRoomStatusRequestDto.Room.RoomStatus.Name = status;       
 
-       //After succerssful save please use mention below code to update the UI instead of fetching the complete data.
-        var colorCode = "";
-        switch (status) {
-            case "dirty": colorCode = "#FFFF00"; break;
-            case "outoforder": colorCode = "#FF0000"; break;
-            case "maintenance": colorCode = "#F39C12"; break;
-            default: colorCode = "#8aBFF5";
-        }
-        $('img#' + currentSelectedRoomId).parent().parent().css('background', colorCode);
-        //$('#dp-contextMenu').hide();
+        Notifications.SubscribeActive("on-roomstatus-update-success", function (sender, args) {
+            var colorCode = "";
+            switch (status) {
+                case "dirty": colorCode = "#FFFF00"; break;
+                case "outoforder": colorCode = "#FF0000"; break;
+                case "maintenance": colorCode = "#F39C12"; break;
+                default: colorCode = "#8aBFF5";
+            }
+            $('img#' + currentSelectedRoomId).parent().parent().css('background', colorCode);
+            //$('#dp-contextMenu').hide();
+        });
+
+        gcm.UpdateRoomStatus(updateRoomStatusRequestDto);
     }
     $(document).mouseup(function(e) 
     {

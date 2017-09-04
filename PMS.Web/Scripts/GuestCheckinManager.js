@@ -1782,9 +1782,7 @@
             return noOfHours;
         },
 
-        UpdateRoomStatus: function (status, roomId) {
-            args.roomId = roomId;
-            args.roomStatus = status;
+        UpdateRoomStatus: function (args) {
             // UpdateRoomStatus by api calling  
             pmsService.UpdateRoomStatus(args);
         },
@@ -2549,6 +2547,7 @@
             pmsService.Handlers.OnUpdateRoomStatusSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
+                if (window.Notifications) window.Notifications.Notify("on-roomstatus-update-success", null, null);
                 //alert(status);
             };
 

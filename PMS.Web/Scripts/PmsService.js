@@ -127,7 +127,7 @@
         };
 
         this.UpdateRoomStatus = function (args) {
-            makeAjaxRequestPut(args, "UpdateRoomStatus", this, "api/v1/Room/" + args.roomId + "/UpdateRoomStatus/" + args.roomStatus);
+            makeAjaxRequestPut(args, "UpdateRoomStatus", this, "api/v1/Room/UpdateRoomStatus");
         };
 
         this.UpdateRoomRate = function (args) {
