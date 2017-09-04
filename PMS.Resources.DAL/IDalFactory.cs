@@ -66,7 +66,7 @@ namespace PMS.Resources.DAL
         bool DeleteRoomPrice(int priceId);
         List<PmsEntity.RoomPricing> GetRoomPriceByProperty(int propertyId);
         int AddRoomStatus(PmsEntity.RoomStatus roomStatus);
-        bool UpdateRoomStatus(PmsEntity.RoomStatus roomStatus);
+        bool UpdateRoomStatus(PmsEntity.Room room);
         bool DeleteRoomStatus(int statusId);
         List<PmsEntity.RoomStatus> GetRoomStatus();
         int AddReward(PmsEntity.GuestReward reward);

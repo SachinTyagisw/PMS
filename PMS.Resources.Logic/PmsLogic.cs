@@ -211,9 +211,9 @@ namespace PMS.Resources.Logic
         {
             return DalFactory.AddRoomStatus(roomStatus);
         }
-        public bool UpdateRoomStatus(PmsEntity.RoomStatus roomStatus)
+        public bool UpdateRoomStatus(PmsEntity.Room room)
         {
-            return DalFactory.UpdateRoomStatus(roomStatus);
+            return DalFactory.UpdateRoomStatus(room);
         }
         public bool DeleteRoomStatus(int statusId)
         {

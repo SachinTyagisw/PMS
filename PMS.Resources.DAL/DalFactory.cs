@@ -605,9 +605,33 @@ namespace PMS.Resources.DAL
             var Id = -1;
             return Id;
         }
-        public bool UpdateRoomStatus(PmsEntity.RoomStatus roomStatus)
+        public bool UpdateRoomStatus(PmsEntity.Room room)
         {
             var isUpdated = false;
+            if (room.Id <= 0) return isUpdated;
+
+            var roomObj = new DAL.Room
+            {
+                ID = room.Id,
+                LastUpdatedOn = DateTime.Now,
+                STATUS = room.RoomStatus.Name,
+                LastUpdatedBy = room.LastUpdatedBy
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Entry(roomObj).State = System.Data.Entity.EntityState.Modified;
+                pmsContext.Entry(roomObj).Property(x => x.PropertyID).IsModified = false;
+                pmsContext.Entry(roomObj).Property(x => x.RoomTypeID).IsModified = false;
+                pmsContext.Entry(roomObj).Property(x => x.CreatedBy).IsModified = false;
+                pmsContext.Entry(roomObj).Property(x => x.CreatedOn).IsModified = false;
+                pmsContext.Entry(roomObj).Property(x => x.Number).IsModified = false;
+                pmsContext.Entry(roomObj).Property(x => x.IsActive).IsModified = false;
+                pmsContext.Entry(roomObj).Property(x => x.FloorId).IsModified = false;
+                var result = pmsContext.SaveChanges();
+                isUpdated = result == 1 ? true : false;
+            }
+
             return isUpdated;
         }
         public bool DeleteRoomStatus(int statusId)
