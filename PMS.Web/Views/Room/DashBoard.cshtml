@@ -68,21 +68,21 @@
                 default: colorCode = "#8aBFF5";
             }
             $('img#' + currentSelectedRoomId).parent().parent().css('background', colorCode);
-            //$('#dp-contextMenu').hide();
+            $('#dp-contextMenu').hide();
         });
 
         gcm.UpdateRoomStatus(updateRoomStatusRequestDto);
     }
-    $(document).mouseup(function(e) 
-    {
-        var container = $("#dp-contextMenu");
+    //$(document).mouseup(function(e) 
+    //{
+    //    var container = $("#dp-contextMenu");
 
-        // if the target of the click isn't the container nor a descendant of the container
-        if (!container.is(e.target) && container.has(e.target).length === 0) 
-        {
-            container.hide();
-        }
-    });
+    //    // if the target of the click isn't the container nor a descendant of the container
+    //    if (!container.is(e.target) && container.has(e.target).length === 0) 
+    //    {
+    //        container.hide();
+    //    }
+    //});
 
     function getPos(el) {
         for (var lx = 0, ly = 0;

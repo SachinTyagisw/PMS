@@ -4713,8 +4713,8 @@ a.animated-button:link, a.animated-button:visited {
     display: none;
     width: 116px;
     position: absolute;
-    background: antiquewhite;
-    padding: 10px 10px 10px 5px;
+    background: #c7eaff;
+    padding: 0;
 }
 #dp-contextMenu input{
     vertical-align: middle;
@@ -4789,6 +4789,10 @@ outline: 0;
     display: block;
     line-height: 30px;
     margin-bottom: 0;
+    padding: 2px 3px 2px 3px;
+}
+#dp-contextMenu label:hover {
+    background: #f3f3f3;
 }
 @-moz-keyframes click-wave {
   0% {
