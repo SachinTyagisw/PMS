@@ -28,6 +28,30 @@
         gcm.FillPaymentMode($('#ddlPaymentMode'), $('#ddlGlobalProperty').val());
     }
 
+    function exportBooking() {
+        if (Bookings != undefined && Bookings != "null" && Bookings.length > 0) {
+            var csv = 'ID,CheckinTime,Guest,TotalAmount,PaymentMode,RoomType,RateType,Transaction#,TaxAmount,IsActive\n';
+            Bookings.forEach(function (row) {    
+                csv += row.Id.trim() + "," + String(row.CheckinTime).replace('T', ' ')
+                    + "," + row.RoomBookings[0].Guest.FirstName
+                    + "," + row.Invoice.TotalAmount
+                    + "," + row.Invoice.InvoicePaymentDetails[0].PaymentMode
+                    + "," + row.RoomBookings[0].Room.RoomType.Name
+                    + "," + row.RateType.Rates[0].Value
+                    + "," + row.Id
+                    + "," + row.Invoice.InvoiceTaxDetails[0].TaxAmount
+                    + "," + row.IsActive;
+                csv += "\n";
+            });
+
+            var hiddenElement = document.createElement('a');
+            hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+            hiddenElement.target = '_blank';
+            hiddenElement.download = 'DataManagement.csv';
+            hiddenElement.click();
+        }
+    }
+     
     function searchBooking() {
         var propertyId = $('#ddlGlobalProperty').val();
         var roomType = $("#ddlRoomType option:selected").text();
@@ -59,6 +83,10 @@
 
         $("#btnSearch").click(function () {
             searchBooking();
+        });
+
+        $("#btnExport").click(function () {
+            exportBooking();
         });
 
         $("#divBooking").on("click", ".fa-minus-circle", function () {
