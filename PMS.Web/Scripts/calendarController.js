@@ -432,7 +432,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                 default: dpRoomData.backColor = "#8abff5"; break;
             }            
 
-            dpRoomData.html = dpRoomData.name + "<img id='" + room.Id + "' style='float:right;width:10px;' src='/images/right-arrow-dp.png' onclick='openContextMenu(this, \"" + status + "\");'" + " />";
+            dpRoomData.html = dpRoomData.name + "<img id='" + room.Id + "' style='float:right;width:15px;' src='/images/right-arrow-dp.png' onclick='openContextMenu(this, \"" + status + "\");'" + " />";
             dpRoomData.areas = { "action": "JavaScript", "js": "(function(e) { alert(e.Value); })", "bottom": 0, "w": 17, "v": "Hover", "html": "<div><div><\/div><\/div>", "css": "resource_action_menu", "top": 0, "right": 0 };
             dpRoomsResponseDto.push(dpRoomData);
         }
@@ -499,7 +499,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         $scope.schedulerConfig.resources = response;
         $scope.schedulerConfig.visible = true;
         $scope.schedulerConfig.rowHeaderColumns = [
-                         { title: 'Room', width: 100 }
+                         { title: 'Room', width: 110 }
         ];
     }
 

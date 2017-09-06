@@ -41,8 +41,8 @@
             case "dirty": $('input[name="roomStatus"][value="dirty"]').prop('checked', 'checked'); break;
             case "outoforder": $('input[name="roomStatus"][value="outoforder"]').prop('checked', 'checked'); break;
             case "maintenance": $('input[name="roomStatus"][value="maintenance"]').prop('checked', 'checked'); break;
-            case "clean": $('input[name="roomStatus"][value="clean"]').prop('checked', 'checked'); break;
-            default: $('input[name="roomStatus"]').prop('checked', false);
+            //case "clean": $('input[name="roomStatus"][value="clean"]').prop('checked', 'checked'); break;
+            default: $('input[name="roomStatus"][value="clean"]').prop('checked', 'checked');
         }
     };
 
