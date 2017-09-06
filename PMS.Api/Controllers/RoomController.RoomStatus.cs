@@ -76,8 +76,7 @@ namespace PMS.Api.Controllers
         [HttpPut, ActionName("UpdateRoomStatus")]
         public PmsResponseDto UpdateRoomStatus([FromBody] UpdateRoomStatusRequestDto request)
         {
-            if (request == null || request.Room == null || request.Room.Id <= 0
-                || request.Room.RoomStatus == null || string.IsNullOrWhiteSpace(request.Room.RoomStatus.Name)) throw new PmsException("Room status can not be updated.");
+            if (request == null || request.Room == null || request.Room.Id <= 0) throw new PmsException("Room status can not be updated.");
 
             var response = new PmsResponseDto();
             if (_iPmsLogic.UpdateRoomStatus(request.Room))

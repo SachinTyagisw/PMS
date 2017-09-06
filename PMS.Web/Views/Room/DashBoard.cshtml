@@ -41,6 +41,7 @@
             case "dirty": $('input[name="roomStatus"][value="dirty"]').prop('checked', 'checked'); break;
             case "outoforder": $('input[name="roomStatus"][value="outoforder"]').prop('checked', 'checked'); break;
             case "maintenance": $('input[name="roomStatus"][value="maintenance"]').prop('checked', 'checked'); break;
+            case "clean": $('input[name="roomStatus"][value="clean"]').prop('checked', 'checked'); break;
             default: $('input[name="roomStatus"]').prop('checked', false);
         }
     };
@@ -57,7 +58,7 @@
         updateRoomStatusRequestDto.Room.LastUpdatedOn = gcm.GetCurrentDate();
         updateRoomStatusRequestDto.Room.LastUpdatedBy = getCreatedBy();
         updateRoomStatusRequestDto.Room.RoomStatus = {};
-        updateRoomStatusRequestDto.Room.RoomStatus.Name = status;       
+        updateRoomStatusRequestDto.Room.RoomStatus.Name = status === 'clean' ? null : status;       
 
         Notifications.SubscribeActive("on-roomstatus-update-success", function (sender, args) {
             var colorCode = "";
@@ -65,6 +66,7 @@
                 case "dirty": colorCode = "#FFFF00"; break;
                 case "outoforder": colorCode = "#FF0000"; break;
                 case "maintenance": colorCode = "#F39C12"; break;
+                case "clean": colorCode = "#8aBFF5"; break;
                 default: colorCode = "#8aBFF5";
             }
             $('img#' + currentSelectedRoomId).parent().parent().css('background', colorCode);
@@ -188,6 +190,9 @@
             </label>
             <label>
                 <input type="radio" class="option-input radio" name="roomStatus" value="maintenance" onchange="onchangeContextMenu('maintenance');" />Maintenance
+            </label>
+            <label>
+                <input type="radio" class="option-input radio" name="roomStatus" value="clean" onchange="onchangeContextMenu('clean');" />Clean
             </label>
         </div>
 

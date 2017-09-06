@@ -425,22 +425,14 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
 
             var status = room && room.RoomStatus && room.RoomStatus.Name ? room.RoomStatus.Name.toLowerCase() : room.RoomStatus.Name;
 
-            //// Temp Code
-            //if (i % 5 == 0)
-            //    status = "dirty";
-            //else if (i % 6 == 0)
-            //    status = "outoforder";
-            //else if (i % 7 == 0)
-            //    status = "maintenance";
-
             switch (status) {
                 case "dirty": dpRoomData.backColor = "#FFFF00"; break;
                 case "outoforder": dpRoomData.backColor = "#FF0000"; break;
                 case "maintenance": dpRoomData.backColor = "#f39c12"; break;
                 default: dpRoomData.backColor = "#8abff5"; break;
-            }
+            }            
 
-            dpRoomData.html = dpRoomData.name + "<img id='" + room.Id + "' style='float:right' src='/images/right-arrow-dp.png' onclick='openContextMenu(this, \"" + status + "\");'" + " />";
+            dpRoomData.html = dpRoomData.name + "<img id='" + room.Id + "' style='float:right;width:10px;' src='/images/right-arrow-dp.png' onclick='openContextMenu(this, \"" + status + "\");'" + " />";
             dpRoomData.areas = { "action": "JavaScript", "js": "(function(e) { alert(e.Value); })", "bottom": 0, "w": 17, "v": "Hover", "html": "<div><div><\/div><\/div>", "css": "resource_action_menu", "top": 0, "right": 0 };
             dpRoomsResponseDto.push(dpRoomData);
         }
@@ -506,6 +498,9 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         var response = convertRoomResponseToDayPilotResponse(rooms)
         $scope.schedulerConfig.resources = response;
         $scope.schedulerConfig.visible = true;
+        $scope.schedulerConfig.rowHeaderColumns = [
+                         { title: 'Room', width: 100 }
+        ];
     }
 
     function filterRoomsFromBookingResponse(data) {
