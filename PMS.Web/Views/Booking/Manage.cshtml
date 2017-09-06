@@ -31,10 +31,10 @@
     function exportBooking() {
         var Bookings = window.GuestCheckinManager.PropertySettingResponseDto.Bookings;
         if (Bookings && Bookings.length > 0) {
-            var csv = 'ID,CheckinTime,Guest,TotalAmount,PaymentMode,RoomType,RateType,Transaction#,TaxAmount,IsActive\n';
+            var csv = 'ID#,TransactionDate,GuestName,AmountPaid,ModeofPayment,RoomType,RoomRate,Transaction#,TaxCollected,Status\n';
             Bookings.forEach(function (row) {    
                 csv += row.Id
-                    + "," + row.CheckinTime ? String(row.CheckinTime).replace('T', ' ') : ''
+                    + "," + '20/02/2017'
                     + "," + row.RoomBookings[0].Guest.FirstName
                     + "," + row.Invoice.TotalAmount
                     + "," + row.Invoice.InvoicePaymentDetails[0].PaymentMode
@@ -43,8 +43,11 @@
                     + "," + row.Id
                     + "," + row.Invoice.InvoiceTaxDetails[0].TaxAmount
                     + "," + row.IsActive;
-                csv += "\n";
+                csv += "\n";   
             });
+
+            //(row.IsActive)? 'Active' : 'InActive'
+            //row.CheckinTime ? String(row.CheckinTime).replace('T', ' ') : ''
 
             var hiddenElement = document.createElement('a');
             hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
