@@ -19,6 +19,7 @@
             RateSettings: null,
             RateTypeSettings: null,
             TaxSettings: null,
+            Bookings: null,
         },
 
         BookingDto: {
@@ -2570,6 +2571,9 @@
 
             pmsService.Handlers.OnGetBookingTransactionSuccess = function (data) {
                 if (!data || !data.Bookings || data.Bookings.length <= 0) return;
+                window.GuestCheckinManager.PropertySettingResponseDto.Bookings = null;
+                window.GuestCheckinManager.PropertySettingResponseDto.Bookings = data.Bookings;
+
                 var divBooking = $('#divBooking');
                 var bookingTemplate = $('#bookingTemplate');
                 if (divBooking && bookingTemplate && divBooking.length > 0 && bookingTemplate.length > 0) {

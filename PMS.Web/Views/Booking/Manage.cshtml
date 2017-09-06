@@ -29,10 +29,12 @@
     }
 
     function exportBooking() {
-        if (Bookings != undefined && Bookings != "null" && Bookings.length > 0) {
+        var Bookings = window.GuestCheckinManager.PropertySettingResponseDto.Bookings;
+        if (Bookings && Bookings.length > 0) {
             var csv = 'ID,CheckinTime,Guest,TotalAmount,PaymentMode,RoomType,RateType,Transaction#,TaxAmount,IsActive\n';
             Bookings.forEach(function (row) {    
-                csv += row.Id.trim() + "," + String(row.CheckinTime).replace('T', ' ')
+                csv += row.Id
+                    + "," + row.CheckinTime ? String(row.CheckinTime).replace('T', ' ') : ''
                     + "," + row.RoomBookings[0].Guest.FirstName
                     + "," + row.Invoice.TotalAmount
                     + "," + row.Invoice.InvoicePaymentDetails[0].PaymentMode
