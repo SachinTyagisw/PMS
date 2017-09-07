@@ -83,7 +83,7 @@ namespace PMS.Resources.DAL
                     booking.Id = result.ID != null ? result.ID.Value : -1;
                     booking.CheckinTime = result.CHECKINTIME;
                     booking.CheckoutTime = result.CHECKOUTTIME;
-
+                    booking.Status = result.Status;
                     booking.RoomBookings = new List<PmsEntity.RoomBooking>
                     {
                         new PmsEntity.RoomBooking
@@ -95,7 +95,7 @@ namespace PMS.Resources.DAL
                                 Number = result.ROOMNUMBER,
                                 RoomStatus = new PmsEntity.RoomStatus
                                 {
-                                    Name = result.Status
+                                    Name = result.RoomStatus
                                 },
                                 RoomType = new PmsEntity.RoomType
                                 {

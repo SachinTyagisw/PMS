@@ -404,7 +404,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                 //} else {
                 //    dpBookingData.text = "Room is " + data[j].Room.RoomStatus.Name.toLowerCase();
                 //}
-                dpBookingData.tags.status = data[j].Room.RoomStatus.Name;
+                dpBookingData.tags.status = booking.Status;
                 dpBookingData.id = booking.Id;
 
                 dpBookingResponseDto.push(dpBookingData);

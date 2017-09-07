@@ -71,6 +71,7 @@
             }
             $('img#' + currentSelectedRoomId).parent().parent().css('background', colorCode);
             $('#dp-contextMenu').hide();
+            pmsSession.RemoveItem("propertyrooms");
         });
 
         gcm.UpdateRoomStatus(updateRoomStatusRequestDto);
