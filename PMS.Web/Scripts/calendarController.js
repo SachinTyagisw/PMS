@@ -331,9 +331,13 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
             // iterate RoomBookings
             for (var j = 0; j < data[i].RoomBookings.length; j++) {
                 if (!data[i] || !data[i].RoomBookings[j]) continue;
-                var room = data[i].RoomBookings[j].Room;
+                  var room = data[i].RoomBookings[j].Room;
                 var guest = data[i].RoomBookings[j].Guest;
 
+                //if (room && ($.trim(room.Number.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0)
+                //          || ($.trim(room.RoomType.ShortName.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0)
+                //           || (room.RoomStatus && room.RoomStatus.Name !=="undefined" && ($.trim(room.RoomStatus.Name.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0))) {
+                
                 if (room && ($.trim(room.Number.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0)
                           || $.trim(room.RoomType.ShortName.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0) {
                     // check if room already added 

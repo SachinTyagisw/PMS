@@ -1665,12 +1665,7 @@
                     return false;
                 }
             }
-            else {
-                alert("Please enter valid email format.");
-                $('#email').focus();
-                return false;
-            }
-
+            
             if (!guestIdType || guestIdType === '-1') {
                 alert("Please select Type Of ID.");
                 return false;
@@ -2546,6 +2541,7 @@
             };
 
             pmsService.Handlers.OnUpdateRoomStatusSuccess = function (data) {
+                //TODO: we have to update the status of UI object
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
                 if (window.Notifications) window.Notifications.Notify("on-roomstatus-update-success", null, null);
