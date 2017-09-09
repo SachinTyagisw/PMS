@@ -373,7 +373,11 @@
                                 //gcm.LoadInvoice();
                             }
                             //Set the hourly checkin information if diference in checkin-checkout is less than 6 hours
-                            var timeDiffInHours = (new Date(pmsSession.GetItem("dtcheckout")).getTime() - new Date(pmsSession.GetItem("dtcheckin")).getTime()) / 3600000;
+
+                            //var timeDiffInHours = (new Date(pmsSession.GetItem("dtcheckout")).getTime() - new Date(pmsSession.GetItem("dtcheckin")).getTime()) / 3600000;
+                            var timeDiffInHours = (new Date($("#dateTo").val()).getTime() - new Date($("#dateFrom").val()).getTime()) / 3600000;
+
+                            
                             if (timeDiffInHours && timeDiffInHours <= 12) {
                                 toggleHourlyCbBaseOnTimeDiff(timeDiffInHours);
                             }
