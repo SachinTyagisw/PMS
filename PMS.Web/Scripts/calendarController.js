@@ -334,12 +334,9 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                   var room = data[i].RoomBookings[j].Room;
                 var guest = data[i].RoomBookings[j].Guest;
 
-                //if (room && ($.trim(room.Number.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0)
-                //          || ($.trim(room.RoomType.ShortName.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0)
-                //           || (room.RoomStatus && room.RoomStatus.Name !=="undefined" && ($.trim(room.RoomStatus.Name.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0))) {
-                
-                if (room && ($.trim(room.Number.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0)
-                          || $.trim(room.RoomType.ShortName.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0) {
+                if (room && ((room.Number && $.trim(room.Number.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0)
+                          || (room.RoomType && room.RoomType.ShortName && $.trim(room.RoomType.ShortName.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0)
+                          || (room.RoomStatus && room.RoomStatus.Name && $.trim(room.RoomStatus.Name.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0))) {
                     // check if room already added 
                     if (response.Rooms && response.Rooms.length > 0) {
                         var found = false;

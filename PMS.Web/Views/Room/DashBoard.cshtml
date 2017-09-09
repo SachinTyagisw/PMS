@@ -33,17 +33,13 @@
     
     //Changes related to the Room Status change from dashboard
     var openContextMenu = function (e, status) {
+        if (status === "undefined") status = 'clean';
+
         currentSelectedRoomId = e.id;
         var pos = getPos(e);
         $('#dp-contextMenu').show();
         $("#dp-contextMenu").css({ top: pos.y - 60, left: pos.x - 230 });
-        switch (status) {
-            case "dirty": $('input[name="roomStatus"][value="dirty"]').prop('checked', 'checked'); break;
-            case "outoforder": $('input[name="roomStatus"][value="outoforder"]').prop('checked', 'checked'); break;
-            case "maintenance": $('input[name="roomStatus"][value="maintenance"]').prop('checked', 'checked'); break;
-            //case "clean": $('input[name="roomStatus"][value="clean"]').prop('checked', 'checked'); break;
-            default: $('input[name="roomStatus"][value="clean"]').prop('checked', 'checked');
-        }
+        $('input[name="roomStatus"][value="' + status + '"]').prop('checked', 'checked');
     };
 
     function getCreatedBy() {
@@ -72,6 +68,7 @@
             $('img#' + currentSelectedRoomId).parent().parent().css('background', colorCode);
             $('#dp-contextMenu').hide();
             pmsSession.RemoveItem("propertyrooms");
+            angular.element('img#' + currentSelectedRoomId).scope().loadEvents(DayPilot.Date.today());
         });
 
         gcm.UpdateRoomStatus(updateRoomStatusRequestDto);

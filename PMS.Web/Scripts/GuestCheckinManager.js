@@ -2541,7 +2541,6 @@
             };
 
             pmsService.Handlers.OnUpdateRoomStatusSuccess = function (data) {
-                //TODO: we have to update the status of UI object
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
                 if (window.Notifications) window.Notifications.Notify("on-roomstatus-update-success", null, null);
