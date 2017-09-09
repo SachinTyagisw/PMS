@@ -3,6 +3,16 @@
     ViewBag.Title = "DashBoard";
 }
 
+
+<style>
+    .selectedDate {
+    font-weight: bold;
+    background-color: #337ab7;
+    color: #ffffff;
+    }
+
+</style>
+
 <div class="content-wrap">
     <div class="main controls">
         <div class="container-fluid">
@@ -41,6 +51,13 @@
         $("#dp-contextMenu").css({ top: pos.y - 60, left: pos.x - 230 });
         $('input[name="roomStatus"][value="' + status + '"]').prop('checked', 'checked');
     };
+
+    $(document).ready(function () {
+        $('body').on('click', 'div.navigator_default_cell_text', function () {
+            $('div.navigator_default_cell_text').removeClass('selectedDate');
+            $(this).addClass('selectedDate');
+        });
+    });
 
     function getCreatedBy() {
         return window.PmsSession.GetItem("username");
