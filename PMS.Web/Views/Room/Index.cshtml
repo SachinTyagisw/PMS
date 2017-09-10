@@ -57,6 +57,11 @@
                 room.RoomTypeId = $(roomTypeSelector) && $(roomTypeSelector).length > 0 ? $(roomTypeSelector).val() : divRoom[i].cells[1].id;
                 room.FloorId = $(floorSelector) && $(floorSelector).length > 0 ? $(floorSelector).val() : divRoom[i].cells[2].id;
                 room.Number = divRoom[i].cells[3].innerText;
+                if (!room.Number || room.Number.length <= 0 || room.Number.trim() === "") {
+                    alert("Room Number is required");
+                    divRoom[i].cells[3].focus();
+                    return;
+                }
                 room.PropertyId = propertyId;
                 room.IsActive = true;
                 //default roomid incase of add request
