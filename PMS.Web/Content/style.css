@@ -4978,7 +4978,7 @@ outline: 0;
 .table-data {
     margin: 10px 14px;
     background: #e3e8ea;
-    display: block;
+    display: table;
     width: 98%;
     /*max-height: calc(74vh - 20px);
     overflow-x: hidden;*/
@@ -5096,12 +5096,12 @@ main.tab-main + .table-data {
   -webkit-transition: color 0.2s;
   transition: color 0.2s;
 }
-#divManageRate {
+/*#divManageRate {
     max-height: calc(53vh - 20px);
 }
 #divRoom {
     max-height: calc(67vh - 20px);
-}
+}*/
 #logo {
   height: 48px;
   background: #333;
@@ -5659,12 +5659,12 @@ dl.dropdown dd ul li a:hover {
     .cal-right {
         width: 83%;
     }
-    #divManageRate {
+    /*#divManageRate {
         max-height: calc(47vh - 20px);
     }
     #divRoom {
         max-height: calc(61vh - 20px);
-    }
+    }*/
 }
 @media screen and (max-width: 1280px) {
     .cal-right {
