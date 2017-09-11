@@ -558,9 +558,18 @@
                 minLength: 4,
                 source: function (request, response) {
                     filtereGuestdata = gcm.SearchGuest();
-                    response($.map(filtereGuestdata, function (value, key) {
+                    response($.map(filtereGuestdata, function (value, key)
+                    {
+                        if (value.GuestMappings[0] && value.GuestMappings[0].IDDETAILS) {
+                            var ID = value.GuestMappings[0].IDDETAILS;
+                        }
+                        else {
+                            ID = value.Id;
+                        }
+                        
                         return {
-                            label: value.Id + ": " + value.LastName + ", " + value.FirstName,
+                            
+                            label: ID + ": " + value.LastName + ", " + value.FirstName,
                             value: value.Id
                         }
                     }));
