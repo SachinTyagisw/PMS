@@ -476,6 +476,12 @@
             });
 
             $("#btnCheckout").click(function () {
+                var daysDiff = gcm.GetDays(new Date($("#dateFrom").val()), gcm.GetCurrentDate());
+                if (daysDiff < 0) {
+                    alert('Checkout date can not be less than checkin date ');
+                    return;
+                }
+
                 if (confirm("Do you want checkout ?")) {
                     var balance = $('#balance');
                     var payment = $('#payment');
@@ -484,13 +490,13 @@
                         alert('Please check the balance amount.');
                         return;
                     }
-                    var daysDiff = gcm.GetDays(gcm.GetCurrentDate(), new Date($("#dateTo").val()));
+                    daysDiff = gcm.GetDays(gcm.GetCurrentDate(), new Date($("#dateTo").val()));
                     // if current date is not same as of checkout date
                     if (daysDiff !== 0) {
                         $("#dateTo").val(gcm.GetCurrentDate());
                         Notifications.SubscribeActive("on-checkout-date-change", function (sender, args) {
                             // restoring invoiceid again when invoice is loaded after change in checkout date
-                            window.GuestCheckinManager.BookingDto.InvoiceId = invoiceId;
+                            //window.GuestCheckinManager.BookingDto.InvoiceId = invoiceId;
                             var dueAmt = parseInt($('#balance').val());
                             var refund = false;
                             if (dueAmt > 0) {

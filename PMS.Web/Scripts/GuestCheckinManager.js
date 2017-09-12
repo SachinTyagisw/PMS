@@ -1706,7 +1706,8 @@
             fromDate.setHours(0, 0, 0);
             toDate.setHours(0,0,0);
 
-            var dateDiff = Math.abs(toDate.getTime() - fromDate.getTime());
+            //var dateDiff = Math.abs(toDate.getTime() - fromDate.getTime());
+            var dateDiff = toDate.getTime() - fromDate.getTime();
             var noOfDays = Math.ceil(dateDiff / oneDay);
             return noOfDays;
         },
@@ -3059,8 +3060,11 @@
                 payment.CreatedBy = getCreatedBy();
                 payment.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
                 //payment.InvoiceId = 1038;
+                if(paymentType.trim() === ''){
+                    alert('Select proper payment type.Hence invoice can not be added');
+                    return;
+                }
                 paymentDetail.push(payment);
-
             }
         }
 
