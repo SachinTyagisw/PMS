@@ -683,16 +683,18 @@ a.dt-button.active:not(.disabled) {
   box-shadow: 0 0px 9px 4px rgba(0, 0, 0, 0.1), 0 -5px 2px 2px rgba(0, 0, 0, 0.1);
 }
 .logo {
-  background: #57666d;
-  display: inline-block;
-  padding: 9px 0;
-  text-align: center;
-  width: 250px;
-  transition: width 300ms ease-in-out;
+    background: #57666d;
+    display: inline-block;
+    float: left;
+    padding: 0 0 0 5px;
+    /* text-align: center; */
+    width: auto;
+    transition: width 300ms ease-in-out;
 }
 .logo img {
-  width: 78px;
-  margin-right: 10px;
+    vertical-align: middle;
+    max-width: 72%;
+    margin: 7px 0 2px;
 }
 .logo span {
   color: #ffffff;
@@ -702,12 +704,7 @@ a.dt-button.active:not(.disabled) {
   padding-left: 20px;
   text-transform: uppercase;
 }
-.sidebar-hide .logo {
-  width: 0px;
-}
-.sidebar-hide .logo span {
-  display: none;
-}
+
 #invoice-bot button {
   width: auto;
 }
