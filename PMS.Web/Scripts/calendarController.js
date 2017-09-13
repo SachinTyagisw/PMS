@@ -240,7 +240,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
             if (!args || !args.data || !args.data.tags || !args.data.tags.status) return;
             switch (args.data.tags.status.toLowerCase()) {
                 case "dirty":
-                    args.data.barColor = "green";
+                    args.data.barColor = "yellow";
                     args.data.deleteDisabled = true;  // only allow deleting in the more detailed hour scale mode
                     break;
                 case "reserved":
@@ -251,6 +251,11 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                     args.data.barColor = "#f41616";  // red            
                     args.data.deleteDisabled = true;
                     status = "Booked";
+                    break;
+                case "checkout":
+                    args.data.barColor = "green";  // red            
+                    args.data.deleteDisabled = true;
+                    status = "Checkout";
                     break;
             }
         },
