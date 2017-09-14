@@ -833,7 +833,9 @@
                 populateAddress(address);
             }
             // As of now business reqs doesnt want to make UI fields readonly
-            //window.GuestCheckinManager.MakeReadOnly(true);            
+            if (data[0].Status === 'checkout') {
+                window.GuestCheckinManager.MakeReadOnly(true);
+            }
         },
 
         ClearPropertyFields: function() {
