@@ -173,7 +173,8 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         onEventDoubleClick: function (args) {
             if (args.e.data && args.e.data.tags && args.e.data.tags.status
                 && (args.e.data.tags.status.toLowerCase() === "booked"
-                || args.e.data.tags.status.toLowerCase() === "reserved")) {
+                || args.e.data.tags.status.toLowerCase() === "reserved")
+                || args.e.data.tags.status.toLowerCase() === "checkout") {
                 pmsSession.RemoveItem("bookingId");
                 pmsSession.SetItem("bookingId", args.e.id());
                 redirectionSvc.RedirectToCheckin();
