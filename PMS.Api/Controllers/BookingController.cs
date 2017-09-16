@@ -165,6 +165,7 @@ namespace PMS.Api.Controllers
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Booking is done successfully.";
                 response.BookingId = bookingId;
+                response.RoomBookingId = roomBookingId;
                 response.GuestId = guestId;
             }
             else
@@ -173,6 +174,7 @@ namespace PMS.Api.Controllers
                 response.StatusDescription = "Booking is failed.Contact administrator.";
                 response.BookingId = -1;
                 response.GuestId = -1;
+                response.RoomBookingId = -1;
             }
 
             return response;
