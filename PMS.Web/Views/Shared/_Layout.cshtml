@@ -169,13 +169,19 @@
                 <span class="line"></span>
             </div>
         </div>*@
-        <div class="col-lg-3 p-l-10 p-r-5 m-t-10">
+        @*<div class="col-lg-3 p-l-10 p-r-5 m-t-10">
             <div class="form-group header-top-dd" >
                 <select id="ddlGlobalProperty" style="display:none" ng-controller="calendarCtrl" class="form-control" onchange="OnPropertyChange();"></select>
             </div>
-        </div>
+        </div>*@
         <div class="pull-right p-r-15">
-            <ul>
+            <div class="p-l-10 p-r-5 m-t-10">
+                <div class="form-group header-top-dd">
+                    <select id="ddlGlobalProperty" style="display:none" ng-controller="calendarCtrl" class="form-control" onchange="OnPropertyChange();"></select>
+                    <img class="property-img" src="/Images/property.png">
+                </div>
+            </div>
+            @*<ul>
                 <li class="header-icon dib">
                     <img class="avatar-img" src="~/Images/avatar/profile.png" alt="" /> <span class="user-avatar">Administrator  <i class="ti-angle-down f-s-10"></i></span>
                     <div class="drop-down dropdown-profile">
@@ -188,7 +194,7 @@
                         </div>
                     </div>
                 </li>
-            </ul>
+            </ul>*@
         </div>
     </div>
 

@@ -3627,7 +3627,7 @@ overflow:visible;
 background:#57666d;
 border-right:1px solid #e5e5e5;
 position:fixed;
-top:50px;
+top:52px;
 bottom:0;
 left:0;
 width:60px;
@@ -3706,6 +3706,12 @@ overflow:visible;
     display: inline-flex;
     margin-top: 8px;
     color: #fff;
+}
+.property-img {
+    margin: 0 1rem;
+}
+#propmodal .content {
+    padding: 2% 4%;
 }
 a:hover,a:focus {
 text-decoration:none;
@@ -3895,7 +3901,7 @@ button:hover {
     background-color: transparent;
 }
 textarea.form-control {
-    height: 42px;
+    height: 168px;
 }
 .table {
     margin-bottom: 0;
@@ -5197,7 +5203,6 @@ main.tab-main + .table-data {
 
 .modal-wrapper .modal{
   width:800px;
-  height:400px;
   display:block;
   margin:50% 0 0 -400px;
   position:relative;
