@@ -56,6 +56,13 @@
             });
 
             $("#datetimepicker1").on("dp.change", function (e) {
+
+                setTimeout(function () {
+                    $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
+                    if ($('#dateFrom').val() >= $('#dateTo').val()) {
+                        $('#datetimepicker2').data("DateTimePicker").clear();
+                    }
+                }, 500);
                 //$('#datetimepicker2').data("DateTimePicker").minDate(e.date);
                 shouldCallLoadInvoiceApi();
                 if (gcm.ShouldCallGetRoomApi()) {
@@ -478,7 +485,7 @@
             $("#btnCheckout").click(function () {
                 var daysDiff = gcm.GetDays(new Date($("#dateFrom").val()), gcm.GetCurrentDate());
                 if (daysDiff < 0) {
-                    alert('Checkout date can not be less than checkin date ');
+                    alert('Checkout date can not be greater than today date.');
                     return;
                 }
 
