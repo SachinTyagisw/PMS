@@ -7,11 +7,12 @@
         var invoiceId = -1;
         var bookingIdFromQp = -1;
 
-        function OnPropertyChange() {
+        function OnPropertyChange() {           
             gcm.ClearExistingSessionStorage();
             gcm.ClearAllFields();
             //set property id on property ddl selection
             pmsSession.SetItem("propertyid", $('#ddlGlobalProperty').val());
+            gcm.SetPropertyLogo($('#ddlGlobalProperty').val());
             gcm.Initialize();
             init();
         }

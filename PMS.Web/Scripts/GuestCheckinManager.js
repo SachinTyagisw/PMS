@@ -1506,6 +1506,36 @@
             }
         },
 
+        SetPropertyLogo: function (propertyId) {
+            var propertyData = $.parseJSON(window.PmsSession.GetItem("allprops"));
+            if (!propertyData || propertyData.length <= 0 || propertyId === "-1") return;
+            var idx = window.GuestCheckinManager.CheckIfKeyPresent(parseInt(propertyId), propertyData);
+            if (idx < 0) return;
+            var selectedPropertyInfo = propertyData[idx];
+
+            $('#imgPropLogo').css('visibility', 'visible');
+            $('#imgPropLogo').addClass('photo-added');
+            var logoPath = selectedPropertyInfo.LogoPath;
+            var url = '';
+            if (logoPath) {
+                if (logoPath.indexOf('ftp') >= 0) {
+                    url = logoPath;
+                } else {
+                    var fName = extractFileNameFromFilePath(logoPath);
+                    if (fName) {
+                        url = window.apiBaseUrl + window.uploadDirectory + "/" + fName;
+                    }
+                }
+            }
+            
+            if (url) {
+                $('#imgPropLogo').attr('src', url);
+            } else {
+                $('#imgPropLogo').css('visibility', 'hidden');
+                $('#imgPropLogo').removeClass('photo-added');
+            }
+        },
+
         PopulateGuestDetails: function(guest) {
             $('#fName').val(guest.FirstName);
             $('#lName').val(guest.LastName);
