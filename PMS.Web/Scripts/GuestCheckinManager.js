@@ -858,6 +858,13 @@
             $('#ddlCity').val('-1');
             $('#zipCode').val('');
             $('#secondaryName').val('');
+            $('#uploadPhoto').val('');
+            $('#imgPhoto').attr('src', '');
+            $('#imgPhoto').css('visibility', 'hidden');
+            $('#imgPhoto').removeClass('photo-added');
+            if ($('#lblLogo') && $('#lblLogo').length > 0 && $('#lblLogo')[0]) {
+                $('#lblLogo')[0].style = '';
+            }
         },
 
         ClearAllFields: function() {
@@ -2067,6 +2074,7 @@
                 if (data.ResponseObject > 0) {
                     console.log(status);
                     //alert(status);
+                    uploadImage($("#uploadPhoto"));
                     if (window.Notifications) window.Notifications.Notify("on-property-add-success", null, null);
                 } else {
                     console.error(status);

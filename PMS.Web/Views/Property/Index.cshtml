@@ -28,7 +28,12 @@
         property.Country.Id = $('#ddlCountryProp').val();
         property.City.Id = $('#ddlCity').val();
         property.ZipCode = $('#zipCode').val();
-        //property.LogoPath = $('#dateTo').val();
+        var files = $("#uploadPhoto").get(0).files;
+        if (files.length > 0) {
+            property.LogoPath = window.propertyLogoPath + window.uploadDirectory + "\\" + files[0].name;
+        } else {
+            property.LogoPath = "No Image Available";
+        }
         return property;
     }
 
@@ -464,7 +469,7 @@
                 <div class="col-lg-6 p-l-0">
                     <div class="col-lg-12 p-r-0 p-l-0">
                         <div class="user-photo photo_submit-container">
-                            <label class="photo_submit js-photo_submit1">
+                            <label id="lblLogo" class="photo_submit js-photo_submit1">
                                 <input id="uploadPhoto" class="photo_submit-input js-photo_submit-input" type="file" accept="image/*">
                                 <img id="imgPhoto" class="photo_submit js-photo_submit1" alt="your image" />
                                 <span class="photo_submit-plus"></span>
@@ -518,8 +523,8 @@
                 <td contenteditable="false">${$value.Country.Name}</td> 
                 <td contenteditable="false">${$value.State.Name}</td>
                 <td contenteditable="false">${$value.City.Name}</td>
-                <td contenteditable="false">${$value.CreatedOn}</td>
-                <td contenteditable="false">${$value.LastUpdatedOn}</td>
+                <td contenteditable="false">${String($value.CreatedOn).replace('T', ' ')}</td>
+                <td contenteditable="false">{{if $value.LastUpdatedOn}} ${String($value.LastUpdatedOn).replace('T', ' ')} {{/if}}</td>                               
             </tr>
             {{/each}}
         </tbody>

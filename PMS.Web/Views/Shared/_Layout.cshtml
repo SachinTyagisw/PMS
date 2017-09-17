@@ -49,6 +49,8 @@
     window.webBaseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["WebBaseUrl"].ToString())';
     window.guestIdPath = '@(System.Configuration.ConfigurationManager.AppSettings["GuestIdPath"].ToString())';
     window.uploadDirectory = '@(System.Configuration.ConfigurationManager.AppSettings["UploadDirectory"].ToString())';
+    window.propertyLogoPath = '@(System.Configuration.ConfigurationManager.AppSettings["PropertyLogoPath"].ToString())';
+
         jQuery(document).ready(function ($) {
             var propertyId = window.PmsSession.GetItem("propertyid");
             if (!window.PmsSession.GetItem("username")) {
