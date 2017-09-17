@@ -3711,7 +3711,7 @@ overflow:visible;
     margin: 0 1rem;
 }
 #propmodal .content {
-    padding: 2% 4%;
+    padding: 2%;
 }
 a:hover,a:focus {
 text-decoration:none;
@@ -5264,6 +5264,7 @@ main.tab-main + .table-data {
 
 .content .contact-information {
     display:inline-block;
+    margin-left: 1.5rem;
 }
 .label-head {
     color: #fff;
