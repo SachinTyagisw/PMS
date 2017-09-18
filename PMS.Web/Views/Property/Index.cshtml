@@ -228,6 +228,7 @@
         $('#ddlState').val(property.State.Id);
         gcm.OnStateChange($('#ddlState')[0], $('#ddlCity'));
         $('#ddlCity').val(property.City.Id);
+        gcm.SetPropertyLogo($('#ddlGlobalProperty').val(), $('#imgPhoto'));
     }
 
     $(document).ready(function () {

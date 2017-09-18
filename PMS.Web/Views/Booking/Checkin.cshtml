@@ -12,7 +12,7 @@
             gcm.ClearAllFields();
             //set property id on property ddl selection
             pmsSession.SetItem("propertyid", $('#ddlGlobalProperty').val());
-            gcm.SetPropertyLogo($('#ddlGlobalProperty').val());
+            gcm.SetPropertyLogo($('#ddlGlobalProperty').val(), $('#imgPropLogo'));
             gcm.Initialize();
             init();
         }

@@ -1506,15 +1506,15 @@
             }
         },
 
-        SetPropertyLogo: function (propertyId) {
+        SetPropertyLogo: function (propertyId, imageCntrl) {
             var propertyData = $.parseJSON(window.PmsSession.GetItem("allprops"));
             if (!propertyData || propertyData.length <= 0 || propertyId === "-1") return;
             var idx = window.GuestCheckinManager.CheckIfKeyPresent(parseInt(propertyId), propertyData);
             if (idx < 0) return;
             var selectedPropertyInfo = propertyData[idx];
 
-            $('#imgPropLogo').css('visibility', 'visible');
-            $('#imgPropLogo').addClass('photo-added');
+            imageCntrl.css('visibility', 'visible');
+            imageCntrl.addClass('photo-added');
             var logoPath = selectedPropertyInfo.LogoPath;
             var url = '';
             if (logoPath) {
@@ -1529,10 +1529,10 @@
             }
             
             if (url) {
-                $('#imgPropLogo').attr('src', url);
+                imageCntrl.attr('src', url);
             } else {
-                $('#imgPropLogo').css('visibility', 'hidden');
-                $('#imgPropLogo').removeClass('photo-added');
+                imageCntrl.css('visibility', 'hidden');
+                imageCntrl.removeClass('photo-added');
             }
         },
 
