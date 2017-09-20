@@ -3901,6 +3901,9 @@ button:hover {
     background-color: transparent;
 }
 textarea.form-control {
+    height: 41px;
+}
+#propmodal .contact-information textarea.form-control {
     height: 168px;
 }
 .table {
