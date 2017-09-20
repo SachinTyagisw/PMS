@@ -27,7 +27,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         $scope.schedulerConfig.scrollToAnimated = "fast";
         $scope.schedulerConfig.scrollToPosition = "left";
         $scope.events = convertBookingResponseToDayPilotResponse(response.Bookings);
-
+        window.GuestCheckinManager.SetPropertyLogo($('#ddlGlobalProperty').val(), $('#imgPropLogo'));
     };
 
     var onGetRoomBookingError = function (reason) {

@@ -65,6 +65,7 @@
                         window.GuestCheckinManager.BindPropertyDdl($('#ddlGlobalProperty'));
                         $("#ddlGlobalProperty option[value='-1']").remove();
                         window.PmsSession.SetItem("propertyid", $('#ddlGlobalProperty').val());
+                        window.GuestCheckinManager.SetPropertyLogo($('#ddlGlobalProperty').val(), $('#imgPropLogo'));
                         window.GuestCheckinManager.BindInitDropdowns();
                     }
                 });
@@ -74,6 +75,7 @@
                 window.GuestCheckinManager.BindPropertyDdl($('#ddlGlobalProperty'));
                 $("#ddlGlobalProperty option[value='-1']").remove();
                 $('#ddlGlobalProperty').val(propertyId);
+                window.GuestCheckinManager.SetPropertyLogo($('#ddlGlobalProperty').val(), $('#imgPropLogo'));
             }
             if (window.location.pathname.toLowerCase().indexOf('checkin') >= 0
             || window.location.pathname.toLowerCase().indexOf('dashboard') >= 0
@@ -180,7 +182,7 @@
             <div class="p-l-10 p-r-5 m-t-10">
                 <div class="form-group header-top-dd">
                     <select id="ddlGlobalProperty" style="display:none" ng-controller="calendarCtrl" class="form-control" onchange="OnPropertyChange();"></select>
-                    <img id="imgPropLogo" class="property-img" src="/Images/property.png">
+                    <img id="imgPropLogo" class="property-img" src="" />
                 </div>
             </div>
             @*<ul>
