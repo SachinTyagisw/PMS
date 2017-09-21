@@ -1506,7 +1506,7 @@
             }
         },
 
-        SetPropertyLogo: function (propertyId, imageCntrl) {
+        SetPropertyLogo: function (propertyId, imageCntrl) {            
             var propertyData = $.parseJSON(window.PmsSession.GetItem("allprops"));
             if (!propertyData || propertyData.length <= 0 || propertyId === "-1") return;
             var idx = window.GuestCheckinManager.CheckIfKeyPresent(parseInt(propertyId), propertyData);
@@ -2081,6 +2081,7 @@
                 if (!data || !data.Properties || data.Properties.length <= 0) return;
                 window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = null;
                 window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = data.Properties;
+                pmsSession.RemoveItem("allprops");
                 pmsSession.SetItem("allprops", JSON.stringify(data.Properties));
                 var divProperty = $('#divProperty');
                 var propertyTemplate = $('#propertyTemplate');
@@ -2147,6 +2148,7 @@
             pmsService.Handlers.OnUpdatePropertySuccess = function(data) {
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
+                uploadImage($("#uploadPhoto"));
                 window.GuestCheckinManager.GetAllProperty();
                 //alert(status);
             };

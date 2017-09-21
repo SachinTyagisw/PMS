@@ -228,7 +228,15 @@
         $('#ddlState').val(property.State.Id);
         gcm.OnStateChange($('#ddlState')[0], $('#ddlCity'));
         $('#ddlCity').val(property.City.Id);
-        gcm.SetPropertyLogo($('#ddlGlobalProperty').val(), $('#imgPhoto'));
+
+        $('#uploadPhoto').val('');
+        $('#imgPhoto').attr('src', '');
+        $('#imgPhoto').css('visibility', 'hidden');
+        $('#imgPhoto').removeClass('photo-added');
+        if ($('#lblLogo') && $('#lblLogo').length > 0 && $('#lblLogo')[0]) {
+            $('#lblLogo')[0].style = '';
+        }
+        gcm.SetPropertyLogo(property.Id, $('#imgPhoto'));
     }
 
     $(document).ready(function () {
