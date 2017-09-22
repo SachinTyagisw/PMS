@@ -68,6 +68,33 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         setSchedulerScale(duration);
         var day = $scope.day ? $scope.day : DayPilot.Date.today();
         $scope.loadEvents(day);
+
+        if ($scope.scale == 'month') {
+            setTimeout(function () {
+                $('.scheduler_default_timeheadercol_inner').each(function (e) {
+                    //  this.innerText = this.innerText.split('\n')[0].substring(0, 3) + '\n' + this.innerText.split('\n')[1];
+                    var add3Char = '';
+                    switch (this.innerText.split('\n')[0].toLowerCase()) {
+                        case 'su': add3Char = 'n'; break;
+                        case 'mo': add3Char = 'n'; break;
+                        case 'tu': add3Char = 'e'; break;
+                        case 'we': add3Char = 'd'; break;
+                        case 'th': add3Char = 'u'; break;
+                        case 'fr': add3Char = 'i'; break;
+                        case 'sa': add3Char = 't'; break;
+                    }
+                    this.innerText = this.innerText.split('\n')[0] + add3Char + '\n' + this.innerText.split('\n')[1];
+                });
+
+                $('.scheduler_default_scrollable').css('top', ($('.scheduler_default_scrollable')[0].offsetTop + 10) + 'px');
+                $('.scheduler_default_divider_horizontal').css('top', ($('.scheduler_default_divider_horizontal')[0].offsetTop + 10) + 'px');
+                $('.scheduler_default_timeheadercol').css('height', ($('.scheduler_default_timeheadercol')[0].offsetHeight + 10) + 'px');
+                $('.scheduler_default_corner').css('height', ($('.scheduler_default_corner')[0].offsetHeight + 10) + 'px');
+                $($('.scheduler_default_timeheadercol')[0].parentElement.parentElement).css('height', ($('.scheduler_default_timeheadercol')[0].parentElement.parentElement.offsetHeight + 10) + 'px');
+                $($('.scheduler_default_timeheadercol')[0].parentElement.parentElement.parentElement).css('height', ($('.scheduler_default_timeheadercol')[0].parentElement.parentElement.parentElement.offsetHeight + 10) + 'px');
+                $('.scheduler_default_main').css('height', ($('.scheduler_default_main')[0].offsetHeight + 10) + 'px');
+            }, 10);
+        }
     };
 
     $scope.submit = function () {
@@ -628,7 +655,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                 return [{ groupBy: "Month" }, { groupBy: "Day", format: "dddd dd" }, { groupBy: "Hour", format: "h tt" }];
                 break;
             case "month":
-                return [{ groupBy: "Month" }, { groupBy: "Day", format: "ddd d" }];
+                return [{ groupBy: "Month" }, { groupBy: "Day", format: "ddd<br>d" }];
                 break;
             case "week":
                 return [{ groupBy: "Month" }, { groupBy: "Day", format: "dddd d" }];
