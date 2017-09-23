@@ -62,6 +62,20 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         showRoomsOnDaypilotGrid(response.Rooms);
     };
 
+    $scope.filterRoomData = function (criteria) {
+        var searchvalue = $('#searchRoom').val();
+        if (!searchvalue || searchvalue === " " || searchvalue.length <= 0) {
+            var roomData = pmsSession.GetItem("propertyrooms");
+            showRoomsOnDaypilotGrid(JSON.parse(roomData));
+            return;
+        }
+        var response = {};
+        response.Rooms = {};
+        var bookingData = $scope.Bookings;
+        response.Rooms = applyRoomFilterData(bookingData,criteria);
+        showRoomsOnDaypilotGrid(response.Rooms);
+    };
+
     $scope.setCalendarView = function (duration) {
         $('#searchRoom').val('');
         $scope.duration = duration;
@@ -353,6 +367,65 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         //loadRooms();
         $scope.loadEvents(DayPilot.Date.today());
     });
+
+    function applyRoomFilterData(data,citeria) {
+        var response = {};
+        response.Rooms = [];
+        if (!data || data.length <= 0) return response.Rooms;
+        var searchvalue = $('#searchRoom').val();
+        // iterate Bookings
+        for (var i = 0; i < data.length; i++) {
+            if (!data[i] || !data[i].RoomBookings || data[i].RoomBookings.length <= 0) continue;
+            // iterate RoomBookings
+            for (var j = 0; j < data[i].RoomBookings.length; j++) {
+                if (!data[i] || !data[i].RoomBookings[j]) continue;
+                var room = data[i].RoomBookings[j].Room;
+                var guest = data[i].RoomBookings[j].Guest;
+
+                if (room && ((room.Number && $.trim(room.Number.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0)
+                          || (room.RoomType && room.RoomType.ShortName && $.trim(room.RoomType.ShortName.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0)
+                          || (room.RoomStatus && room.RoomStatus.Name && $.trim(room.RoomStatus.Name.toLowerCase()).indexOf($.trim(citeria)) >= 0))) {
+                    // check if room already added 
+                    if (response.Rooms && response.Rooms.length > 0) {
+                        var found = false;
+                        for (var k = 0; k < response.Rooms.length; k++) {
+                            if (parseInt(data[i].RoomBookings[j].Room.Id) !== parseInt(response.Rooms[k].Id)) continue;
+                            found = true;
+                            break;
+                        }
+                        if (!found) {
+                            response.Rooms.push(data[i].RoomBookings[j].Room);
+                        }
+
+                    } else {
+                        response.Rooms.push(data[i].RoomBookings[j].Room);
+                    }
+                    continue;
+                }
+                if (guest && guest.Id > 0 &&
+                    ($.trim(guest.FirstName.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0
+                    || $.trim(guest.LastName.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0)) {
+
+                    if (response.Rooms && response.Rooms.length > 0) {
+                        var found = false;
+                        // check if room already added 
+                        for (var k = 0; k < response.Rooms.length; k++) {
+                            if (parseInt(data[i].RoomBookings[j].Room.Id) !== parseInt(response.Rooms[k].Id)) continue;
+                            found = true;
+                            break;
+                        }
+                        if (!found) {
+                            response.Rooms.push(data[i].RoomBookings[j].Room);
+                        }
+                    } else {
+                        response.Rooms.push(data[i].RoomBookings[j].Room);
+                    }
+                    continue;
+                }
+            }
+        }
+        return response.Rooms;
+    }
 
     function applyRoomFilter(data) {
         var response = {};
