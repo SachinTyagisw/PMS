@@ -1,3 +1,5 @@
+//AB 20170923-4 Changes for property image upload
+
 (function ($) {
     "use strict";
 
@@ -113,17 +115,17 @@
     //});
 
 
-        /*  Chackbox all
-    ---------------------------------------*/
+    /*  Chackbox all
+---------------------------------------*/
 
-$("#checkAll").change(function () {
-    $("input:checkbox").prop('checked', $(this).prop("checked"));
-});
+    $("#checkAll").change(function () {
+        $("input:checkbox").prop('checked', $(this).prop("checked"));
+    });
 
-$('#toggle').click( function(){
-    $(this).parent().toggleClass('width');
-    $(this).children().toggleClass( 'fa-chevron-circle-left').toggleClass( 'fa-chevron-circle-right');
-});
+    $('#toggle').click( function(){
+        $(this).parent().toggleClass('width');
+        $(this).children().toggleClass( 'fa-chevron-circle-left').toggleClass( 'fa-chevron-circle-right');
+    });
     /*  Data Table
     -------------*/
 
@@ -131,48 +133,55 @@ $('#toggle').click( function(){
 
 
 
-//$( "#dateFrom" ).datetimepicker({
-//    minDate: 0,
-//    maxDate: "+2Y",
-//	timeInput: true,
-//	timeFormat: "hh:mm tt",
-//	showHour: false,
-//	showMinute: false,
-//    onSelect: function( selectedDate ) {
-//        $( "#dateTo" ).datetimepicker("option", "minDate", selectedDate );
+    //$( "#dateFrom" ).datetimepicker({
+    //    minDate: 0,
+    //    maxDate: "+2Y",
+    //	timeInput: true,
+    //	timeFormat: "hh:mm tt",
+    //	showHour: false,
+    //	showMinute: false,
+    //    onSelect: function( selectedDate ) {
+    //        $( "#dateTo" ).datetimepicker("option", "minDate", selectedDate );
 
-//        setTimeout(function(){
-//            $( "#dateTo" ).datetimepicker('show');
-//            //$( "#dateTo" ).datepicker("option", "showAnim", 'slide');
-//        }, 16);
-//    }
-//});
-//$( "#dateFrom, #dateTo" ).datetimepicker({
-//    maxDate: "+2Y",
-//    timeInput: true,
-//    timeFormat: "hh:mm tt",
-//    showHour: false,
-//    showMinute: false
-//});
+    //        setTimeout(function(){
+    //            $( "#dateTo" ).datetimepicker('show');
+    //            //$( "#dateTo" ).datepicker("option", "showAnim", 'slide');
+    //        }, 16);
+    //    }
+    //});
+    //$( "#dateFrom, #dateTo" ).datetimepicker({
+    //    maxDate: "+2Y",
+    //    timeInput: true,
+    //    timeFormat: "hh:mm tt",
+    //    showHour: false,
+    //    showMinute: false
+    //});
 
-$('#idExpiry, #dob').datepicker({
-    yearRange: "1900:2060",
-    changeMonth: true,
-    changeYear: true
-});
-//document.querySelector(".hour-input").onchange = function () {
-//    document.querySelector('.hour-dd').disabled = !this.checked;
-//};
+    $('#idExpiry, #dob').datepicker({
+        yearRange: "1900:2060",
+        changeMonth: true,
+        changeYear: true
+    });
+    //document.querySelector(".hour-input").onchange = function () {
+    //    document.querySelector('.hour-dd').disabled = !this.checked;
+    //};
 
 class PhotoSubmission {
+
+    //AB 20170923-4
     constructor() {
         const inputs = document.querySelectorAll('.js-photo_submit-input');
+        const deleteBtn = document.querySelectorAll('.photo_submit-delete');
 
         for (var i = 0; i < inputs.length; i++) {
             inputs[i].addEventListener('change', this.uploadImage);
         }
+        for (var i = 0; i < deleteBtn.length; i++) {
+            deleteBtn[i].addEventListener('click', this.deleteImage);
+        }
     }
-
+    
+    //AB 20170923-4
     uploadImage(e) {
         const fileInput = e.target;
         const uploadBtn = e.target.parentNode;
@@ -186,19 +195,24 @@ class PhotoSubmission {
             fileInput.setAttribute('disabled', 'disabled');
         };
 
-        reader.readAsDataURL(e.target.files[0]);
-
-        deleteBtn.addEventListener('click', () => {
-            uploadBtn.removeAttribute('style');
-            document.getElementById('imgPhoto').removeAttribute('src');
-            document.getElementById('imgPhoto').removeAttribute('style');
-            uploadBtn.classList.remove('photo_submit--image');
-
-            setTimeout(() => {
-                fileInput.removeAttribute('disabled', 'disabled');
-            }, 200);
-        });
+        reader.readAsDataURL(e.target.files[0]);        
     }
+
+    //AB 20170923-4
+    deleteImage(e) {
+        const fileInput = e.target.parentNode.childNodes[1];
+        const uploadBtn = e.target.parentNode;
+
+        uploadBtn.removeAttribute('style');
+        document.getElementById('imgPhoto').removeAttribute('src');
+        document.getElementById('imgPhoto').removeAttribute('style');
+        uploadBtn.classList.remove('photo_submit--image');
+
+        setTimeout(() => {
+            fileInput.removeAttribute('disabled', 'disabled');
+    }, 200);
+
+}
 };
 
 new PhotoSubmission;
@@ -243,25 +257,25 @@ $(function () {
         var listItem = $('.results tbody').children('tr');
         var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
     
-      $.extend($.expr[':'], {'containsi': function(elem, i, match, array){
+        $.extend($.expr[':'], {'containsi': function(elem, i, match, array){
             return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
         }
-      });
+        });
     
-      $(".results tbody tr").not(":containsi('" + searchSplit + "')").each(function(e){
-        $(this).attr('visible','false');
-      });
+        $(".results tbody tr").not(":containsi('" + searchSplit + "')").each(function(e){
+            $(this).attr('visible','false');
+        });
 
-      $(".results tbody tr:containsi('" + searchSplit + "')").each(function(e){
-        $(this).attr('visible','true');
-      });
+        $(".results tbody tr:containsi('" + searchSplit + "')").each(function(e){
+            $(this).attr('visible','true');
+        });
 
-      var jobCount = $('.results tbody tr[visible="true"]').length;
+        var jobCount = $('.results tbody tr[visible="true"]').length;
         $('.counter').text(jobCount + ' item');
 
-      if(jobCount == '0') {$('.no-result').show();}
+        if(jobCount == '0') {$('.no-result').show();}
         else {$('.no-result').hide();}
-	});
+    });
 
     //----------- Create Floor --------------//
     $("#createFloor thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');

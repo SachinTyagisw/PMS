@@ -1,3 +1,6 @@
+//AB 20170923-1 for Column header
+//AB 20170903-2 For room status filter
+
 angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$timeout', 'redirectionSvc', 'messageModalSvc', 'calendarSvc', function ($scope, $log, $timeout, redirectionSvc, messageModalSvc, calendarSvc) {
     var dpBookingResponseDto = [];
     var dpRoomsResponseDto = [];
@@ -63,16 +66,10 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
     };
 
     $scope.filterRoomData = function (criteria) {
-        var searchvalue = $('#searchRoom').val();
-        if (!searchvalue || searchvalue === " " || searchvalue.length <= 0) {
-            var roomData = pmsSession.GetItem("propertyrooms");
-            showRoomsOnDaypilotGrid(JSON.parse(roomData));
-            return;
-        }
         var response = {};
         response.Rooms = {};
         var bookingData = $scope.Bookings;
-        response.Rooms = applyRoomFilterData(bookingData,criteria);
+        response.Rooms = applyRoomFilterData(bookingData, criteria);
         showRoomsOnDaypilotGrid(response.Rooms);
     };
 
@@ -83,32 +80,11 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         var day = $scope.day ? $scope.day : DayPilot.Date.today();
         $scope.loadEvents(day);
 
-        if ($scope.scale == 'month') {
-            setTimeout(function () {
-                $('.scheduler_default_timeheadercol_inner').each(function (e) {
-                    //  this.innerText = this.innerText.split('\n')[0].substring(0, 3) + '\n' + this.innerText.split('\n')[1];
-                    var add3Char = '';
-                    switch (this.innerText.split('\n')[0].toLowerCase()) {
-                        case 'su': add3Char = 'n'; break;
-                        case 'mo': add3Char = 'n'; break;
-                        case 'tu': add3Char = 'e'; break;
-                        case 'we': add3Char = 'd'; break;
-                        case 'th': add3Char = 'u'; break;
-                        case 'fr': add3Char = 'i'; break;
-                        case 'sa': add3Char = 't'; break;
-                    }
-                    this.innerText = this.innerText.split('\n')[0] + add3Char + '\n' + this.innerText.split('\n')[1];
-                });
+        //AB 20170923-1 
+        setTimeout(function () {
+            customizeMonthHeader();
+        }, 10);
 
-                $('.scheduler_default_scrollable').css('top', ($('.scheduler_default_scrollable')[0].offsetTop + 10) + 'px');
-                $('.scheduler_default_divider_horizontal').css('top', ($('.scheduler_default_divider_horizontal')[0].offsetTop + 10) + 'px');
-                $('.scheduler_default_timeheadercol').css('height', ($('.scheduler_default_timeheadercol')[0].offsetHeight + 10) + 'px');
-                $('.scheduler_default_corner').css('height', ($('.scheduler_default_corner')[0].offsetHeight + 10) + 'px');
-                $($('.scheduler_default_timeheadercol')[0].parentElement.parentElement).css('height', ($('.scheduler_default_timeheadercol')[0].parentElement.parentElement.offsetHeight + 10) + 'px');
-                $($('.scheduler_default_timeheadercol')[0].parentElement.parentElement.parentElement).css('height', ($('.scheduler_default_timeheadercol')[0].parentElement.parentElement.parentElement.offsetHeight + 10) + 'px');
-                $('.scheduler_default_main').css('height', ($('.scheduler_default_main')[0].offsetHeight + 10) + 'px');
-            }, 10);
-        }
     };
 
     $scope.submit = function () {
@@ -302,7 +278,11 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                     break;
             }
         },
+        //AB 20170923-1 
+        onAfterEventRender: function (args) {
+            customizeMonthHeader();
 
+        },
         onEventDeleted: function (args) {
             var params = {
                 id: args.e.id(),
@@ -368,7 +348,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         $scope.loadEvents(DayPilot.Date.today());
     });
 
-    function applyRoomFilterData(data,citeria) {
+    function applyRoomFilterData(data, citeria) {
         var response = {};
         response.Rooms = [];
         if (!data || data.length <= 0) return response.Rooms;
@@ -382,9 +362,8 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                 var room = data[i].RoomBookings[j].Room;
                 var guest = data[i].RoomBookings[j].Guest;
 
-                if (room && ((room.Number && $.trim(room.Number.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0)
-                          || (room.RoomType && room.RoomType.ShortName && $.trim(room.RoomType.ShortName.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0)
-                          || (room.RoomStatus && room.RoomStatus.Name && $.trim(room.RoomStatus.Name.toLowerCase()).indexOf($.trim(citeria)) >= 0))) {
+                //AB 20170903-2
+                if (room && room.RoomStatus && room.RoomStatus.Name && $.trim(citeria.toLowerCase()).length > 0 && $.trim(room.RoomStatus.Name.toLowerCase()).indexOf($.trim(citeria.toLowerCase())) >= 0) {
                     // check if room already added 
                     if (response.Rooms && response.Rooms.length > 0) {
                         var found = false;
@@ -402,26 +381,27 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                     }
                     continue;
                 }
-                if (guest && guest.Id > 0 &&
-                    ($.trim(guest.FirstName.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0
-                    || $.trim(guest.LastName.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0)) {
+                //AB 20170903-2
+                //if (guest && guest.Id > 0 &&
+                //    ($.trim(guest.FirstName.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0
+                //    || $.trim(guest.LastName.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0)) {
 
-                    if (response.Rooms && response.Rooms.length > 0) {
-                        var found = false;
-                        // check if room already added 
-                        for (var k = 0; k < response.Rooms.length; k++) {
-                            if (parseInt(data[i].RoomBookings[j].Room.Id) !== parseInt(response.Rooms[k].Id)) continue;
-                            found = true;
-                            break;
-                        }
-                        if (!found) {
-                            response.Rooms.push(data[i].RoomBookings[j].Room);
-                        }
-                    } else {
-                        response.Rooms.push(data[i].RoomBookings[j].Room);
-                    }
-                    continue;
-                }
+                //    if (response.Rooms && response.Rooms.length > 0) {
+                //        var found = false;
+                //        // check if room already added 
+                //        for (var k = 0; k < response.Rooms.length; k++) {
+                //            if (parseInt(data[i].RoomBookings[j].Room.Id) !== parseInt(response.Rooms[k].Id)) continue;
+                //            found = true;
+                //            break;
+                //        }
+                //        if (!found) {
+                //            response.Rooms.push(data[i].RoomBookings[j].Room);
+                //        }
+                //    } else {
+                //        response.Rooms.push(data[i].RoomBookings[j].Room);
+                //    }
+                //    continue;
+                //}
             }
         }
         return response.Rooms;
@@ -438,7 +418,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
             // iterate RoomBookings
             for (var j = 0; j < data[i].RoomBookings.length; j++) {
                 if (!data[i] || !data[i].RoomBookings[j]) continue;
-                  var room = data[i].RoomBookings[j].Room;
+                var room = data[i].RoomBookings[j].Room;
                 var guest = data[i].RoomBookings[j].Guest;
 
                 if (room && ((room.Number && $.trim(room.Number.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0)
@@ -538,7 +518,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                 case "outoforder": dpRoomData.backColor = "#FF0000"; break;
                 case "maintenance": dpRoomData.backColor = "#f39c12"; break;
                 default: dpRoomData.backColor = "#8abff5"; break;
-            }            
+            }
 
             dpRoomData.html = dpRoomData.name + "<img id='" + room.Id + "' style='float:right;width:15px;' src='/images/right-arrow-dp.png' onclick='openContextMenu(this, \"" + status + "\");'" + " />";
             dpRoomData.areas = { "action": "JavaScript", "js": "(function(e) { alert(e.Value); })", "bottom": 0, "w": 17, "v": "Hover", "html": "<div><div><\/div><\/div>", "css": "resource_action_menu", "top": 0, "right": 0 };
@@ -609,6 +589,10 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         $scope.schedulerConfig.rowHeaderColumns = [
                          { title: 'Room', width: 110 }
         ];
+        //AB 20170923-1 
+        setTimeout(function () {
+            customizeMonthHeader();
+        }, 100);
     }
 
     function filterRoomsFromBookingResponse(data) {
@@ -733,6 +717,34 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
             case "week":
                 return [{ groupBy: "Month" }, { groupBy: "Day", format: "dddd d" }];
                 break;
+        }
+    }
+
+    //AB 20170923-1 
+    function customizeMonthHeader() {
+        if ($scope.scale == 'month' && $('.scheduler_default_timeheadercol_inner')[0].innerText.split('\n')[0].length == 2) {
+            $('.scheduler_default_timeheadercol_inner').each(function (e) {
+                //  this.innerText = this.innerText.split('\n')[0].substring(0, 3) + '\n' + this.innerText.split('\n')[1];
+                var add3Char = '';
+                switch (this.innerText.split('\n')[0].toLowerCase()) {
+                    case 'su': add3Char = 'n'; break;
+                    case 'mo': add3Char = 'n'; break;
+                    case 'tu': add3Char = 'e'; break;
+                    case 'we': add3Char = 'd'; break;
+                    case 'th': add3Char = 'u'; break;
+                    case 'fr': add3Char = 'i'; break;
+                    case 'sa': add3Char = 't'; break;
+                }
+                this.innerText = this.innerText.split('\n')[0] + add3Char + '\n' + this.innerText.split('\n')[1];
+            });
+
+            $('.scheduler_default_scrollable').css('top', ($('.scheduler_default_scrollable')[0].offsetTop + 10) + 'px');
+            $('.scheduler_default_divider_horizontal').css('top', ($('.scheduler_default_divider_horizontal')[0].offsetTop + 10) + 'px');
+            $('.scheduler_default_timeheadercol').css('height', ($('.scheduler_default_timeheadercol')[0].offsetHeight + 10) + 'px');
+            $('.scheduler_default_corner').css('height', ($('.scheduler_default_corner')[0].offsetHeight + 10) + 'px');
+            $($('.scheduler_default_timeheadercol')[0].parentElement.parentElement).css('height', ($('.scheduler_default_timeheadercol')[0].parentElement.parentElement.offsetHeight + 10) + 'px');
+            $($('.scheduler_default_timeheadercol')[0].parentElement.parentElement.parentElement).css('height', ($('.scheduler_default_timeheadercol')[0].parentElement.parentElement.parentElement.offsetHeight + 10) + 'px');
+            $('.scheduler_default_main').css('height', ($('.scheduler_default_main')[0].offsetHeight + 10) + 'px');
         }
     }
 }]);

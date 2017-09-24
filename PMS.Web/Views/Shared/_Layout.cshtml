@@ -45,11 +45,11 @@
     @*<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
     <script src="~/Scripts/Bootstrap/datetimepicker.js"></script>*@
     <script type="text/javascript">
-    window.apiBaseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["ApiBaseUrl"].ToString())';
-    window.webBaseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["WebBaseUrl"].ToString())';
-    window.guestIdPath = '@(System.Configuration.ConfigurationManager.AppSettings["GuestIdPath"].ToString())';
-    window.uploadDirectory = '@(System.Configuration.ConfigurationManager.AppSettings["UploadDirectory"].ToString())';
-    window.propertyLogoPath = '@(System.Configuration.ConfigurationManager.AppSettings["PropertyLogoPath"].ToString())';
+        window.apiBaseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["ApiBaseUrl"].ToString())';
+        window.webBaseUrl = '@(System.Configuration.ConfigurationManager.AppSettings["WebBaseUrl"].ToString())';
+        window.guestIdPath = '@(System.Configuration.ConfigurationManager.AppSettings["GuestIdPath"].ToString())';
+        window.uploadDirectory = '@(System.Configuration.ConfigurationManager.AppSettings["UploadDirectory"].ToString())';
+        window.propertyLogoPath = '@(System.Configuration.ConfigurationManager.AppSettings["PropertyLogoPath"].ToString())';
 
         jQuery(document).ready(function ($) {
             var propertyId = window.PmsSession.GetItem("propertyid");
@@ -60,7 +60,7 @@
             if (!propertyId) {
                 Notifications.SubscribeActive("on-allproperty-get-success", function (sender, args) {
                     //set property id on property ddl selection
-                    if (!window.PmsSession.GetItem("propertyid")) {                        
+                    if (!window.PmsSession.GetItem("propertyid")) {
                         window.GuestCheckinManager.PropertySettingResponseDto.PropertySetting = $.parseJSON(window.PmsSession.GetItem("allprops"));
                         window.GuestCheckinManager.BindPropertyDdl($('#ddlGlobalProperty'));
                         $("#ddlGlobalProperty option[value='-1']").remove();
@@ -182,7 +182,7 @@
             <div class="p-l-10 p-r-5 m-t-10">
                 <div class="form-group header-top-dd">
                     <select id="ddlGlobalProperty" style="display:none" ng-controller="calendarCtrl" class="form-control" onchange="OnPropertyChange();"></select>
-                    <img id="imgPropLogo" class="property-img" src="" />
+                    <img id="imgPropLogo" class="property-img" src="" height="30" width="100" /> <!--AB 20170903-3 Fixed property image size-->
                 </div>
             </div>
             @*<ul>

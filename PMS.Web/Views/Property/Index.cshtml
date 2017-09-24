@@ -9,7 +9,7 @@
         var property = {};
         property.State = {};
         property.Country = {};
-        property.City = {};        
+        property.City = {};
         property.IsActive = true;
         property.CloseOfDayTime = $('#closeofdaytime').val();
         property.CheckinTime = $('#checkintime').val();
@@ -47,7 +47,7 @@
         var fullAddress = $('#fulladdress').val();
         var webSiteAddress = $('#website').val();
         var phone = $('#phone').val();
-        var fax = $('#fax').val();        
+        var fax = $('#fax').val();
         var timeZone = $('#timezone').val();
         var currencyId = $('#ddlCurrency').val();
         var state = $('#ddlState').val();
@@ -62,13 +62,13 @@
             $('#propertyName').focus();
             return false;
         }
-       
+
         if (!propertyCode || propertyCode.length <= 0) {
             alert("Property Code is required");
             $('#propertyCode').focus();
             return false;
-        }        
-       
+        }
+
         if (!webSiteAddress || webSiteAddress.length <= 0) {
             alert("WebSite Address is required");
             $('#website').focus();
@@ -91,7 +91,7 @@
             $('#phone').focus();
             return false;
         }
-        
+
         if (!propertyDetails || propertyDetails.length <= 0) {
             alert("Owner is required");
             $('#owner').focus();
@@ -128,13 +128,13 @@
             alert("Checkintime is required");
             $('#checkintime').focus();
             return false;
-        }        
+        }
 
         if (!checkoutTime || checkoutTime.length <= 0) {
             alert("CheckoutTime is required");
             $('#checkouttime').focus();
             return false;
-        }        
+        }
 
         if (!closeOfDayTime || closeOfDayTime.length <= 0) {
             alert("Close of daytime is required");
@@ -185,7 +185,7 @@
         }
         return true;
     }
-    function makeFieldsReadonly(rowObject){
+    function makeFieldsReadonly(rowObject) {
         rowObject.attr('contenteditable', 'false');
         rowObject.css('background-color', 'transparent');
     }
@@ -202,7 +202,7 @@
         $('#create').attr("disabled", shouldDisable);
     }
 
-    function openModal(){
+    function openModal() {
         $('.modal-wrapper').toggleClass('open');
         $('.page-wrapper').toggleClass('blur');
         return false;
@@ -221,7 +221,7 @@
         $('#phone').val(property.Phone);
         $('#fax').val(property.Fax);
         $('#timezone').val(property.TimeZone);
-        $('#ddlCurrency').val(property.CurrencyID);        
+        $('#ddlCurrency').val(property.CurrencyID);
         $('#zipCode').val(property.Zipcode);
         $('#ddlCountryProp').val(property.Country.Id);
         gcm.OnCountryChange($('#ddlCountryProp')[0], $('#ddlState'), $('#ddlCity'));
@@ -237,12 +237,18 @@
             $('#lblLogo')[0].style = '';
         }
         gcm.SetPropertyLogo(property.Id, $('#imgPhoto'));
+
+        //AB 20170923-4
+        if (property.LogoPath != '') {
+            $('#lblLogo').addClass('photo_submit--image');
+            $('#uploadPhoto').prop('disabled', 'disabled');
+        }
     }
 
     $(document).ready(function () {
 
         gcm.GetAllProperty();
-        
+
         $('#checkintime').keydown(function (e) {
             gcm.IsTime(e);
         });
@@ -282,7 +288,7 @@
             gcm.AddProperty(property);
         });
 
-        $("#update").click(function () {            
+        $("#update").click(function () {
             if (!validatePropertyInputs()) return;
             var propertyId = $('#hdnPropertyId').val();
             var property = prepareProperty();
@@ -293,12 +299,12 @@
         });
 
         $("#divProperty").on("click", ".fa-minus-circle", function () {
-            if (confirm("Are you sure you want to delete ?")) {                
+            if (confirm("Are you sure you want to delete ?")) {
                 var propertyId = $(this).closest('tr')[0].id;
                 $(this).closest('tr').remove();
                 if (propertyId <= 0) return;
                 gcm.DeleteProperty(propertyId);
-            }           
+            }
         });
 
         $("#divProperty").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {
