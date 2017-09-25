@@ -2529,7 +2529,13 @@ tbody tr td:last-child {
     margin-bottom: 0;
     width: auto;
 }
-.room-status-section .yellow-c,.room-status-section .red-c,.room-status-section .orange-c {
+.room-status-section span {
+    cursor: pointer;
+}
+.room-status-section span:hover {
+    font-weight: 600;
+}
+.room-status-section .white-c, .room-status-section .yellow-c,.room-status-section .red-c,.room-status-section .orange-c,.room-status-section .blue-c {
     width: 18px;
     height: 18px;
     border-radius: 15px;
@@ -2537,6 +2543,13 @@ tbody tr td:last-child {
     margin: 8px 8px 0 0;
     vertical-align: bottom;
     border: 1px solid #888;
+    cursor: pointer;
+}
+.room-status-section .white-c:hover, .room-status-section .yellow-c:hover, .room-status-section .red-c:hover, .room-status-section .orange-c:hover, .room-status-section .blue-c:hover {
+    border: 1px solid #dadada;
+}
+.room-status-section .white-c {
+    background: #fff;
 }
 .room-status-section .yellow-c {
     background: #FFFF00;
@@ -2550,7 +2563,9 @@ tbody tr td:last-child {
 .room-status-section .blue-c {
     background: #8abff5;
 }
-
+.room-status-section b {
+    padding-left: 17px;
+}
 .data-mgmt-section {
     padding: .35em 1em .25em;
     margin: 10px 2px;
