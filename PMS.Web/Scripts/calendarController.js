@@ -362,49 +362,43 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                 var room = data[i].RoomBookings[j].Room;
                 var guest = data[i].RoomBookings[j].Guest;
 
-                //AB 20170903-2
-                if (room && room.RoomStatus && room.RoomStatus.Name && $.trim(citeria.toLowerCase()).length > 0 && $.trim(room.RoomStatus.Name.toLowerCase()).indexOf($.trim(citeria.toLowerCase())) >= 0) {
-                    // check if room already added 
-                    if (response.Rooms && response.Rooms.length > 0) {
-                        var found = false;
-                        for (var k = 0; k < response.Rooms.length; k++) {
-                            if (parseInt(data[i].RoomBookings[j].Room.Id) !== parseInt(response.Rooms[k].Id)) continue;
-                            found = true;
-                            break;
+                if ($.trim(citeria.toLowerCase()).length > 0) {
+                    if ($.trim(citeria.toLowerCase()) === "clean") {
+                        if (room && room.RoomStatus && room.RoomStatus.Name === undefined) {
+                            pushRoom(response, data, i, j);
+                            continue;
                         }
-                        if (!found) {
-                            response.Rooms.push(data[i].RoomBookings[j].Room);
-                        }
-
                     } else {
-                        response.Rooms.push(data[i].RoomBookings[j].Room);
+                        if (room && room.RoomStatus && room.RoomStatus.Name && ($.trim(room.RoomStatus.Name.toLowerCase())) == ($.trim(citeria.toLowerCase()))) {
+                            pushRoom(response, data, i, j);
+                            continue;
+                        }
                     }
+                }
+                else {
+                    pushRoom(response, data, i, j);
                     continue;
                 }
-                //AB 20170903-2
-                //if (guest && guest.Id > 0 &&
-                //    ($.trim(guest.FirstName.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0
-                //    || $.trim(guest.LastName.toLowerCase()).indexOf($.trim(searchvalue.toLowerCase())) >= 0)) {
-
-                //    if (response.Rooms && response.Rooms.length > 0) {
-                //        var found = false;
-                //        // check if room already added 
-                //        for (var k = 0; k < response.Rooms.length; k++) {
-                //            if (parseInt(data[i].RoomBookings[j].Room.Id) !== parseInt(response.Rooms[k].Id)) continue;
-                //            found = true;
-                //            break;
-                //        }
-                //        if (!found) {
-                //            response.Rooms.push(data[i].RoomBookings[j].Room);
-                //        }
-                //    } else {
-                //        response.Rooms.push(data[i].RoomBookings[j].Room);
-                //    }
-                //    continue;
-                //}
             }
         }
         return response.Rooms;
+    }
+
+    function pushRoom(response, data, i, j) {
+        if (response.Rooms && response.Rooms.length > 0) {
+            var found = false;
+            for (var k = 0; k < response.Rooms.length; k++) {
+                if (parseInt(data[i].RoomBookings[j].Room.Id) !== parseInt(response.Rooms[k].Id)) continue;
+                found = true;
+                break;
+            }
+            if (!found) {
+                response.Rooms.push(data[i].RoomBookings[j].Room);
+            }
+
+        } else {
+            response.Rooms.push(data[i].RoomBookings[j].Room);
+        }
     }
 
     function applyRoomFilter(data) {
