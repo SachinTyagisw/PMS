@@ -146,11 +146,11 @@
         <fieldset class="room-status-section">
             <legend>Room Status:</legend>
             <ul>
-                <li><span ng-click="" ><b class="white-c"></b>All</span></li>
-                <li><span ng-click="" ><b class="blue-c"></b>Clean</span></li>
+                <li><span ng-click="filterRoomData('clean')" ><b class="blue-c"></b>Clean</span></li>
                 <li><span ng-click="filterRoomData('dirty')" ><b class="yellow-c"></b>Dirty</span></li>
                 <li><span ng-click="filterRoomData('outoforder')" ><b class="red-c"></b>Out of Order</span></li>
                 <li><span ng-click="filterRoomData('Maintenance')" ><b class="orange-c"></b>Maintenance</span></li>
+                <li><span ng-click="filterRoomData('')" ><b class="white-c"></b>All</span></li>
             </ul>
         </fieldset>
     </div>
