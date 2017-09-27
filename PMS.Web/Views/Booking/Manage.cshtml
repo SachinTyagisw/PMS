@@ -102,9 +102,10 @@
 
             for (var i = 0; i < divBookingCount; i++) {
                 var booking = {};
-                booking.Id = divBooking[i].cells[1].innerText;
+                booking.Id = divBooking[i].cells[0].innerText;
                 booking.PropertyId = propertyId;
-                booking.Status = divBooking[i].cells[5].innerText;;
+                var statusSelector = '#ddlStatus' + booking.Id;
+                booking.Status = $(statusSelector).val() === "1" ? true : false;
                 //booking.CreatedBy = createdBy;
                 //booking.CreatedOn = createdOn;
 
@@ -116,7 +117,7 @@
             });
 
             //call UpdateBookingStatus api
-            //gcm.UpdateBookingStatus(bookingStatusRequestDto);
+            gcm.UpdateBookingStatus(bookingStatusRequestDto);
         });
 
         $("#btnSearch").click(function () {
@@ -176,7 +177,7 @@
                 var bookingStatusRequestDto = {};
                 bookingStatusRequestDto.BookingStatus = [];
                 var booking = {};
-                var status = parseInt($(thisRow)[9].children[0].value);
+                var status = parseInt($(thisRow)[9].children[0].value) > 0 ? true : false;
                 booking.Status = status;
                 booking.Id = bookingId;
                 booking.PropertyId = propertyId;
