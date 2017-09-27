@@ -6,6 +6,10 @@
     var gcm = window.GuestCheckinManager;
     var statusVal = 1;
 
+    function getCreatedBy() {
+        return window.PmsSession.GetItem("username");
+    }
+
     function OnStatusChange(ddlStatus) {
         statusVal = ddlStatus.value;        
     }
@@ -85,6 +89,36 @@
         gcm.FillRoomTypeData($('#ddlRoomType'), $('#ddlGlobalProperty').val());
         gcm.FillPaymentMode($('#ddlPaymentMode'), $('#ddlGlobalProperty').val());
 
+        $("#btnSave").click(function () {
+            var propertyId = $('#ddlGlobalProperty').val();
+            var divBooking = $("#divBooking table tbody tr");
+            var divBookingCount = divBooking ? divBooking.length : 0;
+            if (divBookingCount <= 0 || propertyId <= 0) return;
+
+            var createdBy = getCreatedBy();
+            var createdOn = gcm.GetCurrentDate();
+            var bookingStatusRequestDto = {};
+            bookingStatusRequestDto.BookingStatus = [];
+
+            for (var i = 0; i < divBookingCount; i++) {
+                var booking = {};
+                booking.Id = divBooking[i].cells[1].innerText;
+                booking.PropertyId = propertyId;
+                booking.Status = divBooking[i].cells[5].innerText;;
+                //booking.CreatedBy = createdBy;
+                //booking.CreatedOn = createdOn;
+
+                bookingStatusRequestDto.BookingStatus.push(booking);
+            }
+
+            Notifications.SubscribeActive("on-booking-status-success", function (sender, args) {
+                searchBooking();
+            });
+
+            //call UpdateBookingStatus api
+            //gcm.UpdateBookingStatus(bookingStatusRequestDto);
+        });
+
         $("#btnSearch").click(function () {
             searchBooking();
         });
@@ -140,14 +174,17 @@
 
             } else if (editOn == true) {
                 var bookingStatusRequestDto = {};
+                bookingStatusRequestDto.BookingStatus = [];
+                var booking = {};
                 var status = parseInt($(thisRow)[9].children[0].value);
-                bookingStatusRequestDto.Status = status;
-                bookingStatusRequestDto.BookingId = bookingId;
-                bookingStatusRequestDto.PropertyId = propertyId;                
+                booking.Status = status;
+                booking.Id = bookingId;
+                booking.PropertyId = propertyId;
                 gcm.OnGridEdit(editOn, $(thisRow), $(this));
                 Notifications.SubscribeActive("on-booking-status-success", function (sender, args) {
                     searchBooking();
                 });
+                bookingStatusRequestDto.BookingStatus.push(booking);
                 gcm.UpdateBookingStatus(bookingStatusRequestDto);
             }
         });
@@ -248,6 +285,7 @@
                                     <div class="form-group">
                                         <button id="btnSearch" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button">Search</button>
                                         <button id="btnExport" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button">Export</button>                                    
+                                        <button id="btnSave" type="button" class="btn btn-primary m-t-15 btn-side btn-search-line">Save All</button>
                                     </div>
                                 </div>
                             </div>

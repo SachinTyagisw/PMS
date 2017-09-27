@@ -421,9 +421,9 @@ namespace PMS.Resources.Logic
             return response;
         }
 
-        public bool UpdateStatus(UpdateStatusRequestDto request)
+        public bool UpdateStatus(List<PmsEntity.Booking> request)
         {
-            return DalFactory.UpdateStatus(request.BookingId, request.Status, request.PropertyId);
+            return DalFactory.UpdateStatus(request);
         }
 
         public bool DeleteBooking(int bookingId)

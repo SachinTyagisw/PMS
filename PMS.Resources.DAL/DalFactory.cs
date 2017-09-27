@@ -1847,39 +1847,44 @@ namespace PMS.Resources.DAL
             return bookings;
         }
 
-        public bool UpdateStatus(int bookingId, bool status, int propertyId)
+        public bool UpdateStatus(List<PmsEntity.Booking> booking)
         {
+            //TODO: temp code till new SP is ready for bulk insertion
             var isUpdated = false;
-            if (bookingId <= 0) return isUpdated;
-
-            var booking = new DAL.Booking
+            foreach (var b in booking)
             {
-                CreatedOn = DateTime.Now,
-                IsActive = status,
-                ID = bookingId,
-                LastUpdatedOn = DateTime.Now,
-                PropertyID = propertyId
-            };
+                isUpdated = false;
+                var bookingId = b.Id;
+                if (bookingId <= 0) return isUpdated;
 
-            using (var pmsContext = new PmsEntities())
-            {
-                pmsContext.Entry(booking).State = System.Data.Entity.EntityState.Modified;
-                pmsContext.Entry(booking).Property(x => x.CheckinTime).IsModified = false;
-                pmsContext.Entry(booking).Property(x => x.CheckoutTime).IsModified = false;
-                pmsContext.Entry(booking).Property(x => x.CreatedBy).IsModified = false;
-                pmsContext.Entry(booking).Property(x => x.CreatedOn).IsModified = false;
-                pmsContext.Entry(booking).Property(x => x.GuestRemarks).IsModified = false;
-                pmsContext.Entry(booking).Property(x => x.HOURSTOSTAY).IsModified = false;
-                pmsContext.Entry(booking).Property(x => x.ISHOURLYCHECKIN).IsModified = false;
-                pmsContext.Entry(booking).Property(x => x.Status).IsModified = false;
-                pmsContext.Entry(booking).Property(x => x.NoOfAdult).IsModified = false;
-                pmsContext.Entry(booking).Property(x => x.NoOfChild).IsModified = false;
-                pmsContext.Entry(booking).Property(x => x.GuestRemarks).IsModified = false;
-                pmsContext.Entry(booking).Property(x => x.TransactionRemarks).IsModified = false;
-                var result = pmsContext.SaveChanges();
-                isUpdated = result == 1 ? true : false;
+                var dalBooking = new DAL.Booking
+                {
+                    CreatedOn = DateTime.Now,
+                    IsActive = Convert.ToBoolean(b.Status),
+                    ID = bookingId,
+                    LastUpdatedOn = DateTime.Now,
+                    PropertyID = b.PropertyId
+                };
+
+                using (var pmsContext = new PmsEntities())
+                {
+                    pmsContext.Entry(dalBooking).State = System.Data.Entity.EntityState.Modified;
+                    pmsContext.Entry(dalBooking).Property(x => x.CheckinTime).IsModified = false;
+                    pmsContext.Entry(dalBooking).Property(x => x.CheckoutTime).IsModified = false;
+                    pmsContext.Entry(dalBooking).Property(x => x.CreatedBy).IsModified = false;
+                    pmsContext.Entry(dalBooking).Property(x => x.CreatedOn).IsModified = false;
+                    pmsContext.Entry(dalBooking).Property(x => x.GuestRemarks).IsModified = false;
+                    pmsContext.Entry(dalBooking).Property(x => x.HOURSTOSTAY).IsModified = false;
+                    pmsContext.Entry(dalBooking).Property(x => x.ISHOURLYCHECKIN).IsModified = false;
+                    pmsContext.Entry(dalBooking).Property(x => x.Status).IsModified = false;
+                    pmsContext.Entry(dalBooking).Property(x => x.NoOfAdult).IsModified = false;
+                    pmsContext.Entry(dalBooking).Property(x => x.NoOfChild).IsModified = false;
+                    pmsContext.Entry(dalBooking).Property(x => x.GuestRemarks).IsModified = false;
+                    pmsContext.Entry(dalBooking).Property(x => x.TransactionRemarks).IsModified = false;
+                    var result = pmsContext.SaveChanges();
+                    isUpdated = result == 1 ? true : false;
+                }
             }
-
             return isUpdated;
         }
 

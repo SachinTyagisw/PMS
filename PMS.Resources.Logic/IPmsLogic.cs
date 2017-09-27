@@ -92,7 +92,7 @@ namespace PMS.Resources.Logic
         bool UpdateRoomRate(List<PmsEntity.Rate> rates);
         bool DeleteRoomRate(int rateId);
         BookingTransactionResponseDto GetBookingTransaction(BookingTransactionRequestDto request);
-        bool UpdateStatus(UpdateStatusRequestDto request);
+        bool UpdateStatus(List<PmsEntity.Booking> request);
         bool DeleteBooking(int bookingId);
     }
 }

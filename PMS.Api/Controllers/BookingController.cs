@@ -113,10 +113,10 @@ namespace PMS.Api.Controllers
         [HttpPut, ActionName("UpdateStatus")]
         public PmsResponseDto UpdateStatus(UpdateStatusRequestDto request)
         {
-            if (request == null || request.BookingId <= 0) throw new PmsException("Update status call for booking failed.");
+            if (request == null || request.BookingStatus == null || request.BookingStatus.Count <= 0) throw new PmsException("Update status call for booking failed.");
 
             var response = new PmsResponseDto();
-            if (_iPmsLogic.UpdateStatus(request))
+            if (_iPmsLogic.UpdateStatus(request.BookingStatus))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Booking status updated successfully.";

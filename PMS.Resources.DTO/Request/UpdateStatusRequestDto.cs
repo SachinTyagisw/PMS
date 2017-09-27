@@ -11,10 +11,6 @@ namespace PMS.Resources.DTO.Request
     public class UpdateStatusRequestDto
     {
         [DataMember]
-        public int BookingId { get; set; }
-        [DataMember]
-        public bool Status { get; set; }
-        [DataMember]
-        public int PropertyId { get; set; }
+        public List<Booking> BookingStatus { get; set; }
     }
 }
