@@ -1769,13 +1769,13 @@ namespace PMS.Resources.DAL
             return isDeleted;
         }
 
-        public List<PmsEntity.Booking> GetBookingTransaction(DateTime? startDate, DateTime? endDate, string guestName, string roomType, decimal? amountPaid, string paymentMode, bool? transactionStatus, string propertyId, out List<BookingSummary> bookingSummary)
+        public List<PmsEntity.Booking> GetBookingTransaction(DateTime? startDate, DateTime? endDate, string guestName, string roomType, decimal? minAmountPaid, decimal? maxAmountPaid, string paymentMode, bool? transactionStatus, string propertyId, out List<BookingSummary> bookingSummary)
         {
             var bookings = new List<PmsEntity.Booking>();
             bookingSummary = new List<BookingSummary>();
             using (var pmsContext = new PmsEntities())
             {
-                var resultSet = pmsContext.GetTransactionData(startDate, endDate, guestName, roomType, amountPaid, paymentMode, transactionStatus, propertyId).ToList();
+                var resultSet = pmsContext.GetTransactionData(startDate, endDate, guestName, roomType, minAmountPaid, paymentMode, transactionStatus, propertyId).ToList();
                 if (resultSet == null || resultSet.Count <= 0) return bookings;
                 foreach (var result in resultSet)
                 {

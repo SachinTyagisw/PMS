@@ -65,7 +65,8 @@
         var roomType = $("#ddlRoomType option:selected").text();
         var roomTypeId = $("#ddlRoomType").val();
         var guestName = $('#guestName').val();
-        var amountPaid = $('#amountPaid').val();
+        var minAmountPaid = $('#minAmountPaid').val();
+        var maxAmountPaid = $('#maxAmountPaid').val();
         var dtRange = $('#dtRange').val();
         var paymentMode = $("#ddlPaymentMode option:selected").text();
         var paymentTypeId = $("#ddlPaymentMode").val();
@@ -78,7 +79,8 @@
         bookingTransactionRequestDto.GuestName = guestName && guestName.trim() !== '' ? guestName : null;
         bookingTransactionRequestDto.RoomType = roomTypeId && roomTypeId !== '-1' ? roomType : null;
         bookingTransactionRequestDto.PaymentMode = paymentTypeId != "-1" ? paymentMode : null;
-        bookingTransactionRequestDto.AmountPaid = amountPaid && amountPaid.trim() !== '' ? AmountPaid : null;
+        bookingTransactionRequestDto.MinAmountPaid = minAmountPaid && minAmountPaid.trim() !== '' ? minAmountPaid : null;
+        bookingTransactionRequestDto.MaxAmountPaid = maxAmountPaid && maxAmountPaid.trim() !== '' ? maxAmountPaid : null;
         bookingTransactionRequestDto.TransactionStatus = status != "-1" ? parseInt(status) : null;
         bookingTransactionRequestDto.PropertyId = propertyId && propertyId != '-1' ? parseInt(propertyId) : null;
         gcm.GetBookingTransaction(bookingTransactionRequestDto);
@@ -255,13 +257,23 @@
                                 </div>
                                 <div class="col-lg-2 p-r-0">
                                     <div class="form-group">
-                                        <label>Amount Paid</label>
+                                        <label>Min Amount Paid</label>
                                         <div class="form-group">
-                                            <input id="amountPaid" type="text" class="form-control" name="example-input-normal">
+                                            <input id="minAmountPaid" type="text" class="form-control" name="example-input-normal">
                                         </div>
 
                                     </div>
                                 </div>
+                                <div class="col-lg-2 p-r-0">
+                                    <div class="form-group">
+                                        <label>Max Amount Paid</label>
+                                        <div class="form-group">
+                                            <input id="maxAmountPaid" type="text" class="form-control" name="example-input-normal">
+                                        </div>
+
+                                    </div>
+                                </div>
+
                             </div>
                             <div class="row" style="">
                                 <div class="col-lg-2 p-r-0 p-t-5">
