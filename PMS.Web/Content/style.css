@@ -707,6 +707,8 @@ a.dt-button.active:not(.disabled) {
 
 #invoice-bot button {
   width: auto;
+  border: 1px solid #dadada;
+  background: #000;
 }
 .header-icon {
   font-size: 18px;
@@ -3998,7 +4000,7 @@ textarea.form-control {
   z-index: 99999;
   bottom: 0;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(97, 119, 138, 0.8);
   font-size: 12px;
   font-family: Arial, sans-serif;
   font-weight: normal;
@@ -4017,6 +4019,8 @@ textarea.form-control {
 }
 .footer-nav > div input {
   padding: 3px 10px;
+  border: 1px solid #dadada;
+  background: #000;
 }
 .ti-angle-down {
   padding: 0 4px;
