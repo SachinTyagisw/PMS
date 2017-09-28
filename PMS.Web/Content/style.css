@@ -3626,7 +3626,7 @@ font-size: 2em;
 position: relative;
 display: table-cell;
 width: 60px;
-height: 36px;
+height: 28px;
 text-align: center;
 vertical-align: middle;
 font-size:20px;
@@ -5008,6 +5008,9 @@ outline: 0;
     /*max-height: calc(74vh - 20px);
     overflow-x: hidden;*/
     /*max-width: 1242px;*/
+}
+.table.tableContents tbody tr:nth-child(even) {
+    background: rgba(169, 200, 218, 0.56);
 }
 main.tab-main + .table-data {
     margin: 0 2rem;
