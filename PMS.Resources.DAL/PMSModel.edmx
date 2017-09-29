@@ -462,14 +462,9 @@
           <Property Name="LastUpdatedOn" Type="datetime" />
           <Property Name="TaxName" Type="nvarchar" MaxLength="200" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'PMS.dbo.Users' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="ID" />
-            <PropertyRef Name="UserName" />
-            <PropertyRef Name="Password" />
-            <PropertyRef Name="IsActive" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="200" Nullable="false" />
@@ -486,8 +481,6 @@ warning 6002: The table/view 'PMS.dbo.Users' does not have a primary key defined
           <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
           <Property Name="LastUpdatedOn" Type="datetime" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'PMS.dbo.UsersPropertyMapping' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="UsersPropertyMapping">
           <Key>
             <PropertyRef Name="ID" />
@@ -1016,36 +1009,8 @@ warning 6002: The table/view 'PMS.dbo.UsersPropertyMapping' does not have a prim
           <EntitySet Name="RoomType" EntityType="Self.RoomType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="State" EntityType="Self.State" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Taxes" EntityType="Self.Taxes" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Users" EntityType="Self.Users" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Users].[ID] AS [ID], 
-    [Users].[UserName] AS [UserName], 
-    [Users].[Password] AS [Password], 
-    [Users].[FirstName] AS [FirstName], 
-    [Users].[LastName] AS [LastName], 
-    [Users].[MobileNumber] AS [MobileNumber], 
-    [Users].[EmailAddress] AS [EmailAddress], 
-    [Users].[DOB] AS [DOB], 
-    [Users].[Gender] AS [Gender], 
-    [Users].[IsActive] AS [IsActive], 
-    [Users].[CreatedBy] AS [CreatedBy], 
-    [Users].[CreatedOn] AS [CreatedOn], 
-    [Users].[LastUpdatedBy] AS [LastUpdatedBy], 
-    [Users].[LastUpdatedOn] AS [LastUpdatedOn]
-    FROM [dbo].[Users] AS [Users]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="UsersPropertyMapping" EntityType="Self.UsersPropertyMapping" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [UsersPropertyMapping].[ID] AS [ID], 
-    [UsersPropertyMapping].[UserID] AS [UserID], 
-    [UsersPropertyMapping].[PropertyID] AS [PropertyID], 
-    [UsersPropertyMapping].[IsActive] AS [IsActive], 
-    [UsersPropertyMapping].[CreatedBy] AS [CreatedBy], 
-    [UsersPropertyMapping].[CreatedOn] AS [CreatedOn], 
-    [UsersPropertyMapping].[LastUpdatedBy] AS [LastUpdatedBy], 
-    [UsersPropertyMapping].[LastUpdatedOn] AS [LastUpdatedOn]
-    FROM [dbo].[UsersPropertyMapping] AS [UsersPropertyMapping]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UsersPropertyMapping" EntityType="Self.UsersPropertyMapping" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Additiona__Booki__6442E2C9" Association="Self.FK__Additiona__Booki__6442E2C9">
             <End Role="Booking" EntitySet="Booking" />
             <End Role="AdditionalGuests" EntitySet="AdditionalGuests" />
@@ -1710,9 +1675,6 @@ warning 6002: The table/view 'PMS.dbo.UsersPropertyMapping' does not have a prim
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="ID" />
-            <PropertyRef Name="UserName" />
-            <PropertyRef Name="Password" />
-            <PropertyRef Name="IsActive" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />

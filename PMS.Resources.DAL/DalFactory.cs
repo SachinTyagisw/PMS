@@ -216,7 +216,7 @@ namespace PMS.Resources.DAL
             }
             return isDeleted;
         }
-        public List<PmsEntity.Property> GetAllProperty()
+        public List<PmsEntity.Property> GetAllProperty(int userId)
         {
             var properties = new List<PmsEntity.Property>();
 
@@ -229,44 +229,46 @@ namespace PMS.Resources.DAL
                              (x, ct) => new {x, ct})
                              .Join(pmsContext.States, s => s.x.p.State, k => k.ID,
                              (s, k) => new {s, k}).Where(l => l.s.x.p.IsActive)
+                             .Join(pmsContext.UsersPropertyMappings , r => r.s.x.p.ID, n => n.PropertyID,
+                             (r, n) => new { r, n }).Where(l => l.n.UserID.Equals(userId))
                              .Select(m => new PmsEntity.Property
                              {
-                                CreatedOn = m.s.x.p.CreatedOn,
-                                PropertyName = m.s.x.p.PropertyName,
-                                CreatedBy = m.s.x.p.CreatedBy,
-                                LastUpdatedBy = m.s.x.p.LastUpdatedBy,
-                                LastUpdatedOn = m.s.x.p.LastUpdatedOn,
-                                Id = m.s.x.p.ID,
-                                IsActive = m.s.x.p.IsActive,
-                                CheckinTime = m.s.x.p.CheckinTime,
-                                CheckoutTime = m.s.x.p.CheckoutTime,
-                                CloseOfDayTime = m.s.x.p.CloseOfDayTime,
-                                Zipcode = m.s.x.p.Zipcode,
+                                CreatedOn = m.r.s.x.p.CreatedOn,
+                                PropertyName = m.r.s.x.p.PropertyName,
+                                CreatedBy = m.r.s.x.p.CreatedBy,
+                                LastUpdatedBy = m.r.s.x.p.LastUpdatedBy,
+                                LastUpdatedOn = m.r.s.x.p.LastUpdatedOn,
+                                Id = m.r.s.x.p.ID,
+                                IsActive = m.r.s.x.p.IsActive,
+                                CheckinTime = m.r.s.x.p.CheckinTime,
+                                CheckoutTime = m.r.s.x.p.CheckoutTime,
+                                CloseOfDayTime = m.r.s.x.p.CloseOfDayTime,
+                                Zipcode = m.r.s.x.p.Zipcode,
                                 Country = new PmsEntity.Country
                                 {
-                                    Name = m.s.x.c.Name,
-                                    Id = m.s.x.c.ID
+                                    Name = m.r.s.x.c.Name,
+                                    Id = m.r.s.x.c.ID
                                 },
                                 City = new PmsEntity.City
                                 {
-                                    Name = m.s.ct.Name,
-                                    Id = m.s.ct.ID
+                                    Name = m.r.s.ct.Name,
+                                    Id = m.r.s.ct.ID
                                 },
                                 State = new PmsEntity.State
                                 {
-                                    Name = m.k.Name,
-                                    Id = m.k.ID
+                                    Name = m.r.k.Name,
+                                    Id = m.r.k.ID
                                 },
-                                Fax = m.s.x.p.Fax,
-                                FullAddress = m.s.x.p.FullAddress,
-                                LogoPath = m.s.x.p.LogoPath,
-                                Phone = m.s.x.p.Phone,
-                                PropertyCode = m.s.x.p.PropertyCode,
-                                PropertyDetails = m.s.x.p.PropertyDetails,
-                                SecondaryName = m.s.x.p.SecondaryName,
-                                TimeZone = m.s.x.p.TimeZone,
-                                WebSiteAddress = m.s.x.p.WebSiteAddress,
-                                CurrencyID = m.s.x.p.CurrencyId
+                                Fax = m.r.s.x.p.Fax,
+                                FullAddress = m.r.s.x.p.FullAddress,
+                                LogoPath = m.r.s.x.p.LogoPath,
+                                Phone = m.r.s.x.p.Phone,
+                                PropertyCode = m.r.s.x.p.PropertyCode,
+                                PropertyDetails = m.r.s.x.p.PropertyDetails,
+                                SecondaryName = m.r.s.x.p.SecondaryName,
+                                TimeZone = m.r.s.x.p.TimeZone,
+                                WebSiteAddress = m.r.s.x.p.WebSiteAddress,
+                                CurrencyID = m.r.s.x.p.CurrencyId
                              }).ToList();
             }
             return properties;
@@ -1908,6 +1910,36 @@ namespace PMS.Resources.DAL
             }
             return isDeleted;
         }
+
+        public PmsEntity.User GetValidUser(string loginName, string password)
+        {
+            PmsEntity.User user = null;
+            //new PmsEntity.User()
+            using (var pmsContext = new PmsEntities())
+            {
+                user = pmsContext.Users.ToList().Where(x => x.IsActive && x.UserName.Equals(loginName) && x.Password.Equals(password))
+                                                .Select(m => new PmsEntity.User
+                                                 {
+                                                     CreatedOn = m.CreatedOn,
+                                                     CreatedBy = m.CreatedBy,
+                                                     DOB = m.DOB,
+                                                     EmailAddress = m.EmailAddress,
+                                                     FirstName = m.FirstName,
+                                                     Gender = m.Gender,
+                                                     ID = m.ID,
+                                                     IsActive = m.IsActive,
+                                                     LastName = m.LastName,
+                                                     LastUpdatedBy = m.LastUpdatedBy,
+                                                     LastUpdatedOn = m.LastUpdatedOn,
+                                                     MobileNumber = m.MobileNumber,
+                                                     Password = m.Password,
+                                                     UserName = m.UserName
+                                                 }).FirstOrDefault();
+            }
+
+            return user;
+        }
+
         private bool SaveRoomRateIndDb(int propertyId, string rateXml)
         {
             using (var pmsContext = new PmsEntities())

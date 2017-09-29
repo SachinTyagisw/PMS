@@ -30,13 +30,15 @@ namespace PMS.Web.Controllers
         public ActionResult Checkin()
         {
             if (Session["username"] == null) return RedirectToAction("Login", "Account");
-            var pmsUser = Convert.ToString(Session["username"]);
-            if (string.IsNullOrWhiteSpace(pmsUser))
+            var pmsUserName = Convert.ToString(Session["username"]);
+            var pmsUserId = Session["userid"];
+            if (string.IsNullOrWhiteSpace(pmsUserName))
             {
                 return RedirectToAction("Login", "Account");
             }
 
-            ViewBag.UserName = pmsUser;
+            ViewBag.UserName = pmsUserName;
+            ViewBag.UserId = pmsUserId;
             return View();
         }
 

@@ -18,7 +18,7 @@ namespace PMS.Resources.Logic
         int AddProperty(PmsEntity.Property property);
         bool UpdateProperty(PmsEntity.Property property);
         bool DeleteProperty(int propertyId);
-        List<PmsEntity.Property> GetAllProperty();
+        List<PmsEntity.Property> GetAllProperty(int userId);
         int AddPropertyType(PmsEntity.PropertyType propertyType);
         bool UpdatePropertyType(PmsEntity.PropertyType propertyType);
         bool DeletePropertyType(int propertyTypeId);

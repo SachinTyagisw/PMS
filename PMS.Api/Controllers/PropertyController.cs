@@ -73,7 +73,7 @@ namespace PMS.Api.Controllers
 
             config.Routes.MapHttpRoute(
               "GetAllProperty",
-              "api/v1/Property/GetAllProperty",
+              "api/v1/Property/GetAllProperty/{userId}",
               new { controller = "Property", action = "GetAllProperty" }
               );
 
@@ -145,12 +145,12 @@ namespace PMS.Api.Controllers
         }
 
         [HttpGet, ActionName("GetAllProperty")]
-        public GetPropertyResponseDto GetAllProperty()
+        public GetPropertyResponseDto GetAllProperty(int userId = 0)
         {
             var response = new GetPropertyResponseDto();
             if (!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
             {
-                response.Properties = _iPmsLogic.GetAllProperty();
+                response.Properties = _iPmsLogic.GetAllProperty(userId);
             }
             else
             {

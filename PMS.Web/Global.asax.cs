@@ -1,4 +1,5 @@
-﻿using PMS.Resources.Logging.Logger;
+﻿using PMS.Resources.DAL;
+using PMS.Resources.Logging.Logger;
 using PMS.Resources.Services;
 using PMS.Resources.Services.Interface;
 using System;
@@ -14,6 +15,7 @@ namespace PMS.Web
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+        private IDalFactory _iDalFactory = null;
         private IPmsService _iPMSService = null;
         protected void Application_Start()
         {
@@ -32,6 +34,13 @@ namespace PMS.Web
             {
                 HttpContext.Current.Application["PMSService"] = _iPMSService;
             }
+
+            _iDalFactory = new DalFactory();
+            if (_iDalFactory != null && HttpContext.Current.Application["DalFactory"] == null)
+            {
+                HttpContext.Current.Application["DalFactory"] = _iDalFactory;
+            }
+
             logService.LogInformationFormat("PMS web call stop :" + DateTime.Now);
         }
 

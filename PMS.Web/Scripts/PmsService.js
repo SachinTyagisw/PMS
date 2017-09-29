@@ -263,7 +263,7 @@
         };
 
         this.GetAllProperty = function (args) {
-            makeAjaxRequestGet(args, "GetAllProperty", this, "api/v1/Property/GetAllProperty");
+            makeAjaxRequestGet(args, "GetAllProperty", this, "api/v1/Property/GetAllProperty/" + args.userId);
         };
         
         this.GetBookingById = function (args) {

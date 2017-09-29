@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using PMS.Web.Models;
 using System.Collections.Generic;
+using PMS.Resources.DAL;
 
 namespace PMS.Web.Controllers
 {
@@ -26,6 +27,14 @@ namespace PMS.Web.Controllers
         };
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+
+        private IDalFactory DalFactory
+        {
+            get
+            {
+                return (IDalFactory)HttpContext.Application["DalFactory"];
+            }
+        }
 
         public AccountController()
         {
@@ -79,18 +88,16 @@ namespace PMS.Web.Controllers
         {
             //todo: validate user credentials from db
             var validuser = false;
-            foreach (var user in userDict)
+            var user = DalFactory.GetValidUser(model.Email, model.Password);
+            if(user != null && !string.IsNullOrWhiteSpace(user.UserName))
             {
-                if(user.Key.Equals(model.Email) && user.Value.Equals(model.Password))
-                {
-                    validuser = true;
-                    break;
-                }
+                validuser = true;
             }
 
             if (validuser)
             {
-                Session["username"] = model.Email;
+                Session["username"] = user.UserName;
+                Session["userid"] = user.ID;
                 return RedirectToAction("Checkin", "Booking");
             }
             else

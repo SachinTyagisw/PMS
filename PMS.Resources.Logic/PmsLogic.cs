@@ -69,9 +69,9 @@ namespace PMS.Resources.Logic
         {
             return DalFactory.DeleteProperty(propertyId);
         }
-        public List<PmsEntity.Property> GetAllProperty()
+        public List<PmsEntity.Property> GetAllProperty(int userId)
         {
-            return DalFactory.GetAllProperty();
+            return DalFactory.GetAllProperty(userId);
         }
         public int AddPropertyType(PmsEntity.PropertyType propertyType)
         {

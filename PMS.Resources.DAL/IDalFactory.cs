@@ -16,7 +16,7 @@ namespace PMS.Resources.DAL
         int AddProperty(PmsEntity.Property property);
         bool UpdateProperty(PmsEntity.Property property);
         bool DeleteProperty(int propertyId);
-        List<PmsEntity.Property> GetAllProperty();
+        List<PmsEntity.Property> GetAllProperty(int userId);
         int AddPropertyType(PmsEntity.PropertyType propertyType);
         bool UpdatePropertyType(PmsEntity.PropertyType propertyType);
         bool DeletePropertyType(int propertyTypeId);
@@ -96,6 +96,7 @@ namespace PMS.Resources.DAL
         List<PmsEntity.Booking> GetBookingTransaction(DateTime? startDate, DateTime? endDate, string guestName, string roomType, decimal? minAmountPaid, decimal? maxAmountPaid, string paymentMode, bool? transactionStatus, string propertyId, out List<BookingSummary> bookingSummary);
         bool UpdateStatus(List<PmsEntity.Booking> booking);
         bool DeleteBooking(int bookingId);
+        PmsEntity.User GetValidUser(string loginName, string password);
     }
 }
 

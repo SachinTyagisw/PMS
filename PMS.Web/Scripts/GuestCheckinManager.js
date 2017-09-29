@@ -969,8 +969,10 @@
             $('#ddlIdType').attr("disabled", shouldMakeReadOnly);
         },
 
-        GetAllProperty: function() {
-            // get property by api calling  
+        GetAllProperty: function () {
+            var userId = window.PmsSession.GetItem("userid");
+            args.userId = userId > 0 ? userId : 0;
+            // get property by api calling 
             pmsService.GetAllProperty(args);
         },
 
