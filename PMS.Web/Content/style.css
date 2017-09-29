@@ -2580,11 +2580,11 @@ tbody tr td:last-child {
     margin-bottom: 0;
     width: 100px;
 }
-.data-mgmt-section #btnSearch.btn-search-line {
+/*.data-mgmt-section #btnSearch.btn-search-line {
     padding: 5px 15px;
     width: 45%;
     float: left;
-}
+}*/
 .data-mgmt-section + .table-data {
     width: 100%;
 }
@@ -2596,7 +2596,7 @@ tbody tr td:last-child {
 }
 #btnExport.btn-search-line {
     padding: 5px 8px;
-    width: 45%;
+    /*width: 45%;*/
     float: left;
     margin-left: 10px;
 }
@@ -5015,7 +5015,13 @@ outline: 0;
 .table.tableContents tbody tr:nth-child(odd) {
     background: rgba(255, 255, 255, 1);
 }
-
+.data-mgmt-section .btn-set button{
+    width: auto;
+    padding: 5px 15px;
+    margin-left: 10px;
+    width: auto;
+    float: left;
+}
 main.tab-main + .table-data {
     margin: 0 2rem;
     width: 96.8%;
