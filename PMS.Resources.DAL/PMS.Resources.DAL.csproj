@@ -96,6 +96,9 @@
     <Compile Include="GETINVOICEDETAILS_Result.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="GetPropertiesByUser_Result.cs">
+      <DependentUpon>PmsModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="GetRoomRates_Result.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
@@ -183,6 +186,12 @@
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Tax.cs">
+      <DependentUpon>PmsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="User.cs">
+      <DependentUpon>PmsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UsersPropertyMapping.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>

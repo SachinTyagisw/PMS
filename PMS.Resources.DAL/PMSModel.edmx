@@ -462,6 +462,45 @@
           <Property Name="LastUpdatedOn" Type="datetime" />
           <Property Name="TaxName" Type="nvarchar" MaxLength="200" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'PMS.dbo.Users' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="Password" />
+            <PropertyRef Name="IsActive" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="200" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="200" />
+          <Property Name="MobileNumber" Type="bigint" />
+          <Property Name="EmailAddress" Type="nvarchar" MaxLength="500" />
+          <Property Name="DOB" Type="date" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="10" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="LastUpdatedOn" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'PMS.dbo.UsersPropertyMapping' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="UsersPropertyMapping">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="PropertyID" Type="int" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="LastUpdatedOn" Type="datetime" />
+        </EntityType>
         <Association Name="FK__Additiona__Booki__6442E2C9">
           <End Role="Booking" Type="Self.Booking" Multiplicity="0..1" />
           <End Role="AdditionalGuests" Type="Self.AdditionalGuests" Multiplicity="*" />
@@ -898,6 +937,9 @@
           <Parameter Name="ISHOURLY" Type="bit" Mode="In" />
           <Parameter Name="RoomID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetPropertiesByUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserName" Type="nvarchar(max)" Mode="In" />
+        </Function>
         <Function Name="GetRoomRates" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PropertyId" Type="int" Mode="In" />
         </Function>
@@ -911,7 +953,8 @@
           <Parameter Name="EndDate" Type="datetime" Mode="In" />
           <Parameter Name="CustomerName" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="RoomType" Type="nvarchar(max)" Mode="In" />
-          <Parameter Name="AmountPaid" Type="money" Mode="In" />
+          <Parameter Name="MinAmountPaid" Type="money" Mode="In" />
+          <Parameter Name="MaxAmountPaid" Type="money" Mode="In" />
           <Parameter Name="paymentmode" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="TransactionStatus" Type="bit" Mode="In" />
           <Parameter Name="PropertyId" Type="nvarchar(max)" Mode="In" />
@@ -973,6 +1016,36 @@
           <EntitySet Name="RoomType" EntityType="Self.RoomType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="State" EntityType="Self.State" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Taxes" EntityType="Self.Taxes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Users].[ID] AS [ID], 
+    [Users].[UserName] AS [UserName], 
+    [Users].[Password] AS [Password], 
+    [Users].[FirstName] AS [FirstName], 
+    [Users].[LastName] AS [LastName], 
+    [Users].[MobileNumber] AS [MobileNumber], 
+    [Users].[EmailAddress] AS [EmailAddress], 
+    [Users].[DOB] AS [DOB], 
+    [Users].[Gender] AS [Gender], 
+    [Users].[IsActive] AS [IsActive], 
+    [Users].[CreatedBy] AS [CreatedBy], 
+    [Users].[CreatedOn] AS [CreatedOn], 
+    [Users].[LastUpdatedBy] AS [LastUpdatedBy], 
+    [Users].[LastUpdatedOn] AS [LastUpdatedOn]
+    FROM [dbo].[Users] AS [Users]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="UsersPropertyMapping" EntityType="Self.UsersPropertyMapping" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [UsersPropertyMapping].[ID] AS [ID], 
+    [UsersPropertyMapping].[UserID] AS [UserID], 
+    [UsersPropertyMapping].[PropertyID] AS [PropertyID], 
+    [UsersPropertyMapping].[IsActive] AS [IsActive], 
+    [UsersPropertyMapping].[CreatedBy] AS [CreatedBy], 
+    [UsersPropertyMapping].[CreatedOn] AS [CreatedOn], 
+    [UsersPropertyMapping].[LastUpdatedBy] AS [LastUpdatedBy], 
+    [UsersPropertyMapping].[LastUpdatedOn] AS [LastUpdatedOn]
+    FROM [dbo].[UsersPropertyMapping] AS [UsersPropertyMapping]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK__Additiona__Booki__6442E2C9" Association="Self.FK__Additiona__Booki__6442E2C9">
             <End Role="Booking" EntitySet="Booking" />
             <End Role="AdditionalGuests" EntitySet="AdditionalGuests" />
@@ -1634,6 +1707,41 @@
           <Property Name="TaxName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Property" Relationship="Self.FK__Taxes__PropertyI__382F5661" FromRole="Taxes" ToRole="Property" />
         </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="Password" />
+            <PropertyRef Name="IsActive" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MobileNumber" Type="Int64" />
+          <Property Name="EmailAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DOB" Type="DateTime" Precision="0" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="UsersPropertyMapping">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="PropertyID" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
         <Association Name="FK__Additiona__Booki__6442E2C9">
           <End Role="Booking" Type="Self.Booking" Multiplicity="0..1" />
           <End Role="AdditionalGuests" Type="Self.AdditionalGuest" Multiplicity="*" />
@@ -2060,6 +2168,8 @@
           <EntitySet Name="RoomTypes" EntityType="Self.RoomType" />
           <EntitySet Name="States" EntityType="Self.State" />
           <EntitySet Name="Taxes" EntityType="Self.Tax" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="UsersPropertyMappings" EntityType="Self.UsersPropertyMapping" />
           <AssociationSet Name="FK__Additiona__Booki__6442E2C9" Association="Self.FK__Additiona__Booki__6442E2C9">
             <End Role="Booking" EntitySet="Bookings" />
             <End Role="AdditionalGuests" EntitySet="AdditionalGuests" />
@@ -2223,6 +2333,9 @@
             <Parameter Name="ISHOURLY" Mode="In" Type="Boolean" />
             <Parameter Name="RoomID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="GetPropertiesByUser" ReturnType="Collection(PmsModel.GetPropertiesByUser_Result)">
+            <Parameter Name="UserName" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="GetRoomRates" ReturnType="Collection(PmsModel.GetRoomRates_Result)">
             <Parameter Name="PropertyId" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -2236,7 +2349,8 @@
             <Parameter Name="EndDate" Mode="In" Type="DateTime" />
             <Parameter Name="CustomerName" Mode="In" Type="String" />
             <Parameter Name="RoomType" Mode="In" Type="String" />
-            <Parameter Name="AmountPaid" Mode="In" Type="Decimal" />
+            <Parameter Name="MinAmountPaid" Mode="In" Type="Decimal" />
+            <Parameter Name="MaxAmountPaid" Mode="In" Type="Decimal" />
             <Parameter Name="paymentmode" Mode="In" Type="String" />
             <Parameter Name="TransactionStatus" Mode="In" Type="Boolean" />
             <Parameter Name="PropertyId" Mode="In" Type="String" />
@@ -2392,6 +2506,26 @@
           <Property Type="Decimal" Name="TaxAmount" Nullable="true" Precision="7" Scale="2" />
           <Property Type="Decimal" Name="TaxValue" Nullable="true" Precision="18" Scale="0" />
           <Property Type="Boolean" Name="IsConsidered" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetPropertiesByUser_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="PropertyDetails" Nullable="true" />
+          <Property Type="String" Name="PropertyName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="SecondaryName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="PropertyCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FullAddress" Nullable="true" />
+          <Property Type="String" Name="Phone" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Fax" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="LogoPath" Nullable="true" />
+          <Property Type="String" Name="WebSiteAddress" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="TimeZone" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="CurrencyID" Nullable="true" />
+          <Property Type="Time" Name="CheckinTime" Nullable="true" />
+          <Property Type="Time" Name="CheckoutTime" Nullable="true" />
+          <Property Type="Time" Name="CloseOfDayTime" Nullable="true" />
+          <Property Type="Int32" Name="State" Nullable="true" />
+          <Property Type="Int32" Name="Country" Nullable="true" />
+          <Property Type="Int32" Name="City" Nullable="true" />
         </ComplexType>
         <ComplexType Name="GetRoomRates_Result">
           <Property Type="Int32" Name="ID" Nullable="true" />
@@ -2932,6 +3066,40 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="PmsModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UsersPropertyMappings">
+            <EntityTypeMapping TypeName="PmsModel.UsersPropertyMapping">
+              <MappingFragment StoreEntitySet="UsersPropertyMapping">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="GETALLBOOKINGS" FunctionName="PmsModel.Store.GETALLBOOKINGS">
             <ResultMapping>
               <ComplexTypeMapping TypeName="PmsModel.GETALLBOOKINGS_Result">
@@ -3077,6 +3245,30 @@
                 <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
                 <ScalarProperty Name="TaxValue" ColumnName="TaxValue" />
                 <ScalarProperty Name="IsConsidered" ColumnName="IsConsidered" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetPropertiesByUser" FunctionName="PmsModel.Store.GetPropertiesByUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PmsModel.GetPropertiesByUser_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PropertyDetails" ColumnName="PropertyDetails" />
+                <ScalarProperty Name="PropertyName" ColumnName="PropertyName" />
+                <ScalarProperty Name="SecondaryName" ColumnName="SecondaryName" />
+                <ScalarProperty Name="PropertyCode" ColumnName="PropertyCode" />
+                <ScalarProperty Name="FullAddress" ColumnName="FullAddress" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="LogoPath" ColumnName="LogoPath" />
+                <ScalarProperty Name="WebSiteAddress" ColumnName="WebSiteAddress" />
+                <ScalarProperty Name="TimeZone" ColumnName="TimeZone" />
+                <ScalarProperty Name="CurrencyID" ColumnName="CurrencyID" />
+                <ScalarProperty Name="CheckinTime" ColumnName="CheckinTime" />
+                <ScalarProperty Name="CheckoutTime" ColumnName="CheckoutTime" />
+                <ScalarProperty Name="CloseOfDayTime" ColumnName="CloseOfDayTime" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="City" ColumnName="City" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

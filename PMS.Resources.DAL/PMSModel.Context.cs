@@ -56,6 +56,8 @@ namespace PMS.Resources.DAL
         public virtual DbSet<RoomType> RoomTypes { get; set; }
         public virtual DbSet<State> States { get; set; }
         public virtual DbSet<Tax> Taxes { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UsersPropertyMapping> UsersPropertyMappings { get; set; }
     
         public virtual ObjectResult<GETALLBOOKINGS_Result> GETALLBOOKINGS(Nullable<int> pROPERTYID, Nullable<System.DateTime> cHECKINTIME, Nullable<System.DateTime> cHECKOUTDATE)
         {
@@ -167,6 +169,15 @@ namespace PMS.Resources.DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GETINVOICEDETAILS_Result>("GETINVOICEDETAILS", iNVOICEIDParameter, pROPERTYIDParameter, rOOMTYPEIDParameter, rATETYPEIDParameter, nOOFHOURSParameter, nOOFDAYSParameter, iSHOURLYParameter, roomIDParameter);
         }
     
+        public virtual ObjectResult<GetPropertiesByUser_Result> GetPropertiesByUser(string userName)
+        {
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetPropertiesByUser_Result>("GetPropertiesByUser", userNameParameter);
+        }
+    
         public virtual ObjectResult<GetRoomRates_Result> GetRoomRates(Nullable<int> propertyId)
         {
             var propertyIdParameter = propertyId.HasValue ?
@@ -193,7 +204,7 @@ namespace PMS.Resources.DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GETROOMSTATUS_Result>("GETROOMSTATUS", pROPERTYIDParameter, cHECKINTIMEParameter, cHECKOUTDATEParameter);
         }
     
-        public virtual ObjectResult<GetTransactionData_Result> GetTransactionData(Nullable<System.DateTime> startDate, Nullable<System.DateTime> endDate, string customerName, string roomType, Nullable<decimal> amountPaid, string paymentmode, Nullable<bool> transactionStatus, string propertyId)
+        public virtual ObjectResult<GetTransactionData_Result> GetTransactionData(Nullable<System.DateTime> startDate, Nullable<System.DateTime> endDate, string customerName, string roomType, Nullable<decimal> minAmountPaid, Nullable<decimal> maxAmountPaid, string paymentmode, Nullable<bool> transactionStatus, string propertyId)
         {
             var startDateParameter = startDate.HasValue ?
                 new ObjectParameter("StartDate", startDate) :
@@ -211,9 +222,13 @@ namespace PMS.Resources.DAL
                 new ObjectParameter("RoomType", roomType) :
                 new ObjectParameter("RoomType", typeof(string));
     
-            var amountPaidParameter = amountPaid.HasValue ?
-                new ObjectParameter("AmountPaid", amountPaid) :
-                new ObjectParameter("AmountPaid", typeof(decimal));
+            var minAmountPaidParameter = minAmountPaid.HasValue ?
+                new ObjectParameter("MinAmountPaid", minAmountPaid) :
+                new ObjectParameter("MinAmountPaid", typeof(decimal));
+    
+            var maxAmountPaidParameter = maxAmountPaid.HasValue ?
+                new ObjectParameter("MaxAmountPaid", maxAmountPaid) :
+                new ObjectParameter("MaxAmountPaid", typeof(decimal));
     
             var paymentmodeParameter = paymentmode != null ?
                 new ObjectParameter("paymentmode", paymentmode) :
@@ -227,7 +242,7 @@ namespace PMS.Resources.DAL
                 new ObjectParameter("PropertyId", propertyId) :
                 new ObjectParameter("PropertyId", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetTransactionData_Result>("GetTransactionData", startDateParameter, endDateParameter, customerNameParameter, roomTypeParameter, amountPaidParameter, paymentmodeParameter, transactionStatusParameter, propertyIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetTransactionData_Result>("GetTransactionData", startDateParameter, endDateParameter, customerNameParameter, roomTypeParameter, minAmountPaidParameter, maxAmountPaidParameter, paymentmodeParameter, transactionStatusParameter, propertyIdParameter);
         }
     
         public virtual ObjectResult<InsertBooking_Result> InsertBooking(Nullable<int> propertyID, string bookingXML, ObjectParameter bOOKINGID, ObjectParameter gUESTID, ObjectParameter rOOMBOOKINGID)
