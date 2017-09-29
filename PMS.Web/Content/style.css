@@ -2519,6 +2519,15 @@ tbody tr td:last-child {
 .table .badge {
   text-transform: uppercase;
 }
+.col-lg-1.p-r-0.dash {
+    position: relative;
+}
+.col-lg-1.p-r-0.dash:before {
+    content: "-";
+    position: absolute;
+    left: 5px;
+    top: 20px;
+}
 .room-status-section {
     padding: .35em .625em .75em;
     margin: 10px 2px;
