@@ -312,6 +312,8 @@
     #printarea .row .col-sm-6 b {
         display: inline-block;
         width: 90px;
+        text-align: right;
+        margin-right: 10px;
     }
 
     #printarea table tr td.partial {
@@ -420,10 +422,10 @@
             </div>
             <p class="msg">Thanks for your staying at <b>${PropertyName}</b>, <b>${PropertyCity}</b>. We look forward to welcoming you back soon.</p>
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-3" style="border-top: 2px solid #ddd;">
                     <p>Guest Signature</p>
                 </div>
-                <div class="col-sm-9">
+                <div class="col-sm-9" style="border-top: 2px solid #ddd;">
                     <p>I have received the good and/or services in the amount shown hereon.  I agree that my liability for this bill is not waived and agree to be held personally liable in the even that the indicated person, company, or associate fails to pay for any part or the full amount of these charges.  If a credit card charge, I further agree to perform the obligation set forth in the cardholder's agreement with the issuer.</p>
                 </div>
             </div>
@@ -525,6 +527,12 @@
         #printarea b {
             letter-spacing: 1px;
         }
+        #printarea .row .col-sm-6 b {
+            display: inline-block;
+            width: 100px;
+            text-align: right;
+            margin-right: 4px;
+        }
     </style>
     <div id="print">
         <div id="printarea" class="ql-align-right">
@@ -542,17 +550,15 @@
             </div>
             <div class="row">
                 <div class="col-sm-6" style="border-top: 1px solid #ddd; padding: 10px 0;">
-                    <p>${GuestName}</p>
-                    <p>${Address}</p>
-                    <p><span>${City}</span>,<span>${State}</span>,<span>${Zip}</span></p>
-                    <p>ID#</p>
-                    <p>Vehicle Make, Model #, License Plate</p>
-                    <p style="margin-top: 30px;"><b># Guests:</b> ${GuestCount} <b># Nights:</b> ${StayDays}</p>
+                    <p><b>Guest Name:</b> ${GuestName}</p>
+                    <p><b>Address: </b> ${Address}</p>
+                    <p><span><b>City:</b> ${City}</span>, <span><b>State:</b> ${State}</span>, <span><b>Zip:</b> ${Zip}</span></p>
+                    <p><b>ID#:</b></p>
+                    <p><span><b># Guests:</b> ${GuestCount}</span>, <span><b># Nights:</b> ${StayDays}</span></p>
                     <p><b>Check-In:</b> ${Arrival}</p>
                     <p><b>Check-Out:</b> ${Departure}</p>
                 </div>
                 <div class="col-sm-6" style="border-top: 1px solid #ddd; padding: 10px 0;">
-                    <p style="margin-bottom: 20px;"><b>Room Rate:</b> ${Rate}</p>
                     <table class="table">
                         <tbody>
                             <tr>
@@ -600,23 +606,25 @@
                     <p>STRICTLY NO REFUNDS</p>
                     <p style="border-top: 1px solid #ddd; margin: 10px 0;">ADVANCED PAYMENT REQUIRED FOR ALL RENTALS</p>
                 </div>
+
+            </div>
+
+            <div class="row" style="margin-top: 60px; margin-bottom: 30px;">
+                <div class="col-sm-6" style="border-top: 2px solid #ddd; margin: 10px 10px 10px 0;">
+                    <p>Guest Signature</p>
+                </div>
+                <div class="col-sm-6" style="border-top: 2px solid #ddd; margin: 10px 0;">
+                    <p>Date</p>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 30px; float: left; width: 100%;">
                 <div class="col-sm-12">
                     <p><b style="border-bottom:1px solid #888;">NOTICE TO GUESTS:</b></p>
                 </div>
-            </div>
-
-
-            <p class="msg">
-                This property is privately owned and operated and the management reserves the right to refuse service<br />
-                to anyone and will not be responsible for accidents or injuries to any guests or loss of money, jewelry,<br /> or valuables of any kind.
-            </p>
-            <div class="row">
-                <div class="col-sm-6" style="border-top: 1px solid #ddd; margin: 10px 10px 10px 0;">
-                    <p>Guest Signature</p>
-                </div>
-                <div class="col-sm-6" style="border-top: 1px solid #ddd; margin: 10px 0;">
-                    <p>Date</p>
-                </div>
+                <p class="msg">
+                    This property is privately owned and operated and the management reserves the right to refuse service<br />
+                    to anyone and will not be responsible for accidents or injuries to any guests or loss of money, jewelry,<br /> or valuables of any kind.
+                </p>
             </div>
         </div>
     </div>
