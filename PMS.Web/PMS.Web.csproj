@@ -175,6 +175,7 @@
     <Compile Include="Controllers\ExtraChargeController.cs" />
     <Compile Include="Controllers\FloorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HouseKeepingController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PropertyController.cs" />
@@ -468,6 +469,7 @@
     <Content Include="Views\Rate\Manage.cshtml" />
     <Content Include="Views\Booking\Manage.cshtml" />
     <Content Include="Views\Room\Manage.cshtml" />
+    <Content Include="Views\HouseKeeping\DashBoard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

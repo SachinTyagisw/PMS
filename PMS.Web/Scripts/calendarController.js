@@ -2,6 +2,7 @@
 //AB 20170903-2 For room status filter
 
 angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$timeout', 'redirectionSvc', 'messageModalSvc', 'calendarSvc', function ($scope, $log, $timeout, redirectionSvc, messageModalSvc, calendarSvc) {
+    var isRoomDashBoard = (window.location.pathname.toLowerCase().indexOf('room/dashboard') >= 0)
     var dpBookingResponseDto = [];
     var dpRoomsResponseDto = [];
     var pmsSession = window.PmsSession;
@@ -173,15 +174,15 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         useEventBoxes: "Never",
         eventDeleteHandling: "Disabled",
         eventClickHandling: "Disabled",
-        eventMoveHandling: "Update",
+        eventMoveHandling: isRoomDashBoard ? "Update" : "Disabled",
         eventResizeHandling: "Disabled",
         allowEventOverlap: false,
         eventDoubleClickHandling: "Enabled",
         eventHoverHandling: "Bubble",
-        timeRangeSelectingStartEndEnabled: true,
-        eventResizingStartEndEnabled: true,
-        eventMovingStartEndEnabled: true,
-        dynamicEventRenderingCacheSweeping: true,
+        timeRangeSelectingStartEndEnabled: isRoomDashBoard,
+        eventResizingStartEndEnabled: isRoomDashBoard,
+        eventMovingStartEndEnabled: isRoomDashBoard,
+        dynamicEventRenderingCacheSweeping: isRoomDashBoard,
         showCurrentTime: true,
         //separators : [{color:"Red", location:"2017-07-30T08:00:00"}],
         onBeforeResHeaderRender: function (args) {
@@ -189,14 +190,16 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
             //args.e.Areas.Add(new Area().Width(17).Bottom(0).Right(0).Top(0).CssClass("resource_action_menu").Html("<div><div></div></div>").JavaScript("alert(e.Value);"));
         },
         onEventDoubleClick: function (args) {
-            if (args.e.data && args.e.data.tags && args.e.data.tags.status
-                && (args.e.data.tags.status.toLowerCase() === "booked"
-                || args.e.data.tags.status.toLowerCase() === "reserved")
-                || args.e.data.tags.status.toLowerCase() === "checkout") {
-                pmsSession.RemoveItem("bookingId");
-                pmsSession.SetItem("bookingId", args.e.id());
-                redirectionSvc.RedirectToCheckin();
-                return;
+            if (isRoomDashBoard) {
+                if (args.e.data && args.e.data.tags && args.e.data.tags.status
+                    && (args.e.data.tags.status.toLowerCase() === "booked"
+                    || args.e.data.tags.status.toLowerCase() === "reserved")
+                    || args.e.data.tags.status.toLowerCase() === "checkout") {
+                    pmsSession.RemoveItem("bookingId");
+                    pmsSession.SetItem("bookingId", args.e.id());
+                    redirectionSvc.RedirectToCheckin();
+                    return;
+                }
             }
             //var modal = new DayPilot.Modal();
             //modal.top = 150;
@@ -215,25 +218,27 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
             }
         },
         onEventMoved: function (args) {
-            var bookingRequestDto = {};
-            bookingRequestDto.Booking = {};
-            var booking = {};
-            var roomBookings = [];
-            var roomBooking = {};
+            if (isRoomDashBoard) {
+                var bookingRequestDto = {};
+                bookingRequestDto.Booking = {};
+                var booking = {};
+                var roomBookings = [];
+                var roomBooking = {};
 
-            booking.Id = args.e.id();
-            booking.CheckinTime = args.newStart.value;
-            booking.CheckoutTime = args.newEnd.value;
+                booking.Id = args.e.id();
+                booking.CheckinTime = args.newStart.value;
+                booking.CheckoutTime = args.newEnd.value;
 
-            roomBooking.RoomId = args.newResource;
-            roomBookings.push(roomBooking);
+                roomBooking.RoomId = args.newResource;
+                roomBookings.push(roomBooking);
 
-            booking.RoomBookings = roomBookings;
-            bookingRequestDto.Booking = booking;
+                booking.RoomBookings = roomBookings;
+                bookingRequestDto.Booking = booking;
 
-            calendarSvc.UpdateBooking(bookingRequestDto).then(onUpdateBookingSuccess, onUpdateBookingError)['finally'](function () {
-                messageModalSvc.CloseMessage(messageModal);
-            });
+                calendarSvc.UpdateBooking(bookingRequestDto).then(onUpdateBookingSuccess, onUpdateBookingError)['finally'](function () {
+                    messageModalSvc.CloseMessage(messageModal);
+                });
+            }
             //$("#msg").html(args.start + " " + args.end + " " + args.resource);
         },
         //onEventMove: function (args) {
@@ -296,21 +301,23 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         },
 
         onTimeRangeSelected: function (args) {
-            var params = {
-                start: new DayPilot.Date(args.start).toString("MM/dd/yyyy h:mm tt"),
-                end: new DayPilot.Date(args.end).toString("MM/dd/yyyy h:mm tt"),
-                resource: args.resource,
-                scale: $scope.scale
-            };
+            if (isRoomDashBoard) {
+                var params = {
+                    start: new DayPilot.Date(args.start).toString("MM/dd/yyyy h:mm tt"),
+                    end: new DayPilot.Date(args.end).toString("MM/dd/yyyy h:mm tt"),
+                    resource: args.resource,
+                    scale: $scope.scale
+                };
 
-            pmsSession.RemoveItem("dtcheckin");
-            pmsSession.RemoveItem("dtcheckout");
-            pmsSession.SetItem("dtcheckin", params.start);
-            pmsSession.SetItem("roomid", args.resource);
-            pmsSession.SetItem("dtcheckout", params.end);
-            var roomTypeId = getRoomTypeId($scope.Bookings, args.resource);
-            pmsSession.SetItem("roomtypeid", roomTypeId);
-            redirectionSvc.RedirectToCheckin();
+                pmsSession.RemoveItem("dtcheckin");
+                pmsSession.RemoveItem("dtcheckout");
+                pmsSession.SetItem("dtcheckin", params.start);
+                pmsSession.SetItem("roomid", args.resource);
+                pmsSession.SetItem("dtcheckout", params.end);
+                var roomTypeId = getRoomTypeId($scope.Bookings, args.resource);
+                pmsSession.SetItem("roomtypeid", roomTypeId);
+                redirectionSvc.RedirectToCheckin();
+            }
         },
     };
 
@@ -401,6 +408,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
         }
     }
 
+
     function applyRoomFilter(data) {
         var response = {};
         response.Rooms = [];
@@ -476,8 +484,13 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                 dpBookingData.start = booking.CheckinTime;
                 dpBookingData.end = booking.CheckoutTime;
                 dpBookingData.resource = data[j].Room.Id;
-                if (data[j].Guest.FirstName) {
-                    dpBookingData.text = "Booked for : " + data[j].Guest.LastName + ", " + data[j].Guest.FirstName;
+                if (isRoomDashBoard) {
+                    if (data[j].Guest.FirstName) {
+                        dpBookingData.text = "Booked for : " + data[j].Guest.LastName + ", " + data[j].Guest.FirstName;
+                    }
+                }
+                else {
+                    dpBookingData.text = "Occupied";
                 }
                 //if (data[j].Guest.FirstName && data[j].Room && data[j].Room.RoomStatus && data[j].Room.RoomStatus.Name
                 //    && (data[j].Room.RoomStatus.Name.toLowerCase() === "booked"

@@ -1,0 +1,232 @@
+﻿
+@{
+    ViewBag.Title = "DashBoard";
+}
+
+
+<style>
+    .selectedDate {
+    font-weight: bold;
+    background-color: #337ab7;
+    color: #ffffff;
+    }
+    .scheduler_default_event, .scheduler_default_event_inner, .scheduler_default_event_bar_inner {
+    background-color: #1cec9f !important;
+    background: #1cec9f !important;
+    }
+</style>
+
+<div class="content-wrap">
+    <div class="main controls">
+        <div class="container-fluid">
+            <div class="main-content">
+                <div class="row">
+                    <ng-view></ng-view>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type='text/javascript'>
+    var gcm = window.GuestCheckinManager;
+    var pmsSession = window.PmsSession;
+    function OnPropertyChange() {
+        if (window.location.pathname.toLowerCase().indexOf('dashboard') < 0) return;
+        gcm.ClearExistingSessionStorage();
+        pmsSession.RemoveItem("propertyrooms");
+        //set property id on property ddl selection
+        pmsSession.SetItem("propertyid", $('#ddlGlobalProperty').val());
+        gcm.Initialize();
+        //angular.element('#ddlGlobalProperty').scope().init();
+        angular.element('#ddlGlobalProperty').scope().loadEvents(DayPilot.Date.today());
+        //angular.element('#ddlGlobalProperty').scope().update();
+        //angular.element('#ddlGlobalProperty').scope().$apply();
+        window.location.reload(true);
+    }
+
+    //Changes related to the Room Status change from dashboard
+    var openContextMenu = function (e, status) {
+        if (status === "undefined") status = 'clean';
+
+        currentSelectedRoomId = e.id;
+        var pos = getPos(e);
+        $('#dp-contextMenu').show();
+        $("#dp-contextMenu").css({ top: pos.y - 60, left: pos.x - 230 });
+        $('input[name="roomStatus"][value="' + status + '"]').prop('checked', 'checked');
+    };
+
+    $(document).ready(function () {
+        $('body').on('click', 'div.navigator_default_cell_text', function () {
+            $('div.navigator_default_cell_text').removeClass('selectedDate');
+            $(this).addClass('selectedDate');
+        });
+    });
+
+    function getCreatedBy() {
+        return window.PmsSession.GetItem("username");
+    }
+
+    function onchangeContextMenu(status) {
+
+        var updateRoomStatusRequestDto = {};
+        updateRoomStatusRequestDto.Room = {};
+        updateRoomStatusRequestDto.Room.Id = currentSelectedRoomId;
+        updateRoomStatusRequestDto.Room.LastUpdatedOn = gcm.GetCurrentDate();
+        updateRoomStatusRequestDto.Room.LastUpdatedBy = getCreatedBy();
+        updateRoomStatusRequestDto.Room.RoomStatus = {};
+        updateRoomStatusRequestDto.Room.RoomStatus.Name = status === 'clean' ? null : status;
+
+        Notifications.SubscribeActive("on-roomstatus-update-success", function (sender, args) {
+            var colorCode = "";
+            switch (status) {
+                case "dirty": colorCode = "#FFFF00"; break;
+                case "outoforder": colorCode = "#FF0000"; break;
+                case "maintenance": colorCode = "#F39C12"; break;
+                case "clean": colorCode = "#8aBFF5"; break;
+                default: colorCode = "#8aBFF5";
+            }
+            $('img#' + currentSelectedRoomId).parent().parent().css('background', colorCode);
+            $('#dp-contextMenu').hide();
+            pmsSession.RemoveItem("propertyrooms");
+            angular.element('img#' + currentSelectedRoomId).scope().loadEvents(DayPilot.Date.today());
+        });
+
+        gcm.UpdateRoomStatus(updateRoomStatusRequestDto);
+    }
+
+    $(document).mouseup(function (e) {
+        var container = $("#dp-contextMenu");
+
+        // if the target of the click isn't the container nor a descendant of the container
+        if (!container.is(e.target) && container.has(e.target).length === 0) {
+            container.hide();
+        }
+    });
+
+    function getPos(el) {
+        for (var lx = 0, ly = 0;
+             el != null;
+             lx += el.offsetLeft, ly += el.offsetTop, el = el.offsetParent);
+        return { x: lx, y: ly };
+    }
+
+    var currentSelectedRoomId;
+
+</script>
+
+<script type="text/ng-template" id="Calendar.html">
+    @*<div class="col-lg-12 p-r-0 p-l-0 room-filter">
+        <div class="col-xs-6">
+            Room Filter:
+            <dropdown-multiselect model="selectedRoomTypes"
+                                  options="roomTypes"></dropdown-multiselect>
+        </div>
+        <div class="col-xs-6">
+            Room Status:
+            <dropdown-multiselect model="selectedRoomStatus"
+                                  options="roomStatus"></dropdown-multiselect>
+        </div>
+        <form ng-submit="submit()">
+            <div>
+                <input type="submit" id="submit" value="Apply Filters" />
+            </div>
+        </form>
+    </div>*@
+    @*<select ng-model="roomType" ng-change="changeRoomType()">
+            <option value="-1">Select Room Type</option>
+            <option data-ng-repeat="r in roomTypes" value="{{r.Id}}">{{r.Name}}</option>
+        </select>*@
+    @*<div class="col-lg-12 p-r-0 p-l-0 room-filter">
+        Room Status:
+        <select ng-model="roomStatus" ng-change="changeRoomStatus()">
+            <option value="1">Booked</option>
+            <option value="2">Available</option>
+            <option value="3">Maintenance</option>
+        </select>
+    </div>*@
+    <div class="col-lg-2 cal-left">
+        @*// Uncomment to test the functionality for weekly / monthly
+    <daypilot-navigator id="navigator" daypilot-config="navigatorConfig"></daypilot-navigator>
+        *@
+        <fieldset class="room-status-section">
+            <legend>Room Status:</legend>
+            <ul>
+                <li><span ng-click="filterRoomData('clean')" ><b class="blue-c"></b>Clean</span></li>
+                <li><span ng-click="filterRoomData('dirty')" ><b class="yellow-c"></b>Dirty</span></li>
+                <li><span ng-click="filterRoomData('outoforder')" ><b class="red-c"></b>Out of Order</span></li>
+                <li><span ng-click="filterRoomData('Maintenance')" ><b class="orange-c"></b>Maintenance</span></li>
+                <li><span ng-click="filterRoomData('')" ><b class="white-c"></b>All</span></li>
+            </ul>
+        </fieldset>
+    </div>
+
+    <div class="col-lg-10 p-r-0 p-l-0 cal-right">
+        <div class="tab-section">
+            <div class="col-lg-3 p-r-0 p-l-0 form-group">
+                <input id="searchRoom" type="text" ng-keyup="filterRoom()" placeholder="Search Room..." class="form-control" name="example-input-normal">
+            </div>
+            @* // Uncomment to test the functionality for weekly / monthly
+    <div class="col-lg-9 p-r-0">
+        <div class="c-tabs">
+            <input id="c-tab-8" ng-click="setCalendarView('daily')" name="c-tabs-2" type="radio" checked>
+            <label for="c-tab-8">Daily</label>
+            <input id="c-tab-9" ng-click="setCalendarView('weekly')" name="c-tabs-2" type="radio">
+            <label for="c-tab-9">Weekly</label>
+            <input id="c-tab-10" ng-click="setCalendarView('monthly')" name="c-tabs-2" type="radio">
+            <label for="c-tab-10">Monthly</label>
+        </div>
+    </div>
+            *@
+        </div>
+        @*<daypilot-scheduler id="dp" daypilot-config="config" daypilot-events="events"></daypilot-scheduler>*@
+            <daypilot-scheduler cellwidthspec="Auto" id="scheduler" daypilot-config="schedulerConfig" daypilot-events="events"></daypilot-scheduler>
+        @*<div>
+                New event:
+                <button ng-click="add()">Add</button>
+            </div>
+            <div>
+                First event:
+                <button ng-click="move()">Move</button>
+                <button ng-click="rename()">Rename</button>
+            </div>
+            <div>
+                Object:
+                <button ng-click="message()">Show Message</button>
+            </div>
+            <div>
+                Events array (debug):
+                <div ng-repeat="item in events">
+                    {{item}}
+                </div>
+            </div>*@
+
+        <div id="dp-contextMenu" style="display:none">
+            <label>
+                <input type="radio" class="option-input radio" name="roomStatus" value="outoforder" onchange="onchangeContextMenu('outoforder');" />Out Of Order
+            </label>
+            <label>
+                <input type="radio" class="option-input radio" name="roomStatus" value="dirty" onchange="onchangeContextMenu('dirty');" />Dirty
+            </label>
+            <label>
+                <input type="radio" class="option-input radio" name="roomStatus" value="maintenance" onchange="onchangeContextMenu('maintenance');" />Maintenance
+            </label>
+            <label>
+                <input type="radio" class="option-input radio" name="roomStatus" value="clean" onchange="onchangeContextMenu('clean');" />Clean
+            </label>
+        </div>
+
+    </div>
+
+    <div>
+        <script type="text/ng-template" id="messageModalContent.html">
+            <div class="modal-header">
+                <h3 class="modal-title">{{modalMessage}}</h3>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <span class="loader-img"></span>
+                </div>
+            </div>
+</script>
+    </div>
+</script>
