@@ -71,10 +71,13 @@
                     // call GetRoomByDate api only when roomid doesnt exists in session
                     var roomId = pmsSession.GetItem("roomid");
                     if (!roomId) {
-                        if (roomIdFromDashboard > 0) {
+                        // if user doesnt change the room number manually
+                        if (roomIdFromDashboard > 0 && parseInt($("#roomddl").val()) === roomIdFromDashboard) {
                             pmsSession.SetItem("optroomnumber", $("#roomddl option:selected").text());
-                        }
-                        gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val(), roomIdFromDashboard);
+                            gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val(), roomIdFromDashboard);
+                        } else {
+                            gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val(), -1);
+                        }                        
                     }
                 }
 
@@ -92,10 +95,13 @@
                     // call GetRoomByDate api only when roomid doesnt exists in session
                     var roomId = pmsSession.GetItem("roomid");
                     if (!roomId) {
-                        if (roomIdFromDashboard > 0) {
+                        // if user doesnt change the room number manually
+                        if (roomIdFromDashboard > 0 && parseInt($("#roomddl").val()) === roomIdFromDashboard) {
                             pmsSession.SetItem("optroomnumber", $("#roomddl option:selected").text());
+                            gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val(), roomIdFromDashboard);
+                        } else {
+                            gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val(), -1);
                         }
-                        gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val(), roomIdFromDashboard);
                     }
                 }
             });
