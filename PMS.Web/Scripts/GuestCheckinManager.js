@@ -7,6 +7,7 @@
     var bookingStatus = '';
     var isCheckoutDateModified = false;
     var roomSelectedFromDashBoard = -1;
+    var roomIdFromDashboard = -1;
     var guestCheckinManager = {
 
         PropertySettingResponseDto: {
@@ -150,6 +151,7 @@
 
         BindRoomDdl: function(ddlRoom, roomTypeId, rooms, shouldSkipBookedRoom) {
             var shouldNotifyRoomDashboardEvent = false;
+            var hasSelectedRoomExists = false;
             if (!ddlRoom || !rooms || rooms.length <= 0) return;
             ddlRoom.empty();
             ddlRoom.append(new Option("Select Room", "-1"));
@@ -161,8 +163,23 @@
                     if (parseInt(roomSelectedFromDashBoard) === parseInt(rooms[i].Id)) {
                         shouldNotifyRoomDashboardEvent = true;
                     }
+
+                    if (roomIdFromDashboard > 0 && parseInt(roomIdFromDashboard) === parseInt(rooms[i].Id)) {
+                        hasSelectedRoomExists = true;
+                    }
+
                     ddlRoom.append(new Option(rooms[i].Number, rooms[i].Id));
                 }
+                // selected room id from dashboard available for booking when checkin or checkout date changes
+                if (hasSelectedRoomExists) {
+                    ddlRoom.val(roomIdFromDashboard);
+                }
+                // selected room id from dashboard doesnt available for booking when checkin or checkout date changes
+                if (roomIdFromDashboard > 0 && !hasSelectedRoomExists) {
+                    var optedRoomNumber = pmsSession.GetItem("optroomnumber");
+                    alert("Room number " + optedRoomNumber + " is not available for this booking information");
+                }
+
                 if (window.Notifications) window.Notifications.Notify("on-resume-roomvalue", null, null);
                 if (shouldNotifyRoomDashboardEvent && parseInt(roomSelectedFromDashBoard) > 0) {
                     if (window.Notifications) window.Notifications.Notify("on-sel-room-dashboard", null, null);
@@ -468,8 +485,9 @@
             pmsService.AddBooking(bookingRequestDto);
         },
 
-        GetRoomByDate: function(dtFrom, dtTo) {
+        GetRoomByDate: function (dtFrom, dtTo, roomId) {
             var getRoomByDateRequestDto = {};
+            roomIdFromDashboard = roomId && roomId > 0 ? roomId : -1;
             getRoomByDateRequestDto.CheckinDate = dtFrom;
             getRoomByDateRequestDto.CheckoutDate = dtTo;
             getRoomByDateRequestDto.PropertyId = getPropertyId();

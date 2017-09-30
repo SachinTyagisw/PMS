@@ -6,7 +6,7 @@
         var pmsSession = window.PmsSession;
         var invoiceId = -1;
         var bookingIdFromQp = -1;
-
+        var roomIdFromDashboard = -1;
         function OnPropertyChange() {           
             gcm.ClearExistingSessionStorage();
             gcm.ClearAllFields();
@@ -69,10 +69,13 @@
                 if (gcm.ShouldCallGetRoomApi()) {
                     //pmsSession.RemoveItem("roomdata");
                     // call GetRoomByDate api only when roomid doesnt exists in session
-                    var roomIdFromDashboard = pmsSession.GetItem("roomid");
-                    if (!roomIdFromDashboard) {
-                        gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val());
-                    }                        
+                    var roomId = pmsSession.GetItem("roomid");
+                    if (!roomId) {
+                        if (roomIdFromDashboard > 0) {
+                            pmsSession.SetItem("optroomnumber", $("#roomddl option:selected").text());
+                        }
+                        gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val(), roomIdFromDashboard);
+                    }
                 }
 
                 var chkHours = document.getElementById('hourCheckin');
@@ -87,9 +90,12 @@
                 if (gcm.ShouldCallGetRoomApi()) {
                     //pmsSession.RemoveItem("roomdata");
                     // call GetRoomByDate api only when roomid doesnt exists in session
-                    var roomIdFromDashboard = pmsSession.GetItem("roomid");
-                    if (!roomIdFromDashboard) {
-                        gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val());
+                    var roomId = pmsSession.GetItem("roomid");
+                    if (!roomId) {
+                        if (roomIdFromDashboard > 0) {
+                            pmsSession.SetItem("optroomnumber", $("#roomddl option:selected").text());
+                        }
+                        gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val(), roomIdFromDashboard);
                     }
                 }
             });
@@ -376,6 +382,7 @@
                     if (gcm.ShouldCallGetRoomApi()) {
                         Notifications.SubscribeActive("on-roombydate-get-success-dashboard-roomid", function (sender, args) {
                             var roomId = pmsSession.GetItem("roomid");
+                            roomIdFromDashboard = parseInt(roomId);
                             if (roomId && parseInt(roomId) > 0) {
                                 $("#roomddl").val(roomId);
                                 //gcm.LoadInvoice();
