@@ -216,7 +216,7 @@ namespace PMS.Resources.DAL
             }
             return isDeleted;
         }
-        public List<PmsEntity.Property> GetAllProperty(int userId)
+        public List<PmsEntity.Property> GetAllProperty()
         {
             var properties = new List<PmsEntity.Property>();
 
@@ -230,7 +230,7 @@ namespace PMS.Resources.DAL
                              .Join(pmsContext.States, s => s.x.p.State, k => k.ID,
                              (s, k) => new {s, k}).Where(l => l.s.x.p.IsActive)
                              .Join(pmsContext.UsersPropertyMappings , r => r.s.x.p.ID, n => n.PropertyID,
-                             (r, n) => new { r, n }).Where(l => l.n.UserID.Equals(userId))
+                             (r, n) => new { r, n })
                              .Select(m => new PmsEntity.Property
                              {
                                 CreatedOn = m.r.s.x.p.CreatedOn,
@@ -244,6 +244,7 @@ namespace PMS.Resources.DAL
                                 CheckoutTime = m.r.s.x.p.CheckoutTime,
                                 CloseOfDayTime = m.r.s.x.p.CloseOfDayTime,
                                 Zipcode = m.r.s.x.p.Zipcode,
+                                UserId = m.n.UserID,
                                 Country = new PmsEntity.Country
                                 {
                                     Name = m.r.s.x.c.Name,

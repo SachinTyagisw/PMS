@@ -150,7 +150,7 @@ namespace PMS.Api.Controllers
             var response = new GetPropertyResponseDto();
             if (!AppConfigReaderHelper.AppConfigToBool(AppSettingKeys.MockEnabled))
             {
-                response.Properties = _iPmsLogic.GetAllProperty(userId);
+                return GetPropertyByUserId(userId);
             }
             else
             {
@@ -183,10 +183,10 @@ namespace PMS.Api.Controllers
                 return response;
             }
 
-            var propertyResponseDto = GetAllProperty();
-            if (propertyResponseDto == null || propertyResponseDto.Properties == null || propertyResponseDto.Properties.Count <= 0) return response;
+            var properties = _iPmsLogic.GetAllProperty();
+            if (properties == null || properties.Count <= 0) return response;
 
-            response.Properties = propertyResponseDto.Properties.Where(x => x.UserId.Equals(userId)).ToList();
+            response.Properties = properties.Where(x => x.UserId.Equals(userId)).ToList();
             return response;
         }
     }
