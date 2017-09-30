@@ -277,6 +277,8 @@
     <Content Include="Images\chat-person-add.png" />
     <Content Include="Images\close.png" />
     <Content Include="Images\icons.png" />
+    <Content Include="Images\property.png" />
+    <Content Include="Images\right-arrow-dp.png" />
     <Content Include="Images\summaryload.png" />
     <Content Include="Images\loader.gif" />
     <Content Include="Images\logo.png" />
