@@ -60,6 +60,7 @@
             $('div.navigator_default_cell_text').removeClass('selectedDate');
             $(this).addClass('selectedDate');
         });
+
     });
 
     function getCreatedBy() {
@@ -67,7 +68,7 @@
     }
 
     function onchangeContextMenu(status) {
-
+        debugger;
         var updateRoomStatusRequestDto = {};
         updateRoomStatusRequestDto.Room = {};
         updateRoomStatusRequestDto.Room.Id = currentSelectedRoomId;
@@ -76,7 +77,7 @@
         updateRoomStatusRequestDto.Room.RoomStatus = {};
         updateRoomStatusRequestDto.Room.RoomStatus.Name = status === 'clean' ? null : status;
 
-        Notifications.SubscribeActive("on-roomstatus-update-success", function (sender, args) {
+        Notifications.Subscribe("on-roomstatus-update-success", function (sender, args) {
             var colorCode = "";
             switch (status) {
                 case "dirty": colorCode = "#FFFF00"; break;

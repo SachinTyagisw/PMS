@@ -7,7 +7,8 @@
         var invoiceId = -1;
         var bookingIdFromQp = -1;
         var roomIdFromDashboard = -1;
-        function OnPropertyChange() {           
+
+        function OnPropertyChange() {
             gcm.ClearExistingSessionStorage();
             gcm.ClearAllFields();
             //set property id on property ddl selection
@@ -21,7 +22,7 @@
             // call api only when expand event is fire
             if ($('#collapse1').attr('aria-expanded') != 'false') return;
             gcm.GetGuestHistory();
-        }      
+        }
 
         function validateNumeric(e) {
             gcm.IsNumeric(e);
@@ -31,7 +32,7 @@
             gcm.IsNumeric(e);
         });
 
-        
+
         function OnChkTaxIncludeChange(e, htmlElement) {
             gcm.CalculateInvoice();
         }
@@ -42,8 +43,8 @@
             }
             gcm.CalculateInvoice(isElementDiscountAmt);
         }
-       
-        $(function () {            
+
+        $(function () {
 
             $("#btnAddGuest").click(function (e) {
                 var cloneHtmlElement = $('#divAddDetails').find('#divGuestDetailsClone:first').clone(true);
@@ -77,7 +78,7 @@
                             gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val(), roomIdFromDashboard);
                         } else {
                             gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val(), -1);
-                        }                        
+                        }
                     }
                 }
 
@@ -106,6 +107,7 @@
                 }
             });
         });
+
 
 
         function setCheckoutHours() {
@@ -142,7 +144,7 @@
                 }
                 var mins = dt.getMinutes() < 10 ? "0" + dt.getMinutes() : dt.getMinutes();
                 var time = hrs + ":" + mins + " " + am;
-                //checkOutDate.val(dateOutput + ' ' + time);            
+                //checkOutDate.val(dateOutput + ' ' + time);
                 checkOutDate.value = dateOutput + ' ' + time;
             }
         }
@@ -157,7 +159,7 @@
             //var hrsToAdd = checkoutHrs > 0 ? checkoutHrs : 0;
             //var chkHours = document.getElementById('hourCheckin');
             //var dt = new Date($('#dateFrom').val());
-            
+
             //if (!dt.toLocaleString().includes("Invalid") && (hrsToAdd != '-1') && (chkHours.checked == true))
             //{
             //    //dt.setHours(dt.getHours() + hoursToAdd);
@@ -167,7 +169,7 @@
             //    var dateOutput = (month < 10 ? '0' : '') + month + '/' +
             //                     (day < 10 ? '0' : '') + day + '/' +
             //                      dt.getFullYear();
-                
+
             //    var currentHrs = dt.getHours();
             //    var am = null;
             //    var hrs = null;
@@ -185,16 +187,16 @@
             //    }
             //    var mins = dt.getMinutes() < 10 ? "0" + dt.getMinutes() : dt.getMinutes();
             //    var time = hrs + ":" + mins + " " + am;
-            //    //checkOutDate.val(dateOutput + ' ' + time);            
-            //    checkOutDate.value = dateOutput + ' ' + time; 
+            //    //checkOutDate.val(dateOutput + ' ' + time);
+            //    checkOutDate.value = dateOutput + ' ' + time;
             //}
             var selectedHr = $("#hoursComboBox option:selected").text();
-            // filter only hourly rate type  
+            // filter only hourly rate type
             gcm.FilterRateType($('#rateTypeDdl'), selectedHr);
             shouldCallLoadInvoiceApi();
-         }
-        
-        function shouldCallLoadInvoiceApi(){
+        }
+
+        function shouldCallLoadInvoiceApi() {
             if (gcm.ShouldShowLoadInvoiceWarning()) {
                 gcm.ToggleInvoiceWarning($('#invoiceWarning'), true);
             }
@@ -214,12 +216,11 @@
             var dtStart = new Date($('#dateFrom').val());
             var dtEnd = new Date($('#dateTo').val());
 
-            if (!dtStart.toLocaleString().includes("Invalid") && !dtEnd.toLocaleString().includes("Invalid"))
-            {
+            if (!dtStart.toLocaleString().includes("Invalid") && !dtEnd.toLocaleString().includes("Invalid")) {
                 //alert(getDays(dtStart, dtEnd));
             }
         }
-        
+
         function OnCountryChange(ddlCountry, ddlState, ddlCity) {
             gcm.OnCountryChange(ddlCountry, ddlState, ddlCity);
         }
@@ -235,7 +236,7 @@
         function OnRoomChange() {
             shouldCallLoadInvoiceApi();
         }
-        
+
         function OnRoomTypeChange() {
             var ddlRoom = $('#roomddl');
             var roomTypeId = $('#roomTypeDdl').val();
@@ -247,11 +248,11 @@
                     //pmsSession.RemoveItem("roomdata");
                     gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val());
                 }
-                shouldCallLoadInvoiceApi();                
+                shouldCallLoadInvoiceApi();
             }
         }
 
-        function previewImage(input , imgControl) {
+        function previewImage(input, imgControl) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
                 reader.onload = function (e) {
@@ -271,15 +272,15 @@
             if (data.GuestMappings[0] && data.GuestMappings[0].IdType && data.GuestMappings[0].IdType.ID) {
                 $("#ddlIdType").val(data.GuestMappings[0].IdType.ID);
             }
-            
+
             if (data.GuestMappings[0] && data.GuestMappings[0].IdExpiryDate) {
-                $('#idExpiry').val(data.GuestMappings[0].IdExpiryDate.replace('T', ' '));
+                $('#idExpiry').val(gcm.formatAMPM(data.GuestMappings[0].IdExpiryDate.replace('T', ' ')));
             }
             $('#ddlCountry').val(data.Country.Id);
             if (data.GuestMappings[0] && data.GuestMappings[0].IdIssueCountryID) {
                 $('#ddlIdCountry').val(data.GuestMappings[0].IdIssueCountryID);
                 gcm.BindStateDdl(data.GuestMappings[0].IdIssueCountryID, $('#ddlIdState'));
-                
+
             }
             if (data.GuestMappings[0] && data.GuestMappings[0].IdIssueStateID) {
                 $('#ddlIdState').val(data.GuestMappings[0].IdIssueStateID);
@@ -326,9 +327,9 @@
             window.GuestCheckinManager.BookingDto.GuestId = null;
             // clear guest history if guest id is not present
             gcm.AutoCollapseGuestHistory();
-        }        
+        }
 
-        function toggleHourlyCbBaseOnTimeDiff(timeDiffInHours) {      
+        function toggleHourlyCbBaseOnTimeDiff(timeDiffInHours) {
 
             timeDiffInHours = timeDiffInHours + "-hr";
             $('#hourCheckin').attr("checked", "checked");
@@ -338,7 +339,7 @@
                     $(this).attr('selected', 'selected');
                 }
             });
-            
+
             var selectedHr = $("#hoursComboBox option:selected").text();
             if (selectedHr == "Select Hrs") {
                 $('#hourCheckin').removeAttr('checked');
@@ -365,21 +366,21 @@
             if (pmsSession.GetItem("bookingId")) {
                 $('#btnCheckin').attr("disabled", false);
                 $('#btnSave').attr("disabled", true);
-                $('#btnCheckout').attr("disabled", false);                
-                var bookingId = pmsSession.GetItem("bookingId");                
-                gcm.GetBookingById(bookingId);                
-            }           
+                $('#btnCheckout').attr("disabled", false);
+                var bookingId = pmsSession.GetItem("bookingId");
+                gcm.GetBookingById(bookingId);
+            }
 
             //if user is navigated to checkin screen from booking manage screen with bookingid in QP
             bookingIdFromQp = gcm.GetQueryStringParams("id");
             if (bookingIdFromQp != '' && parseInt(bookingIdFromQp) > 0) {
                 gcm.GetBookingById(bookingIdFromQp);
             }
-            
+
             //if user is navigated to checkin screen from dashboard screen
             if (pmsSession.GetItem("dtcheckin") && pmsSession.GetItem("dtcheckout")
                 && pmsSession.GetItem("roomtypeid") && pmsSession.GetItem("roomid")) {
-                
+
                 $("#dateFrom").val(pmsSession.GetItem("dtcheckin").replace('T', ' '));
                 $("#dateTo").val(pmsSession.GetItem("dtcheckout").replace('T', ' '));
                 var roomTypeId = pmsSession.GetItem("roomtypeid");
@@ -398,7 +399,7 @@
                             //var timeDiffInHours = (new Date(pmsSession.GetItem("dtcheckout")).getTime() - new Date(pmsSession.GetItem("dtcheckin")).getTime()) / 3600000;
                             var timeDiffInHours = (new Date($("#dateTo").val()).getTime() - new Date($("#dateFrom").val()).getTime()) / 3600000;
 
-                            
+
                             if (timeDiffInHours && timeDiffInHours <= 12) {
                                 toggleHourlyCbBaseOnTimeDiff(timeDiffInHours);
                             }
@@ -410,27 +411,27 @@
                 }
             }
             $("#fName").prop("readonly", false);
-            $("#lName").prop("readonly", false);            
+            $("#lName").prop("readonly", false);
         }
+
 
         function printData(data) {
             var printWindow = window.open('', '', '');
             printWindow.document.write('<html><head><title>Print Invoice</title>');
-    
+
             // Make sure the relative URL to the stylesheet works:
             printWindow.document.write('<base href="' + location.origin + location.pathname + '">');
             printWindow.document.write('</base>');
             // Add the stylesheet link and inline styles to the new document:
             printWindow.document.write('<link rel="stylesheet" href="' + location.origin + '/Content/style.css">');
             printWindow.document.write('<style type="text/css">.style1{width: 100%;}</style>');
-    
-            printWindow.document.write('</head><body >');
+            printWindow.document.write('<script type="text/javascript">function autoPrintClose(){window.print(); setTimeout(function () {window.close();}, 500);}<' + '/' + 'script>');
+            printWindow.document.write('</head><body onload="autoPrintClose()";>');
             printWindow.document.write(data);
             printWindow.document.write('</body></html>');
             printWindow.document.close();
-            setTimeout(function () {
-                printWindow.print();
-            }, 500);
+
+
             return false;
         }
 
@@ -453,9 +454,9 @@
                 e.stopPropagation();
             });
 
-            $('#divInvoice').on("click", "#addPaymentType", function (e) {                
+            $('#divInvoice').on("click", "#addPaymentType", function (e) {
                 var cloneHtmlElement = $('#divInvoice').find('tr#trPaymentTypeOther:last').clone(true);
-                cloneHtmlElement[0].style = 'display:block';                
+                cloneHtmlElement[0].style = 'display:block';
                 $('#divInvoice').find('#trPayment').before(cloneHtmlElement);
                 e.stopPropagation();
             });
@@ -467,19 +468,19 @@
             $("#saveInvoice").click(function () {
                 gcm.AddInvoice();
             });
-            
+
             $("#btnRefresh").click(function () {
                 if (confirm("Do you want clear unsaved booking data ?")) {
                     init();
                     gcm.ClearAllFields();
                     gcm.ToggleInvoiceWarning($('#invoiceWarning'), false);
-                }                
+                }
             });
 
             $("#btnPrintFolio").click(function () {
                 if (confirm("Do you want to print folio ?")) {
                     var printableData = gcm.PopulatePrintData("folio");
-                    printData(printableData);                   
+                    printData(printableData);
                 }
             });
 
@@ -530,6 +531,9 @@
                                 }
                                 gcm.AddBooking('checkout', refund);
                             }
+                            else {
+                                gcm.AddBooking('checkout');
+                            }
                         });
                         gcm.LoadInvoice(true);
                     } else {
@@ -543,9 +547,12 @@
                                 shouldRefund = true;
                             }
                             gcm.AddBooking('checkout', shouldRefund);
-                        } 
+                        }
+                        else {
+                            gcm.AddBooking('checkout');
+                        }
                     }
-                }                
+                }
             });
 
             $("#btnSave").click(function () {
@@ -558,7 +565,7 @@
                 if (!gcm.ValidateInputs()) return;
                 gcm.LoadInvoice();
                 gcm.AddBooking('reserved');
-            });           
+            });
 
             $("#uploadPhoto").change(function () {
                 $('#imgPhoto').css('visibility', 'visible');
@@ -578,24 +585,23 @@
                 }
             });
 
-            var filtereGuestdata = [];           
+            var filtereGuestdata = [];
             $('#searchGuest').autocomplete({
                 //This shows the min length of charcters that must be typed 
                 //before the autocomplete looks for a match.
                 minLength: 4,
                 source: function (request, response) {
                     filtereGuestdata = gcm.SearchGuest();
-                    response($.map(filtereGuestdata, function (value, key)
-                    {
+                    response($.map(filtereGuestdata, function (value, key) {
                         if (value.GuestMappings[0] && value.GuestMappings[0].IDDETAILS) {
                             var ID = value.GuestMappings[0].IDDETAILS;
                         }
                         else {
                             ID = value.Id;
                         }
-                        
+
                         return {
-                            
+
                             label: ID + ": " + value.LastName + ", " + value.FirstName,
                             value: value.Id
                         }
@@ -620,7 +626,7 @@
 
             $('#zipCode').keydown(function (e) {
                 gcm.IsNumeric(e);
-            });           
+            });
         });
 
     </script>

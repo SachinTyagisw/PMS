@@ -484,6 +484,11 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
                 dpBookingData.start = booking.CheckinTime;
                 dpBookingData.end = booking.CheckoutTime;
                 dpBookingData.resource = data[j].Room.Id;
+
+                if (booking.Status.toLowerCase() == "checkout") {
+                    dpBookingData.moveVDisabled = true;
+                    dpBookingData.moveHDisabled = true;
+                }
                 if (isRoomDashBoard) {
                     if (data[j].Guest.FirstName) {
                         dpBookingData.text = "Booked for : " + data[j].Guest.LastName + ", " + data[j].Guest.FirstName;
@@ -729,7 +734,13 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
 
     //AB 20170923-1 
     function customizeMonthHeader() {
-        if ($scope.scale == 'month' && $('.scheduler_default_timeheadercol_inner')[0].innerText.split('\n')[0].length == 2) {
+        if ($scope.scale == 'hour' && $('.scheduler_default_timeheadergroup_inner:eq(1)')[0].innerText.indexOf('Backword') == -1) {
+            //var element = $('.scheduler_default_timeheadergroup_inner:eq(1)');
+            //var html = '<button class="backward" style="float:left;">Backword</button><span>' + element[0].innerText + '</span><button class="forward">Forward</button>';
+            //element[0].innerText = "";
+            //element.append(html);
+        }
+        else if ($scope.scale == 'month' && $('.scheduler_default_timeheadercol_inner')[0].innerText.split('\n')[0].length == 2) {
             $('.scheduler_default_timeheadercol_inner').each(function (e) {
                 //  this.innerText = this.innerText.split('\n')[0].substring(0, 3) + '\n' + this.innerText.split('\n')[1];
                 var add3Char = '';
@@ -754,6 +765,7 @@ angular.module('calendarApp').controller('calendarCtrl', ['$scope', '$log', '$ti
             $('.scheduler_default_main').css('height', ($('.scheduler_default_main')[0].offsetHeight + 10) + 'px');
         }
     }
+
 }]);
 
 //dp test data
