@@ -6,7 +6,6 @@
         var pmsSession = window.PmsSession;
         var invoiceId = -1;
         var bookingIdFromQp = -1;
-        var roomIdFromDashboard = -1;
 
         function OnPropertyChange() {
             gcm.ClearExistingSessionStorage();
@@ -70,15 +69,9 @@
                 if (gcm.ShouldCallGetRoomApi()) {
                     //pmsSession.RemoveItem("roomdata");
                     // call GetRoomByDate api only when roomid doesnt exists in session
-                    var roomId = pmsSession.GetItem("roomid");
-                    if (!roomId) {
-                        // if user doesnt change the room number manually
-                        if (roomIdFromDashboard > 0 && parseInt($("#roomddl").val()) === roomIdFromDashboard) {
-                            pmsSession.SetItem("optroomnumber", $("#roomddl option:selected").text());
-                            gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val(), roomIdFromDashboard);
-                        } else {
-                            gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val(), -1);
-                        }
+                    var roomIdFromDashboard = pmsSession.GetItem("roomid");
+                    if (!roomIdFromDashboard) {
+                        gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val());
                     }
                 }
 
@@ -94,20 +87,13 @@
                 if (gcm.ShouldCallGetRoomApi()) {
                     //pmsSession.RemoveItem("roomdata");
                     // call GetRoomByDate api only when roomid doesnt exists in session
-                    var roomId = pmsSession.GetItem("roomid");
-                    if (!roomId) {
-                        // if user doesnt change the room number manually
-                        if (roomIdFromDashboard > 0 && parseInt($("#roomddl").val()) === roomIdFromDashboard) {
-                            pmsSession.SetItem("optroomnumber", $("#roomddl option:selected").text());
-                            gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val(), roomIdFromDashboard);
-                        } else {
-                            gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val(), -1);
-                        }
+                    var roomIdFromDashboard = pmsSession.GetItem("roomid");
+                    if (!roomIdFromDashboard) {
+                        gcm.GetRoomByDate($('#dateFrom').val(), $('#dateTo').val());
                     }
                 }
             });
         });
-
 
 
         function setCheckoutHours() {
@@ -144,7 +130,7 @@
                 }
                 var mins = dt.getMinutes() < 10 ? "0" + dt.getMinutes() : dt.getMinutes();
                 var time = hrs + ":" + mins + " " + am;
-                //checkOutDate.val(dateOutput + ' ' + time);
+                //checkOutDate.val(dateOutput + ' ' + time);            
                 checkOutDate.value = dateOutput + ' ' + time;
             }
         }
@@ -187,11 +173,11 @@
             //    }
             //    var mins = dt.getMinutes() < 10 ? "0" + dt.getMinutes() : dt.getMinutes();
             //    var time = hrs + ":" + mins + " " + am;
-            //    //checkOutDate.val(dateOutput + ' ' + time);
-            //    checkOutDate.value = dateOutput + ' ' + time;
+            //    //checkOutDate.val(dateOutput + ' ' + time);            
+            //    checkOutDate.value = dateOutput + ' ' + time; 
             //}
             var selectedHr = $("#hoursComboBox option:selected").text();
-            // filter only hourly rate type
+            // filter only hourly rate type  
             gcm.FilterRateType($('#rateTypeDdl'), selectedHr);
             shouldCallLoadInvoiceApi();
         }
@@ -274,7 +260,7 @@
             }
 
             if (data.GuestMappings[0] && data.GuestMappings[0].IdExpiryDate) {
-                $('#idExpiry').val(gcm.formatAMPM(data.GuestMappings[0].IdExpiryDate.replace('T', ' ')));
+                $('#idExpiry').val(data.GuestMappings[0].IdExpiryDate.replace('T', ' '));
             }
             $('#ddlCountry').val(data.Country.Id);
             if (data.GuestMappings[0] && data.GuestMappings[0].IdIssueCountryID) {
@@ -389,7 +375,6 @@
                     if (gcm.ShouldCallGetRoomApi()) {
                         Notifications.SubscribeActive("on-roombydate-get-success-dashboard-roomid", function (sender, args) {
                             var roomId = pmsSession.GetItem("roomid");
-                            roomIdFromDashboard = parseInt(roomId);
                             if (roomId && parseInt(roomId) > 0) {
                                 $("#roomddl").val(roomId);
                                 //gcm.LoadInvoice();
@@ -414,7 +399,6 @@
             $("#lName").prop("readonly", false);
         }
 
-
         function printData(data) {
             var printWindow = window.open('', '', '');
             printWindow.document.write('<html><head><title>Print Invoice</title>');
@@ -430,8 +414,6 @@
             printWindow.document.write(data);
             printWindow.document.write('</body></html>');
             printWindow.document.close();
-
-
             return false;
         }
 
@@ -531,9 +513,6 @@
                                 }
                                 gcm.AddBooking('checkout', refund);
                             }
-                            else {
-                                gcm.AddBooking('checkout');
-                            }
                         });
                         gcm.LoadInvoice(true);
                     } else {
@@ -547,9 +526,6 @@
                                 shouldRefund = true;
                             }
                             gcm.AddBooking('checkout', shouldRefund);
-                        }
-                        else {
-                            gcm.AddBooking('checkout');
                         }
                     }
                 }
