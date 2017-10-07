@@ -470,6 +470,8 @@
     <Content Include="Views\Booking\Manage.cshtml" />
     <Content Include="Views\Room\Manage.cshtml" />
     <Content Include="Views\HouseKeeping\DashBoard.cshtml" />
+    <Content Include="Views\Reports\DailySummary.cshtml" />
+    <Content Include="Views\Reports\ShiftReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
