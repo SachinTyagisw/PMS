@@ -21,6 +21,7 @@
             RateTypeSettings: null,
             TaxSettings: null,
             Bookings: null,
+            ExpenseCategorySettings: null,
         },
 
         BookingDto: {
@@ -1006,9 +1007,11 @@
 
             divBooking.html('');
             divBooking.html(bookingTemplate.render(data));
-            $("#divBooking thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
-            if (data && data.Bookings && data.Bookings.length > 0) {
-                $("#divBooking tbody tr").append('<td class="finalActionsCol"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+            if (!(window.location.pathname.toLowerCase().indexOf('reports/viewtransaction') >= 0)) {
+                $("#divBooking thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
+                if (data && data.Bookings && data.Bookings.length > 0) {
+                    $("#divBooking tbody tr").append('<td class="finalActionsCol"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+                }
             }
             rangeProperty.html('');
             rangeProperty.html(rangeTemplate.render(data));
@@ -1889,6 +1892,51 @@
             }
         },
 
+        GetExpenseCategory: function (propertyId) {
+            args.propertyId = propertyId && propertyId > 0 ? propertyId : getPropertyId();
+            // get payment types by api calling  
+            pmsService.GetExpenseCategoryByProperty(args);
+        },
+
+        DeleteExpenseCategory: function (typeId) {
+            // DeleteExpenseCategory by api calling  
+            args.typeId = typeId;
+            pmsService.DeleteExpenseCategory(args);
+        },
+
+        AddExpenseCategory: function (expenseCategory) {
+            expenseCategory.CreatedBy = getCreatedBy();
+            expenseCategory.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
+            var expenseCategoryRequestDto = {};
+            expenseCategoryRequestDto.ExpenseCategory = {};
+            // AddexpenseCategory by api calling  
+            expenseCategoryRequestDto.ExpenseCategory = expenseCategory;
+            pmsService.AddExpenseCategory(expenseCategoryRequestDto);
+        },
+
+        UpdateExpenseCategory: function (expenseCategory) {
+            expenseCategory.LastUpdatedBy = getCreatedBy();
+            expenseCategory.LastUpdatedOn = window.GuestCheckinManager.GetCurrentDate();
+            // UpdateExpenseCategory by api calling 
+            var expenseCategoryRequestDto = {};
+            expenseCategoryRequestDto.ExpenseCategory = {};
+            expenseCategoryRequestDto.ExpenseCategory = expenseCategory;
+            pmsService.UpdateExpenseCategory(expenseCategoryRequestDto);
+        },
+
+        PopulateExpenseCategoryGrid: function (data) {
+            var divExpenseCategory = $('#divExpenseCategory');
+            var expensecategoryTemplate = $('#expensecategoryTemplate');
+            if (!divExpenseCategory || !expensecategoryTemplate || divExpenseCategory.length <= 0 || expensecategoryTemplate.length <= 0) return;
+            divExpenseCategory.html(expensecategoryTemplate.render(data));
+            $("#divExpenseCategory thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
+            if (data && data.ExpenseCategories && data.ExpenseCategories.length > 0) {
+                $("#divExpenseCategory tbody tr").append('<td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+            } else {
+                // when no expensecategory data is present in db 
+                $("#divExpenseCategory tbody tr").append('<td class="finalActionsCol"><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td>');
+            }
+        },
         AjaxHandlers: function () {
             // ajax handlers start
             pmsService.Handlers.OnAddBookingSuccess = function (data) {
@@ -2671,26 +2719,87 @@
             };
 
             // ajax handlers end
+
+            pmsService.Handlers.OnGetExpenseCategoryByPropertySuccess = function (data) {
+                window.GuestCheckinManager.PropertySettingResponseDto.ExpenseCategorySettings = null;
+                window.GuestCheckinManager.PropertySettingResponseDto.ExpenseCategorySettings = data.ExpenseCategories;
+                window.GuestCheckinManager.PopulateExpenseCategoryGrid(data);
+
+                var divInvoice = $('#divInvoice');
+                var invoiceTemplate = $('#invoiceTemplate');
+                if (divInvoice && divInvoice.length > 0 && invoiceTemplate && invoiceTemplate.length > 0) {
+                    //storing payment type data into session storage only for checkin screen exclude paymenttype admin screen
+                    pmsSession.SetItem("paymenttype", JSON.stringify(data.PaymentTypes));
+                    if (window.Notifications) window.Notifications.Notify("on-paymenttype-get-success", null, null);
+                }
+
+                var divBooking = $('#divBooking');
+                if (divBooking && divBooking.length > 0) {
+                    if (window.Notifications) window.Notifications.Notify("on-paymenttype-get-success-booking", null, null);
+                }
+            };
+
+            pmsService.Handlers.OnGetExpenseCategoryByPropertyFailure = function () {
+                console.error("Get Expense Category call failed");
+            };
+
+            pmsService.Handlers.OnAddExpenseCategorySuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                if (data.ResponseObject > 0) {
+                    console.log(status);
+                    //alert(status);
+                    // to fetch new data                    
+                    if (window.Notifications) window.Notifications.Notify("on-expensecategory-add-success", null, null);
+
+                } else {
+                    console.error(status);
+                    alert(status);
+                }
+            };
+
+            pmsService.Handlers.OnAddExpenseCategoryFailure = function () {
+                // show error log
+                console.error("Expense Category is not added.");
+            };
+
+            pmsService.Handlers.OnDeleteExpenseCategoryFailure = function () {
+                // show error log
+                console.error("Expense Category is not deleted.");
+            };
+
+            pmsService.Handlers.OnDeleteExpenseCategorySuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                //alert(status);
+            };
+
+            pmsService.Handlers.OnUpdateExpenseCategoryFailure = function () {
+                // show error log
+                console.error("Expense Category is not updated.");
+            };
+
+            pmsService.Handlers.OnUpdateExpenseCategorySuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                //alert(status);
+            };
         }
+
+        
 
         //DateDiff: function () {
         //    //var dateFrom = $('#dateFrom').val();
         //    //var dateTo = $('#dateTo').val();
         //    //alert(dateFrom);
-
         //    var start_actual_time = "01/17/2012 11:20";
         //    var end_actual_time = "01/18/2012 12:25";
-
         //    start_actual_time = new Date(start_actual_time);
         //    end_actual_time = new Date(end_actual_time);
-
         //    var diff = end_actual_time - start_actual_time;
-
         //    var diffSeconds = diff / 1000;
         //    var HH = Math.floor(diffSeconds / 3600);
         //    var MM = Math.floor(diffSeconds % 3600) / 60;
         //    alert(HH);
-
         //}
     };
 

@@ -1,7 +1,0 @@
-D:\PMS\PMS.Resources.DTO\bin\Release\PMS.Resources.DTO.dll
-D:\PMS\PMS.Resources.DTO\bin\Release\PMS.Resources.DTO.pdb
-D:\PMS\PMS.Resources.DTO\bin\Release\PMS.Resources.Entities.dll
-D:\PMS\PMS.Resources.DTO\bin\Release\PMS.Resources.Entities.pdb
-D:\PMS\PMS.Resources.DTO\obj\Release\PMS.Resources.DTO.csprojResolveAssemblyReference.cache
-D:\PMS\PMS.Resources.DTO\obj\Release\PMS.Resources.DTO.dll
-D:\PMS\PMS.Resources.DTO\obj\Release\PMS.Resources.DTO.pdb

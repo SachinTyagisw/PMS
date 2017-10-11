@@ -75,6 +75,12 @@
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DalFactory.cs" />
+    <Compile Include="Expens.cs">
+      <DependentUpon>PmsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExpenseCategory.cs">
+      <DependentUpon>PmsModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="ExtraCharge.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
@@ -103,6 +109,12 @@
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="GETROOMSTATUS_Result.cs">
+      <DependentUpon>PmsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetTransactionData1_Result.cs">
+      <DependentUpon>PmsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetTransactionData2_Result.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="GetTransactionData_Result.cs">

@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Request\AddExpenseCategoryRequestDto.cs" />
     <Compile Include="Request\AddInvoiceRequestDto.cs" />
     <Compile Include="Request\AddBookingRequestDto.cs" />
     <Compile Include="Request\AddPaymentTypeRequestDto.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Response\BookingTransactionResponseDto.cs" />
     <Compile Include="Response\GetCityResponseDto.cs" />
     <Compile Include="Response\GetCountryResponseDto.cs" />
+    <Compile Include="Response\GetExpenseCategoryResponseDto.cs" />
     <Compile Include="Response\GetExpenseResponseDto.cs" />
     <Compile Include="Response\GetExtraChargeResponseDto.cs" />
     <Compile Include="Response\GetGuestHistoryResponseDto.cs" />

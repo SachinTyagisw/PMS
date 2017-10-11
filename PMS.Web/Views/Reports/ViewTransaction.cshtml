@@ -1,0 +1,259 @@
+﻿@{
+    ViewBag.Title = "View Transaction";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type='text/javascript'>
+    var gcm = window.GuestCheckinManager;
+    var statusVal = 1;
+
+    function getCreatedBy() {
+        return window.PmsSession.GetItem("username");
+    }
+
+    function makeFieldsReadonly(rowObject) {
+        rowObject.attr('contenteditable', 'false');
+        rowObject.css('background-color', 'transparent');
+    }
+
+    function OnPropertyChange() {
+        var divBooking = $('#divBooking');
+        divBooking.html('');
+
+        var rangeProperty = $('#rangeProperty');
+        rangeProperty.html('');
+
+        window.GuestCheckinManager.PropertySettingResponseDto.RoomTypeSettings = null;
+        window.GuestCheckinManager.PropertySettingResponseDto.PaymentTypeSettings = null;
+        gcm.FillRoomTypeData($('#ddlRoomType'), $('#ddlGlobalProperty').val());
+        gcm.FillPaymentMode($('#ddlPaymentMode'), $('#ddlGlobalProperty').val());
+    }
+
+    function exportBooking() {
+        var Bookings = window.GuestCheckinManager.PropertySettingResponseDto.Bookings;
+        if (Bookings && Bookings.length > 0) {
+            var csv = 'ID#,TransactionDate,GuestName,AmountPaid,ModeofPayment,RoomType,RoomRate,Transaction#,TaxCollected,Status\n';
+            Bookings.forEach(function (row) {
+                var dtCheckin = row.CheckinTime ? String(row.CheckinTime).replace('T', ' ') : '';
+                var status = row.IsActive ? 'Active' : 'Inactive';
+                csv += row.Id
+                    + "," + dtCheckin
+                    + "," + row.RoomBookings[0].Guest.FirstName
+                    + "," + row.Invoice.TotalAmount
+                    + "," + row.Invoice.InvoicePaymentDetails[0].PaymentMode
+                    + "," + row.RoomBookings[0].Room.RoomType.Name
+                    + "," + row.RateType.Rates[0].Value
+                    + "," + row.Id
+                    + "," + row.Invoice.InvoiceTaxDetails[0].TaxAmount
+                    + "," + status;
+                csv += "\n";
+            });
+
+            var hiddenElement = document.createElement('a');
+            hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+            hiddenElement.target = '_blank';
+            hiddenElement.download = 'DataManagement.csv';
+            hiddenElement.click();
+        }
+    }
+
+    function searchBooking() {
+        var propertyId = $('#ddlGlobalProperty').val();
+        var roomType = $("#ddlRoomType option:selected").text();
+        var roomTypeId = $("#ddlRoomType").val();
+        var guestName = $('#guestName').val();
+        var minAmountPaid = $('#minAmountPaid').val();
+        var maxAmountPaid = $('#maxAmountPaid').val();
+        var dtRange = $('#dtRange').val();
+        var paymentMode = $("#ddlPaymentMode option:selected").text();
+        var paymentTypeId = $("#ddlPaymentMode").val();
+        var status = 1;
+        var dateFrom = $('#dateFrom').val();
+        var dateTo = $('#dateTo').val();
+        var bookingTransactionRequestDto = {};
+        bookingTransactionRequestDto.StartDate = dateFrom && dateFrom.trim() !== '' ? dateFrom : null;
+        bookingTransactionRequestDto.EndDate = dateTo && dateTo.trim() !== '' ? dateTo : null;
+        bookingTransactionRequestDto.GuestName = guestName && guestName.trim() !== '' ? guestName : null;
+        bookingTransactionRequestDto.RoomType = roomTypeId && roomTypeId !== '-1' ? roomType : null;
+        bookingTransactionRequestDto.PaymentMode = paymentTypeId != "-1" ? paymentMode : null;
+        bookingTransactionRequestDto.MinAmountPaid = minAmountPaid && minAmountPaid.trim() !== '' ? minAmountPaid : null;
+        bookingTransactionRequestDto.MaxAmountPaid = maxAmountPaid && maxAmountPaid.trim() !== '' ? maxAmountPaid : null;
+        bookingTransactionRequestDto.TransactionStatus = status != "-1" ? parseInt(status) : null;
+        bookingTransactionRequestDto.PropertyId = propertyId && propertyId != '-1' ? parseInt(propertyId) : null;
+        gcm.GetBookingTransaction(bookingTransactionRequestDto);
+    }
+
+    $(document).ready(function () {
+
+        gcm.FillRoomTypeData($('#ddlRoomType'), $('#ddlGlobalProperty').val());
+        gcm.FillPaymentMode($('#ddlPaymentMode'), $('#ddlGlobalProperty').val());        
+
+        $("#btnSearch").click(function () {
+            searchBooking();
+        });
+
+        $("#btnExport").click(function () {
+            exportBooking();
+        });
+    });
+</script>
+<div class="content-wrap">
+    <div class="main controls">
+        <div class="container-fluid">
+            <div class="col-lg-12 p-r-0 p-l-0">
+                <div class="card alert create-room">
+                    <div class="card-header">
+                        <h4>Data Management</h4>
+                    </div>
+                    <div class="card-body room-details">
+                        <fieldset class="data-mgmt-section">
+                            <legend>Search Criteria:</legend>
+                            <div class="row" style="">
+                                <div class="col-md-2 p-r-0">
+                                    <div class="form-group">
+                                        <div class='input-group date' id='datetimepicker1'>
+                                            <label>Start Date &nbsp;&nbsp;</label>
+                                            <input id="dateFrom" type='text' class="form-control calendar" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                        <script type="text/javascript">
+                                            $(function () {
+                                                $('#datetimepicker1').datetimepicker();
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 p-r-0">
+                                    <div class="form-group">
+                                        <div class='input-group date' id='datetimepicker2'>
+                                            <label>End Date</label>
+                                            <input id="dateTo" type='text' class="form-control calendar" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                        <script type="text/javascript">
+                                            $(function () {
+                                                $('#datetimepicker2').datetimepicker();
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 p-r-0">
+                                    <div class="form-group">
+                                        <label>Guest Name</label>
+                                        <div class="form-group">
+                                            <input id="guestName" type="text" class="form-control" name="example-input-normal">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 p-r-0">
+                                    <div class="form-group">
+                                        <label>Room Type</label>
+                                        <select id="ddlRoomType">
+                                            <option value="-1">Room Type</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1 p-r-0">
+                                    <div class="form-group">
+                                        <label>Amount Paid</label>
+                                        <div class="form-group">
+                                            <input id="minAmountPaid" type="text" placeholder="Min" class="form-control" name="example-input-normal">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1 p-r-0 dash">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <div class="form-group">
+                                            <input id="maxAmountPaid" type="text" placeholder="Max" class="form-control" name="example-input-normal">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="">
+                                <div class="col-lg-2 p-r-0 p-t-5">
+                                    <div class="form-group">
+                                        <label>Payment Mode</label>
+                                        <select id="ddlPaymentMode">
+                                            <option value="-1">Select Payment type</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                @*<div class="col-lg-2 p-r-0 p-t-5">
+                                    <div class="form-group">
+                                        <label>Transaction Status</label>
+                                        <select id="ddlStatus">
+                                            <option value="-1">Select Status</option>
+                                            <option value="1">Active</option>
+                                            <option value="0">Inactive</option>
+                                        </select>
+                                    </div>
+                                </div>*@
+                                <div class="col-lg-3 p-t-5">
+                                    <div class="form-group btn-set">
+                                        <button id="btnSearch" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button">Search</button>
+                                        <button id="btnExport" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button">Export</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <!-- Table -->
+                        <div id="divBooking" class="table-data">
+                        </div>
+                        <!-- Small Table -->
+                        <div id="rangeProperty" class="table-data" style="width:60%; margin-top: 4rem;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="divLoader">
+    <div class="loader" style="display:none;">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+</div>
+<script type="text/html" id="bookingTemplate">
+    <table class="table table-hover table-bordered results tableContents table-trans-manage">
+        <thead>
+            <tr>
+                <th id="IDCol">ID #</th>
+                <th id="transDate" contenteditable="false">Transaction Date</th>
+                <th id="guestNameCol" contenteditable="false">Guest Name</th>
+                <th id="amountPaidCol" contenteditable="false">Amount Paid</th>
+                <th id="paymentModeCol" contenteditable="false">Mode of Payment</th>
+                <th id="roomTypeCol" contenteditable="false">Room Type</th>
+                <th id="roomRateCol" contenteditable="false">Room Rate</th>
+                <th id="transCol" contenteditable="false">Transaction #</th>
+                <th id="taxCollectedCol" contenteditable="false">Tax Collected</th>
+                <th id="statusCol" contenteditable="false">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{if typeof Bookings != "undefined" && Bookings != "null" && Bookings.length > 0 }}
+            {{each Bookings}}
+            <tr id="${$value.Id}">
+                <td class="idRow" contenteditable="false">${$value.Id}</td>
+                <td contenteditable="false">${String($value.CheckinTime).replace('T', ' ')}</td>
+                <td contenteditable="false">${$value.RoomBookings[0].Guest.FirstName}</td>
+                <td contenteditable="false">${$value.Invoice.TotalAmount}</td>
+                <td contenteditable="false">${$value.Invoice.InvoicePaymentDetails[0].PaymentMode}</td>
+                <td contenteditable="false">${$value.RoomBookings[0].Room.RoomType.Name}</td>
+                <td contenteditable="false">${$value.RateType.Rates[0].Value} </td>
+                <td contenteditable="false"><a href="Checkin?id=${$value.Id}">${$value.Id}</a></td>
+                <td contenteditable="false">${$value.Invoice.InvoiceTaxDetails[0].TaxAmount}</td>
+                <td contenteditable="false">{{if typeof $value.IsActive != "undefined" && $value.IsActive }}Active{{else}}Inactive{{/if}}</td>
+            </tr>
+            {{/each}}
+            {{/if}}
+        </tbody>
+    </table>
+</script>

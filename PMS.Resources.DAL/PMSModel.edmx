@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="PmsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="PmsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AdditionalGuests">
           <Key>
             <PropertyRef Name="Id" />
@@ -119,6 +119,36 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Code" Type="nvarchar" MaxLength="100" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="LastUpdatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ExpenseCategory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PropertyID" Type="int" />
+          <Property Name="ShortName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="LastUpdatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Expenses">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PropertyID" Type="int" />
+          <Property Name="ExpenseCategoryID" Type="int" />
+          <Property Name="PaymentTypeID" Type="int" />
+          <Property Name="Amount" Type="money" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
@@ -542,7 +572,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Booking__RateTyp__324172E1">
+        <Association Name="FK__Booking__RateTyp__6C190EBB">
           <End Role="RateType" Type="Self.RateType" Multiplicity="0..1" />
           <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
           <ReferentialConstraint>
@@ -575,6 +605,54 @@
             </Principal>
             <Dependent Role="City">
               <PropertyRef Name="StateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ExpenseCa__Prope__18EBB532">
+          <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
+          <End Role="ExpenseCategory" Type="Self.ExpenseCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Property">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ExpenseCategory">
+              <PropertyRef Name="PropertyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Expenses__Expens__1DB06A4F">
+          <End Role="ExpenseCategory" Type="Self.ExpenseCategory" Multiplicity="0..1" />
+          <End Role="Expenses" Type="Self.Expenses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseCategory">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Expenses">
+              <PropertyRef Name="ExpenseCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Expenses__Paymen__1EA48E88">
+          <End Role="PaymentType" Type="Self.PaymentType" Multiplicity="0..1" />
+          <End Role="Expenses" Type="Self.Expenses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Expenses">
+              <PropertyRef Name="PaymentTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Expenses__Proper__1CBC4616">
+          <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
+          <End Role="Expenses" Type="Self.Expenses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Property">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Expenses">
+              <PropertyRef Name="PropertyID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -710,7 +788,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Rates__RoomId__2B947552">
+        <Association Name="FK__Rates__RoomId__797309D9">
           <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
           <End Role="Rates" Type="Self.Rates" Multiplicity="*" />
           <ReferentialConstraint>
@@ -758,7 +836,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Room__FloorId__2AA05119">
+        <Association Name="FK__Room__FloorId__7D439ABD">
           <End Role="PropertyFloor" Type="Self.PropertyFloor" Multiplicity="0..1" />
           <End Role="Room" Type="Self.Room" Multiplicity="*" />
           <ReferentialConstraint>
@@ -988,6 +1066,8 @@
           <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExpenseCategory" EntityType="Self.ExpenseCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Expenses" EntityType="Self.Expenses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExtraCharges" EntityType="Self.ExtraCharges" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Guest" EntityType="Self.Guest" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GuestMapping" EntityType="Self.GuestMapping" Schema="dbo" store:Type="Tables" />
@@ -1027,7 +1107,7 @@
             <End Role="Property" EntitySet="Property" />
             <End Role="Booking" EntitySet="Booking" />
           </AssociationSet>
-          <AssociationSet Name="FK__Booking__RateTyp__324172E1" Association="Self.FK__Booking__RateTyp__324172E1">
+          <AssociationSet Name="FK__Booking__RateTyp__6C190EBB" Association="Self.FK__Booking__RateTyp__6C190EBB">
             <End Role="RateType" EntitySet="RateType" />
             <End Role="Booking" EntitySet="Booking" />
           </AssociationSet>
@@ -1038,6 +1118,22 @@
           <AssociationSet Name="FK__City__StateID__47DBAE45" Association="Self.FK__City__StateID__47DBAE45">
             <End Role="State" EntitySet="State" />
             <End Role="City" EntitySet="City" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ExpenseCa__Prope__18EBB532" Association="Self.FK__ExpenseCa__Prope__18EBB532">
+            <End Role="Property" EntitySet="Property" />
+            <End Role="ExpenseCategory" EntitySet="ExpenseCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Expenses__Expens__1DB06A4F" Association="Self.FK__Expenses__Expens__1DB06A4F">
+            <End Role="ExpenseCategory" EntitySet="ExpenseCategory" />
+            <End Role="Expenses" EntitySet="Expenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Expenses__Paymen__1EA48E88" Association="Self.FK__Expenses__Paymen__1EA48E88">
+            <End Role="PaymentType" EntitySet="PaymentType" />
+            <End Role="Expenses" EntitySet="Expenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Expenses__Proper__1CBC4616" Association="Self.FK__Expenses__Proper__1CBC4616">
+            <End Role="Property" EntitySet="Property" />
+            <End Role="Expenses" EntitySet="Expenses" />
           </AssociationSet>
           <AssociationSet Name="FK__ExtraChar__Prope__214BF109" Association="Self.FK__ExtraChar__Prope__214BF109">
             <End Role="Property" EntitySet="Property" />
@@ -1083,7 +1179,7 @@
             <End Role="RateType" EntitySet="RateType" />
             <End Role="Rates" EntitySet="Rates" />
           </AssociationSet>
-          <AssociationSet Name="FK__Rates__RoomId__2B947552" Association="Self.FK__Rates__RoomId__2B947552">
+          <AssociationSet Name="FK__Rates__RoomId__797309D9" Association="Self.FK__Rates__RoomId__797309D9">
             <End Role="Room" EntitySet="Room" />
             <End Role="Rates" EntitySet="Rates" />
           </AssociationSet>
@@ -1099,7 +1195,7 @@
             <End Role="Property" EntitySet="Property" />
             <End Role="RateType" EntitySet="RateType" />
           </AssociationSet>
-          <AssociationSet Name="FK__Room__FloorId__2AA05119" Association="Self.FK__Room__FloorId__2AA05119">
+          <AssociationSet Name="FK__Room__FloorId__7D439ABD" Association="Self.FK__Room__FloorId__7D439ABD">
             <End Role="PropertyFloor" EntitySet="PropertyFloor" />
             <End Role="Room" EntitySet="Room" />
           </AssociationSet>
@@ -1144,8 +1240,7 @@
             <End Role="Taxes" EntitySet="Taxes" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PmsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1455,6 +1550,7 @@
           <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Property" Relationship="Self.FK__PaymentTy__Prope__0C1BC9F9" FromRole="PaymentType" ToRole="Property" />
+          <NavigationProperty Name="Expenses" Relationship="PmsModel.FK__Expenses__Paymen__1EA48E88" FromRole="PaymentType" ToRole="Expens" />
         </EntityType>
         <EntityType Name="Property">
           <Key>
@@ -1494,6 +1590,8 @@
           <NavigationProperty Name="RoomPricings" Relationship="Self.FK__RoomPrici__Prope__2A4B4B5E" FromRole="Property" ToRole="RoomPricing" />
           <NavigationProperty Name="RoomTypes" Relationship="Self.FK__RoomType__Proper__22AA2996" FromRole="Property" ToRole="RoomType" />
           <NavigationProperty Name="Taxes" Relationship="Self.FK__Taxes__PropertyI__382F5661" FromRole="Property" ToRole="Taxes" />
+          <NavigationProperty Name="ExpenseCategories" Relationship="PmsModel.FK__ExpenseCa__Prope__18EBB532" FromRole="Property" ToRole="ExpenseCategory" />
+          <NavigationProperty Name="Expenses" Relationship="PmsModel.FK__Expenses__Proper__1CBC4616" FromRole="Property" ToRole="Expens" />
         </EntityType>
         <EntityType Name="PropertyFloor">
           <Key>
@@ -2280,10 +2378,10 @@
             <Parameter Name="RoomID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetBookingDetails" ReturnType="Collection(PmsModel.GetBookingDetails_Result)">
-            <Parameter Name="BookingID" Mode="In" Type="Int32" />
+          <Parameter Name="BookingID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GETGUESTTRANSACTIONS" ReturnType="Collection(PmsModel.GETGUESTTRANSACTIONS_Result)">
-            <Parameter Name="GUESTID" Mode="In" Type="Int32" />
+          <Parameter Name="GUESTID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GETINVOICEDETAILS" ReturnType="Collection(PmsModel.GETINVOICEDETAILS_Result)">
             <Parameter Name="INVOICEID" Mode="In" Type="Int32" />
@@ -2296,26 +2394,15 @@
             <Parameter Name="RoomID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetPropertiesByUser" ReturnType="Collection(PmsModel.GetPropertiesByUser_Result)">
-            <Parameter Name="UserName" Mode="In" Type="String" />
+          <Parameter Name="UserName" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GetRoomRates" ReturnType="Collection(PmsModel.GetRoomRates_Result)">
-            <Parameter Name="PropertyId" Mode="In" Type="Int32" />
+          <Parameter Name="PropertyId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GETROOMSTATUS" ReturnType="Collection(PmsModel.GETROOMSTATUS_Result)">
             <Parameter Name="PROPERTYID" Mode="In" Type="Int32" />
             <Parameter Name="CHECKINTIME" Mode="In" Type="DateTime" />
             <Parameter Name="CHECKOUTDATE" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="GetTransactionData" ReturnType="Collection(PmsModel.GetTransactionData_Result)">
-            <Parameter Name="StartDate" Mode="In" Type="DateTime" />
-            <Parameter Name="EndDate" Mode="In" Type="DateTime" />
-            <Parameter Name="CustomerName" Mode="In" Type="String" />
-            <Parameter Name="RoomType" Mode="In" Type="String" />
-            <Parameter Name="MinAmountPaid" Mode="In" Type="Decimal" />
-            <Parameter Name="MaxAmountPaid" Mode="In" Type="Decimal" />
-            <Parameter Name="paymentmode" Mode="In" Type="String" />
-            <Parameter Name="TransactionStatus" Mode="In" Type="Boolean" />
-            <Parameter Name="PropertyId" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="InsertBooking" ReturnType="Collection(PmsModel.InsertBooking_Result)">
             <Parameter Name="propertyID" Mode="In" Type="Int32" />
@@ -2343,6 +2430,35 @@
             <Parameter Name="CHECKINTIME" Mode="In" Type="DateTime" />
             <Parameter Name="CHECKOUTTIME" Mode="In" Type="DateTime" />
             <Parameter Name="RoomID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="ExpenseCategories" EntityType="PmsModel.ExpenseCategory" />
+          <EntitySet Name="Expenses" EntityType="PmsModel.Expens" />
+          <AssociationSet Name="FK__ExpenseCa__Prope__18EBB532" Association="PmsModel.FK__ExpenseCa__Prope__18EBB532">
+            <End Role="Property" EntitySet="Properties" />
+            <End Role="ExpenseCategory" EntitySet="ExpenseCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Expenses__Expens__1DB06A4F" Association="PmsModel.FK__Expenses__Expens__1DB06A4F">
+            <End Role="ExpenseCategory" EntitySet="ExpenseCategories" />
+            <End Role="Expens" EntitySet="Expenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Expenses__Paymen__1EA48E88" Association="PmsModel.FK__Expenses__Paymen__1EA48E88">
+            <End Role="PaymentType" EntitySet="PaymentTypes" />
+            <End Role="Expens" EntitySet="Expenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Expenses__Proper__1CBC4616" Association="PmsModel.FK__Expenses__Proper__1CBC4616">
+            <End Role="Property" EntitySet="Properties" />
+            <End Role="Expens" EntitySet="Expenses" />
+          </AssociationSet>
+          <FunctionImport Name="GetTransactionData" ReturnType="Collection(PmsModel.GetTransactionData_Result)">
+            <Parameter Name="StartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="CustomerName" Mode="In" Type="String" />
+            <Parameter Name="RoomType" Mode="In" Type="String" />
+            <Parameter Name="MinAmountPaid" Mode="In" Type="Decimal" />
+            <Parameter Name="MaxAmountPaid" Mode="In" Type="Decimal" />
+            <Parameter Name="paymentmode" Mode="In" Type="String" />
+            <Parameter Name="TransactionStatus" Mode="In" Type="Boolean" />
+            <Parameter Name="PropertyId" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="GETALLBOOKINGS_Result">
@@ -2535,6 +2651,111 @@
           <Property Type="Int32" Name="Column1" Nullable="true" />
           <Property Type="Int32" Name="Column2" Nullable="true" />
           <Property Type="Int32" Name="Column3" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="ExpenseCategory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PropertyID" Type="Int32" />
+          <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Property" Relationship="PmsModel.FK__ExpenseCa__Prope__18EBB532" FromRole="ExpenseCategory" ToRole="Property" />
+          <NavigationProperty Name="Expenses" Relationship="PmsModel.FK__Expenses__Expens__1DB06A4F" FromRole="ExpenseCategory" ToRole="Expens" />
+        </EntityType>
+        <EntityType Name="Expens">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PropertyID" Type="Int32" />
+          <Property Name="ExpenseCategoryID" Type="Int32" />
+          <Property Name="PaymentTypeID" Type="Int32" />
+          <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ExpenseCategory" Relationship="PmsModel.FK__Expenses__Expens__1DB06A4F" FromRole="Expens" ToRole="ExpenseCategory" />
+          <NavigationProperty Name="PaymentType" Relationship="PmsModel.FK__Expenses__Paymen__1EA48E88" FromRole="Expens" ToRole="PaymentType" />
+          <NavigationProperty Name="Property" Relationship="PmsModel.FK__Expenses__Proper__1CBC4616" FromRole="Expens" ToRole="Property" />
+        </EntityType>
+        <Association Name="FK__ExpenseCa__Prope__18EBB532">
+          <End Type="PmsModel.Property" Role="Property" Multiplicity="0..1" />
+          <End Type="PmsModel.ExpenseCategory" Role="ExpenseCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Property">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ExpenseCategory">
+              <PropertyRef Name="PropertyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Expenses__Expens__1DB06A4F">
+          <End Type="PmsModel.ExpenseCategory" Role="ExpenseCategory" Multiplicity="0..1" />
+          <End Type="PmsModel.Expens" Role="Expens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseCategory">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Expens">
+              <PropertyRef Name="ExpenseCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Expenses__Paymen__1EA48E88">
+          <End Type="PmsModel.PaymentType" Role="PaymentType" Multiplicity="0..1" />
+          <End Type="PmsModel.Expens" Role="Expens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Expens">
+              <PropertyRef Name="PaymentTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Expenses__Proper__1CBC4616">
+          <End Type="PmsModel.Property" Role="Property" Multiplicity="0..1" />
+          <End Type="PmsModel.Expens" Role="Expens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Property">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Expens">
+              <PropertyRef Name="PropertyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="GetTransactionData1_Result">
+          <Property Type="DateTime" Name="TransactionDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="GuestName" Nullable="true" MaxLength="401" />
+          <Property Type="Decimal" Name="AmountPaid" Nullable="true" Precision="19" />
+          <Property Type="String" Name="RoomType" Nullable="true" />
+          <Property Type="String" Name="ModeOfPayment" Nullable="true" />
+          <Property Type="Decimal" Name="RoomRate" Nullable="true" Precision="19" />
+          <Property Type="Int32" Name="TransactionNumber" Nullable="false" />
+          <Property Type="Decimal" Name="TaxCollected" Nullable="true" Precision="19" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetTransactionData2_Result">
+          <Property Type="DateTime" Name="TransactionDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="GuestName" Nullable="true" MaxLength="401" />
+          <Property Type="Decimal" Name="AmountPaid" Nullable="true" Precision="19" />
+          <Property Type="String" Name="RoomType" Nullable="true" />
+          <Property Type="String" Name="ModeOfPayment" Nullable="true" />
+          <Property Type="Decimal" Name="RoomRate" Nullable="true" Precision="19" />
+          <Property Type="Int32" Name="TransactionNumber" Nullable="false" />
+          <Property Type="Decimal" Name="TaxCollected" Nullable="true" Precision="19" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3273,6 +3494,51 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="InsertBooking" FunctionName="PmsModel.Store.InsertBooking">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PmsModel.InsertBooking_Result">
+                <ScalarProperty Name="Column1" ColumnName="Column1" />
+                <ScalarProperty Name="Column2" ColumnName="Column2" />
+                <ScalarProperty Name="Column3" ColumnName="Column3" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="InsertInvoice" FunctionName="PmsModel.Store.InsertInvoice" />
+          <FunctionImportMapping FunctionImportName="InsertRoom" FunctionName="PmsModel.Store.InsertRoom" />
+          <FunctionImportMapping FunctionImportName="InsertRoomRates" FunctionName="PmsModel.Store.InsertRoomRates" />
+          <FunctionImportMapping FunctionImportName="UpdateBooking" FunctionName="PmsModel.Store.UpdateBooking" />
+          <EntitySetMapping Name="ExpenseCategories">
+            <EntityTypeMapping TypeName="PmsModel.ExpenseCategory">
+              <MappingFragment StoreEntitySet="ExpenseCategory">
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Expenses">
+            <EntityTypeMapping TypeName="PmsModel.Expens">
+              <MappingFragment StoreEntitySet="Expenses">
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="PaymentTypeID" ColumnName="PaymentTypeID" />
+                <ScalarProperty Name="ExpenseCategoryID" ColumnName="ExpenseCategoryID" />
+                <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="GetTransactionData" FunctionName="PmsModel.Store.GetTransactionData">
             <ResultMapping>
               <ComplexTypeMapping TypeName="PmsModel.GetTransactionData_Result">
@@ -3288,19 +3554,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="InsertBooking" FunctionName="PmsModel.Store.InsertBooking">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="PmsModel.InsertBooking_Result">
-                <ScalarProperty Name="Column1" ColumnName="Column1" />
-                <ScalarProperty Name="Column2" ColumnName="Column2" />
-                <ScalarProperty Name="Column3" ColumnName="Column3" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="InsertInvoice" FunctionName="PmsModel.Store.InsertInvoice" />
-          <FunctionImportMapping FunctionImportName="InsertRoom" FunctionName="PmsModel.Store.InsertRoom" />
-          <FunctionImportMapping FunctionImportName="InsertRoomRates" FunctionName="PmsModel.Store.InsertRoomRates" />
-          <FunctionImportMapping FunctionImportName="UpdateBooking" FunctionName="PmsModel.Store.UpdateBooking" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

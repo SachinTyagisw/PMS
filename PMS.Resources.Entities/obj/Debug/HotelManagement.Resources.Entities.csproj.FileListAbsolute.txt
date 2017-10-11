@@ -1,4 +1,0 @@
-D:\HotelManagement\HotelManagement.Resources.Entities\bin\Debug\HotelManagement.Resources.Entities.dll
-D:\HotelManagement\HotelManagement.Resources.Entities\bin\Debug\HotelManagement.Resources.Entities.pdb
-D:\HotelManagement\HotelManagement.Resources.Entities\obj\Debug\HotelManagement.Resources.Entities.dll
-D:\HotelManagement\HotelManagement.Resources.Entities\obj\Debug\HotelManagement.Resources.Entities.pdb

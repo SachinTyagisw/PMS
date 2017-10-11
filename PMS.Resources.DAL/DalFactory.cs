@@ -1941,6 +1941,107 @@ namespace PMS.Resources.DAL
             return user;
         }
 
+
+        #region Expense Category
+        public int AddExpenseCategory(PmsEntity.ExpenseCategory expenseCategory)
+        {
+            var Id = -1;
+            if (expenseCategory == null) return Id;
+
+            var expensecategory = new DAL.ExpenseCategory
+            {
+                CreatedOn = expenseCategory.CreatedOn,
+                IsActive = true,
+                CreatedBy = expenseCategory.CreatedBy,
+                PropertyID = expenseCategory.PropertyId,
+                ShortName = expenseCategory.ShortName,
+                Description = expenseCategory.Description
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.ExpenseCategories.Add(expensecategory);
+                var result = pmsContext.SaveChanges();
+                Id = result == 1 ? expensecategory.ID : -1;
+            }
+
+            return Id;
+        }
+
+        public bool UpdateExpenseCategory(PmsEntity.ExpenseCategory expenseCategory)
+        {
+            var isUpdated = false;
+            if (expenseCategory == null) return isUpdated;
+
+            var expensecategory = new DAL.ExpenseCategory
+            {
+                LastUpdatedOn = expenseCategory.LastUpdatedOn,
+                IsActive = expenseCategory.IsActive,
+                LastUpdatedBy = expenseCategory.LastUpdatedBy,
+                PropertyID = expenseCategory.PropertyId,
+                Description = expenseCategory.Description,
+                ShortName = expenseCategory.ShortName,
+                ID = expenseCategory.Id,
+                CreatedBy = expenseCategory.CreatedBy,
+                CreatedOn = expenseCategory.CreatedOn
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Entry(expensecategory).State = System.Data.Entity.EntityState.Modified;
+                var result = pmsContext.SaveChanges();
+                isUpdated = result == 1 ? true : false;
+            }
+
+            return isUpdated;
+        }
+
+        public bool DeleteExpenseCategory(int expenseCategoryId)
+        {
+            var isDeleted = false;
+            if (expenseCategoryId <= 0) return isDeleted;
+
+            var expensecategory = new DAL.ExpenseCategory
+            {
+                IsActive = false,
+                ID = expenseCategoryId
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.ExpenseCategories.Attach(expensecategory);
+                pmsContext.Entry(expensecategory).Property(x => x.IsActive).IsModified = true;
+                var result = pmsContext.SaveChanges();
+                isDeleted = result == 1 ? true : false;
+            }
+            return isDeleted;
+        }
+
+        public List<PmsEntity.ExpenseCategory> GetExpenseCategoryByProperty(int propertyId)
+        {
+            var expenseCategorys = new List<PmsEntity.ExpenseCategory>();
+            using (var pmsContext = new PmsEntities())
+            {
+                expenseCategorys = pmsContext.ExpenseCategories.Where(x => x.PropertyID == propertyId && x.IsActive)
+                                                 .Select(x => new PmsEntity.ExpenseCategory
+                                                 {
+                                                     CreatedOn = x.CreatedOn,
+                                                     Description = x.Description,
+                                                     CreatedBy = x.CreatedBy,
+                                                     LastUpdatedBy = x.LastUpdatedBy,
+                                                     LastUpdatedOn = x.LastUpdatedOn,
+                                                     Id = x.ID,
+                                                     PropertyId = x.PropertyID,
+                                                     ShortName = x.ShortName,
+                                                     IsActive = x.IsActive
+                                                 }).ToList();
+
+            }
+
+            return expenseCategorys;
+
+        }
+        #endregion 
         private bool SaveRoomRateIndDb(int propertyId, string rateXml)
         {
             using (var pmsContext = new PmsEntities())

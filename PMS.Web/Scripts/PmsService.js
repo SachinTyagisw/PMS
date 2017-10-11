@@ -112,6 +112,14 @@
             OnDeleteBookingFailure: null,
             OnUpdateStatusSuccess: null,
             OnUpdateStatusFailure: null,
+            OnGetExpenseCategoryByPropertySuccess: null,
+            OnGetExpenseCategoryByPropertyFailure: null,
+            OnDeleteExpenseCategorySuccess: null,
+            OnDeleteExpenseCategoryFailure: null,
+            OnAddExpenseCategorySuccess: null,
+            OnAddExpenseCategoryFailure: null,
+            OnUpdateExpenseCategorySuccess: null,
+            OnUpdateExpenseCategoryFailure: null,
         };
 
         this.UpdateStatus = function (args) {
@@ -320,6 +328,22 @@
 
         this.GetRateTypeByProperty = function (args) {
             makeAjaxRequestGet(args, "GetRateTypeByProperty", this, "api/v1/Room/GetRateTypeByProperty/" + args.propertyId);
+        };
+
+        this.GetExpenseCategoryByProperty = function (args) {
+            makeAjaxRequestGet(args, "GetExpenseCategoryByProperty", this, "api/v1/ExpenseCategory/GetExpenseCategoryByProperty/" + args.propertyId);
+        };
+
+        this.UpdateExpenseCategory = function (args) {
+            makeAjaxRequestPut(args, "UpdateExpenseCategory", this, "api/v1/ExpenseCategory/UpdateExpenseCategory");
+        };
+
+        this.AddExpenseCategory = function (args) {
+            makeAjaxRequestPost(args, "AddExpenseCategory", this, "api/v1/ExpenseCategory/AddExpenseCategory");
+        };
+
+        this.DeleteExpenseCategory = function (args) {
+            makeAjaxRequestDelete(args, "DeleteExpenseCategory", this, "api/v1/ExpenseCategory/DeleteExpenseCategory/" + args.typeId);
         };
 
         function makeAjaxRequestDelete(args, operationName, e, uri) {

@@ -69,6 +69,12 @@
         <AssociationConnector Association="PmsModel.FK__RoomPrici__RateT__2B3F6F97" ManuallyRouted="false" />
         <AssociationConnector Association="PmsModel.FK__Room__RoomTypeID__2E1BDC42" ManuallyRouted="false" />
         <AssociationConnector Association="PmsModel.FK__RoomPrici__RoomT__29572725" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="PmsModel.ExpenseCategory" Width="1.5" PointX="3" PointY="31.375" />
+        <EntityTypeShape EntityType="PmsModel.Expens" Width="1.5" PointX="13.25" PointY="28.875" />
+        <AssociationConnector Association="PmsModel.FK__ExpenseCa__Prope__18EBB532" />
+        <AssociationConnector Association="PmsModel.FK__Expenses__Expens__1DB06A4F" />
+        <AssociationConnector Association="PmsModel.FK__Expenses__Paymen__1EA48E88" />
+        <AssociationConnector Association="PmsModel.FK__Expenses__Proper__1CBC4616" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

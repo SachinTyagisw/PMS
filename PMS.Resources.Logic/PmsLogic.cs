@@ -431,6 +431,27 @@ namespace PMS.Resources.Logic
             return DalFactory.DeleteBooking(bookingId);
         }
 
+
+        public int AddExpenseCategory(PmsEntity.ExpenseCategory expenseCategory)
+        {
+            return DalFactory.AddExpenseCategory(expenseCategory);
+        }
+
+        public bool UpdateExpenseCategory(PmsEntity.ExpenseCategory expenseCategory)
+        {
+            return DalFactory.UpdateExpenseCategory(expenseCategory);
+        }
+
+        public bool DeleteExpenseCategory(int expenseCategoryId)
+        {
+            return DalFactory.DeleteExpenseCategory(expenseCategoryId);
+        }
+
+        public List<PmsEntity.ExpenseCategory> GetExpenseCategoryByProperty(int propertyId)
+        {
+            return DalFactory.GetExpenseCategoryByProperty(propertyId);
+        }
+
         #region Helper method
 
         private string RemoveXmlDefaultNode(string xml)

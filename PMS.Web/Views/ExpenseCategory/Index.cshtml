@@ -1,0 +1,162 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type='text/javascript'>
+    var gcm = window.GuestCheckinManager;
+    function makeFieldsReadonly(rowObject) {
+        rowObject.attr('contenteditable', 'false');
+        rowObject.css('background-color', 'transparent');
+    }
+
+    function OnPropertyChange() {
+        if ($('#ddlProperty').val() <= 0) {
+            alert('Select valid property');
+            return;
+        }
+        gcm.GetExpenseCategory($('#ddlProperty').val());
+    }
+
+    $(document).ready(function () {
+
+        gcm.GetAllProperty();
+
+        $("#divExpenseCategory").on("click", ".fa-plus-circle", function () {
+            $(this).closest('tr').after('<tr><td class="idRow" contenteditable="false"></td><td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"></td><td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"></td><td class="finalActionsCol"><i class="fa  fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-floppy-o editMode" aria-hidden="true"></i> </td></tr>');
+        });
+
+        $("#divExpenseCategory").on("click", ".fa-minus-circle", function () {
+            if (confirm("Are you sure you want to delete ?")) {
+                var expenseCategoryId = $(this).closest('tr')[0].id;
+                $(this).closest('tr').remove();
+                if (expenseCategoryId <= 0) return;
+                gcm.DeleteExpenseCategory(expenseCategoryId);
+                if ($('#divExpenseCategory tbody tr').length <= 0) {
+                    $('#ddlProperty').val('-1');
+                }
+            }
+        });
+
+        $("#divExpenseCategory").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {
+            var thisRow = $(this).parent().siblings();
+            var editOn = $(this).hasClass("editMode");
+            var expenseCategoryId = $(thisRow)[0].innerText;
+            var propertyId = $('#ddlProperty').val();
+            var expenseCategoryName = $(thisRow)[1].innerText;
+            var shortCode = $(thisRow)[2].innerText;
+
+            if (editOn == false) {
+                gcm.OnGridEdit(editOn, $(thisRow), $(this));
+                makeFieldsReadonly($(thisRow[0]));
+            } else if (editOn == true) {
+                if (!expenseCategoryName || expenseCategoryName.length <= 0 || expenseCategoryName.trim() === "") {
+                    alert("Payment type name is required");
+                    $(thisRow)[1].focus();
+                    return;
+                }
+                if (!shortCode || shortCode.length <= 0 || shortCode.trim() === "") {
+                    alert("Short code is required");
+                    $(thisRow)[2].focus();
+                    return;
+                }
+                if (expenseCategoryId > 0) {
+                    var existingExpenseCategory = gcm.FindSetting(expenseCategoryId, window.GuestCheckinManager.PropertySettingResponseDto.ExpenseCategorySettings);
+                    if (!existingExpenseCategory) return;
+                    existingExpenseCategory.Name = expenseCategoryName;
+                    existingExpenseCategory.ShortName = shortCode;
+                    //call UpdateExpenseCategory api
+                    gcm.UpdateExpenseCategory(existingExpenseCategory);
+                } else {
+                    if (propertyId <= 0) {
+                        alert("Select valid property");
+                        return;
+                    }
+                    var expenseCategory = {};
+                    expenseCategory.Description = expenseCategoryName;
+                    expenseCategory.ShortName = shortCode;
+                    expenseCategory.PropertyId = propertyId;
+                    Notifications.SubscribeActive("on-expensecategory-add-success", function (sender, args) {
+                        window.GuestCheckinManager.GetExpenseCategory($('#ddlProperty').val());
+                    });
+                    //call AddExpenseCategory api
+                    gcm.AddExpenseCategory(expenseCategory);
+                }
+                gcm.OnGridEdit(editOn, $(thisRow), $(this));
+            }
+        });
+
+    });
+</script>
+<div class="content-wrap">
+    <div class="main controls">
+        <div class="container-fluid">
+            <div class="col-lg-12 p-r-0 p-l-0">
+                <div class="card alert">
+                    <div class="card-header">
+                        <h4>Create Expense Categories</h4>
+                    </div>
+                    <div class="card-body room-details">
+                        <div class="row" style="">
+                            <div class="form-group col-lg-8 m-t-10">
+                                <label>Search</label>
+                                <input type="text" class="search form-control" placeholder="Search by Payment Type, Short Code...">
+                            </div>
+
+                            <div class="col-lg-2 p-l-0 p-r-0 m-t-10">
+                                <div class="form-group">
+                                    <label>Select Property</label>
+                                    <select id="ddlProperty" onchange="OnPropertyChange();">
+                                        <option value="-1">Select Property</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div id="divExpenseCategory" class="table-data">
+                                <span class="counter"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="divLoader">
+    <div class="loader" style="display:none;">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+</div>
+<script type="text/html" id="expensecategoryTemplate">
+    <table class="table table-hover table-bordered results tableContents">
+        <thead>
+            <tr>
+                <th id="IDCol">ID #</th>
+                <th id="expenseCategoryCol" contenteditable="false">Expense Category</th>
+                <th id="shortCodeCol" contenteditable="false">Short Code</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{if typeof ExpenseCategories != "undefined" && ExpenseCategories != "null" && ExpenseCategories.length > 0 }}
+            {{each ExpenseCategories}}
+            <tr id="${$value.Id}">
+                <td class="idRow" contenteditable="false">${$value.Id}</td>
+                <td contenteditable="false">${$value.Description}</td>
+                <td contenteditable="false">${$value.ShortName}</td>
+            </tr>
+            {{/each}}
+            {{else}}
+            <tr>
+                <td class="idRow" contenteditable="false"></td>
+                <td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"></td>
+                <td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"></td>
+            </tr>
+            {{/if}}
+        </tbody>
+    </table>
+</script>
+

@@ -172,6 +172,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BookingController.cs" />
+    <Compile Include="Controllers\ExpenseCategoryController.cs" />
     <Compile Include="Controllers\ExtraChargeController.cs" />
     <Compile Include="Controllers\FloorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -180,6 +181,7 @@
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PropertyController.cs" />
     <Compile Include="Controllers\RateController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RoomController.cs" />
     <Compile Include="Controllers\RoomTypeController.cs" />
     <Compile Include="Controllers\TaxController.cs" />
@@ -472,6 +474,8 @@
     <Content Include="Views\HouseKeeping\DashBoard.cshtml" />
     <Content Include="Views\Reports\DailySummary.cshtml" />
     <Content Include="Views\Reports\ShiftReport.cshtml" />
+    <Content Include="Views\ExpenseCategory\Index.cshtml" />
+    <Content Include="Views\Reports\ViewTransaction.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

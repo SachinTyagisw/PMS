@@ -1,4 +1,0 @@
-D:\PMS\PMS.Resources.Entities\bin\Release\PMS.Resources.Entities.dll
-D:\PMS\PMS.Resources.Entities\bin\Release\PMS.Resources.Entities.pdb
-D:\PMS\PMS.Resources.Entities\obj\Release\PMS.Resources.Entities.dll
-D:\PMS\PMS.Resources.Entities\obj\Release\PMS.Resources.Entities.pdb

@@ -1,7 +1,0 @@
-D:\HotelManagement\HotelManagement.Resources.DTO\bin\Debug\HotelManagement.Resources.DTO.dll
-D:\HotelManagement\HotelManagement.Resources.DTO\bin\Debug\HotelManagement.Resources.DTO.pdb
-D:\HotelManagement\HotelManagement.Resources.DTO\bin\Debug\HotelManagement.Resources.Entities.dll
-D:\HotelManagement\HotelManagement.Resources.DTO\bin\Debug\HotelManagement.Resources.Entities.pdb
-D:\HotelManagement\HotelManagement.Resources.DTO\obj\Debug\HotelManagement.Resources.DTO.csprojResolveAssemblyReference.cache
-D:\HotelManagement\HotelManagement.Resources.DTO\obj\Debug\HotelManagement.Resources.DTO.dll
-D:\HotelManagement\HotelManagement.Resources.DTO\obj\Debug\HotelManagement.Resources.DTO.pdb

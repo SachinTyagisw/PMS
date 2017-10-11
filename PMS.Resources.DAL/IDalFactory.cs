@@ -97,6 +97,12 @@ namespace PMS.Resources.DAL
         bool UpdateStatus(List<PmsEntity.Booking> booking);
         bool DeleteBooking(int bookingId);
         PmsEntity.User GetValidUser(string loginName, string password);
+
+        //Payment Type Methods
+        int AddExpenseCategory(PmsEntity.ExpenseCategory expenseCategory);
+        bool UpdateExpenseCategory(PmsEntity.ExpenseCategory expenseCategory);
+        bool DeleteExpenseCategory(int expenseCategoryId);
+        List<PmsEntity.ExpenseCategory> GetExpenseCategoryByProperty(int propertyId);
     }
 }
 
