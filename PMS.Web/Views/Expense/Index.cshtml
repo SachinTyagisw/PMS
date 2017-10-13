@@ -1,0 +1,264 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type='text/javascript'>
+    var gcm = window.GuestCheckinManager;
+    function makeFieldsReadonly(rowObject) {
+        rowObject.attr('contenteditable', 'false');
+        rowObject.css('background-color', 'transparent');
+    }
+
+    function OnPropertyChange() {
+        if ($('#ddlProperty').val() <= 0) {
+            alert('Select valid property');
+            return;
+        }
+        gcm.GetExpense($('#ddlProperty').val());
+    }
+
+    $(document).ready(function () {
+
+        gcm.GetAllProperty();
+
+        $("#divExpense").on("click", ".fa-plus-circle", function () {
+            $(this).closest('tr').after('<tr>'+
+                '<td class="idRow" contenteditable="false"></td>'+
+                '<td contenteditable="false" style="background-color: rgba(255,255,255,0.7);"></td>'+
+                '<td contenteditable="false" style="background-color: rgba(255,255,255,0.7);">'+
+                    '<select style="display:block" id="ddlExpenseCategoryAdd" class="form-control">'+
+                        '<option value="-1">Select Category</option>'+
+                    '</select>'+
+                '</td>'+
+                '<td contenteditable="false" style="background-color: rgba(255,255,255,0.7);">'+
+                    '<select style="display:block" id="ddlPaymentTypeAdd" class="form-control">'+
+                        '<option value="-1">Select Payment</option>'+
+                    '</select>'+
+                '</td>'+
+                '<td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"></td>'+
+                '<td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"></td>' +
+                ' <td class="finalActionsCol">'+
+                    '<i class="fa  fa-plus-circle" aria-hidden="true"></i>'+
+                    '<i class="fa fa-minus-circle" aria-hidden="true"></i>'+
+                    '<i class="fa fa-floppy-o editMode" aria-hidden="true"></i>'+
+                '</td>'+
+            '</tr>');
+            gcm.FillExpenseCategory($('#ddlExpenseCategoryAdd'), $('#ddlProperty').val());
+            gcm.FillPaymentMode($('#ddlPaymentTypeAdd'), $('#ddlProperty').val());
+        });
+
+        $("#divExpense").on("click", ".fa-minus-circle", function () {
+            if (confirm("Are you sure you want to delete ?")) {
+                var expenseId = $(this).closest('tr')[0].id;
+                $(this).closest('tr').remove();
+                if (expenseId <= 0) return;
+                gcm.DeleteExpense(expenseId);
+                if ($('#divExpense tbody tr').length <= 0) {
+                    $('#ddlProperty').val('-1');
+                }
+            }
+        });
+
+        $("#divExpense").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {
+            var thisRow = $(this).parent().siblings();
+            var editOn = $(this).hasClass("editMode");
+            var expenseId = $(thisRow)[0].innerText;
+            var propertyId = $('#ddlProperty').val();
+            var category = $(thisRow)[2].innerText;
+            var paymenttype = $(thisRow)[3].innerText;
+            var amount = $(thisRow)[4].innerText;
+            var comment = $(thisRow)[5].innerText;
+
+            if (editOn == false) {
+                gcm.OnGridEdit(editOn, $(thisRow), $(this)); 
+
+                var ddlcategory = $('#ddlcategory').clone(true);
+                ddlcategory[0].style = 'display:block';
+                ddlcategory[0].id = 'ddlcategory' + expenseId;
+                var categorySelector = '#' + ddlcategory[0].id;
+                $(thisRow)[2].innerText = "";
+                $(thisRow[2]).attr('contenteditable', 'false');
+                $(thisRow[2]).append(ddlcategory);
+
+                gcm.FillExpenseCategory($(categorySelector), $('#ddlProperty').val(), function ()
+                {
+                    $(categorySelector + " option").each(function () {
+                        if ($(this).text() == category) {
+                            $(this).attr('selected', 'selected');
+                        }
+                    });
+                });
+                
+                var ddlpayment = $('#ddlpayment').clone(true);
+                ddlpayment[0].style = 'display:block';
+                ddlpayment[0].id = 'ddlpayment' + expenseId;
+                var paymentSelector = '#' + ddlpayment[0].id;
+                $(thisRow)[3].innerText = "";
+                $(thisRow[3]).attr('contenteditable', 'false');
+                $(thisRow[3]).append(ddlpayment);
+
+                gcm.FillPaymentMode($(paymentSelector), $('#ddlProperty').val(), function () {
+                    $(paymentSelector + " option").each(function () {
+                        if ($(this).text() == paymenttype) {
+                            $(this).attr('selected', 'selected');
+                        }
+                    });
+                });
+
+                makeFieldsReadonly($(thisRow[0]));
+                makeFieldsReadonly($(thisRow[1]));
+            } else if (editOn == true) {
+                var categoryId = $(thisRow)[2].children[0].value;
+                var paymenttypeId = $(thisRow)[3].children[0].value;
+
+                if (!categoryId || categoryId <= 0 ) {
+                    alert("Expense Category is required");
+                    $(thisRow)[2].focus();
+                    return;
+                }
+                if (!paymenttypeId || paymenttypeId <= 0 ) {
+                    alert("payment type is required");
+                    $(thisRow)[3].focus();
+                    return;
+                }
+                if (!amount || amount.length <= 0 || amount.trim() === "") {
+                    alert("amount is required");
+                    $(thisRow)[4].focus();
+                    return;
+                }
+                if (!comment || comment.length <= 0 || comment.trim() === "") {
+                    alert("comment is required");
+                    $(thisRow)[5].focus();
+                    return;
+                }
+                if (expenseId > 0) {
+                    var existingExpense = gcm.FindSetting(expenseId, window.GuestCheckinManager.PropertySettingResponseDto.ExpenseSettings);
+                    if (!existingExpense) return;
+                    existingExpense.ExpenseCategoryID = categoryId;
+                    existingExpense.PaymentTypeID = paymenttypeId;
+                    existingExpense.Amount = amount;
+                    existingExpense.Description = comment;
+                    //call UpdateExpense api
+                    gcm.UpdateExpense(existingExpense);
+
+                    Notifications.SubscribeActive("on-expense-add-success", function (sender, args) {
+                        window.GuestCheckinManager.GetExpense($('#ddlProperty').val());
+                    });
+                } else {
+                    if (propertyId <= 0) {
+                        alert("Select valid property");
+                        return;
+                    }
+                    var expense = {};
+                    expense.ExpenseCategoryID = categoryId;
+                    expense.PaymentTypeID = paymenttypeId;
+                    expense.Amount = amount;
+                    expense.Description = comment;
+                    expense.PropertyId = propertyId;
+                    Notifications.SubscribeActive("on-expense-add-success", function (sender, args) {
+                        window.GuestCheckinManager.GetExpense($('#ddlProperty').val());
+                    });
+                    //call AddExpense api
+                    gcm.AddExpense(expense);
+                }
+                gcm.OnGridEdit(editOn, $(thisRow), $(this));
+            }
+        });
+
+    });
+</script>
+<div class="content-wrap">
+    <div class="main controls">
+        <div class="container-fluid">
+            <div class="col-lg-12 p-r-0 p-l-0">
+                <div class="card alert">
+                    <div class="card-header">
+                        <h4>Create Expense Categories</h4>
+                    </div>
+                    <div class="card-body room-details">
+                        <div class="row" style="">
+                            <div class="form-group col-lg-8 m-t-10">
+                                <label>Search</label>
+                                <input type="text" class="search form-control" placeholder="Search by Payment Type, Short Code...">
+                            </div>
+
+                            <div class="col-lg-2 p-l-0 p-r-0 m-t-10">
+                                <div class="form-group">
+                                    <label>Select Property</label>
+                                    <select id="ddlProperty" onchange="OnPropertyChange();">
+                                        <option value="-1">Select Property</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div id="divExpense" class="table-data">
+                                <span class="counter"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="divLoader">
+    <div class="loader" style="display:none;">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+</div>
+<script type="text/html" id="expenseTemplate">
+    <table class="table table-hover table-bordered results tableContents">
+        <thead>
+            <tr>
+                <th id="IDCol">ID #</th>
+                <th id="dateCol" contenteditable="false">Date</th>
+                <th id="categoryCol" contenteditable="false">Category</th>
+                <th id="paymentTypeCol" contenteditable="false">Payment Type</th>
+                <th id="amountCol" contenteditable="false">Amount</th>
+                <th id="commentCol" contenteditable="false">Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{if typeof Expenses != "undefined" && Expenses != "null" && Expenses.length > 0 }}
+            {{each Expenses}}
+            <tr id="${$value.Id}">
+                <td class="idRow" contenteditable="false">${$value.Id}</td>
+                <td contenteditable="false">${String($value.CreatedOn).replace('T', ' ')}</td>
+                <td id=${$value.ExpenseCategory.Id} contenteditable="false">${$value.ExpenseCategory.Description}</td>
+                <td id=${$value.PaymentType.Id} contenteditable="false">${$value.PaymentType.Description}</td>
+                <td contenteditable="false">${$value.Amount}</td>
+                <td contenteditable="false">${$value.Description}</td>
+            </tr>
+            {{/each}}
+            {{else}}
+            <tr>
+                <td class="idRow" contenteditable="false"></td>
+                <td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"></td>
+                <td contenteditable="false" style="background-color: rgba(255,255,255,0.7);">
+                    <select style="display:block" id="ddlExpenseCategoryAdd" class="form-control">
+                        <option value="-1">Select Category</option>
+                    </select>
+                </td>
+                <td contenteditable="false" style="background-color: rgba(255,255,255,0.7);">
+                    <select style="display:block" id="ddlPaymentTypeAdd" class="form-control">
+                        <option value="-1">Select Payment</option>
+                    </select>
+                </td>
+                <td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"></td>
+                <td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"></td>
+            </tr>
+            {{/if}}
+        </tbody>
+    </table>
+</script>
+<select style="display:none" id="ddlcategory" class="form-control">
+    <option value="-1">Select Category</option>
+</select>
+<select style="display:none" id="ddlpayment" class="form-control">
+    <option value="-1">Select Category</option>
+</select>

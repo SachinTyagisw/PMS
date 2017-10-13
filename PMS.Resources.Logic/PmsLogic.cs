@@ -431,7 +431,6 @@ namespace PMS.Resources.Logic
             return DalFactory.DeleteBooking(bookingId);
         }
 
-
         public int AddExpenseCategory(PmsEntity.ExpenseCategory expenseCategory)
         {
             return DalFactory.AddExpenseCategory(expenseCategory);
@@ -450,6 +449,26 @@ namespace PMS.Resources.Logic
         public List<PmsEntity.ExpenseCategory> GetExpenseCategoryByProperty(int propertyId)
         {
             return DalFactory.GetExpenseCategoryByProperty(propertyId);
+        }
+
+        public int AddExpense(PmsEntity.Expense expense)
+        {
+            return DalFactory.AddExpense(expense);
+        }
+
+        public bool UpdateExpense(PmsEntity.Expense expense)
+        {
+            return DalFactory.UpdateExpense(expense);
+        }
+
+        public bool DeleteExpense(int expenseId)
+        {
+            return DalFactory.DeleteExpense(expenseId);
+        }
+
+        public List<PmsEntity.Expense> GetExpenseByProperty(int propertyId)
+        {
+            return DalFactory.GetExpenseByProperty(propertyId);
         }
 
         #region Helper method

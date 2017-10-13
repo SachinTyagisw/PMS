@@ -95,11 +95,16 @@ namespace PMS.Resources.Logic
         bool UpdateStatus(List<PmsEntity.Booking> request);
         bool DeleteBooking(int bookingId);
 
-
         //Expense Category Methods
-        int AddExpenseCategory(PmsEntity.ExpenseCategory paymentType);
-        bool UpdateExpenseCategory(PmsEntity.ExpenseCategory paymentType);
-        bool DeleteExpenseCategory(int paymentTypeId);
+        int AddExpenseCategory(PmsEntity.ExpenseCategory expenseCategory);
+        bool UpdateExpenseCategory(PmsEntity.ExpenseCategory expenseCategory);
+        bool DeleteExpenseCategory(int expenseCategoryId);
         List<PmsEntity.ExpenseCategory> GetExpenseCategoryByProperty(int propertyId);
+
+        //Expense Methods
+        int AddExpense(PmsEntity.Expense expense);
+        bool UpdateExpense(PmsEntity.Expense expense);
+        bool DeleteExpense(int expenseId);
+        List<PmsEntity.Expense> GetExpenseByProperty(int propertyId);
     }
 }

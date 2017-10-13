@@ -120,6 +120,14 @@
             OnAddExpenseCategoryFailure: null,
             OnUpdateExpenseCategorySuccess: null,
             OnUpdateExpenseCategoryFailure: null,
+            OnGetExpenseByPropertySuccess: null,
+            OnGetExpenseByPropertyFailure: null,
+            OnDeleteExpenseSuccess: null,
+            OnDeleteExpenseFailure: null,
+            OnAddExpenseSuccess: null,
+            OnAddExpenseFailure: null,
+            OnUpdateExpenseSuccess: null,
+            OnUpdateExpenseFailure: null,
         };
 
         this.UpdateStatus = function (args) {
@@ -344,6 +352,22 @@
 
         this.DeleteExpenseCategory = function (args) {
             makeAjaxRequestDelete(args, "DeleteExpenseCategory", this, "api/v1/ExpenseCategory/DeleteExpenseCategory/" + args.typeId);
+        };
+
+        this.GetExpenseByProperty = function (args) {
+            makeAjaxRequestGet(args, "GetExpenseByProperty", this, "api/v1/Expense/GetExpenseByProperty/" + args.propertyId);
+        };
+
+        this.UpdateExpense = function (args) {
+            makeAjaxRequestPut(args, "UpdateExpense", this, "api/v1/Expense/UpdateExpense");
+        };
+
+        this.AddExpense = function (args) {
+            makeAjaxRequestPost(args, "AddExpense", this, "api/v1/Expense/AddExpense");
+        };
+
+        this.DeleteExpense = function (args) {
+            makeAjaxRequestDelete(args, "DeleteExpense", this, "api/v1/Expense/DeleteExpense/" + args.typeId);
         };
 
         function makeAjaxRequestDelete(args, operationName, e, uri) {

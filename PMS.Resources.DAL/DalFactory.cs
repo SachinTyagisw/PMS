@@ -2042,6 +2042,126 @@ namespace PMS.Resources.DAL
 
         }
         #endregion 
+
+        #region Expense
+        public int AddExpense(PmsEntity.Expense expense)
+        {
+            var Id = -1;
+            if (expense == null) return Id;
+
+            var expens = new DAL.Expens
+            {
+                CreatedOn = expense.CreatedOn,
+                IsActive = true,
+                CreatedBy = expense.CreatedBy,
+                PropertyID = expense.PropertyID,
+                Description = expense.Description,
+                 Amount= expense.Amount,
+                  ExpenseCategoryID= expense.ExpenseCategoryID,
+                   PaymentTypeID= expense.PaymentTypeID
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Expenses.Add(expens);
+                var result = pmsContext.SaveChanges();
+                Id = result == 1 ? expens.ID : -1;
+            }
+
+            return Id;
+        }
+
+        public bool UpdateExpense(PmsEntity.Expense expense)
+        {
+            var isUpdated = false;
+            if (expense == null) return isUpdated;
+
+            var expens = new DAL.Expens
+            {
+                LastUpdatedOn = expense.LastUpdatedOn,
+                IsActive = expense.IsActive,
+                LastUpdatedBy = expense.LastUpdatedBy,
+                PropertyID = expense.PropertyID,
+                Description = expense.Description,
+                Amount = expense.Amount,
+                ExpenseCategoryID = expense.ExpenseCategoryID,
+                PaymentTypeID = expense.PaymentTypeID,
+                ID = expense.Id,
+                CreatedBy = expense.CreatedBy,
+                CreatedOn = expense.CreatedOn
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Entry(expens).State = System.Data.Entity.EntityState.Modified;
+                var result = pmsContext.SaveChanges();
+                isUpdated = result == 1 ? true : false;
+            }
+
+            return isUpdated;
+        }
+
+        public bool DeleteExpense(int expenseId)
+        {
+            var isDeleted = false;
+            if (expenseId <= 0) return isDeleted;
+
+            var expens = new DAL.Expens
+            {
+                IsActive = false,
+                ID = expenseId
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Expenses.Attach(expens);
+                pmsContext.Entry(expens).Property(x => x.IsActive).IsModified = true;
+                var result = pmsContext.SaveChanges();
+                isDeleted = result == 1 ? true : false;
+            }
+            return isDeleted;
+        }
+
+        public List<PmsEntity.Expense> GetExpenseByProperty(int propertyId)
+        {
+            var expenses = new List<PmsEntity.Expense>();
+            using (var pmsContext = new PmsEntities())
+            {
+                expenses = pmsContext.Expenses.Where(x => x.PropertyID == propertyId && (x.IsActive.Value && x.IsActive.Value))
+                    .Join(pmsContext.ExpenseCategories, a => a.ExpenseCategoryID, f => f.ID,
+                                        (a, f) => new { a, f })
+                                        .Join(pmsContext.PaymentTypes, i => i.a.PaymentTypeID, r => r.ID,
+                                        (i, r) => new { i, r })
+                                        .Select(x => new PmsEntity.Expense
+                                        {
+                                            CreatedOn = x.i.a.CreatedOn,
+                                            Description = x.i.a.Description,
+                                            CreatedBy = x.i.a.CreatedBy,
+                                            LastUpdatedBy = x.i.a.LastUpdatedBy,
+                                            LastUpdatedOn = x.i.a.LastUpdatedOn,
+                                            Id = x.i.a.ID,
+                                            PropertyID = x.i.a.PropertyID,
+                                            Amount = x.i.a.Amount,
+                                            PaymentType = new PmsEntity.PaymentType
+                                            {
+                                                Id = x.r.ID,
+                                                ShortName = x.r.ShortName,
+                                                Description = x.r.Description
+                                            },
+                                            ExpenseCategory = new PmsEntity.ExpenseCategory
+                                            {
+                                                Id = x.i.f.ID,
+                                                ShortName = x.i.f.ShortName,
+                                                Description = x.i.f.Description
+                                            },
+                                            IsActive = x.i.a.IsActive
+                                        }).ToList();
+            }
+
+            return expenses;
+
+        }
+        #endregion 
         private bool SaveRoomRateIndDb(int propertyId, string rateXml)
         {
             using (var pmsContext = new PmsEntities())

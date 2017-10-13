@@ -22,6 +22,7 @@
             TaxSettings: null,
             Bookings: null,
             ExpenseCategorySettings: null,
+            ExpenseSettings: null,
         },
 
         BookingDto: {
@@ -203,7 +204,7 @@
         BindPaymentModeDdl: function (ddlPaymentType, paymentTypes) {
             if (!ddlPaymentType || !paymentTypes || paymentTypes.length <= 0) return;
             ddlPaymentType.empty();
-            ddlPaymentType.append(new Option("Select PaymentType", "-1"));
+            ddlPaymentType.append(new Option("Select Payment", "-1"));
             for (var i = 0; i < paymentTypes.length; i++) {
                 ddlPaymentType.append(new Option(paymentTypes[i].Description, paymentTypes[i].Id));
             }
@@ -1244,7 +1245,7 @@
         FindSetting: function (id, settings) {
             if (!settings || settings.length <= 0) return null;
             for (var i = 0; i < settings.length; i++) {
-                if (settings[i].Id !== parseInt(id)) continue;
+                if (settings[i].Id !== parseInt(id)) continue;               
                 return settings[i];
             }
             return null;
@@ -1458,17 +1459,19 @@
             }
         },
 
-        FillPaymentMode: function (ddlPaymentMode, propertyId) {
+        FillPaymentMode: function (ddlPaymentMode, propertyId, callback) {
             if (!ddlPaymentMode || !propertyId || propertyId <= 0) return;
 
             var paymentTypes = window.GuestCheckinManager.PropertySettingResponseDto.PaymentTypeSettings;
             if (!paymentTypes || paymentTypes.length <= 0) {
                 Notifications.SubscribeActive("on-paymenttype-get-success-booking", function (sender, args) {
                     window.GuestCheckinManager.BindPaymentModeDdl(ddlPaymentMode, window.GuestCheckinManager.PropertySettingResponseDto.PaymentTypeSettings);
+                    if (callback) callback();
                 });
                 window.GuestCheckinManager.GetPaymentType(propertyId);
             } else {
                 window.GuestCheckinManager.BindPaymentModeDdl(ddlPaymentMode, paymentTypes);
+                if (callback) callback();
             }
         },
 
@@ -1504,6 +1507,22 @@
             }
         },
 
+        FillExpenseCategory: function (ddlExpenseCategory, propertyId, callback)
+        {
+            if (!ddlExpenseCategory || !propertyId || propertyId <= 0) return;
+            var expensecategory = window.GuestCheckinManager.PropertySettingResponseDto.ExpenseCategorySettings;
+            if (!expensecategory || expensecategory.length <= 0) {
+                Notifications.SubscribeActive("on-expensecategory-get-success", function (sender, args) {
+                    window.GuestCheckinManager.BindExpenseCategoryDdl(ddlExpenseCategory, window.GuestCheckinManager.PropertySettingResponseDto.ExpenseCategorySettings);
+                    if (callback) callback();
+                });
+                window.GuestCheckinManager.GetExpenseCategory(propertyId);
+            } else {
+                window.GuestCheckinManager.BindExpenseCategoryDdl(ddlExpenseCategory, expensecategory);
+                if (callback) callback();
+            }
+        },
+
         DeleteRoomRate: function (rateId) {
             // DeleteRoomRate by api calling  
             args.rateId = rateId;
@@ -1528,6 +1547,14 @@
             ddlFloor.append(new Option("Select Floor", "-1"));
             for (var i = 0; i < floors.length; i++) {
                 ddlFloor.append(new Option(floors[i].FloorNumber, floors[i].Id));
+            }
+        },
+        BindExpenseCategoryDdl: function (ddlExpenseCategory, expensecategories) {
+            if (!ddlExpenseCategory || !expensecategories || expensecategories.length <= 0) return;
+            ddlExpenseCategory.empty();
+            ddlExpenseCategory.append(new Option("Select Category", "-1"));
+            for (var i = 0; i < expensecategories.length; i++) {
+                ddlExpenseCategory.append(new Option(expensecategories[i].Description, expensecategories[i].Id));
             }
         },
 
@@ -1935,6 +1962,54 @@
             } else {
                 // when no expensecategory data is present in db 
                 $("#divExpenseCategory tbody tr").append('<td class="finalActionsCol"><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td>');
+            }
+        },        
+
+        GetExpense: function (propertyId) {
+            args.propertyId = propertyId && propertyId > 0 ? propertyId : getPropertyId();
+            // get payment types by api calling  
+            pmsService.GetExpenseByProperty(args);
+        },
+
+        DeleteExpense: function (typeId) {
+            // DeleteExpense by api calling  
+            args.typeId = typeId;
+            pmsService.DeleteExpense(args);
+        },
+
+        AddExpense: function (expense) {
+            expense.CreatedBy = getCreatedBy();
+            expense.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
+            var expenseRequestDto = {};
+            expenseRequestDto.Expense = {};
+            // Addexpense by api calling  
+            expenseRequestDto.Expense = expense;
+            pmsService.AddExpense(expenseRequestDto);
+        },
+
+        UpdateExpense: function (expense) {
+            expense.LastUpdatedBy = getCreatedBy();
+            expense.LastUpdatedOn = window.GuestCheckinManager.GetCurrentDate();
+            // UpdateExpense by api calling 
+            var expenseRequestDto = {};
+            expenseRequestDto.Expense = {};
+            expenseRequestDto.Expense = expense;
+            pmsService.UpdateExpense(expenseRequestDto);
+        },
+       
+        PopulateExpenseGrid: function (data) {
+            var divExpense = $('#divExpense');
+            var expenseTemplate = $('#expenseTemplate');
+            if (!divExpense || !expenseTemplate || divExpense.length <= 0 || expenseTemplate.length <= 0) return;
+            divExpense.html(expenseTemplate.render(data));
+            $("#divExpense thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
+            if (data && data.Expenses && data.Expenses.length > 0) {
+                $("#divExpense tbody tr").append('<td class="finalActionsCol"><i class="fa fa-plus-circle" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+            } else {
+                // when no expense data is present in db 
+                $("#divExpense tbody tr").append('<td class="finalActionsCol"><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td>');
+                window.GuestCheckinManager.FillExpenseCategory($('#ddlExpenseCategoryAdd'), $('#ddlProperty').val());
+                window.GuestCheckinManager.FillPaymentMode($('#ddlPaymentTypeAdd'), $('#ddlProperty').val());
             }
         },
         AjaxHandlers: function () {
@@ -2355,14 +2430,15 @@
 
                 var divInvoice = $('#divInvoice');
                 var invoiceTemplate = $('#invoiceTemplate');
+                
                 if (divInvoice && divInvoice.length > 0 && invoiceTemplate && invoiceTemplate.length > 0) {
                     //storing payment type data into session storage only for checkin screen exclude paymenttype admin screen
-                    pmsSession.SetItem("paymenttype", JSON.stringify(data.PaymentTypes));
+                    pmsSession.SetItem("paymenttype", JSON.stringify(data.PaymentTypes));    
                     if (window.Notifications) window.Notifications.Notify("on-paymenttype-get-success", null, null);
                 }
-
                 var divBooking = $('#divBooking');
-                if (divBooking && divBooking.length > 0) {
+                var divExpense= $('#divExpense');
+                if ((divBooking && divBooking.length > 0) || (divExpense && divExpense.length>0)) {
                     if (window.Notifications) window.Notifications.Notify("on-paymenttype-get-success-booking", null, null);
                 }
             };
@@ -2725,18 +2801,7 @@
                 window.GuestCheckinManager.PropertySettingResponseDto.ExpenseCategorySettings = data.ExpenseCategories;
                 window.GuestCheckinManager.PopulateExpenseCategoryGrid(data);
 
-                var divInvoice = $('#divInvoice');
-                var invoiceTemplate = $('#invoiceTemplate');
-                if (divInvoice && divInvoice.length > 0 && invoiceTemplate && invoiceTemplate.length > 0) {
-                    //storing payment type data into session storage only for checkin screen exclude paymenttype admin screen
-                    pmsSession.SetItem("paymenttype", JSON.stringify(data.PaymentTypes));
-                    if (window.Notifications) window.Notifications.Notify("on-paymenttype-get-success", null, null);
-                }
-
-                var divBooking = $('#divBooking');
-                if (divBooking && divBooking.length > 0) {
-                    if (window.Notifications) window.Notifications.Notify("on-paymenttype-get-success-booking", null, null);
-                }
+                if (window.Notifications) window.Notifications.Notify("on-expensecategory-get-success", null, null);
             };
 
             pmsService.Handlers.OnGetExpenseCategoryByPropertyFailure = function () {
@@ -2781,6 +2846,59 @@
             pmsService.Handlers.OnUpdateExpenseCategorySuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
+                //alert(status);
+            };
+
+            pmsService.Handlers.OnGetExpenseByPropertySuccess = function (data) {
+                window.GuestCheckinManager.PropertySettingResponseDto.ExpenseSettings = null;
+                window.GuestCheckinManager.PropertySettingResponseDto.ExpenseSettings = data.Expenses;
+                window.GuestCheckinManager.PopulateExpenseGrid(data);
+               
+            };
+
+            pmsService.Handlers.OnGetExpenseByPropertyFailure = function () {
+                console.error("Get Expense call failed");
+            };
+
+            pmsService.Handlers.OnAddExpenseSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                if (data.ResponseObject > 0) {
+                    console.log(status);
+                    //alert(status);
+                    // to fetch new data                    
+                    if (window.Notifications) window.Notifications.Notify("on-expense-add-success", null, null);
+
+                } else {
+                    console.error(status);
+                    alert(status);
+                }
+            };
+
+            pmsService.Handlers.OnAddExpenseFailure = function () {
+                // show error log
+                console.error("Expense is not added.");
+            };
+
+            pmsService.Handlers.OnDeleteExpenseFailure = function () {
+                // show error log
+                console.error("Expense s not deleted.");
+            };
+
+            pmsService.Handlers.OnDeleteExpenseSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                //alert(status);
+            };
+
+            pmsService.Handlers.OnUpdateExpenseFailure = function () {
+                // show error log
+                console.error("Expense is not updated.");
+            };
+
+            pmsService.Handlers.OnUpdateExpenseSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                if (window.Notifications) window.Notifications.Notify("on-expense-add-success", null, null);
                 //alert(status);
             };
         }
