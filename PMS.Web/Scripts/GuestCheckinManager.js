@@ -2782,7 +2782,7 @@
             };
 
             pmsService.Handlers.OnGetBookingTransactionSuccess = function (data) {
-                if (!data || !data.Bookings || data.Bookings.length <= 0) return;
+                if (!data) return;
                 window.GuestCheckinManager.PropertySettingResponseDto.Bookings = null;
                 window.GuestCheckinManager.PropertySettingResponseDto.Bookings = data.Bookings;
 

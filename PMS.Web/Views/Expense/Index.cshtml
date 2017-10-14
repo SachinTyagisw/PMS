@@ -36,7 +36,7 @@
                         '<option value="-1">Select Payment</option>'+
                     '</select>'+
                 '</td>'+
-                '<td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"></td>'+
+                '<td contenteditable="true" class="decimal" style="background-color: rgba(255,255,255,0.7);"></td>' +
                 '<td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"></td>' +
                 ' <td class="finalActionsCol">'+
                     '<i class="fa  fa-plus-circle" aria-hidden="true"></i>'+
@@ -166,6 +166,20 @@
             }
         });
 
+        $('#divExpense').on('keypress', '.decimal', function (event) {
+            return isNumber(event, this);
+        });
+
+        function isNumber(evt, element) {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+
+            if (
+                (charCode != 46 || $(element)[0].innerText.indexOf('.') != -1) &&      // “.” CHECK DOT, AND ONLY ONE.
+                (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }
     });
 </script>
 <div class="content-wrap">
@@ -174,13 +188,13 @@
             <div class="col-lg-12 p-r-0 p-l-0">
                 <div class="card alert">
                     <div class="card-header">
-                        <h4>Create Expense Categories</h4>
+                        <h4>Create Expense</h4>
                     </div>
                     <div class="card-body room-details">
                         <div class="row" style="">
                             <div class="form-group col-lg-8 m-t-10">
                                 <label>Search</label>
-                                <input type="text" class="search form-control" placeholder="Search by Payment Type, Short Code...">
+                                <input type="text" class="search form-control" placeholder="Search by Expense Category, Payment Type...">
                             </div>
 
                             <div class="col-lg-2 p-l-0 p-r-0 m-t-10">
@@ -231,7 +245,7 @@
                 <td contenteditable="false">${String($value.CreatedOn).replace('T', ' ')}</td>
                 <td id=${$value.ExpenseCategory.Id} contenteditable="false">${$value.ExpenseCategory.Description}</td>
                 <td id=${$value.PaymentType.Id} contenteditable="false">${$value.PaymentType.Description}</td>
-                <td contenteditable="false">${$value.Amount}</td>
+                <td contenteditable="false" class="decimal">${$value.Amount}</td>
                 <td contenteditable="false">${$value.Description}</td>
             </tr>
             {{/each}}
@@ -249,7 +263,7 @@
                         <option value="-1">Select Payment</option>
                     </select>
                 </td>
-                <td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"></td>
+                <td contenteditable="true" class="decimal" style="background-color: rgba(255,255,255,0.7);"></td>
                 <td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"></td>
             </tr>
             {{/if}}

@@ -51,7 +51,7 @@
                 makeFieldsReadonly($(thisRow[0]));
             } else if (editOn == true) {
                 if (!expenseCategoryName || expenseCategoryName.length <= 0 || expenseCategoryName.trim() === "") {
-                    alert("Payment type name is required");
+                    alert("Expense Category name is required");
                     $(thisRow)[1].focus();
                     return;
                 }
@@ -63,7 +63,7 @@
                 if (expenseCategoryId > 0) {
                     var existingExpenseCategory = gcm.FindSetting(expenseCategoryId, window.GuestCheckinManager.PropertySettingResponseDto.ExpenseCategorySettings);
                     if (!existingExpenseCategory) return;
-                    existingExpenseCategory.Name = expenseCategoryName;
+                    existingExpenseCategory.Description = expenseCategoryName;
                     existingExpenseCategory.ShortName = shortCode;
                     //call UpdateExpenseCategory api
                     gcm.UpdateExpenseCategory(existingExpenseCategory);
@@ -100,7 +100,7 @@
                         <div class="row" style="">
                             <div class="form-group col-lg-8 m-t-10">
                                 <label>Search</label>
-                                <input type="text" class="search form-control" placeholder="Search by Payment Type, Short Code...">
+                                <input type="text" class="search form-control" placeholder="Search by Expense Category, Short Code...">
                             </div>
 
                             <div class="col-lg-2 p-l-0 p-r-0 m-t-10">
