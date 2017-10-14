@@ -23,7 +23,8 @@ CREATE TABLE [dbo].[Expenses](
 	[CreatedBy] [nvarchar](200) NULL,
 	[CreatedOn] [datetime] NULL,
 	[LastUpdatedBy] [nvarchar](200) NULL,
-	[LastUpdatedOn] [datetime] NULL
+	[LastUpdatedOn] [datetime] NULL,
+	[ExpenseDate] [datetime] NULL
 ) ON [PRIMARY]
 
 GO
