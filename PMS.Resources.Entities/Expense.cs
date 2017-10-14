@@ -29,6 +29,9 @@ namespace PMS.Resources.Entities
         public string LastUpdatedBy { get; set; }
 
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }
+
+        public Nullable<System.DateTime> ExpenseDate { get; set; }
+
         public ExpenseCategory ExpenseCategory { get; set; }
 
         public PaymentType PaymentType { get; set; }

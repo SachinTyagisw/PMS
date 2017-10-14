@@ -61,6 +61,7 @@
     <Compile Include="Request\GetInvoiceRequestDto.cs" />
     <Compile Include="Request\GetRoomByDateRequestDto.cs" />
     <Compile Include="Request\PropertyFloorRequestDto.cs" />
+    <Compile Include="Request\SearchExpenseRequestDto.cs" />
     <Compile Include="Request\TaxRequestDto.cs" />
     <Compile Include="Request\UpdatePropertyRequestDto.cs" />
     <Compile Include="Request\UpdatePropertyTypeRequestDto.cs" />

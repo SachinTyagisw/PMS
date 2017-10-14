@@ -96,6 +96,9 @@
     <Compile Include="GetBookingDetails_Result.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="GetExpenseData_Result.cs">
+      <DependentUpon>PmsModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="GETGUESTTRANSACTIONS_Result.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>

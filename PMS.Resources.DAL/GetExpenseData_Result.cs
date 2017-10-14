@@ -13,9 +13,8 @@ namespace PMS.Resources.DAL
 {
 
 using System;
-    using System.Collections.Generic;
     
-public partial class Expens
+public partial class GetExpenseData_Result
 {
 
     public int ID { get; set; }
@@ -32,23 +31,23 @@ public partial class Expens
 
     public Nullable<bool> IsActive { get; set; }
 
-    public string CreatedBy { get; set; }
+    public Nullable<System.DateTime> ExpenseDate { get; set; }
 
     public Nullable<System.DateTime> CreatedOn { get; set; }
+
+    public string CreatedBy { get; set; }
 
     public string LastUpdatedBy { get; set; }
 
     public Nullable<System.DateTime> LastUpdatedOn { get; set; }
 
-    public Nullable<System.DateTime> ExpenseDate { get; set; }
+    public string PaymentShortName { get; set; }
 
+    public string PaymentDesc { get; set; }
 
+    public string CategoryShortName { get; set; }
 
-    public virtual ExpenseCategory ExpenseCategory { get; set; }
-
-    public virtual PaymentType PaymentType { get; set; }
-
-    public virtual Property Property { get; set; }
+    public string CategoryDesc { get; set; }
 
 }
 

@@ -10,22 +10,75 @@
         rowObject.css('background-color', 'transparent');
     }
 
+    function makeFieldDatePicker(rowObject) {
+        rowObject.addClass('gridDatePicker');
+        $('.gridDatePicker').datetimepicker();
+    }
+
     function OnPropertyChange() {
         if ($('#ddlProperty').val() <= 0) {
             alert('Select valid property');
             return;
         }
-        gcm.GetExpense($('#ddlProperty').val());
+        gcm.FillPaymentMode($('#ddlpayment'), $('#ddlProperty').val());
+
+        searchExpense();
+
+
+    }
+
+    function searchExpense() {
+        var propertyId = $('#ddlProperty').val();
+        var minAmountPaid = $('#minAmountPaid').val();
+        var maxAmountPaid = $('#maxAmountPaid').val();
+        var paymentTypeId = $("#ddlpayment").val();
+        var dateFrom = $('#dateFrom').val();
+        var dateTo = $('#dateTo').val();
+        var getExpenseResponseDto = {};
+        getExpenseResponseDto.StartDate = dateFrom && dateFrom.trim() !== '' ? dateFrom : null;
+        getExpenseResponseDto.EndDate = dateTo && dateTo.trim() !== '' ? dateTo : null;
+        getExpenseResponseDto.PaymentId = paymentTypeId != "-1" ? paymentTypeId : null;
+        getExpenseResponseDto.AmountPaidMin = minAmountPaid && minAmountPaid.trim() !== '' ? minAmountPaid : null;
+        getExpenseResponseDto.AmountPaidMax = maxAmountPaid && maxAmountPaid.trim() !== '' ? maxAmountPaid : null;
+        getExpenseResponseDto.PropertyId = propertyId && propertyId != '-1' ? parseInt(propertyId) : null;
+        gcm.GetExpense(getExpenseResponseDto);
+    }
+
+    function exportExpense()
+    {
+        var expenses = window.GuestCheckinManager.PropertySettingResponseDto.ExpenseSettings;
+        if (expenses && expenses.length > 0) {
+            var csv = 'ID#,Date,Category,ModeofPayment,Amount,Description\n';
+            expenses.forEach(function (row) {
+                var dtExpense = row.ExpenseDate ? String(row.ExpenseDate).replace('T', ' ') : '';
+                csv += row.Id
+                    + "," + dtExpense
+                    + "," + row.ExpenseCategory.Description
+                    + "," + row.PaymentType.Description
+                    + "," + row.Amount
+                    + "," + row.Description;
+                csv += "\n";
+            });
+
+            var hiddenElement = document.createElement('a');
+            hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+            hiddenElement.target = '_blank';
+            hiddenElement.download = 'expenses.csv';
+            hiddenElement.click();
+        }
     }
 
     $(document).ready(function () {
+        $('.gridDatePicker').datetimepicker();
 
         gcm.GetAllProperty();
 
         $("#divExpense").on("click", ".fa-plus-circle", function () {
             $(this).closest('tr').after('<tr>'+
                 '<td class="idRow" contenteditable="false"></td>'+
-                '<td contenteditable="false" style="background-color: rgba(255,255,255,0.7);"></td>'+
+                '<td contenteditable="true"  style="background-color: rgba(255,255,255,0.7);">' +
+                '<input class="gridDatePicker" id="txtExpenseDate"/>'+
+                '</td>' +
                 '<td contenteditable="false" style="background-color: rgba(255,255,255,0.7);">'+
                     '<select style="display:block" id="ddlExpenseCategoryAdd" class="form-control">'+
                         '<option value="-1">Select Category</option>'+
@@ -46,6 +99,8 @@
             '</tr>');
             gcm.FillExpenseCategory($('#ddlExpenseCategoryAdd'), $('#ddlProperty').val());
             gcm.FillPaymentMode($('#ddlPaymentTypeAdd'), $('#ddlProperty').val());
+
+            $('.gridDatePicker').datetimepicker();
         });
 
         $("#divExpense").on("click", ".fa-minus-circle", function () {
@@ -65,6 +120,7 @@
             var editOn = $(this).hasClass("editMode");
             var expenseId = $(thisRow)[0].innerText;
             var propertyId = $('#ddlProperty').val();
+            var expenseDate = $(thisRow)[1].innerText;
             var category = $(thisRow)[2].innerText;
             var paymenttype = $(thisRow)[3].innerText;
             var amount = $(thisRow)[4].innerText;
@@ -72,6 +128,18 @@
 
             if (editOn == false) {
                 gcm.OnGridEdit(editOn, $(thisRow), $(this)); 
+
+                var txtExpenseDate = $('#dateFrom').clone(true);
+                txtExpenseDate[0].style = 'display:block';
+                txtExpenseDate[0].className = 'gridDatePicker';
+                txtExpenseDate[0].id = 'txtExpenseDate' + expenseId;                
+                var expenseDateSelector = '#' + txtExpenseDate[0].id;
+                $(thisRow)[1].innerText = "";
+                $(thisRow[1]).attr('contenteditable', 'false');
+                $(thisRow[1]).append(txtExpenseDate);
+
+                makeFieldDatePicker($(thisRow[1]));
+                txtExpenseDate[0].value = expenseDate;
 
                 var ddlcategory = $('#ddlcategory').clone(true);
                 ddlcategory[0].style = 'display:block';
@@ -98,6 +166,8 @@
                 $(thisRow[3]).attr('contenteditable', 'false');
                 $(thisRow[3]).append(ddlpayment);
 
+               
+
                 gcm.FillPaymentMode($(paymentSelector), $('#ddlProperty').val(), function () {
                     $(paymentSelector + " option").each(function () {
                         if ($(this).text() == paymenttype) {
@@ -107,10 +177,17 @@
                 });
 
                 makeFieldsReadonly($(thisRow[0]));
-                makeFieldsReadonly($(thisRow[1]));
+               
             } else if (editOn == true) {
                 var categoryId = $(thisRow)[2].children[0].value;
                 var paymenttypeId = $(thisRow)[3].children[0].value;
+                expenseDate = $(thisRow)[1].children[0].value;
+                
+                if (!expenseDate || expenseDate.length <= 0 || expenseDate.trim() === "") {
+                    alert("Expense Date is required");
+                    $(thisRow)[1].focus();
+                    return;
+                }
 
                 if (!categoryId || categoryId <= 0 ) {
                     alert("Expense Category is required");
@@ -128,7 +205,7 @@
                     return;
                 }
                 if (!comment || comment.length <= 0 || comment.trim() === "") {
-                    alert("comment is required");
+                    alert("Description is required");
                     $(thisRow)[5].focus();
                     return;
                 }
@@ -139,11 +216,12 @@
                     existingExpense.PaymentTypeID = paymenttypeId;
                     existingExpense.Amount = amount;
                     existingExpense.Description = comment;
+                    existingExpense.ExpenseDate = expenseDate;
                     //call UpdateExpense api
                     gcm.UpdateExpense(existingExpense);
 
                     Notifications.SubscribeActive("on-expense-add-success", function (sender, args) {
-                        window.GuestCheckinManager.GetExpense($('#ddlProperty').val());
+                        searchExpense();
                     });
                 } else {
                     if (propertyId <= 0) {
@@ -156,8 +234,10 @@
                     expense.Amount = amount;
                     expense.Description = comment;
                     expense.PropertyId = propertyId;
+                    expense.ExpenseDate = expenseDate;
                     Notifications.SubscribeActive("on-expense-add-success", function (sender, args) {
-                        window.GuestCheckinManager.GetExpense($('#ddlProperty').val());
+                       // window.GuestCheckinManager.GetExpense($('#ddlProperty').val());
+                        searchExpense();
                     });
                     //call AddExpense api
                     gcm.AddExpense(expense);
@@ -168,6 +248,14 @@
 
         $('#divExpense').on('keypress', '.decimal', function (event) {
             return isNumber(event, this);
+        });
+
+        $("#btnSearch").click(function () {
+            searchExpense();
+        });
+
+        $("#btnExport").click(function () {
+            exportExpense();
         });
 
         function isNumber(evt, element) {
@@ -191,6 +279,8 @@
                         <h4>Create Expense</h4>
                     </div>
                     <div class="card-body room-details">
+                        
+
                         <div class="row" style="">
                             <div class="form-group col-lg-8 m-t-10">
                                 <label>Search</label>
@@ -205,11 +295,82 @@
                                     </select>
                                 </div>
                             </div>
+                            </div>
+                            <fieldset class="data-mgmt-section">
+                                <legend>Search Criteria:</legend>
+                                <div class="row" style="">
+                                    <div class="col-md-2 p-r-0">
+                                        <div class="form-group">
+                                            <div class='input-group date' id='datetimepicker1'>
+                                                <label>Start Date &nbsp;&nbsp;</label>
+                                                <input id="dateFrom" type='text' class="form-control calendar" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                            <script type="text/javascript">
+                                                    $(function () {
+                                                        $('#datetimepicker1').datetimepicker();
+                                                    });
+                                            </script>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 p-r-0">
+                                        <div class="form-group">
+                                            <div class='input-group date' id='datetimepicker2'>
+                                                <label>End Date</label>
+                                                <input id="dateTo" type='text' class="form-control calendar" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                            <script type="text/javascript">
+                                                    $(function () {
+                                                        $('#datetimepicker2').datetimepicker();
+                                                    });
+                                            </script>
+                                        </div>
+                                    </div>
 
+                                    <div class="col-lg-2 p-r-0">
+                                        <div class="form-group">
+                                            <label>Payment Type</label>
+                                            <select id="ddlpayment">
+                                                <option value="-1">Select Payment Type</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-1 p-r-0">
+                                        <div class="form-group">
+                                            <label>Amount</label>
+                                            <div class="form-group">
+                                                <input id="minAmountPaid" type="text" placeholder="Min" class="form-control decimal" name="example-input-normal">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-1 p-r-0 dash">
+                                        <div class="form-group">
+                                            <label>&nbsp;</label>
+                                            <div class="form-group">
+                                                <input id="maxAmountPaid" type="text" placeholder="Max" class="form-control decimal" name="example-input-normal">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 p-t-5">
+                                        <div class="form-group btn-set">
+                                            <button id="btnSearch" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button">Search</button>
+                                            <button id="btnExport" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button">Export</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        
+                        <div class="row" style="">
                             <div id="divExpense" class="table-data">
                                 <span class="counter"></span>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>
@@ -234,7 +395,7 @@
                 <th id="categoryCol" contenteditable="false">Category</th>
                 <th id="paymentTypeCol" contenteditable="false">Payment Type</th>
                 <th id="amountCol" contenteditable="false">Amount</th>
-                <th id="commentCol" contenteditable="false">Comments</th>
+                <th id="commentCol" contenteditable="false">Description</th>
             </tr>
         </thead>
         <tbody>
@@ -242,7 +403,7 @@
             {{each Expenses}}
             <tr id="${$value.Id}">
                 <td class="idRow" contenteditable="false">${$value.Id}</td>
-                <td contenteditable="false">${String($value.CreatedOn).replace('T', ' ')}</td>
+                <td contenteditable="false">${String($value.ExpenseDate).replace('T', ' ')}</td>
                 <td id=${$value.ExpenseCategory.Id} contenteditable="false">${$value.ExpenseCategory.Description}</td>
                 <td id=${$value.PaymentType.Id} contenteditable="false">${$value.PaymentType.Description}</td>
                 <td contenteditable="false" class="decimal">${$value.Amount}</td>
@@ -252,7 +413,9 @@
             {{else}}
             <tr>
                 <td class="idRow" contenteditable="false"></td>
-                <td contenteditable="true" style="background-color: rgba(255,255,255,0.7);"></td>
+                <td  contenteditable="true" style="background-color: rgba(255,255,255,0.7);">
+                    <input class="gridDatePicker" id="txtExpenseDate"/>
+                </td>
                 <td contenteditable="false" style="background-color: rgba(255,255,255,0.7);">
                     <select style="display:block" id="ddlExpenseCategoryAdd" class="form-control">
                         <option value="-1">Select Category</option>
@@ -271,8 +434,5 @@
     </table>
 </script>
 <select style="display:none" id="ddlcategory" class="form-control">
-    <option value="-1">Select Category</option>
-</select>
-<select style="display:none" id="ddlpayment" class="form-control">
     <option value="-1">Select Category</option>
 </select>

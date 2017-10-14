@@ -1965,10 +1965,8 @@
             }
         },        
 
-        GetExpense: function (propertyId) {
-            args.propertyId = propertyId && propertyId > 0 ? propertyId : getPropertyId();
-            // get payment types by api calling  
-            pmsService.GetExpenseByProperty(args);
+        GetExpense: function (args) {
+            pmsService.GetExpenseBySearch(args);
         },
 
         DeleteExpense: function (typeId) {
@@ -2849,14 +2847,14 @@
                 //alert(status);
             };
 
-            pmsService.Handlers.OnGetExpenseByPropertySuccess = function (data) {
+            pmsService.Handlers.OnGetExpenseBySearchSuccess = function (data) {
                 window.GuestCheckinManager.PropertySettingResponseDto.ExpenseSettings = null;
                 window.GuestCheckinManager.PropertySettingResponseDto.ExpenseSettings = data.Expenses;
                 window.GuestCheckinManager.PopulateExpenseGrid(data);
                
             };
 
-            pmsService.Handlers.OnGetExpenseByPropertyFailure = function () {
+            pmsService.Handlers.OnGetExpenseBySearchFailure = function () {
                 console.error("Get Expense call failed");
             };
 

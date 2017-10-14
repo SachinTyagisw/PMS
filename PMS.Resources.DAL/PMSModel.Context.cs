@@ -436,6 +436,48 @@ public partial class PmsEntities : DbContext
         return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetTransactionData_Result>("GetTransactionData", startDateParameter, endDateParameter, customerNameParameter, roomTypeParameter, minAmountPaidParameter, maxAmountPaidParameter, paymentmodeParameter, transactionStatusParameter, propertyIdParameter);
     }
 
+
+    public virtual ObjectResult<GetExpenseData_Result> GetExpenseData(Nullable<System.DateTime> startDate, Nullable<System.DateTime> endDate, Nullable<int> paymentTypeID, Nullable<int> expenseCategoryID, Nullable<decimal> amountPaidMin, Nullable<decimal> amountPaidMax, Nullable<int> propertyId)
+    {
+
+        var startDateParameter = startDate.HasValue ?
+            new ObjectParameter("StartDate", startDate) :
+            new ObjectParameter("StartDate", typeof(System.DateTime));
+
+
+        var endDateParameter = endDate.HasValue ?
+            new ObjectParameter("EndDate", endDate) :
+            new ObjectParameter("EndDate", typeof(System.DateTime));
+
+
+        var paymentTypeIDParameter = paymentTypeID.HasValue ?
+            new ObjectParameter("PaymentTypeID", paymentTypeID) :
+            new ObjectParameter("PaymentTypeID", typeof(int));
+
+
+        var expenseCategoryIDParameter = expenseCategoryID.HasValue ?
+            new ObjectParameter("ExpenseCategoryID", expenseCategoryID) :
+            new ObjectParameter("ExpenseCategoryID", typeof(int));
+
+
+        var amountPaidMinParameter = amountPaidMin.HasValue ?
+            new ObjectParameter("AmountPaidMin", amountPaidMin) :
+            new ObjectParameter("AmountPaidMin", typeof(decimal));
+
+
+        var amountPaidMaxParameter = amountPaidMax.HasValue ?
+            new ObjectParameter("AmountPaidMax", amountPaidMax) :
+            new ObjectParameter("AmountPaidMax", typeof(decimal));
+
+
+        var propertyIdParameter = propertyId.HasValue ?
+            new ObjectParameter("PropertyId", propertyId) :
+            new ObjectParameter("PropertyId", typeof(int));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetExpenseData_Result>("GetExpenseData", startDateParameter, endDateParameter, paymentTypeIDParameter, expenseCategoryIDParameter, amountPaidMinParameter, amountPaidMaxParameter, propertyIdParameter);
+    }
+
 }
 
 }

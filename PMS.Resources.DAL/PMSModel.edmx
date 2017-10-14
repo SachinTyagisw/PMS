@@ -155,6 +155,7 @@
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
           <Property Name="LastUpdatedOn" Type="datetime" />
+          <Property Name="ExpenseDate" Type="datetime" />
         </EntityType>
         <EntityType Name="ExtraCharges">
           <Key>
@@ -572,7 +573,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Booking__RateTyp__6C190EBB">
+        <Association Name="FK__Booking__RateTyp__6EF57B66">
           <End Role="RateType" Type="Self.RateType" Multiplicity="0..1" />
           <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
           <ReferentialConstraint>
@@ -608,7 +609,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ExpenseCa__Prope__18EBB532">
+        <Association Name="FK__ExpenseCa__Prope__29221CFB">
           <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
           <End Role="ExpenseCategory" Type="Self.ExpenseCategory" Multiplicity="*" />
           <ReferentialConstraint>
@@ -620,7 +621,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Expenses__Expens__1DB06A4F">
+        <Association Name="FK__Expenses__Expens__2DE6D218">
           <End Role="ExpenseCategory" Type="Self.ExpenseCategory" Multiplicity="0..1" />
           <End Role="Expenses" Type="Self.Expenses" Multiplicity="*" />
           <ReferentialConstraint>
@@ -632,7 +633,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Expenses__Paymen__1EA48E88">
+        <Association Name="FK__Expenses__Paymen__2EDAF651">
           <End Role="PaymentType" Type="Self.PaymentType" Multiplicity="0..1" />
           <End Role="Expenses" Type="Self.Expenses" Multiplicity="*" />
           <ReferentialConstraint>
@@ -644,7 +645,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Expenses__Proper__1CBC4616">
+        <Association Name="FK__Expenses__Proper__2CF2ADDF">
           <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
           <End Role="Expenses" Type="Self.Expenses" Multiplicity="*" />
           <ReferentialConstraint>
@@ -788,7 +789,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Rates__RoomId__797309D9">
+        <Association Name="FK__Rates__RoomId__7C4F7684">
           <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
           <End Role="Rates" Type="Self.Rates" Multiplicity="*" />
           <ReferentialConstraint>
@@ -836,7 +837,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Room__FloorId__7D439ABD">
+        <Association Name="FK__Room__FloorId__00200768">
           <End Role="PropertyFloor" Type="Self.PropertyFloor" Multiplicity="0..1" />
           <End Role="Room" Type="Self.Room" Multiplicity="*" />
           <ReferentialConstraint>
@@ -995,6 +996,15 @@
         <Function Name="GetBookingDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="BookingID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetExpenseData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="StartDate" Type="datetime" Mode="In" />
+          <Parameter Name="EndDate" Type="datetime" Mode="In" />
+          <Parameter Name="PaymentTypeID" Type="int" Mode="In" />
+          <Parameter Name="ExpenseCategoryID" Type="int" Mode="In" />
+          <Parameter Name="AmountPaidMin" Type="money" Mode="In" />
+          <Parameter Name="AmountPaidMax" Type="money" Mode="In" />
+          <Parameter Name="PropertyId" Type="int" Mode="In" />
+        </Function>
         <Function Name="GETGUESTTRANSACTIONS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="GUESTID" Type="int" Mode="In" />
         </Function>
@@ -1107,7 +1117,7 @@
             <End Role="Property" EntitySet="Property" />
             <End Role="Booking" EntitySet="Booking" />
           </AssociationSet>
-          <AssociationSet Name="FK__Booking__RateTyp__6C190EBB" Association="Self.FK__Booking__RateTyp__6C190EBB">
+          <AssociationSet Name="FK__Booking__RateTyp__6EF57B66" Association="Self.FK__Booking__RateTyp__6EF57B66">
             <End Role="RateType" EntitySet="RateType" />
             <End Role="Booking" EntitySet="Booking" />
           </AssociationSet>
@@ -1119,19 +1129,19 @@
             <End Role="State" EntitySet="State" />
             <End Role="City" EntitySet="City" />
           </AssociationSet>
-          <AssociationSet Name="FK__ExpenseCa__Prope__18EBB532" Association="Self.FK__ExpenseCa__Prope__18EBB532">
+          <AssociationSet Name="FK__ExpenseCa__Prope__29221CFB" Association="Self.FK__ExpenseCa__Prope__29221CFB">
             <End Role="Property" EntitySet="Property" />
             <End Role="ExpenseCategory" EntitySet="ExpenseCategory" />
           </AssociationSet>
-          <AssociationSet Name="FK__Expenses__Expens__1DB06A4F" Association="Self.FK__Expenses__Expens__1DB06A4F">
+          <AssociationSet Name="FK__Expenses__Expens__2DE6D218" Association="Self.FK__Expenses__Expens__2DE6D218">
             <End Role="ExpenseCategory" EntitySet="ExpenseCategory" />
             <End Role="Expenses" EntitySet="Expenses" />
           </AssociationSet>
-          <AssociationSet Name="FK__Expenses__Paymen__1EA48E88" Association="Self.FK__Expenses__Paymen__1EA48E88">
+          <AssociationSet Name="FK__Expenses__Paymen__2EDAF651" Association="Self.FK__Expenses__Paymen__2EDAF651">
             <End Role="PaymentType" EntitySet="PaymentType" />
             <End Role="Expenses" EntitySet="Expenses" />
           </AssociationSet>
-          <AssociationSet Name="FK__Expenses__Proper__1CBC4616" Association="Self.FK__Expenses__Proper__1CBC4616">
+          <AssociationSet Name="FK__Expenses__Proper__2CF2ADDF" Association="Self.FK__Expenses__Proper__2CF2ADDF">
             <End Role="Property" EntitySet="Property" />
             <End Role="Expenses" EntitySet="Expenses" />
           </AssociationSet>
@@ -1179,7 +1189,7 @@
             <End Role="RateType" EntitySet="RateType" />
             <End Role="Rates" EntitySet="Rates" />
           </AssociationSet>
-          <AssociationSet Name="FK__Rates__RoomId__797309D9" Association="Self.FK__Rates__RoomId__797309D9">
+          <AssociationSet Name="FK__Rates__RoomId__7C4F7684" Association="Self.FK__Rates__RoomId__7C4F7684">
             <End Role="Room" EntitySet="Room" />
             <End Role="Rates" EntitySet="Rates" />
           </AssociationSet>
@@ -1195,7 +1205,7 @@
             <End Role="Property" EntitySet="Property" />
             <End Role="RateType" EntitySet="RateType" />
           </AssociationSet>
-          <AssociationSet Name="FK__Room__FloorId__7D439ABD" Association="Self.FK__Room__FloorId__7D439ABD">
+          <AssociationSet Name="FK__Room__FloorId__00200768" Association="Self.FK__Room__FloorId__00200768">
             <End Role="PropertyFloor" EntitySet="PropertyFloor" />
             <End Role="Room" EntitySet="Room" />
           </AssociationSet>
@@ -2460,6 +2470,15 @@
             <Parameter Name="TransactionStatus" Mode="In" Type="Boolean" />
             <Parameter Name="PropertyId" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="GetExpenseData" ReturnType="Collection(PmsModel.GetExpenseData_Result)">
+            <Parameter Name="StartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="PaymentTypeID" Mode="In" Type="Int32" />
+            <Parameter Name="ExpenseCategoryID" Mode="In" Type="Int32" />
+            <Parameter Name="AmountPaidMin" Mode="In" Type="Decimal" />
+            <Parameter Name="AmountPaidMax" Mode="In" Type="Decimal" />
+            <Parameter Name="PropertyId" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="GETALLBOOKINGS_Result">
           <Property Type="Int32" Name="ID" Nullable="true" />
@@ -2686,6 +2705,7 @@
           <NavigationProperty Name="ExpenseCategory" Relationship="PmsModel.FK__Expenses__Expens__1DB06A4F" FromRole="Expens" ToRole="ExpenseCategory" />
           <NavigationProperty Name="PaymentType" Relationship="PmsModel.FK__Expenses__Paymen__1EA48E88" FromRole="Expens" ToRole="PaymentType" />
           <NavigationProperty Name="Property" Relationship="PmsModel.FK__Expenses__Proper__1CBC4616" FromRole="Expens" ToRole="Property" />
+          <Property Name="ExpenseDate" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK__ExpenseCa__Prope__18EBB532">
           <End Type="PmsModel.Property" Role="Property" Multiplicity="0..1" />
@@ -2756,6 +2776,24 @@
           <Property Type="Int32" Name="TransactionNumber" Nullable="false" />
           <Property Type="Decimal" Name="TaxCollected" Nullable="true" Precision="19" />
           <Property Type="Boolean" Name="Status" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetExpenseData_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="PropertyID" Nullable="true" />
+          <Property Type="Int32" Name="ExpenseCategoryID" Nullable="true" />
+          <Property Type="Int32" Name="PaymentTypeID" Nullable="true" />
+          <Property Type="Decimal" Name="Amount" Nullable="true" Precision="19" />
+          <Property Type="String" Name="Description" Nullable="true" />
+          <Property Type="Boolean" Name="IsActive" Nullable="true" />
+          <Property Type="DateTime" Name="ExpenseDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="CreatedOn" Nullable="true" Precision="23" />
+          <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="LastUpdatedBy" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="LastUpdatedOn" Nullable="true" Precision="23" />
+          <Property Type="String" Name="PaymentShortName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="PaymentDesc" Nullable="true" />
+          <Property Type="String" Name="CategoryShortName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CategoryDesc" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3525,6 +3563,7 @@
           <EntitySetMapping Name="Expenses">
             <EntityTypeMapping TypeName="PmsModel.Expens">
               <MappingFragment StoreEntitySet="Expenses">
+                <ScalarProperty Name="ExpenseDate" ColumnName="ExpenseDate" />
                 <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
                 <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
@@ -3551,6 +3590,28 @@
                 <ScalarProperty Name="TransactionNumber" ColumnName="TransactionNumber" />
                 <ScalarProperty Name="TaxCollected" ColumnName="TaxCollected" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetExpenseData" FunctionName="PmsModel.Store.GetExpenseData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PmsModel.GetExpenseData_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
+                <ScalarProperty Name="ExpenseCategoryID" ColumnName="ExpenseCategoryID" />
+                <ScalarProperty Name="PaymentTypeID" ColumnName="PaymentTypeID" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ExpenseDate" ColumnName="ExpenseDate" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+                <ScalarProperty Name="PaymentShortName" ColumnName="PaymentShortName" />
+                <ScalarProperty Name="PaymentDesc" ColumnName="PaymentDesc" />
+                <ScalarProperty Name="CategoryShortName" ColumnName="CategoryShortName" />
+                <ScalarProperty Name="CategoryDesc" ColumnName="CategoryDesc" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

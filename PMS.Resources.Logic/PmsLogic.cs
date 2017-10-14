@@ -466,9 +466,10 @@ namespace PMS.Resources.Logic
             return DalFactory.DeleteExpense(expenseId);
         }
 
-        public List<PmsEntity.Expense> GetExpenseByProperty(int propertyId)
+        public List<PmsEntity.Expense> GetExpenseBySearch(SearchExpenseRequestDto searchRequest)
         {
-            return DalFactory.GetExpenseByProperty(propertyId);
+            return DalFactory.GetExpenseBySearch(searchRequest.StartDate, searchRequest.EndDate, searchRequest.PaymentId,
+                searchRequest.ExpenseCategoryId, searchRequest.AmountPaidMin, searchRequest.AmountPaidMax, searchRequest.PropertyId);
         }
 
         #region Helper method

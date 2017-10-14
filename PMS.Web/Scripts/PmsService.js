@@ -120,8 +120,8 @@
             OnAddExpenseCategoryFailure: null,
             OnUpdateExpenseCategorySuccess: null,
             OnUpdateExpenseCategoryFailure: null,
-            OnGetExpenseByPropertySuccess: null,
-            OnGetExpenseByPropertyFailure: null,
+            OnGetExpenseBySearchSuccess: null,
+            OnGetExpenseBySearchFailure: null,
             OnDeleteExpenseSuccess: null,
             OnDeleteExpenseFailure: null,
             OnAddExpenseSuccess: null,
@@ -354,8 +354,8 @@
             makeAjaxRequestDelete(args, "DeleteExpenseCategory", this, "api/v1/ExpenseCategory/DeleteExpenseCategory/" + args.typeId);
         };
 
-        this.GetExpenseByProperty = function (args) {
-            makeAjaxRequestGet(args, "GetExpenseByProperty", this, "api/v1/Expense/GetExpenseByProperty/" + args.propertyId);
+        this.GetExpenseBySearch = function (args) {
+            makeAjaxRequestPost(args, "GetExpenseBySearch", this, "api/v1/Expense/GetExpenseBySearch");
         };
 
         this.UpdateExpense = function (args) {

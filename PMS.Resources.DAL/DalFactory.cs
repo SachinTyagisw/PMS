@@ -2058,7 +2058,8 @@ namespace PMS.Resources.DAL
                 Description = expense.Description,
                  Amount= expense.Amount,
                   ExpenseCategoryID= expense.ExpenseCategoryID,
-                   PaymentTypeID= expense.PaymentTypeID
+                   PaymentTypeID= expense.PaymentTypeID,
+                    ExpenseDate= expense.ExpenseDate
             };
 
             using (var pmsContext = new PmsEntities())
@@ -2088,7 +2089,8 @@ namespace PMS.Resources.DAL
                 PaymentTypeID = expense.PaymentTypeID,
                 ID = expense.Id,
                 CreatedBy = expense.CreatedBy,
-                CreatedOn = expense.CreatedOn
+                CreatedOn = expense.CreatedOn,
+                ExpenseDate= expense.ExpenseDate
             };
 
             using (var pmsContext = new PmsEntities())
@@ -2122,40 +2124,39 @@ namespace PMS.Resources.DAL
             return isDeleted;
         }
 
-        public List<PmsEntity.Expense> GetExpenseByProperty(int propertyId)
+        public List<PmsEntity.Expense> GetExpenseBySearch(DateTime? startDate, DateTime? endDate, int? paymentId, int? expenseCategoryId, 
+            decimal? amountPaidMin, decimal? amountPaidMax, int? propertyId)
         {
             var expenses = new List<PmsEntity.Expense>();
             using (var pmsContext = new PmsEntities())
             {
-                expenses = pmsContext.Expenses.Where(x => x.PropertyID == propertyId && (x.IsActive.Value && x.IsActive.Value))
-                    .Join(pmsContext.ExpenseCategories, a => a.ExpenseCategoryID, f => f.ID,
-                                        (a, f) => new { a, f })
-                                        .Join(pmsContext.PaymentTypes, i => i.a.PaymentTypeID, r => r.ID,
-                                        (i, r) => new { i, r })
-                                        .Select(x => new PmsEntity.Expense
-                                        {
-                                            CreatedOn = x.i.a.CreatedOn,
-                                            Description = x.i.a.Description,
-                                            CreatedBy = x.i.a.CreatedBy,
-                                            LastUpdatedBy = x.i.a.LastUpdatedBy,
-                                            LastUpdatedOn = x.i.a.LastUpdatedOn,
-                                            Id = x.i.a.ID,
-                                            PropertyID = x.i.a.PropertyID,
-                                            Amount = x.i.a.Amount,
-                                            PaymentType = new PmsEntity.PaymentType
-                                            {
-                                                Id = x.r.ID,
-                                                ShortName = x.r.ShortName,
-                                                Description = x.r.Description
-                                            },
-                                            ExpenseCategory = new PmsEntity.ExpenseCategory
-                                            {
-                                                Id = x.i.f.ID,
-                                                ShortName = x.i.f.ShortName,
-                                                Description = x.i.f.Description
-                                            },
-                                            IsActive = x.i.a.IsActive
-                                        }).ToList();
+                expenses = pmsContext.GetExpenseData(startDate, endDate, paymentId, expenseCategoryId, amountPaidMin, amountPaidMax, propertyId)
+                    .Select(x => new Expense
+                    {
+                        Id = x.ID,
+                        Amount = x.Amount,
+                        CreatedOn = x.CreatedOn,
+                        CreatedBy = x.CreatedBy,
+                        Description = x.Description,
+                        ExpenseDate = x.ExpenseDate,
+                        ExpenseCategory = new PmsEntity.ExpenseCategory
+                        {
+                            ShortName = x.CategoryShortName,
+                            Description = x.CategoryDesc
+                        },
+                        ExpenseCategoryID = x.ExpenseCategoryID,
+                        IsActive = x.IsActive,
+                        LastUpdatedBy = x.LastUpdatedBy,
+                        LastUpdatedOn = x.LastUpdatedOn,
+                        PaymentType = new PmsEntity.PaymentType
+                        {
+                            ShortName = x.PaymentShortName,
+                            Description = x.PaymentDesc
+                        },
+                        PaymentTypeID = x.PaymentTypeID,
+                        PropertyID = x.PropertyID
+
+                    }).ToList();
             }
 
             return expenses;

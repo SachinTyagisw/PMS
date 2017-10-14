@@ -108,7 +108,8 @@ namespace PMS.Resources.DAL
         int AddExpense(PmsEntity.Expense expense);
         bool UpdateExpense(PmsEntity.Expense expense);
         bool DeleteExpense(int expenseId);
-        List<PmsEntity.Expense> GetExpenseByProperty(int propertyId);
+        List<PmsEntity.Expense> GetExpenseBySearch(DateTime? startDate, DateTime? endDate, int? paymentId, int? expenseCategoryId,
+            decimal? amountPaidMin, decimal? amountPaidMax, int? propertyId);
     }
 }
 

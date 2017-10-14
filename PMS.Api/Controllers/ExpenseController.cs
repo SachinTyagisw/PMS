@@ -63,9 +63,8 @@ namespace PMS.Api.Controllers
 
             config.Routes.MapHttpRoute(
               "GetExpenseByProperty",
-              "api/v1/Expense/GetExpenseByProperty/{propertyId}",
-              new { controller = "Expense", action = "GetExpenseByProperty" },
-              constraints: new { propertyId = RegExConstants.NumericRegEx }
+              "api/v1/Expense/GetExpenseBySearch",
+              new { controller = "Expense", action = "GetExpenseBySearch" }
               );
         }
 
@@ -132,13 +131,13 @@ namespace PMS.Api.Controllers
         }
 
 
-        [HttpGet, ActionName("GetExpenseByProperty")]
-        public GetExpenseResponseDto GetExpenseByProperty(int propertyId)
+        [HttpPost, ActionName("GetExpenseBySearch")]
+        public GetExpenseResponseDto GetExpenseBySearch([FromBody] SearchExpenseRequestDto searchRequest)
         {
-            if (propertyId <= 0) throw new PmsException("Property id is not valid.");
+            if (searchRequest.PropertyId <= 0) throw new PmsException("Property id is not valid.");
 
             var response = new GetExpenseResponseDto();
-            response.Expenses = _iPmsLogic.GetExpenseByProperty(propertyId);
+            response.Expenses = _iPmsLogic.GetExpenseBySearch( searchRequest);
 
             return response;
         }
