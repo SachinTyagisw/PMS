@@ -4,7 +4,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
             
-CREATE PROC [dbo].[GetExpenseData]           
+ALTER PROC [dbo].[GetExpenseData]           
 @StartDate Datetime = NULL,
 @EndDate DateTime = NULL,
 @PaymentTypeID int = NULL,
@@ -33,7 +33,7 @@ exc.ShortName as [CategoryShortName],
 exc.Description as [CategoryDesc]
 from
 Expenses ex
-inner join PaymentType pt on pt.PropertyID= ex.PaymentTypeID
+inner join PaymentType pt on pt.ID= ex.PaymentTypeID
 inner join ExpenseCategory exc on exc.ID= ex.ExpenseCategoryID
 where (ex.PropertyID = cast(@PropertyId as int) or @PropertyId is null)
 AND (ex.ExpenseDate > @StartDate or @StartDate is null)
@@ -42,7 +42,7 @@ AND (ex.Amount > @AmountPaidMin or @AmountPaidMin is null)
 AND (ex.Amount < @AmountPaidMax or @AmountPaidMax is null)
 AND (ex.PaymentTypeID = CAST(@PaymentTypeID as int) or @PaymentTypeID is null)
 AND (ex.ExpenseCategoryID = CAST(@ExpenseCategoryID as int) or @ExpenseCategoryID is null)
-and ex.isActive =1
+and (ex.isActive =1 or ex.isActive is null)
 END
 
 GO
