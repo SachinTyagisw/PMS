@@ -107,6 +107,7 @@
         <script src="~/Scripts/redirectionService.js"></script>
         <script src="~/Scripts/calendarService.js"></script>
         <script src="~/Scripts/calendarController.js"></script>
+        <script src="~/Scripts/Jquery/jquery.tmpl.js"></script>
 </head>
 <body class="sidebar-hide">
     <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
@@ -142,7 +143,25 @@
                     </a>
 
                 </li>
-
+                <li class="has-subnav">
+                    <a href="~/Expense/index" class="blue-c" title="Expense Management">
+                        <i class="fa fa-money fa-2x"></i>
+                        <span class="nav-text">
+                            Expense Management
+                        </span>
+                    </a>
+                </li>
+                <li class="selected">
+                    <a href="#" class="mud-c" title="Reports">
+                        <i class="fa fa-list-alt fa-2x"></i>
+                        <span class="nav-text">
+                            Reports
+                        </span>
+                    </a>
+                    <ul>
+                        <li><a href="~/Reports/ViewTransaction">View Transaction</a></li>
+                    </ul>
+                </li>
                 <li class="selected">
                     <a href="#" class="yellow-c" title="Setting">
                         <i class="fa fa-list fa-2x"></i>
@@ -160,6 +179,7 @@
                         <li><a href="~/Tax/Index">Tax Configuration</a></li>
                         <li><a href="~/ExtraCharge/Index">Extra Charges Configuration</a></li>
                         <li><a href="~/Payment/Index">Payment Type Configuration</a></li>
+                        <li><a href="~/ExpenseCategory/Index">Expense Category Configuration</a></li>
                     </ul>
                 </li>
                 
