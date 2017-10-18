@@ -1,6 +1,7 @@
 ﻿using PMS.Resources.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -110,6 +111,8 @@ namespace PMS.Resources.DAL
         bool DeleteExpense(int expenseId);
         List<PmsEntity.Expense> GetExpenseBySearch(DateTime? startDate, DateTime? endDate, int? paymentId, int? expenseCategoryId,
             decimal? amountPaidMin, decimal? amountPaidMax, int? propertyId);
+
+        DataTable GetShiftReport(DateTime? startDate, DateTime? endDate, int? propertyId);
     }
 }
 

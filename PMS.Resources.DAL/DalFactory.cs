@@ -2163,6 +2163,44 @@ namespace PMS.Resources.DAL
 
         }
         #endregion 
+
+        public DataTable GetShiftReport(DateTime? startDate, DateTime? endDate, int? propertyId)
+        {
+            DataTable dt = new DataTable();
+            var context = new PmsEntities();
+            var conn = context.Database.Connection;
+            var connectionState = conn.State;
+            try
+            {
+                using (context)
+                {
+                    if (connectionState != ConnectionState.Open)
+                        conn.Open();
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "[GetShiftReport]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter("StartDate", startDate));
+                        cmd.Parameters.Add(new SqlParameter("EndDate", endDate));
+                        cmd.Parameters.Add(new SqlParameter("PropertyId", propertyId));
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            dt.Load(reader);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (connectionState != ConnectionState.Open)
+                    conn.Close();
+            }
+            return dt;
+        }
         private bool SaveRoomRateIndDb(int propertyId, string rateXml)
         {
             using (var pmsContext = new PmsEntities())

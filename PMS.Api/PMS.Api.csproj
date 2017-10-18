@@ -222,6 +222,7 @@
     <Compile Include="Controllers\PropertyController.cs" />
     <Compile Include="Controllers\PropertyController.PropertyType.cs" />
     <Compile Include="Controllers\PropertyFloorController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RewardController.cs" />
     <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\RewardController.RewardCategory.cs" />
@@ -308,6 +309,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="UploadedFiles\" />
+    <Folder Include="Views\Reports\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PMS.Resources.DTO.Request;
 using PMS.Resources.DTO.Response;
+using System.Data;
 
 namespace PMS.Resources.Logic
 {
@@ -106,5 +107,6 @@ namespace PMS.Resources.Logic
         bool UpdateExpense(PmsEntity.Expense expense);
         bool DeleteExpense(int expenseId);
         List<PmsEntity.Expense> GetExpenseBySearch(SearchExpenseRequestDto searchRequest);
+        DataTable GetShiftReport(ShiftReportDto shiftRequest);
     }
 }

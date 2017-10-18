@@ -12,6 +12,7 @@ using PMS.Resources.Logging.Logger;
 using PMS.Resources.DTO.Request;
 using PMS.Resources.Common.Converter;
 using PMS.Resources.DTO.Response;
+using System.Data;
 
 namespace PMS.Resources.Logic
 {
@@ -470,6 +471,12 @@ namespace PMS.Resources.Logic
         {
             return DalFactory.GetExpenseBySearch(searchRequest.StartDate, searchRequest.EndDate, searchRequest.PaymentId,
                 searchRequest.ExpenseCategoryId, searchRequest.AmountPaidMin, searchRequest.AmountPaidMax, searchRequest.PropertyId);
+        }
+
+        public DataTable GetShiftReport(ShiftReportDto shiftRequest)
+        {
+           return DalFactory.GetShiftReport(shiftRequest.StartDate, shiftRequest.EndDate, shiftRequest.PropertyId);
+           
         }
 
         #region Helper method

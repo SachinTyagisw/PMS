@@ -58,13 +58,13 @@
 
             $("#datetimepicker1").on("dp.change", function (e) {
 
-                setTimeout(function () {
-                    $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
-                    if ($('#dateFrom').val() >= $('#dateTo').val() && document.getElementById('hourCheckin').checked == false) {
-                        $('#datetimepicker2').data("DateTimePicker").clear();
-                    }
-                }, 500);
-                //$('#datetimepicker2').data("DateTimePicker").minDate(e.date);
+                //setTimeout(function () {
+                //    $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
+                //    if ($('#dateFrom').val() >= $('#dateTo').val() && document.getElementById('hourCheckin').checked == false) {
+                //        $('#datetimepicker2').data("DateTimePicker").clear();
+                //    }
+                //}, 500);
+                $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
                 shouldCallLoadInvoiceApi();
                 if (gcm.ShouldCallGetRoomApi()) {
                     //pmsSession.RemoveItem("roomdata");
@@ -78,6 +78,9 @@
                 var chkHours = document.getElementById('hourCheckin');
                 if (chkHours.checked == true) {
                     setCheckoutHours();
+                }
+                else {
+                    setCheckoutDate();
                 }
 
             });
@@ -95,6 +98,12 @@
             });
         });
 
+        function setCheckoutDate()
+        {
+            if ($('#dateFrom').val() >= $('#dateTo').val()) {
+                $('#datetimepicker2').data("DateTimePicker").clear();
+            }
+        }
 
         function setCheckoutHours() {
             var checkOutDate = document.getElementById('dateTo');

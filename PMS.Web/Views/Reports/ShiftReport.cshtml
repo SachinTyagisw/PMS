@@ -1,9 +1,71 @@
 ﻿
 @{
     ViewBag.Title = "Shift Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script type='text/javascript'>
+    var gcm = window.GuestCheckinManager;
+    $(document).ready(function () {
+        getShiftReport();
+    });
 
-<table class="table table-responsive table-hover tableContents" style="margin: 1rem 0;">
+    function getShiftReport(){
+        var shiftReportDto = {
+            StartDate: null,
+            EndDate: null,
+            PropertyId:null
+
+        };
+        gcm.GetShiftReport(shiftReportDto);
+    }
+</script>
+<div class="content-wrap">
+    <div class="main controls">
+        <div class="container-fluid">
+            <div class="col-lg-12 p-r-0 p-l-0">
+                <div class="card alert create-room">
+                    <div class="card-header">
+                        <h4>Shift Report</h4>
+                    </div>
+                    <div class="card-body room-details">
+                        
+                        <div id="divShiftReport" class="table-data">
+                        </div>
+                        <!-- Small Table -->
+                        <div id="rangeProperty" class="table-data" style="width:60%; margin-top: 4rem;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="shiftReportTemplate">
+    <table class="table table-responsive table-hover tableContents" style="margin: 1rem 0;">
+        <thead>
+            {{if typeof ShiftRecords != "undefined" && ShiftRecords != "null" && ShiftRecords.length > 0 }}            
+            <tr>
+                {{each Object.keys(ShiftRecords[0])}}
+                <th >${$value}</th>
+                {{/each}}
+            </tr>            
+            {{/if}}
+        </thead>
+        <tbody>
+            {{if typeof ShiftRecords != "undefined" && ShiftRecords != "null" && ShiftRecords.length > 0 }} 
+            {{each(i, shift) ShiftRecords}}
+            <tr>
+                {{each(j, key) Object.keys(ShiftRecords[0])}}
+                <th>${shift[key]}</th>
+                {{/each}}
+            </tr>
+            {{/each}}
+            {{/if}}
+        </tbody>
+    </table>
+</script>
+@*<table class="table table-responsive table-hover tableContents" style="margin: 1rem 0;">
     <thead>
         <tr>
             <th>Date</th>
@@ -78,7 +140,7 @@
             <td>58.50</td>
         </tr>
     </tbody>
-</table>
+</table>*@
 
 <table class="table table-responsive table-hover tableContents" style="margin: 1rem 0; width:80%;">
     <thead>

@@ -22,5 +22,11 @@ namespace PMS.Web.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public ActionResult ShiftReport()
+        {
+            return View();
+        }
     }
 }

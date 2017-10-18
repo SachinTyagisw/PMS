@@ -22,7 +22,7 @@
             TaxSettings: null,
             Bookings: null,
             ExpenseCategorySettings: null,
-            ExpenseSettings: null,
+            ExpenseSettings: null
         },
 
         BookingDto: {
@@ -35,6 +35,10 @@
             AddressId: null,
             AddressTypeId: null,
             AdditionalGuestId: null
+        },
+
+        ReportDto:{
+            Shifts: null
         },
 
         Initialize: function () {
@@ -2010,6 +2014,18 @@
                 window.GuestCheckinManager.FillPaymentMode($('#ddlPaymentTypeAdd'), $('#ddlProperty').val());
             }
         },
+
+        GetShiftReport: function (requestDto) {
+            pmsService.GetShiftReport(requestDto);
+        },
+
+        PopulateShiftReportGrid: function(data)
+        {
+            var divShiftReport = $('#divShiftReport');
+            var shiftReportTemplate = $('#shiftReportTemplate');
+            if (!divShiftReport || !shiftReportTemplate || divShiftReport.length <= 0 || shiftReportTemplate.length <= 0) return;
+            divShiftReport.html(shiftReportTemplate.render(data));
+        },
         AjaxHandlers: function () {
             // ajax handlers start
             pmsService.Handlers.OnAddBookingSuccess = function (data) {
@@ -2898,6 +2914,18 @@
                 console.log(status);
                 if (window.Notifications) window.Notifications.Notify("on-expense-add-success", null, null);
                 //alert(status);
+            };
+
+            
+            pmsService.Handlers.OnGetShiftReportFailure = function () {
+                // show error log
+                console.error("Get Shift Report failure");
+            };
+
+            pmsService.Handlers.OnGetShiftReportSuccess = function (data) {
+                window.GuestCheckinManager.ReportDto.Shifts = null;
+                window.GuestCheckinManager.ReportDto.Shifts = data.ShiftRecords;
+                window.GuestCheckinManager.PopulateShiftReportGrid(data);
             };
         }
 

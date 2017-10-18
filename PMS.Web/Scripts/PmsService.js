@@ -128,6 +128,8 @@
             OnAddExpenseFailure: null,
             OnUpdateExpenseSuccess: null,
             OnUpdateExpenseFailure: null,
+            OnGetShiftReportSuccess:null,
+            OnGetShiftReportFailure:null
         };
 
         this.UpdateStatus = function (args) {
@@ -368,6 +370,10 @@
 
         this.DeleteExpense = function (args) {
             makeAjaxRequestDelete(args, "DeleteExpense", this, "api/v1/Expense/DeleteExpense/" + args.typeId);
+        };
+
+        this.GetShiftReport = function (args) {
+            makeAjaxRequestPost(args, "GetShiftReport", this, "api/v1/Reports/ShiftReport");
         };
 
         function makeAjaxRequestDelete(args, operationName, e, uri) {
