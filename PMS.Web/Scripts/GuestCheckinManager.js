@@ -38,7 +38,8 @@
         },
 
         ReportDto:{
-            Shifts: null
+            Shifts: null,
+            ConsolidatedShifts: null
         },
 
         Initialize: function () {
@@ -2019,12 +2020,23 @@
             pmsService.GetShiftReport(requestDto);
         },
 
+        GetConsolidatedShiftReport: function (requestDto) {
+            pmsService.GetConsolidatedShiftReport(requestDto);
+        },
+
         PopulateShiftReportGrid: function(data)
         {
             var divShiftReport = $('#divShiftReport');
             var shiftReportTemplate = $('#shiftReportTemplate');
             if (!divShiftReport || !shiftReportTemplate || divShiftReport.length <= 0 || shiftReportTemplate.length <= 0) return;
             divShiftReport.html(shiftReportTemplate.render(data));
+        },
+        PopulateConsolidatedShiftReportGrid: function (data) {
+            var divConsolidatedShiftReport = $('#divConsolidatedShiftReport');
+            var consolidatedshiftReportTemplate = $('#consolidatedshiftReportTemplate');
+            if (!divConsolidatedShiftReport || !consolidatedshiftReportTemplate ||
+                divConsolidatedShiftReport.length <= 0 || consolidatedshiftReportTemplate.length <= 0) return;
+            divConsolidatedShiftReport.html(consolidatedshiftReportTemplate.render(data));
         },
         AjaxHandlers: function () {
             // ajax handlers start
@@ -2926,6 +2938,17 @@
                 window.GuestCheckinManager.ReportDto.Shifts = null;
                 window.GuestCheckinManager.ReportDto.Shifts = data.ShiftRecords;
                 window.GuestCheckinManager.PopulateShiftReportGrid(data);
+            };
+
+            pmsService.Handlers.OnGetConsolidatedShiftReportFailure = function () {
+                // show error log
+                console.error("Get Consolidated Shift Report failure");
+            };
+
+            pmsService.Handlers.OnGetConsolidatedShiftReportSuccess = function (data) {
+                window.GuestCheckinManager.ReportDto.ConsolidatedShifts = null;
+                window.GuestCheckinManager.ReportDto.ConsolidatedShifts = data.ConsolidatedShiftRecords;
+                window.GuestCheckinManager.PopulateConsolidatedShiftReportGrid(data);
             };
         }
 

@@ -478,6 +478,13 @@ namespace PMS.Resources.Logic
            return DalFactory.GetShiftReport(shiftRequest.StartDate, shiftRequest.EndDate, shiftRequest.PropertyId);
            
         }
+        
+        public DataTable GetConsolidatedShiftReport(ConsolidatedShiftReportDto consolidatedShiftRequest)
+        {
+            return DalFactory.GetConsolidatedShiftReport(consolidatedShiftRequest.StartDate, consolidatedShiftRequest.EndDate,
+                consolidatedShiftRequest.PropertyId);
+
+        }
 
         #region Helper method
 

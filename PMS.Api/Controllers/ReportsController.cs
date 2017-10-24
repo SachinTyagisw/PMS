@@ -46,6 +46,12 @@ namespace PMS.Api.Controllers
              "api/v1/Reports/ShiftReport",
              new { controller = "Reports", action = "ShiftReport" }
              );
+
+            config.Routes.MapHttpRoute(
+             "GetConsolidatedShiftReport",
+             "api/v1/Reports/GetConsolidatedShiftReport",
+             new { controller = "Reports", action = "GetConsolidatedShiftReport" }
+             );
         }
 
         [HttpPost, ActionName("ShiftReport")]
@@ -54,6 +60,16 @@ namespace PMS.Api.Controllers
             
             var response = new ShiftReportResponseDto();
            response.ShiftRecords= _iPmsLogic.GetShiftReport(new Resources.DTO.Request.ShiftReportDto ());            
+            return response;
+        }
+
+        
+        [HttpPost, ActionName("GetConsolidatedShiftReport")]
+        public ConsolidatedShiftReportResponseDto GetConsolidatedShiftReport()
+        {
+
+            var response = new ConsolidatedShiftReportResponseDto();
+            response.ConsolidatedShiftRecords = _iPmsLogic.GetConsolidatedShiftReport(new Resources.DTO.Request.ConsolidatedShiftReportDto());
             return response;
         }
     }

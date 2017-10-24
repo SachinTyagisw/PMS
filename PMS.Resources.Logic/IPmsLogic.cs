@@ -108,5 +108,7 @@ namespace PMS.Resources.Logic
         bool DeleteExpense(int expenseId);
         List<PmsEntity.Expense> GetExpenseBySearch(SearchExpenseRequestDto searchRequest);
         DataTable GetShiftReport(ShiftReportDto shiftRequest);
+
+        DataTable GetConsolidatedShiftReport(ConsolidatedShiftReportDto consolidatedShiftRequest); 
     }
 }

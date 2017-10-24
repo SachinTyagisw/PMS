@@ -129,7 +129,9 @@
             OnUpdateExpenseSuccess: null,
             OnUpdateExpenseFailure: null,
             OnGetShiftReportSuccess:null,
-            OnGetShiftReportFailure:null
+            OnGetShiftReportFailure:null,
+            OnGetConsolidatedShiftReportSuccess:null,
+        OnGetConsolidatedShiftReportFailure:null
         };
 
         this.UpdateStatus = function (args) {
@@ -374,6 +376,10 @@
 
         this.GetShiftReport = function (args) {
             makeAjaxRequestPost(args, "GetShiftReport", this, "api/v1/Reports/ShiftReport");
+        };
+
+        this.GetConsolidatedShiftReport = function (args) {
+            makeAjaxRequestPost(args, "GetConsolidatedShiftReport", this, "api/v1/Reports/GetConsolidatedShiftReport");
         };
 
         function makeAjaxRequestDelete(args, operationName, e, uri) {

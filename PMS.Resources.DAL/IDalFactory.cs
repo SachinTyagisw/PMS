@@ -113,6 +113,7 @@ namespace PMS.Resources.DAL
             decimal? amountPaidMin, decimal? amountPaidMax, int? propertyId);
 
         DataTable GetShiftReport(DateTime? startDate, DateTime? endDate, int? propertyId);
+        DataTable GetConsolidatedShiftReport(DateTime? startDate, DateTime? endDate, int? propertyId);
     }
 }
 
