@@ -375,3 +375,12 @@
   clip: rect(0, 0, 0, 0);
   border: 0;
 }
+
+#divExpense .bootstrap-datetimepicker-widget table th, #divExpense .bootstrap-datetimepicker-widget table tr{
+    background: transparent;
+    color: #000000;
+    border: 0 none;
+}
+#divExpense .bootstrap-datetimepicker-widget table td {
+    border: 0 none;
+}
