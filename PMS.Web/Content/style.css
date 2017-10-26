@@ -4941,7 +4941,7 @@ outline: 0;
   width: 0px;
 }
 
-.tableContents th:hover::after {
+/*.tableContents th:hover::after {
   content: "";
   position: absolute;
   background-color: #e5f6ff;
@@ -4962,7 +4962,7 @@ outline: 0;
   width: 10000px;
   z-index: -1;
 }
-
+*/
 
 /*Buttons*/
 
