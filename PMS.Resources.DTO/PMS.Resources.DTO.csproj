@@ -63,6 +63,8 @@
     <Compile Include="Request\PropertyFloorRequestDto.cs" />
     <Compile Include="Request\SearchExpenseRequestDto.cs" />
     <Compile Include="Request\ConsolidatedShiftReportDto.cs" />
+    <Compile Include="Request\ManagerReportDto.cs" />
+    <Compile Include="Response\ManagerReportResponseDto.cs" />
     <Compile Include="Response\ConsolidatedShiftReportResponseDto.cs" />
     <Compile Include="Request\ShiftReportDto.cs" />
     <Compile Include="Request\TaxRequestDto.cs" />

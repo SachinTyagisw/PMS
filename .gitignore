@@ -340,3 +340,4 @@ PMS.Web/bin/
 PMS.Resources.Logging/obj/
 PMS.Tests/obj/
 packages/
+PMS.Web/Web.config

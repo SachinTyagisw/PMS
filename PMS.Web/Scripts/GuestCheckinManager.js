@@ -39,7 +39,8 @@
 
         ReportDto:{
             Shifts: null,
-            ConsolidatedShifts: null
+            ConsolidatedShifts: null,
+            ManagerRecords:null
         },
 
         Initialize: function () {
@@ -2024,6 +2025,10 @@
             pmsService.GetConsolidatedShiftReport(requestDto);
         },
 
+        GetManagerReport: function (requestDto) {
+            pmsService.GetManagerReport(requestDto);
+        },
+
         PopulateShiftReportGrid: function(data)
         {
             var divShiftReport = $('#divShiftReport');
@@ -2037,6 +2042,12 @@
             if (!divConsolidatedShiftReport || !consolidatedshiftReportTemplate ||
                 divConsolidatedShiftReport.length <= 0 || consolidatedshiftReportTemplate.length <= 0) return;
             divConsolidatedShiftReport.html(consolidatedshiftReportTemplate.render(data));
+        },
+        PopulateManagerReportGrid: function (data) {
+            var divManagerReport = $('#divManagerReport');
+            var managerReportTemplate = $('#managerReportTemplate');
+            if (!divManagerReport || !managerReportTemplate || divManagerReport.length <= 0 || managerReportTemplate.length <= 0) return;
+            divManagerReport.html(managerReportTemplate.render(data));
         },
         AjaxHandlers: function () {
             // ajax handlers start
@@ -2949,6 +2960,17 @@
                 window.GuestCheckinManager.ReportDto.ConsolidatedShifts = null;
                 window.GuestCheckinManager.ReportDto.ConsolidatedShifts = data.ConsolidatedShiftRecords;
                 window.GuestCheckinManager.PopulateConsolidatedShiftReportGrid(data);
+            };
+
+            pmsService.Handlers.OnGetManagerDataFailure = function () {
+                // show error log
+                console.error("Get Manager Report failure");
+            };
+
+            pmsService.Handlers.OnGetManagerDataSuccess = function (data) {
+                window.GuestCheckinManager.ReportDto.ManagerRecords = null;
+                window.GuestCheckinManager.ReportDto.ManagerRecords = data.ManagerRecords;
+                window.GuestCheckinManager.PopulateManagerReportGrid(data);
             };
         }
 

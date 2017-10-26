@@ -1,0 +1,116 @@
+﻿
+@{
+    ViewBag.Title = "Manager Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type='text/javascript'>
+    var gcm = window.GuestCheckinManager;
+    $(document).ready(function () {
+        //getManagerReport();
+    });
+
+    function getManagerReport(){
+        var managerReportDto = {
+            StartDate:$('#dateFrom').val(),
+            EndDate: $('#dateTo').val(),
+            PropertyId: $('#ddlGlobalProperty').val()
+
+        };
+        gcm.GetManagerReport(managerReportDto);
+    }
+
+    function OnPropertyChange() {
+        getManagerReport();
+    }
+</script>
+<div class="content-wrap">
+    <div class="main controls">
+        <div class="container-fluid">
+            <div class="col-lg-12 p-r-0 p-l-0">
+                <div class="card alert create-room">
+                    <div class="card-header">
+                        <h4>Manager Report</h4>
+                    </div>
+                    <div class="card-body room-details">
+                        <fieldset class="data-mgmt-section">
+                            <legend>Search Criteria:</legend>
+                            <div class="row" style="">
+                                <div class="col-md-2 p-r-0">
+                                    <div class="form-group">
+                                        <div class='input-group date' id='datetimepicker1'>
+                                            <label>Start Date &nbsp;&nbsp;</label>
+                                            <input id="dateFrom" type='text' class="form-control calendar" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                        <script type="text/javascript">
+                                            $(function () {
+                                                $('#datetimepicker1').datetimepicker({
+                                                    format: 'MM/DD/YYYY'
+                                                });
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 p-r-0">
+                                    <div class="form-group">
+                                        <div class='input-group date' id='datetimepicker2'>
+                                            <label>End Date</label>
+                                            <input id="dateTo" type='text' class="form-control calendar" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                        <script type="text/javascript">
+                                            $(function () {
+                                                $('#datetimepicker2').datetimepicker({
+                                                    format: 'MM/DD/YYYY'
+                                                });
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 p-t-5">
+                                    <div class="form-group btn-set">
+                                        <button onclick="getManagerReport();" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button">Search</button>
+                                    </div>
+                                </div>
+                                </div>
+                           
+                        </fieldset>
+                        <div id="divManagerReport" class="table-data">
+                        </div>
+                        <!-- Small Table -->
+                        <div id="divConsolidatedManagerReport" class="table-data">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="managerReportTemplate">
+    <table class="table table-responsive table-hover tableContents" style="margin: 1rem 0;">
+        <thead>
+            {{if typeof ManagerRecords != "undefined" && ManagerRecords != "null" && ManagerRecords.length > 0 }}
+            <tr>
+                {{each Object.keys(ManagerRecords[0])}}
+                <th>${$value}</th>
+                {{/each}}
+            </tr>
+            {{/if}}
+        </thead>
+        <tbody>
+            {{if typeof ManagerRecords != "undefined" && ManagerRecords != "null" && ManagerRecords.length > 0 }}
+            {{each(i, manager) ManagerRecords}}
+            <tr>
+                {{each(j, key) Object.keys(ManagerRecords[0])}}
+                <th>${manager[key]}</th>
+                {{/each}}
+            </tr>
+            {{/each}}
+            {{/if}}
+        </tbody>
+    </table>
+</script>

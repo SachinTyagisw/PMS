@@ -131,7 +131,9 @@
             OnGetShiftReportSuccess:null,
             OnGetShiftReportFailure:null,
             OnGetConsolidatedShiftReportSuccess:null,
-        OnGetConsolidatedShiftReportFailure:null
+            OnGetConsolidatedShiftReportFailure:null,
+            OnGetManagerDataSuccess: null,
+            OnGetManagerDataFailure: null,
         };
 
         this.UpdateStatus = function (args) {
@@ -375,11 +377,15 @@
         };
 
         this.GetShiftReport = function (args) {
-            makeAjaxRequestPost(args, "GetShiftReport", this, "api/v1/Reports/ShiftReport");
+            makeAjaxRequestPost(args, "GetShiftReport", this, "api/v1/Reports/GetShiftReport");
         };
 
         this.GetConsolidatedShiftReport = function (args) {
             makeAjaxRequestPost(args, "GetConsolidatedShiftReport", this, "api/v1/Reports/GetConsolidatedShiftReport");
+        };
+
+        this.GetManagerReport = function (args) {
+            makeAjaxRequestPost(args, "GetManagerData", this, "api/v1/Reports/GetManagerData");
         };
 
         function makeAjaxRequestDelete(args, operationName, e, uri) {

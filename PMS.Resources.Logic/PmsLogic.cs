@@ -483,7 +483,12 @@ namespace PMS.Resources.Logic
         {
             return DalFactory.GetConsolidatedShiftReport(consolidatedShiftRequest.StartDate, consolidatedShiftRequest.EndDate,
                 consolidatedShiftRequest.PropertyId);
+        }
 
+        public DataTable GetManagerData(ManagerReportDto managerReportRequest)
+        {
+            return DalFactory.GetManagerData(managerReportRequest.StartDate, managerReportRequest.EndDate,
+               managerReportRequest.PropertyId);
         }
 
         #region Helper method

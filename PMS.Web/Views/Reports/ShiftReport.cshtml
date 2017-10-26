@@ -13,13 +13,17 @@
         var shiftReportDto = {
             StartDate: null,
             EndDate: null,
-            PropertyId:null
+            PropertyId: $('#ddlGlobalProperty').val()
 
         };
         gcm.GetShiftReport(shiftReportDto);
 
 
         gcm.GetConsolidatedShiftReport(shiftReportDto);
+    }
+
+    function OnPropertyChange() {
+        getShiftReport();
     }
 </script>
 <div class="content-wrap">

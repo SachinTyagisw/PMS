@@ -42,9 +42,9 @@ namespace PMS.Api.Controllers
         private void MapHttpRoutesForExpense(HttpConfiguration config)
         {
             config.Routes.MapHttpRoute(
-             "ShiftReport",
-             "api/v1/Reports/ShiftReport",
-             new { controller = "Reports", action = "ShiftReport" }
+             "GetShiftReport",
+             "api/v1/Reports/GetShiftReport",
+             new { controller = "Reports", action = "GetShiftReport" }
              );
 
             config.Routes.MapHttpRoute(
@@ -52,24 +52,40 @@ namespace PMS.Api.Controllers
              "api/v1/Reports/GetConsolidatedShiftReport",
              new { controller = "Reports", action = "GetConsolidatedShiftReport" }
              );
+
+            config.Routes.MapHttpRoute(
+             "GetManagerData",
+             "api/v1/Reports/GetManagerData",
+             new { controller = "Reports", action = "GetManagerData" }
+             );
         }
 
-        [HttpPost, ActionName("ShiftReport")]
-        public ShiftReportResponseDto ShiftReport()
+        [HttpPost, ActionName("GetShiftReport")]
+        public ShiftReportResponseDto GetShiftReport(Resources.DTO.Request.ShiftReportDto shiftReportRequest)
         {
             
             var response = new ShiftReportResponseDto();
-           response.ShiftRecords= _iPmsLogic.GetShiftReport(new Resources.DTO.Request.ShiftReportDto ());            
+           response.ShiftRecords= _iPmsLogic.GetShiftReport(shiftReportRequest);            
             return response;
         }
 
         
         [HttpPost, ActionName("GetConsolidatedShiftReport")]
-        public ConsolidatedShiftReportResponseDto GetConsolidatedShiftReport()
+        public ConsolidatedShiftReportResponseDto GetConsolidatedShiftReport
+            (Resources.DTO.Request.ConsolidatedShiftReportDto consolidatedShiftReportRequest)
         {
 
             var response = new ConsolidatedShiftReportResponseDto();
-            response.ConsolidatedShiftRecords = _iPmsLogic.GetConsolidatedShiftReport(new Resources.DTO.Request.ConsolidatedShiftReportDto());
+            response.ConsolidatedShiftRecords = _iPmsLogic.GetConsolidatedShiftReport(consolidatedShiftReportRequest);
+            return response;
+        }
+
+        [HttpPost, ActionName("GetManagerData")]
+        public ManagerReportResponseDto GetManagerData(Resources.DTO.Request.ManagerReportDto managerReportRequest)
+        {
+
+            var response = new ManagerReportResponseDto();
+            response.ManagerRecords = _iPmsLogic.GetManagerData(managerReportRequest);
             return response;
         }
     }

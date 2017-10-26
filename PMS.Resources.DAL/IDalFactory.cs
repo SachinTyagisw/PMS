@@ -114,6 +114,7 @@ namespace PMS.Resources.DAL
 
         DataTable GetShiftReport(DateTime? startDate, DateTime? endDate, int? propertyId);
         DataTable GetConsolidatedShiftReport(DateTime? startDate, DateTime? endDate, int? propertyId);
+        DataTable GetManagerData(DateTime startDate, DateTime endDate, int propertyId);
     }
 }
 
