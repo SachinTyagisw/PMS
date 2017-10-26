@@ -1,0 +1,39 @@
+CREATE function [dbo].[fnRemoveSpecialCharacter]
+ ( 
+@INPUT_STRING varchar(300))
+RETURNS VARCHAR(300)
+AS 
+BEGIN
+
+DECLARE @NEWSTRING VARCHAR(100) 
+
+SET @NEWSTRING = @INPUT_STRING ; 
+With SPECIAL_CHARACTER as
+(
+SELECT '>' as item
+UNION ALL 
+SELECT '<' as item
+UNION ALL 
+SELECT '(' as item
+UNION ALL 
+SELECT ')' as item
+UNION ALL 
+SELECT '!' as item
+UNION ALL 
+SELECT '?' as item
+UNION ALL 
+SELECT '@' as item
+UNION ALL 
+SELECT '*' as item
+UNION ALL 
+SELECT '%' as item
+UNION ALL 
+SELECT '$' as item
+UNION ALL 
+SELECT '/' as item
+UNION ALL 
+SELECT '\' as item
+)
+SELECT @NEWSTRING = Replace(@NEWSTRING, ITEM, '_') FROM SPECIAL_CHARACTER 
+return @NEWSTRING 
+END
