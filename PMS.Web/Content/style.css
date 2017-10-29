@@ -5036,10 +5036,13 @@ main.tab-main + .table-data {
     width: 96.8%;
 }
 
-#divShiftReport {
+#divShiftReport, #divManagerReport {
     width: 100%;
     overflow-x: scroll;
     display: block;
+}
+#divShiftReport {
+    height: 400px;
 }
 #divShiftReport .tableContents th {
     line-height: 20px;

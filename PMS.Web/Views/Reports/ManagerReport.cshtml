@@ -71,7 +71,7 @@
                                         </script>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 p-t-5">
+                                <div class="col-lg-3">
                                     <div class="form-group btn-set">
                                         <button onclick="getManagerReport();" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button">Search</button>
                                     </div>
@@ -91,7 +91,7 @@
     </div>
 </div>
 <script type="text/html" id="managerReportTemplate">
-    <table class="table table-responsive table-hover tableContents" style="margin: 1rem 0;">
+    <table class="table table-responsive table-hover tableContents">
         <thead>
             {{if typeof ManagerRecords != "undefined" && ManagerRecords != "null" && ManagerRecords.length > 0 }}
             <tr>
@@ -106,7 +106,7 @@
             {{each(i, manager) ManagerRecords}}
             <tr>
                 {{each(j, key) Object.keys(ManagerRecords[0])}}
-                <th>${manager[key]}</th>
+                <td>${manager[key]}</td>
                 {{/each}}
             </tr>
             {{/each}}
