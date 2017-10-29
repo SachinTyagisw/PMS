@@ -32,7 +32,7 @@
 }
 .card {
   background: #ffffff;
-  margin: 5px 0px 0px 0px;
+  margin: 5px 0px 10px 0px;
   padding: 10px 14px 5px;
   border: 0px;
   border-radius: 0px;
@@ -5034,6 +5034,15 @@ outline: 0;
 main.tab-main + .table-data {
     margin: 0 2rem;
     width: 96.8%;
+}
+
+#divShiftReport {
+    width: 100%;
+    overflow-x: scroll;
+    display: block;
+}
+#divShiftReport .tableContents th {
+    line-height: 20px;
 }
 /*a.btn{
   width:150px;

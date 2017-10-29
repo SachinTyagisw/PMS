@@ -39,7 +39,7 @@
                         <div id="divShiftReport" class="table-data">
                         </div>
                         <!-- Small Table -->
-                        <div id="divConsolidatedShiftReport" class="table-data" >
+                        <div id="divConsolidatedShiftReport" class="table-data" style="background: transparent;">
                         </div>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
 </div>
 
 <script type="text/html" id="shiftReportTemplate">
-    <table class="table table-responsive table-hover tableContents" style="margin: 1rem 0;">
+    <table class="table table-responsive table-hover tableContents">
         <thead>
             {{if typeof ShiftRecords != "undefined" && ShiftRecords != "null" && ShiftRecords.length > 0 }}            
             <tr>
@@ -64,7 +64,7 @@
             {{each(i, shift) ShiftRecords}}
             <tr>
                 {{each(j, key) Object.keys(ShiftRecords[0])}}
-                <th>${shift[key]}</th>
+                <td>${shift[key]}</td>
                 {{/each}}
             </tr>
             {{/each}}
@@ -73,7 +73,7 @@
     </table>
 </script>
 <script type="text/html" id="consolidatedshiftReportTemplate">
-    <table class="table table-responsive table-hover tableContents" style="margin: 1rem 0; width:80%;">
+    <table class="table table-responsive table-hover tableContents" style="width:80%;">
         <thead>
             {{if typeof ConsolidatedShiftRecords != "undefined" && ConsolidatedShiftRecords != "null" && ConsolidatedShiftRecords.length > 0 }}
             <tr>
@@ -88,7 +88,7 @@
             {{each(i, shift) ConsolidatedShiftRecords}}
             <tr>
                 {{each(j, key) Object.keys(ConsolidatedShiftRecords[0])}}
-                <th>${shift[key]}</th>
+                <td>${shift[key]}</td>
                 {{/each}}
             </tr>
             {{/each}}
