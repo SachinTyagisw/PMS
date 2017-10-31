@@ -22,7 +22,8 @@
             TaxSettings: null,
             Bookings: null,
             ExpenseCategorySettings: null,
-            ExpenseSettings: null
+            ExpenseSettings: null,
+            UserSetting: null
         },
 
         BookingDto: {
@@ -895,6 +896,17 @@
             }
         },
 
+        ClearUserFields: function () {
+            $('#userName').val('');
+            $('#password').val('');
+            $('#firstName').val('');
+            $('#lastName').val('');
+            $('#mobileNumber').val('');
+            $('#emailAddress').val('');
+            $('#dob').val('');
+            $('#ddlGender').val('');
+        },
+
         ClearAllFields: function () {
             window.GuestCheckinManager.Initialize();
             window.GuestCheckinManager.MakeReadOnly(false);
@@ -1252,6 +1264,15 @@
             if (!settings || settings.length <= 0) return null;
             for (var i = 0; i < settings.length; i++) {
                 if (settings[i].Id !== parseInt(id)) continue;               
+                return settings[i];
+            }
+            return null;
+        },
+
+        FindUser: function (username, settings) {
+            if (!settings || settings.length <= 0) return null;
+            for (var i = 0; i < settings.length; i++) {
+                if (settings[i].Username !== username) continue;
                 return settings[i];
             }
             return null;
@@ -2048,6 +2069,51 @@
             var managerReportTemplate = $('#managerReportTemplate');
             if (!divManagerReport || !managerReportTemplate || divManagerReport.length <= 0 || managerReportTemplate.length <= 0) return;
             divManagerReport.html(managerReportTemplate.render(data));
+        },
+
+        DeleteUser: function (userId) {
+            // DeleteExpense by api calling  
+            args.userId = userId;
+            pmsService.DeleteUser(args);
+        },
+
+        AddUser: function (user) {
+            user.CreatedBy = getCreatedBy();
+            user.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
+            var userRequestDto = {};
+            userRequestDto.User = {};
+            // Addexpense by api calling  
+            userRequestDto.User = user;
+            Notifications.SubscribeActive("on-user-add-success", function (sender, args) {
+                window.GuestCheckinManager.GetAllUser();
+            });
+            pmsService.AddUser(userRequestDto);
+        },
+
+        UpdateUser: function (user) {
+            user.LastUpdatedBy = getCreatedBy();
+            user.LastUpdatedOn = window.GuestCheckinManager.GetCurrentDate();
+            // UpdateExpense by api calling 
+            var userRequestDto = {};
+            userRequestDto.User = {};
+            userRequestDto.User = user;
+            Notifications.SubscribeActive("on-user-add-success", function (sender, args) {
+                window.GuestCheckinManager.GetAllUser();
+            });
+            pmsService.UpdateUser(userRequestDto);
+        },
+
+        GetAllUser: function () {            
+            pmsService.GetAllUser(args);
+        },
+
+        PopulateUserGrid: function (data) {
+            var divUser = $('#divUser');
+            var userTemplate = $('#userTemplate');
+            if (!divUser || !userTemplate) return;
+            divUser.html(userTemplate.render(data));
+            $("#divUser thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
+            $("#divUser tbody tr").append('<td class="finalActionsCol"><i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
         },
         AjaxHandlers: function () {
             // ajax handlers start
@@ -2971,6 +3037,65 @@
                 window.GuestCheckinManager.ReportDto.ManagerRecords = null;
                 window.GuestCheckinManager.ReportDto.ManagerRecords = data.ManagerRecords;
                 window.GuestCheckinManager.PopulateManagerReportGrid(data);
+            };
+
+
+            pmsService.Handlers.OnAddUserSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                if (data.ResponseObject > 0) {
+                    console.log(status);
+                    if (window.Notifications) window.Notifications.Notify("on-user-add-success", null, null);
+                } else {
+                    console.error(status);
+                    alert(status);
+                }
+            };
+
+            pmsService.Handlers.OnAddUserFailure = function () {
+                // show error log
+                console.error("User is not added.");
+            };
+
+            pmsService.Handlers.OnDeleteUserFailure = function () {
+                // show error log
+                console.error("User s not deleted.");
+            };
+
+            pmsService.Handlers.OnDeleteUserSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                //alert(status);
+            };
+
+            pmsService.Handlers.OnUpdateUserFailure = function () {
+                // show error log
+                console.error("User is not updated.");
+            };
+
+            pmsService.Handlers.OnUpdateUserSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                if (window.Notifications) window.Notifications.Notify("on-user-add-success", null, null);
+                //alert(status);
+            };
+
+            pmsService.Handlers.OnGetAllUserSuccess = function (data) {
+                if (!data || !data.Users || data.Users.length <= 0) return;
+                window.GuestCheckinManager.PropertySettingResponseDto.UserSetting = null;
+                window.GuestCheckinManager.PropertySettingResponseDto.UserSetting = data.Users;
+               
+                var divUser = $('#divUser');
+                var userTemplate = $('#userTemplate');
+                if (divUser && userTemplate && divUser.length > 0 && userTemplate.length > 0) {
+                    $('#propmodal').removeClass('open');
+                    window.GuestCheckinManager.PopulateUserGrid(data);
+                } 
+                if (window.Notifications) window.Notifications.Notify("on-allUser-get-success", null, null);
+            };
+
+            pmsService.Handlers.OnGetAllUserFailure = function () {
+                // show error log
+                console.error("get all User call failed");
             };
         }
 

@@ -1927,7 +1927,7 @@ namespace PMS.Resources.DAL
                                                      EmailAddress = m.EmailAddress,
                                                      FirstName = m.FirstName,
                                                      Gender = m.Gender,
-                                                     ID = m.ID,
+                                                     Id = m.ID,
                                                      IsActive = m.IsActive,
                                                      LastName = m.LastName,
                                                      LastUpdatedBy = m.LastUpdatedBy,
@@ -2307,5 +2307,119 @@ namespace PMS.Resources.DAL
             }
             
         }
+
+        #region User
+        public int AddUser(PmsEntity.User user)
+        {
+            var Id = -1;
+            if (user == null) return Id;
+
+            var userE = new DAL.User
+            {
+                CreatedOn = user.CreatedOn,
+                IsActive = true,
+                CreatedBy = user.CreatedBy,
+                DOB = user.DOB,
+                EmailAddress = user.EmailAddress,
+                FirstName = user.FirstName,
+                Gender = user.Gender,
+                ID = user.Id,
+                LastName = user.LastName,
+                MobileNumber = user.MobileNumber,
+                Password = user.Password,
+                UserName = user.UserName
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Users.Add(userE);
+                var result = pmsContext.SaveChanges();
+                Id = result == 1 ? userE.ID : -1;
+            }
+
+            return Id;
+        }
+
+        public bool UpdateUser(PmsEntity.User user)
+        {
+            var isUpdated = false;
+            if (user == null) return isUpdated;
+
+            var userE = new DAL.User
+            {
+                IsActive = true,
+                CreatedBy = user.CreatedBy,
+                DOB = user.DOB,
+                EmailAddress = user.EmailAddress,
+                FirstName = user.FirstName,
+                Gender = user.Gender,
+                ID = user.Id,
+                LastName = user.LastName,
+                LastUpdatedBy = user.LastUpdatedBy,
+                LastUpdatedOn = user.LastUpdatedOn,
+                MobileNumber = user.MobileNumber,
+                 CreatedOn= user.CreatedOn,
+                  Password= user.Password,
+                   UserName=user.UserName
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Entry(userE).State = System.Data.Entity.EntityState.Modified;
+                var result = pmsContext.SaveChanges();
+                isUpdated = result == 1 ? true : false;
+            }
+
+            return isUpdated;
+        }
+
+        public bool DeleteUser(int userId)
+        {
+            var isDeleted = false;
+                if (userId <= 0) return isDeleted;
+
+                var user = new DAL.User
+                {
+                    IsActive = false,
+                    ID = userId,
+                    UserName="username", //Temp code
+                    Password= "password"//Temp code
+                };
+
+                using (var pmsContext = new PmsEntities())
+                {
+                    pmsContext.Users.Attach(user);
+                    pmsContext.Entry(user).Property(x => x.IsActive).IsModified = true;
+                    var result = pmsContext.SaveChanges();
+                    isDeleted = result == 1 ? true : false;
+                }
+            return isDeleted;
+        }
+
+        public List<PmsEntity.User> GetAllUser() {
+            using (var pmsContext = new PmsEntities())
+            {
+                return (from u in pmsContext.Users
+                        where u.IsActive
+                        select new PmsEntity.User
+                        {
+                            CreatedBy = u.CreatedBy,
+                            CreatedOn = u.CreatedOn,
+                            DOB = u.DOB,
+                            EmailAddress = u.EmailAddress,
+                            FirstName = u.FirstName,
+                            Gender = u.Gender,
+                            Id = u.ID,
+                            IsActive = u.IsActive,
+                            LastName = u.LastName,
+                            LastUpdatedBy = u.LastUpdatedBy,
+                            LastUpdatedOn = u.LastUpdatedOn,
+                            MobileNumber = u.MobileNumber,
+                            UserName = u.UserName,
+                            Password= u.Password
+                        }).ToList();
+            }
+        }
+        #endregion
     }
 }

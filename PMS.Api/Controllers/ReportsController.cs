@@ -36,10 +36,10 @@ namespace PMS.Api.Controllers
         [System.Web.Http.NonAction]
         public void MapHttpRoutes(HttpConfiguration config)
         {
-            MapHttpRoutesForExpense(config);
+            MapHttpRoutesForReports(config);
         }
 
-        private void MapHttpRoutesForExpense(HttpConfiguration config)
+        private void MapHttpRoutesForReports(HttpConfiguration config)
         {
             config.Routes.MapHttpRoute(
              "GetShiftReport",

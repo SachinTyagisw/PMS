@@ -97,7 +97,7 @@ namespace PMS.Web.Controllers
             if (validuser)
             {
                 Session["username"] = user.UserName;
-                Session["userid"] = user.ID;
+                Session["userid"] = user.Id;
                 return RedirectToAction("Checkin", "Booking");
             }
             else

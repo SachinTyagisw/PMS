@@ -171,6 +171,19 @@
           <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
           <Property Name="LastUpdatedOn" Type="datetime" />
         </EntityType>
+        <EntityType Name="Functionality">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Functionality" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="LastUpdatedOn" Type="datetime" />
+        </EntityType>
         <EntityType Name="Guest">
           <Key>
             <PropertyRef Name="ID" />
@@ -512,6 +525,19 @@
           <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
           <Property Name="LastUpdatedOn" Type="datetime" />
         </EntityType>
+        <EntityType Name="UsersFunctionalityMapping">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="FunctionalityID" Type="int" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="LastUpdatedBy" Type="nvarchar" MaxLength="200" />
+          <Property Name="LastUpdatedOn" Type="datetime" />
+        </EntityType>
         <EntityType Name="UsersPropertyMapping">
           <Key>
             <PropertyRef Name="ID" />
@@ -573,7 +599,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Booking__RateTyp__6EF57B66">
+        <Association Name="FK__Booking__RateTyp__6C190EBB">
           <End Role="RateType" Type="Self.RateType" Multiplicity="0..1" />
           <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
           <ReferentialConstraint>
@@ -609,7 +635,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ExpenseCa__Prope__29221CFB">
+        <Association Name="FK__ExpenseCa__Prope__18EBB532">
           <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
           <End Role="ExpenseCategory" Type="Self.ExpenseCategory" Multiplicity="*" />
           <ReferentialConstraint>
@@ -621,7 +647,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Expenses__Expens__2DE6D218">
+        <Association Name="FK__Expenses__Expens__1DB06A4F">
           <End Role="ExpenseCategory" Type="Self.ExpenseCategory" Multiplicity="0..1" />
           <End Role="Expenses" Type="Self.Expenses" Multiplicity="*" />
           <ReferentialConstraint>
@@ -633,7 +659,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Expenses__Paymen__2EDAF651">
+        <Association Name="FK__Expenses__Paymen__1EA48E88">
           <End Role="PaymentType" Type="Self.PaymentType" Multiplicity="0..1" />
           <End Role="Expenses" Type="Self.Expenses" Multiplicity="*" />
           <ReferentialConstraint>
@@ -645,7 +671,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Expenses__Proper__2CF2ADDF">
+        <Association Name="FK__Expenses__Proper__1CBC4616">
           <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
           <End Role="Expenses" Type="Self.Expenses" Multiplicity="*" />
           <ReferentialConstraint>
@@ -789,7 +815,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Rates__RoomId__7C4F7684">
+        <Association Name="FK__Rates__RoomId__797309D9">
           <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
           <End Role="Rates" Type="Self.Rates" Multiplicity="*" />
           <ReferentialConstraint>
@@ -837,7 +863,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Room__FloorId__00200768">
+        <Association Name="FK__Room__FloorId__7D439ABD">
           <End Role="PropertyFloor" Type="Self.PropertyFloor" Multiplicity="0..1" />
           <End Role="Room" Type="Self.Room" Multiplicity="*" />
           <ReferentialConstraint>
@@ -969,6 +995,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__UsersFunc__Funct__51300E55">
+          <End Role="Functionality" Type="Self.Functionality" Multiplicity="0..1" />
+          <End Role="UsersFunctionalityMapping" Type="Self.UsersFunctionalityMapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Functionality">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UsersFunctionalityMapping">
+              <PropertyRef Name="FunctionalityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="fnGetPaymentOption" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar(max)">
           <Parameter Name="invoiceId" Type="int" Mode="In" />
         </Function>
@@ -1079,6 +1117,7 @@
           <EntitySet Name="ExpenseCategory" EntityType="Self.ExpenseCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Expenses" EntityType="Self.Expenses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExtraCharges" EntityType="Self.ExtraCharges" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Functionality" EntityType="Self.Functionality" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Guest" EntityType="Self.Guest" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GuestMapping" EntityType="Self.GuestMapping" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GuestReward" EntityType="Self.GuestReward" Schema="dbo" store:Type="Tables" />
@@ -1100,6 +1139,7 @@
           <EntitySet Name="State" EntityType="Self.State" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Taxes" EntityType="Self.Taxes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UsersFunctionalityMapping" EntityType="Self.UsersFunctionalityMapping" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UsersPropertyMapping" EntityType="Self.UsersPropertyMapping" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Additiona__Booki__6442E2C9" Association="Self.FK__Additiona__Booki__6442E2C9">
             <End Role="Booking" EntitySet="Booking" />
@@ -1117,7 +1157,7 @@
             <End Role="Property" EntitySet="Property" />
             <End Role="Booking" EntitySet="Booking" />
           </AssociationSet>
-          <AssociationSet Name="FK__Booking__RateTyp__6EF57B66" Association="Self.FK__Booking__RateTyp__6EF57B66">
+          <AssociationSet Name="FK__Booking__RateTyp__6C190EBB" Association="Self.FK__Booking__RateTyp__6C190EBB">
             <End Role="RateType" EntitySet="RateType" />
             <End Role="Booking" EntitySet="Booking" />
           </AssociationSet>
@@ -1129,19 +1169,19 @@
             <End Role="State" EntitySet="State" />
             <End Role="City" EntitySet="City" />
           </AssociationSet>
-          <AssociationSet Name="FK__ExpenseCa__Prope__29221CFB" Association="Self.FK__ExpenseCa__Prope__29221CFB">
+          <AssociationSet Name="FK__ExpenseCa__Prope__18EBB532" Association="Self.FK__ExpenseCa__Prope__18EBB532">
             <End Role="Property" EntitySet="Property" />
             <End Role="ExpenseCategory" EntitySet="ExpenseCategory" />
           </AssociationSet>
-          <AssociationSet Name="FK__Expenses__Expens__2DE6D218" Association="Self.FK__Expenses__Expens__2DE6D218">
+          <AssociationSet Name="FK__Expenses__Expens__1DB06A4F" Association="Self.FK__Expenses__Expens__1DB06A4F">
             <End Role="ExpenseCategory" EntitySet="ExpenseCategory" />
             <End Role="Expenses" EntitySet="Expenses" />
           </AssociationSet>
-          <AssociationSet Name="FK__Expenses__Paymen__2EDAF651" Association="Self.FK__Expenses__Paymen__2EDAF651">
+          <AssociationSet Name="FK__Expenses__Paymen__1EA48E88" Association="Self.FK__Expenses__Paymen__1EA48E88">
             <End Role="PaymentType" EntitySet="PaymentType" />
             <End Role="Expenses" EntitySet="Expenses" />
           </AssociationSet>
-          <AssociationSet Name="FK__Expenses__Proper__2CF2ADDF" Association="Self.FK__Expenses__Proper__2CF2ADDF">
+          <AssociationSet Name="FK__Expenses__Proper__1CBC4616" Association="Self.FK__Expenses__Proper__1CBC4616">
             <End Role="Property" EntitySet="Property" />
             <End Role="Expenses" EntitySet="Expenses" />
           </AssociationSet>
@@ -1189,7 +1229,7 @@
             <End Role="RateType" EntitySet="RateType" />
             <End Role="Rates" EntitySet="Rates" />
           </AssociationSet>
-          <AssociationSet Name="FK__Rates__RoomId__7C4F7684" Association="Self.FK__Rates__RoomId__7C4F7684">
+          <AssociationSet Name="FK__Rates__RoomId__797309D9" Association="Self.FK__Rates__RoomId__797309D9">
             <End Role="Room" EntitySet="Room" />
             <End Role="Rates" EntitySet="Rates" />
           </AssociationSet>
@@ -1205,7 +1245,7 @@
             <End Role="Property" EntitySet="Property" />
             <End Role="RateType" EntitySet="RateType" />
           </AssociationSet>
-          <AssociationSet Name="FK__Room__FloorId__00200768" Association="Self.FK__Room__FloorId__00200768">
+          <AssociationSet Name="FK__Room__FloorId__7D439ABD" Association="Self.FK__Room__FloorId__7D439ABD">
             <End Role="PropertyFloor" EntitySet="PropertyFloor" />
             <End Role="Room" EntitySet="Room" />
           </AssociationSet>
@@ -1248,6 +1288,10 @@
           <AssociationSet Name="FK__Taxes__PropertyI__382F5661" Association="Self.FK__Taxes__PropertyI__382F5661">
             <End Role="Property" EntitySet="Property" />
             <End Role="Taxes" EntitySet="Taxes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UsersFunc__Funct__51300E55" Association="Self.FK__UsersFunc__Funct__51300E55">
+            <End Role="Functionality" EntitySet="Functionality" />
+            <End Role="UsersFunctionalityMapping" EntitySet="UsersFunctionalityMapping" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -2479,6 +2523,12 @@
             <Parameter Name="AmountPaidMax" Mode="In" Type="Decimal" />
             <Parameter Name="PropertyId" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="Functionalities" EntityType="PmsModel.Functionality" />
+          <EntitySet Name="UsersFunctionalityMappings" EntityType="PmsModel.UsersFunctionalityMapping" />
+          <AssociationSet Name="FK__UsersFunc__Funct__51300E55" Association="PmsModel.FK__UsersFunc__Funct__51300E55">
+            <End Role="Functionality" EntitySet="Functionalities" />
+            <End Role="UsersFunctionalityMapping" EntitySet="UsersFunctionalityMappings" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="GETALLBOOKINGS_Result">
           <Property Type="Int32" Name="ID" Nullable="true" />
@@ -2795,6 +2845,46 @@
           <Property Type="String" Name="CategoryShortName" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="CategoryDesc" Nullable="true" />
         </ComplexType>
+        <EntityType Name="Functionality">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Functionality1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="UsersFunctionalityMappings" Relationship="PmsModel.FK__UsersFunc__Funct__51300E55" FromRole="Functionality" ToRole="UsersFunctionalityMapping" />
+        </EntityType>
+        <EntityType Name="UsersFunctionalityMapping">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="FunctionalityID" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Functionality" Relationship="PmsModel.FK__UsersFunc__Funct__51300E55" FromRole="UsersFunctionalityMapping" ToRole="Functionality" />
+        </EntityType>
+        <Association Name="FK__UsersFunc__Funct__51300E55">
+          <End Type="PmsModel.Functionality" Role="Functionality" Multiplicity="0..1" />
+          <End Type="PmsModel.UsersFunctionalityMapping" Role="UsersFunctionalityMapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Functionality">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UsersFunctionalityMapping">
+              <PropertyRef Name="FunctionalityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3615,6 +3705,34 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="Functionalities">
+            <EntityTypeMapping TypeName="PmsModel.Functionality">
+              <MappingFragment StoreEntitySet="Functionality">
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Functionality1" ColumnName="Functionality" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UsersFunctionalityMappings">
+            <EntityTypeMapping TypeName="PmsModel.UsersFunctionalityMapping">
+              <MappingFragment StoreEntitySet="UsersFunctionalityMapping">
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="FunctionalityID" ColumnName="FunctionalityID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

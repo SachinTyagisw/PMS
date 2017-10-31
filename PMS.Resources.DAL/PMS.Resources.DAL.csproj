@@ -84,6 +84,9 @@
     <Compile Include="ExtraCharge.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Functionality.cs">
+      <DependentUpon>PmsModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="GETALLBOOKINGS_Result.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
@@ -204,6 +207,9 @@
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="User.cs">
+      <DependentUpon>PmsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UsersFunctionalityMapping.cs">
       <DependentUpon>PmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="UsersPropertyMapping.cs">

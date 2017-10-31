@@ -491,6 +491,26 @@ namespace PMS.Resources.Logic
                managerReportRequest.PropertyId);
         }
 
+
+        public int AddUser(PmsEntity.User user)
+        {
+            return DalFactory.AddUser(user);
+        }
+
+        public bool UpdateUser(PmsEntity.User user)
+        {
+            return DalFactory.UpdateUser(user);
+        }
+
+        public bool DeleteUser(int userId)
+        {
+            return DalFactory.DeleteUser(userId);
+        }
+
+        public List<PmsEntity.User> GetAllUser()
+        {
+            return DalFactory.GetAllUser();
+        }
         #region Helper method
 
         private string RemoveXmlDefaultNode(string xml)

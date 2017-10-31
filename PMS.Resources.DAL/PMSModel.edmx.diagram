@@ -75,6 +75,9 @@
         <AssociationConnector Association="PmsModel.FK__Expenses__Expens__1DB06A4F" />
         <AssociationConnector Association="PmsModel.FK__Expenses__Paymen__1EA48E88" />
         <AssociationConnector Association="PmsModel.FK__Expenses__Proper__1CBC4616" />
+        <EntityTypeShape EntityType="PmsModel.Functionality" Width="1.5" PointX="0.75" PointY="11" />
+        <EntityTypeShape EntityType="PmsModel.UsersFunctionalityMapping" Width="1.5" PointX="3" PointY="11" />
+        <AssociationConnector Association="PmsModel.FK__UsersFunc__Funct__51300E55" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

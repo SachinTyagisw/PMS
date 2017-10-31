@@ -134,6 +134,14 @@
             OnGetConsolidatedShiftReportFailure:null,
             OnGetManagerDataSuccess: null,
             OnGetManagerDataFailure: null,
+            OnDeleteUserSuccess: null,
+            OnDeleteUserFailure: null,
+            OnAddUserSuccess: null,
+            OnAddUserFailure: null,
+            OnUpdateUserSuccess: null,
+            OnUpdateUserFailure: null,
+            OnGetAllUserSuccess: null,
+            OnGetAllUserFailure: null,
         };
 
         this.UpdateStatus = function (args) {
@@ -386,6 +394,22 @@
 
         this.GetManagerReport = function (args) {
             makeAjaxRequestPost(args, "GetManagerData", this, "api/v1/Reports/GetManagerData");
+        };
+
+        this.UpdateUser = function (args) {
+            makeAjaxRequestPut(args, "UpdateUser", this, "api/v1/User/UpdateUser");
+        };
+
+        this.AddUser = function (args) {
+            makeAjaxRequestPost(args, "AddUser", this, "api/v1/User/AddUser");
+        };
+
+        this.DeleteUser = function (args) {
+            makeAjaxRequestDelete(args, "DeleteUser", this, "api/v1/User/DeleteUser/" + args.userId);
+        };       
+
+        this.GetAllUser = function (args) {
+            makeAjaxRequestGet(args, "GetAllUser", this, "api/v1/User/GetAllUser");
         };
 
         function makeAjaxRequestDelete(args, operationName, e, uri) {

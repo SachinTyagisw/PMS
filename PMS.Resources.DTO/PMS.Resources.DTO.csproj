@@ -46,6 +46,7 @@
     <Compile Include="Request\AddInvoiceRequestDto.cs" />
     <Compile Include="Request\AddBookingRequestDto.cs" />
     <Compile Include="Request\AddPaymentTypeRequestDto.cs" />
+    <Compile Include="Request\AddUserRequestDto.cs" />
     <Compile Include="Request\AddPropertyRequestDto.cs" />
     <Compile Include="Request\AddPropertyTypeRequestDto.cs" />
     <Compile Include="Request\AddRateTypeRequestDto.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Request\SearchExpenseRequestDto.cs" />
     <Compile Include="Request\ConsolidatedShiftReportDto.cs" />
     <Compile Include="Request\ManagerReportDto.cs" />
+    <Compile Include="Response\GetUserResponseDto.cs" />
     <Compile Include="Response\ManagerReportResponseDto.cs" />
     <Compile Include="Response\ConsolidatedShiftReportResponseDto.cs" />
     <Compile Include="Request\ShiftReportDto.cs" />

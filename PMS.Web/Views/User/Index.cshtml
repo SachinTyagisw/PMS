@@ -1,0 +1,400 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .selected {
+    background-color:lightblue;    
+    }
+    .property li {
+    cursor:pointer;
+    }
+</style>
+<script type='text/javascript'>
+    var gcm = window.GuestCheckinManager;
+
+    function prepareUser() {
+        var user = {};
+        user.UserName = $('#userName').val();
+        user.Password = $('#password').val();
+        user.FirstName = $('#firstName').val();
+        user.LastName = $('#lastName').val();
+        user.MobileNumber = $('#mobileNumber').val();
+        user.EmailAddress = $('#emailAddress').val();
+        user.DOB = $('#dob').val();
+        user.Gender = $('#ddlGender').val();
+        return user;
+    }
+
+    function validateUserInputs() {
+        var userName = $('#userName').val();
+        var password = $('#password').val();
+        var confirmPassword = $('#confirmPassword').val();
+        var firstName = $('#firstName').val();
+        var lastName = $('#lastName').val();
+        var mobileNumber = $('#mobileNumber').val();
+        var emailAddress = $('#emailAddress').val();
+        var dob = $('#dob').val();
+        var gender = $('#ddlGender').val();
+        var userId = $('#hdnUserId').val();
+
+        var changePassword = $('#hdnChangePassword').val();
+
+        if (!firstName || firstName.length <= 0) {
+            alert("First Name is required");
+            $('#firstName').focus();
+            return false;
+        }
+
+        if (!lastName || lastName.length <= 0) {
+            alert("Last Name is required");
+            $('#lastName').focus();
+            return false;
+        }
+
+        if (!mobileNumber || mobileNumber.length<=0) {
+            alert("Mobile Number is required");
+            return false;
+        }
+
+        if (!emailAddress || emailAddress.length <= 0) {
+            alert("emailAddress is required");
+            $('#emailAddress').focus();
+            return false;
+        }
+
+
+        if (!userName || userName.length <= 0) {
+            alert("User Name is required");
+            $('#userName').focus();
+            return false;
+        }
+
+        if (changePassword == "true") {
+            if (!password || password.length <= 0) {
+                alert("Password is required");
+                $('#password').focus();
+                return false;
+            }
+            //Confirm password
+            if (!confirmPassword || confirmPassword.length <= 0) {
+                alert("Confirm Password is required");
+                $('#confirmPassword').focus();
+                return false;
+            }
+            if (password != confirmPassword) {
+                alert("Confirm Password doesn't match with password.");
+                $('#confirmPassword').focus();
+                return false;
+            }
+        }
+        var existingUser = gcm.FindUser(userName, window.GuestCheckinManager.PropertySettingResponseDto.UserSetting);
+        if (existingUser != null && existingUser.Id != userId)
+        {
+            alert("Username is already exists.");
+            $('#userName').focus();
+            return false;
+        }
+
+        return true;
+    }
+
+    function toggleButton(shouldDisable) {
+        $('#update').attr("disabled", !shouldDisable);
+        $('#create').attr("disabled", shouldDisable);
+        $('#userName').attr("disabled", shouldDisable);
+        $('#password').attr("disabled", shouldDisable);
+        $('#confirmPassword').attr("disabled", shouldDisable);
+        if (shouldDisable) {
+            $('#lnkChangePassword').show();
+        }
+        else {
+            $('#lnkChangePassword').hide();
+        }
+    }
+
+    function openModal() {
+        $('.modal-wrapper').toggleClass('open');
+        $('.page-wrapper').toggleClass('blur');
+        return false;
+    }
+
+    function populateUserDetails(user) {
+        $('#userName').val(user.UserName);
+        $('#password').val(user.Password);
+        $('#firstName').val(user.FirstName);
+        $('#lastName').val(user.LastName);
+        $('#mobileNumber').val(user.MobileNumber);
+        $('#emailAddress').val(user.EmailAddress);
+        $('#dob').val(user.DOB.split('T')[0]);
+        $('#ddlGender').val(user.Gender);
+        $('#password').val(user.Password);
+        $('#confirmPassword').val(user.Password);
+    }
+
+    $(document).ready(function () {
+
+        gcm.GetAllUser();       
+
+        $('#mobileNumber').keydown(function (e) {
+            gcm.IsNumeric(e);
+        });
+       
+        $("#createRow").click(function () {
+            gcm.ClearUserFields();
+        });
+
+        $("#cancel").click(function () {
+            $('#propmodal').removeClass('open');
+        });
+
+        $("#create").click(function () {
+            if (!validateUserInputs()) return;
+            var user = prepareUser();
+            gcm.AddUser(user);
+        });
+
+        $("#update").click(function () {
+            if (!validateUserInputs()) return;
+            var userId = $('#hdnUserId').val();
+            var user = prepareUser();
+            user.CreatedOn = $('#hdnCreatedOn').val();
+            user.CreatedBy = $('#hdnCreatedBy').val();
+            user.Id = userId;
+            gcm.UpdateUser(user);
+        });
+
+        $("#divUser").on("click", ".fa-minus-circle", function () {
+            if (confirm("Are you sure you want to delete ?")) {
+                var userId = $(this).closest('tr')[0].id;
+                $(this).closest('tr').remove();
+                if (userId <= 0) return;
+                gcm.DeleteUser(userId);
+            }
+        });
+
+        $("#divUser").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {
+            $('#hdnUserId').val('');
+            $('#hdnCreatedOn').val('');
+            $('#hdnCreatedBy').val('');
+            var thisRow = $(this).parent().siblings();
+            var editOn = $(this).hasClass("editMode");
+            var userId = $(thisRow)[0].innerText;
+            var existingUser = gcm.FindSetting(userId, window.GuestCheckinManager.PropertySettingResponseDto.UserSetting);
+            if (!existingUser) {
+                alert('Selected User is not valid');
+                return;
+            }
+            if (userId > 0) {
+                toggleButton(true);                
+            }
+            $('#hdnUserId').val(userId);
+            $('#hdnCreatedOn').val(existingUser.CreatedOn);
+            $('#hdnCreatedBy').val(existingUser.CreatedBy);
+            $('#hdnChangePassword').val(false);
+
+            openModal();
+            populateUserDetails(existingUser);
+        });
+
+        $('#createRow, .trigger').click(function () {
+            toggleButton(false);
+            $('#hdnChangePassword').val(true);
+
+            openModal();
+
+        });
+
+        $('body').on('click', 'div.property li', function () {
+            $(this).toggleClass('selected');
+
+        });
+    });
+
+    function onclick_changePassword()
+    {
+        $('#password').attr("disabled", false);
+        $('#confirmPassword').attr("disabled", false);
+        $('#hdnChangePassword').val(true);
+    }
+
+    function onclick_propertyRight()
+    {
+        $('div.property div.left li.selected').appendTo('div.property div.right ul');
+    }
+
+    function onclick_propertyLeft() {
+        $('div.property div.right li.selected').appendTo('div.property div.left ul');
+    }
+
+</script>
+<div class="content-wrap">
+    <div class="main controls">
+        <div class="container-fluid">
+            <div class="col-lg-12 p-r-0 p-l-0">
+                <div class="card alert">
+                    <div class="card-header">
+                        <h4>Create User</h4>
+                    </div>
+                    <div class="card-body room-details">
+                        <div class="row" style="">
+                            <div class="form-group col-lg-5 m-t-10">
+                                <input type="text" class="search form-control" placeholder="Search by Name, Gender, DOB, Email id...">
+                            </div>
+                            <div class="col-lg-7 p-l-0 p-r-15">
+                                <div class="form-group">
+                                    <button id="createRow" class="btn btn-primary m-l-5 m-t-10 btn-side" type="button">Create User</button>
+                                </div>
+                            </div>
+                            <div id="divUser" class="table-data">
+                                <span class="counter"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="propmodal" class="modal-wrapper">
+    <div class="modal">
+        <div class="head">
+            <span class="label-head">Create User</span><a class="btn-close trigger" href="javascript:;"></a>
+        </div>
+        <div class="content">
+            <div class="contact-information">
+                <div class="state-content">
+                    <div class="col-lg-3 p-l-0">
+                        <div class="form-group">
+                            <input id="firstName" type="text" placeholder="First Name" class="form-control" name="example-input-normal">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 p-l-0">
+                        <div class="form-group">
+                            <input id="lastName" type="text" placeholder="Last Name" class="form-control" name="example-input-normal">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 p-l-0">
+                        <div class="form-group">
+                            <input id="dob" type="text" placeholder="DOB" class="form-control" name="example-input-normal">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 p-l-0">
+                        <div class="form-group">
+                            <select id="ddlGender" class="form-control">
+                                <option value="">Select Gender</option>
+                                <option value="Female">Female</option>
+                                <option value="Male">Male</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 p-l-0">
+                        <div class="form-group">
+                            <input id="mobileNumber" type="text" maxlength="10" placeholder="Mobile Number" class="form-control" name="example-input-normal">
+                        </div>
+                    </div>
+                    <div class="email-content">
+                        <div class="col-lg-3 p-l-0">
+                            <div class="form-group">
+                                <input id="emailAddress" type="text" placeholder="Email Address" class="form-control" name="example-input-normal">
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+                <a href="#" id="lnkChangePassword" onclick="onclick_changePassword();" style="display:none;">Change password</a>
+                <div class="col-lg-3 p-l-0">
+                    <div class="form-group">
+                        <input id="userName" type="text" maxlength="10" placeholder="User Name" class="form-control" name="example-input-normal">
+                    </div>
+                </div>
+                <div class="col-lg-3 p-l-0">
+                    <div class="form-group">
+                        <input id="password" type="password" placeholder="Password" class="form-control" name="example-input-normal">
+                    </div>
+                </div>
+                <div class="col-lg-3 p-l-0">
+                    <div class="form-group">
+                        <input id="confirmPassword" type="password" placeholder="Confirm Password" class="form-control" name="example-input-normal">
+                    </div>
+                </div>
+                <div class="col-lg-3 p-l-0 property">
+                    <div style="border:1px solid black;" class="left">
+                        <ul>
+                            <li>Property 1</li>
+                            <li> Property 2</li>
+                        </ul>
+
+                    </div>
+                    <button onclick="onclick_propertyRight();">Right</button><br />
+                    <button onclick="onclick_propertyLeft();">Left</button>
+                    <div style="border:1px solid black;" class="right">
+                        <ul>
+                            <li>
+                                Test Property
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+                
+            </div>
+            <div class="button-section">
+                <button id="cancel" type="button" class="btn btn-primary m-l-5 m-t-15">Cancel</button>
+                <button id="create" type="button" class="btn btn-primary m-l-5 m-t-15">Create</button>
+                <button id="update" disabled="disabled" type="button" class="btn btn-primary m-l-5 m-t-15">Update</button>
+            </div>
+            <input type="hidden" value="" id='hdnUserId'>
+            <input type="hidden" value="" id='hdnCreatedOn'>
+            <input type="hidden" value="" id='hdnCreatedBy'>
+            <input type="hidden" value="true" id='hdnChangePassword'>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/html" id="userTemplate">
+    <table class="table table-hover table-bordered results tableContents">
+        <thead>
+            <tr>
+                <th id="IDCol">ID #</th>
+                <th id="firstNameCol" contenteditable="false">First Name</th>
+                <th id="lastNameCol" contenteditable="false">Last Name</th>
+                <th id="dobCol" contenteditable="false">DOB</th>
+                <th id="genderCol" contenteditable="false">Gender</th>
+                <th id="emailCol" contenteditable="false">Email</th>
+                <th id="mobileCol" contenteditable="false">Mobile</th>
+                <th id="usernameCol" contenteditable="false">Username</th>
+                <th id="createdDateCol" contenteditable="false">Created Date</th>
+                <th id="updatedDateCol" contenteditable="false">Updated Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{each Users}}
+            <tr id="${$value.Id}">
+                <td class="idRow" contenteditable="false">${$value.Id}</td>
+                <td contenteditable="false">${$value.FirstName}</td>
+                <td contenteditable="false">${$value.LastName}</td>
+                <td contenteditable="false">${String($value.DOB).replace('T', ' ')}</td>
+                <td contenteditable="false">${$value.Gender}</td>
+                <td contenteditable="false">${$value.EmailAddress}</td>
+                <td contenteditable="false">${$value.MobileNumber}</td>
+                <td contenteditable="false">${$value.UserName}</td>
+                <td contenteditable="false">${String($value.CreatedOn).replace('T', ' ')}</td>
+                <td contenteditable="false">{{if $value.LastUpdatedOn}} ${String($value.LastUpdatedOn).replace('T', ' ')} {{/if}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</script>
+<div id="divLoader">
+    <div class="loader" style="display:none;">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+</div>

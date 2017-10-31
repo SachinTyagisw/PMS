@@ -110,5 +110,13 @@ namespace PMS.Resources.Logic
         DataTable GetShiftReport(ShiftReportDto shiftRequest);
         DataTable GetConsolidatedShiftReport(ConsolidatedShiftReportDto consolidatedShiftRequest);
         DataTable GetManagerData(ManagerReportDto managerReportRequest);
+
+        //user 
+        int AddUser(PmsEntity.User userRequest);
+        bool UpdateUser(PmsEntity.User User);
+        bool DeleteUser(int UserId);
+
+        List<PmsEntity.User> GetAllUser();
+
     }
 }
