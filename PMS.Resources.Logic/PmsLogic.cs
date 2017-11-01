@@ -511,6 +511,18 @@ namespace PMS.Resources.Logic
         {
             return DalFactory.GetAllUser();
         }
+
+        public List<PmsEntity.Functionality> GetAllFunctionality() {
+            return DalFactory.GetAllFunctionality();
+        }
+
+        public List<PmsEntity.Functionality> GetFunctionalityByUserId(int userId) {
+            return DalFactory.GetFunctionalityByUserId(userId);
+        }
+
+        public bool InsertUserAccess(UserAccessRequestDto request) {
+            return DalFactory.InsertUserAccess(request.UserId, request.Functionalities, request.Properties, request.CreatedBy);
+        }
         #region Helper method
 
         private string RemoveXmlDefaultNode(string xml)

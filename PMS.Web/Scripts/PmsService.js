@@ -142,6 +142,15 @@
             OnUpdateUserFailure: null,
             OnGetAllUserSuccess: null,
             OnGetAllUserFailure: null,
+            OnGetPropertyByUserIdSuccess: null,
+            OnGetPropertyByUserIdFailure: null,
+            OnGetAllFunctionalitySuccess: null,
+            OnGetAllFunctionalityFailure: null,
+            OnGetFunctionalityByUserIdSuccess: null,
+            OnGetFunctionalityByUserIdFailure: null,
+            OnInsertUserAccessSuccess: null,
+            OnInsertUserAccessFailure: null,
+            
         };
 
         this.UpdateStatus = function (args) {
@@ -411,7 +420,18 @@
         this.GetAllUser = function (args) {
             makeAjaxRequestGet(args, "GetAllUser", this, "api/v1/User/GetAllUser");
         };
-
+        this.GetPropertyByUserId = function (args) {
+            makeAjaxRequestGet(args, "GetPropertyByUserId", this, "api/v1/Property/GetPropertyByUserId/" + args.userId);
+        };
+        this.GetAllFunctionality = function (args) {
+            makeAjaxRequestGet(args, "GetAllFunctionality", this, "api/v1/Functionality/GetAllFunctionality");
+        };
+        this.GetFunctionalityByUserId = function (args) {
+            makeAjaxRequestGet(args, "GetFunctionalityByUserId", this, "api/v1/Functionality/GetFunctionalityByUserId/" + args.userId);
+        };
+        this.InsertUserAccess = function (args) {
+            makeAjaxRequestPost(args, "InsertUserAccess", this, "api/v1/User/InsertUserAccess");
+        };
         function makeAjaxRequestDelete(args, operationName, e, uri) {
             var url = e.Config.BaseUrl + uri;
             var successCallback = makeSuccessHandler(operationName, e);

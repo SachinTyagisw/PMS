@@ -6,7 +6,11 @@
     .selected {
     background-color:lightblue;    
     }
-    .property li {
+    #panelProperty li {
+    cursor:pointer;
+    }
+
+    #panelFunctionality li {
     cursor:pointer;
     }
 </style>
@@ -152,6 +156,10 @@
             if (!validateUserInputs()) return;
             var user = prepareUser();
             gcm.AddUser(user);
+
+            Notifications.SubscribeActive("on-user-add-success", function (sender, args) {
+                insertUserPropertyFunction(args);
+            });
         });
 
         $("#update").click(function () {
@@ -162,6 +170,9 @@
             user.CreatedBy = $('#hdnCreatedBy').val();
             user.Id = userId;
             gcm.UpdateUser(user);
+
+            insertUserPropertyFunction(userId);
+
         });
 
         $("#divUser").on("click", ".fa-minus-circle", function () {
@@ -186,7 +197,8 @@
                 return;
             }
             if (userId > 0) {
-                toggleButton(true);                
+                toggleButton(true);
+                populateUserPropertyAss(userId);
             }
             $('#hdnUserId').val(userId);
             $('#hdnCreatedOn').val(existingUser.CreatedOn);
@@ -200,14 +212,13 @@
         $('#createRow, .trigger').click(function () {
             toggleButton(false);
             $('#hdnChangePassword').val(true);
-
             openModal();
 
+            populateUserPropertyAss(0);
         });
 
-        $('body').on('click', 'div.property li', function () {
+        $('body').on('click', '#panelProperty li, #panelFunctionality li', function () {
             $(this).toggleClass('selected');
-
         });
     });
 
@@ -220,11 +231,48 @@
 
     function onclick_propertyRight()
     {
-        $('div.property div.left li.selected').appendTo('div.property div.right ul');
+        $('#panelProperty div.left li.selected').appendTo('#panelProperty div.right ul');
     }
 
     function onclick_propertyLeft() {
-        $('div.property div.right li.selected').appendTo('div.property div.left ul');
+        $('#panelProperty div.right li.selected').appendTo('#panelProperty div.left ul');
+    }
+
+    function onclick_functionRight() {
+        $('#panelFunctionality div.left li.selected').appendTo('#panelFunctionality div.right ul');
+    }
+
+    function onclick_functionLeft() {
+        $('#panelFunctionality div.right li.selected').appendTo('#panelFunctionality div.left ul');
+    }
+
+    function populateUserPropertyAss(userId)
+    {
+        gcm.GetAllProperty();
+        gcm.GetPropertyByUserId(userId);
+
+        gcm.GetAllFunctionality();
+        gcm.GetFunctionalityByUserId(userId);
+    }
+
+    function insertUserPropertyFunction(userId)
+    {
+        //user access
+        var userAccess = {};
+        userAccess.UserId = userId;
+        userAccess.Functionalities = '';
+        $('#panelFunctionality div.right li').each(function (i, d) {
+            if (i > 0)
+                userAccess.Functionalities += ',';
+            userAccess.Functionalities += d.id;
+        });
+        userAccess.Properties = '';
+        $('#panelProperty div.right li').each(function (i, d) {
+            if (i > 0)
+                userAccess.Properties += ',';
+            userAccess.Properties += d.id;
+        });
+        gcm.InsertUserAccess(userAccess);
     }
 
 </script>
@@ -320,11 +368,9 @@
                         <input id="confirmPassword" type="password" placeholder="Confirm Password" class="form-control" name="example-input-normal">
                     </div>
                 </div>
-                <div class="col-lg-3 p-l-0 property">
+                <div class="col-lg-3 p-l-0" id="panelProperty">
                     <div style="border:1px solid black;" class="left">
                         <ul>
-                            <li>Property 1</li>
-                            <li> Property 2</li>
                         </ul>
 
                     </div>
@@ -332,10 +378,20 @@
                     <button onclick="onclick_propertyLeft();">Left</button>
                     <div style="border:1px solid black;" class="right">
                         <ul>
-                            <li>
-                                Test Property
-                            </li>
                         </ul>
+
+                    </div>
+                </div>
+
+                <div class="col-lg-3 p-l-0" id="panelFunctionality">
+                    <div style="border:1px solid black;" class="left">
+                        <ul></ul>
+
+                    </div>
+                    <button onclick="onclick_functionRight();">Right</button><br />
+                    <button onclick="onclick_functionLeft();">Left</button>
+                    <div style="border:1px solid black;" class="right">
+                        <ul></ul>
 
                     </div>
                 </div>

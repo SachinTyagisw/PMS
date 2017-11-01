@@ -482,6 +482,33 @@ public partial class PmsEntities : DbContext
         return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetExpenseData_Result>("GetExpenseData", startDateParameter, endDateParameter, paymentTypeIDParameter, expenseCategoryIDParameter, amountPaidMinParameter, amountPaidMaxParameter, propertyIdParameter);
     }
 
+
+    public virtual int InsertUserAccess(Nullable<int> userID, string functionalities, string properties, string createdBy)
+    {
+
+        var userIDParameter = userID.HasValue ?
+            new ObjectParameter("UserID", userID) :
+            new ObjectParameter("UserID", typeof(int));
+
+
+        var functionalitiesParameter = functionalities != null ?
+            new ObjectParameter("Functionalities", functionalities) :
+            new ObjectParameter("Functionalities", typeof(string));
+
+
+        var propertiesParameter = properties != null ?
+            new ObjectParameter("Properties", properties) :
+            new ObjectParameter("Properties", typeof(string));
+
+
+        var createdByParameter = createdBy != null ?
+            new ObjectParameter("CreatedBy", createdBy) :
+            new ObjectParameter("CreatedBy", typeof(string));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertUserAccess", userIDParameter, functionalitiesParameter, propertiesParameter, createdByParameter);
+    }
+
 }
 
 }

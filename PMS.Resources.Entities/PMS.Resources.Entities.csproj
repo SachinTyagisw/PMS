@@ -49,6 +49,7 @@
     <Compile Include="Currency.cs" />
     <Compile Include="ExceptionLog.cs" />
     <Compile Include="Expense.cs" />
+    <Compile Include="Functionality.cs" />
     <Compile Include="ExpenseCategory.cs" />
     <Compile Include="ExtraCharge.cs" />
     <Compile Include="Guest.cs" />

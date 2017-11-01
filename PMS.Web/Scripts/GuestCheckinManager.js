@@ -23,7 +23,8 @@
             Bookings: null,
             ExpenseCategorySettings: null,
             ExpenseSettings: null,
-            UserSetting: null
+            UserSetting: null,
+            FunctionalitiesSettings:null
         },
 
         BookingDto: {
@@ -899,6 +900,7 @@
         ClearUserFields: function () {
             $('#userName').val('');
             $('#password').val('');
+            $('#confirmPassword').val('');
             $('#firstName').val('');
             $('#lastName').val('');
             $('#mobileNumber').val('');
@@ -1272,7 +1274,7 @@
         FindUser: function (username, settings) {
             if (!settings || settings.length <= 0) return null;
             for (var i = 0; i < settings.length; i++) {
-                if (settings[i].Username !== username) continue;
+                if (settings[i].UserName.toLowerCase() !== username.toLowerCase()) continue;
                 return settings[i];
             }
             return null;
@@ -2115,6 +2117,71 @@
             $("#divUser thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
             $("#divUser tbody tr").append('<td class="finalActionsCol"><i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
         },
+        BindPropertyPanel: function (ulProperty, properties) {
+           if (!ulProperty || !properties || properties.length <= 0) return;
+
+            ulProperty.empty();
+            for (var i = 0; i < properties.length; i++) {
+                ulProperty.append('<li id="' + properties[i].Id + '">' + properties[i].PropertyName + '</li>');
+            }
+        },
+        RemovePropertyPanel: function (ulProperty, properties) {
+            if (!ulProperty || !properties || properties.length <= 0) return;            
+            for (var i = 0; i < properties.length; i++) {
+                ulProperty.find('li#' + properties[i].Id).remove();
+            }
+        },
+        GetPropertyByUserId: function (userId) {
+            args.userId = userId;
+            // get property by api calling 
+            pmsService.GetPropertyByUserId(args);
+        },
+        GetAllFunctionality: function () {
+            if (window.GuestCheckinManager.PropertySettingResponseDto.FunctionalitiesSettings &&
+                window.GuestCheckinManager.PropertySettingResponseDto.FunctionalitiesSettings.length > 0)
+            {
+                var panelFunctionality = $('#panelFunctionality');
+                if (panelFunctionality) {
+                    window.GuestCheckinManager.BindFunctionalityPanel($('#panelFunctionality .left ul'),
+                        window.GuestCheckinManager.PropertySettingResponseDto.FunctionalitiesSettings);
+                }
+            }
+            else
+            {
+                pmsService.GetAllFunctionality(args);
+                Notifications.SubscribeActive("on-functionality-get-success", function (sender, args) {
+                    var panelFunctionality = $('#panelFunctionality');
+                    if (panelFunctionality) {
+                        window.GuestCheckinManager.BindFunctionalityPanel($('#panelFunctionality .left ul'),
+                        window.GuestCheckinManager.PropertySettingResponseDto.FunctionalitiesSettings);
+                    }
+                });
+            }
+        },
+        BindFunctionalityPanel: function (ulFunctionality, functionalities) {
+            if (!ulFunctionality || !functionalities || functionalities.length <= 0) return;
+
+            ulFunctionality.empty();
+            for (var i = 0; i < functionalities.length; i++) {
+                ulFunctionality.append('<li id="' + functionalities[i].Id + '">' + functionalities[i].Functionality1 + '</li>');
+            }
+        },
+        RemoveFunctionalityPanel: function (ulFunctionality, functionalities) {
+            if (!ulFunctionality || !functionalities || functionalities.length <= 0) return;
+            for (var i = 0; i < functionalities.length; i++) {
+                ulFunctionality.find('li#' + functionalities[i].Id).remove();
+            }
+        },
+        GetFunctionalityByUserId: function(userId)
+        {
+            args.userId = userId;
+            pmsService.GetFunctionalityByUserId(args);
+        },
+        InsertUserAccess:function(args)
+        {
+            args.CreatedBy = getCreatedBy();
+            pmsService.InsertUserAccess(args);
+        },
         AjaxHandlers: function () {
             // ajax handlers start
             pmsService.Handlers.OnAddBookingSuccess = function (data) {
@@ -2362,11 +2429,17 @@
                 var divProperty = $('#divProperty');
                 var propertyTemplate = $('#propertyTemplate');
                 var ddlProperty = $('#ddlProperty');
+                var panelProperty= $('#panelProperty');
                 if (divProperty && propertyTemplate && divProperty.length > 0 && propertyTemplate.length > 0) {
                     $('#propmodal').removeClass('open');
                     window.GuestCheckinManager.PopulatePropertyGrid(data);
                 } else if (ddlProperty && ddlProperty.length > 0) {
                     window.GuestCheckinManager.BindPropertyDdl(ddlProperty);
+                }
+
+                if (panelProperty)
+                {
+                    window.GuestCheckinManager.BindPropertyPanel($('#panelProperty .left ul'), data.Properties);
                 }
                 if (window.Notifications) window.Notifications.Notify("on-allproperty-get-success", null, null);
             };
@@ -3044,7 +3117,7 @@
                 var status = data.StatusDescription.toLowerCase();
                 if (data.ResponseObject > 0) {
                     console.log(status);
-                    if (window.Notifications) window.Notifications.Notify("on-user-add-success", null, null);
+                    if (window.Notifications) window.Notifications.Notify("on-user-add-success", null, data.ResponseObject);
                 } else {
                     console.error(status);
                     alert(status);
@@ -3096,6 +3169,66 @@
             pmsService.Handlers.OnGetAllUserFailure = function () {
                 // show error log
                 console.error("get all User call failed");
+            };
+
+            pmsService.Handlers.OnGetPropertyByUserIdSuccess = function (data) {
+                if (!data || !data.Properties || data.Properties.length <= 0)
+                {
+                    $('#panelProperty .right ul').empty();
+                    return;
+                }
+
+                var panelProperty = $('#panelProperty');
+                if (panelProperty) {
+                    window.GuestCheckinManager.BindPropertyPanel($('#panelProperty .right ul'), data.Properties);
+                    window.GuestCheckinManager.RemovePropertyPanel($('#panelProperty .left ul'), data.Properties);
+                }
+            };
+
+            pmsService.Handlers.OnGetPropertyByUserIdFailure = function () {
+                // show error log
+                console.error("get all property call failed");
+            };
+
+            pmsService.Handlers.OnGetAllFunctionalitySuccess = function (data) {
+                if (!data || !data.Functionalities || data.Functionalities.length <= 0) return;
+                
+                window.GuestCheckinManager.PropertySettingResponseDto.FunctionalitiesSettings = null;
+                window.GuestCheckinManager.PropertySettingResponseDto.FunctionalitiesSettings = data.Functionalities;
+                if (window.Notifications) window.Notifications.Notify("on-functionality-get-success", null, null);
+            };
+
+            pmsService.Handlers.OnGetAllFunctionalityFailure = function () {
+                // show error log
+                console.error("get all functionalities call failed");
+            };
+
+            pmsService.Handlers.OnGetFunctionalityByUserIdSuccess = function (data) {
+                if (!data || !data.Functionalities || data.Functionalities.length <= 0) {
+                    $('#panelFunctionality .right ul').empty();
+                    return;
+                }
+                var panelProperty = $('#panelFunctionality');
+                if (panelProperty) {
+                    window.GuestCheckinManager.BindFunctionalityPanel($('#panelFunctionality .right ul'), data.Functionalities);
+                    window.GuestCheckinManager.RemoveFunctionalityPanel($('#panelFunctionality .left ul'), data.Functionalities);
+                }
+            };
+
+            pmsService.Handlers.OnGetFunctionalityByUserIdFailure = function () {
+                // show error log
+                console.error("get all functionalities by userid call failed");
+            };
+
+            
+            pmsService.Handlers.OnInsertUserAccessSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+            };
+
+            pmsService.Handlers.OnInsertUserAccessFailure = function () {
+                // show error log
+                console.error("get all functionalities by userid call failed");
             };
         }
 

@@ -74,7 +74,13 @@ namespace PMS.Api.Controllers
               "api/v1/User/GetAllUser",
               new { controller = "User", action = "GetAllUser" }
               );
-            
+
+            config.Routes.MapHttpRoute(
+              "InsertUserAccess",
+              "api/v1/User/InsertUserAccess",
+              new { controller = "User", action = "InsertUserAccess" }
+              );
+
         }
 
         [HttpPost, ActionName("AddUser")]
@@ -144,6 +150,26 @@ namespace PMS.Api.Controllers
         {
             var response = new GetUserResponseDto();
             response.Users = _iPmsLogic.GetAllUser();
+            return response;
+        }
+
+        [HttpPost, ActionName("InsertUserAccess")]
+        public PmsResponseDto InsertUserAccess(UserAccessRequestDto request)
+        {
+            if (request == null || request.UserId <= 0)
+                throw new PmsException("User can not be updated.");
+
+            var response = new PmsResponseDto();
+            if (_iPmsLogic.InsertUserAccess(request))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "Record(s) saved successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "Operation failed.Please contact administrator.";
+            }
             return response;
         }
     }

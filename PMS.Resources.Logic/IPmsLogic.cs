@@ -117,6 +117,10 @@ namespace PMS.Resources.Logic
         bool DeleteUser(int UserId);
 
         List<PmsEntity.User> GetAllUser();
+        List<PmsEntity.Functionality> GetAllFunctionality();
+        List<PmsEntity.Functionality> GetFunctionalityByUserId(int userId);
+
+        bool InsertUserAccess(UserAccessRequestDto request);
 
     }
 }

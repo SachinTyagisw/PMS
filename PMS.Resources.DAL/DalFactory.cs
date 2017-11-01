@@ -2162,8 +2162,9 @@ namespace PMS.Resources.DAL
             return expenses;
 
         }
-        #endregion 
+        #endregion
 
+        #region Reports
         public DataTable GetShiftReport(DateTime? startDate, DateTime? endDate, int? propertyId)
         {
             DataTable dt = new DataTable();
@@ -2278,6 +2279,7 @@ namespace PMS.Resources.DAL
             return dt;
         }
 
+#endregion
         private bool SaveRoomRateIndDb(int propertyId, string rateXml)
         {
             using (var pmsContext = new PmsEntities())
@@ -2306,6 +2308,63 @@ namespace PMS.Resources.DAL
                 return status.Value != null ? Convert.ToBoolean(status.Value) : false;                
             }
             
+        }
+
+        public List<PmsEntity.Functionality> GetAllFunctionality()
+        {
+            var functioanlities = new List<PmsEntity.Functionality>();
+            using (var pmsContext = new PmsEntities())
+            {
+                functioanlities = pmsContext.Functionalities.Where(x=> x.IsActive)
+                                                 .Select(x => new PmsEntity.Functionality
+                                                 {
+                                                     CreatedOn = x.CreatedOn,
+                                                     Description = x.Description,
+                                                     CreatedBy = x.CreatedBy,
+                                                     LastUpdatedBy = x.LastUpdatedBy,
+                                                     LastUpdatedOn = x.LastUpdatedOn,
+                                                     Id = x.ID,
+                                                     Functionality1=x.Functionality1,
+                                                     IsActive = x.IsActive
+                                                 }).ToList();
+            }
+
+            return functioanlities;
+
+        }
+
+        public List<PmsEntity.Functionality> GetFunctionalityByUserId(int userId) {
+
+            var functioanlities = new List<PmsEntity.Functionality>();
+            using (var pmsContext = new PmsEntities())
+            {
+                functioanlities = pmsContext.Functionalities
+                    .Join(pmsContext.UsersFunctionalityMappings, r => r.ID, n => n.FunctionalityID,
+                             (r, n) => new { r, n })
+                             .Where(x => x.r.IsActive && x.n.UserID== userId)
+                                                 .Select(x => new PmsEntity.Functionality
+                                                 {
+                                                     CreatedOn = x.r.CreatedOn,
+                                                     Description = x.r.Description,
+                                                     CreatedBy = x.r.CreatedBy,
+                                                     LastUpdatedBy = x.r.LastUpdatedBy,
+                                                     LastUpdatedOn = x.r.LastUpdatedOn,
+                                                     Id = x.r.ID,
+                                                     Functionality1 = x.r.Functionality1,
+                                                     IsActive = x.r.IsActive
+                                                 }).ToList();
+            }
+
+            return functioanlities;
+        }
+
+        public bool InsertUserAccess(int userId, string functionalities, string properties, string createdBy)
+        {
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.InsertUserAccess(userId, functionalities, properties, createdBy);
+                    return true;
+            }
         }
 
         #region User

@@ -123,6 +123,10 @@ namespace PMS.Resources.DAL
         bool DeleteUser(int userId);
 
         List<PmsEntity.User> GetAllUser();
+        List<PmsEntity.Functionality> GetAllFunctionality();
+
+        List<PmsEntity.Functionality> GetFunctionalityByUserId(int userId);
+        bool InsertUserAccess(int userId, string functionalities, string properties, string createdBy);
     }
 }
 
