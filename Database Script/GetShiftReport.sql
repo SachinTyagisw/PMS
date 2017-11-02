@@ -2,7 +2,7 @@
 ALTER PROC [dbo].[GetShiftReport]               
 @StartDate Datetime,    
 @EndDate DateTime,    
-@PropertyId nvarchar       
+@PropertyId nvarchar(max)       
 AS BEGIN  
   
 set @StartDate = cast(@StartDate as DATE)  

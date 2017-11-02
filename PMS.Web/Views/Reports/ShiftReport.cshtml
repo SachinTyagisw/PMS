@@ -11,8 +11,8 @@
 
     function getShiftReport(){
         var shiftReportDto = {
-            StartDate: null,
-            EndDate: null,
+            StartDate: gcm.GetCurrentDate(),
+            EndDate: gcm.GetCurrentDate(),
             PropertyId: $('#ddlGlobalProperty').val()
 
         };
