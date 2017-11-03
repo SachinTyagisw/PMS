@@ -5712,6 +5712,32 @@ dl.dropdown dd ul li a:hover {
 .add-guest-delete:hover {
   background: #ccc;
 }
+div#panelProperty {
+    margin: 0 0 2rem 0;
+}
+#panelProperty .left, #panelFunctionality .left {
+    float: left;
+    width: 30%;
+    display: inline-block;
+    margin: 0 2rem 0 0;
+    vertical-align: top;
+    min-height: 100px;
+}
+#panelProperty .right, #panelFunctionality .right {
+    float: right;
+    width: 30%;
+    display: inline-block;
+    vertical-align: top;
+    min-height: 100px;
+}
+#panelProperty button, #panelFunctionality button {
+    padding: 10px;
+    /* width: 64px; */
+    margin: 3rem;
+    float: none;
+    background: transparent;
+    color: #1b3d4d;
+}
 
 
 @media screen and (max-width: 1440px) {
