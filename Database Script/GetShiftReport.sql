@@ -1,8 +1,18 @@
 
+USE [PMS]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GetShiftReport]    Script Date: 11/03/2017 10:18:39 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
 ALTER PROC [dbo].[GetShiftReport]               
 @StartDate Datetime,    
 @EndDate DateTime,    
-@PropertyId nvarchar(max)       
+@PropertyId nvarchar       
 AS BEGIN  
   
 set @StartDate = cast(@StartDate as DATE)  
@@ -16,7 +26,7 @@ set @pivot_listPayment = stuff((select distinct  ','+quotename(PaymentMode) from
 set @sql  = 'select * from    
 (    
 SELECT     
-bk.CheckinTime,    
+CONVERT(VARCHAR, bk.CheckinTime, 120) as CheckinTime,    
 bk.CheckoutTime,bk.id as TransantionNumber,    
 Room.Number as RoomNumber,    
 [dbo].fnGetRoomCharge(inv.ID) as RoomCharge,    
@@ -63,3 +73,6 @@ for PaymentMode in ( '+@pivot_listPayment+')
 --print @sql    
 exec(@sql)    
 END  
+GO
+
+
