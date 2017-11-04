@@ -5712,33 +5712,46 @@ dl.dropdown dd ul li a:hover {
 .add-guest-delete:hover {
   background: #ccc;
 }
-div#panelProperty {
-    margin: 0 0 2rem 0;
+div#panelProperty, #panelFunctionality {
+    margin: 2rem 14%;
 }
 #panelProperty .left, #panelFunctionality .left {
     float: left;
-    width: 30%;
+    width: 44%;
     display: inline-block;
     margin: 0 2rem 0 0;
     vertical-align: top;
     min-height: 100px;
 }
 #panelProperty .right, #panelFunctionality .right {
-    float: right;
-    width: 30%;
+    float: left;
+    width: 43%;
     display: inline-block;
     vertical-align: top;
     min-height: 100px;
+    padding: 0 5px;
+    margin: 0 0 0 2rem;
 }
 #panelProperty button, #panelFunctionality button {
-    padding: 10px;
-    /* width: 64px; */
-    margin: 3rem;
+    padding: 0;
+    width: 0px;
+    margin: 6px 0px;
     float: none;
     background: transparent;
     color: #1b3d4d;
+    display: block;
+    height: 22px;
 }
-
+.button-left-right {
+    margin: 2rem 2rem 2rem 0;
+    display: inline-block;
+    float: left;
+}
+.button-left-right button{
+    width: 42px;
+    float: left;
+    height: 60px;
+}
 
 @media screen and (max-width: 1440px) {
     .cal-right {

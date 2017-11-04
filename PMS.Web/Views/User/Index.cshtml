@@ -352,7 +352,7 @@
                     </div>
                    
                 </div>
-                <a href="#" id="lnkChangePassword" onclick="onclick_changePassword();" style="display:none;">Change password</a>
+                @*<a href="#" id="lnkChangePassword" onclick="onclick_changePassword();" style="display:none;">Change password</a>*@
                 <div class="col-lg-3 p-l-0">
                     <div class="form-group">
                         <input id="userName" type="text" maxlength="10" placeholder="User Name" class="form-control" name="example-input-normal">
@@ -363,32 +363,36 @@
                         <input id="password" type="password" placeholder="Password" class="form-control" name="example-input-normal">
                     </div>
                 </div>
-                <div class="col-lg-12 p-l-0" id="panelProperty">
+                <div class="col-lg-8 p-l-0" id="panelProperty">
                     <div style="border:1px solid black;" class="left">
                         <ul>
                         </ul>
 
                     </div>
-                    <button class="fa fa-arrow-right fa-2x" onclick="onclick_propertyRight();"></button>
-                    <button class="fa fa-arrow-left fa-2x" onclick="onclick_propertyLeft();"></button>
+                    <div class="button-left-right">
+                        <button class="fa fa-arrow-right fa-2x" onclick="onclick_propertyRight();"></button>
+                        <button class="fa fa-arrow-left fa-2x" onclick="onclick_propertyLeft();"></button>
+                    </div>
                     <div style="border:1px solid black;" class="right">
                         <ul>
                         </ul>
                     </div>
                 </div>
 
-                <div class="col-lg-12 p-l-0" id="panelFunctionality">
+                <div class="col-lg-8 p-l-0" id="panelFunctionality">
                     <div style="border:1px solid black;" class="left">
                         <ul></ul>
 
                     </div>
-                    <button class="fa fa-arrow-right fa-2x" onclick="onclick_functionRight();"></button>
-                    <button class="fa fa-arrow-left fa-2x" onclick="onclick_functionLeft();"></button>
-                    <div style="border:1px solid black;" class="right">
-                        <ul></ul>
-
+                    <div class="button-left-right">
+                        <button class="fa fa-arrow-right fa-2x" onclick="onclick_functionRight();"></button>
+                        <button class="fa fa-arrow-left fa-2x" onclick="onclick_functionLeft();"></button>
                     </div>
-                </div>
+                        <div style="border:1px solid black;" class="right">
+                            <ul></ul>
+
+                        </div>
+                    </div>
                 
             </div>
             <div class="button-section">
