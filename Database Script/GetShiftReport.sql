@@ -1,8 +1,7 @@
-
 USE [PMS]
 GO
 
-/****** Object:  StoredProcedure [dbo].[GetShiftReport]    Script Date: 11/03/2017 10:18:39 ******/
+/****** Object:  StoredProcedure [dbo].[GetShiftReport]    Script Date: 11/05/2017 08:14:01 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -31,7 +30,7 @@ bk.CheckoutTime,bk.id as TransantionNumber,
 Room.Number as RoomNumber,    
 [dbo].fnGetRoomCharge(inv.ID) as RoomCharge,    
 Guest.FirstName +'' ''+ Guest.LastName as GuestName,     
-bk.GuestRemarks,invTax.TaxShortName,invTax.TaxAmount, invPayment.PaymentMode, invPayment.PaymentValue,inv.TotalAmount    
+bk.GuestRemarks,invTax.TaxShortName,invTax.TaxValue, invPayment.PaymentMode, invPayment.PaymentValue,inv.TotalAmount    
 FROM Booking bk
 inner join       
 Invoice inv on      
@@ -61,7 +60,7 @@ ON rbk.GuestID = Guest.ID where bk.propertyID =' + @PropertyId +
 ) as p    
 pivot     
 (    
-max(TaxAmount)    
+max(TaxValue)    
 for TaxShortName in ( '+@pivot_listTax+')     
 )as pvt     
 pivot    
@@ -73,6 +72,7 @@ for PaymentMode in ( '+@pivot_listPayment+')
 --print @sql    
 exec(@sql)    
 END  
+
 GO
 
 
