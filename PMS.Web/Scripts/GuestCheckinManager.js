@@ -24,7 +24,8 @@
             ExpenseCategorySettings: null,
             ExpenseSettings: null,
             UserSetting: null,
-            FunctionalitiesSettings:null
+            AllFunctionalitiesSettings: null,
+            FunctionalitiesSettings: null
         },
 
         BookingDto: {
@@ -43,6 +44,9 @@
             Shifts: null,
             ConsolidatedShifts: null,
             ManagerRecords:null
+        },
+        LocalUserDto: {
+            Functionalities : null
         },
 
         Initialize: function () {
@@ -2137,13 +2141,13 @@
             pmsService.GetPropertyByUserId(args);
         },
         GetAllFunctionality: function () {
-            if (window.GuestCheckinManager.PropertySettingResponseDto.FunctionalitiesSettings &&
-                window.GuestCheckinManager.PropertySettingResponseDto.FunctionalitiesSettings.length > 0)
+            if (window.GuestCheckinManager.PropertySettingResponseDto.AllFunctionalitiesSettings &&
+                window.GuestCheckinManager.PropertySettingResponseDto.AllFunctionalitiesSettings.length > 0)
             {
                 var panelFunctionality = $('#panelFunctionality');
                 if (panelFunctionality) {
                     window.GuestCheckinManager.BindFunctionalityPanel($('#panelFunctionality .left ul'),
-                        window.GuestCheckinManager.PropertySettingResponseDto.FunctionalitiesSettings);
+                        window.GuestCheckinManager.PropertySettingResponseDto.AllFunctionalitiesSettings);
                 }
             }
             else
@@ -2153,7 +2157,7 @@
                     var panelFunctionality = $('#panelFunctionality');
                     if (panelFunctionality) {
                         window.GuestCheckinManager.BindFunctionalityPanel($('#panelFunctionality .left ul'),
-                        window.GuestCheckinManager.PropertySettingResponseDto.FunctionalitiesSettings);
+                        window.GuestCheckinManager.PropertySettingResponseDto.AllFunctionalitiesSettings);
                     }
                 });
             }
@@ -2172,15 +2176,77 @@
                 ulFunctionality.find('li#' + functionalities[i].Id).remove();
             }
         },
+        GetMyFunctionality: function()
+        {
+            if (window.GuestCheckinManager.LocalUserDto.Functionalities == null
+                 || window.GuestCheckinManager.LocalUserDto.Functionalities.length == 0) {
+
+                args.userId = window.PmsSession.GetItem("userid");
+                pmsService.GetFunctionalityByUserId(args);
+
+                Notifications.SubscribeActive("on-functionality-user-get-success", function (sender, args) {
+                    window.GuestCheckinManager.LocalUserDto.Functionalities =
+                        window.GuestCheckinManager.PropertySettingResponseDto.FunctionalitiesSettings;
+
+                    //menu
+                    window.GuestCheckinManager.MenuByUserFunctionality();
+                });
+            }
+            else {
+                // menu
+                window.GuestCheckinManager.MenuByUserFunctionality();
+            }
+
+        },
         GetFunctionalityByUserId: function(userId)
         {
-            args.userId = userId;
-            pmsService.GetFunctionalityByUserId(args);
+            args.userId = userId;  
+                pmsService.GetFunctionalityByUserId(args); 
+        },
+        MenuByUserFunctionality:function()
+        {
+            window.GuestCheckinManager.IsFunctionalityAllow();
+
+            for (var i = 0; i < window.GuestCheckinManager.LocalUserDto.Functionalities.length; i++)
+            {
+                $('#side-nav li a[href*="' + window.GuestCheckinManager.LocalUserDto.Functionalities[i].Description + '" i]').addClass('my-function');
+            }
+            $('#side-nav li a:not([href="#"]):not(.my-function)').each(function () {
+                $(this).parent().remove();
+            });
+            $('#side-nav li ul').each(function () {
+                if ($(this).children().length == 0)
+                {
+                    $(this).parent().remove();
+                }
+            });
+            $('#side-nav').show();
         },
         InsertUserAccess:function(args)
         {
             args.CreatedBy = getCreatedBy();
             pmsService.InsertUserAccess(args);
+        },
+        IsFunctionalityAllow: function ()
+        {
+            var valid = false;
+
+            //Test
+            var testAccess = "Booking/Checkin";
+            if (window.location.href.toLowerCase().indexOf(testAccess.toLowerCase()) >= 0)
+                return;
+
+            for (var i = 0; i < window.GuestCheckinManager.LocalUserDto.Functionalities.length; i++) {
+                if (window.location.href.toLowerCase().indexOf(window.GuestCheckinManager.LocalUserDto.Functionalities[i].Description.toLowerCase()) >= 0)
+                {
+                    valid = true;
+                    return;
+                }
+            }
+            if (!valid)
+            {
+                window.location.href = window.webBaseUrl;
+            }
         },
         AjaxHandlers: function () {
             // ajax handlers start
@@ -3193,8 +3259,8 @@
             pmsService.Handlers.OnGetAllFunctionalitySuccess = function (data) {
                 if (!data || !data.Functionalities || data.Functionalities.length <= 0) return;
                 
-                window.GuestCheckinManager.PropertySettingResponseDto.FunctionalitiesSettings = null;
-                window.GuestCheckinManager.PropertySettingResponseDto.FunctionalitiesSettings = data.Functionalities;
+                window.GuestCheckinManager.PropertySettingResponseDto.AllFunctionalitiesSettings = null;
+                window.GuestCheckinManager.PropertySettingResponseDto.AllFunctionalitiesSettings = data.Functionalities;
                 if (window.Notifications) window.Notifications.Notify("on-functionality-get-success", null, null);
             };
 
@@ -3208,11 +3274,14 @@
                     $('#panelFunctionality .right ul').empty();
                     return;
                 }
-                var panelProperty = $('#panelFunctionality');
-                if (panelProperty) {
+                window.GuestCheckinManager.PropertySettingResponseDto.FunctionalitiesSettings = null;
+                window.GuestCheckinManager.PropertySettingResponseDto.FunctionalitiesSettings = data.Functionalities;
+                var panelFunctionality = $('#panelFunctionality');
+                if (panelFunctionality) {
                     window.GuestCheckinManager.BindFunctionalityPanel($('#panelFunctionality .right ul'), data.Functionalities);
                     window.GuestCheckinManager.RemoveFunctionalityPanel($('#panelFunctionality .left ul'), data.Functionalities);
                 }
+                if (window.Notifications) window.Notifications.Notify("on-functionality-user-get-success", null, null);                
             };
 
             pmsService.Handlers.OnGetFunctionalityByUserIdFailure = function () {
