@@ -483,6 +483,7 @@
     <Content Include="Views\Expense\Index.cshtml" />
     <Content Include="Views\Reports\ManagerReport.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Booking\GuestSummary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
