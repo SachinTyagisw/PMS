@@ -51,6 +51,8 @@
     window.uploadDirectory = '@(System.Configuration.ConfigurationManager.AppSettings["UploadDirectory"].ToString())';
     window.propertyLogoPath = '@(System.Configuration.ConfigurationManager.AppSettings["PropertyLogoPath"].ToString())';
 
+    
+
     jQuery(document).ready(function ($) {
         var propertyId = window.PmsSession.GetItem("propertyid");
         if (!window.PmsSession.GetItem("username")) {
@@ -88,7 +90,12 @@
             } else {
                 $('#ddlGlobalProperty')[0].style.cssText = "display: none;"
             }
-        });
+
+
+            //Functionality
+            window.GuestCheckinManager.GetMyFunctionality();
+    });
+       
     </script>
 
     <!--comment below bundling js logic to unbundle js files -->
@@ -111,7 +118,7 @@
 <body class="sidebar-hide">
     <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
         <div class="area"></div>
-        <nav id="side-nav"  class="main-menu width">
+        <nav id="side-nav"  class="main-menu width" style="display:none;">
             <ul>
                 <li>
                     <a href="~/Room/DashBoard" class="green-c" title="Dashboard">
