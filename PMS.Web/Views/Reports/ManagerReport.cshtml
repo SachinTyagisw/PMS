@@ -17,10 +17,83 @@
 
         };
         gcm.GetManagerReport(managerReportDto);
+
+        var managerReportDto = {
+            StartDate: $('#dateFrom').val(),
+            EndDate: $('#dateTo').val(),
+            PropertyId: $('#ddlGlobalProperty').val(),
+            Option: 1
+        };
+        gcm.GetConsolidatedManagerDataPreviousMonth(managerReportDto);
+
+
+        managerReportDto.Option = 2;
+        gcm.GetConsolidatedManagerDataPreviousYear(managerReportDto);
     }
 
     function OnPropertyChange() {
         getManagerReport();
+    }
+
+    function exportReport() {
+        var ManagerRecords = window.GuestCheckinManager.ReportDto.ManagerRecords;
+        if (ManagerRecords && ManagerRecords.length > 0) {
+            var csv = '';
+            Object.keys(ManagerRecords[0]).forEach(function (row) {
+                csv += row+",";
+            });
+            csv += "\n";
+            ManagerRecords.forEach(function (row) {
+                Object.keys(ManagerRecords[0]).forEach(function (key) {
+                    csv += ToString(row[key]) + ",";
+                });
+                csv += "\n";
+            });
+            csv += "\n\n";
+
+            var ConsolidatedManagerRecordsMonth = window.GuestCheckinManager.ReportDto.ConsolidatedManagerRecordsMonth;
+            if (ConsolidatedManagerRecordsMonth && ConsolidatedManagerRecordsMonth.length>0) {
+                Object.keys(ConsolidatedManagerRecordsMonth[0]).forEach(function (row) {
+                    csv += row + ",";
+                });
+                csv += "\n";
+                ConsolidatedManagerRecordsMonth.forEach(function (row) {
+                    Object.keys(ConsolidatedManagerRecordsMonth[0]).forEach(function (key) {
+                        csv += ToString(row[key]) + ",";
+                    });
+                    csv += "\n";
+                });
+            }
+            csv += "\n\n";
+
+            var ConsolidatedManagerRecordsYear = window.GuestCheckinManager.ReportDto.ConsolidatedManagerRecordsYear;
+            if (ConsolidatedManagerRecordsYear && ConsolidatedManagerRecordsYear.length > 0) {
+                Object.keys(ConsolidatedManagerRecordsYear[0]).forEach(function (row) {
+                    csv += row + ",";
+                });
+                csv += "\n";
+                ConsolidatedManagerRecordsYear.forEach(function (row) {
+                    Object.keys(ConsolidatedManagerRecordsYear[0]).forEach(function (key) {
+                        csv += ToString(row[key]) + ",";
+                    });
+                    csv += "\n";
+                });
+            }
+            csv += "\n\n";
+            var hiddenElement = document.createElement('a');
+            hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+            hiddenElement.target = '_blank';
+            hiddenElement.download = 'managerReport.csv';
+            hiddenElement.click();
+        }
+    }
+
+    function ToString(str)
+    {
+        if (str != null && str.length >= 0)
+            return str;
+        else
+            return '';
     }
 </script>
 <div class="content-wrap">
@@ -74,6 +147,7 @@
                                 <div class="col-lg-3">
                                     <div class="form-group btn-set">
                                         <button onclick="getManagerReport();" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button">Search</button>
+                                        <button onclick="exportReport();" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button">Export</button>
                                     </div>
                                 </div>
                                 </div>
@@ -82,7 +156,11 @@
                         <div id="divManagerReport" class="table-data">
                         </div>
                         <!-- Small Table -->
-                        <div id="divConsolidatedManagerReport" class="table-data">
+                        <div id="divConsolidatedManagerReportMonth" class="table-data">
+                        </div>
+
+                        <!-- Small Table -->
+                        <div id="divConsolidatedManagerReportYear" class="table-data">
                         </div>
                     </div>
                 </div>
@@ -107,6 +185,31 @@
             <tr>
                 {{each(j, key) Object.keys(ManagerRecords[0])}}
                 <td>${manager[key]}</td>
+                {{/each}}
+            </tr>
+            {{/each}}
+            {{/if}}
+        </tbody>
+    </table>
+</script>
+
+<script type="text/html" id="consolidatedManagerReportTemplate">
+    <table class="table table-responsive table-hover tableContents" style="width:80%;">
+        <thead>
+            {{if typeof ConsolidatedManagerRecords != "undefined" && ConsolidatedManagerRecords != "null" && ConsolidatedManagerRecords.length > 0 }}
+            <tr>
+                {{each Object.keys(ConsolidatedManagerRecords[0])}}
+                <th>${$value}</th>
+                {{/each}}
+            </tr>
+            {{/if}}
+        </thead>
+        <tbody>
+            {{if typeof ConsolidatedManagerRecords != "undefined" && ConsolidatedManagerRecords != "null" && ConsolidatedManagerRecords.length > 0 }}
+            {{each(i, shift) ConsolidatedManagerRecords}}
+            <tr>
+                {{each(j, key) Object.keys(ConsolidatedManagerRecords[0])}}
+                <td>${shift[key]}</td>
                 {{/each}}
             </tr>
             {{/each}}

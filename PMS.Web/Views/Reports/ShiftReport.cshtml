@@ -25,6 +25,51 @@
     function OnPropertyChange() {
         getShiftReport();
     }
+
+    function exportReport() {
+        var Shifts = window.GuestCheckinManager.ReportDto.Shifts;
+        if (Shifts && Shifts.length > 0) {
+            var csv = '';
+            Object.keys(Shifts[0]).forEach(function (row) {
+                csv += row + ",";
+            });
+            csv += "\n";
+            Shifts.forEach(function (row) {
+                Object.keys(Shifts[0]).forEach(function (key) {
+                    csv += ToString(row[key]) + ",";
+                });
+                csv += "\n";
+            });
+            csv += "\n\n";           
+
+            var ConsolidatedShifts = window.GuestCheckinManager.ReportDto.ConsolidatedShifts;
+            if (ConsolidatedShifts && ConsolidatedShifts.length > 0) {
+                Object.keys(ConsolidatedShifts[0]).forEach(function (row) {
+                    csv += row + ",";
+                });
+                csv += "\n";
+                ConsolidatedShifts.forEach(function (row) {
+                    Object.keys(ConsolidatedShifts[0]).forEach(function (key) {
+                        csv += ToString(row[key]) + ",";
+                    });
+                    csv += "\n";
+                });
+            }
+            csv += "\n\n";
+            var hiddenElement = document.createElement('a');
+            hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+            hiddenElement.target = '_blank';
+            hiddenElement.download = 'shiftReport.csv';
+            hiddenElement.click();
+        }
+    }
+
+    function ToString(str) {
+        if (str != null && str.length >= 0)
+            return str;
+        else
+            return '';
+    }
 </script>
 <div class="content-wrap">
     <div class="main controls">
@@ -34,6 +79,7 @@
                     <div class="card-header">
                         <h4>Shift Report</h4>
                     </div>
+                    <button onclick="exportReport();" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button">Export</button>
                     <div class="card-body room-details">
                         
                         <div id="divShiftReport" class="table-data">

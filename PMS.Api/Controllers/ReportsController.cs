@@ -58,6 +58,18 @@ namespace PMS.Api.Controllers
              "api/v1/Reports/GetManagerData",
              new { controller = "Reports", action = "GetManagerData" }
              );
+
+            config.Routes.MapHttpRoute(
+           "GetConsolidatedManagerDataPreviousMonth",
+           "api/v1/Reports/GetConsolidatedManagerDataPreviousMonth",
+           new { controller = "Reports", action = "GetConsolidatedManagerDataPreviousMonth" }
+           );
+
+            config.Routes.MapHttpRoute(
+            "GetConsolidatedManagerDataPreviousYear",
+            "api/v1/Reports/GetConsolidatedManagerDataPreviousYear",
+            new { controller = "Reports", action = "GetConsolidatedManagerDataPreviousYear" }
+            );
         }
 
         [HttpPost, ActionName("GetShiftReport")]
@@ -86,6 +98,24 @@ namespace PMS.Api.Controllers
 
             var response = new ManagerReportResponseDto();
             response.ManagerRecords = _iPmsLogic.GetManagerData(managerReportRequest);
+            return response;
+        }
+
+        [HttpPost, ActionName("GetConsolidatedManagerDataPreviousMonth")]
+        public ConsolidatedManagerReportResponseDto GetConsolidatedManagerDataPreviousMonth(Resources.DTO.Request.ConsolidatedManagerReportDto consolidatedManagerReportRequest)
+        {
+
+            var response = new ConsolidatedManagerReportResponseDto();
+            response.ConsolidatedManagerRecords = _iPmsLogic.GetConsolidatedManagerData(consolidatedManagerReportRequest);
+            return response;
+        }
+
+        [HttpPost, ActionName("GetConsolidatedManagerDataPreviousYear")]
+        public ConsolidatedManagerReportResponseDto GetConsolidatedManagerDataPreviousYear(Resources.DTO.Request.ConsolidatedManagerReportDto consolidatedManagerReportRequest)
+        {
+
+            var response = new ConsolidatedManagerReportResponseDto();
+            response.ConsolidatedManagerRecords = _iPmsLogic.GetConsolidatedManagerData(consolidatedManagerReportRequest);
             return response;
         }
     }

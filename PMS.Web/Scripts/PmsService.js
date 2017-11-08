@@ -150,7 +150,10 @@
             OnGetFunctionalityByUserIdFailure: null,
             OnInsertUserAccessSuccess: null,
             OnInsertUserAccessFailure: null,
-            
+            OnGetConsolidatedManagerDataPreviousMonthSuccess:null,
+            OnGetConsolidatedManagerDataPreviousMonthFailure: null,
+            OnGetConsolidatedManagerDataPreviousYearSuccess:null,
+        OnGetConsolidatedManagerDataPreviousYearFailure:null
         };
 
         this.UpdateStatus = function (args) {
@@ -403,6 +406,12 @@
 
         this.GetManagerReport = function (args) {
             makeAjaxRequestPost(args, "GetManagerData", this, "api/v1/Reports/GetManagerData");
+        };
+        this.GetConsolidatedManagerDataPreviousMonth = function (args) {
+            makeAjaxRequestPost(args, "GetConsolidatedManagerDataPreviousMonth", this, "api/v1/Reports/GetConsolidatedManagerDataPreviousMonth");
+        };
+        this.GetConsolidatedManagerDataPreviousYear = function (args) {
+            makeAjaxRequestPost(args, "GetConsolidatedManagerDataPreviousYear", this, "api/v1/Reports/GetConsolidatedManagerDataPreviousYear");
         };
 
         this.UpdateUser = function (args) {
