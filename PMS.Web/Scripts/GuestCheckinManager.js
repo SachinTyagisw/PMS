@@ -2245,7 +2245,8 @@
             }
             if (!valid)
             {
-                window.location.href = window.webBaseUrl;
+                // Temp comment for user access 
+               // window.location.href = window.webBaseUrl;
             }
         },
         AjaxHandlers: function () {
