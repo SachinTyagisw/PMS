@@ -491,6 +491,11 @@ namespace PMS.Resources.Logic
                managerReportRequest.PropertyId);
         }
 
+        public DataTable GetConsolidatedManagerData(ConsolidatedManagerReportDto consolidatedManagerReportRequest)
+        {
+            return DalFactory.GetConsolidatedManagerData(consolidatedManagerReportRequest.StartDate, consolidatedManagerReportRequest.EndDate,
+              consolidatedManagerReportRequest.PropertyId, consolidatedManagerReportRequest.Option);
+        }
 
         public int AddUser(PmsEntity.User user)
         {

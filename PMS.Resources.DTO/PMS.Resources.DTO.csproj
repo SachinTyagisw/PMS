@@ -53,6 +53,7 @@
     <Compile Include="Request\AddRewardRequestDto.cs" />
     <Compile Include="Request\AddRewardCategoryRequestDto.cs" />
     <Compile Include="Request\AddRoomPriceRequestDto.cs" />
+    <Compile Include="Request\ConsolidatedManagerReportDto.cs" />
     <Compile Include="Request\UserAccessRequestDto.cs" />
     <Compile Include="Request\BookingTransactionRequestDto.cs" />
     <Compile Include="Request\RoomRateRequestDto.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Request\ManagerReportDto.cs" />
     <Compile Include="Response\GetFunctionalityResponseDto.cs" />
     <Compile Include="Response\GetUserResponseDto.cs" />
+    <Compile Include="Response\ConsolidatedManagerReportResponseDto.cs" />
     <Compile Include="Response\ManagerReportResponseDto.cs" />
     <Compile Include="Response\ConsolidatedShiftReportResponseDto.cs" />
     <Compile Include="Request\ShiftReportDto.cs" />

@@ -47,5 +47,11 @@ namespace PMS.Web.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public ActionResult GuestSummary()
+        {
+            return View();
+        }
     }
 }

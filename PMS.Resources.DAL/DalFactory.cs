@@ -2279,7 +2279,46 @@ namespace PMS.Resources.DAL
             return dt;
         }
 
-#endregion
+        public DataTable GetConsolidatedManagerData(DateTime startDate, DateTime endDate, int propertyId, int option) {
+
+            DataTable dt = new DataTable();
+            var context = new PmsEntities();
+            var conn = context.Database.Connection;
+            var connectionState = conn.State;
+            try
+            {
+                using (context)
+                {
+                    if (connectionState != ConnectionState.Open)
+                        conn.Open();
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "[GetConsolidatedManagerData]";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter("StartDate", startDate));
+                        cmd.Parameters.Add(new SqlParameter("EndDate", endDate));
+                        cmd.Parameters.Add(new SqlParameter("PropertyID", propertyId));
+                        cmd.Parameters.Add(new SqlParameter("option", option));
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            dt.Load(reader);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (connectionState != ConnectionState.Open)
+                    conn.Close();
+            }
+            return dt;
+        }
+
+        #endregion
         private bool SaveRoomRateIndDb(int propertyId, string rateXml)
         {
             using (var pmsContext = new PmsEntities())

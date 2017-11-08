@@ -43,7 +43,9 @@
         ReportDto:{
             Shifts: null,
             ConsolidatedShifts: null,
-            ManagerRecords:null
+            ManagerRecords: null,
+            ConsolidatedManagerRecordsYear: null,
+            ConsolidatedManagerRecordsMonth:null
         },
         LocalUserDto: {
             Functionalities : null
@@ -2055,6 +2057,13 @@
         GetManagerReport: function (requestDto) {
             pmsService.GetManagerReport(requestDto);
         },
+            
+        GetConsolidatedManagerDataPreviousMonth: function (requestDto) {
+            pmsService.GetConsolidatedManagerDataPreviousMonth(requestDto);
+        },
+        GetConsolidatedManagerDataPreviousYear: function (requestDto) {
+            pmsService.GetConsolidatedManagerDataPreviousYear(requestDto);
+        },
 
         PopulateShiftReportGrid: function(data)
         {
@@ -2075,6 +2084,19 @@
             var managerReportTemplate = $('#managerReportTemplate');
             if (!divManagerReport || !managerReportTemplate || divManagerReport.length <= 0 || managerReportTemplate.length <= 0) return;
             divManagerReport.html(managerReportTemplate.render(data));
+        },
+        PopulateConsolidatedManagerReportGridMonth: function (data) {
+            var divConsolidatedManagerReportMonth = $('#divConsolidatedManagerReportMonth');
+            var consolidatedManagerReportTemplate = $('#consolidatedManagerReportTemplate');
+            if (!divConsolidatedManagerReportMonth || !consolidatedManagerReportTemplate || divConsolidatedManagerReportMonth.length <= 0 || consolidatedManagerReportTemplate.length <= 0) return;
+            divConsolidatedManagerReportMonth.html(consolidatedManagerReportTemplate.render(data));
+        },
+
+        PopulateConsolidatedManagerReportGridYear: function (data) {
+            var divConsolidatedManagerReportYear = $('#divConsolidatedManagerReportYear');
+            var consolidatedManagerReportTemplate = $('#consolidatedManagerReportTemplate');
+            if (!divConsolidatedManagerReportYear || !consolidatedManagerReportTemplate || divConsolidatedManagerReportYear.length <= 0 || consolidatedManagerReportTemplate.length <= 0) return;
+            divConsolidatedManagerReportYear.html(consolidatedManagerReportTemplate.render(data));
         },
 
         DeleteUser: function (userId) {
@@ -2245,7 +2267,8 @@
             }
             if (!valid)
             {
-                window.location.href = window.webBaseUrl;
+                // Temp comment for user access 
+               // window.location.href = window.webBaseUrl;
             }
         },
         AjaxHandlers: function () {
@@ -3299,6 +3322,29 @@
                 // show error log
                 console.error("get all functionalities by userid call failed");
             };
+
+            pmsService.Handlers.OnGetConsolidatedManagerDataPreviousMonthFailure = function () {
+                // show error log
+                console.error("Get Consolidated Manager Report failure");
+            };
+
+            pmsService.Handlers.OnGetConsolidatedManagerDataPreviousMonthSuccess = function (data) {
+                window.GuestCheckinManager.ReportDto.ConsolidatedManagerRecordsMonth = null;
+                window.GuestCheckinManager.ReportDto.ConsolidatedManagerRecordsMonth = data.ConsolidatedManagerRecords;
+                window.GuestCheckinManager.PopulateConsolidatedManagerReportGridMonth(data);
+            };
+
+            pmsService.Handlers.OnGetConsolidatedManagerDataPreviousYearFailure = function () {
+                // show error log
+                console.error("Get Consolidated Manager Report failure");
+            };
+
+            pmsService.Handlers.OnGetConsolidatedManagerDataPreviousYearSuccess = function (data) {
+                window.GuestCheckinManager.ReportDto.ConsolidatedManagerRecordsYear = null;
+                window.GuestCheckinManager.ReportDto.ConsolidatedManagerRecordsYear = data.ConsolidatedManagerRecords;
+                window.GuestCheckinManager.PopulateConsolidatedManagerReportGridYear(data);
+            };
+            
         }
 
         
