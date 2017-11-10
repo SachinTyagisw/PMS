@@ -2,7 +2,81 @@
         ViewBag.Title = "Guest Summary";
         Layout = "~/Views/Shared/_Layout.cshtml";
     }
-  
+ <script type='text/javascript'>
+    var gcm = window.GuestCheckinManager;
+     $(document).ready(function () {
+
+         var args = {};
+         args.PropertyId = $('#ddlGlobalProperty').val();
+         args.CurrentDate = gcm.GetCurrentDate();
+         gcm.GetGuestSummary(args);
+
+         gcm.GetRoomTypes();
+
+         $("#btnSearch").click(function () {
+             searchBooking();
+         });
+
+         $("#btnExport").click(function () {
+             exportBooking();
+         });
+     });
+
+     var data = {
+         GuestSummary: []
+     }
+     function filterRecords()
+     {
+         if (gcm.ReportDto.GuestSummary == null || gcm.ReportDto.GuestSummary.length == 0) return;
+         var roomNo = $('#roomNumber').val();
+         var roomType = $('#roomTypeDdl').val();
+         var guestName = $('#guestName').val();
+
+
+         for (var i = 0; i < gcm.ReportDto.GuestSummary.length; i++) {
+             var row = gcm.ReportDto.GuestSummary[i];
+             if (((roomNo && roomNo.length > 0 && row.RoomNumber.indexOf(roomNo) >= 0) || (roomNo == ''))
+                 &&
+                 ((roomType && roomType.length > 0 && row.RoomTypeID == roomType) || (roomType == '-1'))
+                 &&
+                 ((guestName && guestName.length > 0 && (row.FirstName + row.LastName).indexOf(guestName) >= 0) || (guestName == ''))
+                 )
+                 data.GuestSummary.push(row);
+         }
+     }
+     function searchBooking()
+     {
+         filterRecords();
+         gcm.PopulateGuestSummaryGrid(data);
+     }
+
+     function exportBooking()
+     {
+         filterRecords();
+         if (data.GuestSummary && data.GuestSummary.length > 0) {
+             var csv = 'ID#,Room#,RoomType,GuestName,ModeofPayment,Rate,C/OutDate-Time,Blanace,NextReservation\n';
+             data.GuestSummary.forEach(function (row) {
+                 csv += row.Id
+                     + "," + row.RoomNumber
+                     + "," + row.RoomTypeName
+                     + "," + row.FirstName + " " + row.LastName
+                     + "," 
+                     + "," 
+                     + "," + String(row.CheckinTime).replace('T', ' ') + "/" +  String(row.CheckoutTime).replace('T', ' ')
+                     + "," + row.TotalAmount
+                     + "," ;
+                 csv += "\n";
+             });
+
+             var hiddenElement = document.createElement('a');
+             hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+             hiddenElement.target = '_blank';
+             hiddenElement.download = 'guestSummary.csv';
+             hiddenElement.click();
+         }
+
+     }
+ </script> 
 <div class="content-wrap">
     <div class="main controls">
         <div class="container-fluid">
@@ -19,14 +93,14 @@
                                     <div class="form-group">
                                         <label>Room #</label>
                                         <div class="form-group">
-                                            <input id="guestName" type="text" class="form-control" name="example-input-normal">
+                                            <input id="roomNumber" type="text" class="form-control" name="example-input-normal">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 p-r-0">
                                     <div class="form-group">
                                         <label>Room Type</label>
-                                        <select id="ddlRoomType">
+                                        <select id="roomTypeDdl">
                                             <option value="-1">Room Type</option>
                                         </select>
                                     </div>
@@ -84,7 +158,21 @@
             </tr>
         </thead>
         <tbody>
-
+            {{if typeof GuestSummary != "undefined" && GuestSummary != "null" && GuestSummary.length > 0 }}
+            {{each GuestSummary}}
+            <tr id="${$value.Id}">
+                <td class="idRow" contenteditable="false">${$value.Id}</td>
+                <td contenteditable="false">${$value.RoomNumber}</td>
+                <td contenteditable="false">${$value.RoomTypeName}</td>
+                <td contenteditable="false">${$value.FirstName} ${$value.LastName}</td>
+                <td contenteditable="false"></td>
+                <td contenteditable="false"></td>
+                <td contenteditable="false">${String($value.CheckinTime).replace('T', ' ')}/${String($value.CheckoutTime).replace('T', ' ')} </td>
+                <td contenteditable="false">${$value.TotalAmount}</td>
+                <td contenteditable="false"></td>
+            </tr>
+            {{/each}}
+            {{/if}}
         </tbody>
     </table>
 </script>

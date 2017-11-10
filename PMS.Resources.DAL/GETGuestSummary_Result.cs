@@ -11,22 +11,23 @@ namespace PMS.Resources.DAL
 {
     using System;
     
-    public partial class GETALLBOOKINGS_Result
+    public partial class GETGuestSummary_Result
     {
-        public Nullable<int> ID { get; set; }
-        public Nullable<int> PropertyID { get; set; }
+        public int ID { get; set; }
+        public int PROPERTYID { get; set; }
         public Nullable<System.DateTime> CHECKINTIME { get; set; }
         public Nullable<System.DateTime> CHECKOUTTIME { get; set; }
         public string Status { get; set; }
         public string FIRSTNAME { get; set; }
         public string LASTNAME { get; set; }
-        public Nullable<int> GUESTID { get; set; }
-        public Nullable<int> ROOMBOOKINGID { get; set; }
-        public Nullable<int> ROOMID { get; set; }
+        public int GUESTID { get; set; }
+        public int ROOMBOOKINGID { get; set; }
+        public int ROOMID { get; set; }
         public string ROOMNUMBER { get; set; }
-        public Nullable<int> RoomTypeID { get; set; }
+        public int RoomTypeID { get; set; }
         public string RoomTypeName { get; set; }
         public string RoomTypeShortName { get; set; }
         public string RoomStatus { get; set; }
+        public Nullable<decimal> TotalAmount { get; set; }
     }
 }

@@ -52,6 +52,7 @@
     <Compile Include="Functionality.cs" />
     <Compile Include="ExpenseCategory.cs" />
     <Compile Include="ExtraCharge.cs" />
+    <Compile Include="GuestSummary.cs" />
     <Compile Include="Guest.cs" />
     <Compile Include="GuestMapping.cs" />
     <Compile Include="IDType.cs" />

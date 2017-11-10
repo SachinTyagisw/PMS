@@ -2318,6 +2318,40 @@ namespace PMS.Resources.DAL
             return dt;
         }
 
+        public List<PmsEntity.GuestSummary> GETGuestSummary(int propertyId, DateTime currentDate)
+        {
+            var guestSummary = new List<PmsEntity.GuestSummary>();
+            using (var pmsContext = new PmsEntities())
+            {
+                var resultSet = pmsContext.GETGuestSummary(propertyId, currentDate).ToList();
+                if (resultSet == null || resultSet.Count <= 0) return guestSummary;
+                foreach (var item in resultSet)
+                {
+                    guestSummary.Add(new GuestSummary
+                    {
+
+                        CheckinTime = item.CHECKINTIME,
+                        CheckoutTime = item.CHECKOUTTIME,
+                        FirstName = item.FIRSTNAME,
+                        GuestId = item.GUESTID,
+                        Id = item.ID,
+                        LastName = item.LASTNAME,
+                        PropertyId = item.PROPERTYID,
+                        RoomBookingId = item.PROPERTYID,
+                        RoomId = item.ROOMID,
+                        RoomNumber = item.ROOMNUMBER,
+                        RoomStatus = item.RoomStatus,
+                        RoomTypeID = item.RoomTypeID,
+                        RoomTypeName = item.RoomTypeName,
+                        RoomTypeShortName = item.RoomTypeShortName,
+                        Status = item.Status,
+                        TotalAmount = item.TotalAmount
+
+                    });
+                }
+                return guestSummary;                                                
+            }
+        }
         #endregion
         private bool SaveRoomRateIndDb(int propertyId, string rateXml)
         {

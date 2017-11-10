@@ -107,6 +107,12 @@ namespace PMS.Api.Controllers
              new { controller = "Booking", action = "DeleteBooking" },
              constraints: new { bookingId = RegExConstants.NumericRegEx }
              );
+
+            config.Routes.MapHttpRoute(
+            "GetGuestSummary",
+            "api/v1/Booking/GetGuestSummary",
+            new { controller = "Booking", action = "GetGuestSummary" }
+            );
         }
 
 
@@ -448,6 +454,14 @@ namespace PMS.Api.Controllers
                 response.ResponseStatus = PmsApiStatus.Failure.ToString();
                 response.StatusDescription = "Booking Deletion failed.Contact administrator.";
             }
+            return response;
+        }
+
+        [HttpPost, ActionName("GetGuestSummary")]
+        public GetGuestSummaryResponseDto GetGuestSummary(GetGuestSummaryRequestDto request)
+        {
+            var response = new GetGuestSummaryResponseDto();
+            response.GuestSummary= _iPmsLogic.GetGuestSummary(request);
             return response;
         }
     }

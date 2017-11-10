@@ -27,8 +27,13 @@
         gcm.GetConsolidatedManagerDataPreviousMonth(managerReportDto);
 
 
-        managerReportDto.Option = 2;
-        gcm.GetConsolidatedManagerDataPreviousYear(managerReportDto);
+        var managerReportYearDto = {
+            StartDate: $('#dateFrom').val(),
+            EndDate: $('#dateTo').val(),
+            PropertyId: $('#ddlGlobalProperty').val(),
+            Option: 2
+        };
+        gcm.GetConsolidatedManagerDataPreviousYear(managerReportYearDto);
     }
 
     function OnPropertyChange() {

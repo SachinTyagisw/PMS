@@ -528,6 +528,11 @@ namespace PMS.Resources.Logic
         public bool InsertUserAccess(UserAccessRequestDto request) {
             return DalFactory.InsertUserAccess(request.UserId, request.Functionalities, request.Properties, request.CreatedBy);
         }
+
+        public List<PmsEntity.GuestSummary> GetGuestSummary(GetGuestSummaryRequestDto getGuestSummaryRequest)
+        {
+            return DalFactory.GETGuestSummary(getGuestSummaryRequest.PropertyId, getGuestSummaryRequest.CurrentDate);
+        }
         #region Helper method
 
         private string RemoveXmlDefaultNode(string xml)

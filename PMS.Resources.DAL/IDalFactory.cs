@@ -116,6 +116,7 @@ namespace PMS.Resources.DAL
         DataTable GetConsolidatedShiftReport(DateTime? startDate, DateTime? endDate, int? propertyId);
         DataTable GetManagerData(DateTime startDate, DateTime endDate, int propertyId);
         DataTable GetConsolidatedManagerData(DateTime startDate, DateTime endDate, int propertyId, int option);
+        List<PmsEntity.GuestSummary> GETGuestSummary(int propertyId, DateTime currentDate);
 
         //user methods
         int AddUser(PmsEntity.User user);
@@ -127,6 +128,7 @@ namespace PMS.Resources.DAL
 
         List<PmsEntity.Functionality> GetFunctionalityByUserId(int userId);
         bool InsertUserAccess(int userId, string functionalities, string properties, string createdBy);
+
     }
 }
 

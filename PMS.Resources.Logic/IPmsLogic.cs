@@ -112,6 +112,8 @@ namespace PMS.Resources.Logic
         DataTable GetManagerData(ManagerReportDto managerReportRequest);
         DataTable GetConsolidatedManagerData(ConsolidatedManagerReportDto consolidatedManagerReportRequest);
 
+        List<PmsEntity.GuestSummary> GetGuestSummary(GetGuestSummaryRequestDto getGuestSummaryRequest);
+
         //user 
         int AddUser(PmsEntity.User userRequest);
         bool UpdateUser(PmsEntity.User User);

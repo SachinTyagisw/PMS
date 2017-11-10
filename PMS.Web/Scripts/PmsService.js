@@ -153,7 +153,9 @@
             OnGetConsolidatedManagerDataPreviousMonthSuccess:null,
             OnGetConsolidatedManagerDataPreviousMonthFailure: null,
             OnGetConsolidatedManagerDataPreviousYearSuccess:null,
-        OnGetConsolidatedManagerDataPreviousYearFailure:null
+            OnGetConsolidatedManagerDataPreviousYearFailure: null,
+            OnGetGuestSummarySucess: null,
+            OnGetGuestSummaryFailure: null
         };
 
         this.UpdateStatus = function (args) {
@@ -440,6 +442,9 @@
         };
         this.InsertUserAccess = function (args) {
             makeAjaxRequestPost(args, "InsertUserAccess", this, "api/v1/User/InsertUserAccess");
+        };        
+         this.GetGuestSummary = function (args) {
+            makeAjaxRequestPost(args, "GetGuestSummary", this, "api/v1/Booking/GetGuestSummary");
         };
         function makeAjaxRequestDelete(args, operationName, e, uri) {
             var url = e.Config.BaseUrl + uri;

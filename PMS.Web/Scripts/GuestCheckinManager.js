@@ -45,7 +45,8 @@
             ConsolidatedShifts: null,
             ManagerRecords: null,
             ConsolidatedManagerRecordsYear: null,
-            ConsolidatedManagerRecordsMonth:null
+            ConsolidatedManagerRecordsMonth:null,
+            GuestSummary:null
         },
         LocalUserDto: {
             Functionalities : null
@@ -2271,6 +2272,15 @@
                // window.location.href = window.webBaseUrl;
             }
         },
+        GetGuestSummary: function (args) {            
+            pmsService.GetGuestSummary(args);
+        },
+        PopulateGuestSummaryGrid: function (data) {
+            var guestSummary = $('#guestSummary');
+            var guestSummaryTemplate = $('#guestSummaryTemplate');
+            if (!guestSummary || !guestSummaryTemplate || guestSummary.length <= 0 || guestSummaryTemplate.length <= 0) return;
+            guestSummary.html(guestSummaryTemplate.render(data));
+        },
         AjaxHandlers: function () {
             // ajax handlers start
             pmsService.Handlers.OnAddBookingSuccess = function (data) {
@@ -3343,6 +3353,16 @@
                 window.GuestCheckinManager.ReportDto.ConsolidatedManagerRecordsYear = null;
                 window.GuestCheckinManager.ReportDto.ConsolidatedManagerRecordsYear = data.ConsolidatedManagerRecords;
                 window.GuestCheckinManager.PopulateConsolidatedManagerReportGridYear(data);
+            };
+
+            pmsService.Handlers.OnGetGuestSummaryFailure = function (data) {
+                console.error("Get Guest Summary Report failure");
+            };
+
+            pmsService.Handlers.OnGetGuestSummarySuccess = function (data) {
+                window.GuestCheckinManager.ReportDto.GuestSummary = null;
+                window.GuestCheckinManager.ReportDto.GuestSummary = data.GuestSummary;
+                window.GuestCheckinManager.PopulateGuestSummaryGrid(data);
             };
             
         }
