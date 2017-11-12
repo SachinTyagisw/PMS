@@ -75,8 +75,12 @@ namespace PMS.Api.Controllers
               "GetAllProperty",
               "api/v1/Property/GetAllProperty/{userId}",
               new { controller = "Property", action = "GetAllProperty" }
+              ); 
+ config.Routes.MapHttpRoute(
+              "GetPropertyForAccess",
+              "api/v1/Property/GetPropertyForAccess",
+              new { controller = "Property", action = "GetPropertyForAccess" }
               );
-
             config.Routes.MapHttpRoute(
              "GetPropertyByUserId",
              "api/v1/Property/GetPropertyByUserId/{userId}",
@@ -156,6 +160,17 @@ namespace PMS.Api.Controllers
             {
                 //mock data
             }
+            return response;
+        }
+
+        [HttpGet, ActionName("GetPropertyForAccess")]
+        public GetPropertyResponseDto GetPropertyForAccess()
+        {
+            var response = new GetPropertyResponseDto();
+            var properties = _iPmsLogic.GetPropertyForAccess();
+            if (properties == null || properties.Count <= 0) return response;
+
+            response.Properties = properties;
             return response;
         }
 

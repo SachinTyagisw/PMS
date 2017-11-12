@@ -18,6 +18,7 @@ namespace PMS.Resources.DAL
         bool UpdateProperty(PmsEntity.Property property);
         bool DeleteProperty(int propertyId);
         List<PmsEntity.Property> GetAllProperty();
+        List<PmsEntity.Property> GetPropertyForAccess();
         int AddPropertyType(PmsEntity.PropertyType propertyType);
         bool UpdatePropertyType(PmsEntity.PropertyType propertyType);
         bool DeletePropertyType(int propertyTypeId);

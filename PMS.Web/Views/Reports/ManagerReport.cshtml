@@ -6,21 +6,21 @@
 <script type='text/javascript'>
     var gcm = window.GuestCheckinManager;
     $(document).ready(function () {
-        //getManagerReport();
+        getManagerReport();
     });
 
     function getManagerReport(){
         var managerReportDto = {
-            StartDate:$('#dateFrom').val(),
-            EndDate: $('#dateTo').val(),
+            StartDate: gcm.GetCurrentDate(),
+            EndDate: gcm.GetCurrentDate(),
             PropertyId: $('#ddlGlobalProperty').val()
 
         };
         gcm.GetManagerReport(managerReportDto);
 
         var managerReportDto = {
-            StartDate: $('#dateFrom').val(),
-            EndDate: $('#dateTo').val(),
+            StartDate: gcm.GetCurrentDate(),
+            EndDate: gcm.GetCurrentDate(),
             PropertyId: $('#ddlGlobalProperty').val(),
             Option: 1
         };
@@ -28,8 +28,8 @@
 
 
         var managerReportYearDto = {
-            StartDate: $('#dateFrom').val(),
-            EndDate: $('#dateTo').val(),
+            StartDate: gcm.GetCurrentDate(),
+            EndDate: gcm.GetCurrentDate(),
             PropertyId: $('#ddlGlobalProperty').val(),
             Option: 2
         };
@@ -110,7 +110,7 @@
                         <h4>Manager Report</h4>
                     </div>
                     <div class="card-body room-details">
-                        <fieldset class="data-mgmt-section">
+                        @*<fieldset class="data-mgmt-section">
                             <legend>Search Criteria:</legend>
                             <div class="row" style="">
                                 <div class="col-md-2 p-r-0">
@@ -157,7 +157,8 @@
                                 </div>
                                 </div>
                            
-                        </fieldset>
+                        </fieldset>*@
+                        <button onclick="exportReport();" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button">Export</button>
                         <div id="divManagerReport" class="table-data">
                         </div>
                         <!-- Small Table -->

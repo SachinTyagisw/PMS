@@ -13,6 +13,8 @@ namespace PMS.Resources.Entities
         public Nullable<System.DateTime> CheckinTime { get; set; }
         public Nullable<System.DateTime> CheckoutTime { get; set; }
         public string Status { get; set; }
+        public string ModeOFPayment { get; set; }
+        public Nullable<decimal> Rate { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int GuestId { get; set; }
@@ -24,5 +26,6 @@ namespace PMS.Resources.Entities
         public string RoomTypeShortName { get; set; }
         public string RoomStatus { get; set; }
         public Nullable<decimal> TotalAmount { get; set; }
+        public System.DateTime NextReservation { get; set; }
     }
 }

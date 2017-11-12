@@ -74,6 +74,11 @@ namespace PMS.Resources.Logic
         {
             return DalFactory.GetAllProperty();
         }
+
+        public List<PmsEntity.Property> GetPropertyForAccess()
+        {
+            return DalFactory.GetPropertyForAccess();
+        }
         public int AddPropertyType(PmsEntity.PropertyType propertyType)
         {
             return DalFactory.AddPropertyType(propertyType);

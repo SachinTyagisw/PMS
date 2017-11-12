@@ -599,7 +599,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Booking__RateTyp__6C190EBB">
+        <Association Name="FK__Booking__RateTyp__04E4BC85">
+          <End Role="RateType" Type="Self.RateType" Multiplicity="0..1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RateType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="RateTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Booking__RateTyp__719CDDE7">
           <End Role="RateType" Type="Self.RateType" Multiplicity="0..1" />
           <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
           <ReferentialConstraint>
@@ -635,7 +647,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ExpenseCa__Prope__18EBB532">
+        <Association Name="FK__ExpenseCa__Prope__07C12930">
           <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
           <End Role="ExpenseCategory" Type="Self.ExpenseCategory" Multiplicity="*" />
           <ReferentialConstraint>
@@ -647,7 +659,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Expenses__Expens__1DB06A4F">
+        <Association Name="FK__ExpenseCa__Prope__72910220">
+          <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
+          <End Role="ExpenseCategory" Type="Self.ExpenseCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Property">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ExpenseCategory">
+              <PropertyRef Name="PropertyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Expenses__Expens__08B54D69">
           <End Role="ExpenseCategory" Type="Self.ExpenseCategory" Multiplicity="0..1" />
           <End Role="Expenses" Type="Self.Expenses" Multiplicity="*" />
           <ReferentialConstraint>
@@ -659,7 +683,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Expenses__Paymen__1EA48E88">
+        <Association Name="FK__Expenses__Expens__73852659">
+          <End Role="ExpenseCategory" Type="Self.ExpenseCategory" Multiplicity="0..1" />
+          <End Role="Expenses" Type="Self.Expenses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseCategory">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Expenses">
+              <PropertyRef Name="ExpenseCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Expenses__Paymen__09A971A2">
           <End Role="PaymentType" Type="Self.PaymentType" Multiplicity="0..1" />
           <End Role="Expenses" Type="Self.Expenses" Multiplicity="*" />
           <ReferentialConstraint>
@@ -671,7 +707,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Expenses__Proper__1CBC4616">
+        <Association Name="FK__Expenses__Paymen__74794A92">
+          <End Role="PaymentType" Type="Self.PaymentType" Multiplicity="0..1" />
+          <End Role="Expenses" Type="Self.Expenses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Expenses">
+              <PropertyRef Name="PaymentTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Expenses__Proper__0A9D95DB">
+          <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
+          <End Role="Expenses" Type="Self.Expenses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Property">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Expenses">
+              <PropertyRef Name="PropertyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Expenses__Proper__756D6ECB">
           <End Role="Property" Type="Self.Property" Multiplicity="0..1" />
           <End Role="Expenses" Type="Self.Expenses" Multiplicity="*" />
           <ReferentialConstraint>
@@ -815,7 +875,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Rates__RoomId__797309D9">
+        <Association Name="FK__Rates__RoomId__160F4887">
+          <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
+          <End Role="Rates" Type="Self.Rates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Rates">
+              <PropertyRef Name="RoomId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rates__RoomId__76619304">
           <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
           <End Role="Rates" Type="Self.Rates" Multiplicity="*" />
           <ReferentialConstraint>
@@ -863,7 +935,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Room__FloorId__7D439ABD">
+        <Association Name="FK__Room__FloorId__19DFD96B">
+          <End Role="PropertyFloor" Type="Self.PropertyFloor" Multiplicity="0..1" />
+          <End Role="Room" Type="Self.Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PropertyFloor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Room">
+              <PropertyRef Name="FloorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Room__FloorId__7755B73D">
           <End Role="PropertyFloor" Type="Self.PropertyFloor" Multiplicity="0..1" />
           <End Role="Room" Type="Self.Room" Multiplicity="*" />
           <ReferentialConstraint>
@@ -995,7 +1079,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UsersFunc__Funct__51300E55">
+        <Association Name="FK__UsersFunc__Funct__245D67DE">
+          <End Role="Functionality" Type="Self.Functionality" Multiplicity="0..1" />
+          <End Role="UsersFunctionalityMapping" Type="Self.UsersFunctionalityMapping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Functionality">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UsersFunctionalityMapping">
+              <PropertyRef Name="FunctionalityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UsersFunc__Funct__7849DB76">
           <End Role="Functionality" Type="Self.Functionality" Multiplicity="0..1" />
           <End Role="UsersFunctionalityMapping" Type="Self.UsersFunctionalityMapping" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1167,7 +1263,11 @@
             <End Role="Property" EntitySet="Property" />
             <End Role="Booking" EntitySet="Booking" />
           </AssociationSet>
-          <AssociationSet Name="FK__Booking__RateTyp__6C190EBB" Association="Self.FK__Booking__RateTyp__6C190EBB">
+          <AssociationSet Name="FK__Booking__RateTyp__04E4BC85" Association="Self.FK__Booking__RateTyp__04E4BC85">
+            <End Role="RateType" EntitySet="RateType" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Booking__RateTyp__719CDDE7" Association="Self.FK__Booking__RateTyp__719CDDE7">
             <End Role="RateType" EntitySet="RateType" />
             <End Role="Booking" EntitySet="Booking" />
           </AssociationSet>
@@ -1179,19 +1279,35 @@
             <End Role="State" EntitySet="State" />
             <End Role="City" EntitySet="City" />
           </AssociationSet>
-          <AssociationSet Name="FK__ExpenseCa__Prope__18EBB532" Association="Self.FK__ExpenseCa__Prope__18EBB532">
+          <AssociationSet Name="FK__ExpenseCa__Prope__07C12930" Association="Self.FK__ExpenseCa__Prope__07C12930">
             <End Role="Property" EntitySet="Property" />
             <End Role="ExpenseCategory" EntitySet="ExpenseCategory" />
           </AssociationSet>
-          <AssociationSet Name="FK__Expenses__Expens__1DB06A4F" Association="Self.FK__Expenses__Expens__1DB06A4F">
+          <AssociationSet Name="FK__ExpenseCa__Prope__72910220" Association="Self.FK__ExpenseCa__Prope__72910220">
+            <End Role="Property" EntitySet="Property" />
+            <End Role="ExpenseCategory" EntitySet="ExpenseCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Expenses__Expens__08B54D69" Association="Self.FK__Expenses__Expens__08B54D69">
             <End Role="ExpenseCategory" EntitySet="ExpenseCategory" />
             <End Role="Expenses" EntitySet="Expenses" />
           </AssociationSet>
-          <AssociationSet Name="FK__Expenses__Paymen__1EA48E88" Association="Self.FK__Expenses__Paymen__1EA48E88">
+          <AssociationSet Name="FK__Expenses__Expens__73852659" Association="Self.FK__Expenses__Expens__73852659">
+            <End Role="ExpenseCategory" EntitySet="ExpenseCategory" />
+            <End Role="Expenses" EntitySet="Expenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Expenses__Paymen__09A971A2" Association="Self.FK__Expenses__Paymen__09A971A2">
             <End Role="PaymentType" EntitySet="PaymentType" />
             <End Role="Expenses" EntitySet="Expenses" />
           </AssociationSet>
-          <AssociationSet Name="FK__Expenses__Proper__1CBC4616" Association="Self.FK__Expenses__Proper__1CBC4616">
+          <AssociationSet Name="FK__Expenses__Paymen__74794A92" Association="Self.FK__Expenses__Paymen__74794A92">
+            <End Role="PaymentType" EntitySet="PaymentType" />
+            <End Role="Expenses" EntitySet="Expenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Expenses__Proper__0A9D95DB" Association="Self.FK__Expenses__Proper__0A9D95DB">
+            <End Role="Property" EntitySet="Property" />
+            <End Role="Expenses" EntitySet="Expenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Expenses__Proper__756D6ECB" Association="Self.FK__Expenses__Proper__756D6ECB">
             <End Role="Property" EntitySet="Property" />
             <End Role="Expenses" EntitySet="Expenses" />
           </AssociationSet>
@@ -1239,7 +1355,11 @@
             <End Role="RateType" EntitySet="RateType" />
             <End Role="Rates" EntitySet="Rates" />
           </AssociationSet>
-          <AssociationSet Name="FK__Rates__RoomId__797309D9" Association="Self.FK__Rates__RoomId__797309D9">
+          <AssociationSet Name="FK__Rates__RoomId__160F4887" Association="Self.FK__Rates__RoomId__160F4887">
+            <End Role="Room" EntitySet="Room" />
+            <End Role="Rates" EntitySet="Rates" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rates__RoomId__76619304" Association="Self.FK__Rates__RoomId__76619304">
             <End Role="Room" EntitySet="Room" />
             <End Role="Rates" EntitySet="Rates" />
           </AssociationSet>
@@ -1255,7 +1375,11 @@
             <End Role="Property" EntitySet="Property" />
             <End Role="RateType" EntitySet="RateType" />
           </AssociationSet>
-          <AssociationSet Name="FK__Room__FloorId__7D439ABD" Association="Self.FK__Room__FloorId__7D439ABD">
+          <AssociationSet Name="FK__Room__FloorId__19DFD96B" Association="Self.FK__Room__FloorId__19DFD96B">
+            <End Role="PropertyFloor" EntitySet="PropertyFloor" />
+            <End Role="Room" EntitySet="Room" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Room__FloorId__7755B73D" Association="Self.FK__Room__FloorId__7755B73D">
             <End Role="PropertyFloor" EntitySet="PropertyFloor" />
             <End Role="Room" EntitySet="Room" />
           </AssociationSet>
@@ -1299,7 +1423,11 @@
             <End Role="Property" EntitySet="Property" />
             <End Role="Taxes" EntitySet="Taxes" />
           </AssociationSet>
-          <AssociationSet Name="FK__UsersFunc__Funct__51300E55" Association="Self.FK__UsersFunc__Funct__51300E55">
+          <AssociationSet Name="FK__UsersFunc__Funct__245D67DE" Association="Self.FK__UsersFunc__Funct__245D67DE">
+            <End Role="Functionality" EntitySet="Functionality" />
+            <End Role="UsersFunctionalityMapping" EntitySet="UsersFunctionalityMapping" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UsersFunc__Funct__7849DB76" Association="Self.FK__UsersFunc__Funct__7849DB76">
             <End Role="Functionality" EntitySet="Functionality" />
             <End Role="UsersFunctionalityMapping" EntitySet="UsersFunctionalityMapping" />
           </AssociationSet>
@@ -2911,6 +3039,8 @@
           <Property Type="DateTime" Name="CHECKINTIME" Nullable="true" Precision="23" />
           <Property Type="DateTime" Name="CHECKOUTTIME" Nullable="true" Precision="23" />
           <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ModeOFPayment" Nullable="true" />
+          <Property Type="Decimal" Name="Rate" Nullable="true" Precision="19" />
           <Property Type="String" Name="FIRSTNAME" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="LASTNAME" Nullable="true" MaxLength="200" />
           <Property Type="Int32" Name="GUESTID" Nullable="false" />
@@ -2922,6 +3052,7 @@
           <Property Type="String" Name="RoomTypeShortName" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="RoomStatus" Nullable="true" MaxLength="100" />
           <Property Type="Decimal" Name="TotalAmount" Nullable="true" Precision="19" />
+          <Property Type="DateTime" Name="NextReservation" Nullable="false" Precision="23" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3780,6 +3911,8 @@
                 <ScalarProperty Name="CHECKINTIME" ColumnName="CHECKINTIME" />
                 <ScalarProperty Name="CHECKOUTTIME" ColumnName="CHECKOUTTIME" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ModeOFPayment" ColumnName="ModeOFPayment" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
                 <ScalarProperty Name="FIRSTNAME" ColumnName="FIRSTNAME" />
                 <ScalarProperty Name="LASTNAME" ColumnName="LASTNAME" />
                 <ScalarProperty Name="GUESTID" ColumnName="GUESTID" />
@@ -3791,6 +3924,7 @@
                 <ScalarProperty Name="RoomTypeShortName" ColumnName="RoomTypeShortName" />
                 <ScalarProperty Name="RoomStatus" ColumnName="RoomStatus" />
                 <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="NextReservation" ColumnName="NextReservation" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

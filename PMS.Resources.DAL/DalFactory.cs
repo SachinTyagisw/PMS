@@ -274,6 +274,41 @@ namespace PMS.Resources.DAL
             }
             return properties;
         }
+
+        public List<PmsEntity.Property> GetPropertyForAccess() {
+            var properties = new List<PmsEntity.Property>();
+
+            using (var pmsContext = new PmsEntities())
+            {
+                properties = pmsContext.Properties
+                             .Where(p=>p.IsActive)
+                             .Select(m => new PmsEntity.Property
+                             {
+                                 CreatedOn = m.CreatedOn,
+                                 PropertyName = m.PropertyName,
+                                 CreatedBy = m.CreatedBy,
+                                 LastUpdatedBy = m.LastUpdatedBy,
+                                 LastUpdatedOn = m.LastUpdatedOn,
+                                 Id = m.ID,
+                                 IsActive = m.IsActive,
+                                 CheckinTime = m.CheckinTime,
+                                 CheckoutTime = m.CheckoutTime,
+                                 CloseOfDayTime = m.CloseOfDayTime,
+                                 Zipcode = m.Zipcode,
+                                 Fax = m.Fax,
+                                 FullAddress = m.FullAddress,
+                                 LogoPath = m.LogoPath,
+                                 Phone = m.Phone,
+                                 PropertyCode = m.PropertyCode,
+                                 PropertyDetails = m.PropertyDetails,
+                                 SecondaryName = m.SecondaryName,
+                                 TimeZone = m.TimeZone,
+                                 WebSiteAddress = m.WebSiteAddress,
+                                 CurrencyID = m.CurrencyId
+                             }).ToList();
+            }
+            return properties;
+        }
         public int AddPropertyType(PmsEntity.PropertyType propertyType)
         {
             var Id = -1;
@@ -2345,8 +2380,10 @@ namespace PMS.Resources.DAL
                         RoomTypeName = item.RoomTypeName,
                         RoomTypeShortName = item.RoomTypeShortName,
                         Status = item.Status,
-                        TotalAmount = item.TotalAmount
-
+                        TotalAmount = item.TotalAmount,
+                        ModeOFPayment = item.ModeOFPayment,
+                        NextReservation = item.NextReservation,
+                        Rate = item.Rate
                     });
                 }
                 return guestSummary;                                                

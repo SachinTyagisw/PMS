@@ -1019,10 +1019,14 @@
         },
 
         GetAllProperty: function () {
-            var userId = window.PmsSession.GetItem("userid");
+           
+             var userId = window.PmsSession.GetItem("userid");
             args.userId = userId > 0 ? userId : 0;
             // get property by api calling 
             pmsService.GetAllProperty(args);
+        },
+        GetPropertyForAccess: function () {            
+            pmsService.GetPropertyForAccess(args);
         },
 
         PopulateBookingGrid: function (data) {
@@ -2278,7 +2282,7 @@
         PopulateGuestSummaryGrid: function (data) {
             var guestSummary = $('#guestSummary');
             var guestSummaryTemplate = $('#guestSummaryTemplate');
-            if (!guestSummary || !guestSummaryTemplate || guestSummary.length <= 0 || guestSummaryTemplate.length <= 0) return;
+            if (!guestSummary || !guestSummaryTemplate || guestSummary.length <= 0 || guestSummaryTemplate.length <= 0)return;
             guestSummary.html(guestSummaryTemplate.render(data));
         },
         AjaxHandlers: function () {
@@ -2544,6 +2548,19 @@
             };
 
             pmsService.Handlers.OnGetAllPropertyFailure = function () {
+                // show error log
+                console.error("get all property call failed");
+            };
+
+            pmsService.Handlers.OnGetPropertyForAccessSuccess = function (data) {
+                if (!data || !data.Properties || data.Properties.length <= 0) return;
+                var panelProperty = $('#panelProperty');
+                if (panelProperty) {
+                    window.GuestCheckinManager.BindPropertyPanel($('#panelProperty .left ul'), data.Properties);
+                }
+            };
+
+            pmsService.Handlers.OnGetPropertyForAccessFailure = function () {
                 // show error log
                 console.error("get all property call failed");
             };

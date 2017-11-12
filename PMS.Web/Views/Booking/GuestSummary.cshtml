@@ -3,14 +3,10 @@
         Layout = "~/Views/Shared/_Layout.cshtml";
     }
  <script type='text/javascript'>
-    var gcm = window.GuestCheckinManager;
+     var gcm = window.GuestCheckinManager;
+     var pmsSession = window.PmsSession;
      $(document).ready(function () {
-
-         var args = {};
-         args.PropertyId = $('#ddlGlobalProperty').val();
-         args.CurrentDate = gcm.GetCurrentDate();
-         gcm.GetGuestSummary(args);
-
+         getSummary();
          gcm.GetRoomTypes();
 
          $("#btnSearch").click(function () {
@@ -22,11 +18,37 @@
          });
      });
 
+     function getSummary()
+     {
+         var args = {};
+         args.PropertyId = $('#ddlGlobalProperty').val();
+         args.CurrentDate = gcm.GetCurrentDate().split(' ')[0];
+         gcm.GetGuestSummary(args);
+     }
+
      var data = {
          GuestSummary: []
      }
+     function OnPropertyChange() {
+
+         gcm.ClearExistingSessionStorage();
+         //set property id on property ddl selection
+         pmsSession.SetItem("propertyid", $('#ddlGlobalProperty').val());
+         gcm.SetPropertyLogo($('#ddlGlobalProperty').val(), $('#imgPropLogo'));
+         gcm.Initialize();
+         init(); 
+     }
+
+     function init() {
+         getSummary();
+         gcm.GetRoomTypes($('#ddlGlobalProperty').val());
+     }
+    
+
      function filterRecords()
      {
+         data.GuestSummary = [];
+
          if (gcm.ReportDto.GuestSummary == null || gcm.ReportDto.GuestSummary.length == 0) return;
          var roomNo = $('#roomNumber').val();
          var roomType = $('#roomTypeDdl').val();
@@ -46,6 +68,7 @@
      }
      function searchBooking()
      {
+         //$('#guestSummary').empty();
          filterRecords();
          gcm.PopulateGuestSummaryGrid(data);
      }
@@ -60,11 +83,11 @@
                      + "," + row.RoomNumber
                      + "," + row.RoomTypeName
                      + "," + row.FirstName + " " + row.LastName
-                     + "," 
-                     + "," 
+                     + "," + row.ModeOFPayment
+                     + "," + row.Rate
                      + "," + String(row.CheckinTime).replace('T', ' ') + "/" +  String(row.CheckoutTime).replace('T', ' ')
                      + "," + row.TotalAmount
-                     + "," ;
+                     + "," + String(row.NextReservation).replace('T', ' ');
                  csv += "\n";
              });
 
@@ -165,11 +188,11 @@
                 <td contenteditable="false">${$value.RoomNumber}</td>
                 <td contenteditable="false">${$value.RoomTypeName}</td>
                 <td contenteditable="false">${$value.FirstName} ${$value.LastName}</td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
+                <td contenteditable="false">${$value.ModeOFPayment}</td>
+                <td contenteditable="false">${$value.Rate}</td>
                 <td contenteditable="false">${String($value.CheckinTime).replace('T', ' ')}/${String($value.CheckoutTime).replace('T', ' ')} </td>
                 <td contenteditable="false">${$value.TotalAmount}</td>
-                <td contenteditable="false"></td>
+                <td contenteditable="false">${String($value.NextReservation).replace('T', ' ')}</td>
             </tr>
             {{/each}}
             {{/if}}

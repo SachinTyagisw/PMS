@@ -37,7 +37,9 @@
             OnGetBookingByIdSuccess: null,
             OnGetBookingByIdFailure: null,
             OnGetAllPropertySuccess: null,
-            OnGetAllPropertyFailure: null,
+            OnGetAllPropertyFailure: null,            
+            OnGetPropertyForAccessSuccess: null,
+            OnGetPropertyForAccessFailure: null,
             OnAddPropertySuccess: null,
             OnAddPropertyFailure: null,
             OnDeletePropertySuccess: null,
@@ -308,6 +310,9 @@
 
         this.GetAllProperty = function (args) {
             makeAjaxRequestGet(args, "GetAllProperty", this, "api/v1/Property/GetAllProperty/" + args.userId);
+        };
+        this.GetPropertyForAccess = function (args) {
+            makeAjaxRequestGet(args, "GetPropertyForAccess", this, "api/v1/Property/GetPropertyForAccess");
         };
         
         this.GetBookingById = function (args) {
