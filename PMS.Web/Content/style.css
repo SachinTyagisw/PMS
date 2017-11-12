@@ -5038,7 +5038,7 @@ main.tab-main + .table-data {
 
 #divShiftReport, #divManagerReport {
     width: 100%;
-    overflow-x: scroll;
+    overflow-x: auto;
     display: block;
 }
 #divShiftReport {
@@ -5047,6 +5047,7 @@ main.tab-main + .table-data {
 #divShiftReport .tableContents th {
     line-height: 20px;
 }
+
 /*a.btn{
   width:150px;
   display:block;
@@ -5679,7 +5680,9 @@ dl.dropdown dd ul li a:hover {
 #printarea table tr td:nth-child(3), #printarea table tr td:nth-child(4), #printarea tbody tr td:nth-child(5) {
     text-align: right;
 }
-
+.btn-export .btn {
+    padding: 5px 12px;
+}
 .add-guest-delete {
     cursor: pointer;
     right: 0px;
