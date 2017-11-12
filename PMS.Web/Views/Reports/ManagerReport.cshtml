@@ -110,8 +110,6 @@
                         <h4>Manager Report</h4>
                     </div>
                     <div class="card-body room-details">
-                        <fieldset class="data-mgmt-section">
-                            <legend>Search Criteria:</legend>
                             <div class="row" style="">
                                 <div class="col-md-2 p-r-0">
                                     <div class="form-group">
@@ -149,15 +147,12 @@
                                         </script>
                                     </div>
                                 </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group btn-set">
-                                        <button onclick="getManagerReport();" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button">Search</button>
-                                        <button onclick="exportReport();" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button">Export</button>
+                                <div class="col-lg-1">
+                                    <div class="form-group btn-set btn-export">
+                                        <button onclick="exportReport();" class="btn btn-primary m-t-15 btn-side" type="button">Export</button>
                                     </div>
                                 </div>
                                 </div>
-                           
-                        </fieldset>
                         <div id="divManagerReport" class="table-data">
                         </div>
                         <!-- Small Table -->
