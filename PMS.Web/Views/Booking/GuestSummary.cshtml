@@ -61,7 +61,7 @@
                  &&
                  ((roomType && roomType.length > 0 && row.RoomTypeID == roomType) || (roomType == '-1'))
                  &&
-                 ((guestName && guestName.length > 0 && (row.FirstName + row.LastName).indexOf(guestName) >= 0) || (guestName == ''))
+                 ((guestName && guestName.length > 0 && (row.FirstName.toLowerCase() + row.LastName.toLowerCase()).indexOf(guestName.toLowerCase()) >= 0) || (guestName == ''))
                  )
                  data.GuestSummary.push(row);
          }
