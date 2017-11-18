@@ -46,6 +46,7 @@
     <Compile Include="Request\AddInvoiceRequestDto.cs" />
     <Compile Include="Request\AddBookingRequestDto.cs" />
     <Compile Include="Request\AddPaymentTypeRequestDto.cs" />
+    <Compile Include="Request\AddGuestRequestDto.cs" />
     <Compile Include="Request\AddUserRequestDto.cs" />
     <Compile Include="Request\AddPropertyRequestDto.cs" />
     <Compile Include="Request\AddPropertyTypeRequestDto.cs" />

@@ -538,6 +538,27 @@ namespace PMS.Resources.Logic
         {
             return DalFactory.GETGuestSummary(getGuestSummaryRequest.PropertyId, getGuestSummaryRequest.CurrentDate);
         }
+
+        public int AddGuest(PmsEntity.Guest guest)
+        {
+            return DalFactory.AddGuest(guest);
+        }
+
+        public bool UpdateGuest(PmsEntity.Guest guest)
+        {
+            return DalFactory.UpdateGuest(guest);
+        }
+
+        public bool DeleteGuest(int GuestId)
+        {
+            return DalFactory.DeleteGuest(GuestId);
+        }
+
+        public List<PmsEntity.Guest> GetAllGuest(bool allInfo)
+        {
+            return DalFactory.GetAllGuest(allInfo);
+        }
+
         #region Helper method
 
         private string RemoveXmlDefaultNode(string xml)
@@ -549,5 +570,7 @@ namespace PMS.Resources.Logic
             return xml;
         }
         #endregion
+
+
     }
 }

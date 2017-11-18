@@ -79,6 +79,30 @@ namespace PMS.Api.Controllers
           constraints: new { guestId = RegExConstants.NumericRegEx }
           );
 
+            config.Routes.MapHttpRoute(
+             "AddGuest",
+             "api/v1/Guest/AddGuest",
+             new { controller = "Guest", action = "AddGuest" }
+             );
+
+            config.Routes.MapHttpRoute(
+             "UpdateGuest",
+             "api/v1/Guest/UpdateGuest",
+             new { controller = "Guest", action = "UpdateGuest" }
+             );
+
+            config.Routes.MapHttpRoute(
+             "DeleteGuest",
+             "api/v1/Guest/DeleteGuest/{GuestId}",
+             new { controller = "Guest", action = "DeleteGuest" },
+             constraints: new { GuestId = RegExConstants.NumericRegEx }
+             );
+            config.Routes.MapHttpRoute(
+           "GetGuest",
+           "api/v1/Guest/GetGuest",
+           new { controller = "Guest", action = "GetGuest" }
+           );
+
         }
 
         [HttpGet, ActionName("GetAllGuest")]
@@ -130,6 +154,75 @@ namespace PMS.Api.Controllers
             if (guestId <= 0) return response;
 
             response.GuestHistory = _iPmsLogic.GetGuestHistory(guestId);
+            return response;
+        }
+
+        [HttpPost, ActionName("AddGuest")]
+        public PmsResponseDto AddGuest([FromBody] GuestRequestDto request)
+        {
+            if (request == null || request.Guest == null) throw new PmsException("Guest can not be added.");
+
+            var response = new PmsResponseDto();
+            var Id = _iPmsLogic.AddGuest(request.Guest);
+            if (Id > 0)
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "Record saved successfully.";
+                response.ResponseObject = Id;
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "Operation failed.Please contact administrator.";
+            }
+            return response;
+        }
+
+
+        [HttpPut, ActionName("UpdateGuest")]
+        public PmsResponseDto UpdateGuest([FromBody] GuestRequestDto request)
+        {
+            if (request == null || request.Guest == null || request.Guest.Id <= 0)
+                throw new PmsException("Guest can not be updated.");
+
+            var response = new PmsResponseDto();
+            if (_iPmsLogic.UpdateGuest(request.Guest))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "Record(s) saved successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "Operation failed.Please contact administrator.";
+            }
+            return response;
+        }
+
+        [HttpDelete, ActionName("DeleteGuest")]
+        public PmsResponseDto DeleteGuest(int GuestId)
+        {
+            if (GuestId <= 0) throw new PmsException("Guest is not valid. Hence Guest can not be deleted.");
+
+            var response = new PmsResponseDto();
+            if (_iPmsLogic.DeleteGuest(GuestId))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "Record deleted successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "Operation failed.Please contact administrator.";
+            }
+            return response;
+        }
+
+        [HttpGet, ActionName("GetGuest")]
+        public GetGuestResponseDto GetGuest()
+        {
+            var response = new GetGuestResponseDto();
+            response.Guest = _iPmsLogic.GetAllGuest(false);
             return response;
         }
     }

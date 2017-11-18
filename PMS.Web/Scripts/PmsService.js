@@ -24,8 +24,8 @@
             OnGetCountrySuccess: null,
             OnGetStateByCountryFailure: null,
             OnGetStateByCountrySuccess: null,
-            OnGetGuestFailure: null,
-            OnGetGuestSuccess: null,
+            OnGetAllGuestFailure: null,
+            OnGetAllGuestSuccess: null,
             OnGetCityByStateFailure: null,
             OnGetCityByStateSuccess: null,
             OnGetPaymentChargesFailure: null,
@@ -157,7 +157,15 @@
             OnGetConsolidatedManagerDataPreviousYearSuccess:null,
             OnGetConsolidatedManagerDataPreviousYearFailure: null,
             OnGetGuestSummarySucess: null,
-            OnGetGuestSummaryFailure: null
+            OnGetGuestSummaryFailure: null,
+            OnDeleteGuestSuccess: null,
+            OnDeleteGuestFailure: null,
+            OnAddGuestSuccess: null,
+            OnAddGuestFailure: null,
+            OnUpdateGuestSuccess: null,
+            OnUpdateGuestFailure: null,
+            OnGetGuestSuccess: null,
+            OnGetGuestFailure: null
         };
 
         this.UpdateStatus = function (args) {
@@ -327,8 +335,8 @@
             makeAjaxRequestPost(args, "GetPaymentCharges", this, "api/v1/Invoice/GetPaymentCharges");
         };
 
-        this.GetGuest = function (args) {
-            makeAjaxRequestGet(args, "GetGuest", this, "api/v1/Guest/GetAllGuest");
+        this.GetAllGuest = function (args) {
+            makeAjaxRequestGet(args, "GetAllGuest", this, "api/v1/Guest/GetAllGuest");
         };
 
         this.GetStateByCountry = function (args) {
@@ -450,6 +458,22 @@
         };        
          this.GetGuestSummary = function (args) {
             makeAjaxRequestPost(args, "GetGuestSummary", this, "api/v1/Booking/GetGuestSummary");
+         };
+
+        this.UpdateGuest = function (args) {
+            makeAjaxRequestPut(args, "UpdateGuest", this, "api/v1/Guest/UpdateGuest");
+        };
+
+        this.AddGuest = function (args) {
+            makeAjaxRequestPost(args, "AddGuest", this, "api/v1/Guest/AddGuest");
+        };
+
+        this.DeleteGuest = function (args) {
+            makeAjaxRequestDelete(args, "DeleteGuest", this, "api/v1/Guest/DeleteGuest/" + args.guestId);
+        };       
+
+        this.GetGuest = function (args) {
+            makeAjaxRequestGet(args, "GetGuest", this, "api/v1/Guest/GetGuest");
         };
         function makeAjaxRequestDelete(args, operationName, e, uri) {
             var url = e.Config.BaseUrl + uri;

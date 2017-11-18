@@ -900,6 +900,122 @@ namespace PMS.Resources.DAL
             }
             return country;
         }
+
+        public int AddGuest(PmsEntity.Guest guest)
+        {
+            var Id = -1;
+            if (guest == null) return Id;
+
+            var addressE = new List<Address>();
+            addressE.Add(new Address
+            {
+                Address1 = guest.Address1,
+                Address2 = guest.Address2,
+                City = guest.City.Name,
+                Country = guest.Country.Name,
+                CreatedBy = guest.CreatedBy,
+                IsActive = true,
+                CreatedOn = guest.CreatedOn,
+                State = guest.State.Name,
+                ZipCode = guest.ZipCode,
+                GuestID = guest.Id,
+                ID = guest.AddressId,
+                 AddressTypeID=1
+            });
+
+            var guestE = new DAL.Guest
+            {
+                CreatedOn = guest.CreatedOn,
+                IsActive = true,
+                CreatedBy = guest.CreatedBy,
+                DOB = guest.DOB,
+                EmailAddress = guest.EmailAddress,
+                FirstName = guest.FirstName,
+                Gender = guest.Gender,
+                ID = guest.Id,
+                LastName = guest.LastName,
+                MobileNumber = guest.MobileNumber,
+                Addresses = addressE,
+                PhotoPath = guest.PhotoPath
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Guests.Add(guestE);
+                var result = pmsContext.SaveChanges();
+                Id = result >= 1 ? guestE.ID : -1;
+            }
+
+            return Id;
+        }
+
+        public bool UpdateGuest(PmsEntity.Guest guest)
+        {
+            var isUpdated = false;
+            if (guest == null) return isUpdated;
+            var addressE = new Address
+            {
+                Address1 = guest.Address1,
+                Address2 = guest.Address2,
+                City = guest.City.Name,
+                Country = guest.Country.Name,
+                CreatedBy = guest.CreatedBy,
+                IsActive = true,
+                CreatedOn = guest.CreatedOn,
+                State = guest.State.Name,
+                ZipCode = guest.ZipCode,
+                LastUpdatedOn = guest.LastUpdatedOn,
+                LastUpdatedBy = guest.LastUpdatedBy,
+                GuestID = guest.Id,
+                ID = guest.AddressId,
+                AddressTypeID=1
+            };
+            var guestE = new DAL.Guest
+            {
+                CreatedOn = guest.CreatedOn,
+                IsActive = true,
+                CreatedBy = guest.CreatedBy,
+                DOB = guest.DOB,
+                EmailAddress = guest.EmailAddress,
+                FirstName = guest.FirstName,
+                Gender = guest.Gender,
+                ID = guest.Id,
+                LastName = guest.LastName,
+                MobileNumber = guest.MobileNumber,
+                PhotoPath = guest.PhotoPath,
+                  LastUpdatedBy= guest.LastUpdatedBy,
+                   LastUpdatedOn= guest.LastUpdatedOn
+            };
+
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Entry(guestE).State = System.Data.Entity.EntityState.Modified;
+                pmsContext.Entry(addressE).State = System.Data.Entity.EntityState.Modified;
+                var result = pmsContext.SaveChanges();
+                isUpdated = result >= 1 ? true : false;
+            }
+            return isUpdated;
+        }
+
+        public bool DeleteGuest(int guestId) {
+            var isDeleted = false;
+            if (guestId <= 0) return isDeleted;
+
+            var guest = new DAL.Guest
+            {
+                IsActive = false,
+                ID = guestId
+            };
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Guests.Attach(guest);
+                pmsContext.Entry(guest).Property(x => x.IsActive).IsModified = true;
+                var result = pmsContext.SaveChanges();
+                isDeleted = result == 1 ? true : false;
+            }
+            return isDeleted;
+        }
+
         public List<PmsEntity.Guest> GetAllGuest()
         {
             var guest = new List<PmsEntity.Guest>();
@@ -934,6 +1050,7 @@ namespace PMS.Resources.DAL
                                  Name = k.Name,
                                  Id = k.ID
                              },
+                              AddressId= a.ID,
                              FirstName = x.FirstName,
                              Gender = x.Gender,
                              LastName = x.LastName,
@@ -963,6 +1080,65 @@ namespace PMS.Resources.DAL
             }
             // to have records with distinct email id
             guest = guest.GroupBy(x => x.EmailAddress).Select(x => x.First()).ToList();
+            return guest;
+        }
+
+        public List<PmsEntity.Guest> GetAllGuest(bool fullInfo)
+        {
+            var guest = new List<PmsEntity.Guest>();
+            if (fullInfo)
+            {
+                guest = GetAllGuest();
+            }
+            else
+            {
+                using (var pmsContext = new PmsEntities())
+                {
+                    guest = (from x in pmsContext.Guests
+                             join a in pmsContext.Addresses on x.ID equals a.GuestID
+                             join i in pmsContext.Cities on a.City equals i.Name
+                             join j in pmsContext.States on a.State equals j.Name
+                             join k in pmsContext.Countries on a.Country equals k.Name
+                             where x.IsActive
+                             select new PmsEntity.Guest
+                             {
+                                 Id = x.ID,
+                                 DOB = x.DOB,
+                                 EmailAddress = x.EmailAddress,
+                                 Address1 = a.Address1,
+                                 Address2 = a.Address2,
+                                 ZipCode = a.ZipCode,
+                                 City = new PmsEntity.City
+                                 {
+                                     Name = i.Name,
+                                     Id = i.ID
+                                 },
+                                 State = new PmsEntity.State
+                                 {
+                                     Name = j.Name,
+                                     Id = j.ID
+                                 },
+                                 Country = new PmsEntity.Country
+                                 {
+                                     Name = k.Name,
+                                     Id = k.ID
+                                 },
+                                 AddressId = a.ID,
+                                 FirstName = x.FirstName,
+                                 Gender = x.Gender,
+                                 LastName = x.LastName,
+                                 MobileNumber = x.MobileNumber,
+                                 PhotoPath = x.PhotoPath,
+                                  CreatedBy=x.CreatedBy,
+                                   CreatedOn=x.CreatedOn,
+                                    LastUpdatedBy=x.LastUpdatedBy,
+                                     LastUpdatedOn=x.LastUpdatedOn,
+                                      IsActive=x.IsActive  
+                             }).ToList();
+                    // to have records with distinct email id
+                    guest = guest.GroupBy(x => x.EmailAddress).Select(x => x.First()).ToList();
+                }                
+            }
             return guest;
         }
 

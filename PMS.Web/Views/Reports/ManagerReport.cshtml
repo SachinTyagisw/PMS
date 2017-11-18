@@ -9,7 +9,7 @@
         getManagerReport();
     });
 
-    function getManagerReport(){
+    function getManagerReport() {
         var managerReportDto = {
             StartDate: gcm.GetCurrentDate(),
             EndDate: gcm.GetCurrentDate(),
@@ -45,7 +45,7 @@
         if (ManagerRecords && ManagerRecords.length > 0) {
             var csv = '';
             Object.keys(ManagerRecords[0]).forEach(function (row) {
-                csv += row+",";
+                csv += row + ",";
             });
             csv += "\n";
             ManagerRecords.forEach(function (row) {
@@ -57,7 +57,7 @@
             csv += "\n\n";
 
             var ConsolidatedManagerRecordsMonth = window.GuestCheckinManager.ReportDto.ConsolidatedManagerRecordsMonth;
-            if (ConsolidatedManagerRecordsMonth && ConsolidatedManagerRecordsMonth.length>0) {
+            if (ConsolidatedManagerRecordsMonth && ConsolidatedManagerRecordsMonth.length > 0) {
                 Object.keys(ConsolidatedManagerRecordsMonth[0]).forEach(function (row) {
                     csv += row + ",";
                 });
@@ -93,8 +93,7 @@
         }
     }
 
-    function ToString(str)
-    {
+    function ToString(str) {
         if (str != null && str.length >= 0)
             return str;
         else
@@ -110,55 +109,14 @@
                         <h4>Manager Report</h4>
                     </div>
                     <div class="card-body room-details">
-                        @*<fieldset class="data-mgmt-section">
-                            <legend>Search Criteria:</legend>
-                            <div class="row" style="">
-                                <div class="col-md-2 p-r-0">
-                                    <div class="form-group">
-                                        <div class='input-group date' id='datetimepicker1'>
-                                            <label>Start Date &nbsp;&nbsp;</label>
-                                            <input id="dateFrom" type='text' class="form-control calendar" />
-                                            <span class="input-group-addon">
-                                                <span class="glyphicon glyphicon-calendar"></span>
-                                            </span>
-                                        </div>
-                                        <script type="text/javascript">
-                                            $(function () {
-                                                $('#datetimepicker1').datetimepicker({
-                                                    format: 'MM/DD/YYYY'
-                                                });
-                                            });
-                                        </script>
-                                    </div>
+                        <div class="row" style="">                          
+                            <div class="col-lg-1">
+                                <div class="form-group btn-set btn-export">
+                                    <button onclick="exportReport();" class="btn btn-primary m-t-15 btn-side" type="button">Export</button>
                                 </div>
-                                <div class="col-md-2 p-r-0">
-                                    <div class="form-group">
-                                        <div class='input-group date' id='datetimepicker2'>
-                                            <label>End Date</label>
-                                            <input id="dateTo" type='text' class="form-control calendar" />
-                                            <span class="input-group-addon">
-                                                <span class="glyphicon glyphicon-calendar"></span>
-                                            </span>
-                                        </div>
-                                        <script type="text/javascript">
-                                            $(function () {
-                                                $('#datetimepicker2').datetimepicker({
-                                                    format: 'MM/DD/YYYY'
-                                                });
-                                            });
-                                        </script>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group btn-set">
-                                        <button onclick="getManagerReport();" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button">Search</button>
-                                        <button onclick="exportReport();" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button">Export</button>
-                                    </div>
-                                </div>
-                                </div>
-                           
-                        </fieldset>*@
-                        <button onclick="exportReport();" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button">Export</button>
+                            </div>
+                        </div>
+                        
                         <div id="divManagerReport" class="table-data">
                         </div>
                         <!-- Small Table -->

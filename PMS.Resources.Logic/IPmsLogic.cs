@@ -125,7 +125,13 @@ namespace PMS.Resources.Logic
         List<PmsEntity.Functionality> GetFunctionalityByUserId(int userId);
 
         bool InsertUserAccess(UserAccessRequestDto request);
-       
+
+        //Guest 
+        int AddGuest(PmsEntity.Guest guestRequest);
+        bool UpdateGuest(PmsEntity.Guest Guest);
+        bool DeleteGuest(int UserId);
+        List<PmsEntity.Guest> GetAllGuest(bool allinfo);
+
 
     }
 }

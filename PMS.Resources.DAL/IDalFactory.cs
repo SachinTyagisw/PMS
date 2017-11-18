@@ -130,6 +130,13 @@ namespace PMS.Resources.DAL
         List<PmsEntity.Functionality> GetFunctionalityByUserId(int userId);
         bool InsertUserAccess(int userId, string functionalities, string properties, string createdBy);
 
+
+        //Guest methods
+        int AddGuest(PmsEntity.Guest guest);
+        bool UpdateGuest(PmsEntity.Guest guest);
+        bool DeleteGuest(int guestId);
+        List<PmsEntity.Guest> GetAllGuest(bool fullInfo);
+
     }
 }
 

@@ -25,6 +25,7 @@ namespace PMS.Resources.Entities
         public City City { get; set; }
         public State State { get; set; }
         public string ZipCode { get; set; }
+        public int AddressId { get; set; }
         public Country Country { get; set; }
         public Nullable<System.DateTime> LastUpdatedOn { get; set; }                     
         public List<GuestReward> GuestRewards { get; set; }

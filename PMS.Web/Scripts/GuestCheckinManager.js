@@ -25,7 +25,8 @@
             ExpenseSettings: null,
             UserSetting: null,
             AllFunctionalitiesSettings: null,
-            FunctionalitiesSettings: null
+            FunctionalitiesSettings: null,
+            GuestSetting:null
         },
 
         BookingDto: {
@@ -1290,6 +1291,14 @@
             }
             return null;
         },
+        FindGuest: function (email, settings) {
+            if (!settings || settings.length <= 0) return null;
+            for (var i = 0; i < settings.length; i++) {
+                if (settings[i].EmailAddress.toLowerCase() !== email.toLowerCase()) continue;
+                return settings[i];
+            }
+            return null;
+        },
 
         OnGridEdit: function (editOn, rowObj, thisObj) {
             $('td:last-child').attr('contenteditable', 'false');
@@ -2285,6 +2294,100 @@
             if (!guestSummary || !guestSummaryTemplate || guestSummary.length <= 0 || guestSummaryTemplate.length <= 0)return;
             guestSummary.html(guestSummaryTemplate.render(data));
         },
+        DeleteGuest: function (guestId) {
+            args.guestId = guestId;
+            pmsService.DeleteGuest(args);
+        },
+
+        AddGuest: function (guest) {
+            guest.CreatedBy = getCreatedBy();
+            guest.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
+            var guestRequestDto = {};
+            guestRequestDto.Guest = {};
+            // Addexpense by api calling  
+            guestRequestDto.Guest = guest;
+            Notifications.SubscribeActive("on-guest-add-success", function (sender, args) {
+                window.GuestCheckinManager.GetGuest();
+            });
+            pmsService.AddGuest(guestRequestDto);
+        },
+
+        UpdateGuest: function (guest) {
+            guest.LastUpdatedBy = getCreatedBy();
+            guest.LastUpdatedOn = window.GuestCheckinManager.GetCurrentDate();
+
+            var guestRequestDto = {};
+            guestRequestDto.Guest = {};
+            guestRequestDto.Guest = guest;
+            Notifications.SubscribeActive("on-guest-add-success", function (sender, args) {
+                window.GuestCheckinManager.GetGuest();
+            });
+            pmsService.UpdateGuest(guestRequestDto);
+        },
+
+        GetGuest: function () {
+            pmsService.GetGuest(args);
+        },
+
+        PopulateGuestGrid: function (data) {
+            var divGuest = $('#divGuest');
+            var guestTemplate = $('#guestTemplate');
+            if (!divGuest || !guestTemplate) return;
+            divGuest.html(guestTemplate.render(data));
+            $("#divGuest thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
+            $("#divGuest tbody tr").append('<td class="finalActionsCol"><i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
+        },
+        PopulateGuestMasterDetail: function(guest) {
+            $('#password').val(guest.Password);
+            $('#firstName').val(guest.FirstName);
+            $('#lastName').val(guest.LastName);
+            $('#mobileNumber').val(guest.MobileNumber);
+            $('#emailAddress').val(guest.EmailAddress);
+            $('#dob').val(guest.DOB.split('T')[0]);
+            $('#ddlGender').val(guest.Gender);
+
+            // Address Info
+            $('#address').val(guest.Address1);
+            $('#zipCode').val(guest.ZipCode);
+            $('#ddlCountry').val(guest.Country.Id);
+            if (guest.Country && guest.Country.Id) {
+                $('#ddlCountry').val(guest.Country.Id);
+                gcm.BindStateDdl(guest.Country.Id, $('#ddlState'));
+
+            }
+            if (guest.State && guest.State.Id) {
+                $('#ddlState').val(guest.State.Id);
+                gcm.BindStateDdl(guest.Country.Id, $('#ddlState'));
+            }       
+            gcm.BindCityDdl(guest.State.Id, $('#ddlCity'));
+            $('#ddlState').val(guest.State.Id);
+            $('#ddlCity').val(guest.City.Id);
+
+             $('#imgPhoto').css('visibility', 'visible');
+            $('#imgPhoto').addClass('photo-added');
+            $('#imgAdditionalPhoto').css('visibility', 'visible');
+            $('#imgAdditionalPhoto').addClass('photo-added');
+            var url = '';
+            if (guest.PhotoPath.indexOf('ftp') >= 0) {
+                url = guest.PhotoPath;
+            } else {
+                var fName = extractFileNameFromFilePath(guest.PhotoPath);
+                if (fName) {
+                    url = window.apiBaseUrl + window.uploadDirectory + "/" + fName;
+                }
+            }
+            if (url) {
+                $('#imgPhoto').attr('src', url);
+            } else {
+                $('#imgPhoto').css('visibility', 'hidden');
+                $('#imgPhoto').removeClass('photo-added');
+            }
+
+            if (guest.PhotoPath != '') {
+                $('#lblLogo').addClass('photo_submit--image');
+                $('#uploadPhoto').prop('disabled', 'disabled');
+            }
+        },
         AjaxHandlers: function () {
             // ajax handlers start
             pmsService.Handlers.OnAddBookingSuccess = function (data) {
@@ -2456,11 +2559,11 @@
                 console.error("get state call failed");
             };
 
-            pmsService.Handlers.OnGetGuestSuccess = function (data) {
+            pmsService.Handlers.OnGetAllGuestSuccess = function (data) {
                 if (!data || !data.Guest || data.Guest.length <= 0) return;
                 pmsSession.SetItem("guestinfo", JSON.stringify(data.Guest));
             };
-            pmsService.Handlers.OnGetGuestFailure = function () {
+            pmsService.Handlers.OnGetAllGuestFailure = function () {
                 // show error log
                 console.error("get guest call failed");
             };
@@ -3382,6 +3485,68 @@
                 window.GuestCheckinManager.PopulateGuestSummaryGrid(data);
             };
             
+
+            pmsService.Handlers.OnAddGuestSuccess = function (data) {
+                // if booking is successful then upload image
+                uploadImage($("#uploadPhoto"));
+
+                var status = data.StatusDescription.toLowerCase();
+                if (data.ResponseObject > 0) {
+                    console.log(status);
+                    if (window.Notifications) window.Notifications.Notify("on-guest-add-success", null, data.ResponseObject);
+                } else {
+                    console.error(status);
+                    alert(status);
+                }
+            };
+
+            pmsService.Handlers.OnAddGuestFailure = function () {
+                // show error log
+                console.error("Guest is not added.");
+            };
+
+            pmsService.Handlers.OnDeleteGuestFailure = function () {
+                // show error log
+                console.error("Guest s not deleted.");
+            };
+
+            pmsService.Handlers.OnDeleteGuestSuccess = function (data) {
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                //alert(status);
+            };
+
+            pmsService.Handlers.OnUpdateGuestFailure = function () {
+                // show error log
+                console.error("Guest is not updated.");
+            };
+
+            pmsService.Handlers.OnUpdateGuestSuccess = function (data) {
+                uploadImage($("#uploadPhoto"));
+                var status = data.StatusDescription.toLowerCase();
+                console.log(status);
+                if (window.Notifications) window.Notifications.Notify("on-guest-add-success", null, null);
+                //alert(status);
+            };
+
+            pmsService.Handlers.OnGetGuestSuccess = function (data) {
+                if (!data || !data.Guest || data.Guest.length <= 0) return;
+                window.GuestCheckinManager.PropertySettingResponseDto.GuestSetting = null;
+                window.GuestCheckinManager.PropertySettingResponseDto.GuestSetting = data.Guest;
+
+                var divGuest = $('#divGuest');
+                var guestTemplate = $('#guestTemplate');
+                if (divGuest && guestTemplate && divGuest.length > 0 && guestTemplate.length > 0) {
+                    $('#propmodal').removeClass('open');
+                    window.GuestCheckinManager.PopulateGuestGrid(data);
+                }
+                if (window.Notifications) window.Notifications.Notify("on-allGuest-get-success", null, null);
+            };
+
+            pmsService.Handlers.OnGetGuestFailure = function () {
+                // show error log
+                console.error("get all Guest call failed");
+            };
         }
 
         
@@ -4018,7 +4183,7 @@
         var guestData = pmsSession.GetItem("guestinfo");
         if (!guestData) {
             // get guest by api calling  
-            pmsService.GetGuest(args);
+            pmsService.GetAllGuest(args);
         }
     }
 

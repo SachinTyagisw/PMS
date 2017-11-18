@@ -1,0 +1,420 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .selected {
+        background-color: lightblue;
+    }
+
+    #panelProperty li {
+        cursor: pointer;
+    }
+
+    #panelFunctionality li {
+        cursor: pointer;
+    }
+</style>
+<script type='text/javascript'>
+    var gcm = window.GuestCheckinManager;
+    function previewImage(input, imgControl) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                imgControl.attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    function prepareGuest() {
+        var guest = {};
+        guest.FirstName = $('#firstName').val();
+        guest.LastName = $('#lastName').val();
+        guest.MobileNumber = $('#mobileNumber').val();
+        guest.EmailAddress = $('#emailAddress').val();
+        guest.DOB = $('#dob').val();
+        guest.Gender = $('#ddlGender').val();
+        var files = $("#uploadPhoto").get(0).files;
+        if (files.length > 0) {
+            guest.PhotoPath = window.guestIdPath + window.uploadDirectory + "\\" + files[0].name;
+        } else {
+            guest.PhotoPath = "No Image Available";
+        }
+        guest.IsActive = true;
+        guest.City = { Name: $("#ddlCity option:selected").text() };
+        guest.State = {Name:$("#ddlState option:selected").text()};
+        guest.Country = { Name: $("#ddlCountry option:selected").text() };
+        guest.ZipCode = $('#zipCode').val();
+        guest.Address1 = $('#address').val();
+        //TODO : update with address2 field
+        guest.Address2 = $('#address').val();
+        return guest;
+    }
+
+    function validateGuestInputs() {
+        var firstName = $('#firstName').val();
+        var lastName = $('#lastName').val();
+        var mobileNumber = $('#mobileNumber').val();
+        var emailAddress = $('#emailAddress').val();
+        var dob = $('#dob').val();
+        var gender = $('#ddlGender').val();
+        var guestId = $('#hdnGuestId').val();
+
+        if (!firstName || firstName.length <= 0) {
+            alert("First Name is required");
+            $('#firstName').focus();
+            return false;
+        }
+
+        if (!lastName || lastName.length <= 0) {
+            alert("Last Name is required");
+            $('#lastName').focus();
+            return false;
+        }
+
+        if (!mobileNumber || mobileNumber.length<=0) {
+            alert("Mobile Number is required");
+            return false;
+        }
+
+        if (!emailAddress || emailAddress.length <= 0) {
+            alert("emailAddress is required");
+            $('#emailAddress').focus();
+            return false;
+        }
+
+        var existingGuest = gcm.FindGuest(emailAddress, window.GuestCheckinManager.PropertySettingResponseDto.GuestSetting);
+        if (existingGuest != null && existingGuest.Id != guestId)
+        {
+            alert("Guestname is already exists.");
+            $('#guestName').focus();
+            return false;
+        }
+
+        return true;
+    }
+
+    function toggleButton(shouldDisable) {
+        $('#update').attr("disabled", !shouldDisable);
+        $('#create').attr("disabled", shouldDisable);        
+    }
+
+    function openModal() {
+        $('.modal-wrapper').toggleClass('open');
+        $('.page-wrapper').toggleClass('blur');
+        return false;
+    }
+
+        $(document).ready(function () {
+        init();
+
+        gcm.GetGuest();
+
+        $('#mobileNumber').keydown(function (e) {
+            gcm.IsNumeric(e);
+        });
+
+        $("#createRow").click(function () {
+            ClearGuestFields();
+        });
+
+        $("#cancel").click(function () {
+            $('#propmodal').removeClass('open');
+        });
+
+        $("#create").click(function () {
+            if (!validateGuestInputs()) return;
+            var guest = prepareGuest();
+            gcm.AddGuest(guest);
+        });
+
+        $("#update").click(function () {
+            if (!validateGuestInputs()) return;
+            var guestId = $('#hdnGuestId').val();
+            var guest = prepareGuest();
+            guest.CreatedOn = $('#hdnCreatedOn').val();
+            guest.CreatedBy = $('#hdnCreatedBy').val();
+            guest.AddressId = $('#hdnAddressId').val();
+            guest.Id = guestId;
+            gcm.UpdateGuest(guest);
+        });
+
+        $("#divGuest").on("click", ".fa-minus-circle", function () {
+            if (confirm("Are you sure you want to delete ?")) {
+                var guestId = $(this).closest('tr')[0].id;
+                $(this).closest('tr').remove();
+                if (guestId <= 0) return;
+                gcm.DeleteGuest(guestId);
+            }
+        });
+
+        $("#divGuest").on("click", ".fa-pencil-square-o, .fa-floppy-o", function () {
+            $('#hdnGuestId').val('');
+            $('#hdnCreatedOn').val('');
+            $('#hdnCreatedBy').val('');
+            var thisRow = $(this).parent().siblings();
+            var editOn = $(this).hasClass("editMode");
+            var guestId = $(thisRow)[0].innerText;
+            var existingGuest = gcm.FindSetting(guestId, window.GuestCheckinManager.PropertySettingResponseDto.GuestSetting);
+            if (!existingGuest) {
+                alert('Selected Guest is not valid');
+                return;
+            }
+            if (guestId > 0) {
+                toggleButton(true);
+            }
+            $('#hdnGuestId').val(guestId);
+            $('#hdnCreatedOn').val(existingGuest.CreatedOn);
+            $('#hdnCreatedBy').val(existingGuest.CreatedBy);
+            $('#hdnAddressId').val(existingGuest.AddressId);
+
+            openModal();
+            gcm.PopulateGuestMasterDetail(existingGuest);
+        });
+
+        $('#createRow, .trigger').click(function () {
+            toggleButton(false);
+            $('#hdnChangePassword').val(true);
+            openModal();
+        });
+
+        $('body').on('click', '#panelProperty li, #panelFunctionality li', function () {
+            $(this).toggleClass('selected');
+        });
+
+        $("#uploadPhoto").change(function () {
+            $('#imgPhoto').css('visibility', 'visible');
+            $('#imgPhoto').addClass('photo-added');
+            previewImage(this, $('#imgPhoto'));
+        });
+
+        $("#additionalUpload").change(function () {
+            $('#imgAdditionalPhoto').css('visibility', 'visible');
+            $('#imgAdditionalPhoto').addClass('photo-added');
+            previewImage(this, $('#imgAdditionalPhoto'));
+        });
+    });
+
+    function init()
+    {
+        gcm.GetCountry($('#ddlCountry'));
+        gcm.GetStateByCountry(-1);
+        gcm.GetCityByState(-1);
+    }
+   
+    function OnCountryChange(ddlCountry, ddlState, ddlCity) {
+        gcm.OnCountryChange(ddlCountry, ddlState, ddlCity);
+    }
+
+    function OnStateChange(ddlState, ddlCity) {
+        gcm.OnStateChange(ddlState, ddlCity);
+    }
+
+    function ClearGuestFields() {
+        $('#firstName').val('');
+        $('#lastName').val('');
+        $('#mobileNumber').val('');
+        $('#emailAddress').val('');
+        $('#dob').val('');
+        $('#ddlGender').val('');
+
+        $('#zipCode').val('');
+        $('#address').val('');
+        $('#ddlCountry').val('-1');
+        $('#ddlState').empty();
+        $('#ddlIdState').empty();
+        $('#ddlCity').empty();
+
+        $('#imgPhoto').attr('src', '');
+        $('#imgAdditionalPhoto').attr('src', '');
+        $('#imgPhoto').css('visibility', 'hidden');
+        $('#imgPhoto').removeClass('photo-added');
+        $('#imgAdditionalPhoto').css('visibility', 'hidden');
+        $('#imgAdditionalPhoto').removeClass('photo-added');
+    }
+
+   
+
+
+
+
+</script>
+<div class="content-wrap">
+    <div class="main controls">
+        <div class="container-fluid">
+            <div class="col-lg-12 p-r-0 p-l-0">
+                <div class="card alert">
+                    <div class="card-header">
+                        <h4>Create Guest</h4>
+                    </div>
+                    <div class="card-body room-details">
+                        <div class="row" style="">
+                            <div class="form-group col-lg-5 m-t-10">
+                                <input type="text" class="search form-control" placeholder="Search by Name, Gender, DOB, Email id...">
+                            </div>
+                            <div class="col-lg-7 p-l-0 p-r-15">
+                                <div class="form-group">
+                                    <button id="createRow" class="btn btn-primary m-l-5 m-t-10 btn-side" type="button">Create Guest</button>
+                                </div>
+                            </div>
+                            <div id="divGuest" class="table-data">
+                                <span class="counter"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="propmodal" class="modal-wrapper">
+    <div class="modal">
+        <div class="head">
+            <span class="label-head">Create Guest</span><a class="btn-close trigger" href="javascript:;"></a>
+        </div>
+        <div class="content">
+            <div class="contact-information">
+                
+                <div class="state-content">
+                    <div class="col-lg-3 p-l-0">
+                        <div class="form-group">
+                            <input id="firstName" type="text" placeholder="First Name" class="form-control" name="example-input-normal">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 p-l-0">
+                        <div class="form-group">
+                            <input id="lastName" type="text" placeholder="Last Name" class="form-control" name="example-input-normal">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 p-l-0">
+                        <div class="form-group">
+                            <input id="dob" type="text" placeholder="DOB" class="form-control" name="example-input-normal">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 p-l-0">
+                        <div class="form-group">
+                            <select id="ddlGender" class="form-control">
+                                <option value="">Select Gender</option>
+                                <option value="F">Female</option>
+                                <option value="M">Male</option>
+                                <option value="O">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 p-l-0">
+                        <div class="form-group">
+                            <input id="mobileNumber" type="text" maxlength="10" placeholder="Mobile Number" class="form-control" name="example-input-normal">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 p-l-0">
+                        <div class="form-group">
+                            <input id="emailAddress" type="text" placeholder="Email Address" class="form-control" name="example-input-normal">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 p-l-0">
+                        <div class="form-group">
+                            <select id="ddlCountry" onchange="OnCountryChange(this, $('#ddlState'), $('#ddlCity'));" class="form-control">
+                                <option value="-1">Select Country</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 p-r-0 p-l-0">
+                        <div class="form-group">
+                            <select id="ddlState" onchange="OnStateChange(this, $('#ddlCity'));" class="form-control">
+                                <option value="-1">Select State</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 p-l-0">
+                        <div class="form-group">
+                            <select id="ddlCity" class="form-control">
+                                <option value="-1">Select City</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 p-r-0 p-l-0">
+                        <div class="form-group">
+                            <input type="text" id="zipCode" maxlength="6" placeholder="ZipCode" class="form-control" name="example-input-normal">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 p-r-0 p-l-0"><div class="form-group">
+    <input type="text" class="form-control" name="example-input-normal" style="opacity:0; z-index:-2">
+        </div></div>
+                    
+                    </div>
+           
+                <div class="col-lg-6 p-r-0 p-l-0">
+                    <div class="form-group">
+                        <textarea id="address" class="form-control" rows="3" placeholder="Address"></textarea>
+                    </div>
+                </div>
+                <div class="col-lg-6 p-l-0">
+                    <div class="col-lg-12 p-r-0 p-l-0">
+                        <div class="user-photo photo_submit-container">
+                            <label id="lblLogo" class="photo_submit js-photo_submit1">
+                                <input id="uploadPhoto" class="photo_submit-input js-photo_submit-input" type="file" accept="image/*">
+                                <img id="imgPhoto" class="photo_submit js-photo_submit1" alt="your image" />
+                                <span class="photo_submit-plus"></span>
+                                <span class="photo_submit-uploadLabel">Upload Logo</span>
+                                <span class="photo_submit-delete"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="button-section">
+                <button id="cancel" type="button" class="btn btn-primary m-l-5 m-t-15">Cancel</button>
+                <button id="create" type="button" class="btn btn-primary m-l-5 m-t-15">Create</button>
+                <button id="update" disabled="disabled" type="button" class="btn btn-primary m-l-5 m-t-15">Update</button>
+            </div>
+            <input type="hidden" value="" id='hdnGuestId'>
+            <input type="hidden" value="" id='hdnCreatedOn'>
+            <input type="hidden" value="" id='hdnCreatedBy'>
+            <input type="hidden" value="" id="hdnAddressId" />
+        </div>
+    </div>
+</div>
+
+
+<script type="text/html" id="guestTemplate">
+    <table class="table table-hover table-bordered results tableContents">
+        <thead>
+            <tr>
+                <th id="IDCol">ID #</th>
+                <th id="firstNameCol" contenteditable="false">First Name</th>
+                <th id="lastNameCol" contenteditable="false">Last Name</th>
+                <th id="dobCol" contenteditable="false">DOB</th>
+                <th id="genderCol" contenteditable="false">Gender</th>
+                <th id="emailCol" contenteditable="false">Email</th>
+                <th id="mobileCol" contenteditable="false">Mobile</th>
+                <th id="createdDateCol" contenteditable="false">Created Date</th>
+                <th id="updatedDateCol" contenteditable="false">Updated Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{each Guest}}
+            <tr id="${$value.Id}">
+                <td class="idRow" contenteditable="false">${$value.Id}</td>
+                <td contenteditable="false">${$value.FirstName}</td>
+                <td contenteditable="false">${$value.LastName}</td>
+                <td contenteditable="false">${String($value.DOB).replace('T', ' ').split(' ')[0]}</td>
+                <td contenteditable="false">${$value.Gender}</td>
+                <td contenteditable="false">${$value.EmailAddress}</td>
+                <td contenteditable="false">${$value.MobileNumber}</td>
+                <td contenteditable="false">${String($value.CreatedOn).replace('T', ' ')}</td>
+                <td contenteditable="false">{{if $value.LastUpdatedOn}} ${String($value.LastUpdatedOn).replace('T', ' ')} {{/if}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</script>
+<div id="divLoader">
+    <div class="loader" style="display:none;">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+</div>
