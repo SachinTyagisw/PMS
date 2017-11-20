@@ -26,7 +26,8 @@
             UserSetting: null,
             AllFunctionalitiesSettings: null,
             FunctionalitiesSettings: null,
-            GuestSetting:null
+            GuestSetting:null,
+            PropertyForAccessSetting:null
         },
 
         BookingDto: {
@@ -1026,8 +1027,16 @@
             // get property by api calling 
             pmsService.GetAllProperty(args);
         },
-        GetPropertyForAccess: function () {            
-            pmsService.GetPropertyForAccess(args);
+        GetPropertyForAccess: function () {
+            if (window.GuestCheckinManager.PropertySettingResponseDto.PropertyForAccessSetting && window.GuestCheckinManager.PropertySettingResponseDto.PropertyForAccessSetting.length > 0)
+            {
+                var panelProperty = $('#panelProperty');
+                if (panelProperty) {
+                    window.GuestCheckinManager.BindPropertyPanel($('#panelProperty .left ul'), window.GuestCheckinManager.PropertySettingResponseDto.PropertyForAccessSetting);
+                }
+            }
+            else
+                pmsService.GetPropertyForAccess(args);
         },
 
         PopulateBookingGrid: function (data) {
@@ -2657,6 +2666,9 @@
 
             pmsService.Handlers.OnGetPropertyForAccessSuccess = function (data) {
                 if (!data || !data.Properties || data.Properties.length <= 0) return;
+                window.GuestCheckinManager.PropertySettingResponseDto.PropertyForAccessSetting = null;
+                window.GuestCheckinManager.PropertySettingResponseDto.PropertyForAccessSetting = data.Properties;
+
                 var panelProperty = $('#panelProperty');
                 if (panelProperty) {
                     window.GuestCheckinManager.BindPropertyPanel($('#panelProperty .left ul'), data.Properties);
