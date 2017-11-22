@@ -43,6 +43,14 @@
             gcm.CalculateInvoice(isElementDiscountAmt);
         }
 
+        function OnTotalChange(e, htmlElement)
+        {
+            if (!htmlElement.value || htmlElement.value.trim() === "" || isNaN(htmlElement.value)) {
+                htmlElement.value = '';
+            }
+            gcm.BackCalculateInvoice();
+        }
+
         $(function () {
 
             $("#btnAddGuest").click(function (e) {
