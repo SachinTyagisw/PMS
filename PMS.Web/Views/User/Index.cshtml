@@ -139,6 +139,8 @@
     $(document).ready(function () {
 
         gcm.GetAllUser();       
+        gcm.GetPropertyForAccess();
+        gcm.GetAllFunctionality();
 
         $('#mobileNumber').keydown(function (e) {
             gcm.IsNumeric(e);
@@ -211,10 +213,9 @@
 
         $('#createRow, .trigger').click(function () {
             toggleButton(false);
-            $('#hdnChangePassword').val(true);
             openModal();
-
-            populateUserPropertyAss(0);
+            if (this.id == 'createRow')
+                populateUserPropertyAss(0);
         });
 
         $('body').on('click', '#panelProperty li, #panelFunctionality li', function () {
@@ -249,10 +250,16 @@
     function populateUserPropertyAss(userId)
     {
         gcm.GetPropertyForAccess();
-        gcm.GetPropertyByUserId(userId);
-
         gcm.GetAllFunctionality();
-        gcm.GetFunctionalityByUserId(userId);
+
+        if (userId > 0) {
+            gcm.GetPropertyByUserId(userId);
+            gcm.GetFunctionalityByUserId(userId);
+        }
+        else {
+            $('#panelProperty .right ul').empty();
+            $('#panelFunctionality .right ul').empty();
+        }
     }
 
     function insertUserPropertyFunction(userId)

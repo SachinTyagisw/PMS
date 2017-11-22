@@ -26,7 +26,8 @@
             UserSetting: null,
             AllFunctionalitiesSettings: null,
             FunctionalitiesSettings: null,
-            GuestSetting:null
+            GuestSetting:null,
+            PropertyForAccessSetting:null
         },
 
         BookingDto: {
@@ -436,7 +437,7 @@
             //invoice.GuestId = 2082;
             invoice.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             invoice.IsActive = true;
-            invoice.TotalAmount = $('#total') && $('#total')[0] ? $('#total')[0].innerText : 0;
+            invoice.TotalAmount = $('#total')? $('#total').val() : 0;
             invoice.DiscountPercent = $('#discountPercent') && $('#discountPercent')[0] ? $('#discountPercent')[0].value.replace('%', '') : 0;
             invoice.DiscountAmount = $('#discountAmt') && $('#discountAmt')[0] ? $('#discountAmt')[0].value : 0;
             invoice.IsPaid = $('#balance') && $('#balance').val() > 0 ? false : true;
@@ -709,7 +710,7 @@
             return true;
         },
 
-        CalculateInvoice: function (isElementDiscountAmt) {
+        CalculateInvoice: function (isElementDiscountAmt, isfromBackCalculate) {
             var totalCharge = 0;
             var totalTax = 0;
             var paymentAmt = 0;
@@ -766,8 +767,8 @@
                     totalCharge = (parseFloat(totalCharge) + parseFloat(otherTaxElementCol[i].value, 10)).toFixed(2);
                 }
             }
-
-            $('#total')[0].innerText = totalCharge;
+            if (!isfromBackCalculate)
+                $('#total').val(totalCharge);
 
             var idx = 0;
             //  payment calulations
@@ -786,12 +787,70 @@
                 }
             }
 
-            var balanceAmt = totalCharge - paymentAmt;
+            var balanceAmt = $('#total').val() - paymentAmt;
             $('#payment').val(paymentAmt);
             $('#balance').val(balanceAmt);
             $('#credit').val(balanceAmt);
 
-            return totalCharge;
+            return $('#total').val();
+        },
+
+        BackCalculateInvoice: function () {
+            var totalCharge = $('#total').val();
+            var totalTax = 0;
+            var paymentAmt = 0;
+            var stayDays = 1;
+            var dateFrom = $('#dateFrom').val();
+            var dateTo = $('#dateTo').val();
+            if (!dateFrom || !dateTo) {
+                stayDays = 1;
+            } else {
+                var daysDiff = window.GuestCheckinManager.GetDays(dateFrom, dateTo);
+                stayDays = daysDiff <= 0 ? 1 : daysDiff;
+            }
+            var baseRoomCharge = $('#baseRoomCharge');
+            var totalRoomCharge = $('#totalRoomCharge');
+            var taxElementCol = $("input[id*='taxVal']");
+            var otherTaxElementCol = $("input[id*='otherTaxVal']");
+            var paymentValueCol = $("td[id*='tdPaymentValue']");
+            var paymentValueColNew = $("td[id*='tdPaymentValue'] input");
+            var invoiceObject = window.GuestCheckinManager.invoiceData.Invoice;
+            var totRoomCharge = 0;
+           
+
+            //  tax charges calculations
+            if (taxElementCol && taxElementCol.length > 0) {
+                for (var i = 0; i < taxElementCol.length; i++) {
+                    var taxName = taxElementCol[i].name;
+                    if (!taxElementCol[i] || !taxElementCol[i].value || !taxName) continue;
+                    var taxPercent = taxElementCol[i].value.replace('%', '');
+                    if (isNaN(taxPercent)) continue;                 
+                    totalTax = (parseFloat(totalTax) + parseFloat(taxPercent, 10)).toFixed(2);
+                }
+            }
+
+            //other tax charges calculations
+            if (otherTaxElementCol && otherTaxElementCol.length > 0) {
+                for (var i = 0; i < otherTaxElementCol.length; i++) {
+                    if (!otherTaxElementCol[i] || !otherTaxElementCol[i].value || isNaN(otherTaxElementCol[i].value)) continue;
+                    totalCharge = (parseFloat(totalCharge) - parseFloat(otherTaxElementCol[i].value, 10)).toFixed(2);
+                }
+            }
+
+            //Discount
+            var discountPercent = $('#discountPercent').val().replace('%', '');
+            discountPercent = !discountPercent || isNaN(discountPercent) ? 0 : parseFloat(discountPercent, 10).toFixed(2);            
+            if (discountPercent > 0) {                
+                totalRoomCharge.val(parseFloat(10000 * parseFloat(totalCharge) / (10000 + 100 * parseFloat(totalTax) - 100 * parseFloat(discountPercent) - parseFloat(discountPercent) * parseFloat(totalTax)), 10).toFixed(2));                
+            }
+            else {
+                var discountedAmount = $('#discountAmt').val().trim() === '' || isNaN($('#discountAmt').val()) || parseFloat($('#discountAmt').val()) <= 0 ? 0 : parseFloat($('#discountAmt').val());
+                totalCharge = (parseFloat(totalCharge) + parseFloat(discountedAmount)).toFixed(2);
+                totalRoomCharge.val(parseFloat(100*totalCharge /(100 + parseFloat(totalTax))).toFixed(2));               
+            }
+            baseRoomCharge.val((parseFloat(totalRoomCharge.val(), 10) / stayDays).toFixed(2));
+
+            gcm.CalculateInvoice(null,true);
         },
 
         GetInvoiceById: function (invoiceId) {
@@ -1026,8 +1085,16 @@
             // get property by api calling 
             pmsService.GetAllProperty(args);
         },
-        GetPropertyForAccess: function () {            
-            pmsService.GetPropertyForAccess(args);
+        GetPropertyForAccess: function () {
+            if (window.GuestCheckinManager.PropertySettingResponseDto.PropertyForAccessSetting && window.GuestCheckinManager.PropertySettingResponseDto.PropertyForAccessSetting.length > 0)
+            {
+                var panelProperty = $('#panelProperty');
+                if (panelProperty) {
+                    window.GuestCheckinManager.BindPropertyPanel($('#panelProperty .left ul'), window.GuestCheckinManager.PropertySettingResponseDto.PropertyForAccessSetting);
+                }
+            }
+            else
+                pmsService.GetPropertyForAccess(args);
         },
 
         PopulateBookingGrid: function (data) {
@@ -1876,7 +1943,7 @@
             data.Taxes = [];
             data.Taxes = prepareTaxForPrint(parseFloat(data.TotalRoomCharges));
             data.PaymentDetails = [];
-            var totalAmount = $('#total') && $('#total')[0] ? $('#total')[0].innerText : 0;
+            var totalAmount = $('#total') ? $('#total').val() : 0;
             data.PaymentDetails = preparePaymentDetailForPrint(totalAmount);
             data = preparePropertyData(data);
             data.TotalAmount = totalAmount;
@@ -1910,7 +1977,7 @@
             data.Taxes = [];
             data.Taxes = prepareTaxForPrint(parseFloat(data.TotalRoomCharges));
             data.PaymentDetails = [];
-            var totalAmount = $('#total') && $('#total')[0] ? $('#total')[0].innerText : 0;
+            var totalAmount = $('#total') ? $('#total').val() : 0;
             data.PaymentDetails = preparePaymentDetailForPrint(totalAmount);
             data = preparePropertyData(data);
             data.TotalAmount = totalAmount;
@@ -2657,6 +2724,9 @@
 
             pmsService.Handlers.OnGetPropertyForAccessSuccess = function (data) {
                 if (!data || !data.Properties || data.Properties.length <= 0) return;
+                window.GuestCheckinManager.PropertySettingResponseDto.PropertyForAccessSetting = null;
+                window.GuestCheckinManager.PropertySettingResponseDto.PropertyForAccessSetting = data.Properties;
+
                 var panelProperty = $('#panelProperty');
                 if (panelProperty) {
                     window.GuestCheckinManager.BindPropertyPanel($('#panelProperty .left ul'), data.Properties);
@@ -3812,10 +3882,10 @@
         var directDiscountAmt = $('#discountAmt').val();
         // if no direct discount amount is provided
         if (!isElementDiscountAmt) {
-            $('#discountAmt').val(disAmtFromPercent);
+            $('#discountAmt').val(disAmtFromPercent.toFixed(2));
         }
         if (isElementDiscountAmt && disAmtFromPercent > 0 && (parseFloat(directDiscountAmt) === 0 || directDiscountAmt.trim() === '')) {
-            $('#discountAmt').val(disAmtFromPercent);
+            $('#discountAmt').val(disAmtFromPercent.toFixed(2));
         }
         var discountedAmount = $('#discountAmt').val().trim() === '' || isNaN($('#discountAmt').val()) || parseFloat($('#discountAmt').val()) <= 0 ? 0 : parseFloat($('#discountAmt').val());
         totalCharge = (parseFloat(totalCharge) - discountedAmount).toFixed(2);
