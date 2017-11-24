@@ -5725,6 +5725,8 @@ div#panelProperty, #panelFunctionality {
     margin: 0 2rem 0 0;
     vertical-align: top;
     min-height: 100px;
+    overflow-y: scroll;
+    max-height: 100px;
 }
 #panelProperty .right, #panelFunctionality .right {
     float: left;
