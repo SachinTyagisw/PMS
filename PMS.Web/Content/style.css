@@ -2302,36 +2302,7 @@ ul {
   padding: 8px;
   vertical-align: top;
 }
-@media (max-width: 767px) {
-  .files .btn span {
-    display: none;
-  }
-  .files .preview * {
-    width: 40px;
-  }
-  .files .name * {
-    display: inline-block;
-    width: 80px;
-    word-wrap: break-word;
-  }
-  .files .progress {
-    width: 20px;
-  }
-  .files .delete {
-    width: 60px;
-  }
-}
-@media (max-width: 767px) {
-  .content-wrap .card .card-body .basic-elements .form-group {
-    display: table-caption;
-  }
-  .user-profile-tab .form-group {
-    display: inline;
-  }
-  #invoice-table td {
-    display: inline;
-  }
-}
+
 .progress-bar {
   background-color: #ff2e44;
 }
@@ -5783,8 +5754,34 @@ div#panelProperty, #panelFunctionality {
     width: 35.5%;
   }  
   .card .card-body .basic-elements .form-group {
-    display: flow-root;
     margin-bottom: 16px;
+  }
+}
+@media (max-width: 767px) {
+  .files .btn span {
+    display: none;
+  }
+  .files .preview * {
+    width: 40px;
+  }
+  .files .name * {
+    display: inline-block;
+    width: 80px;
+    word-wrap: break-word;
+  }
+  .files .progress {
+    width: 20px;
+  }
+  .files .delete {
+    width: 60px;
+  }
+  .content-wrap .card .card-body .basic-elements .form-group {
+  }
+  .user-profile-tab .form-group {
+    display: inline;
+  }
+  #invoice-table td {
+    display: inline;
   }
 }
 @media screen and (max-width: 650px) {
@@ -5794,6 +5791,44 @@ div#panelProperty, #panelFunctionality {
   main.tab-main label:before {
     margin: 0;
     font-size: 18px;
+  }
+  #divUser .tableContents {
+    width: 100%;
+    table-layout: fixed;
+  }
+  #divUser.table-data {
+      width: 95%;
+  }
+  #divUser .table.tableContents thead tr th:first-child {
+    width: 50px;
+  }
+  #divUser .table.tableContents thead tr th:last-child {
+    width: 70px;
+  }
+  #divUser .table.tableContents thead tr th, #divUser .table.tableContents tbody tr td {
+      word-wrap: break-word;
+      line-height: 16px;
+  }
+  .create-user-main .form-group.col-lg-5 {
+      float: left;
+  }
+  .create-user-main .form-group.col-lg-5 ~ .col-lg-7 .form-group {
+      float: right;
+  }
+  .basic-elements .row {
+      margin: 0;
+  }
+  .basic-elements .row > div, .user-profile .card-header ~ div > div, .contact-information div > div{
+      padding: 0;
+  }
+  .content-wrap .card .card-body .basic-elements .form-group {
+      display: block;
+  }
+  #guestComments, #ddlIdState {
+      margin-bottom: 25px;
+  }
+  .additional-details-main {
+      margin-top: 200px;
   }
 }
 
