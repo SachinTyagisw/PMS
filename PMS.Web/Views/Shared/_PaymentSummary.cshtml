@@ -1,4 +1,16 @@
-﻿<div class="col-lg-12 p-r-0 p-l-0">
+﻿<script type="text/javascript">
+        Array.prototype.sum = function (prop) {
+            var total = 0
+            for (var i = 0, _len = this.length; i < _len; i++) {
+                total += parseFloat(this[i][prop]);
+            }
+            return total.toFixed(2);
+        };
+        Array.prototype.last = function (prop) {
+            return this[this.length - 1][prop];
+        };
+</script>
+<div class="col-lg-12 p-r-0 p-l-0">
     <div class="card alert card-section-payment">
         <div class="card-header">
             <h4>Invoice Summary</h4>
@@ -18,7 +30,8 @@
             </div>
             <!--End Table-->
             <div class="button-section">
-                <button id="btnPrintReceipt" type="button" class="btn btn-primary m-l-5 m-t-15">Print Receipt</button>
+                <button id="btnPrintInvoiceSummary" type="button" class="btn btn-primary m-l-5 m-t-15">Print Invoice Summary</button>
+                <button id="btnPrintInvoiceDetail" type="button" class="btn btn-primary m-l-5 m-t-15">Print Invoice Detail</button>
                 <button id="btnPrintFolio" type="button" class="btn btn-primary m-l-5 m-t-15">Print Folio</button>
                 <button id="saveInvoice" disabled="disabled" type="button" class="btn btn-primary m-l-5 m-t-15">Save</button>
                 <button id="loadInvoice" type="button" class="btn btn-primary m-l-5 m-t-15">Load Invoice</button>
@@ -355,7 +368,7 @@
     html, body { height: auto; }
 
 </style>
-
+    
     <div id="print">
         <div id="printarea" class="ql-align-right">
             <div class="row">
@@ -395,16 +408,14 @@
                             <td>${Credit}</td>
                             <td>${TotalRoomCharges}</td>
                         </tr>
-                        {{if typeof Taxes != "undefined" && Taxes.length > 0 }}
-                        {{each Taxes}}
+                        {{if typeof Taxes != "undefined" && Taxes.length > 0 }}                       
                         <tr>
-                            <td>${$value.CreatedOn}</td>
-                            <td>${$value.TaxShortName}(${$value.TaxAmount}%)</td>
-                            <td>${$value.TaxValue}</td>
+                            <td>${Taxes.last("CreatedOn")}</td>
+                            <td>Tax</td>
+                            <td>${Taxes.sum("TaxValue")}</td>
                             <td>0</td>
-                            <td>${Balance}</td>
-                        </tr>
-                        {{/each}}
+                            <td>${Taxes.last("Balance")}</td>
+                        </tr>                       
                         {{/if}}
                         {{if typeof PaymentDetails != "undefined" && PaymentDetails.length > 0 }}
                         {{each PaymentDetails}}

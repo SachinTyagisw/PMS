@@ -341,3 +341,4 @@ PMS.Resources.Logging/obj/
 PMS.Tests/obj/
 packages/
 PMS.Web/Web.config
+PMS.Api/UploadedFiles/Capture.PNG

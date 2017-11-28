@@ -483,12 +483,19 @@
                 }
             });
 
-            $("#btnPrintReceipt").click(function () {
-                if (confirm("Do you want to print receipt ?")) {
+            $("#btnPrintInvoiceSummary").click(function () {
+                if (confirm("Do you want to print invoice summary ?")) {
                     var printableData = gcm.PopulatePrintData("receipt");
                     printData(printableData);
                 }
             });
+            $("#btnPrintInvoiceDetail").click(function () {
+                if (confirm("Do you want to print invoice detail ?")) {
+                    var printableData = gcm.PopulatePrintData("receipt");
+                    printData(printableData);
+                }
+            });
+            
 
             $("#btnCheckin").click(function () {
                 if (!gcm.ValidateInputs()) return;
