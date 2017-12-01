@@ -1,14 +1,14 @@
 ﻿<script type="text/javascript">
-        Array.prototype.sum = function (prop) {
-            var total = 0
-            for (var i = 0, _len = this.length; i < _len; i++) {
-                total += parseFloat(this[i][prop]);
-            }
-            return total.toFixed(2);
-        };
-        Array.prototype.last = function (prop) {
-            return this[this.length - 1][prop];
-        };
+    Array.prototype.sum = function (prop) {
+        var total = 0
+        for (var i = 0, _len = this.length; i < _len; i++) {
+            total += parseFloat(this[i][prop]);
+        }
+        return total.toFixed(2);
+    };
+    Array.prototype.last = function (prop) {
+        return this[this.length - 1][prop];
+    };
 </script>
 <div class="col-lg-12 p-r-0 p-l-0">
     <div class="card alert card-section-payment">
@@ -22,11 +22,11 @@
             </div>
             <div id="invoice-table">
                 <div id="divInvoice">
-                    
+
                 </div>
             </div>
             <div style="display:none" id='divToPrint'>
-                
+
             </div>
             <!--End Table-->
             <div class="button-section">
@@ -55,8 +55,8 @@
                 <td><span class="glyphicon glyphicon-th-list"></span></td>
                 <td id="otherTaxText" contenteditable="true">
                     @*<select id="ddlExtraChargesClone" class="form-control">
-                        <option selected="selected" value="-1">Select Extracharge</option>
-                   </select>*@
+                             <option selected="selected" value="-1">Select Extracharge</option>
+                        </select>*@
                 </td>
                 <td><input id="otherTaxVal" value="0.0" onkeyup="OnTaxValChange(event, this)" /></td>
                 <td><span class="tableRow-remove glyphicon glyphicon-trash"></span></td>
@@ -127,7 +127,7 @@
                     <b>Total Charges</b>
                 </td>
                 <td class="payment">
-                    <input id="total" placeholder="0.0" onkeyup="OnTotalChange(event, this)"/>
+                    <input id="total" placeholder="0.0" onkeyup="OnTotalChange(event, this)" />
                 </td>
                 <td></td>
             </tr>
@@ -138,7 +138,7 @@
                             Payment Summary
                         </h4>
                     </div>
-               </td>
+                </td>
             </tr>
             {{if typeof InvoicePaymentDetails != "undefined" && InvoicePaymentDetails.length > 0 }}
             {{each(i,paymentDetail) InvoicePaymentDetails}}
@@ -148,13 +148,13 @@
                 <td id="tdPaymentMode">
                     ${paymentDetail.PaymentMode}
                     @*<select id="paymentTypeDdl" class="form-control">
-                        <option {{if paymentDetail.PaymentMode !== 'Credit Card' && paymentDetail.PaymentMode !== 'Cash' && paymentDetail.PaymentMode !== 'Coupons'}} selected {{/if}} value="-1">Payment Type</option>
-                        <option {{if paymentDetail.PaymentMode === 'Credit Card'}} selected {{/if}} value="1">Credit Card</option>
-                        <option {{if paymentDetail.PaymentMode === 'Cash'}} selected {{/if}} value="2">Cash</option>
-                        <option {{if paymentDetail.PaymentMode === 'Coupons'}} selected {{/if}} value="3">Coupons</option>
-                    </select>*@
+                            <option {{if paymentDetail.PaymentMode !== 'Credit Card' && paymentDetail.PaymentMode !== 'Cash' && paymentDetail.PaymentMode !== 'Coupons'}} selected {{/if}} value="-1">Payment Type</option>
+                            <option {{if paymentDetail.PaymentMode === 'Credit Card'}} selected {{/if}} value="1">Credit Card</option>
+                            <option {{if paymentDetail.PaymentMode === 'Cash'}} selected {{/if}} value="2">Cash</option>
+                            <option {{if paymentDetail.PaymentMode === 'Coupons'}} selected {{/if}} value="3">Coupons</option>
+                        </select>*@
                 </td>
-                <td id ="tdPaymentValue">
+                <td id="tdPaymentValue">
                     ${paymentDetail.PaymentValue}
                     @*<input id="paymentVal" value="${paymentDetail.PaymentValue}" onkeyup="OnTaxValChange(event, this)" />*@
                 </td>
@@ -166,11 +166,11 @@
                 <td id="tdPaymentMode">
                     ${paymentDetail.PaymentMode}
                     @*<select id="paymentTypeDdl" class="form-control">
-                <option {{if paymentDetail.PaymentMode !== 'Credit Card' && paymentDetail.PaymentMode !== 'Cash' && paymentDetail.PaymentMode !== 'Coupons'}} selected {{/if}} value="-1">Payment Type</option>
-                <option {{if paymentDetail.PaymentMode === 'Credit Card'}} selected {{/if}} value="1">Credit Card</option>
-                <option {{if paymentDetail.PaymentMode === 'Cash'}} selected {{/if}} value="2">Cash</option>
-                <option {{if paymentDetail.PaymentMode === 'Coupons'}} selected {{/if}} value="3">Coupons</option>
-            </select>*@
+                            <option {{if paymentDetail.PaymentMode !== 'Credit Card' && paymentDetail.PaymentMode !== 'Cash' && paymentDetail.PaymentMode !== 'Coupons'}} selected {{/if}} value="-1">Payment Type</option>
+                            <option {{if paymentDetail.PaymentMode === 'Credit Card'}} selected {{/if}} value="1">Credit Card</option>
+                            <option {{if paymentDetail.PaymentMode === 'Cash'}} selected {{/if}} value="2">Cash</option>
+                            <option {{if paymentDetail.PaymentMode === 'Coupons'}} selected {{/if}} value="3">Coupons</option>
+                        </select>*@
                 </td>
                 <td id="tdPaymentValue">
                     ${paymentDetail.PaymentValue}
@@ -247,7 +247,7 @@
             <tr id="trCreditNumber" class="cdtCard sortActive remove">
                 <td><span class="glyphicon glyphicon-th-list"></span></td>
                 <td>Credit Card Number</td>
-                <td><input id="creditNumber"  value="" /></td>
+                <td><input id="creditNumber" value="" /></td>
             </tr>
             <tr id="trCreditName" class="cdtCard sortActive remove">
                 <td><span class="glyphicon glyphicon-th-list"></span></td>
@@ -280,95 +280,95 @@
 </script>
 
 <script type="text/html" id="receiptTemplate">
-<style type="text/css">
-    #printarea {
-        font-size: 12px;
-    }
+    <style type="text/css">
+        #printarea {
+            font-size: 12px;
+        }
 
-    #printarea .row .col-sm-6 {
-        text-align: left;
-        width: 40%;
-        float: left;
-        margin-bottom: 20px;
-    }
+        #printarea .row .col-sm-6 {
+            text-align: left;
+            width: 40%;
+            float: left;
+            margin-bottom: 20px;
+        }
 
-    #printarea p {
-        font-size: 12px;
-        text-align: left;
-        margin: 0;
-        line-height: 18px;
-    }
+        #printarea p {
+            font-size: 12px;
+            text-align: left;
+            margin: 0;
+            line-height: 18px;
+        }
 
-    #printarea th {
-        font-weight: bold;
-    }
+        #printarea th {
+            font-weight: bold;
+        }
 
-    #printarea table {
-        font-size: 11px;
-        border-spacing: 0;
-        border-collapse: collapse;
-        background-color: transparent;
-        width: 100%;
-        max-width: 100%;
-    }
+        #printarea table {
+            font-size: 11px;
+            border-spacing: 0;
+            border-collapse: collapse;
+            background-color: transparent;
+            width: 100%;
+            max-width: 100%;
+        }
 
-    #printarea table, #printarea th, #printarea td {
-        padding: 4px;
-        line-height: 1.42857143;
-        vertical-align: top;
-        border: 1px solid #ddd;
-        margin: 20px 0;
-        text-align: left;
-        font-size: 11px;
-    }
+        #printarea table, #printarea th, #printarea td {
+            padding: 4px;
+            line-height: 1.42857143;
+            vertical-align: top;
+            border: 1px solid #ddd;
+            margin: 20px 0;
+            text-align: left;
+            font-size: 11px;
+        }
 
-    #printarea .row .col-sm-6 b {
-        display: inline-block;
-        width: 90px;
-        text-align: right;
-        margin-right: 10px;
-    }
+        #printarea .row .col-sm-6 b {
+            display: inline-block;
+            width: 90px;
+            text-align: right;
+            margin-right: 10px;
+        }
 
-    #printarea table tr td.partial {
-        padding: 0;
-    }
+        #printarea table tr td.partial {
+            padding: 0;
+        }
 
-    #printarea table tr td.partial span {
-        display: inline-block;
-        text-align: right !important;
-        width: 35%;
-        padding: 4px;
-    }
+        #printarea table tr td.partial span {
+            display: inline-block;
+            text-align: right !important;
+            width: 35%;
+            padding: 4px;
+        }
 
-    #printarea table tr td.partial span:nth-child(1) {
-        border-right: 1px solid #ddd;
-    }
+        #printarea table tr td.partial span:nth-child(1) {
+            border-right: 1px solid #ddd;
+        }
 
-    #printarea p.msg {
-        font-size: 12px;
-        text-align: left;
-        margin-bottom: 40px;
-    }
+        #printarea p.msg {
+            font-size: 12px;
+            text-align: left;
+            margin-bottom: 40px;
+        }
 
-    #printarea table tr th:nth-child(3), #printarea table tr th:nth-child(4), #printarea table tr th:nth-child(5),
-    #printarea table tr td:nth-child(3), #printarea table tr td:nth-child(4), #printarea tbody tr td:nth-child(5) {
-        text-align: right;
-    }
+        #printarea table tr th:nth-child(3), #printarea table tr th:nth-child(4), #printarea table tr th:nth-child(5),
+        #printarea table tr td:nth-child(3), #printarea table tr td:nth-child(4), #printarea tbody tr td:nth-child(5) {
+            text-align: right;
+        }
 
-    #printarea .row .col-sm-3 {
-        width: 20%;
-        float: left;
-    }
+        #printarea .row .col-sm-3 {
+            width: 20%;
+            float: left;
+        }
 
-    #printarea .row .col-sm-9 {
-        width: 80%;
-        float: left;
-    }
+        #printarea .row .col-sm-9 {
+            width: 80%;
+            float: left;
+        }
 
-    html, body { height: auto; }
+        html, body { height: auto; }
 
-</style>
-    
+    </style>
+
     <div id="print">
         <div id="printarea" class="ql-align-right">
             <div class="row">
@@ -401,22 +401,37 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {{each InvoiceItems}}
+                        {{if $value.ItemType == "roomcharges"}}
                         <tr>
-                            <td>${CreatedOn}</td>
-                            <td>Guest Room</td>
-                            <td>${TotalRoomCharges}</td>
-                            <td>${Credit}</td>
-                            <td>${TotalRoomCharges}</td>
+                            <td>${$value.CreatedOn}</td>
+                            <td>${$value.ItemName}:</td>
+                            <td>${$value.ItemValue}</td>
+                            <td>0</td>
+                            <td>${$value.Balance}</td>
                         </tr>
-                        {{if typeof Taxes != "undefined" && Taxes.length > 0 }}                       
+                        {{/if}}
+                        {{/each}}
+                        {{if typeof Taxes != "undefined" && Taxes.length > 0 }}
                         <tr>
                             <td>${Taxes.last("CreatedOn")}</td>
                             <td>Tax</td>
                             <td>${Taxes.sum("TaxValue")}</td>
                             <td>0</td>
                             <td>${Taxes.last("Balance")}</td>
-                        </tr>                       
+                        </tr>
                         {{/if}}
+                        {{each InvoiceItems}}
+                        {{if $value.ItemType == "otheritem"}}
+                        <tr>
+                            <td>${$value.CreatedOn}</td>
+                            <td>${$value.ItemName}:</td>
+                            <td>${$value.ItemValue}</td>
+                            <td>0</td>
+                            <td>${$value.Balance}</td>
+                        </tr>
+                        {{/if}}
+                        {{/each}}
                         {{if typeof PaymentDetails != "undefined" && PaymentDetails.length > 0 }}
                         {{each PaymentDetails}}
                         <tr>
@@ -424,7 +439,7 @@
                             <td>PAYMENT</td>
                             <td></td>
                             <td class="partial"><span>${$value.PaymentMode}</span><span>${$value.PaymentValue}</span></td>
-                            <td>${Balance}</td>
+                            <td>${$value.Balance}</td>
                         </tr>
                         {{/each}}
                         {{/if}}
@@ -443,7 +458,7 @@
             </div>
         </div>
     </div>
-    </script>
+</script>
 
 <script type="text/html" id="folioTemplate">
     <style type="text/css">
@@ -597,7 +612,7 @@
                                 <td>Total</td>
                                 <td>${TotalAmount}</td>
                             </tr>
-                            
+
                             {{if typeof PaymentDetails != "undefined" && PaymentDetails.length > 0 }}
                             {{each PaymentDetails}}
                             <tr>
@@ -764,5 +779,5 @@
                 {{/if}}
             </tbody>
         </table>
-    </script>*@ 
+    </script>*@
 

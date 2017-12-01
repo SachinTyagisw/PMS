@@ -1984,6 +1984,23 @@
             data.TotalBalance = $("#balance").val();
             data.InvoiceItems = [];
             data.InvoiceItems = prepareOtherCharges();
+
+            var balance = 0;
+            for (var i = 0; i < data.InvoiceItems.length; i++)
+            {
+                if (data.InvoiceItems[i].ItemType == "roomcharges")
+                data.InvoiceItems[i].Balance = balance = parseFloat(balance) + parseFloat(data.InvoiceItems[i].ItemValue);
+            }
+            for (var i = 0; i < data.Taxes.length; i++) {
+                data.Taxes[i].Balance = balance = parseFloat(balance) + parseFloat(data.Taxes[i].TaxValue);
+            }
+            for (var i = 0; i < data.InvoiceItems.length; i++) {
+                if (data.InvoiceItems[i].ItemType == "otheritem")
+                    data.InvoiceItems[i].Balance = balance = parseFloat(balance) + parseFloat(data.InvoiceItems[i].ItemValue);
+            }
+            for (var i = 0; i < data.PaymentDetails.length; i++) {
+                data.PaymentDetails[i].Balance = balance = parseFloat(balance) - parseFloat(data.PaymentDetails[i].PaymentValue);
+            }
             return data;
         },
 
@@ -4045,8 +4062,10 @@
                 payment.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
                 payment.CreatedBy = getCreatedBy();
                 payment.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-                balance = parseFloat(balance) + parseFloat(value);
-                payment.Balance = parseFloat(totalCharges) - parseFloat(balance);
+
+                //AB 20171201
+                //balance = parseFloat(balance) + parseFloat(value);
+                //payment.Balance = parseFloat(totalCharges) - parseFloat(balance);
                 //payment.InvoiceId = 1038;
                 paymentDetail.push(payment);
             }
@@ -4124,6 +4143,7 @@
                 otherTax.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
                 otherTax.CreatedBy = getCreatedBy();
                 otherTax.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
+                otherTax.ItemType = 'otheritem';
                 //otherTax.InvoiceId = 1038;
                 invoiceItem.push(otherTax);
             }
@@ -4148,7 +4168,7 @@
         totalRoomCharge.CreatedBy = getCreatedBy();
         totalRoomCharge.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
         //totalRoomCharge.InvoiceId = 1038;
-
+        totalRoomCharge.ItemType = 'roomcharges';
         invoiceItem.push(totalRoomCharge);
 
         return invoiceItem;
@@ -4186,8 +4206,10 @@
             tax.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             tax.CreatedBy = getCreatedBy();
             tax.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-            balance = parseFloat(balance) + parseFloat(taxValue);
-            tax.Balance = parseFloat(balance) + parseFloat(totalRoomCharges);
+            
+            //AB 20171201
+            //balance = parseFloat(balance) + parseFloat(taxValue);
+            //tax.Balance = parseFloat(balance) + parseFloat(totalRoomCharges);
             //tax.InvoiceId = 1038;
             taxDetails.push(tax);
         }
