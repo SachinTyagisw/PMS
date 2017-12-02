@@ -2575,16 +2575,6 @@
           <FunctionImport Name="GETGUESTTRANSACTIONS" ReturnType="Collection(PmsModel.GETGUESTTRANSACTIONS_Result)">
           <Parameter Name="GUESTID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="GETINVOICEDETAILS" ReturnType="Collection(PmsModel.GETINVOICEDETAILS_Result)">
-            <Parameter Name="INVOICEID" Mode="In" Type="Int32" />
-            <Parameter Name="PROPERTYID" Mode="In" Type="Int32" />
-            <Parameter Name="ROOMTYPEID" Mode="In" Type="Int32" />
-            <Parameter Name="RATETYPEID" Mode="In" Type="Int32" />
-            <Parameter Name="NOOFHOURS" Mode="In" Type="Int32" />
-            <Parameter Name="NOOFDAYS" Mode="In" Type="Int32" />
-            <Parameter Name="ISHOURLY" Mode="In" Type="Boolean" />
-            <Parameter Name="RoomID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="GetPropertiesByUser" ReturnType="Collection(PmsModel.GetPropertiesByUser_Result)">
           <Parameter Name="UserName" Mode="In" Type="String" />
           </FunctionImport>
@@ -2676,6 +2666,16 @@
           <FunctionImport Name="GETGuestSummary" ReturnType="Collection(PmsModel.GETGuestSummary_Result)">
             <Parameter Name="PROPERTYID" Mode="In" Type="Int32" />
             <Parameter Name="CURRENTDATE" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GETINVOICEDETAILS" ReturnType="Collection(PmsModel.GETINVOICEDETAILS_Result)">
+            <Parameter Name="INVOICEID" Mode="In" Type="Int32" />
+            <Parameter Name="PROPERTYID" Mode="In" Type="Int32" />
+            <Parameter Name="ROOMTYPEID" Mode="In" Type="Int32" />
+            <Parameter Name="RATETYPEID" Mode="In" Type="Int32" />
+            <Parameter Name="NOOFHOURS" Mode="In" Type="Int32" />
+            <Parameter Name="NOOFDAYS" Mode="In" Type="Int32" />
+            <Parameter Name="ISHOURLY" Mode="In" Type="Boolean" />
+            <Parameter Name="RoomID" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="GETALLBOOKINGS_Result">
@@ -2776,31 +2776,6 @@
           <Property Type="String" Name="ROOMNUMBER" Nullable="true" MaxLength="200" />
           <Property Type="Decimal" Name="ROOMCHARGE" Nullable="true" Precision="19" />
           <Property Type="Decimal" Name="InvoiceAmount" Nullable="true" Precision="19" />
-        </ComplexType>
-        <ComplexType Name="GETINVOICEDETAILS_Result">
-          <Property Type="Int32" Name="InvoiceId" Nullable="false" />
-          <Property Type="Int32" Name="GuestID" Nullable="false" />
-          <Property Type="Int32" Name="BookingID" Nullable="false" />
-          <Property Type="Boolean" Name="IsPaid" Nullable="true" />
-          <Property Type="Decimal" Name="TotalAmount" Nullable="true" Precision="19" />
-          <Property Type="String" Name="FolioNumber" Nullable="true" MaxLength="200" />
-          <Property Type="Boolean" Name="InvoiceActive" Nullable="false" />
-          <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="200" />
-          <Property Type="DateTime" Name="CreatedOn" Nullable="true" Precision="23" />
-          <Property Type="String" Name="LastUpdatedBy" Nullable="true" MaxLength="200" />
-          <Property Type="DateTime" Name="LastUpdatedOn" Nullable="true" Precision="23" />
-          <Property Type="Decimal" Name="DISCOUNT" Nullable="true" Precision="19" />
-          <Property Type="Decimal" Name="DISCOUNTAmount" Nullable="true" Precision="18" Scale="0" />
-          <Property Type="String" Name="CreditCardDetail" Nullable="true" />
-          <Property Type="String" Name="ItemName" Nullable="true" />
-          <Property Type="Decimal" Name="ItemValue" Nullable="true" Precision="19" />
-          <Property Type="String" Name="PaymentMode" Nullable="true" />
-          <Property Type="Decimal" Name="PaymentValue" Nullable="true" Precision="19" />
-          <Property Type="String" Name="PaymentDetails" Nullable="true" />
-          <Property Type="String" Name="TaxShortName" Nullable="true" />
-          <Property Type="Decimal" Name="TaxAmount" Nullable="true" Precision="7" Scale="2" />
-          <Property Type="Decimal" Name="TaxValue" Nullable="true" Precision="18" Scale="0" />
-          <Property Type="Boolean" Name="IsConsidered" Nullable="true" />
         </ComplexType>
         <ComplexType Name="GetPropertiesByUser_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -3053,6 +3028,33 @@
           <Property Type="String" Name="RoomStatus" Nullable="true" MaxLength="100" />
           <Property Type="Decimal" Name="TotalAmount" Nullable="true" Precision="19" />
           <Property Type="DateTime" Name="NextReservation" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="GETINVOICEDETAILS_Result">
+          <Property Type="Int32" Name="InvoiceId" Nullable="false" />
+          <Property Type="Int32" Name="GuestID" Nullable="false" />
+          <Property Type="Int32" Name="BookingID" Nullable="false" />
+          <Property Type="Boolean" Name="IsPaid" Nullable="true" />
+          <Property Type="Decimal" Name="TotalAmount" Nullable="true" Precision="19" />
+          <Property Type="String" Name="FolioNumber" Nullable="true" MaxLength="200" />
+          <Property Type="Boolean" Name="InvoiceActive" Nullable="false" />
+          <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="CreatedOn" Nullable="true" Precision="23" />
+          <Property Type="String" Name="LastUpdatedBy" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="LastUpdatedOn" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="DISCOUNT" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="DISCOUNTAmount" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="CreditCardDetail" Nullable="true" />
+          <Property Type="String" Name="ItemName" Nullable="true" />
+          <Property Type="Decimal" Name="ItemValue" Nullable="true" Precision="19" />
+          <Property Type="DateTime" Name="InvoiceItemCreatedOn" Nullable="true" Precision="23" />
+          <Property Type="String" Name="PaymentMode" Nullable="true" />
+          <Property Type="Decimal" Name="PaymentValue" Nullable="true" Precision="19" />
+          <Property Type="String" Name="PaymentDetails" Nullable="true" />
+          <Property Type="DateTime" Name="InvoicePaymentCreatedOn" Nullable="true" Precision="23" />
+          <Property Type="String" Name="TaxShortName" Nullable="true" />
+          <Property Type="Decimal" Name="TaxAmount" Nullable="true" Precision="7" Scale="2" />
+          <Property Type="Decimal" Name="TaxValue" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Boolean" Name="IsConsidered" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3699,35 +3701,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GETINVOICEDETAILS" FunctionName="PmsModel.Store.GETINVOICEDETAILS">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="PmsModel.GETINVOICEDETAILS_Result">
-                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
-                <ScalarProperty Name="GuestID" ColumnName="GuestID" />
-                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
-                <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
-                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
-                <ScalarProperty Name="FolioNumber" ColumnName="FolioNumber" />
-                <ScalarProperty Name="InvoiceActive" ColumnName="InvoiceActive" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
-                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
-                <ScalarProperty Name="DISCOUNT" ColumnName="DISCOUNT" />
-                <ScalarProperty Name="DISCOUNTAmount" ColumnName="DISCOUNTAmount" />
-                <ScalarProperty Name="CreditCardDetail" ColumnName="CreditCardDetail" />
-                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
-                <ScalarProperty Name="ItemValue" ColumnName="ItemValue" />
-                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
-                <ScalarProperty Name="PaymentValue" ColumnName="PaymentValue" />
-                <ScalarProperty Name="PaymentDetails" ColumnName="PaymentDetails" />
-                <ScalarProperty Name="TaxShortName" ColumnName="TaxShortName" />
-                <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
-                <ScalarProperty Name="TaxValue" ColumnName="TaxValue" />
-                <ScalarProperty Name="IsConsidered" ColumnName="IsConsidered" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetPropertiesByUser" FunctionName="PmsModel.Store.GetPropertiesByUser">
             <ResultMapping>
               <ComplexTypeMapping TypeName="PmsModel.GetPropertiesByUser_Result">
@@ -3925,6 +3898,37 @@
                 <ScalarProperty Name="RoomStatus" ColumnName="RoomStatus" />
                 <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
                 <ScalarProperty Name="NextReservation" ColumnName="NextReservation" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GETINVOICEDETAILS" FunctionName="PmsModel.Store.GETINVOICEDETAILS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PmsModel.GETINVOICEDETAILS_Result">
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+                <ScalarProperty Name="GuestID" ColumnName="GuestID" />
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+                <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="FolioNumber" ColumnName="FolioNumber" />
+                <ScalarProperty Name="InvoiceActive" ColumnName="InvoiceActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="LastUpdatedBy" ColumnName="LastUpdatedBy" />
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+                <ScalarProperty Name="DISCOUNT" ColumnName="DISCOUNT" />
+                <ScalarProperty Name="DISCOUNTAmount" ColumnName="DISCOUNTAmount" />
+                <ScalarProperty Name="CreditCardDetail" ColumnName="CreditCardDetail" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="ItemValue" ColumnName="ItemValue" />
+                <ScalarProperty Name="InvoiceItemCreatedOn" ColumnName="InvoiceItemCreatedOn" />
+                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
+                <ScalarProperty Name="PaymentValue" ColumnName="PaymentValue" />
+                <ScalarProperty Name="PaymentDetails" ColumnName="PaymentDetails" />
+                <ScalarProperty Name="InvoicePaymentCreatedOn" ColumnName="InvoicePaymentCreatedOn" />
+                <ScalarProperty Name="TaxShortName" ColumnName="TaxShortName" />
+                <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
+                <ScalarProperty Name="TaxValue" ColumnName="TaxValue" />
+                <ScalarProperty Name="IsConsidered" ColumnName="IsConsidered" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

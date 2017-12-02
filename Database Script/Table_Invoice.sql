@@ -22,7 +22,7 @@ CREATE TABLE [dbo].[Invoice](
 	[LastUpdatedOn] [datetime] NULL,
 	[DISCOUNT] [money] NULL,
 	[CreditCardDetail] [nvarchar](max) NULL,
-	[DiscountAmount] [decimal](18, 0) NULL,
+	[DiscountAmount] [decimal](18, 2) NULL,
  CONSTRAINT [PK__Invoice__3214EC2766CAD2C9] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC

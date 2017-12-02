@@ -1918,6 +1918,16 @@
             var noOfDays = Math.ceil(dateDiff / oneDay);
             return noOfDays;
         },
+        AddDay: function (date, days) {
+            var d = new Date(date);
+            d.setDate(d.getDate() + days);
+            var month = d.getMonth() + 1;
+            var day = d.getDate();
+            var dateOutput = d.getFullYear() + '-' +
+                (month < 10 ? '0' : '') + month + '-' +
+                (day < 10 ? '0' : '') + day;
+            return dateOutput;
+        },
 
         PrepareFolioData: function () {
             var data = {};
@@ -1989,17 +1999,17 @@
             for (var i = 0; i < data.InvoiceItems.length; i++)
             {
                 if (data.InvoiceItems[i].ItemType == "roomcharges")
-                data.InvoiceItems[i].Balance = balance = parseFloat(balance) + parseFloat(data.InvoiceItems[i].ItemValue);
+                data.InvoiceItems[i].Balance = balance = (parseFloat(balance) + parseFloat(data.InvoiceItems[i].ItemValue)).toFixed(2);
             }
             for (var i = 0; i < data.Taxes.length; i++) {
-                data.Taxes[i].Balance = balance = parseFloat(balance) + parseFloat(data.Taxes[i].TaxValue);
+                data.Taxes[i].Balance = balance = (parseFloat(balance) + parseFloat(data.Taxes[i].TaxValue)).toFixed(2);
             }
             for (var i = 0; i < data.InvoiceItems.length; i++) {
                 if (data.InvoiceItems[i].ItemType == "otheritem")
-                    data.InvoiceItems[i].Balance = balance = parseFloat(balance) + parseFloat(data.InvoiceItems[i].ItemValue);
+                    data.InvoiceItems[i].Balance = balance = (parseFloat(balance) + parseFloat(data.InvoiceItems[i].ItemValue)).toFixed(2);
             }
             for (var i = 0; i < data.PaymentDetails.length; i++) {
-                data.PaymentDetails[i].Balance = balance = parseFloat(balance) - parseFloat(data.PaymentDetails[i].PaymentValue);
+                data.PaymentDetails[i].Balance = balance = (parseFloat(balance) - parseFloat(data.PaymentDetails[i].PaymentValue)).toFixed(2);
             }
             return data;
         },
@@ -2471,6 +2481,129 @@
                 $('#lblLogo').addClass('photo_submit--image');
                 $('#uploadPhoto').prop('disabled', 'disabled');
             }
+        },
+        PopulateInvoiceDetail: function () {
+            var data = {};
+            data.CreatedOn = formatAMPM(window.GuestCheckinManager.GetCurrentDate()).split(' ')[0];
+            data.Address = $("#address").val();
+            data.GuestName = $("#lName").val() + ", " + $("#fName").val();
+            //TODO remove hardcoded value
+            data.GuestCount = 1;
+            data.City = $("#ddlCity option:selected").text();
+            data.State = $("#ddlState option:selected").text();
+            data.Zip = $("#zipCode").val();
+            data.AdditionalGuest = $("#adLName").val() + ", " + $("#adFName").val();
+            data.Room = $("#roomddl option:selected").text()
+            data.RoomType = $("#roomTypeDdl option:selected").text();
+            data.Arrival = $("#dateFrom").val();
+            data.Departure = $("#dateTo").val();
+            data.Phone = $("#phone").val();
+            data.StayDays = window.GuestCheckinManager.GetDays(data.Arrival, data.Departure);
+            data.Folio = "N/A";
+            data.Rate = $("#rateTypeDdl option:selected").text();
+            data.TotalRoomCharges = $('#totalRoomCharge').val();
+            data.Credit = 0;
+            data.Nights = [];
+            data = preparePropertyData(data);
+            var row = window.GuestCheckinManager.invoiceData.Invoice;
+            for (var i = 0; i < data.StayDays; i++)
+            {
+                var displayDate = window.GuestCheckinManager.AddDay(data.Arrival, i);
+                data.Nights[i] = {};
+                data.Nights[i].No = i;
+                data.Nights[i].Taxes = [];
+                data.Nights[i].PaymentDetails = [];
+                data.Nights[i].InvoiceItems = [];
+
+                //Room charges
+                var totalRoomCharge = {};
+                totalRoomCharge.ItemName = $('#totalRoomCharge')[0].name;
+                totalRoomCharge.ItemValue = (parseFloat($("#totalRoomCharge").val()) / data.StayDays).toFixed(2);
+                totalRoomCharge.IsActive = true;
+                totalRoomCharge.CreatedOn = displayDate;
+                totalRoomCharge.CreatedBy = getCreatedBy();
+                totalRoomCharge.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
+                totalRoomCharge.ItemType = 'roomcharges';
+                data.Nights[i].InvoiceItems.push(totalRoomCharge);
+
+                //Other Item
+                for (var j = 0; j < row.Tax.length; j++)
+                {
+                    if (!row.Tax[j].IsDefaultCharges && (row.Tax[j].CreatedOn.split('T')[0] == displayDate
+                        || (i == data.StayDays - 1 &&
+                        row.Tax[j].CreatedOn.split('T')[0] == window.GuestCheckinManager.AddDay(displayDate, 1))))
+                    {
+                        var otherTax = {};
+                        otherTax.ItemName = row.Tax[j].TaxName;
+                        otherTax.ItemValue = row.Tax[j].Value.toFixed(2);
+                        otherTax.IsActive = true;
+                        otherTax.CreatedOn = row.Tax[j].CreatedOn;
+                        otherTax.CreatedBy = getCreatedBy();
+                        otherTax.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
+                        otherTax.ItemType = 'otheritem';
+                        //otherTax.InvoiceId = 1038;
+                        data.Nights[i].InvoiceItems.push(otherTax);
+                    }
+                    else if (row.Tax[j].IsDefaultCharges && row.Tax[j].IsTaxIncluded)
+                    {
+                        var tax = {};
+                        tax.TaxShortName = row.Tax[j].TaxName;
+                        tax.TaxAmount= row.Tax[j].Value.toFixed(2) ;
+                        tax.TaxValue = (parseFloat(row.Tax[j].Amount) / data.StayDays).toFixed(2);
+                        tax.IsActive = true;
+                        tax.CreatedOn = row.Tax[j].CreatedOn;
+                        tax.CreatedBy = getCreatedBy();
+                        tax.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
+                        data.Nights[i].Taxes.push(tax);
+                    }
+                }
+                for (var j = 0; j < row.InvoicePaymentDetails.length; j++) {
+                    if (row.InvoicePaymentDetails[j].CreatedOn.split('T')[0] == displayDate
+                        ||(i == data.StayDays - 1 && 
+                        row.InvoicePaymentDetails[j].CreatedOn.split('T')[0] == window.GuestCheckinManager.AddDay(displayDate, 1))) {
+                        var payment = {};
+                        payment.PaymentMode = row.InvoicePaymentDetails[j].PaymentMode;
+                        payment.PaymentValue = row.InvoicePaymentDetails[j].PaymentValue;
+                        payment.IsActive = true;
+                        payment.CreatedOn = row.InvoicePaymentDetails[j].CreatedOn
+                        payment.CreatedBy = getCreatedBy();
+                        payment.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
+                        data.Nights[i].PaymentDetails.push(payment);
+                    }
+                }
+            }
+
+
+            var balance = 0;
+            for (var j = 0; j < data.Nights.length; j++) {
+                for (var i = 0; i < data.Nights[j].InvoiceItems.length; i++) {
+                    if (data.Nights[j].InvoiceItems[i].ItemType == "roomcharges")
+                        data.Nights[j].InvoiceItems[i].Balance = balance = (parseFloat(balance) + parseFloat(data.Nights[j].InvoiceItems[i].ItemValue)).toFixed(2);
+                }
+                for (var i = 0; i < data.Nights[j].Taxes.length; i++) {
+                    data.Nights[j].Taxes[i].Balance = balance = (parseFloat(balance) + parseFloat(data.Nights[j].Taxes[i].TaxValue)).toFixed(2);
+                }
+                for (var i = 0; i < data.Nights[j].InvoiceItems.length; i++) {
+                    if (data.Nights[j].InvoiceItems[i].ItemType == "otheritem")
+                        data.Nights[j].InvoiceItems[i].Balance = balance = (parseFloat(balance) + parseFloat(data.Nights[j].InvoiceItems[i].ItemValue)).toFixed(2);
+                }
+                for (var i = 0; i < data.Nights[j].PaymentDetails.length; i++) {
+                    data.Nights[j].PaymentDetails[i].Balance = balance = (parseFloat(balance) - parseFloat(data.Nights[j].PaymentDetails[i].PaymentValue)).toFixed(2);
+                }
+            }
+
+            var divToPrint = $('#divToPrint');
+            var printTemplate = '';
+            divToPrint.html('');
+            printTemplate = $('#invoiceDetailTemplate');
+            
+            if (data && divToPrint && divToPrint.length > 0
+                && printTemplate && printTemplate.length > 0) {
+                divToPrint.html(printTemplate.render(data));
+                return divToPrint[0].innerHTML;
+            }
+            return "No data is available for printing";
+
         },
         AjaxHandlers: function () {
             // ajax handlers start

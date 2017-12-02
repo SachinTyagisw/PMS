@@ -657,6 +657,196 @@
     </div>
 </script>
 
+<script type="text/html" id="invoiceDetailTemplate">
+    <style type="text/css">
+        #printarea {
+            font-size: 12px;
+        }
+
+            #printarea .row .col-sm-6 {
+                text-align: left;
+                width: 40%;
+                float: left;
+                margin-bottom: 20px;
+            }
+
+            #printarea p {
+                font-size: 12px;
+                text-align: left;
+                margin: 0;
+                line-height: 18px;
+            }
+
+            #printarea th {
+                font-weight: bold;
+            }
+
+            #printarea table {
+                font-size: 11px;
+                border-spacing: 0;
+                border-collapse: collapse;
+                background-color: transparent;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            #printarea table, #printarea th, #printarea td {
+                padding: 4px;
+                line-height: 1.42857143;
+                vertical-align: top;
+                border: 1px solid #ddd;
+                margin: 20px 0;
+                text-align: left;
+                font-size: 11px;
+            }
+
+            #printarea .row .col-sm-6 b {
+                display: inline-block;
+                width: 90px;
+                text-align: right;
+                margin-right: 10px;
+            }
+
+            #printarea table tr td.partial {
+                padding: 0;
+            }
+
+                #printarea table tr td.partial span {
+                    display: inline-block;
+                    text-align: right !important;
+                    width: 35%;
+                    padding: 4px;
+                }
+
+                    #printarea table tr td.partial span:nth-child(1) {
+                        border-right: 1px solid #ddd;
+                    }
+
+            #printarea p.msg {
+                font-size: 12px;
+                text-align: left;
+                margin-bottom: 40px;
+            }
+
+            #printarea table tr th:nth-child(3), #printarea table tr th:nth-child(4), #printarea table tr th:nth-child(5),
+            #printarea table tr td:nth-child(3), #printarea table tr td:nth-child(4), #printarea tbody tr td:nth-child(5) {
+                text-align: right;
+            }
+
+            #printarea .row .col-sm-3 {
+                width: 20%;
+                float: left;
+            }
+
+            #printarea .row .col-sm-9 {
+                width: 80%;
+                float: left;
+            }
+
+        html, body {
+            height: auto;
+        }
+    </style>
+
+    <div id="print">
+        <div id="printarea" class="ql-align-right">
+            <div class="row">
+                <div class="col-sm-6">
+                    <p>${PropertyName}</p>
+                    <p>${GuestName}</p>
+                    <p>${FullAddress}</p>
+                    <p>Tel.: +${Phone}</p>
+                    <p><span>${City}</span> <span>${State}</span> <span>${Zip}</span></p>
+                    <p>${AdditionalGuest}</p>
+                </div>
+                <div class="col-sm-6">
+                    <p><b>Folio #:</b>${Folio}</p>
+                    <p><b>Room :</b> <span>${Room}</span> <span>${RoomType}</span></p>
+                    <p><b>Rate :</b> <span>${Rate}</span></p>
+                    <p><b>Arrival :</b> <span>${Arrival}</span></p>
+                    <p><b>Departure :</b> <span>${Departure}</span></p>
+                    <p><b>Total Nights :</b> <span>${StayDays}</span></p>
+                </div>
+            </div>
+            <div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Charges Description</th>
+                            <th>Charges</th>
+                            <th>Credit</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{each Nights}}
+                        <tr>
+                            <td colspan="5" style="text-align:center">Night #${$value.No + 1}</td>
+                        </tr>
+                        {{each $value.InvoiceItems}}
+                        {{if $value.ItemType == "roomcharges"}}
+                        <tr>
+                            <td>${$value.CreatedOn}</td>
+                            <td>${$value.ItemName}:</td>
+                            <td>${$value.ItemValue}</td>
+                            <td>0</td>
+                            <td>${$value.Balance}</td>
+                        </tr>
+                        {{/if}}
+                        {{/each}}
+                        {{if typeof $value.Taxes != "undefined" && $value.Taxes.length > 0 }}
+                        {{each $value.Taxes}}
+                        <tr>
+                            <td>${$value.CreatedOn}</td>
+                            <td>${$value.TaxShortName} (${$value.TaxAmount}%)</td>
+                            <td>${$value.TaxValue}</td>
+                            <td>0</td>
+                            <td>${$value.Balance}</td>
+                        </tr>
+                        {{/each}}
+                        {{/if}}
+                        {{each $value.InvoiceItems}}
+                        {{if $value.ItemType == "otheritem"}}
+                        <tr>
+                            <td>${$value.CreatedOn.split('T')[0]}</td>
+                            <td>${$value.ItemName}:</td>
+                            <td>${$value.ItemValue}</td>
+                            <td>0</td>
+                            <td>${$value.Balance}</td>
+                        </tr>
+                        {{/if}}
+                        {{/each}}
+                        {{if typeof $value.PaymentDetails != "undefined" && $value.PaymentDetails.length > 0 }}
+                        {{each $value.PaymentDetails}}
+                        <tr>
+                            <td>${$value.CreatedOn.split('T')[0]}</td>
+                            <td>PAYMENT</td>
+                            <td></td>
+                            <td class="partial"><span>${$value.PaymentMode}</span><span>${$value.PaymentValue}</span></td>
+                            <td>${$value.Balance}</td>
+                        </tr>
+                        {{/each}}
+                        {{/if}}
+                        {{/each}}
+                        
+                    </tbody>
+                </table>
+
+            </div>
+            <p class="msg">Thanks for your staying at <b>${PropertyName}</b>, <b>${PropertyCity}</b>. We look forward to welcoming you back soon.</p>
+            <div class="row">
+                <div class="col-sm-3" style="border-top: 2px solid #ddd;">
+                    <p>Guest Signature</p>
+                </div>
+                <div class="col-sm-9" style="border-top: 2px solid #ddd;">
+                    <p>I have received the good and/or services in the amount shown hereon.  I agree that my liability for this bill is not waived and agree to be held personally liable in the even that the indicated person, company, or associate fails to pay for any part or the full amount of these charges.  If a credit card charge, I further agree to perform the obligation set forth in the cardholder's agreement with the issuer.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
 @*<script type="text/html" id="receiptTemplate">
         <table class="table">
             <thead>

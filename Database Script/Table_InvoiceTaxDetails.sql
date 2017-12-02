@@ -18,7 +18,7 @@ CREATE TABLE [dbo].[InvoiceTaxDetail](
 	[CreatedOn] [datetime] NULL,
 	[LastUpdatedBy] [nvarchar](200) NULL,
 	[LastUpdatedOn] [datetime] NULL,
-	[TaxValue] [decimal](18, 0) NULL,
+	[TaxValue] [decimal](18, 2) NULL,
 	[IsConsidered] [bit] NULL,
  CONSTRAINT [PK__InvoiceT__3214EC27D12730CC] PRIMARY KEY CLUSTERED 
 (

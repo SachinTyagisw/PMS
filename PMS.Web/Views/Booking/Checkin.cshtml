@@ -491,7 +491,7 @@
             });
             $("#btnPrintInvoiceDetail").click(function () {
                 if (confirm("Do you want to print invoice detail ?")) {
-                    var printableData = gcm.PopulatePrintData("receipt");
+                    var printableData = gcm.PopulateInvoiceDetail();
                     printData(printableData);
                 }
             });

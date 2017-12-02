@@ -87,7 +87,7 @@ namespace PMS.Resources.DAL
                     booking.RoomBookings = new List<PmsEntity.RoomBooking>
                     {
                         new PmsEntity.RoomBooking
-                        { 
+                        {
                             Id = result.ROOMBOOKINGID != null ? result.ROOMBOOKINGID.Value : -1,
                             Room = new PmsEntity.Room
                             {
@@ -109,7 +109,7 @@ namespace PMS.Resources.DAL
                                 Id = result.GUESTID != null ? result.GUESTID.Value : -1,
                                 FirstName = result.FIRSTNAME,
                                 LastName = result.LASTNAME
-                            }                            
+                            }
                         }
                     };
                     bookings.Add(booking);
@@ -151,7 +151,7 @@ namespace PMS.Resources.DAL
             {
                 pmsContext.Properties.Add(prop);
                 var result = pmsContext.SaveChanges();
-                Id = result == 1 ? prop.ID : -1;               
+                Id = result == 1 ? prop.ID : -1;
             }
             return Id;
         }
@@ -224,64 +224,65 @@ namespace PMS.Resources.DAL
             {
                 properties = pmsContext.Properties
                              .Join(pmsContext.Countries, p => p.Country, c => c.ID,
-                             (p, c) => new {p, c})
+                             (p, c) => new { p, c })
                              .Join(pmsContext.Cities, x => x.p.City, ct => ct.ID,
-                             (x, ct) => new {x, ct})
+                             (x, ct) => new { x, ct })
                              .Join(pmsContext.States, s => s.x.p.State, k => k.ID,
-                             (s, k) => new {s, k}).Where(l => l.s.x.p.IsActive)
-                             .Join(pmsContext.UsersPropertyMappings , r => r.s.x.p.ID, n => n.PropertyID,
+                             (s, k) => new { s, k }).Where(l => l.s.x.p.IsActive)
+                             .Join(pmsContext.UsersPropertyMappings, r => r.s.x.p.ID, n => n.PropertyID,
                              (r, n) => new { r, n })
                              .Select(m => new PmsEntity.Property
                              {
-                                CreatedOn = m.r.s.x.p.CreatedOn,
-                                PropertyName = m.r.s.x.p.PropertyName,
-                                CreatedBy = m.r.s.x.p.CreatedBy,
-                                LastUpdatedBy = m.r.s.x.p.LastUpdatedBy,
-                                LastUpdatedOn = m.r.s.x.p.LastUpdatedOn,
-                                Id = m.r.s.x.p.ID,
-                                IsActive = m.r.s.x.p.IsActive,
-                                CheckinTime = m.r.s.x.p.CheckinTime,
-                                CheckoutTime = m.r.s.x.p.CheckoutTime,
-                                CloseOfDayTime = m.r.s.x.p.CloseOfDayTime,
-                                Zipcode = m.r.s.x.p.Zipcode,
-                                UserId = m.n.UserID,
-                                Country = new PmsEntity.Country
-                                {
-                                    Name = m.r.s.x.c.Name,
-                                    Id = m.r.s.x.c.ID
-                                },
-                                City = new PmsEntity.City
-                                {
-                                    Name = m.r.s.ct.Name,
-                                    Id = m.r.s.ct.ID
-                                },
-                                State = new PmsEntity.State
-                                {
-                                    Name = m.r.k.Name,
-                                    Id = m.r.k.ID
-                                },
-                                Fax = m.r.s.x.p.Fax,
-                                FullAddress = m.r.s.x.p.FullAddress,
-                                LogoPath = m.r.s.x.p.LogoPath,
-                                Phone = m.r.s.x.p.Phone,
-                                PropertyCode = m.r.s.x.p.PropertyCode,
-                                PropertyDetails = m.r.s.x.p.PropertyDetails,
-                                SecondaryName = m.r.s.x.p.SecondaryName,
-                                TimeZone = m.r.s.x.p.TimeZone,
-                                WebSiteAddress = m.r.s.x.p.WebSiteAddress,
-                                CurrencyID = m.r.s.x.p.CurrencyId
+                                 CreatedOn = m.r.s.x.p.CreatedOn,
+                                 PropertyName = m.r.s.x.p.PropertyName,
+                                 CreatedBy = m.r.s.x.p.CreatedBy,
+                                 LastUpdatedBy = m.r.s.x.p.LastUpdatedBy,
+                                 LastUpdatedOn = m.r.s.x.p.LastUpdatedOn,
+                                 Id = m.r.s.x.p.ID,
+                                 IsActive = m.r.s.x.p.IsActive,
+                                 CheckinTime = m.r.s.x.p.CheckinTime,
+                                 CheckoutTime = m.r.s.x.p.CheckoutTime,
+                                 CloseOfDayTime = m.r.s.x.p.CloseOfDayTime,
+                                 Zipcode = m.r.s.x.p.Zipcode,
+                                 UserId = m.n.UserID,
+                                 Country = new PmsEntity.Country
+                                 {
+                                     Name = m.r.s.x.c.Name,
+                                     Id = m.r.s.x.c.ID
+                                 },
+                                 City = new PmsEntity.City
+                                 {
+                                     Name = m.r.s.ct.Name,
+                                     Id = m.r.s.ct.ID
+                                 },
+                                 State = new PmsEntity.State
+                                 {
+                                     Name = m.r.k.Name,
+                                     Id = m.r.k.ID
+                                 },
+                                 Fax = m.r.s.x.p.Fax,
+                                 FullAddress = m.r.s.x.p.FullAddress,
+                                 LogoPath = m.r.s.x.p.LogoPath,
+                                 Phone = m.r.s.x.p.Phone,
+                                 PropertyCode = m.r.s.x.p.PropertyCode,
+                                 PropertyDetails = m.r.s.x.p.PropertyDetails,
+                                 SecondaryName = m.r.s.x.p.SecondaryName,
+                                 TimeZone = m.r.s.x.p.TimeZone,
+                                 WebSiteAddress = m.r.s.x.p.WebSiteAddress,
+                                 CurrencyID = m.r.s.x.p.CurrencyId
                              }).ToList();
             }
             return properties;
         }
 
-        public List<PmsEntity.Property> GetPropertyForAccess() {
+        public List<PmsEntity.Property> GetPropertyForAccess()
+        {
             var properties = new List<PmsEntity.Property>();
 
             using (var pmsContext = new PmsEntities())
             {
                 properties = pmsContext.Properties
-                             .Where(p=>p.IsActive)
+                             .Where(p => p.IsActive)
                              .Select(m => new PmsEntity.Property
                              {
                                  CreatedOn = m.CreatedOn,
@@ -340,33 +341,33 @@ namespace PMS.Resources.DAL
 
         private bool SaveRoom(int propertyId, string roomXml)
         {
-           var isSaved = false;
-           using (var pmsContext = new PmsEntities())
-           {
-               var propIdField = new SqlParameter
-               {
-                   ParameterName = "@propertyID",
-                   DbType = DbType.Int32,
-                   Value = propertyId
-               };
+            var isSaved = false;
+            using (var pmsContext = new PmsEntities())
+            {
+                var propIdField = new SqlParameter
+                {
+                    ParameterName = "@propertyID",
+                    DbType = DbType.Int32,
+                    Value = propertyId
+                };
 
-               var roomXmlField = new SqlParameter
-               {
-                   ParameterName = "@RoomXML",
-                   DbType = DbType.Xml,
-                   Value = roomXml
-               };
-               try
-               {
-                   var result = pmsContext.Database.ExecuteSqlCommand("InsertRoom @propertyID, @RoomXML", propIdField, roomXmlField);
-                   isSaved = true;
-               }
-               catch (Exception ex)
-               {
+                var roomXmlField = new SqlParameter
+                {
+                    ParameterName = "@RoomXML",
+                    DbType = DbType.Xml,
+                    Value = roomXml
+                };
+                try
+                {
+                    var result = pmsContext.Database.ExecuteSqlCommand("InsertRoom @propertyID, @RoomXML", propIdField, roomXmlField);
+                    isSaved = true;
+                }
+                catch (Exception ex)
+                {
 
-               }
-           }
-           return isSaved;
+                }
+            }
+            return isSaved;
         }
 
         public bool DeleteRoom(int roomId)
@@ -397,8 +398,8 @@ namespace PMS.Resources.DAL
             using (var pmsContext = new PmsEntities())
             {
                 rooms = pmsContext.Rooms.Where(x => x.IsActive && x.PropertyID == propertyId)
-                                        .Join(pmsContext.PropertyFloors , a => a.FloorId , f => f.ID,
-                                        (a, f) => new {a, f})
+                                        .Join(pmsContext.PropertyFloors, a => a.FloorId, f => f.ID,
+                                        (a, f) => new { a, f })
                                         .Join(pmsContext.RoomTypes, i => i.a.RoomTypeID, r => r.ID,
                                         (i, r) => new { i, r })
                                         .Select(x => new PmsEntity.Room
@@ -411,7 +412,7 @@ namespace PMS.Resources.DAL
                                             Id = x.i.a.ID,
                                             Property = new PmsEntity.Property
                                             {
-                                                Id = x.i.a.PropertyID                                                
+                                                Id = x.i.a.PropertyID
                                             },
                                             IsActive = x.i.a.IsActive,
                                             RoomType = new PmsEntity.RoomType
@@ -543,7 +544,7 @@ namespace PMS.Resources.DAL
             {
                 pmsContext.RoomTypes.Add(roomtype);
                 var result = pmsContext.SaveChanges();
-                Id = result == 1 ? roomtype.ID : -1;               
+                Id = result == 1 ? roomtype.ID : -1;
             }
 
             return Id;
@@ -572,7 +573,7 @@ namespace PMS.Resources.DAL
                 var result = pmsContext.SaveChanges();
                 isUpdated = result == 1 ? true : false;
             }
-           
+
             return isUpdated;
         }
         public bool DeleteRoomType(int roomTypeId)
@@ -771,7 +772,7 @@ namespace PMS.Resources.DAL
                     booking.RoomBookings = new List<PmsEntity.RoomBooking>
                     {
                         new PmsEntity.RoomBooking
-                        { 
+                        {
                             Room = new PmsEntity.Room
                             {
                                 Number = result.ROOMNUMBER,
@@ -920,7 +921,7 @@ namespace PMS.Resources.DAL
                 ZipCode = guest.ZipCode,
                 GuestID = guest.Id,
                 ID = guest.AddressId,
-                 AddressTypeID=1
+                AddressTypeID = 1
             });
 
             var guestE = new DAL.Guest
@@ -968,7 +969,7 @@ namespace PMS.Resources.DAL
                 LastUpdatedBy = guest.LastUpdatedBy,
                 GuestID = guest.Id,
                 ID = guest.AddressId,
-                AddressTypeID=1
+                AddressTypeID = 1
             };
             var guestE = new DAL.Guest
             {
@@ -983,8 +984,8 @@ namespace PMS.Resources.DAL
                 LastName = guest.LastName,
                 MobileNumber = guest.MobileNumber,
                 PhotoPath = guest.PhotoPath,
-                  LastUpdatedBy= guest.LastUpdatedBy,
-                   LastUpdatedOn= guest.LastUpdatedOn
+                LastUpdatedBy = guest.LastUpdatedBy,
+                LastUpdatedOn = guest.LastUpdatedOn
             };
 
             using (var pmsContext = new PmsEntities())
@@ -997,7 +998,8 @@ namespace PMS.Resources.DAL
             return isUpdated;
         }
 
-        public bool DeleteGuest(int guestId) {
+        public bool DeleteGuest(int guestId)
+        {
             var isDeleted = false;
             if (guestId <= 0) return isDeleted;
 
@@ -1050,7 +1052,7 @@ namespace PMS.Resources.DAL
                                  Name = k.Name,
                                  Id = k.ID
                              },
-                              AddressId= a.ID,
+                             AddressId = a.ID,
                              FirstName = x.FirstName,
                              Gender = x.Gender,
                              LastName = x.LastName,
@@ -1129,15 +1131,15 @@ namespace PMS.Resources.DAL
                                  LastName = x.LastName,
                                  MobileNumber = x.MobileNumber,
                                  PhotoPath = x.PhotoPath,
-                                  CreatedBy=x.CreatedBy,
-                                   CreatedOn=x.CreatedOn,
-                                    LastUpdatedBy=x.LastUpdatedBy,
-                                     LastUpdatedOn=x.LastUpdatedOn,
-                                      IsActive=x.IsActive  
+                                 CreatedBy = x.CreatedBy,
+                                 CreatedOn = x.CreatedOn,
+                                 LastUpdatedBy = x.LastUpdatedBy,
+                                 LastUpdatedOn = x.LastUpdatedOn,
+                                 IsActive = x.IsActive
                              }).ToList();
                     // to have records with distinct email id
                     guest = guest.GroupBy(x => x.EmailAddress).Select(x => x.First()).ToList();
-                }                
+                }
             }
             return guest;
         }
@@ -1229,7 +1231,7 @@ namespace PMS.Resources.DAL
                     {
                         taxes.Add(new PmsEntity.Tax { TaxName = basecharge.ItemName, Value = basecharge.ItemValue, IsDefaultCharges = true });
                     }
-                }                
+                }
 
                 // default charges
                 var distinctTotalRoomCharge = resultSet.AsEnumerable()
@@ -1253,7 +1255,8 @@ namespace PMS.Resources.DAL
                         .Select(row => new
                         {
                             ItemName = row.ItemName,
-                            ItemValue = row.ItemValue                            
+                            ItemValue = row.ItemValue,
+                            CreatedOn= row.InvoiceItemCreatedOn
                         })
                         .Where(x => !x.ItemName.Equals("ROOM CHARGES") && !x.ItemName.Equals("Total Room Charge"))
                         .Distinct().ToList();
@@ -1263,7 +1266,13 @@ namespace PMS.Resources.DAL
                     foreach (var tax in distinctItemValues)
                     {
                         // user defined charges
-                        taxes.Add(new PmsEntity.Tax { TaxName = tax.ItemName, Value = tax.ItemValue, IsDefaultCharges = false });
+                        taxes.Add(new PmsEntity.Tax
+                        {
+                            TaxName = tax.ItemName,
+                            Value = tax.ItemValue,
+                            IsDefaultCharges = false,
+                            CreatedOn = tax.CreatedOn
+                        });
                     }
                 }
 
@@ -1281,16 +1290,24 @@ namespace PMS.Resources.DAL
                 {
                     foreach (var tax in distinctTaxValues)
                     {
-                        taxes.Add(new PmsEntity.Tax { TaxName = tax.TaxName, Value = tax.TaxValue, IsDefaultCharges = true, IsTaxIncluded = tax.IsTaxIncluded, Amount = tax.Amount  });
+                        taxes.Add(new PmsEntity.Tax
+                        {
+                            TaxName = tax.TaxName,
+                            Value = tax.TaxValue,
+                            IsDefaultCharges = true,
+                            IsTaxIncluded = tax.IsTaxIncluded,
+                            Amount = tax.Amount
+                        });
                     }
-                }                
+                }
 
                 var distinctPaymentValues = resultSet.AsEnumerable()
                         .Select(row => new
                         {
                             Detail = row.PaymentDetails,
                             Mode = row.PaymentMode,
-                            Value = row.PaymentValue
+                            Value = row.PaymentValue,
+                            CreatedOn = row.InvoicePaymentCreatedOn
                         })
                         .Distinct().ToList();
 
@@ -1299,7 +1316,13 @@ namespace PMS.Resources.DAL
                     foreach (var payment in distinctPaymentValues)
                     {
                         if (payment.Mode == null) continue;
-                        paymentDetails.Add(new PmsEntity.InvoicePaymentDetail { PaymentDetails = payment.Detail, PaymentValue = payment.Value, PaymentMode = payment.Mode });
+                        paymentDetails.Add(new PmsEntity.InvoicePaymentDetail
+                        {
+                            PaymentDetails = payment.Detail,
+                            PaymentValue = payment.Value,
+                            PaymentMode = payment.Mode,
+                            CreatedOn = payment.CreatedOn
+                        });
                     }
                 }
 
@@ -1387,7 +1410,7 @@ namespace PMS.Resources.DAL
                 booking.Invoice.Id = bookingInformation.InvoiceId.HasValue ? Convert.ToInt32(bookingInformation.InvoiceId) : -1;
                 booking.RateType.Name = bookingInformation.RateTypeName;
                 booking.RateType.Id = bookingInformation.RateTypeId.HasValue ? Convert.ToInt32(bookingInformation.RateTypeId) : -1;
-               
+
                 //Populate RoomBooking
                 var distinctRoomBookings = resultSet.AsEnumerable()
                         .Select(row => new
@@ -1599,7 +1622,7 @@ namespace PMS.Resources.DAL
             return paymentTypes;
 
         }
-        
+
         public int AddFloor(PmsEntity.PropertyFloor propertyFloor)
         {
             var Id = -1;
@@ -1929,18 +1952,18 @@ namespace PMS.Resources.DAL
                         rate.PropertyId = value.PropertyID;
                         rate.Room = new PmsEntity.Room
                         {
-                           Id = value.RoomId.HasValue ? Convert.ToInt32(value.RoomId) : -1,
-                           Number = value.RoomNumber,
-                           Floor = new PmsEntity.PropertyFloor
-                           {
-                               FloorNumber = value.FloorNumber,
-                               Id = value.FloorId.HasValue ? Convert.ToInt32(value.FloorId) : -1
-                           },
-                           RoomType = new PmsEntity.RoomType
-                           {
-                              Id = value.RoomTypeID.HasValue ? Convert.ToInt32(value.RoomTypeID) : -1,
-                              Name = value.RoomTypeName
-                           }
+                            Id = value.RoomId.HasValue ? Convert.ToInt32(value.RoomId) : -1,
+                            Number = value.RoomNumber,
+                            Floor = new PmsEntity.PropertyFloor
+                            {
+                                FloorNumber = value.FloorNumber,
+                                Id = value.FloorId.HasValue ? Convert.ToInt32(value.FloorId) : -1
+                            },
+                            RoomType = new PmsEntity.RoomType
+                            {
+                                Id = value.RoomTypeID.HasValue ? Convert.ToInt32(value.RoomTypeID) : -1,
+                                Name = value.RoomTypeName
+                            }
                         };
                         rate.Type = value.Type;
                         rate.Value = value.Value;
@@ -1970,7 +1993,7 @@ namespace PMS.Resources.DAL
             var rate = new DAL.Rate
             {
                 IsActive = false,
-                ID = rateId                
+                ID = rateId
             };
 
             using (var pmsContext = new PmsEntities())
@@ -2013,7 +2036,7 @@ namespace PMS.Resources.DAL
                         InvoicePaymentDetails = new List<PmsEntity.InvoicePaymentDetail>
                         {
                             new PmsEntity.InvoicePaymentDetail
-                            { 
+                            {
                                 PaymentMode = result.ModeOfPayment
                             }
                         },
@@ -2028,7 +2051,7 @@ namespace PMS.Resources.DAL
                     booking.RoomBookings = new List<PmsEntity.RoomBooking>
                     {
                         new PmsEntity.RoomBooking
-                        { 
+                        {
                             Room = new PmsEntity.Room
                             {
                                 RoomType = new PmsEntity.RoomType
@@ -2040,7 +2063,7 @@ namespace PMS.Resources.DAL
                             {   
                                 // GuestName include both fname and lname
                                 FirstName = result.GuestName,
-                            }                            
+                            }
                         }
                     };
                     bookings.Add(booking);
@@ -2056,7 +2079,7 @@ namespace PMS.Resources.DAL
                         Status = summary.FirstOrDefault().Status
                     }).ToList();
                 }
-            }            
+            }
 
             return bookings;
         }
@@ -2131,22 +2154,22 @@ namespace PMS.Resources.DAL
             {
                 user = pmsContext.Users.ToList().Where(x => x.IsActive && x.UserName.Equals(loginName) && x.Password.Equals(password))
                                                 .Select(m => new PmsEntity.User
-                                                 {
-                                                     CreatedOn = m.CreatedOn,
-                                                     CreatedBy = m.CreatedBy,
-                                                     DOB = m.DOB,
-                                                     EmailAddress = m.EmailAddress,
-                                                     FirstName = m.FirstName,
-                                                     Gender = m.Gender,
-                                                     Id = m.ID,
-                                                     IsActive = m.IsActive,
-                                                     LastName = m.LastName,
-                                                     LastUpdatedBy = m.LastUpdatedBy,
-                                                     LastUpdatedOn = m.LastUpdatedOn,
-                                                     MobileNumber = m.MobileNumber,
-                                                     Password = m.Password,
-                                                     UserName = m.UserName
-                                                 }).FirstOrDefault();
+                                                {
+                                                    CreatedOn = m.CreatedOn,
+                                                    CreatedBy = m.CreatedBy,
+                                                    DOB = m.DOB,
+                                                    EmailAddress = m.EmailAddress,
+                                                    FirstName = m.FirstName,
+                                                    Gender = m.Gender,
+                                                    Id = m.ID,
+                                                    IsActive = m.IsActive,
+                                                    LastName = m.LastName,
+                                                    LastUpdatedBy = m.LastUpdatedBy,
+                                                    LastUpdatedOn = m.LastUpdatedOn,
+                                                    MobileNumber = m.MobileNumber,
+                                                    Password = m.Password,
+                                                    UserName = m.UserName
+                                                }).FirstOrDefault();
             }
 
             return user;
@@ -2267,10 +2290,10 @@ namespace PMS.Resources.DAL
                 CreatedBy = expense.CreatedBy,
                 PropertyID = expense.PropertyID,
                 Description = expense.Description,
-                 Amount= expense.Amount,
-                  ExpenseCategoryID= expense.ExpenseCategoryID,
-                   PaymentTypeID= expense.PaymentTypeID,
-                    ExpenseDate= expense.ExpenseDate
+                Amount = expense.Amount,
+                ExpenseCategoryID = expense.ExpenseCategoryID,
+                PaymentTypeID = expense.PaymentTypeID,
+                ExpenseDate = expense.ExpenseDate
             };
 
             using (var pmsContext = new PmsEntities())
@@ -2301,7 +2324,7 @@ namespace PMS.Resources.DAL
                 ID = expense.Id,
                 CreatedBy = expense.CreatedBy,
                 CreatedOn = expense.CreatedOn,
-                ExpenseDate= expense.ExpenseDate
+                ExpenseDate = expense.ExpenseDate
             };
 
             using (var pmsContext = new PmsEntities())
@@ -2335,7 +2358,7 @@ namespace PMS.Resources.DAL
             return isDeleted;
         }
 
-        public List<PmsEntity.Expense> GetExpenseBySearch(DateTime? startDate, DateTime? endDate, int? paymentId, int? expenseCategoryId, 
+        public List<PmsEntity.Expense> GetExpenseBySearch(DateTime? startDate, DateTime? endDate, int? paymentId, int? expenseCategoryId,
             decimal? amountPaidMin, decimal? amountPaidMax, int? propertyId)
         {
             var expenses = new List<PmsEntity.Expense>();
@@ -2414,7 +2437,8 @@ namespace PMS.Resources.DAL
             return dt;
         }
 
-        public DataTable GetConsolidatedShiftReport(DateTime? startDate, DateTime? endDate, int? propertyId) {
+        public DataTable GetConsolidatedShiftReport(DateTime? startDate, DateTime? endDate, int? propertyId)
+        {
             DataTable dt = new DataTable();
             var context = new PmsEntities();
             var conn = context.Database.Connection;
@@ -2448,7 +2472,7 @@ namespace PMS.Resources.DAL
                 if (connectionState != ConnectionState.Open)
                     conn.Close();
             }
-            return dt;  
+            return dt;
         }
 
 
@@ -2490,7 +2514,8 @@ namespace PMS.Resources.DAL
             return dt;
         }
 
-        public DataTable GetConsolidatedManagerData(DateTime startDate, DateTime endDate, int propertyId, int option) {
+        public DataTable GetConsolidatedManagerData(DateTime startDate, DateTime endDate, int propertyId, int option)
+        {
 
             DataTable dt = new DataTable();
             var context = new PmsEntities();
@@ -2562,7 +2587,7 @@ namespace PMS.Resources.DAL
                         Rate = item.Rate
                     });
                 }
-                return guestSummary;                                                
+                return guestSummary;
             }
         }
         #endregion
@@ -2591,9 +2616,9 @@ namespace PMS.Resources.DAL
                     Direction = ParameterDirection.Output
                 };
                 var result = pmsContext.Database.ExecuteSqlCommand("InsertRoomRates @propertyID, @RateXML, @Status OUTPUT", propId, roomRateXml, status);
-                return status.Value != null ? Convert.ToBoolean(status.Value) : false;                
+                return status.Value != null ? Convert.ToBoolean(status.Value) : false;
             }
-            
+
         }
 
         public List<PmsEntity.Functionality> GetAllFunctionality()
@@ -2601,7 +2626,7 @@ namespace PMS.Resources.DAL
             var functioanlities = new List<PmsEntity.Functionality>();
             using (var pmsContext = new PmsEntities())
             {
-                functioanlities = pmsContext.Functionalities.Where(x=> x.IsActive)
+                functioanlities = pmsContext.Functionalities.Where(x => x.IsActive)
                                                  .Select(x => new PmsEntity.Functionality
                                                  {
                                                      CreatedOn = x.CreatedOn,
@@ -2610,7 +2635,7 @@ namespace PMS.Resources.DAL
                                                      LastUpdatedBy = x.LastUpdatedBy,
                                                      LastUpdatedOn = x.LastUpdatedOn,
                                                      Id = x.ID,
-                                                     Functionality1=x.Functionality1,
+                                                     Functionality1 = x.Functionality1,
                                                      IsActive = x.IsActive
                                                  }).ToList();
             }
@@ -2619,7 +2644,8 @@ namespace PMS.Resources.DAL
 
         }
 
-        public List<PmsEntity.Functionality> GetFunctionalityByUserId(int userId) {
+        public List<PmsEntity.Functionality> GetFunctionalityByUserId(int userId)
+        {
 
             var functioanlities = new List<PmsEntity.Functionality>();
             using (var pmsContext = new PmsEntities())
@@ -2627,7 +2653,7 @@ namespace PMS.Resources.DAL
                 functioanlities = pmsContext.Functionalities
                     .Join(pmsContext.UsersFunctionalityMappings, r => r.ID, n => n.FunctionalityID,
                              (r, n) => new { r, n })
-                             .Where(x => x.r.IsActive && x.n.UserID== userId)
+                             .Where(x => x.r.IsActive && x.n.UserID == userId)
                                                  .Select(x => new PmsEntity.Functionality
                                                  {
                                                      CreatedOn = x.r.CreatedOn,
@@ -2649,7 +2675,7 @@ namespace PMS.Resources.DAL
             using (var pmsContext = new PmsEntities())
             {
                 pmsContext.InsertUserAccess(userId, functionalities, properties, createdBy);
-                    return true;
+                return true;
             }
         }
 
@@ -2703,9 +2729,9 @@ namespace PMS.Resources.DAL
                 LastUpdatedBy = user.LastUpdatedBy,
                 LastUpdatedOn = user.LastUpdatedOn,
                 MobileNumber = user.MobileNumber,
-                 CreatedOn= user.CreatedOn,
-                  Password= user.Password,
-                   UserName=user.UserName
+                CreatedOn = user.CreatedOn,
+                Password = user.Password,
+                UserName = user.UserName
             };
 
             using (var pmsContext = new PmsEntities())
@@ -2721,27 +2747,28 @@ namespace PMS.Resources.DAL
         public bool DeleteUser(int userId)
         {
             var isDeleted = false;
-                if (userId <= 0) return isDeleted;
+            if (userId <= 0) return isDeleted;
 
-                var user = new DAL.User
-                {
-                    IsActive = false,
-                    ID = userId,
-                    UserName="username", //Temp code
-                    Password= "password"//Temp code
-                };
+            var user = new DAL.User
+            {
+                IsActive = false,
+                ID = userId,
+                UserName = "username", //Temp code
+                Password = "password"//Temp code
+            };
 
-                using (var pmsContext = new PmsEntities())
-                {
-                    pmsContext.Users.Attach(user);
-                    pmsContext.Entry(user).Property(x => x.IsActive).IsModified = true;
-                    var result = pmsContext.SaveChanges();
-                    isDeleted = result == 1 ? true : false;
-                }
+            using (var pmsContext = new PmsEntities())
+            {
+                pmsContext.Users.Attach(user);
+                pmsContext.Entry(user).Property(x => x.IsActive).IsModified = true;
+                var result = pmsContext.SaveChanges();
+                isDeleted = result == 1 ? true : false;
+            }
             return isDeleted;
         }
 
-        public List<PmsEntity.User> GetAllUser() {
+        public List<PmsEntity.User> GetAllUser()
+        {
             using (var pmsContext = new PmsEntities())
             {
                 return (from u in pmsContext.Users
@@ -2761,7 +2788,7 @@ namespace PMS.Resources.DAL
                             LastUpdatedOn = u.LastUpdatedOn,
                             MobileNumber = u.MobileNumber,
                             UserName = u.UserName,
-                            Password= u.Password
+                            Password = u.Password
                         }).ToList();
             }
         }
