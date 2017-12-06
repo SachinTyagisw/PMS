@@ -117,14 +117,14 @@
                             </div>
                         </div>
                         
-                        <div id="divManagerReport" class="table-data">
+                        <div id="divManagerReport" class="table-data table-responsive">
                         </div>
                         <!-- Small Table -->
-                        <div id="divConsolidatedManagerReportMonth" class="table-data">
+                        <div id="divConsolidatedManagerReportMonth" class="table-data table-responsive">
                         </div>
 
                         <!-- Small Table -->
-                        <div id="divConsolidatedManagerReportYear" class="table-data">
+                        <div id="divConsolidatedManagerReportYear" class="table-data table-responsive">
                         </div>
                     </div>
                 </div>
@@ -133,7 +133,7 @@
     </div>
 </div>
 <script type="text/html" id="managerReportTemplate">
-    <table class="table table-responsive table-hover tableContents">
+    <table class="table table-hover tableContents">
         <thead>
             {{if typeof ManagerRecords != "undefined" && ManagerRecords != "null" && ManagerRecords.length > 0 }}
             <tr>
@@ -158,7 +158,7 @@
 </script>
 
 <script type="text/html" id="consolidatedManagerReportTemplate">
-    <table class="table table-responsive table-hover tableContents" style="width:80%;">
+    <table class="table table-hover tableContents">
         <thead>
             {{if typeof ConsolidatedManagerRecords != "undefined" && ConsolidatedManagerRecords != "null" && ConsolidatedManagerRecords.length > 0 }}
             <tr>
