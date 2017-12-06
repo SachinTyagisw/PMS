@@ -5786,7 +5786,11 @@ div#panelProperty, #panelFunctionality {
 }
 @media screen and (max-width: 650px) {
   main.tab-main label {
-    font-size: 0;
+    font-size: 9px;
+    padding: 10px 3px;
+  }
+  main.tab-main {
+      margin: 0;
   }
   main.tab-main label:before {
     margin: 0;
@@ -5794,10 +5798,7 @@ div#panelProperty, #panelFunctionality {
   }
   #divUser .tableContents {
     width: 100%;
-    table-layout: fixed;
-  }
-  #divUser.table-data {
-      width: 95%;
+    /*table-layout: fixed;*/
   }
   #divUser .table.tableContents thead tr th:first-child {
     width: 50px;
@@ -5829,6 +5830,32 @@ div#panelProperty, #panelFunctionality {
   }
   .additional-details-main {
       margin-top: 200px;
+  }
+  #scheduler .scheduler_default_main {
+      margin-top:45px;
+  }
+  .room-details .row {
+      margin: 0;
+  }
+  .room-details .row > div {
+      padding: 0;
+  }
+  .table-responsive {
+    width: 100%;
+    margin: 10px 0px 15px;
+    overflow-y: hidden;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    border: 1px solid #ddd;
+    display: block;
+  }
+  #divShiftReport {
+    overflow-x: auto;
+    height: auto;
+  }
+  .logo, .pull-right {
+      float: none;
+      text-align: center;
+      display: block;
   }
 }
 
