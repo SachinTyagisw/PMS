@@ -5707,6 +5707,8 @@ div#panelProperty, #panelFunctionality {
     min-height: 100px;
     padding: 0 5px;
     margin: 0 0 0 2rem;
+    overflow-y: scroll;
+    max-height: 100px;
 }
 #panelProperty button, #panelFunctionality button {
     padding: 0;
