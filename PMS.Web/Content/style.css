@@ -5859,6 +5859,24 @@ div#panelProperty, #panelFunctionality {
       text-align: center;
       display: block;
   }
+  .logo {
+      display: none;
+  }
+  .footer-nav .show {
+      width: 100%;
+  }
+  .img-no-available {
+      height: calc(100vh - 230px);
+  }
+    .button-section {
+        margin: 0 auto;
+        display: table;
+        text-align: center;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 25px;
+    }
 }
 
 
@@ -5880,6 +5898,15 @@ div#panelProperty, #panelFunctionality {
   }
   .login-section .content .link-login ul li a{ margin: 10px; }
   .login-section .button a { padding: 0px 0 1px 40px; }
+    #invoice-bot button {
+        width: auto;
+        border: 1px solid #dadada;
+        background: #000;
+        font-size: 9px;
+        /* float: left; */
+        padding: 3px 4px;
+        margin: 4px;
+    }
 }
 
 @media screen and (max-width: 400px) {
