@@ -5868,7 +5868,7 @@ div#panelProperty, #panelFunctionality {
   .img-no-available {
       height: calc(100vh - 230px);
   }
-    .button-section {
+   .invoice-btn-section.button-section {
         margin: 0 auto;
         display: table;
         text-align: center;
@@ -5877,6 +5877,15 @@ div#panelProperty, #panelFunctionality {
         right: 0;
         bottom: 25px;
     }
+.room-details .row > div:nth-child(1) {
+    padding: 0;
+    float: left;
+    min-width: 190px;
+}
+.room-details .row div:nth-child(2) {
+    float: left;
+    padding: 0;
+}
 }
 
 
