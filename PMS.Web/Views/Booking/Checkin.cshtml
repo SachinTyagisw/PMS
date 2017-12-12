@@ -630,6 +630,54 @@
         });
 
     </script>
+<script src="~/Scripts/Scripts/jquery.signalR-2.0.0.min.js"></script>
+<script src="http://localhost:9000/signalr/hubs"></script>
+<!--Add script to update the page and send messages.-->
+<script type="text/javascript">
+            $(function () {
+                //Set the hubs URL for the connection
+                $.connection.hub.url = "http://localhost:9000/signalr";
+
+                // Declare a proxy to reference the hub.
+                var chat = $.connection.myHub;
+
+                chat.client.sendGuestObject = function (guestDetail) {
+                    
+                   
+                    $('option', $('#ddlInitials')).each(function () {
+                        if ($(this).text() == guestDetail.Title)
+                            $('#ddlInitials').val($(this).val());
+                    });
+                    
+                    $('#fName').val(guestDetail.FirstName);
+                    $('#lName').val(guestDetail.LastName);
+                    $('#address').val(guestDetail.Address);
+                    $('#zipCode').val(guestDetail.Zip);
+                    $('#phone').val(guestDetail.PhoneNo);
+                    $('#email').val(guestDetail.EmailId);
+
+
+                    $('option', $('#ddlCountry')).each(function () {
+                        if ($(this).text() == guestDetail.Country)
+                            $('#ddlCountry').val($(this).val());
+                    });
+                    
+                    OnCountryChange($("#ddlCountry"), $("#ddlState"), $("#ddlCity"));
+
+                    $('option', $('#ddlState')).each(function () {
+                        if ($(this).text() == guestDetail.State)
+                            $('#ddlState').val($(this).val());
+                    });
+                    OnStateChange($("#ddlState"), $("#ddlCity"));
+                    $('option', $('#ddlCity')).each(function () {
+                        if ($(this).text() == guestDetail.City)
+                            $('#ddlCity').val($(this).val());
+                    });
+                };
+                // Start the connection.
+                $.connection.hub.start();
+            });
+</script>
     <div class="content-wrap">
         <div class="main controls">
             <div class="container-fluid">
