@@ -26,8 +26,8 @@ namespace M280_SampleApp
         CyControlEndPoint ep0 = null;
 
         //Declare Seral Port
-        SerialPort serPort =new SerialPort();
-        
+        SerialPort serPort = new SerialPort();
+
         int BufNum = 0;
         int BufSz;
         int QueueSz;
@@ -76,7 +76,7 @@ namespace M280_SampleApp
             usbDevices.DeviceRemoved += new EventHandler(usbDevices_DeviceRemoved);
 
             //Associate handler with DataReceived Event - Sachin
-            serPort.DataReceived +=serPort_DataReceived;
+            serPort.DataReceived += serPort_DataReceived;
 
             // Set Form name
             this.Text = M280DEF.ProName + " - V" + M280DEF.SWver;
@@ -116,33 +116,33 @@ namespace M280_SampleApp
             {
                 this.serPort.Close();
             }
-                StopBits one = StopBits.One;
-                Parity none = Parity.None;
-                Handshake requestToSend = Handshake.None;
-                //RegistryKey key2 = Registry.CurrentUser.OpenSubKey("Software", true).OpenSubKey("M280DEMO", true);
-                //if (key2 != null)
-                //{
-                //    key2.SetValue("Port", "COM3");
-                //    key2.SetValue("Baud", 9600);
-                //    key2.SetValue("DataBits", 8);
-                //    key2.SetValue("Parity", 0);
-                //    key2.SetValue("Flow", 0);
-                //    key2.SetValue("Stop", 0);
-                //    key2.Close();
-                //}
-                this.serPort.PortName = "COM3";
-                this.serPort.BaudRate = 9600;
-                this.serPort.DataBits = 8;
-                this.serPort.StopBits = one;
-                this.serPort.Parity = none;
-                this.serPort.Handshake = requestToSend;
-                this.serPort.Open();
+            StopBits one = StopBits.One;
+            Parity none = Parity.None;
+            Handshake requestToSend = Handshake.None;
+            //RegistryKey key2 = Registry.CurrentUser.OpenSubKey("Software", true).OpenSubKey("M280DEMO", true);
+            //if (key2 != null)
+            //{
+            //    key2.SetValue("Port", "COM3");
+            //    key2.SetValue("Baud", 9600);
+            //    key2.SetValue("DataBits", 8);
+            //    key2.SetValue("Parity", 0);
+            //    key2.SetValue("Flow", 0);
+            //    key2.SetValue("Stop", 0);
+            //    key2.Close();
+            //}
+            this.serPort.PortName = "COM3";
+            this.serPort.BaudRate = 9600;
+            this.serPort.DataBits = 8;
+            this.serPort.StopBits = one;
+            this.serPort.Parity = none;
+            this.serPort.Handshake = requestToSend;
+            this.serPort.Open();
         }
 
         private void SetDevice()
         {
             MyDevice = usbDevices[M280DEF.USB_VID, M280DEF.USB_PID] as CyUSBDevice;
-           
+
             if (MyDevice != null)
             {
                 // USB High Speed Check
@@ -215,8 +215,8 @@ namespace M280_SampleApp
             if (bRunning == true || this.bInitM280 == false || this.bSysBusy == true) return;
 
             bRunning = true;
-          
-            BufSz = inEndpoint.MaxPktSize * M280DEF.Packet_Xfer;        
+
+            BufSz = inEndpoint.MaxPktSize * M280DEF.Packet_Xfer;
             QueueSz = BufNum;
 
             inEndpoint.XferSize = BufSz;
@@ -272,9 +272,9 @@ namespace M280_SampleApp
             cBufs[j] = new byte[CyConst.SINGLE_XFER_LEN];
             xBufs[j] = new byte[BufSz];
             oLaps[j] = new byte[20];
-           //pktsInfo[j] = new ISO_PKT_INFO[PPX];
+            //pktsInfo[j] = new ISO_PKT_INFO[PPX];
             pktsInfo[j] = new ISO_PKT_INFO[M280DEF.Packet_Xfer];
-           
+
             fixed (byte* tL0 = oLaps[j], tc0 = cBufs[j], tb0 = xBufs[j])  // Pin the buffers in memory
             {
                 OVERLAPPED* ovLapStatus = (OVERLAPPED*)tL0;
@@ -309,7 +309,7 @@ namespace M280_SampleApp
             Failures = 0;
             XferBytes = 0;
 
-            for (; bRunning; )
+            for (; bRunning;)
             {
                 // WaitForXfer
                 fixed (byte* tmpOvlap = oLaps[k])
@@ -345,8 +345,8 @@ namespace M280_SampleApp
                     }
                     else
                     {
-                       // Scanner busy
-                       MessageBox.Show("Scanner Busy! Please Try again.");
+                        // Scanner busy
+                        MessageBox.Show("Scanner Busy! Please Try again.");
                     }
                     bRunning = false;
                 }
@@ -411,7 +411,7 @@ namespace M280_SampleApp
             {
                 labButtonImg.Image = global::M280_SampleApp.Properties.Resources.gray3;
             }
-            
+
             // Check Busy LED
             if ((StatusValue & M280DEF.stat_BusyLED) == M280DEF.stat_BusyLED)
             {
@@ -458,15 +458,15 @@ namespace M280_SampleApp
 
             this.timCheckStatus.Start();
         }
-         /*Summary
-        Get Image infomation from M280 device.
-        */
+        /*Summary
+       Get Image infomation from M280 device.
+       */
         public void GetImageInfo()
         {
             if (MyDevice == null || ep0 == null) return;
             int len = M280DEF.IMGINFO_SIZE;
             byte[] dta = new byte[len];
-      
+
             if (this.ReadCommand(M280DEF.CMD_GET_IMGINFO, ref dta, ref len, 0, 0) == true)
             {
                 // Convert Endian
@@ -518,7 +518,7 @@ namespace M280_SampleApp
             }
 
             // Crop Image
-            Rectangle CropRect = new Rectangle(this.DatumPos_sX, this.DatumPos_sY, 
+            Rectangle CropRect = new Rectangle(this.DatumPos_sX, this.DatumPos_sY,
                                                 this.CropSize_X, this.CropSize_Y);
             this.CroppedImage = SourceImage.Clone(CropRect, M280DEF.PixFormat);
 
@@ -588,9 +588,9 @@ namespace M280_SampleApp
         {
             string str = this.serPort.ReadExisting();
             if (str.Length != 0)
-                {
-                    base.Invoke(new serialPortFunc(this.dataReceived), new object[] { str });
-                }
+            {
+                base.Invoke(new serialPortFunc(this.dataReceived), new object[] { str });
+            }
         }
 
 
@@ -599,22 +599,22 @@ namespace M280_SampleApp
         {
             //String to capture the data in ASCII format
             string txtASCData = string.Empty;
-                string text = recvStr.Replace("\n", ".").Replace("\r", ".");
-                char[] chArray = recvStr.ToCharArray();
-                text = "";
-                for (int i = 0; i < chArray.Length; i++)
+            string text = recvStr.Replace("\n", ".").Replace("\r", ".");
+            char[] chArray = recvStr.ToCharArray();
+            text = "";
+            for (int i = 0; i < chArray.Length; i++)
+            {
+                if ((chArray[i] >= '!') && (chArray[i] <= '~'))
                 {
-                    if ((chArray[i] >= '!') && (chArray[i] <= '~'))
-                    {
-                        text = text + chArray[i].ToString();
-                    }
-                    else
-                    {
-                        text = text + ".";
-                    }
+                    text = text + chArray[i].ToString();
                 }
+                else
+                {
+                    text = text + ".";
+                }
+            }
 
-                txtASCData +=text;
+            txtASCData += text;
 
             IHubContext hubContext = GlobalHost.ConnectionManager.GetHubContext<MyHub>();
 
@@ -629,7 +629,11 @@ namespace M280_SampleApp
                 EmailId = "ankit@gmail.com",
                 PhoneNo = "8588892245",
                 State = "Haryana",
-                Zip = "110038"
+                Zip = "110038",
+                DOB = "24/04/1990",
+                ExpiryDate = "24/09/2020",
+                IdNumber = "12112121",
+                IdType = "Passport"
             };
 
             hubContext.Clients.All.sendGuestObject(vv);

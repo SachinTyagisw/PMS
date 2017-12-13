@@ -18,6 +18,10 @@ namespace M280_SampleApp
         public string Zip { get; set; }
         public string PhoneNo { get; set; }
         public string EmailId { get; set; }
+        public string DOB { get; set; }
+        public string IdNumber { get; set; }
+        public string ExpiryDate { get; set; }
+        public string IdType { get; set; }
 
     }
 }
