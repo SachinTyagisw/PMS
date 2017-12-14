@@ -708,7 +708,15 @@
 
             chat.client.sendGuestImageObject = function (imgBase64)
             {
-                console.log(imgBase64);
+                $('#imgPhoto').css('visibility', 'visible');
+                $('#imgPhoto').addClass('photo-added');
+                var base64String = "data:image/jpeg;base64," + imgBase64;
+                if (base64String) {
+                    $('#imgPhoto').attr('src', base64String);
+                } else {
+                    $('#imgPhoto').css('visibility', 'hidden');
+                    $('#imgPhoto').removeClass('photo-added');
+                }
             };
             // Start the connection.
             $.connection.hub.start();

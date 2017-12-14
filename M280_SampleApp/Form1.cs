@@ -526,21 +526,64 @@ namespace M280_SampleApp
             this.picImage.Image = this.CroppedImage;
 
             //Ankit 
-            System.IO.MemoryStream stream = new System.IO.MemoryStream();
-            SourceImage.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
-            byte[] imageBytes = stream.ToArray();
+            //System.IO.MemoryStream stream = new System.IO.MemoryStream();
+            //SourceImage.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
+            //byte[] imageBytes = stream.ToArray();
 
-            string base64String = Convert.ToBase64String(imageBytes);
+            //string base64String = Convert.ToBase64String(imageBytes);
+
             
-                IHubContext hubContext = GlobalHost.ConnectionManager.GetHubContext<MyHub>();
+
+            IHubContext hubContext = GlobalHost.ConnectionManager.GetHubContext<MyHub>();
 
             var vv = new GuestImages
             {
-                ImageBase64= base64String
-            };
+                ImageBase64= saveJpeg(SourceImage, (long)70)
+        };
 
             hubContext.Clients.All.sendGuestImageObject(vv);
         }
+
+        //Ankit 20171214
+        private string saveJpeg(Bitmap img, long quality)
+        {
+            string base64String = "";
+            //EncoderParameter parameter = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, quality);
+            //ImageCodecInfo encoder = getEncoderInfo("image/jpeg");
+            //if (encoder != null)
+            //{
+            //    EncoderParameters encoderParams = new EncoderParameters(1);
+            //    encoderParams.Param[0] = parameter;
+            //    img.Save(path, encoder, encoderParams);
+            //}
+            EncoderParameter parameter = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, quality);
+            ImageCodecInfo encoder = getEncoderInfo("image/jpeg");
+            if (encoder != null)
+            {
+                EncoderParameters encoderParams = new EncoderParameters(1);
+                encoderParams.Param[0] = parameter;
+
+                System.IO.MemoryStream stream = new System.IO.MemoryStream();
+                img.Save(stream, encoder, encoderParams);
+                byte[] imageBytes = stream.ToArray();
+                base64String = Convert.ToBase64String(imageBytes);
+            }
+
+            return base64String;
+        }
+        private ImageCodecInfo getEncoderInfo(string mimeType)
+        {
+            ImageCodecInfo[] imageEncoders = ImageCodecInfo.GetImageEncoders();
+            for (int i = 0; i < imageEncoders.Length; i++)
+            {
+                if (imageEncoders[i].MimeType == mimeType)
+                {
+                    return imageEncoders[i];
+                }
+            }
+            return null;
+        }
+
 
         /*Summary
           The CreateBitmap routine.
