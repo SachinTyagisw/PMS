@@ -24,4 +24,8 @@ namespace M280_SampleApp
         public string IdType { get; set; }
 
     }
+
+    public class GuestImages {
+        public string ImageBase64 { get; set; }
+    }
 }

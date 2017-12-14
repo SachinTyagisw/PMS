@@ -16,6 +16,11 @@ namespace M280_SampleApp
             Clients.All.sendGuestObject(guest);
         }
 
+        public void SendGuestImageObject(GuestImages img)
+        {
+            Clients.All.sendGuestImageObject(img);
+        }
+
         public override Task OnConnected()
         {
             //Console.WriteLine("Hub OnConnected {0}\n", Context.ConnectionId);

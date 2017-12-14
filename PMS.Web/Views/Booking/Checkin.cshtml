@@ -705,6 +705,11 @@
                 $('#dob').val(guestDetail.DOB);
 
             };
+
+            chat.client.sendGuestImageObject = function (imgBase64)
+            {
+                console.log(imgBase64);
+            };
             // Start the connection.
             $.connection.hub.start();
         }

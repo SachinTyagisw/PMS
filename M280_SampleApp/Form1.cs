@@ -524,6 +524,22 @@ namespace M280_SampleApp
 
             SourceImage.Dispose();
             this.picImage.Image = this.CroppedImage;
+
+            //Ankit 
+            System.IO.MemoryStream stream = new System.IO.MemoryStream();
+            SourceImage.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
+            byte[] imageBytes = stream.ToArray();
+
+            string base64String = Convert.ToBase64String(imageBytes);
+            
+                IHubContext hubContext = GlobalHost.ConnectionManager.GetHubContext<MyHub>();
+
+            var vv = new GuestImages
+            {
+                ImageBase64= base64String
+            };
+
+            hubContext.Clients.All.sendGuestImageObject(vv);
         }
 
         /*Summary
