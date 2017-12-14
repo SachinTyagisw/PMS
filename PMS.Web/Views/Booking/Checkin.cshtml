@@ -706,11 +706,11 @@
 
             };
 
-            chat.client.sendGuestImageObject = function (imgBase64)
+            chat.client.sendGuestImageObject = function (imageDetails)
             {
                 $('#imgPhoto').css('visibility', 'visible');
                 $('#imgPhoto').addClass('photo-added');
-                var base64String = "data:image/jpeg;base64," + imgBase64;
+                var base64String = "data:image/jpeg;base64," + imageDetails.ImageBase64;
                 if (base64String) {
                     $('#imgPhoto').attr('src', base64String);
                 } else {

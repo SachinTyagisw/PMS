@@ -538,7 +538,7 @@ namespace M280_SampleApp
 
             var vv = new GuestImages
             {
-                ImageBase64= saveJpeg(SourceImage, (long)70)
+                ImageBase64= saveJpeg(this.CroppedImage, (long)70)
         };
 
             hubContext.Clients.All.sendGuestImageObject(vv);
@@ -564,6 +564,7 @@ namespace M280_SampleApp
                 encoderParams.Param[0] = parameter;
 
                 System.IO.MemoryStream stream = new System.IO.MemoryStream();
+                //img.Save(@"D:\PmsLogs\testimage.jpeg", encoder, encoderParams);
                 img.Save(stream, encoder, encoderParams);
                 byte[] imageBytes = stream.ToArray();
                 base64String = Convert.ToBase64String(imageBytes);
