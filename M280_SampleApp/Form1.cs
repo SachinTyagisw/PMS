@@ -657,8 +657,9 @@ namespace M280_SampleApp
         //Proccess Received Data - Sachin
         private void dataReceived(string recvStr)
         {
+            Thread.Sleep(1000);
             //String to capture the data in ASCII format
-            string txtASCData = string.Empty;
+            txtASCData.Text = string.Empty;
             string text = recvStr.Replace("\n", ".").Replace("\r", ".");
             char[] chArray = recvStr.ToCharArray();
             text = "";
@@ -673,30 +674,63 @@ namespace M280_SampleApp
                     text = text + ".";
                 }
             }
+            
+                txtASCData.Text += text;
 
-            txtASCData += text;
-
+            
             IHubContext hubContext = GlobalHost.ConnectionManager.GetHubContext<MyHub>();
 
-            var vv = new GuestDetail
-            {
-                Title = "Mr.",
-                FirstName = "Ankit",
-                LastName = "Bansal",
-                Address = "Near Iffco chok",
-                City = "Gurgaon",
-                Country = "India",
-                EmailId = "ankit@gmail.com",
-                PhoneNo = "8588892245",
-                State = "Haryana",
-                Zip = "110038",
-                DOB = "24/04/1990",
-                ExpiryDate = "24/09/2020",
-                IdNumber = "12112121",
-                IdType = "Passport"
-            };
 
-            hubContext.Clients.All.sendGuestObject(vv);
+            // Driving License
+            if (recvStr.Length > 50)
+            {
+                List<string> keys = new List<string>();
+                foreach (var item in recvStr.Split('\n'))
+                {
+                    keys.Add(item);
+                }
+
+                var vv = new GuestDetail
+                {
+                    Title = keys.FirstOrDefault(x => x.Contains("DBC")).ToFormat("DBC") == "1" ? "Mr." : "Ms.",
+                    FirstName = keys.FirstOrDefault(x => x.Contains("DCT")).ToFormat("DCT"),
+                    LastName = keys.FirstOrDefault(x => x.Contains("DCS")).ToFormat("DCS"),
+                    Address = keys.FirstOrDefault(x => x.Contains("DAG")).ToFormat("DAG"),
+                    City = keys.FirstOrDefault(x => x.Contains("DAI")).ToFormat("DAI"),
+                    Country = "USA",
+                    EmailId = "",
+                    PhoneNo = "",
+                    State = keys.FirstOrDefault(x => x.Contains("DAJ")).ToFormat("DAJ"),
+                    Zip = keys.FirstOrDefault(x => x.Contains("DAK")).ToFormat("DAK"),
+                    DOB = keys.FirstOrDefault(x => x.Contains("DBB")).ToFormat("DBB").ToDate(),
+                    ExpiryDate = keys.FirstOrDefault(x => x.Contains("DBA")).ToFormat("DBA").ToDate(),
+                    IdNumber = keys.FirstOrDefault(x => x.Contains("DAQ")).ToFormat("DAQ"),
+                    IdType = "DL"
+                };
+
+                hubContext.Clients.All.sendGuestObject(vv);
+
+            }
+            
+            //var vv = new GuestDetail
+            //{
+            //    Title = "Mr.",
+            //    FirstName = "Ankit",
+            //    LastName = "Bansal",
+            //    Address = "Near Iffco chok",
+            //    City = "Gurgaon",
+            //    Country = "India",
+            //    EmailId = "ankit@gmail.com",
+            //    PhoneNo = "8588892245",
+            //    State = "Haryana",
+            //    Zip = "110038",
+            //    DOB = "24/04/1990",
+            //    ExpiryDate = "24/09/2020",
+            //    IdNumber = "12112121",
+            //    IdType = "Passport"
+            //};
+
+            // hubContext.Clients.All.sendGuestObject(vv);
         }
     }
 }

@@ -49,6 +49,7 @@
             this.picImage = new System.Windows.Forms.PictureBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.chkTiltAdj = new System.Windows.Forms.CheckBox();
+            this.txtASCData = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picESEEK)).BeginInit();
@@ -248,11 +249,20 @@
             this.chkTiltAdj.Text = "Auto Tilt Adjustment";
             this.chkTiltAdj.UseVisualStyleBackColor = true;
             // 
+            // txtASCData
+            // 
+            this.txtASCData.Location = new System.Drawing.Point(908, 333);
+            this.txtASCData.Multiline = true;
+            this.txtASCData.Name = "txtASCData";
+            this.txtASCData.Size = new System.Drawing.Size(193, 81);
+            this.txtASCData.TabIndex = 6;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1113, 586);
+            this.Controls.Add(this.txtASCData);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.picESEEK);
             this.Controls.Add(this.groupBox2);
@@ -270,6 +280,7 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -295,6 +306,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.CheckBox chkTiltAdj;
+        private System.Windows.Forms.TextBox txtASCData;
     }
 }
 
