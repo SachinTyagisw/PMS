@@ -137,6 +137,8 @@ namespace PMS.Resources.DAL
         bool DeleteGuest(int guestId);
         List<PmsEntity.Guest> GetAllGuest(bool fullInfo);
 
+        bool CancelReservation(int bookingId);
+
     }
 }
 

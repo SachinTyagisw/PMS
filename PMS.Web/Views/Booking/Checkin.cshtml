@@ -567,6 +567,10 @@
                 gcm.AddBooking('reserved');
             });
 
+            $("#btnCancelReserved").click(function () {
+                gcm.CancelReservation();
+            });
+
             $("#uploadPhoto").change(function () {
                 $('#imgPhoto').css('visibility', 'visible');
                 $('#imgPhoto').addClass('photo-added');
@@ -751,6 +755,7 @@
             <input id="btnCheckout" disabled="disabled" type="button" class="btn btn-primary m-b-10 m-l-5" value="Checkout" />
             <input id="btnSave" disabled="disabled" type="button" class="btn btn-primary m-b-10 m-l-5" value="Save" />
             <input id="btnReserved" type="button" class="btn btn-primary m-b-10 m-l-5" value="Reservation" />
+            <input id="btnCancelReserved" type="button" class="btn btn-primary m-b-10 m-l-5" style="display:none" value="Cancel Reservation" />
         </div>
     </div>
 

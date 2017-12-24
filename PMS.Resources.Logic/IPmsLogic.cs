@@ -43,7 +43,7 @@ namespace PMS.Resources.Logic
         bool UpdatePaymentType(PmsEntity.PaymentType paymentType);
         bool DeletePaymentType(int paymentTypeId);
         List<PmsEntity.PaymentType> GetPaymentTypeByProperty(int propertyId);
-       
+
         //Floor Methods
         int AddFloor(PmsEntity.PropertyFloor propertyFloor);
         bool UpdateFloor(PmsEntity.PropertyFloor propertyFloor);
@@ -84,7 +84,7 @@ namespace PMS.Resources.Logic
         List<PmsEntity.State> GetStateByCountry(int id);
         List<PmsEntity.City> GetCityByState(int id);
         List<PmsEntity.Country> GetCountry();
-        List<PmsEntity.Guest>  GetAllGuest();
+        List<PmsEntity.Guest> GetAllGuest();
         List<PmsEntity.Tax> GetPaymentCharges(GetInvoiceRequestDto request);
         int AddInvoice(PmsEntity.Invoice invoice);
         PmsEntity.Invoice GetInvoiceById(GetInvoiceRequestDto request);
@@ -131,7 +131,7 @@ namespace PMS.Resources.Logic
         bool UpdateGuest(PmsEntity.Guest Guest);
         bool DeleteGuest(int UserId);
         List<PmsEntity.Guest> GetAllGuest(bool allinfo);
-
-
+        
+        bool CancelReservation(int bookingId);
     }
 }

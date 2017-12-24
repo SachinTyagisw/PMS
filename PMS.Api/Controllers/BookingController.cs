@@ -113,6 +113,12 @@ namespace PMS.Api.Controllers
             "api/v1/Booking/GetGuestSummary",
             new { controller = "Booking", action = "GetGuestSummary" }
             );
+
+            config.Routes.MapHttpRoute(
+            "CancelReservation",
+            "api/v1/Booking/CancelReservation/{bookingId}",
+            new { controller = "Booking", action = "CancelReservation" }
+            );
         }
 
 
@@ -462,6 +468,18 @@ namespace PMS.Api.Controllers
         {
             var response = new GetGuestSummaryResponseDto();
             response.GuestSummary= _iPmsLogic.GetGuestSummary(request);
+            return response;
+        }
+
+        [HttpGet, ActionName("CancelReservation")]
+        public CancelReservationResponseDto CancelReservation(int bookingId)
+        {
+            var response = new CancelReservationResponseDto();
+            response.IsCancelled = _iPmsLogic.CancelReservation(bookingId);
+            if (response.IsCancelled)
+                response.Status = "Cancelled";
+            else
+                response.Status = "Not Cancelled";
             return response;
         }
     }

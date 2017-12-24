@@ -2793,5 +2793,20 @@ namespace PMS.Resources.DAL
             }
         }
         #endregion
+
+        public bool CancelReservation(int bookingId)
+        {
+            using (var pmsContext = new PmsEntities())
+            {
+                var result=pmsContext.Bookings.Find(bookingId);
+                if (result != null)
+                {
+                    result.IsActive = false;
+                    if(pmsContext.SaveChanges()>0)
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

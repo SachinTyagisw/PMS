@@ -26,8 +26,8 @@
             UserSetting: null,
             AllFunctionalitiesSettings: null,
             FunctionalitiesSettings: null,
-            GuestSetting:null,
-            PropertyForAccessSetting:null
+            GuestSetting: null,
+            PropertyForAccessSetting: null
         },
 
         BookingDto: {
@@ -42,16 +42,16 @@
             AdditionalGuestId: null
         },
 
-        ReportDto:{
+        ReportDto: {
             Shifts: null,
             ConsolidatedShifts: null,
             ManagerRecords: null,
             ConsolidatedManagerRecordsYear: null,
-            ConsolidatedManagerRecordsMonth:null,
-            GuestSummary:null
+            ConsolidatedManagerRecordsMonth: null,
+            GuestSummary: null
         },
         LocalUserDto: {
-            Functionalities : null
+            Functionalities: null
         },
 
         Initialize: function () {
@@ -437,7 +437,7 @@
             //invoice.GuestId = 2082;
             invoice.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             invoice.IsActive = true;
-            invoice.TotalAmount = $('#total')? $('#total').val() : 0;
+            invoice.TotalAmount = $('#total') ? $('#total').val() : 0;
             invoice.DiscountPercent = $('#discountPercent') && $('#discountPercent')[0] ? $('#discountPercent')[0].value.replace('%', '') : 0;
             invoice.DiscountAmount = $('#discountAmt') && $('#discountAmt')[0] ? $('#discountAmt')[0].value : 0;
             invoice.IsPaid = $('#balance') && $('#balance').val() > 0 ? false : true;
@@ -816,7 +816,7 @@
             var paymentValueColNew = $("td[id*='tdPaymentValue'] input");
             var invoiceObject = window.GuestCheckinManager.invoiceData.Invoice;
             var totRoomCharge = 0;
-           
+
 
             //  tax charges calculations
             if (taxElementCol && taxElementCol.length > 0) {
@@ -824,7 +824,7 @@
                     var taxName = taxElementCol[i].name;
                     if (!taxElementCol[i] || !taxElementCol[i].value || !taxName) continue;
                     var taxPercent = taxElementCol[i].value.replace('%', '');
-                    if (isNaN(taxPercent)) continue;                 
+                    if (isNaN(taxPercent)) continue;
                     totalTax = (parseFloat(totalTax) + parseFloat(taxPercent, 10)).toFixed(2);
                 }
             }
@@ -839,18 +839,18 @@
 
             //Discount
             var discountPercent = $('#discountPercent').val().replace('%', '');
-            discountPercent = !discountPercent || isNaN(discountPercent) ? 0 : parseFloat(discountPercent, 10).toFixed(2);            
-            if (discountPercent > 0) {                
-                totalRoomCharge.val(parseFloat(10000 * parseFloat(totalCharge) / (10000 + 100 * parseFloat(totalTax) - 100 * parseFloat(discountPercent) - parseFloat(discountPercent) * parseFloat(totalTax)), 10).toFixed(2));                
+            discountPercent = !discountPercent || isNaN(discountPercent) ? 0 : parseFloat(discountPercent, 10).toFixed(2);
+            if (discountPercent > 0) {
+                totalRoomCharge.val(parseFloat(10000 * parseFloat(totalCharge) / (10000 + 100 * parseFloat(totalTax) - 100 * parseFloat(discountPercent) - parseFloat(discountPercent) * parseFloat(totalTax)), 10).toFixed(2));
             }
             else {
                 var discountedAmount = $('#discountAmt').val().trim() === '' || isNaN($('#discountAmt').val()) || parseFloat($('#discountAmt').val()) <= 0 ? 0 : parseFloat($('#discountAmt').val());
                 totalCharge = (parseFloat(totalCharge) + parseFloat(discountedAmount)).toFixed(2);
-                totalRoomCharge.val(parseFloat(100*totalCharge /(100 + parseFloat(totalTax))).toFixed(2));               
+                totalRoomCharge.val(parseFloat(100 * totalCharge / (100 + parseFloat(totalTax))).toFixed(2));
             }
             baseRoomCharge.val((parseFloat(totalRoomCharge.val(), 10) / stayDays).toFixed(2));
 
-            gcm.CalculateInvoice(null,true);
+            gcm.CalculateInvoice(null, true);
         },
 
         GetInvoiceById: function (invoiceId) {
@@ -933,6 +933,10 @@
             //if (data[0].Status === 'checkout') {
             //    window.GuestCheckinManager.MakeReadOnly(true);
             //}
+
+            if (data[0].Status === 'reserved') {
+                $("#btnCancelReserved").show();
+            }
         },
 
         ClearPropertyFields: function () {
@@ -1079,15 +1083,14 @@
         },
 
         GetAllProperty: function () {
-           
-             var userId = window.PmsSession.GetItem("userid");
+
+            var userId = window.PmsSession.GetItem("userid");
             args.userId = userId > 0 ? userId : 0;
             // get property by api calling 
             pmsService.GetAllProperty(args);
         },
         GetPropertyForAccess: function () {
-            if (window.GuestCheckinManager.PropertySettingResponseDto.PropertyForAccessSetting && window.GuestCheckinManager.PropertySettingResponseDto.PropertyForAccessSetting.length > 0)
-            {
+            if (window.GuestCheckinManager.PropertySettingResponseDto.PropertyForAccessSetting && window.GuestCheckinManager.PropertySettingResponseDto.PropertyForAccessSetting.length > 0) {
                 var panelProperty = $('#panelProperty');
                 if (panelProperty) {
                     window.GuestCheckinManager.BindPropertyPanel($('#panelProperty .left ul'), window.GuestCheckinManager.PropertySettingResponseDto.PropertyForAccessSetting);
@@ -1344,7 +1347,7 @@
         FindSetting: function (id, settings) {
             if (!settings || settings.length <= 0) return null;
             for (var i = 0; i < settings.length; i++) {
-                if (settings[i].Id !== parseInt(id)) continue;               
+                if (settings[i].Id !== parseInt(id)) continue;
                 return settings[i];
             }
             return null;
@@ -1623,8 +1626,7 @@
             }
         },
 
-        FillExpenseCategory: function (ddlExpenseCategory, propertyId, callback)
-        {
+        FillExpenseCategory: function (ddlExpenseCategory, propertyId, callback) {
             if (!ddlExpenseCategory || !propertyId || propertyId <= 0) return;
             var expensecategory = window.GuestCheckinManager.PropertySettingResponseDto.ExpenseCategorySettings;
             if (!expensecategory || expensecategory.length <= 0) {
@@ -1996,10 +1998,9 @@
             data.InvoiceItems = prepareOtherCharges();
 
             var balance = 0;
-            for (var i = 0; i < data.InvoiceItems.length; i++)
-            {
+            for (var i = 0; i < data.InvoiceItems.length; i++) {
                 if (data.InvoiceItems[i].ItemType == "roomcharges")
-                data.InvoiceItems[i].Balance = balance = (parseFloat(balance) + parseFloat(data.InvoiceItems[i].ItemValue)).toFixed(2);
+                    data.InvoiceItems[i].Balance = balance = (parseFloat(balance) + parseFloat(data.InvoiceItems[i].ItemValue)).toFixed(2);
             }
             for (var i = 0; i < data.Taxes.length; i++) {
                 data.Taxes[i].Balance = balance = (parseFloat(balance) + parseFloat(data.Taxes[i].TaxValue)).toFixed(2);
@@ -2106,7 +2107,7 @@
                 // when no expensecategory data is present in db 
                 $("#divExpenseCategory tbody tr").append('<td class="finalActionsCol"><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td>');
             }
-        },        
+        },
 
         GetExpense: function (args) {
             pmsService.GetExpenseBySearch(args);
@@ -2137,7 +2138,7 @@
             expenseRequestDto.Expense = expense;
             pmsService.UpdateExpense(expenseRequestDto);
         },
-       
+
         PopulateExpenseGrid: function (data) {
             var divExpense = $('#divExpense');
             var expenseTemplate = $('#expenseTemplate');
@@ -2165,7 +2166,7 @@
         GetManagerReport: function (requestDto) {
             pmsService.GetManagerReport(requestDto);
         },
-            
+
         GetConsolidatedManagerDataPreviousMonth: function (requestDto) {
             pmsService.GetConsolidatedManagerDataPreviousMonth(requestDto);
         },
@@ -2173,8 +2174,7 @@
             pmsService.GetConsolidatedManagerDataPreviousYear(requestDto);
         },
 
-        PopulateShiftReportGrid: function(data)
-        {
+        PopulateShiftReportGrid: function (data) {
             var divShiftReport = $('#divShiftReport');
             var shiftReportTemplate = $('#shiftReportTemplate');
             if (!divShiftReport || !shiftReportTemplate || divShiftReport.length <= 0 || shiftReportTemplate.length <= 0) return;
@@ -2239,7 +2239,7 @@
             pmsService.UpdateUser(userRequestDto);
         },
 
-        GetAllUser: function () {            
+        GetAllUser: function () {
             pmsService.GetAllUser(args);
         },
 
@@ -2252,7 +2252,7 @@
             $("#divUser tbody tr").append('<td class="finalActionsCol"><i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
         },
         BindPropertyPanel: function (ulProperty, properties) {
-           if (!ulProperty || !properties || properties.length <= 0) return;
+            if (!ulProperty || !properties || properties.length <= 0) return;
 
             ulProperty.empty();
             for (var i = 0; i < properties.length; i++) {
@@ -2260,7 +2260,7 @@
             }
         },
         RemovePropertyPanel: function (ulProperty, properties) {
-            if (!ulProperty || !properties || properties.length <= 0) return;            
+            if (!ulProperty || !properties || properties.length <= 0) return;
             for (var i = 0; i < properties.length; i++) {
                 ulProperty.find('li#' + properties[i].Id).remove();
             }
@@ -2272,16 +2272,14 @@
         },
         GetAllFunctionality: function () {
             if (window.GuestCheckinManager.PropertySettingResponseDto.AllFunctionalitiesSettings &&
-                window.GuestCheckinManager.PropertySettingResponseDto.AllFunctionalitiesSettings.length > 0)
-            {
+                window.GuestCheckinManager.PropertySettingResponseDto.AllFunctionalitiesSettings.length > 0) {
                 var panelFunctionality = $('#panelFunctionality');
                 if (panelFunctionality) {
                     window.GuestCheckinManager.BindFunctionalityPanel($('#panelFunctionality .left ul'),
                         window.GuestCheckinManager.PropertySettingResponseDto.AllFunctionalitiesSettings);
                 }
             }
-            else
-            {
+            else {
                 pmsService.GetAllFunctionality(args);
                 Notifications.SubscribeActive("on-functionality-get-success", function (sender, args) {
                     var panelFunctionality = $('#panelFunctionality');
@@ -2306,8 +2304,7 @@
                 ulFunctionality.find('li#' + functionalities[i].Id).remove();
             }
         },
-        GetMyFunctionality: function()
-        {
+        GetMyFunctionality: function () {
             if (window.GuestCheckinManager.LocalUserDto.Functionalities == null
                  || window.GuestCheckinManager.LocalUserDto.Functionalities.length == 0) {
 
@@ -2328,37 +2325,31 @@
             }
 
         },
-        GetFunctionalityByUserId: function(userId)
-        {
-            args.userId = userId;  
-                pmsService.GetFunctionalityByUserId(args); 
+        GetFunctionalityByUserId: function (userId) {
+            args.userId = userId;
+            pmsService.GetFunctionalityByUserId(args);
         },
-        MenuByUserFunctionality:function()
-        {
+        MenuByUserFunctionality: function () {
             window.GuestCheckinManager.IsFunctionalityAllow();
 
-            for (var i = 0; i < window.GuestCheckinManager.LocalUserDto.Functionalities.length; i++)
-            {
+            for (var i = 0; i < window.GuestCheckinManager.LocalUserDto.Functionalities.length; i++) {
                 $('#side-nav li a[href*="' + window.GuestCheckinManager.LocalUserDto.Functionalities[i].Description + '" i]').addClass('my-function');
             }
             $('#side-nav li a:not([href="#"]):not(.my-function)').each(function () {
                 $(this).parent().remove();
             });
             $('#side-nav li ul').each(function () {
-                if ($(this).children().length == 0)
-                {
+                if ($(this).children().length == 0) {
                     $(this).parent().remove();
                 }
             });
             $('#side-nav').show();
         },
-        InsertUserAccess:function(args)
-        {
+        InsertUserAccess: function (args) {
             args.CreatedBy = getCreatedBy();
             pmsService.InsertUserAccess(args);
         },
-        IsFunctionalityAllow: function ()
-        {
+        IsFunctionalityAllow: function () {
             var valid = false;
 
             //Test
@@ -2367,25 +2358,23 @@
                 return;
 
             for (var i = 0; i < window.GuestCheckinManager.LocalUserDto.Functionalities.length; i++) {
-                if (window.location.href.toLowerCase().indexOf(window.GuestCheckinManager.LocalUserDto.Functionalities[i].Description.toLowerCase()) >= 0)
-                {
+                if (window.location.href.toLowerCase().indexOf(window.GuestCheckinManager.LocalUserDto.Functionalities[i].Description.toLowerCase()) >= 0) {
                     valid = true;
                     return;
                 }
             }
-            if (!valid)
-            {
+            if (!valid) {
                 // Temp comment for user access 
-               // window.location.href = window.webBaseUrl;
+                // window.location.href = window.webBaseUrl;
             }
         },
-        GetGuestSummary: function (args) {            
+        GetGuestSummary: function (args) {
             pmsService.GetGuestSummary(args);
         },
         PopulateGuestSummaryGrid: function (data) {
             var guestSummary = $('#guestSummary');
             var guestSummaryTemplate = $('#guestSummaryTemplate');
-            if (!guestSummary || !guestSummaryTemplate || guestSummary.length <= 0 || guestSummaryTemplate.length <= 0)return;
+            if (!guestSummary || !guestSummaryTemplate || guestSummary.length <= 0 || guestSummaryTemplate.length <= 0) return;
             guestSummary.html(guestSummaryTemplate.render(data));
         },
         DeleteGuest: function (guestId) {
@@ -2431,7 +2420,7 @@
             $("#divGuest thead tr:first-child").append('<th class="actionsCol" contenteditable="false">Actions</th>');
             $("#divGuest tbody tr").append('<td class="finalActionsCol"><i class="fa fa-minus-circle" aria-hidden="true"></i> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </td>');
         },
-        PopulateGuestMasterDetail: function(guest) {
+        PopulateGuestMasterDetail: function (guest) {
             $('#password').val(guest.Password);
             $('#firstName').val(guest.FirstName);
             $('#lastName').val(guest.LastName);
@@ -2452,12 +2441,12 @@
             if (guest.State && guest.State.Id) {
                 $('#ddlState').val(guest.State.Id);
                 gcm.BindStateDdl(guest.Country.Id, $('#ddlState'));
-            }       
+            }
             gcm.BindCityDdl(guest.State.Id, $('#ddlCity'));
             $('#ddlState').val(guest.State.Id);
             $('#ddlCity').val(guest.City.Id);
 
-             $('#imgPhoto').css('visibility', 'visible');
+            $('#imgPhoto').css('visibility', 'visible');
             $('#imgPhoto').addClass('photo-added');
             $('#imgAdditionalPhoto').css('visibility', 'visible');
             $('#imgAdditionalPhoto').addClass('photo-added');
@@ -2506,8 +2495,7 @@
             data.Nights = [];
             data = preparePropertyData(data);
             var row = window.GuestCheckinManager.invoiceData.Invoice;
-            for (var i = 0; i < data.StayDays; i++)
-            {
+            for (var i = 0; i < data.StayDays; i++) {
                 var displayDate = window.GuestCheckinManager.AddDay(data.Arrival, i);
                 data.Nights[i] = {};
                 data.Nights[i].No = i;
@@ -2527,12 +2515,10 @@
                 data.Nights[i].InvoiceItems.push(totalRoomCharge);
 
                 //Other Item
-                for (var j = 0; j < row.Tax.length; j++)
-                {
+                for (var j = 0; j < row.Tax.length; j++) {
                     if (!row.Tax[j].IsDefaultCharges && (row.Tax[j].CreatedOn.split('T')[0] == displayDate
                         || (i == data.StayDays - 1 &&
-                        row.Tax[j].CreatedOn.split('T')[0] == window.GuestCheckinManager.AddDay(displayDate, 1))))
-                    {
+                        row.Tax[j].CreatedOn.split('T')[0] == window.GuestCheckinManager.AddDay(displayDate, 1)))) {
                         var otherTax = {};
                         otherTax.ItemName = row.Tax[j].TaxName;
                         otherTax.ItemValue = row.Tax[j].Value.toFixed(2);
@@ -2544,11 +2530,10 @@
                         //otherTax.InvoiceId = 1038;
                         data.Nights[i].InvoiceItems.push(otherTax);
                     }
-                    else if (row.Tax[j].IsDefaultCharges && row.Tax[j].IsTaxIncluded)
-                    {
+                    else if (row.Tax[j].IsDefaultCharges && row.Tax[j].IsTaxIncluded) {
                         var tax = {};
                         tax.TaxShortName = row.Tax[j].TaxName;
-                        tax.TaxAmount= row.Tax[j].Value.toFixed(2) ;
+                        tax.TaxAmount = row.Tax[j].Value.toFixed(2);
                         tax.TaxValue = (parseFloat(row.Tax[j].Amount) / data.StayDays).toFixed(2);
                         tax.IsActive = true;
                         tax.CreatedOn = row.Tax[j].CreatedOn;
@@ -2559,7 +2544,7 @@
                 }
                 for (var j = 0; j < row.InvoicePaymentDetails.length; j++) {
                     if (row.InvoicePaymentDetails[j].CreatedOn.split('T')[0] == displayDate
-                        ||(i == data.StayDays - 1 && 
+                        || (i == data.StayDays - 1 &&
                         row.InvoicePaymentDetails[j].CreatedOn.split('T')[0] == window.GuestCheckinManager.AddDay(displayDate, 1))) {
                         var payment = {};
                         payment.PaymentMode = row.InvoicePaymentDetails[j].PaymentMode;
@@ -2596,7 +2581,7 @@
             var printTemplate = '';
             divToPrint.html('');
             printTemplate = $('#invoiceDetailTemplate');
-            
+
             if (data && divToPrint && divToPrint.length > 0
                 && printTemplate && printTemplate.length > 0) {
                 divToPrint.html(printTemplate.render(data));
@@ -2605,6 +2590,12 @@
             return "No data is available for printing";
 
         },
+        CancelReservation: function () {
+            args.id = window.GuestCheckinManager.BookingDto.BookingId ? window.GuestCheckinManager.BookingDto.BookingId : -1;;
+            if(args.id>0)
+            pmsService.CancelReservation(args);
+        },
+
         AjaxHandlers: function () {
             // ajax handlers start
             pmsService.Handlers.OnAddBookingSuccess = function (data) {
@@ -2622,7 +2613,16 @@
                     window.GuestCheckinManager.BookingDto.BookingId = data.BookingId;
                     window.GuestCheckinManager.BookingDto.GuestId = data.GuestId;
                     window.GuestCheckinManager.BookingDto.RoomBookingId = data.RoomBookingId;
-                    $('#btnSave').attr("disabled", false);
+                    
+
+                    if (bookingStatus === "reserved") {
+                        $('#btnCancelReserved').show();
+                        $('#btnSave').attr("disabled", true);
+                    }
+                    else {
+                        $('#btnSave').attr("disabled", false);
+                        $('#btnReserved').attr("disabled", true);
+                    }
                     $('#btnCheckout').attr("disabled", false);
                     //$('#btnCheckin').attr("disabled", true);
                     $('#saveInvoice').attr("disabled", false);
@@ -2852,7 +2852,7 @@
                 var divProperty = $('#divProperty');
                 var propertyTemplate = $('#propertyTemplate');
                 var ddlProperty = $('#ddlProperty');
-                var panelProperty= $('#panelProperty');
+                var panelProperty = $('#panelProperty');
                 if (divProperty && propertyTemplate && divProperty.length > 0 && propertyTemplate.length > 0) {
                     $('#propmodal').removeClass('open');
                     window.GuestCheckinManager.PopulatePropertyGrid(data);
@@ -2860,8 +2860,7 @@
                     window.GuestCheckinManager.BindPropertyDdl(ddlProperty);
                 }
 
-                if (panelProperty)
-                {
+                if (panelProperty) {
                     window.GuestCheckinManager.BindPropertyPanel($('#panelProperty .left ul'), data.Properties);
                 }
                 if (window.Notifications) window.Notifications.Notify("on-allproperty-get-success", null, null);
@@ -3045,15 +3044,15 @@
 
                 var divInvoice = $('#divInvoice');
                 var invoiceTemplate = $('#invoiceTemplate');
-                
+
                 if (divInvoice && divInvoice.length > 0 && invoiceTemplate && invoiceTemplate.length > 0) {
                     //storing payment type data into session storage only for checkin screen exclude paymenttype admin screen
-                    pmsSession.SetItem("paymenttype", JSON.stringify(data.PaymentTypes));    
+                    pmsSession.SetItem("paymenttype", JSON.stringify(data.PaymentTypes));
                     if (window.Notifications) window.Notifications.Notify("on-paymenttype-get-success", null, null);
                 }
                 var divBooking = $('#divBooking');
-                var divExpense= $('#divExpense');
-                if ((divBooking && divBooking.length > 0) || (divExpense && divExpense.length>0)) {
+                var divExpense = $('#divExpense');
+                if ((divBooking && divBooking.length > 0) || (divExpense && divExpense.length > 0)) {
                     if (window.Notifications) window.Notifications.Notify("on-paymenttype-get-success-booking", null, null);
                 }
             };
@@ -3468,7 +3467,7 @@
                 window.GuestCheckinManager.PropertySettingResponseDto.ExpenseSettings = null;
                 window.GuestCheckinManager.PropertySettingResponseDto.ExpenseSettings = data.Expenses;
                 window.GuestCheckinManager.PopulateExpenseGrid(data);
-               
+
             };
 
             pmsService.Handlers.OnGetExpenseBySearchFailure = function () {
@@ -3517,7 +3516,7 @@
                 //alert(status);
             };
 
-            
+
             pmsService.Handlers.OnGetShiftReportFailure = function () {
                 // show error log
                 console.error("Get Shift Report failure");
@@ -3595,13 +3594,13 @@
                 if (!data || !data.Users || data.Users.length <= 0) return;
                 window.GuestCheckinManager.PropertySettingResponseDto.UserSetting = null;
                 window.GuestCheckinManager.PropertySettingResponseDto.UserSetting = data.Users;
-               
+
                 var divUser = $('#divUser');
                 var userTemplate = $('#userTemplate');
                 if (divUser && userTemplate && divUser.length > 0 && userTemplate.length > 0) {
                     $('#propmodal').removeClass('open');
                     window.GuestCheckinManager.PopulateUserGrid(data);
-                } 
+                }
                 if (window.Notifications) window.Notifications.Notify("on-allUser-get-success", null, null);
             };
 
@@ -3611,8 +3610,7 @@
             };
 
             pmsService.Handlers.OnGetPropertyByUserIdSuccess = function (data) {
-                if (!data || !data.Properties || data.Properties.length <= 0)
-                {
+                if (!data || !data.Properties || data.Properties.length <= 0) {
                     $('#panelProperty .right ul').empty();
                     return;
                 }
@@ -3631,7 +3629,7 @@
 
             pmsService.Handlers.OnGetAllFunctionalitySuccess = function (data) {
                 if (!data || !data.Functionalities || data.Functionalities.length <= 0) return;
-                
+
                 window.GuestCheckinManager.PropertySettingResponseDto.AllFunctionalitiesSettings = null;
                 window.GuestCheckinManager.PropertySettingResponseDto.AllFunctionalitiesSettings = data.Functionalities;
                 if (window.Notifications) window.Notifications.Notify("on-functionality-get-success", null, null);
@@ -3654,7 +3652,7 @@
                     window.GuestCheckinManager.BindFunctionalityPanel($('#panelFunctionality .right ul'), data.Functionalities);
                     window.GuestCheckinManager.RemoveFunctionalityPanel($('#panelFunctionality .left ul'), data.Functionalities);
                 }
-                if (window.Notifications) window.Notifications.Notify("on-functionality-user-get-success", null, null);                
+                if (window.Notifications) window.Notifications.Notify("on-functionality-user-get-success", null, null);
             };
 
             pmsService.Handlers.OnGetFunctionalityByUserIdFailure = function () {
@@ -3662,7 +3660,7 @@
                 console.error("get all functionalities by userid call failed");
             };
 
-            
+
             pmsService.Handlers.OnInsertUserAccessSuccess = function (data) {
                 var status = data.StatusDescription.toLowerCase();
                 console.log(status);
@@ -3704,7 +3702,7 @@
                 window.GuestCheckinManager.ReportDto.GuestSummary = data.GuestSummary;
                 window.GuestCheckinManager.PopulateGuestSummaryGrid(data);
             };
-            
+
 
             pmsService.Handlers.OnAddGuestSuccess = function (data) {
                 // if booking is successful then upload image
@@ -3767,9 +3765,20 @@
                 // show error log
                 console.error("get all Guest call failed");
             };
+
+            pmsService.Handlers.OnCancelReservationFailure = function () {
+                // show error log
+                console.error("Reservation can not Cancelled.");
+            };
+
+            pmsService.Handlers.OnCancelReservationSuccess = function (data) {
+                if (data.IsCancelled) {
+                    alert("Selected Reservation is Cancelled.");
+                    window.location.reload();
+                }
+            };
         }
 
-        
 
         //DateDiff: function () {
         //    //var dateFrom = $('#dateFrom').val();
@@ -4339,7 +4348,7 @@
             tax.CreatedOn = window.GuestCheckinManager.GetCurrentDate();
             tax.CreatedBy = getCreatedBy();
             tax.InvoiceId = window.GuestCheckinManager.BookingDto.InvoiceId ? window.GuestCheckinManager.BookingDto.InvoiceId : -1;
-            
+
             //AB 20171201
             //balance = parseFloat(balance) + parseFloat(taxValue);
             //tax.Balance = parseFloat(balance) + parseFloat(totalRoomCharges);

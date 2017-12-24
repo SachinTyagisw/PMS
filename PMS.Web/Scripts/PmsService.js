@@ -165,7 +165,9 @@
             OnUpdateGuestSuccess: null,
             OnUpdateGuestFailure: null,
             OnGetGuestSuccess: null,
-            OnGetGuestFailure: null
+            OnGetGuestFailure: null,
+            OnCancelReservationSuccess: null,
+            OnCancelReservationFailure: null
         };
 
         this.UpdateStatus = function (args) {
@@ -475,6 +477,11 @@
         this.GetGuest = function (args) {
             makeAjaxRequestGet(args, "GetGuest", this, "api/v1/Guest/GetGuest");
         };
+
+        this.CancelReservation = function (args) {
+            makeAjaxRequestGet(args, "CancelReservation", this, "api/v1/Booking/CancelReservation/"+args.id);
+        };
+
         function makeAjaxRequestDelete(args, operationName, e, uri) {
             var url = e.Config.BaseUrl + uri;
             var successCallback = makeSuccessHandler(operationName, e);

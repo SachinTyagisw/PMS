@@ -571,6 +571,9 @@ namespace PMS.Resources.Logic
         }
         #endregion
 
-
+        public bool CancelReservation(int bookingId)
+        {
+            return DalFactory.CancelReservation(bookingId);
+        }
     }
 }

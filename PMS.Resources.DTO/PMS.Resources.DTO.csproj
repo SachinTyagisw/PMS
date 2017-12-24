@@ -69,6 +69,7 @@
     <Compile Include="Request\SearchExpenseRequestDto.cs" />
     <Compile Include="Request\ConsolidatedShiftReportDto.cs" />
     <Compile Include="Request\ManagerReportDto.cs" />
+    <Compile Include="Response\CancelReservationResponseDto.cs" />
     <Compile Include="Response\GetFunctionalityResponseDto.cs" />
     <Compile Include="Response\GetGuestSummaryResponseDto.cs" />
     <Compile Include="Response\GetUserResponseDto.cs" />
