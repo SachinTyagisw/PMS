@@ -5787,110 +5787,144 @@ div#panelProperty, #panelFunctionality {
   }
 }
 @media screen and (max-width: 650px) {
-  main.tab-main label {
-    font-size: 9px;
-    padding: 10px 3px;
-  }
-  main.tab-main {
-      margin: 0;
-  }
-  main.tab-main label:before {
-    margin: 0;
-    font-size: 18px;
-  }
-  #divUser .tableContents {
-    width: 100%;
-    /*table-layout: fixed;*/
-  }
-  #divUser .table.tableContents thead tr th:first-child {
-    width: 50px;
-  }
-  #divUser .table.tableContents thead tr th:last-child {
-    width: 70px;
-  }
-  #divUser .table.tableContents thead tr th, #divUser .table.tableContents tbody tr td {
-      word-wrap: break-word;
-      line-height: 16px;
-  }
-  .create-user-main .form-group.col-lg-5 {
-      float: left;
-  }
-  .create-user-main .form-group.col-lg-5 ~ .col-lg-7 .form-group {
-      float: right;
-  }
-  .basic-elements .row {
-      margin: 0;
-  }
-  .basic-elements .row > div, .user-profile .card-header ~ div > div, .contact-information div > div{
-      padding: 0;
-  }
-  .content-wrap .card .card-body .basic-elements .form-group {
-      display: block;
-  }
-  #guestComments, #ddlIdState {
-      margin-bottom: 25px;
-  }
-  .additional-details-main {
-      margin-top: 200px;
-  }
-  #scheduler .scheduler_default_main {
-      margin-top:45px;
-  }
-  .room-details .row {
-      margin: 0;
-  }
-  .room-details .row > div {
-      padding: 0;
-  }
-  .table-responsive {
-    width: 100%;
-    margin: 10px 0px 15px;
-    overflow-y: hidden;
-    -ms-overflow-style: -ms-autohiding-scrollbar;
-    border: 1px solid #ddd;
-    display: block;
-  }
-  #divShiftReport {
-    overflow-x: auto;
-    height: auto;
-  }
-  .logo, .pull-right {
-      float: none;
-      text-align: center;
-      display: block;
-  }
-  .logo {
-      display: none;
-  }
-  .footer-nav .show {
-      width: 100%;
-  }
-  .img-no-available {
-      height: calc(100vh - 230px);
-  }
-.invoice-btn-section.button-section {
-    /* margin: 0 auto; */
-    /* display: table; */
-    text-align: center;
-    /* position: absolute; */
-    /* left: 0; */
-    /* right: 0; */
-    bottom: 25px;
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-}
-/*.room-details .row > div:nth-child(1) {
-    padding: 0;
-    float: left;
-    min-width: 190px;
-}
-.room-details .row div:nth-child(2) {
-    float: left;
-    padding: 0;
-}*/
-}
+    main.tab-main label {
+        font-size: 9px;
+        padding: 10px 3px;
+    }
 
+    main.tab-main {
+        margin: 0;
+    }
+
+        main.tab-main label:before {
+            margin: 0;
+            font-size: 18px;
+        }
+
+    #divUser .tableContents {
+        width: 100%;
+        /*table-layout: fixed;*/
+    }
+
+    #divUser .table.tableContents thead tr th:first-child {
+        width: 50px;
+    }
+
+    #divUser .table.tableContents thead tr th:last-child {
+        width: 70px;
+    }
+
+    #divUser .table.tableContents thead tr th, #divUser .table.tableContents tbody tr td {
+        word-wrap: break-word;
+        line-height: 16px;
+    }
+
+    .create-user-main .form-group.col-lg-5 {
+        float: left;
+    }
+
+        .create-user-main .form-group.col-lg-5 ~ .col-lg-7 .form-group {
+            float: right;
+        }
+
+    .basic-elements .row {
+        margin: 0;
+    }
+
+        .basic-elements .row > div, .user-profile .card-header ~ div > div, .contact-information div > div {
+            padding: 0;
+        }
+
+    .content-wrap .card .card-body .basic-elements .form-group {
+        display: block;
+    }
+
+    #guestComments, #ddlIdState {
+        margin-bottom: 25px;
+    }
+
+    .additional-details-main {
+        margin-top: 200px;
+    }
+
+    #scheduler .scheduler_default_main {
+        margin-top: 45px;
+    }
+
+    .room-details .row {
+        margin: 0;
+    }
+
+        .room-details .row > div {
+            padding: 0;
+        }
+
+    .table-responsive {
+        width: 100%;
+        margin: 10px 0px 15px;
+        overflow-y: hidden;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+        border: 1px solid #ddd;
+        display: block;
+    }
+
+    #divShiftReport {
+        overflow-x: auto;
+        height: auto;
+    }
+
+    .logo, .pull-right {
+        float: none;
+        text-align: center;
+        display: block;
+    }
+
+    .logo {
+        display: none;
+    }
+
+    .footer-nav .show {
+        width: 100%;
+    }
+
+    .img-no-available {
+        height: calc(100vh - 230px);
+    }
+
+    .invoice-btn-section.button-section {
+        /* margin: 0 auto; */
+        /* display: table; */
+        text-align: center;
+        /* position: absolute; */
+        /* left: 0; */
+        /* right: 0; */
+        bottom: 25px;
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .invoice-btn-section.button-section button:nth-child(1), .invoice-btn-section.button-section button:nth-child(2), .invoice-btn-section.button-section button:nth-child(3) {
+        display: none;
+    }
+    .modal-wrapper.open {
+    position:absolute;
+    }
+    .modal-wrapper.open .modal {
+    width: 100%;
+    margin: 0;
+    top: 0;
+    left: 0;
+    }
+    .content .contact-information {
+    display: block;
+    margin-left: 1.5rem;
+}
+div#panelProperty, #panelFunctionality {
+    margin: 0;
+    display: flex;
+}
+}
 
 @media screen and (max-width: 480px) {
 .login-section .container, .login-section .content {     
@@ -5910,15 +5944,7 @@ div#panelProperty, #panelFunctionality {
   }
   .login-section .content .link-login ul li a{ margin: 10px; }
   .login-section .button a { padding: 0px 0 1px 40px; }
-    #invoice-bot button {
-    width: auto;
-    border: 1px solid #dadada;
-    background: #000;
-    font-size: 9px;
-    /* float: left; */
-    padding: 3px 4px;
-    margin: 4px;
-    }
+
 }
 
 @media screen and (max-width: 400px) {
