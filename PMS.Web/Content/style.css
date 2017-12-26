@@ -5941,6 +5941,15 @@ div#panelProperty, #panelFunctionality {
     .history-section {
         display: none;
     }
+    .cal-right {
+        max-width: 650px;
+        overflow: auto;
+        min-width: 320px;
+        margin: 10px;
+    }
+    #scheduler {
+        width: 1200px;
+    }
 }
 
 @media screen and (max-width: 480px) {
