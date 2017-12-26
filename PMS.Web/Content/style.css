@@ -5950,6 +5950,13 @@ div#panelProperty, #panelFunctionality {
     #scheduler {
         width: 1200px;
     }
+    .footer-nav > div input {
+        padding: 3px 6px;
+        border: 1px solid #dadada;
+        background: #000;
+        font-size: 12px;
+        margin: 1px;
+    }
 }
 
 @media screen and (max-width: 480px) {
