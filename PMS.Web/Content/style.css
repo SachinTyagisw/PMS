@@ -5730,7 +5730,21 @@ div#panelProperty, #panelFunctionality {
     float: left;
     height: 60px;
 }
-
+.invoice-btn-section.button-section button {
+    font-size: 12px;
+}
+.invoice-btn-section.button-section button:hover {
+    transition: 0 0;
+    background: #000;
+    color: #fff;
+}
+.invoice-btn-section.button-section button.fa.fa-print:before {
+    width: 16px;
+    display: inline-flex;
+}
+.invoice-btn-section.button-section button span {
+    font-family: 'Montserrat', sans-serif;
+}
 @media screen and (max-width: 1440px) {
     .cal-right {
         width: 83%;
@@ -5919,11 +5933,14 @@ div#panelProperty, #panelFunctionality {
     .content .contact-information {
     display: block;
     margin-left: 1.5rem;
-}
-div#panelProperty, #panelFunctionality {
-    margin: 0;
-    display: flex;
-}
+    }
+    div#panelProperty, #panelFunctionality {
+        margin: 0;
+        display: flex;
+    }
+    .history-section {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 480px) {
