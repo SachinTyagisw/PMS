@@ -87,7 +87,7 @@
                         <div id="divShiftReport" class="table-data table-responsive">
                         </div>
                         <!-- Small Table -->
-                        <div id="divConsolidatedShiftReport" class="table-data" style="background: transparent;">
+                        <div id="divConsolidatedShiftReport" class="table-data table-responsive" style="background: transparent;">
                         </div>
                     </div>
                 </div>
@@ -121,7 +121,7 @@
     </table>
 </script>
 <script type="text/html" id="consolidatedshiftReportTemplate">
-    <table class="table table-responsive table-hover tableContents" style="width:80%;">
+    <table class="table table-hover tableContents" style="width:80%;">
         <thead>
             {{if typeof ConsolidatedShiftRecords != "undefined" && ConsolidatedShiftRecords != "null" && ConsolidatedShiftRecords.length > 0 }}
             <tr>
