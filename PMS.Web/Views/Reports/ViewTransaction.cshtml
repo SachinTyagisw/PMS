@@ -28,33 +28,33 @@
         gcm.FillPaymentMode($('#ddlPaymentMode'), $('#ddlGlobalProperty').val());
     }
 
-    function exportBooking() {
-        var Bookings = window.GuestCheckinManager.PropertySettingResponseDto.Bookings;
-        if (Bookings && Bookings.length > 0) {
-            var csv = 'ID#,TransactionDate,GuestName,AmountPaid,ModeofPayment,RoomType,RoomRate,Transaction#,TaxCollected,Status\n';
-            Bookings.forEach(function (row) {
-                var dtCheckin = row.CheckinTime ? String(row.CheckinTime).replace('T', ' ') : '';
-                var status = row.IsActive ? 'Active' : 'Inactive';
-                csv += row.Id
-                    + "," + dtCheckin
-                    + "," + row.RoomBookings[0].Guest.FirstName
-                    + "," + row.Invoice.TotalAmount
-                    + "," + row.Invoice.InvoicePaymentDetails[0].PaymentMode
-                    + "," + row.RoomBookings[0].Room.RoomType.Name
-                    + "," + row.RateType.Rates[0].Value
-                    + "," + row.Id
-                    + "," + row.Invoice.InvoiceTaxDetails[0].TaxAmount
-                    + "," + status;
-                csv += "\n";
-            });
+    //function exportBooking() {
+    //    var Bookings = window.GuestCheckinManager.PropertySettingResponseDto.Bookings;
+    //    if (Bookings && Bookings.length > 0) {
+    //        var csv = 'ID#,TransactionDate,GuestName,AmountPaid,ModeofPayment,RoomType,RoomRate,Transaction#,TaxCollected,Status\n';
+    //        Bookings.forEach(function (row) {
+    //            var dtCheckin = row.CheckinTime ? String(row.CheckinTime).replace('T', ' ') : '';
+    //            var status = row.IsActive ? 'Active' : 'Inactive';
+    //            csv += row.Id
+    //                + "," + dtCheckin
+    //                + "," + row.RoomBookings[0].Guest.FirstName
+    //                + "," + row.Invoice.TotalAmount
+    //                + "," + row.Invoice.InvoicePaymentDetails[0].PaymentMode
+    //                + "," + row.RoomBookings[0].Room.RoomType.Name
+    //                + "," + row.RateType.Rates[0].Value
+    //                + "," + row.Id
+    //                + "," + row.Invoice.InvoiceTaxDetails[0].TaxAmount
+    //                + "," + status;
+    //            csv += "\n";
+    //        });
 
-            var hiddenElement = document.createElement('a');
-            hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-            hiddenElement.target = '_blank';
-            hiddenElement.download = 'viewTransaction.csv';
-            hiddenElement.click();
-        }
-    }
+    //        var hiddenElement = document.createElement('a');
+    //        hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+    //        hiddenElement.target = '_blank';
+    //        hiddenElement.download = 'viewTransaction.csv';
+    //        hiddenElement.click();
+    //    }
+    //}
 
     function searchBooking() {
         var propertyId = $('#ddlGlobalProperty').val();
@@ -91,9 +91,9 @@
             searchBooking();
         });
 
-        $("#btnExport").click(function () {
-            exportBooking();
-        });
+        //$("#btnExport").click(function () {
+        //    exportBooking();
+        //});
     });
 </script>
 <div class="content-wrap">
@@ -195,13 +195,15 @@
                                 <div class="col-lg-3">
                                     <div class="form-group btn-set">
                                         <button id="btnSearch" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button">Search</button>
-                                        <button id="btnExport" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button">Export</button>
+                                        @*<button id="btnExport" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button"
+                                                 download="somedata.xls" onclick="return ExcellentExport.excel(this, 'table1', 'Sheet1');">Export</button>*@
+                                        <a download="viewTransaction.xls" href="#" onclick="return ExcellentExport.excel(this, 'table1', 'Sheet1');">Export to Excel</a>
                                     </div>
                                 </div>
                             </div>
                         </fieldset>
                         <!-- Table -->
-                        <div id="divBooking" class="table-data table-responsive">
+                        <div id="divBooking" class="table-data table-responsive">                            
                         </div>
                         <!-- Small Table -->
                         <div id="rangeProperty" class="table-data" style="width:60%; margin-top: 4rem;">
@@ -222,7 +224,7 @@
     </div>
 </div>
 <script type="text/html" id="bookingTemplate">
-    <table class="table table-hover table-bordered results tableContents table-trans-manage">
+    <table class="table table-hover table-bordered results tableContents table-trans-manage" id="table1">
         <thead>
             <tr>
                 <th id="IDCol">ID #</th>
