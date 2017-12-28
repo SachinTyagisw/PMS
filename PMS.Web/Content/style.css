@@ -5957,6 +5957,9 @@ div#panelProperty, #panelFunctionality {
         font-size: 12px;
         margin: 1px;
     }
+    .tab-section {
+        height: auto;
+    }
 }
 
 @media screen and (max-width: 480px) {
