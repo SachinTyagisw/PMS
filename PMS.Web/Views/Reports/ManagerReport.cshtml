@@ -40,58 +40,58 @@
         getManagerReport();
     }
 
-    function exportReport() {
-        var ManagerRecords = window.GuestCheckinManager.ReportDto.ManagerRecords;
-        if (ManagerRecords && ManagerRecords.length > 0) {
-            var csv = '';
-            Object.keys(ManagerRecords[0]).forEach(function (row) {
-                csv += row + ",";
-            });
-            csv += "\n";
-            ManagerRecords.forEach(function (row) {
-                Object.keys(ManagerRecords[0]).forEach(function (key) {
-                    csv += ToString(row[key]) + ",";
-                });
-                csv += "\n";
-            });
-            csv += "\n\n";
+    //function exportReport() {
+    //    var ManagerRecords = window.GuestCheckinManager.ReportDto.ManagerRecords;
+    //    if (ManagerRecords && ManagerRecords.length > 0) {
+    //        var csv = '';
+    //        Object.keys(ManagerRecords[0]).forEach(function (row) {
+    //            csv += row + ",";
+    //        });
+    //        csv += "\n";
+    //        ManagerRecords.forEach(function (row) {
+    //            Object.keys(ManagerRecords[0]).forEach(function (key) {
+    //                csv += ToString(row[key]) + ",";
+    //            });
+    //            csv += "\n";
+    //        });
+    //        csv += "\n\n";
 
-            var ConsolidatedManagerRecordsMonth = window.GuestCheckinManager.ReportDto.ConsolidatedManagerRecordsMonth;
-            if (ConsolidatedManagerRecordsMonth && ConsolidatedManagerRecordsMonth.length > 0) {
-                Object.keys(ConsolidatedManagerRecordsMonth[0]).forEach(function (row) {
-                    csv += row + ",";
-                });
-                csv += "\n";
-                ConsolidatedManagerRecordsMonth.forEach(function (row) {
-                    Object.keys(ConsolidatedManagerRecordsMonth[0]).forEach(function (key) {
-                        csv += ToString(row[key]) + ",";
-                    });
-                    csv += "\n";
-                });
-            }
-            csv += "\n\n";
+    //        var ConsolidatedManagerRecordsMonth = window.GuestCheckinManager.ReportDto.ConsolidatedManagerRecordsMonth;
+    //        if (ConsolidatedManagerRecordsMonth && ConsolidatedManagerRecordsMonth.length > 0) {
+    //            Object.keys(ConsolidatedManagerRecordsMonth[0]).forEach(function (row) {
+    //                csv += row + ",";
+    //            });
+    //            csv += "\n";
+    //            ConsolidatedManagerRecordsMonth.forEach(function (row) {
+    //                Object.keys(ConsolidatedManagerRecordsMonth[0]).forEach(function (key) {
+    //                    csv += ToString(row[key]) + ",";
+    //                });
+    //                csv += "\n";
+    //            });
+    //        }
+    //        csv += "\n\n";
 
-            var ConsolidatedManagerRecordsYear = window.GuestCheckinManager.ReportDto.ConsolidatedManagerRecordsYear;
-            if (ConsolidatedManagerRecordsYear && ConsolidatedManagerRecordsYear.length > 0) {
-                Object.keys(ConsolidatedManagerRecordsYear[0]).forEach(function (row) {
-                    csv += row + ",";
-                });
-                csv += "\n";
-                ConsolidatedManagerRecordsYear.forEach(function (row) {
-                    Object.keys(ConsolidatedManagerRecordsYear[0]).forEach(function (key) {
-                        csv += ToString(row[key]) + ",";
-                    });
-                    csv += "\n";
-                });
-            }
-            csv += "\n\n";
-            var hiddenElement = document.createElement('a');
-            hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-            hiddenElement.target = '_blank';
-            hiddenElement.download = 'managerReport.csv';
-            hiddenElement.click();
-        }
-    }
+    //        var ConsolidatedManagerRecordsYear = window.GuestCheckinManager.ReportDto.ConsolidatedManagerRecordsYear;
+    //        if (ConsolidatedManagerRecordsYear && ConsolidatedManagerRecordsYear.length > 0) {
+    //            Object.keys(ConsolidatedManagerRecordsYear[0]).forEach(function (row) {
+    //                csv += row + ",";
+    //            });
+    //            csv += "\n";
+    //            ConsolidatedManagerRecordsYear.forEach(function (row) {
+    //                Object.keys(ConsolidatedManagerRecordsYear[0]).forEach(function (key) {
+    //                    csv += ToString(row[key]) + ",";
+    //                });
+    //                csv += "\n";
+    //            });
+    //        }
+    //        csv += "\n\n";
+    //        var hiddenElement = document.createElement('a');
+    //        hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+    //        hiddenElement.target = '_blank';
+    //        hiddenElement.download = 'managerReport.csv';
+    //        hiddenElement.click();
+    //    }
+    //}
 
     function ToString(str) {
         if (str != null && str.length >= 0)
@@ -112,19 +112,21 @@
                         <div class="row" style="">                          
                             <div class="col-lg-1">
                                 <div class="form-group btn-set btn-export">
-                                    <button onclick="exportReport();" class="btn btn-primary m-t-15 btn-side" type="button">Export</button>
+                                    @*<button onclick="exportReport();" class="btn btn-primary m-t-15 btn-side" type="button">Export</button>*@
+                                    <a download="managerReport.xls" href="#" onclick="return ExcellentExport.excel(this, 'export', 'Sheet1');">Export</a>
                                 </div>
                             </div>
                         </div>
-                        
-                        <div id="divManagerReport" class="table-data table-responsive">
-                        </div>
-                        <!-- Small Table -->
-                        <div id="divConsolidatedManagerReportMonth" class="table-data table-responsive">
-                        </div>
+                        <div id="export">
+                            <div id="divManagerReport" class="table-data table-responsive">
+                            </div>
+                            <!-- Small Table -->
+                            <div id="divConsolidatedManagerReportMonth" class="table-data table-responsive">
+                            </div>
 
-                        <!-- Small Table -->
-                        <div id="divConsolidatedManagerReportYear" class="table-data table-responsive">
+                            <!-- Small Table -->
+                            <div id="divConsolidatedManagerReportYear" class="table-data table-responsive">
+                            </div>
                         </div>
                     </div>
                 </div>

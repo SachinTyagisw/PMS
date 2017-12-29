@@ -44,29 +44,29 @@
         gcm.GetExpense(getExpenseResponseDto);
     }
 
-    function exportExpense()
-    {
-        var expenses = window.GuestCheckinManager.PropertySettingResponseDto.ExpenseSettings;
-        if (expenses && expenses.length > 0) {
-            var csv = 'ID#,Date,Category,ModeofPayment,Amount,Description\n';
-            expenses.forEach(function (row) {
-                var dtExpense = row.ExpenseDate ? String(row.ExpenseDate).replace('T', ' ') : '';
-                csv += row.Id
-                    + "," + dtExpense
-                    + "," + row.ExpenseCategory.Description
-                    + "," + row.PaymentType.Description
-                    + "," + row.Amount
-                    + "," + row.Description;
-                csv += "\n";
-            });
+    //function exportExpense()
+    //{
+    //    var expenses = window.GuestCheckinManager.PropertySettingResponseDto.ExpenseSettings;
+    //    if (expenses && expenses.length > 0) {
+    //        var csv = 'ID#,Date,Category,ModeofPayment,Amount,Description\n';
+    //        expenses.forEach(function (row) {
+    //            var dtExpense = row.ExpenseDate ? String(row.ExpenseDate).replace('T', ' ') : '';
+    //            csv += row.Id
+    //                + "," + dtExpense
+    //                + "," + row.ExpenseCategory.Description
+    //                + "," + row.PaymentType.Description
+    //                + "," + row.Amount
+    //                + "," + row.Description;
+    //            csv += "\n";
+    //        });
 
-            var hiddenElement = document.createElement('a');
-            hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-            hiddenElement.target = '_blank';
-            hiddenElement.download = 'expenses.csv';
-            hiddenElement.click();
-        }
-    }
+    //        var hiddenElement = document.createElement('a');
+    //        hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+    //        hiddenElement.target = '_blank';
+    //        hiddenElement.download = 'expenses.csv';
+    //        hiddenElement.click();
+    //    }
+    //}
 
     $(document).ready(function () {
         $('.gridDatePicker').datetimepicker();
@@ -254,9 +254,9 @@
             searchExpense();
         });
 
-        $("#btnExport").click(function () {
-            exportExpense();
-        });
+        //$("#btnExport").click(function () {
+        //    exportExpense();
+        //});
 
         function isNumber(evt, element) {
             var charCode = (evt.which) ? evt.which : event.keyCode
@@ -359,7 +359,8 @@
                                     <div class="col-lg-3 p-t-5">
                                         <div class="form-group btn-set">
                                             <button id="btnSearch" class="btn btn-primary m-l-5 m-t-10 btn-side" type="button">Search</button>
-                                            <button id="btnExport" class="btn btn-primary m-l-5 m-t-10 btn-side" type="button">Export</button>
+                                            @*<button id="btnExport" class="btn btn-primary m-l-5 m-t-10 btn-side" type="button">Export</button>*@
+                                            <a download="expenseReport.xls" href="#" onclick="return ExcellentExport.excel(this, 'divExpense', 'Sheet1');">Export</a>
                                         </div>
                                     </div>
                                 </div>

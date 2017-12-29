@@ -13,9 +13,9 @@
              searchBooking();
          });
 
-         $("#btnExport").click(function () {
-             exportBooking();
-         });
+         //$("#btnExport").click(function () {
+         //    exportBooking();
+         //});
      });
 
      function getSummary()
@@ -73,32 +73,32 @@
          gcm.PopulateGuestSummaryGrid(data);
      }
 
-     function exportBooking()
-     {
-         filterRecords();
-         if (data.GuestSummary && data.GuestSummary.length > 0) {
-             var csv = 'ID#,Room#,RoomType,GuestName,ModeofPayment,Rate,C/OutDate-Time,Blanace,NextReservation\n';
-             data.GuestSummary.forEach(function (row) {
-                 csv += row.Id
-                     + "," + row.RoomNumber
-                     + "," + row.RoomTypeName
-                     + "," + row.FirstName + " " + row.LastName
-                     + "," + row.ModeOFPayment
-                     + "," + row.Rate
-                     + "," + String(row.CheckinTime).replace('T', ' ') + "/" +  String(row.CheckoutTime).replace('T', ' ')
-                     + "," + row.TotalAmount
-                     + "," + String(row.NextReservation).replace('T', ' ');
-                 csv += "\n";
-             });
+     //function exportBooking()
+     //{
+     //    filterRecords();
+     //    if (data.GuestSummary && data.GuestSummary.length > 0) {
+     //        var csv = 'ID#,Room#,RoomType,GuestName,ModeofPayment,Rate,C/OutDate-Time,Blanace,NextReservation\n';
+     //        data.GuestSummary.forEach(function (row) {
+     //            csv += row.Id
+     //                + "," + row.RoomNumber
+     //                + "," + row.RoomTypeName
+     //                + "," + row.FirstName + " " + row.LastName
+     //                + "," + row.ModeOFPayment
+     //                + "," + row.Rate
+     //                + "," + String(row.CheckinTime).replace('T', ' ') + "/" +  String(row.CheckoutTime).replace('T', ' ')
+     //                + "," + row.TotalAmount
+     //                + "," + String(row.NextReservation).replace('T', ' ');
+     //            csv += "\n";
+     //        });
 
-             var hiddenElement = document.createElement('a');
-             hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-             hiddenElement.target = '_blank';
-             hiddenElement.download = 'guestSummary.csv';
-             hiddenElement.click();
-         }
+     //        var hiddenElement = document.createElement('a');
+     //        hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+     //        hiddenElement.target = '_blank';
+     //        hiddenElement.download = 'guestSummary.csv';
+     //        hiddenElement.click();
+     //    }
 
-     }
+     //}
  </script> 
 <div class="content-wrap">
     <div class="main controls">
@@ -139,7 +139,8 @@
                                 <div class="col-lg-3 p-t-5">
                                     <div class="form-group btn-set">
                                         <button id="btnSearch" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button">Search</button>
-                                        <button id="btnExport" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button">Export</button>
+                                        @*<button id="btnExport" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button">Export</button>*@
+                                        <a download="guestSummaryReport.xls" href="#" onclick="return ExcellentExport.excel(this, 'guestSummary', 'Sheet1');">Export</a>
                                     </div>
                                 </div>
                             </div>

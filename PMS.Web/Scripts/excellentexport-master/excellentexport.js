@@ -788,15 +788,16 @@
                         })
                     },
                     t = {
-                        excel: '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta name=ProgId content=Excel.Sheet> <meta name=Generator content="Microsoft Excel 11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">\x3c!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--\x3e</head><body><table>{table}</table></body></html>'
+                        excel: '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta name=ProgId content=Excel.Sheet> <meta name=Generator content="Microsoft Excel 11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">\x3c!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--\x3e</head><body>{div}</body></html>'
                     },
                     r = ",",
                     n = "\r\n",
                     s = function(e) {
-                        return window.btoa(window.decodeURI(e))
+                        return window.btoa(e)
                     },
                     i = function (e, t) {
-                        t.table = t.table.replace(new RegExp('<th(?: |>)', 'g'), '<th style="background:#57666d;color:#fff;" ');
+                        t.div = t.div.replace(new RegExp('<th ', 'g'), '<th style="background:#57666d;color:#fff;" ');
+                        t.div = t.div.replace(new RegExp('<th>', 'g'), '<th style="background:#57666d;color:#fff;">');
                         return e.replace(new RegExp("{(\\w+)}", "g"), function(e, r) {
                             return t[r]
                         })
@@ -885,7 +886,7 @@
                         r = o(r);
                         var a = {
                                 worksheet: n || "Worksheet",
-                                table: r.innerHTML
+                                div: r.innerHTML
                             },
                             l = s(i(t.excel, a));
                         return f(e, l, "application/vnd.ms-excel", "export.xls")

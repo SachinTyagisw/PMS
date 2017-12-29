@@ -197,7 +197,7 @@
                                         <button id="btnSearch" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button">Search</button>
                                         @*<button id="btnExport" class="btn btn-primary m-t-15 btn-side btn-search-line" type="button"
                                                  download="somedata.xls" onclick="return ExcellentExport.excel(this, 'table1', 'Sheet1');">Export</button>*@
-                                        <a download="viewTransaction.xls" href="#" onclick="return ExcellentExport.excel(this, 'table1', 'Sheet1');">Export to Excel</a>
+                                        <a download="viewTransaction.xls" href="#" onclick="return ExcellentExport.excel(this, 'divBooking', 'Sheet1');">Export to Excel</a>
                                     </div>
                                 </div>
                             </div>
@@ -224,7 +224,7 @@
     </div>
 </div>
 <script type="text/html" id="bookingTemplate">
-    <table class="table table-hover table-bordered results tableContents table-trans-manage" id="table1">
+    <table class="table table-hover table-bordered results tableContents table-trans-manage">
         <thead>
             <tr>
                 <th id="IDCol">ID #</th>
