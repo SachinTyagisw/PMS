@@ -194,6 +194,12 @@
                 if (hasSelectedRoomExists) {
                     ddlRoom.val(roomIdFromDashboard);
                 }
+                else {
+                    if (ddlRoom.find('option').length == 2)
+                    {
+                        ddlRoom.find('option')[1].selected = true;
+                    }
+                }
                 // selected room id from dashboard doesnt available for booking when checkin or checkout date changes
                 if (roomIdFromDashboard > 0 && !hasSelectedRoomExists) {
                     var optedRoomNumber = pmsSession.GetItem("optroomnumber");
@@ -321,6 +327,12 @@
                     (isHourlyCbChecked && rateTypes[i].Units !== "Hourly")) continue;
                 ddlRateType.append(new Option(rateTypes[i].Name, rateTypes[i].Id));
             }
+
+            if (ddlRateType.find('option').length == 2) {
+                ddlRateType.find('option')[1].selected = true;
+            }
+
+
         },
 
         BindStateDdl: function (countryId, ddlState, stateData) {
@@ -998,7 +1010,7 @@
             $('#address').val('');
             $('#transRemarks').val('');
             $('#guestComments').val('');
-            $("#ddlAdults").val('0');
+            $("#ddlAdults").val('1');
             $("#ddlChild").val('0');
             $("#dob").val('');
             $("#idExpiry").val('');
