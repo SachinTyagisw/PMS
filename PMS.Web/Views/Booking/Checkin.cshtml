@@ -469,11 +469,7 @@
             });
 
             $("#btnRefresh").click(function () {
-                if (confirm("Do you want clear unsaved booking data ?")) {
-                    init();
-                    gcm.ClearAllFields();
-                    gcm.ToggleInvoiceWarning($('#invoiceWarning'), false);
-                }
+                RefreshField(true);
             });
 
             $("#btnPrintFolio").click(function () {
@@ -536,6 +532,11 @@
                                     refund = true;
                                 }
                                 gcm.AddBooking('checkout', refund);
+                                RefreshField(false);
+                            }
+                            else {
+                                gcm.AddBooking('checkout');
+                                RefreshField(false);
                             }
                         });
                         gcm.LoadInvoice(true);
@@ -550,6 +551,11 @@
                                 shouldRefund = true;
                             }
                             gcm.AddBooking('checkout', shouldRefund);
+                            RefreshField(false);
+                        }
+                        else {
+                            gcm.AddBooking('checkout');
+                            RefreshField(false);
                         }
                     }
                 }
@@ -633,6 +639,22 @@
             });
         });
 
+
+        function RefreshField(ask)
+        {
+            if (ask) {
+                if (confirm("Do you want clear unsaved booking data ?")) {
+                    init();
+                    gcm.ClearAllFields();
+                    gcm.ToggleInvoiceWarning($('#invoiceWarning'), false);
+                }
+            }
+            else {
+                init();
+                gcm.ClearAllFields();
+                gcm.ToggleInvoiceWarning($('#invoiceWarning'), false);
+            }
+        }
     </script>
 <script src="~/Scripts/Scripts/jquery.signalR-2.0.0.min.js"></script>
 <script src="http://localhost:9000/signalr/hubs"></script>
