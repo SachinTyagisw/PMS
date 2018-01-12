@@ -506,6 +506,8 @@
             booking.GuestMappings = prepareGuestMapping();
             booking.Addresses = prepareAddress();
             booking.AdditionalGuests = prepareAdditionalGuest();
+            booking.LastUpdatedBy = getCreatedBy();
+            booking.LastUpdatedOn = window.GuestCheckinManager.GetCurrentDate();
 
             if (!booking.RoomBookings || !booking.Guests || !booking.Addresses) {
                 console.error('Room Booking can not be done.');
