@@ -3,6 +3,20 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type='text/javascript'>
+
+    function validateFileType() {
+        debugger;
+        var fileName = document.getElementById("uploadPhoto").value;
+        var idxDot = fileName.lastIndexOf(".") + 1;
+        var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+        if (extFile == "jpg" || extFile == "jpeg" || extFile == "png" || extFile =="icon") {
+            //TO DO
+        } else {
+            document.getElementById("uploadPhoto").value = "";
+            alert("Only jpg/jpeg and png files are allowed!");
+            return false;
+        }
+    }
     var gcm = window.GuestCheckinManager;
 
     function prepareProperty() {
@@ -485,7 +499,7 @@
                     <div class="col-lg-12 p-r-0 p-l-0">
                         <div class="user-photo photo_submit-container">
                             <label id="lblLogo" class="photo_submit js-photo_submit1">
-                                <input id="uploadPhoto" class="photo_submit-input js-photo_submit-input" type="file" accept="image/*">
+                                <input id="uploadPhoto" class="photo_submit-input js-photo_submit-input" type="file" accept="image/*" onchange="validateFileType();">
                                 <img id="imgPhoto" class="photo_submit js-photo_submit1" alt="your image" />
                                 <span class="photo_submit-plus"></span>
                                 <span class="photo_submit-uploadLabel">Upload Logo</span>

@@ -4,14 +4,15 @@
 }
 <style>
     .selected {
-    background-color:lightblue;    
+        background-color: lightblue;
     }
+
     #panelProperty li {
-    cursor:pointer;
+        cursor: pointer;
     }
 
     #panelFunctionality li {
-    cursor:pointer;
+        cursor: pointer;
     }
 </style>
 <script type='text/javascript'>
@@ -56,7 +57,7 @@
             return false;
         }
 
-        if (!mobileNumber || mobileNumber.length<=0) {
+        if (!mobileNumber || mobileNumber.length <= 0) {
             alert("Mobile Number is required");
             return false;
         }
@@ -81,20 +82,21 @@
                 return false;
             }
             //Confirm password
-            if (!confirmPassword || confirmPassword.length <= 0) {
-                alert("Confirm Password is required");
-                $('#confirmPassword').focus();
-                return false;
-            }
-            if (password != confirmPassword) {
-                alert("Confirm Password doesn't match with password.");
-                $('#confirmPassword').focus();
-                return false;
+            if (confirmPassword == 'undefined') {
+                if (!confirmPassword || confirmPassword.length <= 0) {
+                    alert("Confirm Password is required");
+                    $('#confirmPassword').focus();
+                    return false;
+                }
+                if (password != confirmPassword) {
+                    alert("Confirm Password doesn't match with password.");
+                    $('#confirmPassword').focus();
+                    return false;
+                }
             }
         }
         var existingUser = gcm.FindUser(userName, window.GuestCheckinManager.PropertySettingResponseDto.UserSetting);
-        if (existingUser != null && existingUser.Id != userId)
-        {
+        if (existingUser != null && existingUser.Id != userId) {
             alert("Username is already exists.");
             $('#userName').focus();
             return false;
@@ -138,14 +140,14 @@
 
     $(document).ready(function () {
 
-        gcm.GetAllUser();       
+        gcm.GetAllUser();
         gcm.GetPropertyForAccess();
         gcm.GetAllFunctionality();
 
         $('#mobileNumber').keydown(function (e) {
             gcm.IsNumeric(e);
         });
-       
+
         $("#createRow").click(function () {
             gcm.ClearUserFields();
         });
@@ -223,15 +225,13 @@
         });
     });
 
-    function onclick_changePassword()
-    {
+    function onclick_changePassword() {
         $('#password').attr("disabled", false);
         $('#confirmPassword').attr("disabled", false);
         $('#hdnChangePassword').val(true);
     }
 
-    function onclick_propertyRight()
-    {
+    function onclick_propertyRight() {
         $('#panelProperty div.left li.selected').appendTo('#panelProperty div.right ul');
     }
 
@@ -247,8 +247,7 @@
         $('#panelFunctionality div.right li.selected').appendTo('#panelFunctionality div.left ul');
     }
 
-    function populateUserPropertyAss(userId)
-    {
+    function populateUserPropertyAss(userId) {
         gcm.GetPropertyForAccess();
         gcm.GetAllFunctionality();
 
@@ -262,8 +261,7 @@
         }
     }
 
-    function insertUserPropertyFunction(userId)
-    {
+    function insertUserPropertyFunction(userId) {
         //user access
         var userAccess = {};
         userAccess.UserId = userId;
@@ -364,14 +362,13 @@
                         <div class="form-group">
                             <input id="password" type="password" placeholder="Password" class="form-control" name="example-input-normal">
                         </div>
-                    </div>                   
+                    </div>
                 </div>
                 @*<a href="#" id="lnkChangePassword" onclick="onclick_changePassword();" style="display:none;">Change password</a>*@
 
                 <div class="col-lg-8 p-l-0" id="panelProperty">
                     <div style="border:1px solid black;" class="left">
-                        <ul>
-                        </ul>
+                        <ul></ul>
 
                     </div>
                     <div class="button-left-right">
@@ -379,8 +376,7 @@
                         <button class="fa fa-arrow-left fa-2x" onclick="onclick_propertyLeft();"></button>
                     </div>
                     <div style="border:1px solid black;" class="right">
-                        <ul>
-                        </ul>
+                        <ul></ul>
                     </div>
                 </div>
 
@@ -393,12 +389,12 @@
                         <button class="fa fa-arrow-right fa-2x" onclick="onclick_functionRight();"></button>
                         <button class="fa fa-arrow-left fa-2x" onclick="onclick_functionLeft();"></button>
                     </div>
-                        <div style="border:1px solid black;" class="right">
-                            <ul></ul>
+                    <div style="border:1px solid black;" class="right">
+                        <ul></ul>
 
-                        </div>
                     </div>
-                
+                </div>
+
             </div>
             <div class="button-section">
                 <button id="cancel" type="button" class="btn btn-primary m-l-5 m-t-15">Cancel</button>
