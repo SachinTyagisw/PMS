@@ -45,9 +45,9 @@
             var roomRequestDto = {};
             roomRequestDto.Rooms = [];
 
-            for (var i = 0; i < divRoomCount; i++){
+            for (var i = 0; i < divRoomCount; i++) {
                 var room = {};
-                var roomTypeSelector = '#ddlRoomType' + (i+1);
+                var roomTypeSelector = '#ddlRoomType' + (i + 1);
                 var floorSelector = '#ddlFloor' + (i + 1);
                 //first time if room is created for a property
                 //then change room and floor selector
@@ -69,6 +69,26 @@
                 room.CreatedBy = createdBy;
                 room.CreatedOn = createdOn;
 
+                //Check Bulk Insert For Duplicate Room
+                for (var j = 0; j < divRoomCount; j++) {
+                    if (!(i == j)) {
+                        if (divRoom[i].cells[3].innerText == divRoom[j].cells[3].innerText) {
+                            alert("Room Number " + divRoom[j].cells[3].innerText + " already exists");
+                            return;
+                        }
+                    }
+                }
+                // Check Duplicate Room
+                //var GridList = window.GuestCheckinManager.PropertySettingResponseDto.RoomSettings;
+                //debugger;
+                //for (var k = 0; k < GridList.length; k++) {
+                //    if (!(i == k)) {
+                //        if (GridList[k]["Number"] == room.Number) {
+                //            alert("Room Number" + room.Number + " Can not be Duplicate");
+                //            return;
+                //        }
+                //    }
+                //}
                 roomRequestDto.Rooms.push(room);
             }
 
@@ -165,7 +185,7 @@
                 var cloneRoomType = $('#ddlRoomType').clone(true);
                 cloneRoomType[0].style = 'display:block';
                 cloneRoomType[0].id = 'ddlRoomType' + roomId;
-                var roomTypeSelector = '#' + cloneRoomType[0].id;                
+                var roomTypeSelector = '#' + cloneRoomType[0].id;
                 $(thisRow)[1].innerText = "";
                 $(thisRow[1]).attr('contenteditable', 'false');
                 $(thisRow[1]).append(cloneRoomType);
@@ -242,6 +262,15 @@
                     room.CreatedBy = getCreatedBy();
                     room.CreatedOn = gcm.GetCurrentDate();
 
+                    // Check Duplicate Room
+                    var GridList = window.GuestCheckinManager.PropertySettingResponseDto.RoomSettings;
+                    debugger;
+                    for (var i = 0; i < GridList.length; i++) {
+                        if (GridList[i]["Number"] == room.Number) {
+                            alert("Room Number " + room.Number + " already exists");
+                            return;
+                        }
+                    }
                     roomRequestDto.Rooms.push(room);
                     Notifications.SubscribeActive("on-room-add-success", function (sender, args) {
                         window.GuestCheckinManager.GetRoomByProperty($('#ddlProperty').val());

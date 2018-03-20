@@ -225,6 +225,12 @@
                 rate.CreatedOn = createdOn;
 
                 rateRequestDto.Rates.push(rate);
+
+                //Check Rate Already Exist or Not 
+                if (IsRatesDuplicate(rate, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings)) {
+                    alert("Rates already exists.");                    
+                    return;
+                }
             }
 
             Notifications.SubscribeActive("on-roomrate-add-success", function (sender, args) {
@@ -309,7 +315,7 @@
 
             }
             // clearing already added roomid 
-            selectedRoomId = [];
+            //selectedRoomId = [];
         });
 
         $("#divManageRate").on("click", ".fa-plus-circle", function () {
