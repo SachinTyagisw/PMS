@@ -224,7 +224,8 @@
                 rate.CreatedBy = createdBy;
                 rate.CreatedOn = createdOn;
 
-                rateRequestDto.Rates.push(rate);
+                if (rate.RoomId > 0 && rate.RoomTypeId > 0)
+                    rateRequestDto.Rates.push(rate);
 
                 //Check Rate Already Exist or Not 
                 if (IsRatesDuplicate(rate, window.GuestCheckinManager.PropertySettingResponseDto.RateSettings)) {
