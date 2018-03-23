@@ -2610,6 +2610,10 @@
             pmsService.CancelReservation(args);
         },
 
+        UpdatePassword: function(args){
+            pmsService.UpdatePassword(args);
+        },
+
         AjaxHandlers: function () {
             // ajax handlers start
             pmsService.Handlers.OnAddBookingSuccess = function (data) {
@@ -3790,6 +3794,15 @@
                     alert("Selected Reservation is Cancelled.");
                     window.location.reload();
                 }
+            };
+
+            pmsService.Handlers.OnUpdatePasswordFailure = function () {
+                // show error log
+                console.error("Password is not updated.");
+            };
+
+            pmsService.Handlers.OnUpdatePasswordSuccess = function (data) {
+               // success
             };
         }
 

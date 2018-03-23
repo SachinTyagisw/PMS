@@ -167,7 +167,9 @@
             OnGetGuestSuccess: null,
             OnGetGuestFailure: null,
             OnCancelReservationSuccess: null,
-            OnCancelReservationFailure: null
+            OnCancelReservationFailure: null,
+            OnUpdatePasswordSuccess: null,
+            OnUpdatePasswordFailure: null
         };
 
         this.UpdateStatus = function (args) {
@@ -480,6 +482,9 @@
 
         this.CancelReservation = function (args) {
             makeAjaxRequestGet(args, "CancelReservation", this, "api/v1/Booking/CancelReservation/"+args.id);
+        };
+        this.UpdatePassword = function (args) {
+            makeAjaxRequestPost(args, "UpdatePassword", this, "api/v1/User/UpdatePassword");
         };
 
         function makeAjaxRequestDelete(args, operationName, e, uri) {

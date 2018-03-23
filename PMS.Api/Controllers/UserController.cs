@@ -81,6 +81,12 @@ namespace PMS.Api.Controllers
               new { controller = "User", action = "InsertUserAccess" }
               );
 
+            config.Routes.MapHttpRoute(
+              "UpdatePassword",
+              "api/v1/User/UpdatePassword",
+              new { controller = "User", action = "UpdatePassword" }
+              );
+
         }
 
         [HttpPost, ActionName("AddUser")]
@@ -161,6 +167,26 @@ namespace PMS.Api.Controllers
 
             var response = new PmsResponseDto();
             if (_iPmsLogic.InsertUserAccess(request))
+            {
+                response.ResponseStatus = PmsApiStatus.Success.ToString();
+                response.StatusDescription = "Record(s) saved successfully.";
+            }
+            else
+            {
+                response.ResponseStatus = PmsApiStatus.Failure.ToString();
+                response.StatusDescription = "Operation failed.Please contact administrator.";
+            }
+            return response;
+        }
+
+        [HttpPost, ActionName("UpdatePassword")]
+        public PmsResponseDto UpdatePassword([FromBody] UpdateUserPasswordDto request)
+        {
+            if (request == null || request.UserId <= 0)
+                throw new PmsException("User can not be updated.");
+
+            var response = new PmsResponseDto();
+            if (_iPmsLogic.UpdatePassword(request))
             {
                 response.ResponseStatus = PmsApiStatus.Success.ToString();
                 response.StatusDescription = "Record(s) saved successfully.";

@@ -56,6 +56,7 @@
     <Compile Include="Request\AddRoomPriceRequestDto.cs" />
     <Compile Include="Request\ConsolidatedManagerReportDto.cs" />
     <Compile Include="Request\GetGuestSummaryRequestDto.cs" />
+    <Compile Include="Request\UpdateUserPasswordDto.cs" />
     <Compile Include="Request\UserAccessRequestDto.cs" />
     <Compile Include="Request\BookingTransactionRequestDto.cs" />
     <Compile Include="Request\RoomRateRequestDto.cs" />

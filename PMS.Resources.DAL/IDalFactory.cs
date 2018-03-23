@@ -139,6 +139,8 @@ namespace PMS.Resources.DAL
 
         bool CancelReservation(int bookingId);
 
+        bool UpdatePassword(int UserId, string CurrentPassword, string NewPassword);
+
     }
 }
 

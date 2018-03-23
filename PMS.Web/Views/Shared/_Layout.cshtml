@@ -196,7 +196,7 @@
                 </li>
                 
                 <li>
-                    <a href="#" class="purple-c" title="Change Password">
+                    <a href="#" class="purple-c" title="Change Password" onclick="openChangePwdModal()">
                         <i class="fa fa-font fa-2x"></i>
                         <span class="nav-text">
                             Change password
@@ -265,6 +265,73 @@
                 $('.bg-overlay, .loader').css('display', 'none');
             }
         });
+
+        function openChangePwdModal() {
+            $('#changepwdmodal').toggleClass('open');
+            $('.page-wrapper').toggleClass('blur');
+            return false;
+        }
+
+        function updatePassword()
+        {
+            if ($('#newpassword').val('') == $('#confirmpassword').val('')) {
+
+                var obj = {
+                    CurrentPassword: $('#currentpassword').val(),
+                    NewPassword: $('#newpassword').val(),
+                    UserId: window.PmsSession.GetItem("userid")
+                };                
+                gcm.UpdatePassword(obj);
+            }
+            else {
+                alert('Confirm password is not matched.')
+            }
+        }
+
+        function cancel()
+        {
+            openChangePwdModal();
+            $('#currentpassword').val('');
+            $('#newpassword').val('');
+            $('#confirmpassword').val('');
+        }
     </script>
+
+    <div id="changepwdmodal" class="modal-wrapper">
+        <div class="modal">
+            <div class="head">
+                <span class="label-head">Change Password</span><a class="btn-close" href="javascript:;" onclick="openChangePwdModal();"></a>
+            </div>
+            <div class="content">
+                <div class="contact-information">
+                    <div class="state-content">
+                        <div class="col-lg-3 p-l-0">
+                            <div class="form-group">
+                                <label> Current Password</label>
+                                <input id="currentpassword" type="password" class="form-control" name="example-input-normal">
+                            </div>
+                        </div>
+                        <div class="col-lg-3 p-l-0">
+                            <div class="form-group">
+                                <label>New Password</label>
+                                <input id="newpassword" type="password" class="form-control" name="example-input-normal">
+                            </div>
+                        </div>
+                        <div class="col-lg-3 p-l-0">
+                            <div class="form-group">
+                                <label>Confirm Password</label>
+                                <input id="confirmpassword" type="password"class="form-control" name="example-input-normal">
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+                <div class="button-section">
+                    <button type="button" class="btn btn-primary m-l-5 m-t-15" onclick="cancel()">Cancel</button>
+                    <button type="button" class="btn btn-primary m-l-5 m-t-15" onclick="updatePassword();">Update</button>
+                </div>               
+            </div>
+        </div>
+    </div>
 </body>
 </html>

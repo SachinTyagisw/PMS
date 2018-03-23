@@ -575,5 +575,10 @@ namespace PMS.Resources.Logic
         {
             return DalFactory.CancelReservation(bookingId);
         }
+
+        public bool UpdatePassword(UpdateUserPasswordDto request)
+        {
+            return DalFactory.UpdatePassword(request.UserId, request.CurrentPassword, request.NewPassword);
+        }
     }
 }

@@ -133,5 +133,7 @@ namespace PMS.Resources.Logic
         List<PmsEntity.Guest> GetAllGuest(bool allinfo);
         
         bool CancelReservation(int bookingId);
+
+        bool UpdatePassword(UpdateUserPasswordDto request);
     }
 }

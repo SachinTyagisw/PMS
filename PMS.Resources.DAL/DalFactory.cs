@@ -2808,5 +2808,20 @@ namespace PMS.Resources.DAL
             }
             return false;
         }
+
+        public bool UpdatePassword(int UserId, string CurrentPassword, string NewPassword)
+        {
+            using (var pmsContext = new PmsEntities())
+            {
+                var result = pmsContext.Users.Find(UserId);
+                if (result != null && result.Password== CurrentPassword) 
+                {
+                    result.Password = NewPassword;
+                    if (pmsContext.SaveChanges() > 0)
+                        return true;
+                }
+            }
+            return false;
+        }
     }
 }
