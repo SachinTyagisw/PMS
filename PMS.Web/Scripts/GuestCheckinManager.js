@@ -3799,10 +3799,17 @@
             pmsService.Handlers.OnUpdatePasswordFailure = function () {
                 // show error log
                 console.error("Password is not updated.");
+                alert('Something went wrong contact to administrator.');
             };
 
             pmsService.Handlers.OnUpdatePasswordSuccess = function (data) {
-               // success
+                // success
+                if (data.ResponseStatus == "Failure")
+                    alert('Something went wrong. Please try again.');
+                else {
+                    alert('Password change successfully.');
+                    cancel();
+                }
             };
         }
 

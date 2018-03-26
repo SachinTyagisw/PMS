@@ -311,9 +311,6 @@ PMS.Web/obj/Release/PMS.Web.csprojResolveAssemblyReference.cache
 PMS.Web/obj/Release/PMS.Web.dll
 PMS.Web/obj/Release/PMS.Web.pdb
 PMS.Web/obj/
-PMS.Api/Web.config
-PMS.Api/Web.Release.config
-PMS.Api/Web.Debug.config
 PMS.Api/bin/
 PMS.Api/obj/
 PMS.Resources.Caching/bin/
@@ -340,7 +337,6 @@ PMS.Web/bin/
 PMS.Resources.Logging/obj/
 PMS.Tests/obj/
 packages/
-PMS.Web/Web.config
 PMS.Api/UploadedFiles/Capture.PNG
 M280_SampleApp/bin/
 M280_SampleApp/obj/Debug/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
