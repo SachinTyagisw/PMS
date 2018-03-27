@@ -12,7 +12,7 @@
 
     function makeFieldDatePicker(rowObject) {
         rowObject.addClass('gridDatePicker');
-        $('.gridDatePicker').datetimepicker();
+        $('.gridDatePicker').datetimepicker({ format: 'MM/DD/YYYY' });
     }
 
     function OnPropertyChange() {
@@ -20,8 +20,7 @@
             alert('Select valid property');
             return;
         }
-        gcm.FillPaymentMode($('#ddlpayment'), $('#ddlProperty').val());
-
+        gcm.FillPaymentMode($('#ddlpayment'), $('#ddlProperty').val());      
         searchExpense();
 
 
@@ -69,7 +68,7 @@
     //}
 
     $(document).ready(function () {
-        $('.gridDatePicker').datetimepicker();
+        $('.gridDatePicker').datetimepicker({ format: 'MM/DD/YYYY' });
 
         gcm.GetAllProperty();
 
@@ -100,7 +99,7 @@
             gcm.FillExpenseCategory($('#ddlExpenseCategoryAdd'), $('#ddlProperty').val());
             gcm.FillPaymentMode($('#ddlPaymentTypeAdd'), $('#ddlProperty').val());
 
-            $('.gridDatePicker').datetimepicker();
+            $('.gridDatePicker').datetimepicker({ format: 'MM/DD/YYYY' });
         });
 
         $("#divExpense").on("click", ".fa-minus-circle", function () {

@@ -1643,11 +1643,13 @@
         FillExpenseCategory: function (ddlExpenseCategory, propertyId, callback) {
             if (!ddlExpenseCategory || !propertyId || propertyId <= 0) return;
             var expensecategory = window.GuestCheckinManager.PropertySettingResponseDto.ExpenseCategorySettings;
-            if (!expensecategory || expensecategory.length <= 0) {
-                Notifications.SubscribeActive("on-expensecategory-get-success", function (sender, args) {
+            if (!expensecategory || expensecategory.length <= 0 || expensecategory[0].PropertyId != propertyId) {
+                var callbackObject= function (sender, args) {
                     window.GuestCheckinManager.BindExpenseCategoryDdl(ddlExpenseCategory, window.GuestCheckinManager.PropertySettingResponseDto.ExpenseCategorySettings);
                     if (callback) callback();
-                });
+                };
+                
+                    Notifications.Subscribe("on-expensecategory-get-success", callbackObject);
                 window.GuestCheckinManager.GetExpenseCategory(propertyId);
             } else {
                 window.GuestCheckinManager.BindExpenseCategoryDdl(ddlExpenseCategory, expensecategory);
@@ -1682,9 +1684,13 @@
             }
         },
         BindExpenseCategoryDdl: function (ddlExpenseCategory, expensecategories) {
-            if (!ddlExpenseCategory || !expensecategories || expensecategories.length <= 0) return;
-            ddlExpenseCategory.empty();
-            ddlExpenseCategory.append(new Option("Select Category", "-1"));
+            if (ddlExpenseCategory) {
+                ddlExpenseCategory.empty();
+                ddlExpenseCategory.append(new Option("Select Category", "-1"));
+            }
+            if (!ddlExpenseCategory || !expensecategories || expensecategories.length <= 0)
+                return;
+            
             for (var i = 0; i < expensecategories.length; i++) {
                 ddlExpenseCategory.append(new Option(expensecategories[i].Description, expensecategories[i].Id));
             }
@@ -2155,6 +2161,7 @@
 
         PopulateExpenseGrid: function (data) {
             var divExpense = $('#divExpense');
+            divExpense.empty();
             var expenseTemplate = $('#expenseTemplate');
             if (!divExpense || !expenseTemplate || divExpense.length <= 0 || expenseTemplate.length <= 0) return;
             divExpense.html(expenseTemplate.render(data));
@@ -2167,6 +2174,7 @@
                 window.GuestCheckinManager.FillExpenseCategory($('#ddlExpenseCategoryAdd'), $('#ddlProperty').val());
                 window.GuestCheckinManager.FillPaymentMode($('#ddlPaymentTypeAdd'), $('#ddlProperty').val());
             }
+            $('.gridDatePicker').datetimepicker({ format: 'MM/DD/YYYY' });
         },
 
         GetShiftReport: function (requestDto) {
@@ -3485,7 +3493,7 @@
                 window.GuestCheckinManager.PropertySettingResponseDto.ExpenseSettings = null;
                 window.GuestCheckinManager.PropertySettingResponseDto.ExpenseSettings = data.Expenses;
                 window.GuestCheckinManager.PopulateExpenseGrid(data);
-
+               
             };
 
             pmsService.Handlers.OnGetExpenseBySearchFailure = function () {
