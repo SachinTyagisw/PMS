@@ -80,7 +80,7 @@ namespace PMS.Resources.DAL
         bool UpdateRewardCategory(PmsEntity.RewardCategory rewardCategory);
         bool DeleteRewardCategory(int catId);
         List<PmsEntity.RewardCategory> GetAllRewardCategory();
-        List<PmsEntity.Room> GetRoomByDate(int propertyId, DateTime checkinDate , DateTime checkoutDate);
+        List<PmsEntity.Room> GetRoomByDate(int propertyId, DateTime checkinDate , DateTime checkoutDate, int BookingId);
         List<PmsEntity.Booking> GetGuestHistory(int guestId);
         bool UpdateBooking(PmsEntity.Booking booking);
         List<PmsEntity.State> GetStateByCountry(int id);

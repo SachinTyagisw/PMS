@@ -728,12 +728,12 @@ namespace PMS.Resources.DAL
             var rewardCategory = new List<PmsEntity.RewardCategory>();
             return rewardCategory;
         }
-        public List<PmsEntity.Room> GetRoomByDate(int propertyId, DateTime checkinDate, DateTime checkoutDate)
+        public List<PmsEntity.Room> GetRoomByDate(int propertyId, DateTime checkinDate, DateTime checkoutDate, int BookingId)
         {
             var rooms = new List<PmsEntity.Room>();
             using (var pmsContext = new PmsEntities())
             {
-                var resultSet = pmsContext.GETROOMSTATUS(propertyId, checkinDate, checkoutDate).ToList();
+                var resultSet = pmsContext.GETROOMSTATUS(propertyId, checkinDate, checkoutDate, BookingId).ToList();
                 if (resultSet == null || resultSet.Count <= 0) return rooms;
                 foreach (var result in resultSet)
                 {
