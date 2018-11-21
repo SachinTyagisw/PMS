@@ -951,6 +951,13 @@
             if (data[0].Status === 'reserved') {
                 $("#btnCancelReserved").show();
             }
+            else if (data[0].Status === 'checkout') {
+                //Date can't be changed
+                $('#dateFrom').prop("disabled", true);
+                $('#dateTo').prop("disabled", true);
+                $('#btnCheckout').prop("disabled", true);
+                $('#btnCheckin').prop("disabled", true);
+            }
         },
 
         ClearPropertyFields: function () {
