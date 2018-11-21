@@ -66,13 +66,13 @@
 
             $("#datetimepicker1").on("dp.change", function (e) {
 
-                //setTimeout(function () {
-                //    $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
-                //    if ($('#dateFrom').val() >= $('#dateTo').val() && document.getElementById('hourCheckin').checked == false) {
-                //        $('#datetimepicker2').data("DateTimePicker").clear();
-                //    }
-                //}, 500);
-                $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
+                setTimeout(function () {
+                    $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
+                    //if ($('#dateFrom').val() >= $('#dateTo').val() && document.getElementById('hourCheckin').checked == false) {
+                    //    $('#datetimepicker2').data("DateTimePicker").clear();
+                    //}
+                }, 500);
+                //$('#datetimepicker2').data("DateTimePicker").minDate(e.date);
                 shouldCallLoadInvoiceApi();
                 if (gcm.ShouldCallGetRoomApi()) {
                     //pmsSession.RemoveItem("roomdata");
@@ -658,7 +658,7 @@
     </script>
 <script src="~/Scripts/Scripts/jquery.signalR-2.0.0.min.js"></script>
 <script src="http://localhost:9000/signalr/hubs"></script>
-<!--Add script to update the page and send messages.-->
+Add script to update the page and send messages.-->
 <script type="text/javascript">
     $(function () {
         try{
