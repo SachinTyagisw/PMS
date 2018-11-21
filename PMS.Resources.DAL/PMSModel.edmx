@@ -1070,7 +1070,6 @@
           <Parameter Name="PROPERTYID" Type="int" Mode="In" />
           <Parameter Name="CHECKINTIME" Type="datetime" Mode="In" />
           <Parameter Name="CHECKOUTDATE" Type="datetime" Mode="In" />
-          <Parameter Name="BOOKINGID" Type="int" Mode="In" />
         </Function>
         <Function Name="GetTransactionData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="StartDate" Type="datetime" Mode="In" />
@@ -2458,7 +2457,6 @@
             <Parameter Name="PROPERTYID" Mode="In" Type="Int32" />
             <Parameter Name="CHECKINTIME" Mode="In" Type="DateTime" />
             <Parameter Name="CHECKOUTDATE" Mode="In" Type="DateTime" />
-            <Parameter Name="BOOKINGID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="InsertBooking" ReturnType="Collection(PmsModel.InsertBooking_Result)">
             <Parameter Name="propertyID" Mode="In" Type="Int32" />

@@ -18,8 +18,5 @@ namespace PMS.Resources.DTO.Request
         public DateTime CheckoutDate { get; set; }
         [DataMember]
         public int PropertyId { get; set; }
-
-        [DataMember]
-        public int BookingId { get; set; }
     }
 }

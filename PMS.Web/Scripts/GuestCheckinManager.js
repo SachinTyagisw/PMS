@@ -521,8 +521,7 @@
 
         GetRoomByDate: function (dtFrom, dtTo, roomId) {
             var getRoomByDateRequestDto = {};
-            roomIdFromDashboard = roomId && roomId > 0 ? roomId : -1;
-            getRoomByDateRequestDto.BookingId = window.GuestCheckinManager.BookingDto.BookingId;
+            roomIdFromDashboard = roomId && roomId > 0 ? roomId : -1;            
             getRoomByDateRequestDto.CheckinDate = dtFrom;
             getRoomByDateRequestDto.CheckoutDate = dtTo;
             getRoomByDateRequestDto.PropertyId = getPropertyId();

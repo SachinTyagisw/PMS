@@ -267,7 +267,7 @@ namespace PMS.Resources.Logic
         }
         public List<PmsEntity.Room> GetRoomByDate(GetRoomByDateRequestDto request)
         {
-            return DalFactory.GetRoomByDate(request.PropertyId, request.CheckinDate, request.CheckoutDate, request.BookingId);
+            return DalFactory.GetRoomByDate(request.PropertyId, request.CheckinDate, request.CheckoutDate);
         }
         public List<PmsEntity.Booking> GetGuestHistory(int guestId)
         {
