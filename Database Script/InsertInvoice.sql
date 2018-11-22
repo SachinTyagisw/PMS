@@ -215,7 +215,7 @@ BEGIN
       CreatedOn Datetime,                            
       LastUpdatedBy nvarchar(200),                            
       LastUpdatedOn DateTime,  
-      TaxValue decimal,  
+      TaxValue money,  
       IsConsidered bit                          
      ) XMLTable            
       LEFT OUTER JOIN                          

@@ -4424,7 +4424,7 @@
             if (!taxNameSelector[0].checked) {
                 taxValue = 0;
             } else {
-                taxValue = taxCalulatedSelector[0].value;
+                taxValue = parseFloat(taxCalulatedSelector[0].value, 10).toFixed(2);
             }
             // TaxValue is absolute tax calculated
             tax.TaxValue = taxValue;
