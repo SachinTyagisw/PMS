@@ -11,7 +11,7 @@ GO
 ALTER PROC [dbo].[GetShiftReport]               
 @StartDate Datetime,    
 @EndDate DateTime,    
-@PropertyId int       
+@PropertyId nvarchar(5)       
 AS BEGIN  
   
 set @StartDate = cast(@StartDate as DATE)  
@@ -55,7 +55,7 @@ RoomType rt on
 rt.ID = Room.RoomTypeID      
 LEFT OUTER JOIN                   
 Guest                   
-ON rbk.GuestID = Guest.ID where bk.propertyID =' + CONVERT(VARCHAR, @PropertyId) + 
+ON rbk.GuestID = Guest.ID where bk.propertyID =' + @PropertyId + 
 ' and bk.checkinTime > ''' + CONVERT(VARCHAR(max), @StartDate, 120) + ''' and bk.checkinTime < ''' + CONVERT(VARCHAR(max), @EndDate, 120) + '''
 ) as p    
 pivot     
@@ -71,7 +71,7 @@ for PaymentMode in ( '+@pivot_listPayment+')
     
 --print @sql    
 exec(@sql)    
-END  
+END
 
 GO
 

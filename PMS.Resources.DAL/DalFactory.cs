@@ -2417,7 +2417,7 @@ namespace PMS.Resources.DAL
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add(new SqlParameter("StartDate", startDate));
                         cmd.Parameters.Add(new SqlParameter("EndDate", endDate));
-                        cmd.Parameters.Add(new SqlParameter("PropertyId", propertyId));
+                        cmd.Parameters.Add(new SqlParameter("PropertyId", propertyId.Value.ToString()));
                         using (var reader = cmd.ExecuteReader())
                         {
                             dt.Load(reader);

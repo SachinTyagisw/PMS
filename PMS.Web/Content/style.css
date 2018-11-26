@@ -6091,3 +6091,10 @@ div#panelProperty, #panelFunctionality {
     transform: scale(1);
   }
 }
+
+.link-export {
+    margin-left: 10px;
+    height: 29px;
+    padding-top: 6px !important;
+    border-radius: inherit;
+}
