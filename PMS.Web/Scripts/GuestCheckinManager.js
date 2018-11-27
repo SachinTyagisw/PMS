@@ -760,8 +760,8 @@
                     if (!taxElementCol[i] || !taxElementCol[i].value || !taxName) continue;
                     var taxPercent = taxElementCol[i].value.replace('%', '');
                     if (isNaN(taxPercent)) continue;
-                    var taxNameSelector = $('#' + taxName);
-                    var taxCalulatedSelector = $('#taxCalulatedVal' + taxName);
+                    var taxNameSelector = $('input[id="' + taxName+'"]');
+                    var taxCalulatedSelector = $('input[id="taxCalulatedVal' + taxName + '"]');
                     if (!taxNameSelector[0].checked) {
                         taxCalulatedSelector[0].value = 0;
                         continue;
