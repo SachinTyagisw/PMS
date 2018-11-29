@@ -806,6 +806,8 @@
             $('#balance').val(balanceAmt);
             $('#credit').val(balanceAmt);
 
+            $('.pms-money').moneyFormat();
+
             return $('#total').val();
         },
 
@@ -1139,6 +1141,8 @@
             }
             rangeProperty.html('');
             rangeProperty.html(rangeTemplate.render(data));
+
+            $('.decimal').moneyFormat();
         },
 
         PopulatePropertyGrid: function (data) {
@@ -1175,6 +1179,7 @@
                 $("#divManageRate tbody tr").append('<td class="finalActionsCol"><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td>');
                 window.GuestCheckinManager.FillRoomTypeData($('#ddlRoomTypeAdd'), $('#ddlProperty').val());
             }
+            $('.decimal').moneyFormat();
         },
 
         PopulateTaxGrid: function (data) {
@@ -1203,6 +1208,7 @@
                 // when no extraCharge data is present in db 
                 $("#divExtraCharge tbody tr").append('<td class="finalActionsCol"><i class="fa fa-floppy-o editMode" aria-hidden="true"></i></td>');
             }
+            $('.decimal').moneyFormat();
         },
 
         PopulatePaymentTypeGrid: function (data) {
@@ -2182,6 +2188,7 @@
                 window.GuestCheckinManager.FillPaymentMode($('#ddlPaymentTypeAdd'), $('#ddlProperty').val());
             }
             $('.gridDatePicker').datetimepicker({ format: 'MM/DD/YYYY' });
+            $('.decimal').moneyFormat();
         },
 
         GetShiftReport: function (requestDto) {
@@ -2208,6 +2215,7 @@
             var shiftReportTemplate = $('#shiftReportTemplate');
             if (!divShiftReport || !shiftReportTemplate || divShiftReport.length <= 0 || shiftReportTemplate.length <= 0) return;
             divShiftReport.html(shiftReportTemplate.render(data));
+            $('.decimal').moneyFormat();
         },
         PopulateConsolidatedShiftReportGrid: function (data) {
             var divConsolidatedShiftReport = $('#divConsolidatedShiftReport');
@@ -2215,18 +2223,21 @@
             if (!divConsolidatedShiftReport || !consolidatedshiftReportTemplate ||
                 divConsolidatedShiftReport.length <= 0 || consolidatedshiftReportTemplate.length <= 0) return;
             divConsolidatedShiftReport.html(consolidatedshiftReportTemplate.render(data));
+            $('.decimal').moneyFormat();
         },
         PopulateManagerReportGrid: function (data) {
             var divManagerReport = $('#divManagerReport');
             var managerReportTemplate = $('#managerReportTemplate');
             if (!divManagerReport || !managerReportTemplate || divManagerReport.length <= 0 || managerReportTemplate.length <= 0) return;
             divManagerReport.html(managerReportTemplate.render(data));
+            $('.decimal').moneyFormat();
         },
         PopulateConsolidatedManagerReportGridMonth: function (data) {
             var divConsolidatedManagerReportMonth = $('#divConsolidatedManagerReportMonth');
             var consolidatedManagerReportTemplate = $('#consolidatedManagerReportTemplate');
             if (!divConsolidatedManagerReportMonth || !consolidatedManagerReportTemplate || divConsolidatedManagerReportMonth.length <= 0 || consolidatedManagerReportTemplate.length <= 0) return;
             divConsolidatedManagerReportMonth.html(consolidatedManagerReportTemplate.render(data));
+            $('.decimal').moneyFormat();
         },
 
         PopulateConsolidatedManagerReportGridYear: function (data) {
@@ -2234,6 +2245,7 @@
             var consolidatedManagerReportTemplate = $('#consolidatedManagerReportTemplate');
             if (!divConsolidatedManagerReportYear || !consolidatedManagerReportTemplate || divConsolidatedManagerReportYear.length <= 0 || consolidatedManagerReportTemplate.length <= 0) return;
             divConsolidatedManagerReportYear.html(consolidatedManagerReportTemplate.render(data));
+            $('.decimal').moneyFormat();
         },
 
         DeleteUser: function (userId) {

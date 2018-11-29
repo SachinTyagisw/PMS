@@ -158,7 +158,12 @@
             {{each(i, shift) ShiftRecords}}
             <tr>
                 {{each(j, key) Object.keys(ShiftRecords[0])}}
-                <td>${shift[key]}</td>
+                <td
+                    {{if j>3 }}
+                    class="decimal"
+                    {{/if}}
+                    >${shift[key]}
+                    </td>
                 {{/each}}
             </tr>
             {{/each}}
@@ -182,7 +187,7 @@
             {{each(i, shift) ConsolidatedShiftRecords}}
             <tr>
                 {{each(j, key) Object.keys(ConsolidatedShiftRecords[0])}}
-                <td>${shift[key]}</td>
+                <td class="decimal">${shift[key]}</td>
                 {{/each}}
             </tr>
             {{/each}}

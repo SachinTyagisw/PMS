@@ -441,3 +441,21 @@ $(function () {
     //    return false;
     //});
 });
+
+(function ($) {
+    $.fn.moneyFormat = function () {
+        this.each(function (index, el) {
+            var elType = null; // input or other
+            var value = null;
+            // get value
+            if ($(el).is('input') && $(el).val().trim() != '' && !isNaN($(el).val())) {
+                $(el).val(parseFloat($(el).val()).toFixed(2));
+                
+            } else if ($(el).is('td') && $(el).text().trim() != '' && !isNaN($(el).text())) {
+                $(el).text(parseFloat($(el).text()).toFixed(2));
+                //value = $(el).text().replace(/,/g, '');
+                //elType = 'other';
+            }
+        });
+    };
+}(jQuery));

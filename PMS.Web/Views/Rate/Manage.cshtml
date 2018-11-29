@@ -622,7 +622,7 @@
                 <td id=${$value.Room.RoomType.Id} contenteditable="false">${$value.Room.RoomType.Name}</td>
                 <td id=${$value.Room.Id} contenteditable ="false">${$value.Room.Number}</td>
                 <td contenteditable="false">${$value.Room.Floor.FloorNumber}</td>
-                <td contenteditable="false">${$value.Value}</td>
+                <td contenteditable="false" class="decimal">${$value.Value}</td>
             </tr>
             {{/each}}
             {{else}}

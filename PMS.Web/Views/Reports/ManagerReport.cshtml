@@ -190,7 +190,11 @@
             {{each(i, manager) ManagerRecords}}
             <tr>
                 {{each(j, key) Object.keys(ManagerRecords[0])}}
-                <td>${manager[key]}</td>
+                <td
+                    {{if j>2 }}
+                    class="decimal"
+                    {{/if}}
+                    >${manager[key]}</td>
                 {{/each}}
             </tr>
             {{/each}}
@@ -215,7 +219,11 @@
             {{each(i, shift) ConsolidatedManagerRecords}}
             <tr>
                 {{each(j, key) Object.keys(ConsolidatedManagerRecords[0])}}
-                <td>${shift[key]}</td>
+                <td
+                    {{if j>0 }}
+                    class="decimal"
+                    {{/if}}
+                    >${shift[key]}</td>
                 {{/each}}
             </tr>
             {{/each}}

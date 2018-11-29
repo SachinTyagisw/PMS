@@ -74,14 +74,14 @@
                 <td>
                     @*'ROOM CHARGES' is coming from SP and is always be fixed*@
                     {{if $value.TaxName === 'ROOM CHARGES' }}
-                    <input id="baseRoomCharge" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}" />
+                    <input id="baseRoomCharge" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}"  />
                     {{/if}}
                     {{if $value.TaxName === 'Total Room Charge' }}
-                    <input id="totalRoomCharge" disabled="disabled" name="${$value.TaxName}" value="${$value.Value}" />
+                    <input id="totalRoomCharge" disabled="disabled" name="${$value.TaxName}" value="${$value.Value}" class="pms-money"/>
                     {{/if}}
                     {{if $value.TaxName !== 'Total Room Charge' && $value.TaxName !== 'ROOM CHARGES' }}
                     <input id="taxVal" disabled="disabled" class="part-input" name="${$value.TaxName}" onkeyup="OnTaxValChange(event, this)" value="${$value.Value}%" />
-                    <input id="taxCalulatedVal${$value.TaxName}" class="part-input" name="${$value.TaxName}" disabled="disabled" value="" />
+                    <input id="taxCalulatedVal${$value.TaxName}" class="part-input pms-money" name="${$value.TaxName}" disabled="disabled" value="" />
                     {{/if}}
                 </td>
                 <td></td>
@@ -100,7 +100,7 @@
                 <td>Discount</td>
                 <td>
                     <input id="discountPercent" placeholder="0%" onkeyup="OnTaxValChange(event, this)" class="part-input color-danger" value="${typeof DiscountPercent != 'undefined' && DiscountPercent > 0 ? DiscountPercent : 0 }%" />
-                    <input id="discountAmt" placeholder="0.0" onkeyup="OnTaxValChange(event, this, true)" class="part-input color-danger" value="${typeof DiscountAmount != 'undefined' && DiscountAmount > 0 ? DiscountAmount : 0 }" />
+                    <input id="discountAmt" placeholder="0.00" onkeyup="OnTaxValChange(event, this, true)" class="part-input color-danger" value="${typeof DiscountAmount != 'undefined' && DiscountAmount > 0 ? DiscountAmount : 0 }" />
                 </td>
                 <td></td>
             </tr>
@@ -198,19 +198,19 @@
             <tr id="trPayment" class="sortActive">
                 <td><span class="glyphicon glyphicon-th-list"></span></td>
                 <td>Total Payment</td>
-                <td><input id="payment" disabled="disabled" value="0.0" /></td>
+                <td><input id="payment" disabled="disabled" value="0.00" /></td>
                 <td></td>
             </tr>
             <tr id="trBalance" class="sortActive">
                 <td><span class="glyphicon glyphicon-th-list"></span></td>
                 <td>Balance Summary</td>
-                <td><input id="balance" disabled="disabled" value="0.0" /></td>
+                <td><input id="balance" disabled="disabled" value="0.00" class="pms-money" /></td>
                 <td></td>
             </tr>
             <tr id="trCredit" class="sortActive">
                 <td><span class="glyphicon glyphicon-th-list"></span></td>
                 <td>Credit Remaining</td>
-                <td><input id="credit" disabled="disabled" value="0.0" /></td>
+                <td><input id="credit" disabled="disabled" value="0.00" class="pms-money"/></td>
                 <td></td>
             </tr>
             <tr class="sortActive tabletitle">
